@@ -1,7 +1,13 @@
 \documentclass{dissertation}
 
 %%% MY PACKAGE
-\usepackage{blindtext}
+\usepackage{blindtext} % provide \blindtext, \Blindtext
+\usepackage{libertine} % nice font
+% ==  mathematical fonts ==
+\usepackage{ccfonts}  % mathematical fonts
+\usepackage[T1]{fontenc}  % mathematical fonts
+\renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
+% ==  mathematical fonts ==
 
 %%% DEFAULT PACKAGE
 \usepackage{amsmath,mathtools,empheq}
@@ -200,8 +206,8 @@
 \leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill%
 \quad\hbox{\includegraphics[height=1em]{bison/bison-qed.jpg}}}
 
-\title{Security Arguments and Tool-based Design of Block Ciphers}
-\author{Friedrich Wiemer}
+\title{Hunting Acoustic Echoes for Auditory Scene Analysis}
+\author{Diego DI CARLO}
 \date{\today}
 
 \begin{document}
@@ -240,22 +246,22 @@
 
 \cleardoublepage{}
 
-%\itodo{Can we use \bison/'s argument (regarding differential cryptanalysis) for a maximal unbalanced Feistel network?}
-%\itodo{Can we improve \cref{st:lem:2} so that we do not have to compute the span of the union over all basis vectors?}
+\itodo{Can we use \bison/'s argument (regarding differential cryptanalysis) for a maximal unbalanced Feistel network?}
+\itodo{Can we improve \cref{st:lem:2} so that we do not have to compute the span of the union over all basis vectors?}
 
 % \input{mainmatter/introduction}
 % \input{mainmatter/preliminaries}
 
-% \begin{fullwidth}
-% \part{Security Arguments for Block Ciphers}
-% \end{fullwidth}
+\begin{fullwidth}
+\part{Acoustic Echoes Retrieval}
+\end{fullwidth}
 
 % \input{mainmatter/act}
 % \input{mainmatter/bison}
 
-% \begin{fullwidth}
-% \part{Automated Methods in Design and Analysis}
-% \end{fullwidth}
+\begin{fullwidth}
+\part{Echo-aware Application}
+\end{fullwidth}
 
 % \input{mainmatter/slps}
 % \input{mainmatter/subspace-trails}
@@ -265,7 +271,7 @@
 \part{Epilogue}
 \end{fullwidth}
 
-% \input{frontbackmatter/conclusion}
+\input{contents/main_matter/chapter9_conclusion}
 
 \begin{fullwidth}
 \printbibliography{}
@@ -273,17 +279,11 @@
 
 \cleardoublepage{}
 
-\chapter*{Versicherung an Eides Statt}\addcontentsline{toc}{chapter}{Versicherung an Eides Statt}
+%%%% APPENDIX
 
-Ich versichere an Eides statt, dass ich die eingereichte Dissertation selbstständig und ohne unzulässige fremde Hilfe verfasst, andere als die in ihr angegebene Literatur nicht benutzt und dass ich alle ganz oder annähernd übernommenen Textstellen sowie verwendete Grafiken, Tabellen und Auswertungsprogramme kenntlich gemacht habe.
-
-Außerdem versichere ich, dass die vorgelegte elektronische mit der schriftlichen Version der Dissertation übereinstimmt und die Abhandlung in dieser oder ähnlicher Form noch nicht anderweitig als Promotionsleistung vorgelegt und bewertet wurde.
-
-\vspace{1cm}
-\noindent
-\rule{45mm}{0.1pt} \hfill{} \rule{45mm}{0.1pt}\\
-Datum \hfill{} Unterschrift
-
-\cleardoublepage{}
+\begin{appendices}
+\input{contents/appendices/appendix1_mindmaps}
+\input{contents/appendices/appendix2_measurements}
+\end{appendices}
 
 \end{document}
