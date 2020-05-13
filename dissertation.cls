@@ -16,18 +16,32 @@
 
 \RequirePackage{geometry}
 
-%%% Load Fonts %%%
+%%% SET FONTS %%%
+% \RequirePackage{libertine}
 \RequirePackage{charter}
 
+
+%%% MATH FONTS and SYMBOLS %%%%
+% \RequirePackage{ccfonts}  % mathematical fonts
+% \RequirePackage[T1]{fontenc}  % mathematical fonts
+% \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
+
+
+% set mathdesign as math font
 \RequirePackage[charter]{mathdesign}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+
 % fix mathdesigns redefinition of hrulefill
 % see https://tex.stackexchange.com/a/135356/37762
 \def\hrulefill{\leavevmode\leaders \hrule height \rulethickness \hfill\kern\z@}
-% set mathcal font
+
+% set (replace) mathcal font
 % see https://tex.stackexchange.com/a/496198/37762
 \SetMathAlphabet{\mathcal}{normal}{OMS}{zplm}{m}{n}
 
-\RequirePackage{beramono}
+
+%\RequirePackage{beramono}
 
 %%% Layout the Page %%%
 \setlrmarginsandblock{26mm}{211pt}{*}
@@ -144,6 +158,7 @@
 
 %%% Section and Subsection Style %%%
 \setsecheadstyle{\small\scshape\MakeTextLowercase}
+% \setsecheadstyle{\scshape}
 \setsubsecheadstyle{\itshape}
 \setsecnumformat{\llap{\scriptsize\upshape\csname #1secnumformat\endcsname}}
 \newcommand\sectionsecnumformat{\thesection\quad}
@@ -251,7 +266,6 @@
     \makeatother
 }
 
-%\RequirePackage{amssymb}
 \newskip\newthoughtskipamount
 \newthoughtskipamount=1.0\baselineskip plus 0.5ex minus 0.2ex
 \providecommand\newthoughtbreak{\par\ifdim\lastskip<\newthoughtskipamount
@@ -397,11 +411,9 @@
   {\usebibmacro{textcite:postnote}}
 
 
-\RequirePackage[utf8]{inputenc}
-\RequirePackage[T1]{fontenc}
+% \RequirePackage[utf8]{inputenc}
+% \RequirePackage[T1]{fontenc}
 \RequirePackage{microtype}
-
-\bibliography{abbrev3,crypto,references}
 
 \RequirePackage{abbrv, delimiters}
 

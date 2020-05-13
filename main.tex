@@ -2,12 +2,15 @@
 
 %%% MY PACKAGE
 \usepackage{blindtext} % provide \blindtext, \Blindtext
-\usepackage{libertine} % nice font
-% ==  mathematical fonts ==
-\usepackage{ccfonts}  % mathematical fonts
-\usepackage[T1]{fontenc}  % mathematical fonts
-\renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
-% ==  mathematical fonts ==
+% \usepackage{libertine} % nice font
+% % ==  mathematical fonts ==
+% \usepackage{ccfonts}  % mathematical fonts
+% \usepackage[T1]{fontenc}  % mathematical fonts
+% \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
+% % ==  mathematical fonts ==
+
+%%% BIBLI
+\bibliography{abbrev3,crypto,references}
 
 %%% DEFAULT PACKAGE
 \usepackage{amsmath,mathtools,empheq}
@@ -251,10 +254,13 @@
 
 % \input{mainmatter/introduction}
 % \input{mainmatter/preliminaries}
+\input{contents/main_matter/chapter1_intro}
+% \input{contents/main_matter/chapter2_outline}
 
 \begin{fullwidth}
 \part{Acoustic Echoes Retrieval}
 \end{fullwidth}
+
 
 % \input{mainmatter/act}
 % \input{mainmatter/bison}
