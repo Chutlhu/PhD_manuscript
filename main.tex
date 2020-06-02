@@ -1,13 +1,23 @@
-\documentclass{dissertation}
+\documentclass[pdftex,dvipsnames]{dissertation}
 
-%%% MY PACKAGE
+%%% MY PACKAGES
 \usepackage{blindtext} % provide \blindtext, \Blindtext
+\usepackage{lipsum}
 % \usepackage{libertine} % nice font
 % % ==  mathematical fonts ==
 % \usepackage{ccfonts}  % mathematical fonts
 % \usepackage[T1]{fontenc}  % mathematical fonts
 % \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
 % % ==  mathematical fonts ==
+
+%%% SETUP TODO NOTES
+% dep
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage{xcolor}  % Coloured text etc.
+% pkg
+\usepackage[colorinlistoftodos,prependcaption,textsize=small,shadow]{todonotes}
+% my alias
+\input{utils/todonotes}
 
 %%% DEFAULT PACKAGE
 \usepackage{amsmath,mathtools,empheq}
@@ -29,7 +39,6 @@
 \usepackage{enumitem}
 
 %% COLORS %%
-
 \definecolor{RoyalBlue}{cmyk}{1,0.5,0,0}
 \definecolor{Black}{cmyk}{0,0,0,0}
 \definecolor{alertred}{rgb}{0.80,0.12,0.12}
@@ -65,7 +74,7 @@
 \input{contents/front_matter/resume}
 \blankpage{}
 
-\input{contents/front_matter/acknowledgments}\addcontentsline{toc}{chapter}{Acknowledgments}
+\input{contents/front_matter/acknowledgments}
 \cleardoublepage{}
 
 \tableofcontents*\addcontentsline{toc}{chapter}{Contents}
@@ -75,6 +84,10 @@
 % %\clearpage{}
 % \vspace{\baselineskip}
 
+\listoftodos[TODOs and Notes]\addcontentsline{toc}{chapter}{List of TODOs and Notes}
+\vspace{\baselineskip}
+\clearpage{}
+
 \listoffigures*\addcontentsline{toc}{chapter}{List of Figures}
 \vspace{\baselineskip}
 \clearpage{}
@@ -83,36 +96,34 @@
 \clearpage{}
 
 \mainmatter{}
-\begin{fullwidth}
-\part{Prologue}
-\end{fullwidth}
+% \begin{fullwidth}
+% \part{Prologue}
+% \end{fullwidth}
 
 \cleardoublepage{}
-
-\itodo{Can we use \bison/'s argument (regarding differential cryptanalysis) for a maximal unbalanced Feistel network?}
-\itodo{Can we improve \cref{st:lem:2} so that we do not have to compute the span of the union over all basis vectors?}
 
 % \input{mainmatter/introduction}
 % \input{mainmatter/preliminaries}
 \input{contents/main_matter/chapter0_latex}
-\input{contents/main_matter/chapter1_intro}
+\input{contents/main_matter/chapter0_intro}
 
 \begin{fullwidth}
-    \part{Pages of Acoustics and Audio Signal Processing}
+    \part{Room Acoustics and Audio Signal Processing}
 \end{fullwidth}
-\input{contents/main_matter/chapter2_acoustics}
-\input{contents/main_matter/chapter3_processing}
+\input{contents/main_matter/chapter1_acoustics}
+\input{contents/main_matter/chapter2_processing}
+\input{contents/main_matter/chapter3_data_metrics}
 
-% \begin{fullwidth}
-% \part{Acoustic Echoes Retrieval}
-% \end{fullwidth}
+\begin{fullwidth}
+\part{Acoustic Echoes Retrieval}
+\end{fullwidth}
 % \input{contents/main_matter/chapter3_aer}
 % \input{contents/main_matter/chapter4_lantern}
 % \input{contents/main_matter/chapter5_blaster}
 
-% \begin{fullwidth}
-% \part{Echo-aware Application}
-% \end{fullwidth}
+\begin{fullwidth}
+\part{Echo-aware Application}
+\end{fullwidth}
 % \input{contents/main_matter/chapter6_applications}
 % \input{contents/main_matter/chapter7_mirage}
 % \input{contents/main_matter/chapter8_brioche}
@@ -122,6 +133,7 @@
 % \end{fullwidth}
 % \input{contents/main_matter/chapter9_conclusion}
 
+\backmatter{}
 
 \begin{fullwidth}
 \printbibliography{}

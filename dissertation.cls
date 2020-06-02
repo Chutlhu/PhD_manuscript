@@ -456,12 +456,12 @@
 
 \RequirePackage{csquotes}
 
-\RequirePackage[%
-    textsize=small,
-    color=green!20!white,
-    shadow,
-]{todonotes}
-\newcommand{\itodo}[1]{\todo[inline]{#1}}
+% \RequirePackage[%
+%     textsize=small,
+%     color=green!20!white,
+%     shadow,
+% ]{todonotes}
+% \newcommand{\itodo}[1]{\todo[inline]{#1}}
 
 
 %%% HyperRef %%%
