@@ -10,9 +10,12 @@
 % \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
 % % ==  mathematical fonts ==
 
+%%% TOC per CHAPTER %%%
+\usepackage{minitoc}
+
 %%% SETUP TODO NOTES
 % dep
-\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage{xargs}   % Use more than one optional parameter in a new commands
 \usepackage{xcolor}  % Coloured text etc.
 % pkg
 \usepackage[colorinlistoftodos,prependcaption,textsize=small,shadow]{todonotes}
@@ -22,6 +25,8 @@
 %%% DEFAULT PACKAGE
 \usepackage{amsmath,mathtools,empheq}
 \usepackage{amsthm}
+
+%%% THEOREMS and ENVIROMENTS
 \usepackage{thmtools}
 \usepackage{thm-restate}
 \declaretheorem[%
@@ -34,6 +39,7 @@
     numbered={unless unique},
 ]{secclaim}
 
+%%% OTHER PCKs FROM THE AUTHOR
 \usepackage{longtable}
 \usepackage{pdflscape}
 \usepackage{enumitem}
@@ -44,6 +50,10 @@
 \definecolor{alertred}{rgb}{0.80,0.12,0.12}
 \definecolor{linkgreen}{RGB}{0,166,0}
 
+%%% TOC STYLE : check in the dissertation class
+% \setcounter{secnumdepth}{5}
+% \setcounter{tocdepth}{5}
+%
 
 \input{my_commands.tex}
 \input{my_notation.tex}
@@ -61,6 +71,10 @@
 \title{Hunting Acoustic Echoes for Auditory Scene Analysis}
 \author{Diego DI CARLO}
 \date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 \frontmatter{}
@@ -99,8 +113,7 @@
 % \begin{fullwidth}
 % \part{Prologue}
 % \end{fullwidth}
-
-\cleardoublepage{}
+% \cleardoublepage{}
 
 % \input{mainmatter/introduction}
 % \input{mainmatter/preliminaries}

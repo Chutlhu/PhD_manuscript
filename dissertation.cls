@@ -174,6 +174,8 @@
 \RequirePackage{ragged2e}
 \settocdepth{section}
 \setsecnumdepth{subsection}
+% \setcounter{secnumdepth}{5}
+% \setcounter{tocdepth}{5}
 
 \renewcommand{\cftpartfont}{%
 \bfseries\color{Burgundy}\MakeTextUppercase%
