@@ -16,4 +16,12 @@ clean-all: clean
 	rm -f main.bbl
 
 clean-purge: clean-all
+	echo purge_start
 	latexmk -C
+	latexmk -c
+	rm -f main.mtc*
+	rm -f main.maf
+	rm -f main.bbl
+	rm -f main.run.xml
+	rm -f main.unq
+	echo purge_end
