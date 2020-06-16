@@ -1,0 +1,109 @@
+\chapter*{Notation}\addcontentsline{toc}{chapter}{Notation}
+
+
+\subsection{Linear Algebra}
+\begin{table}[H]
+    \begin{tabular}{ll}
+        $x$     & scalar      \\
+        $\bfx$  & vector      \\
+        $x_i$   & $i$-th entry of $\bfx$ \\
+        $\ktranspose{\bfx}$   & transpose of the vector $\bfx$ \\
+        $\khermitian{\bfx}$   & conjugate-transpose of the vector $\bfx$ \\
+        $\kRe[x]$ & real part scalar (vector) $x$ ($\bfx$) \\
+        $\kIm[x]$ & imaginary part scalar (vector) $x$ ($\bfx$) \\
+        $\imath$     & imaginary unit \\
+        $\bbN$    & set of natural numbers \\
+        $\bbR$    & set of real numbers \\
+        $\bbR_{+}$    & set of real positive numbers \\
+        $\bbC$    & set of complex number \\
+    \end{tabular}
+\end{table}
+
+\subsection{Common indexing}
+\begin{table}[H]
+    \begin{tabular}{ll}
+        $i$     & microphone or channel index in $\{0, \dots, I-1\}$      \\
+        $j$     & source index in $\{0, \dots, J-1\}$      \\
+        $r$     & reflection (echo) in $\{0, \dots, R-1\}$      \\
+        $t$     & continuous sample index in $\{0, \dots, T-1\}$\\
+        $n$     & discrete sample index in $0, \dots, N-1\}$ \\
+        $f$     & continuous frequency index \\
+        $k$     & discrete frequency index in $\{0, \dots, K-1\}$ \\
+        $l$     & time frame index \\
+        $\tau$  & tap index in $\{0, \dots, L-1\}$\\
+    \end{tabular}
+\end{table}
+
+% \subsection{Statistics}
+% \begin{table}[]
+%     \begin{tabular}{ll}
+%         $x$     & scalar      \\
+%     \end{tabular}
+% \end{table}
+
+\subsection{Geometry}
+\begin{table}[H]
+    \begin{tabular}{ll}
+        $\underline{\bfx}_i$     & 3D location of microphone $i$ recording $x_i(t)$\\
+        $d_{ii'}$   & distance between microphone $i$ and $i'$ \\
+        $r_{ij}$   & distance between microphone $i$ and source $j$ \\
+        $\underline{\bfs}_j$     & 3D location of (target) point source $j$ emitting $s_j(t)$\\
+        $\underline{\bfq}_j$     & 3D location of (interfering) point source $j$ emitting $q_j(t)$\\
+        $r_{j}$    & distance of source $j$ wrt to the array origin \\
+        $\theta_{j}$    & azimuth of source $j$ wrt to the array origin\\
+        $\varphi_{j}$    & elevation of source $j$ wrt to the array origin \\
+    \end{tabular}
+\end{table}
+
+\subsection{Signals}
+\begin{table}[H]
+    \begin{tabular}{ll}
+        $x_i$     & input signal recorded at microphone $i$\\
+        $\bfx$    & $I \times 1$ multichannel input signal, i.e. $\bfx = [x_0, \dots, x_{I-1}]$ \\
+        $\bfX$    & matrix of multichannel input signals\\
+        $s_j$     & (target) point source signal $j$ \\
+        $q_j$     & (interfering) point source signal $j$ \\
+        $c_{ij}$    & spatial image source $j$ as recorded at microphone $i$\\
+        $a_{ij}$  & acoustic impule response from source $j$ to microphone $i$ \\
+        $h_{ij}$  & generic filter from source $j$ to microphone $i$ \\
+        $n_{i}$   & (white \textbf{or} distortion) noise signal at microphones $i$\\
+        $u_{i}$   & generic interfering \textbf{and} distrortion noise signal at microphone $i$ \\
+        $\varepsilon_{i}$   & generic noise signal due to mis- or under-modeling $i$ \\
+    \end{tabular}
+\end{table}
+
+\subsection{Acoustic}
+\begin{table}[H]
+    \begin{tabular}{ll}
+        $\alpha_{ir}$   & attenuation coefficient for source $i$ at reflection $r$\\
+        $\beta_{ir}$    & reflection coefficient for source $i$ at reflection $r$\\
+        $\tau_{ir}$     & time location of the reflection $r$\\
+        $c_\text{air}$  & speed of sound in air\\
+    \end{tabular}
+\end{table}
+
+\subsection{Mathematical Operation}
+\begin{table}[H]
+    \begin{tabular}{ll}
+        $\star$   & cross-correlation\\
+        $\circledast$ & generalized cross-correlation\\
+        $\ast$    & convolution\\
+    \end{tabular}
+\end{table}
+
+\subsection{Examples}
+
+Acoustic Impulse Response for single source scenario:
+\begin{equation}
+    a_i(t) = \sum_{r=0}^{R_i} \frac{\alpha_{ir}}{4 \pi c_{\text{air}}\tau_{ir}} \delta(t - \tau_{ir})
+\end{equation}
+
+Acoustic Transfer Function for single source scenario:
+\begin{equation}
+    a_i(f) = \sum_{r=0}^{R_i} \frac{\alpha_{ir}}{4 \pi c_{\text{air}}\tau_{ir}} e^{-\jmath 2 \pi f \tau_{ir}}
+\end{equation}
+
+Time of Arrival between source and microphone
+\begin{equation}
+    \tau_{ij} = \frac{\kvvbar{\underline{\mathbf{x}}_i - \underline{\mathbf{s}}_j}}{c_\text{air}}
+\end{equation}

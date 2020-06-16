@@ -157,7 +157,8 @@
 \renewcommand*{\aftertoctitle}{\par\nobreak\vspace*{-10pt}\hrulefill\vskip\aftertocskip}
 
 %%% Section and Subsection Style %%%
-\setsecheadstyle{\small\scshape\MakeTextLowercase}
+% \setsecheadstyle{\small\scshape\MakeTextLowercase}
+\setsecheadstyle{\scshape\MakeTextLowercase}
 % \setsecheadstyle{\scshape}
 \setsubsecheadstyle{\itshape}
 \setsecnumformat{\llap{\scriptsize\upshape\csname #1secnumformat\endcsname}}
@@ -172,10 +173,10 @@
 
 %%% ToC Styling %%%
 \RequirePackage{ragged2e}
-\settocdepth{section}
-\setsecnumdepth{subsection}
-% \setcounter{secnumdepth}{5}
-% \setcounter{tocdepth}{5}
+% \settocdepth{section}
+% \setsecnumdepth{subsection}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
 
 \renewcommand{\cftpartfont}{%
 \bfseries\color{Burgundy}\MakeTextUppercase%
@@ -453,10 +454,11 @@
 
 \definecolor{Burgundy}{RGB}{144, 0, 32}
 
-%%% Math Stuff %%%
-\RequirePackage{amsmath, amsthm, mathtools}
-
 \RequirePackage{csquotes}
+
+%%% Math Stuff %%%
+\RequirePackage{amsmath, amsthm}
+\RequirePackage{mathtools,empheq}
 
 % \RequirePackage[%
 %     textsize=small,

@@ -1,0 +1,44 @@
+% notation
+\newcommand{\idxSrcs}{\ensuremath{i}}
+\newcommand{\idxMics}{\ensuremath{j}}
+\newcommand{\numSrcs}{\ensuremath{I}}
+\newcommand{\numMics}{\ensuremath{J}}
+
+\newcommand{\positionMicrophone}{\ensuremath{\undeline{\mathbf{x}}}}
+\newcommand{\positionSource}{\ensuremath{\undeline{\mathbf{s}}}}
+
+\newcommand{\contMicrophoneSignal}{\ensuremath{x}}
+\newcommand{\contSource}{\ensuremath{s}}
+
+\newcommand{\contRIR}{\ensuremath{h}}
+\newcommand{\contNoise}{\ensuremath{n}}
+
+% % algos names:
+% \newcommand{\lantern}{\textsc{Lantern}}
+\newcommand{\mirage}{\textsc{Mirage}}
+\newcommand{\separake}{\textsc{Separake}}
+\newcommand{\brioche}{\textsc{Brioche}}
+% \newcommand{\blaster}{\textsc{Blaster}}
+% \newcommand{\blasterr}{\textsc{Blasterr}}
+
+%----------------
+\usepackage{pgffor}
+\foreach \x in {a,...,z}{
+  % mathbf
+  \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
+  % Bold symbol
+  \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
+}
+
+\foreach \x in {A,...,Z}{
+%   % Bold symbol
+  \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
+%   % mathbf
+  \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
+%   % mathbb
+  \expandafter\xdef\csname bb\x \endcsname{\noexpand\ensuremath{\noexpand\mathbb{\x}}}
+%   % mathds
+  \expandafter\xdef\csname ds\x \endcsname{\noexpand\ensuremath{\noexpand\mathds{\x}}}
+%   % mathcal
+  \expandafter\xdef\csname cal\x \endcsname{\noexpand\ensuremath{\noexpand\mathcal{\x}}}
+}

@@ -10,8 +10,6 @@
 % \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
 % % ==  mathematical fonts ==
 
-%%% TOC per CHAPTER %%%
-\usepackage{minitoc}
 
 %%% SETUP TODO NOTES
 % dep
@@ -22,11 +20,11 @@
 % my alias
 \input{utils/todonotes}
 
-%%% DEFAULT PACKAGE
-\usepackage{amsmath,mathtools,empheq}
-\usepackage{amsthm}
+%%% MATH PACKAGES
+\usepackage{kmath}
 
 %%% THEOREMS and ENVIROMENTS
+\usepackage{amsthm}
 \usepackage{thmtools}
 \usepackage{thm-restate}
 \declaretheorem[%
@@ -55,17 +53,16 @@
 % \setcounter{tocdepth}{5}
 %
 
-\input{my_commands.tex}
-\input{my_notation.tex}
+%%% OTHER INCLUDES
+\input{utils/my_commands.tex}
+\input{utils/my_notation.tex}
 
 %%% FILE ORGANIZATION
 % \graphicspath{{./figures/}{./tikzpictures/}}
 % \pgfplotsset{%
 %     table/search path={./figures/plots/},
 % }
-\bibliography{contents/bibliography/abbrev3,
-              contents/bibliography/crypto,
-              contents/bibliography/references}
+\bibliography{contents/bibliography/references}
 
 
 \title{Hunting Acoustic Echoes for Auditory Scene Analysis}
@@ -109,15 +106,16 @@
 \listoftables*\addcontentsline{toc}{chapter}{List of Tables}
 \clearpage{}
 
-\mainmatter{}
-% \begin{fullwidth}
-% \part{Prologue}
-% \end{fullwidth}
-% \cleardoublepage{}
+\input{contents/front_matter/notation}
+\cleardoublepage{}
 
-% \input{mainmatter/introduction}
-% \input{mainmatter/preliminaries}
-\input{contents/main_matter/chapter0_latex}
+\mainmatter{}
+\begin{fullwidth}
+\part{Prologue}
+\end{fullwidth}
+\cleardoublepage{}
+
+% \input{contents/main_matter/chapter0_latex}
 \input{contents/main_matter/chapter0_intro}
 
 \begin{fullwidth}
@@ -125,26 +123,28 @@
 \end{fullwidth}
 \input{contents/main_matter/chapter1_acoustics}
 \input{contents/main_matter/chapter2_processing}
-\input{contents/main_matter/chapter3_data_metrics}
+\input{contents/main_matter/chapter3_evaluation}
 
 \begin{fullwidth}
 \part{Acoustic Echoes Retrieval}
 \end{fullwidth}
-% \input{contents/main_matter/chapter3_aer}
-% \input{contents/main_matter/chapter4_lantern}
-% \input{contents/main_matter/chapter5_blaster}
+\input{contents/main_matter/chapter4_estimation}
+\input{contents/main_matter/chapter5_lantern}
+\input{contents/main_matter/chapter6_blaster}
+\input{contents/main_matter/chapter7_blaster2}
 
 \begin{fullwidth}
 \part{Echo-aware Application}
 \end{fullwidth}
-% \input{contents/main_matter/chapter6_applications}
-% \input{contents/main_matter/chapter7_mirage}
-% \input{contents/main_matter/chapter8_brioche}
+\input{contents/main_matter/chapter9_applications}
+\input{contents/main_matter/chapter10_separake}
+\input{contents/main_matter/chapter11_mirage}
+\input{contents/main_matter/chapter12_brioche}
 
-% \begin{fullwidth}
-% \part{Epilogue}
-% \end{fullwidth}
-% \input{contents/main_matter/chapter9_conclusion}
+\begin{fullwidth}
+\part{Epilogue}
+\end{fullwidth}
+\input{contents/main_matter/chapter20_conclusion}
 
 \backmatter{}
 
