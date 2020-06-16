@@ -3,7 +3,7 @@
 %%% MY PACKAGES
 \usepackage{blindtext} % provide \blindtext, \Blindtext
 \usepackage{lipsum}
-% \usepackage{libertine} % nice font
+\usepackage{libertine} % nice font
 % % ==  mathematical fonts ==
 % \usepackage{ccfonts}  % mathematical fonts
 % \usepackage[T1]{fontenc}  % mathematical fonts
@@ -48,14 +48,14 @@
 \definecolor{alertred}{rgb}{0.80,0.12,0.12}
 \definecolor{linkgreen}{RGB}{0,166,0}
 
-%%% TOC STYLE : check in the dissertation class
-% \setcounter{secnumdepth}{5}
-% \setcounter{tocdepth}{5}
-%
-
 %%% OTHER INCLUDES
 \input{utils/my_commands.tex}
 \input{utils/my_notation.tex}
+
+%%% TOC STYLE : check in the dissertation class
+% check dissertation class
+% %% MINITOC per CHAPTER
+% \usepackage{minitoc} % must be inserted after any modification of TOC
 
 %%% FILE ORGANIZATION
 % \graphicspath{{./figures/}{./tikzpictures/}}
@@ -76,7 +76,6 @@
 \begin{document}
 \frontmatter{}
 
-
 % \input{frontbackmatter/titlepage}
 \input{contents/front_matter/title_page}
 
@@ -91,9 +90,9 @@
 \tableofcontents*\addcontentsline{toc}{chapter}{Contents}
 \clearpage{}
 
-% \listofalgorithms\addcontentsline{toc}{chapter}{List of Algorithms}
-% %\clearpage{}
-% \vspace{\baselineskip}
+\listofalgorithms\addcontentsline{toc}{chapter}{List of Algorithms}
+\vspace{\baselineskip}
+\clearpage{}
 
 \listoftodos[TODOs and Notes]\addcontentsline{toc}{chapter}{List of TODOs and Notes}
 \vspace{\baselineskip}
@@ -115,7 +114,7 @@
 \end{fullwidth}
 \cleardoublepage{}
 
-% \input{contents/main_matter/chapter0_latex}
+\input{contents/main_matter/chapter0_latex}
 \input{contents/main_matter/chapter0_intro}
 
 \begin{fullwidth}

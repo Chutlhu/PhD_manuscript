@@ -157,9 +157,7 @@
 \renewcommand*{\aftertoctitle}{\par\nobreak\vspace*{-10pt}\hrulefill\vskip\aftertocskip}
 
 %%% Section and Subsection Style %%%
-% \setsecheadstyle{\small\scshape\MakeTextLowercase}
 \setsecheadstyle{\scshape\MakeTextLowercase}
-% \setsecheadstyle{\scshape}
 \setsubsecheadstyle{\itshape}
 \setsecnumformat{\llap{\scriptsize\upshape\csname #1secnumformat\endcsname}}
 \newcommand\sectionsecnumformat{\thesection\quad}
@@ -173,10 +171,8 @@
 
 %%% ToC Styling %%%
 \RequirePackage{ragged2e}
-% \settocdepth{section}
-% \setsecnumdepth{subsection}
-\setcounter{secnumdepth}{5}
-\setcounter{tocdepth}{5}
+\settocdepth{section}
+\setsecnumdepth{subsection}
 
 \renewcommand{\cftpartfont}{%
 \bfseries\color{Burgundy}\MakeTextUppercase%
