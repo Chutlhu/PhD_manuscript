@@ -17,24 +17,16 @@
 \RequirePackage{geometry}
 
 %%% SET FONTS %%%
-% \RequirePackage{libertine}
-\RequirePackage{charter}
+\RequirePackage{libertine}
 
-
-%%% MATH FONTS and SYMBOLS %%%%
+% first the mathematical one
+% ==  mathematical fonts ==
 % \RequirePackage{ccfonts}  % mathematical fonts
-% \RequirePackage[T1]{fontenc}  % mathematical fonts
-% \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
-
-
-% set mathdesign as math font
-\RequirePackage[charter]{mathdesign}
 \RequirePackage[utf8]{inputenc}
-\RequirePackage[T1]{fontenc}
+% \RequirePackage[T1]{fontenc}
+% \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
+% ==  mathematical fonts ==
 
-% fix mathdesigns redefinition of hrulefill
-% see https://tex.stackexchange.com/a/135356/37762
-\def\hrulefill{\leavevmode\leaders \hrule height \rulethickness \hfill\kern\z@}
 
 % set (replace) mathcal font
 % see https://tex.stackexchange.com/a/496198/37762
@@ -157,7 +149,7 @@
 \renewcommand*{\aftertoctitle}{\par\nobreak\vspace*{-10pt}\hrulefill\vskip\aftertocskip}
 
 %%% Section and Subsection Style %%%
-\setsecheadstyle{\scshape\MakeTextLowercase}
+\setsecheadstyle{\scshape}
 \setsubsecheadstyle{\itshape}
 \setsecnumformat{\llap{\scriptsize\upshape\csname #1secnumformat\endcsname}}
 \newcommand\sectionsecnumformat{\thesection\quad}
@@ -171,7 +163,7 @@
 
 %%% ToC Styling %%%
 \RequirePackage{ragged2e}
-\settocdepth{section}
+\settocdepth{subsection}
 \setsecnumdepth{subsection}
 
 \renewcommand{\cftpartfont}{%
@@ -410,10 +402,7 @@
   {\usebibmacro{textcite:postnote}}
 
 
-% \RequirePackage[utf8]{inputenc}
-% \RequirePackage[T1]{fontenc}
 \RequirePackage{microtype}
-
 \RequirePackage{abbrv, delimiters}
 
 \usepackage{algorithm}
@@ -456,13 +445,6 @@
 \RequirePackage{amsmath, amsthm}
 \RequirePackage{mathtools,empheq}
 
-% \RequirePackage[%
-%     textsize=small,
-%     color=green!20!white,
-%     shadow,
-% ]{todonotes}
-% \newcommand{\itodo}[1]{\todo[inline]{#1}}
-
 
 %%% HyperRef %%%
 \RequirePackage{hyperref}
@@ -477,7 +459,6 @@
     pdfpagelayout=TwoPageLeft,
 }
 
-%\usepackage{nameref}
 \RequirePackage[capitalise,nameinlink]{cleveref}
 
 % newtheorems have to be declared after loading cleveref
