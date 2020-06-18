@@ -18,4 +18,6 @@
 *.maf
 *.mtc*
 
+logs/*
+
 main.pdf
