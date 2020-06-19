@@ -1,5 +1,7 @@
 \documentclass[pdftex,dvipsnames]{dissertation}
 
+\usepackage{morewrites} % workaround for "no room for new \write" error
+
 %%% MY PACKAGES
 \usepackage{blindtext} % provide \blindtext, \Blindtext
 \usepackage{lipsum}
@@ -48,7 +50,7 @@
 %%% TOC STYLE : check in the dissertation class
 % check dissertation class
 % %% MINITOC per CHAPTER
-% \usepackage{minitoc} % must be inserted after any modification of TOC
+\usepackage{minitoc} % must be inserted after any modification of TOC
 
 %%% FILE ORGANIZATION
 % \graphicspath{{./figures/}{./tikzpictures/}}
@@ -64,13 +66,12 @@
 \date{\today}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%DOCUMENT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 \frontmatter{}
 
-% \input{frontbackmatter/titlepage}
 \input{contents/front_matter/title_page}
 
 \input{contents/front_matter/abstract}
@@ -81,6 +82,7 @@
 \input{contents/front_matter/acknowledgments}
 \cleardoublepage{}
 
+\doparttoc[n]
 \tableofcontents*\addcontentsline{toc}{chapter}{Contents}
 \clearpage{}
 
@@ -102,41 +104,64 @@
 \input{contents/front_matter/notation}
 \cleardoublepage{}
 
+\setcounter{mtc}{9}
 \mainmatter{}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%% PROLOGE
+%
 \begin{fullwidth}
-\part{Prologue}
+    \part{Prologue}
 \end{fullwidth}
+\parttoc[n]
 \cleardoublepage{}
 
 \input{contents/main_matter/chapter0_latex}
 \input{contents/main_matter/chapter0_intro}
 
+%%%%%%%%%%%%%%%%%%%%%
+%% I. Room Acoustic
+%
 \begin{fullwidth}
     \part{Room Acoustics and Audio Signal Processing}
 \end{fullwidth}
+\parttoc[n]
 \input{contents/main_matter/chapter1_acoustics}
 \input{contents/main_matter/chapter2_processing}
 \input{contents/main_matter/chapter3_evaluation}
 
+%%%%%%%%%%%%%%%%%%%%%
+%% II. Estimation
+%
 \begin{fullwidth}
 \part{Acoustic Echoes Retrieval}
 \end{fullwidth}
+\parttoc[n]
 \input{contents/main_matter/chapter4_estimation}
 \input{contents/main_matter/chapter5_lantern}
 \input{contents/main_matter/chapter6_blaster}
 \input{contents/main_matter/chapter7_blaster2}
 
+%%%%%%%%%%%%%%%%%%%%%
+%% III. Application
+%
 \begin{fullwidth}
 \part{Echo-aware Application}
 \end{fullwidth}
+\parttoc[n]
 \input{contents/main_matter/chapter9_applications}
 \input{contents/main_matter/chapter10_separake}
 \input{contents/main_matter/chapter11_mirage}
 \input{contents/main_matter/chapter12_brioche}
 
+%%%%%%%%%%%%%%%%%%%%%
+%% IV. Conclusion
+%
 \begin{fullwidth}
 \part{Epilogue}
 \end{fullwidth}
+\parttoc[n]
 \input{contents/main_matter/chapter20_conclusion}
 
 \backmatter{}

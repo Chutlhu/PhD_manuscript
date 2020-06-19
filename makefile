@@ -8,7 +8,6 @@ main.pdf: main.tex logs
 	mv ./logs/main.pdf ./main.pdf
 
 clean:
-	latexmk -c -jobname=./logs/main
 	rm ./logs/main*
 
 clean-all: clean
