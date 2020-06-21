@@ -15,6 +15,9 @@
 % my alias
 \input{utils/todonotes}
 
+%%% FONT AWESOME
+\usepackage{fontawesome}
+
 %%% MATH PACKAGES
 \usepackage{kmath}
 
@@ -52,13 +55,16 @@
 % %% MINITOC per CHAPTER
 \usepackage{minitoc} % must be inserted after any modification of TOC
 
-%%% FILE ORGANIZATION
-% \graphicspath{{./figures/}{./tikzpictures/}}
+% --- Graphics ---
+
+\graphicspath{{./figures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
 % \pgfplotsset{%
 %     table/search path={./figures/plots/},
 % }
 
-\bibliography{contents/bibliography/references}
+\bibliography{contents/back_matter/references}
 
 
 \title{Hunting Acoustic Echoes for Auditory Scene Analysis}
@@ -105,24 +111,21 @@
 \cleardoublepage{}
 
 \setcounter{mtc}{9}
+
+
+% === MAIN BODY ===
 \mainmatter{}
 
-
-%%%%%%%%%%%%%%%%%%%%%
 %% PROLOGE
-%
-\begin{fullwidth}
-    \part{Prologue}
-\end{fullwidth}
-\parttoc[n]
-\cleardoublepage{}
+% \begin{fullwidth}
+%     \part{Prologue}
+% \end{fullwidth}
+% \parttoc[n]
+% \cleardoublepage{}
 
-\input{contents/main_matter/chapter0_latex}
 \input{contents/main_matter/chapter0_intro}
 
-%%%%%%%%%%%%%%%%%%%%%
 %% I. Room Acoustic
-%
 \begin{fullwidth}
     \part{Room Acoustics and Audio Signal Processing}
 \end{fullwidth}
@@ -131,9 +134,7 @@
 \input{contents/main_matter/chapter2_processing}
 \input{contents/main_matter/chapter3_evaluation}
 
-%%%%%%%%%%%%%%%%%%%%%
 %% II. Estimation
-%
 \begin{fullwidth}
 \part{Acoustic Echoes Retrieval}
 \end{fullwidth}
@@ -143,9 +144,7 @@
 \input{contents/main_matter/chapter6_blaster}
 \input{contents/main_matter/chapter7_blaster2}
 
-%%%%%%%%%%%%%%%%%%%%%
 %% III. Application
-%
 \begin{fullwidth}
 \part{Echo-aware Application}
 \end{fullwidth}
@@ -155,28 +154,25 @@
 \input{contents/main_matter/chapter11_mirage}
 \input{contents/main_matter/chapter12_brioche}
 
-%%%%%%%%%%%%%%%%%%%%%
 %% IV. Conclusion
-%
 \begin{fullwidth}
 \part{Epilogue}
 \end{fullwidth}
 \parttoc[n]
 \input{contents/main_matter/chapter20_conclusion}
 
+
+% === BACK MATTER ===
 \backmatter{}
 
-\begin{fullwidth}
-\printbibliography{}
-\end{fullwidth}
 
-\cleardoublepage{}
 
-%%%% APPENDIX
+\input{contents/back_matter/appendices}
+\input{contents/back_matter/bibliography}
 
-\begin{appendices}
-\input{contents/appendices/appendix1_mindmaps}
-\input{contents/appendices/appendix2_measurements}
-\end{appendices}
+% \printglossary[type=\acronymtype]
+% \printglossary
+% \input{back_matter/index}
+
 
 \end{document}

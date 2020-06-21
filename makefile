@@ -5,7 +5,7 @@ all: main.pdf
 
 main.pdf: main.tex logs
 	latexmk -pdf --shell-escape -file-line-error -f -jobname=./logs/main main.tex
-	mv ./logs/main.pdf ./main.pdf
+	cp ./logs/main.pdf ./main.pdf
 
 clean:
 	rm ./logs/main*
