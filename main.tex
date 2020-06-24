@@ -19,8 +19,12 @@
 \usepackage{fontawesome}
 \usepackage{siunitx}    % provide \ang
 
-% --- Math delimiters
+% ## Math
+% ### cool delimiters
 \usepackage{kmath}
+% ### cool fractions
+\usepackage{xfrac} % provide \sfrac
+
 
 %%% THEOREMS and ENVIROMENTS
 \usepackage{amsthm}
@@ -113,7 +117,6 @@
 
 \setcounter{mtc}{9}
 
-
 % === MAIN BODY ===
 \mainmatter{}
 
@@ -128,7 +131,7 @@
 
 %% I. Room Acoustic
 \begin{fullwidth}
-    \part{Elements of Indoor Audio Signal Processing}
+    \part{Room Acoustic meets Signal Processing}
 \end{fullwidth}
 \parttoc[n]
 \input{contents/main_matter/chapter1_acoustics}
@@ -137,7 +140,7 @@
 
 %% II. Estimation
 \begin{fullwidth}
-\part{Acoustic Echoes Retrieval}
+\part{Acoustic Echo Retrieval}
 \end{fullwidth}
 \parttoc[n]
 \input{contents/main_matter/chapter4_estimation}
@@ -165,8 +168,6 @@
 
 % === BACK MATTER ===
 \backmatter{}
-
-
 
 \input{contents/back_matter/appendices}
 \input{contents/back_matter/bibliography}

@@ -163,7 +163,7 @@
 
 %%% ToC Styling %%%
 \RequirePackage{ragged2e}
-\settocdepth{subsection}
+\settocdepth{section}
 \setsecnumdepth{subsection}
 
 \renewcommand{\cftpartfont}{%

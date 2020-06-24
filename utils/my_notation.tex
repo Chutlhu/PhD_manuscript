@@ -1,3 +1,6 @@
+% --- correct bad hyphenation
+\hyphenation{op-tical net-works semi-conduc-tor}
+
 % --- Algos and Methods names:
 \newcommand{\mirage}{\textsc{Mirage}}
 \newcommand{\separake}{\textsc{Separake}}
@@ -7,23 +10,80 @@
 \newcommand{\lantern}{\textsc{Lantern}}
 \newcommand{\dechorate}{d'\textsc{Echorate}}
 
-% notation
+%----------------
+\usepackage{pgffor}
+\foreach \x in {a,...,z}{
+  % mathbf
+  \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
+  % Bold symbol
+  \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
+}
+
+\foreach \x in {A,...,Z}{
+%   % Bold symbol -- bold
+  \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
+%   % mathbf -- bold
+  \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
+%   % mathbb -- blackboard-bold for uppercase letters and lowercase ( for sets )
+  \expandafter\xdef\csname bb\x \endcsname{\noexpand\ensuremath{\noexpand\mathbb{\x}}}
+%   % mathds -- ???
+  \expandafter\xdef\csname ds\x \endcsname{\noexpand\ensuremath{\noexpand\mathds{\x}}}
+%   % mathcal -- calligraphy
+  \expandafter\xdef\csname cal\x \endcsname{\noexpand\ensuremath{\noexpand\mathcal{\x}}}
+}
+
+% --- Math Notation
+% indexing
 \newcommand{\idxSrcs}{\ensuremath{i}}
 \newcommand{\idxMics}{\ensuremath{j}}
 \newcommand{\numSrcs}{\ensuremath{I}}
 \newcommand{\numMics}{\ensuremath{J}}
-
+% geometry
 \newcommand{\positionMicrophone}{\ensuremath{\undeline{\mathbf{x}}}}
 \newcommand{\positionSource}{\ensuremath{\undeline{\mathbf{s}}}}
-
-\newcommand{\contMicrophoneSignal}{\ensuremath{x}}
+% signal model
+\newcommand{\contRecordedSignal}{\ensuremath{x}}
+\newcommand{\contMicrophoneSignal}{\contRecordedSignal}
 \newcommand{\contSource}{\ensuremath{s}}
-
-\newcommand{\contRIR}{\ensuremath{h}}
+\newcommand{\contFilter}{\ensuremath{h}}
+\newcommand{\contFilterHat}{\widehat{\contFilter}}
+\newcommand{\contRIR}{\contFilter}
 \newcommand{\contNoise}{\ensuremath{n}}
+\newcommand{\disRecordedSignal}{\bfx}
+\newcommand{\disFilter}{\bfh}
+\newcommand{\disFilterHat}{\widehat{\disFilter}}
+\newcommand{\RecordedSignalDFT}{\bfX}
 
-% --- correct bad hyphenation
-\hyphenation{op-tical net-works semi-conduc-tor}
+% signal processing
+\newcommand{\filterLength}{\ensuremath{{L}}}
+\newcommand{\Fs}{\ensuremath{F_s}}
+
+% math vars
+
+
+\newcommand{\zeroL}{{\bf0}_\filterLength}
+
+\newcommand{\spike}[1]{\delta_{#1}}
+\newcommand{\opObs}{\calA}
+\newcommand{\thr}{\tau_\text{max}}
+\newcommand{\algoBraire}{BLASTER}
+\newcommand{\algoBsn}{BSN}
+\newcommand{\algoCrocco}{IL1C}
+
+\newcommand{\RT}{\ensuremath{\mathtt{RT}_{60}}}
+\newcommand{\SNR}{\ensuremath{\mathtt{SNR}}}
+\newcommand{\DDR}{\ensuremath{\mathtt{DDR}}}
+\newcommand{\dsetValid}{$\mathbf{\mathcal{D}}^{\:\text{(valid)}}$}
+\newcommand{\dsetSNR}{$\mathbf{\mathcal{D}}^{\:\SNR}$}
+\newcommand{\dsetRT}{$\mathbf{\mathcal{D}}^{\:\RT}$}
+
+
+\newcommand{\idealLowPassFilter}{\phi}
+
+\newcommand{\disRadonMeasure}{\calM(\Theta)}
+\newcommand{\posDisRadonMeasure}{\calM_+(\Theta)}
+
+\DeclareMathOperator*{\fourierTrans}{\calF}
 
 % \newcommand{\m1}{\mathbf{m}_1}
 % \newcommand{\m2}{\mathbf{m}_2}
@@ -49,6 +109,7 @@
 % \newcommand{\abs}{\verts}
 % \newcommand{\size}{\verts}
 \newcommand{\norm}[1]{\kvvbar{#1}}
+\newcommand{\normTV}[1]{\ensuremath{\norm{#1}_{\mathtt{TV}}}}
 % \newcommand{\tuple}{\angles}
 % \newcommand{\iprod}{\angles}
 
@@ -60,26 +121,3 @@
 
 % --- Mathematical operators
 \newcommand{\conv}{\ast}
-
-
-%----------------
-\usepackage{pgffor}
-\foreach \x in {a,...,z}{
-  % mathbf
-  \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
-  % Bold symbol
-  \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
-}
-
-\foreach \x in {A,...,Z}{
-%   % Bold symbol -- bold
-  \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
-%   % mathbf -- bold
-  \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
-%   % mathbb -- blackboard-bold for uppercase letters and lowercase ( for sets )
-  \expandafter\xdef\csname bb\x \endcsname{\noexpand\ensuremath{\noexpand\mathbb{\x}}}
-%   % mathds -- ???
-  \expandafter\xdef\csname ds\x \endcsname{\noexpand\ensuremath{\noexpand\mathds{\x}}}
-%   % mathcal -- calligraphy
-  \expandafter\xdef\csname cal\x \endcsname{\noexpand\ensuremath{\noexpand\mathcal{\x}}}
-}

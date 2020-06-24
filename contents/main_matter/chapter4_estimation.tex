@@ -1,20 +1,55 @@
 \chapter{Acoustic Echo Estimation}\label{chap:estimation}
 
-\section{Introduction}
-\blindtext[1]
+\section{Overview}
+\begin{itemize}
+    \item Acoustic Echo Retrieval definition
+    \item Acoustic Echo Retrieval scope and placement in the signal processing pipeline
+    \item Acoustic Echo Retrieval characteristic
+\end{itemize}
+
+\section{Echoes in the Time, Frequency and Cepstral domains}
+\begin{itemize}
+    \item Time domain processing
+    \item Frequency domain processing
+    \item Cepstral processing
+\end{itemize}
 
 
-\section{Problem Statement}
-
-
-\section{State of The Art}
+\section{Related Works}
+\subsection{Knowledge-based vs. Data-driven}
+\begin{itemize}
+    \item Knowledge-driven (Physic-driven)
+    \begin{itemize}
+        \item Channel (RIR) estimation and Echoes pruning - Crooco and Dokmanic
+        \item TDOA estimation (multipath) - Benesty
+        \item Spikes Retrieval - Condat
+    \end{itemize}
+    \item Data-driven
+    \begin{itemize}
+        \item Deep Leaning echo estimation
+    \end{itemize}
+\end{itemize}
 
 \subsection{end-2-end vs 2-steps approaches}
 
 AER\\
 eRTF + AER
 
+Pruning methods
 
-\subsection{Knowledge-based vs Data-driven}
+\section{Related Works}
+
+\subsection{AER as a RIR Estimation problem}
+\todo{summarize Crocco's presentation}
+
+TX signal: known vs. not known
+\\TX signal not known: statistical methods and blind methods
+
+\subsection{AER as a Spike Estimation problem}
+
 
 \subsection{Virtually-supervised and Data Augmentation}
+
+
+\section{Data and Metrics}
+\subsection{Spike-based metrics}
