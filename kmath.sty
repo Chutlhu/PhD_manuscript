@@ -194,6 +194,8 @@
 \providecommand*\kfamily[2]{\k@ensuremath{\kbrace{#1}_{#2}}}
 \providecommand*\kseries[2]{\k@ensuremath{\kparen{#1}_{#2}}}
 \providecommand*\kproba[3][P]{\k@ensuremath{{#1}\kparen{{#2}\k@probamid{#3}}}}
+\providecommand*\klist[1]{\k@ensuremath{\kbracket{#1}}}
+\providecommand*\ktuple[1]{\k@ensuremath{\kparen{#1}}}
 
 % bold sets
 \DeclareDocumentCommand\kboldset{s t+ t- m}{\k@ensuremath{%
@@ -375,10 +377,15 @@
   \fi%
   \DiffSpace%
 }
-\providecommand*{\deriv}[3][]{%
+\providecommand*{\kderiv}[3][]{%
   \frac{\kdiff^{#1}#2}{\kdiff #3^{#1}}}
-\providecommand*{\pderiv}[3][]{%
+
+% \kpderiv[exp]{fun}{var}
+\providecommand*{\kpderiv}[3][]{%
   \frac{\partial^{#1}#2}{\partial #3^{#1}}}
+
+\providecommand*{\kgrad}[1][]{%
+  \knabla{#1}}
 
 %%%%%%%%%%%
 %%% EOF %%%

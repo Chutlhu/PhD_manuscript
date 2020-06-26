@@ -405,14 +405,24 @@
 \RequirePackage{microtype}
 \RequirePackage{abbrv, delimiters}
 
-\usepackage{algorithm}
+% --- float ---
+%
+% Support for arrangement of figures and tables
+%
+\usepackage{float}
+
+% --- Algorthims ----
+% \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \newcommand*\Let[2]{\State{} #1 $\gets$ #2}
 \algrenewcommand\alglinenumber[1]{%
     {\sffamily\footnotesize#1}}
 \algrenewcommand\algorithmicrequire{\textbf{Precondition:}}
 \algrenewcommand\algorithmicensure{\textbf{Postcondition:}}
+\usepackage[algoruled, linesnumbered, onelanguage]{algorithm2e}
 
+
+% --- Code Listing ----
 \RequirePackage[newfloat]{minted}
 \newminted{c}{mathescape, linenos=true, numberblanklines=false, fontsize=\footnotesize}
 \newminted{sage}{mathescape, linenos=true, numberblanklines=false, fontsize=\footnotesize}
