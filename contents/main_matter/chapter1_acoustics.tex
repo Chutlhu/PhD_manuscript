@@ -13,7 +13,7 @@ Proximal theories would claim that sounds are where the hearer is.
 Medial theories—exemplified by mainstream acoustics—locate sounds in the medium between the resonating object and the hearer.
 Distal theories consider sounds to be located at the resonating object. Finally, aspatial theories deny spatial relevance to sounds.
 
-What is the definition? The etimology?
+What is the definition? The ethimology?
 How is it perceived, how is it measured? How is it represented?
 
 speed of sound
@@ -27,7 +27,7 @@ speed of sound
 If we think at the process of sound production in the light of the classic \textit{source-medium-receiver} model of communication theory,
 we can say that in we have studied models for the source of sound signals. We now move a step further and examine the effects of the medium in which sound propagates, and the receiver, specifically a human receiver with two ears.
 
-Equation are reproduced or modified from \cite{Kuttruff2009room, Marczuk2006modelling, Habets2010generator, Avanzini2019Chapter4}
+Equation are reproduced or modified from \cite{Kuttruff2009room, Marczuk2006modelling, Habets2010generator, Avanzini2019Chapter4, Allen1999image}
 
 When vibrating objects excites air, molecules that start oscillating creating local pressure deviation from the atmospheric pressure.
 Such vibration of of air molecules takes place in the direction of the excitement, with the next layer of molecules excited by the first layer.
@@ -78,12 +78,17 @@ where $k$ denotes the wave number, that relates the frequency $[\si{\hertz}]$ an
 \end{equation}
 
 \newthought{The Green's Functions} are tools used to solve linear differential equations with specified
-initial- or boundary- condition \cite{Duffy2015}.
+initial- and boundary- condition \cite{Duffy2015}.
 They have been used to solve in tens of fundamentals equation,
 among which \cref{eq:acoustics:helmholtz} and \cref{eq:acoustics:wave}
 for free and indoor propagation
-\sidenote{By 1950 Green’s functions for Helmholtz’s equation were used to find the
-wave motions due to flow over a mountain  and in acoustics}.
+\sidenote{%
+By 1950 Green’s functions for Helmholtz’s equation were used to find the
+wave motions due to flow over a mountain  and in acoustics.
+Green’s functions for the wave equation lies with Gustav Robert Kirchhoff (1824–1887),
+who used it during his study of the three-dimensional wave equation.
+He used this solution to de- rive his famous \textit{Kirchhoff’s theorem}.
+}.
 They can be seen as the equivalent concept of the \textit{impulse responses} used in signal processing.
 Under this light, the physic so-far will be rewritten in form more familiar to signal processing enthusiast
 For omnidirectional point source in the free space, the time-invariant Green's function for \cref{eq:acoustics:helmholtz}
@@ -91,6 +96,15 @@ For omnidirectional point source in the free space, the time-invariant Green's f
 \begin{equation}
     G(f, \bfx \mid {\bfx}_0) = - \frac{1}{4 \pi \norm{\bfx - {\bfx}_0}} e^{- \frac{\Ii  2 \pi f \norm{\bfx - {\bfx}_0}}{\speedOfSound}}
 \end{equation}
+
+\newthought{In presence of} a sound source with distribution function $s(t, \positionSource)$ the wave equation can be written
+\begin{equation}
+    \label{eq:acoustics:source}
+    \knabla^2 \pressure(\positionMicrophone, t) - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressure(\positionMicrophone, t)}{t} = s(t, \positionSource)
+    .
+\end{equation}
+The solution of the above equation
+
 
 % \newthought{The Conservation of Momentum}
 
@@ -320,8 +334,26 @@ For omnidirectional point source in the free space, the time-invariant Green's f
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Room Acoustic Modeling and the Room Impulse Response}
+By adding boundary condition we can write the acoustic pressure within a 3-dimensional enclosure.
+Let us assume the simplest possible 3-D enclosure: a cuboid room with perfectly smooth and rigid facets
+\sidenote{%
+\textbf{facet}: each of the plane surfaces of a polytope.
+}.
+More precisely, let define $\calC$ the domain of the problem as the cuboid with length $L$, width $W$ and height $H$, that is
+\begin{equation}
+    \calC = \kset{\positionMicrophone = (x,y,z)}{
+        0 \le x \le L,\,
+        0 \le y \le W,\,
+        0 \le z \le Z}
+\end{equation}
+Let $\calB$ be the boundaries of $\calC$, \ie/ the rigid room facets.
 
-\subsection{The Room Impulse Response and the Image Source Method}
+
+
+\subsection{Simulating Room Acoustics}
+
+
+\subsection{the Image Source Method}
 https://reuk.github.io/wayverb/context.html
 
 \newthought{Finally} we can write the final Room Impulse Response $\rir_{ij}(t)$ as follows:
