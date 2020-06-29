@@ -1,9 +1,20 @@
 \chapter{Element of Room Acoustics}\label{chap:acoustics}
 
-\newthought{Synopsis} This chapter
+\newthought{Synopsis} This chapter will cross an important bridges: from the physics to analog signal processing
 
 \section{Sound Wave Propagation}
-What is sound? How is it perceived, how is it measured? How is it represented?
+
+Sound is a complex concept and complex concepts creates theories.
+
+
+from https://plato.stanford.edu/entries/sounds/
+The main relevant families of answers include proximal, medial, distal, and aspatial theories.
+Proximal theories would claim that sounds are where the hearer is.
+Medial theories—exemplified by mainstream acoustics—locate sounds in the medium between the resonating object and the hearer.
+Distal theories consider sounds to be located at the resonating object. Finally, aspatial theories deny spatial relevance to sounds.
+
+What is the definition? The etimology?
+How is it perceived, how is it measured? How is it represented?
 
 speed of sound
 
@@ -12,41 +23,74 @@ speed of sound
     .
 \end{equation}
 
-Equation are reproduced or modified from \cite{Kuttruff2009room, Marczuk2006modelling, Habets2010generator}
+
+If we think at the process of sound production in the light of the classic \textit{source-medium-receiver} model of communication theory,
+we can say that in we have studied models for the source of sound signals. We now move a step further and examine the effects of the medium in which sound propagates, and the receiver, specifically a human receiver with two ears.
+
+Equation are reproduced or modified from \cite{Kuttruff2009room, Marczuk2006modelling, Habets2010generator, Avanzini2019Chapter4}
+
+When vibrating objects excites air, molecules that start oscillating creating local pressure deviation from the atmospheric pressure.
+Such vibration of of air molecules takes place in the direction of the excitement, with the next layer of molecules excited by the first layer.
+The molecules oscillate in the frequency of the initial exciting vibration, creating oscillating of higher and lower density of molecules.
+Pushing layer by layer forward, a \textit{longitudinal} wave is created.
 
 \subsection{The Acoustic wave equation and it solution}
 \label{subsec:acoustics:waveq}
-The \textit{acoustic wave equation} governs the propagation of acoustic waves through a fluids (gas or liquid).
-It is a particular case of wave equation, namely a second-order partial differential equation that describes wave displacement as function of space and time.
-it is of fundamental importance for solving problem in acoustics, electromagnetics and fluid dynamics
-\sidenote{In 1746, d’Alembert discovered the one-dimensional wave equation, and within ten years Euler discovered the three-dimensional wave equation.}.
-In acoustics, this equation describes the evolution of acoustic pressure $\pressure(\positionMicrophone, t)$
-as a function of position $\positionMicrophone$ and time $t$.
 
-Assuming the propagation of the wave in a homogeneous fluid, one can obtain such formula by combining three physical laws :
-the \textit{conservation of momentum} applied to fluids (\aka/ the Euler's equation),
-the \textit{conservation of mass} (\aka/ the continuity equation) and
-the \textit{equation of state}.
-In acoustics books typically such results writes
+The \textit{acoustic wave equation} governs the propagation of acoustic waves through a perfectly elastic medium (gas or liquid) in a 3D space.
+The equation describes the evolution of acoustic pressure $\pressure$ as function of the position $\positionSource$ $[\si{\metre}]$ and time $t$ $[\si{\second}]$
+
 \marginpar{%
-$\knabla^2 = \kpderiv[2]{}{x} + \kpderiv[2]{}{y} + \kpderiv[2]{}{z}$
-is the \textit{Laplacian} expressed  in  the  Cartesian  coordinates $\klist{x, y, z}$.
+The symbol $\knabla^2 = \kpderiv[2]{}{x} + \kpderiv[2]{}{y} + \kpderiv[2]{}{z}$
+stands for the 3-dimensional \textit{Laplacian} operator.
 }
 \begin{equation}
     \label{eq:acoustics:wave}
-    \kpderiv[2]{\pressure(\positionMicrophone, t)}{t} = \speedOfSound^2 \knabla^2 \pressure(\positionMicrophone, t)
+    \knabla^2 \pressure(\positionMicrophone, t) - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressure(\positionMicrophone, t)}{t} = 0
+    .
+\end{equation}
+
+the constant $\speedOfSound$ is the sound velocity in the medium with dimension $\si{\metre}/\si{\second}$.
+As opposed to mechanical vibrations in a string or membrane, acoustic vibrations are longitudinal rather than transversal,
+\ie/ the air particles are displaced in the same direction of the wave propagation.
+\sidenote{In 1746, d’Alembert discovered the one-dimensional wave equation for music strings, and within ten years Euler discovered the three-dimensional wave equation.}.
+
+Assuming the propagation of the wave in a homogeneous medium, one can obtain eq.~\cref{eq:acoustics:wave} by combining three fundamental physical laws:
+the \textit{conservation of momentum} applied to fluids (\aka/ the Euler's equation),
+the \textit{conservation of mass} (\aka/ the continuity equation) and the \textit{equation of state}.
+In case of inhomogeneous medium, scalar inhomogeneities, \eg/ due to temperature variation,
+and vector inhomogeneities, \eg/ due to presence of fans or air conditioning
+brakes the underlying assumption of the model. However these effect are typically so small that are typically ignored.
+
+
+\newthought{Many are the techniques} to solve this renowned equation, depending on the number of variables and boundary conditions.
+By applying the Fourier transform to eq.~\cref{eq:acoustics:wave}, the time-independent \textit{Helmholtz equation} is obtained, \ie/
+\begin{equation}
+    \label{eq:acoustics:helmholtz}
+    \knabla^2 P(\positionMicrophone, f) + k^2 P(\positionMicrophone, f) = 0
     ,
 \end{equation}
-where $\speedOfSound$ is the speed of sounds.
-This equation accurately describes the acoustic pressure in a sound field provided inhomogeneities do not occur.
-Scalar inhomogeneities (such as variation of sound speed and air density), \eg/ due to temperature variation, and
-vector inhomogeneities
+where $k$ denotes the wave number, that relates the frequency $[\si{\hertz}]$ and the speed of sounds through
 
-% a sound wave modifies the air particle locations, vibrating them from their mean position
-% The instantaneous vibration of these particles describes the wave behavior.
-% $\bfv = \klist{v_x, v_y, v_z}$ is the velocity of the particle vibrations in the 3D Cartesian coordinate system.
-% This movement of particles, generated by sound waves, also produces variations from the static air density $\densityEq$ and the air pressure P.
+\begin{equation}
+    k = \frac{2 \pi f}{c
+    .}
+\end{equation}
 
+\newthought{The Green's Functions} are tools used to solve linear differential equations with specified
+initial- or boundary- condition \cite{Duffy2015}.
+They have been used to solve in tens of fundamentals equation,
+among which \cref{eq:acoustics:helmholtz} and \cref{eq:acoustics:wave}
+for free and indoor propagation
+\sidenote{By 1950 Green’s functions for Helmholtz’s equation were used to find the
+wave motions due to flow over a mountain  and in acoustics}.
+They can be seen as the equivalent concept of the \textit{impulse responses} used in signal processing.
+Under this light, the physic so-far will be rewritten in form more familiar to signal processing enthusiast
+For omnidirectional point source in the free space, the time-invariant Green's function for \cref{eq:acoustics:helmholtz}
+
+\begin{equation}
+    G(f, \bfx \mid {\bfx}_0) = - \frac{1}{4 \pi \norm{\bfx - {\bfx}_0}} e^{- \frac{\Ii  2 \pi f \norm{\bfx - {\bfx}_0}}{\speedOfSound}}
+\end{equation}
 
 % \newthought{The Conservation of Momentum}
 
