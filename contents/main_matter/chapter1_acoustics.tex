@@ -56,14 +56,31 @@ As opposed to mechanical vibrations in a string or membrane, acoustic vibrations
 \sidenote{In 1746, d’Alembert discovered the one-dimensional wave equation for music strings, and within ten years Euler discovered the three-dimensional wave equation.}.
 
 Assuming the propagation of the wave in a homogeneous medium, one can obtain eq.~\cref{eq:acoustics:wave} by combining three fundamental physical laws:
-the \textit{conservation of momentum} applied to fluids (\aka/ the Euler's equation),
-the \textit{conservation of mass} (\aka/ the continuity equation) and the \textit{equation of state}.
+\begin{itemize}
+    \item the \textit{conservation of momentum}\sidenote{its appliction to fluids comes with the name of the Euler's equation},
+    \item the \textit{conservation of mass} (\aka/ the continuity equation), and
+    \item the \textit{equation of state} (\aka/ the gas equation)
+\end{itemize}
 In case of inhomogeneous medium, scalar inhomogeneities, \eg/ due to temperature variation,
 and vector inhomogeneities, \eg/ due to presence of fans or air conditioning
 brakes the underlying assumption of the model. However these effect are typically so small that are typically ignored.
 
+\newthought{Derivation:}
+Consider the infinitesimal volume unit $\volumeUnit$ of a fluid or gas (such as air), whose center of gravity is located at $\positionMicrophone$.
+Let $\mass$ be the mass of the volume. By the well-known Newton's second law, applying a force $F$ to the fluid, its acceleration increase proportionally, namely:
 
-\newthought{Many are the techniques} to solve this renowned equation, depending on the number of variables and boundary conditions.
+\begin{equation}
+    F = \mass \kpderiv[]{\bfv(\positionMicrophone, t)}{t}
+\end{equation}
+where $v(\positionSource, t)$ denotes the volume velocity and $t$ the time $[\si{\second}]$.
+The force can be expressed in terms of difference of pressure $p$ on a surface of the volume, $V$, namely
+\begin{equation}
+    F = - \nabla \pressure(\positionMicrophone, t)
+\end{equation}
+
+
+\newthought{A solution to this} renowned equation can be found in many ways, depending on the number of dimensions, initial and boundary conditions.
+The solution proposed utilize the Helmholtz's methods
 By applying the Fourier transform to eq.~\cref{eq:acoustics:wave}, the time-independent \textit{Helmholtz equation} is obtained, \ie/
 \begin{equation}
     \label{eq:acoustics:helmholtz}
@@ -77,11 +94,8 @@ where $k$ denotes the wave number, that relates the frequency $[\si{\hertz}]$ an
     .}
 \end{equation}
 
-\newthought{The Green's Functions} are tools used to solve linear differential equations with specified
-initial- and boundary- condition \cite{Duffy2015}.
-They have been used to solve in tens of fundamentals equation,
-among which \cref{eq:acoustics:helmholtz} and \cref{eq:acoustics:wave}
-for free and indoor propagation
+\newthought{The Green's Functions} are tools used to solve linear differential equations with specified initial- and boundary- condition \cite{Duffy2015}.
+They have been used to solve many fundamentals equation, among which \cref{eq:acoustics:helmholtz} and \cref{eq:acoustics:wave} for both free and indoor propagation.
 \sidenote{%
 By 1950 Green’s functions for Helmholtz’s equation were used to find the
 wave motions due to flow over a mountain  and in acoustics.
@@ -90,20 +104,59 @@ who used it during his study of the three-dimensional wave equation.
 He used this solution to de- rive his famous \textit{Kirchhoff’s theorem}.
 }.
 They can be seen as the equivalent concept of the \textit{impulse responses} used in signal processing.
-Under this light, the physic so-far will be rewritten in form more familiar to signal processing enthusiast
-For omnidirectional point source in the free space, the time-invariant Green's function for \cref{eq:acoustics:helmholtz}
+Under this light and by assuming the fluid  medium as the \textit{linear filter}, the physic so-far can be rewritten in terms of input, filter and output
 
-\begin{equation}
-    G(f, \bfx \mid {\bfx}_0) = - \frac{1}{4 \pi \norm{\bfx - {\bfx}_0}} e^{- \frac{\Ii  2 \pi f \norm{\bfx - {\bfx}_0}}{\speedOfSound}}
-\end{equation}
-
-\newthought{In presence of} a sound source with distribution function $s(t, \positionSource)$ the wave equation can be written
+In presence of a sound source producing waves with distribution function $s(t, \positionSource)$, the wave equation can be written
 \begin{equation}
     \label{eq:acoustics:source}
     \knabla^2 \pressure(\positionMicrophone, t) - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressure(\positionMicrophone, t)}{t} = s(t, \positionSource)
     .
 \end{equation}
-The solution of the above equation
+Then, the correspondent Helmholtz's equation writes
+\begin{equation}
+    \label{eq:acoustics:source_freq}
+    \knabla^2 P(\positionMicrophone, f) + k^2 P(\positionMicrophone, f) = - S(\positionSource, f)
+    .
+\end{equation}
+
+Green say that the partial differential equations above can be solved for arbitrary source as follows:
+
+\begin{equation}
+    \label{eq:acoustics:helmholz_conv}
+    P(f, \positionMicrophone) = \iiint_{\volume_\contSource} H(f, \positionMicrophone \mid \positionSource) S(f, \positionSource) \kdiff\positionSource
+    .
+\end{equation}
+
+where $\volume_\contSource$ denotes the source volume,
+and  $\kdiff\positionSource =  \kdiff{x_\contSource}\,\kdiff{y_\contSource}\,\kdiff{z_\contSource}$ the  differential  volume element at position $\positionSource$.
+The function $H(f, \positionMicrophone \mid \positionSource)$ is the Green's function in frequency domain, or \textit{Transfer Function}, defined as the solution of the following inhomogeneous equation
+\begin{equation}
+    \label{eq:acoustics:green_definition}
+    \knabla^2 H(f, \positionMicrophone \mid \positionSource)
+     + k^2 H(f, \positionMicrophone \mid \positionSource) = - \delta(\positionMicrophone - \positionSource)
+    ,
+\end{equation}
+where we have assumed the source to be unit-amplitude harmonic point source at in $\positionSource$,
+namely $S(\positionSource, f) = \delta(\positionMicrophone - \positionSource)$ representing an outward travelling wave.
+\marginpar{%
+The reader may appriciate here the parallelism with the impulse response, defined the response of a system to an impulse.
+}
+It can be shown \cite{Kutruff} that the time-invariant Green's function for \cref{eq:acoustics:helmholtz} writes
+\begin{equation}
+    G(f, \bfx \mid {\bfx}_0) = - \frac{1}{4 \pi \norm{\bfx - {\bfx}_0}} e^{- \frac{\Ii 2 \pi f \norm{\bfx - {\bfx}_0}}{\speedOfSound}}
+\end{equation}
+where $\norm{\cdot}$ denotes the Euclidean norm.
+This function can be interpreted as the free-field transfer function between the source at x0 and the receiver at x.
+
+The initial sound pressure $\pressure(\positionMicrophone, t)$ can now be computed by
+taking the frequency-directional inverse Fourier transform of \cref{eq:acoustics:helmholz_conv}.
+% Now taking advantage of the linear system theory we can obtain
+% Combining the relations between the theory of linear systems and physical propagation of acoustic signals with small amplitude in the fluid medium,
+% we get the alternative solution to this problem (as compared with the conventional approach)
+
+
+
+
 
 
 % \newthought{The Conservation of Momentum}
