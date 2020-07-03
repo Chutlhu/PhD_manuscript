@@ -59,17 +59,28 @@
 \newcommand{\RecordedSignalDFT}{\bfX}
 
 % (room) acoustics
+
 \newcommand{\speedOfSound}{\ensuremath{c}}
 \newcommand{\cair}{\ensuremath{\speedOfSound_\text{air}}}
 \newcommand{\temperature}{\ensuremath{T}}
 \newcommand{\rhumidity}{\ensuremath{H}}
+\newcommand{\forceVec}{\ensuremath{\bsF}}
+\newcommand{\velocity}{\ensuremath{\bsv}}
 \newcommand{\pressure}{\ensuremath{p}}
 \newcommand{\Pressure}{\ensuremath{P}}
 \newcommand{\density}{\ensuremath{\rho}}
 \newcommand{\densityEq}{\density_0}
 \newcommand{\mass}{\ensuremath{m}}
 \newcommand{\volumeUnit}{\ensuremath{\eta_0}}
+\newcommand{\surface}{\ensuremath{V}}
 \newcommand{\volume}{\ensuremath{\calV}}
+\newcommand{\impedence}{\ensuremath{Z}}
+\newcommand{\impedenceAir}{\ensuremath{\impedence_\text{air}}}
+\newcommand{\absCoeff}{\ensuremath{\alpha}}
+\newcommand{\reflCoeff}{\ensuremath{\beta}}
+
+\newcommand{\depSpaceTime}{\ensuremath{\kparen{\positionMicrophone, t}}}
+\newcommand{\pressureSpaceTime}{\ensuremath{\pressure\depSpaceTime}}
 
 % signal processing
 \newcommand{\filterLength}{\ensuremath{{L}}}
@@ -77,7 +88,7 @@
 \newcommand{\zeroVect}{\ensuremath{\mathbf{0}}}
 \newcommand{\rir}{\ensuremath{h^{\text{rir}}}}
 
-% math vars
+% math vars and constan
 \newcommand{\spike}[1]{\delta_{#1}}
 \newcommand{\opObs}{\calA}
 \newcommand{\thr}{\tau_\text{max}}
@@ -92,13 +103,13 @@
 \newcommand{\dsetSNR}{$\mathbf{\mathcal{D}}^{\:\SNR}$}
 \newcommand{\dsetRT}{$\mathbf{\mathcal{D}}^{\:\RT}$}
 
+% --- Other (constant)
+\newcommand{\const}{\ensuremath{\text{\textit{const.}}}}
 
 \newcommand{\idealLowPassFilter}{\phi}
 
 \newcommand{\disRadonMeasure}{\calM(\Theta)}
 \newcommand{\posDisRadonMeasure}{\calM_+(\Theta)}
-
-\DeclareMathOperator*{\fourierTrans}{\calF}
 
 % \newcommand{\m1}{\mathbf{m}_1}
 % \newcommand{\m2}{\mathbf{m}_2}
@@ -135,5 +146,12 @@
 % %   \set{ x \in W \given x > 0 }
 % \newcommand{\given}{\;\mdelim\vert\;}
 
-% --- Mathematical operators
+
+% --- Math operators
+\DeclareMathOperator*{\fourierTrans}{\calF}
+\DeclareMathOperator*{\divergence}{\nabla\cdot}
+\DeclareMathOperator*{\dirac}{\delta}
+
+% --- Mathematical operators and function
 \newcommand{\conv}{\ast}
+\newcommand{\diracOf}[1]{\dirac\kparen{#1}}
