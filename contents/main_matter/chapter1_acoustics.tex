@@ -273,269 +273,90 @@ This corresponds to a pure impulse at time $t = \tfrac{\norm{\positionMicrophone
 \newthought{Finally,} the initial sound pressure $\pressureSpaceTime$ can now be computed by taking the frequency-directional inverse Fourier transform of \cref{eq:acoustics:helmholz_conv}.
 \todo{from this to convolution}
 
-
-% \newthought{The Conservation of Momentum}
-
-% \marginpar{%
-% \footnotesize
-% Law I: Every body persists in its state of being at rest or of moving uniformly straight forward,
-% except insofar as it is compelled to change its state by force impressed.
-% \\Newton's original Latin reads: \emph{Lex I: Corpus omne perseverare in statu suo quiescendi vel movendi uniformiter in directum,
-% nisi quatenus a viribus impressis cogitur statum illum mutare}}
-
-% 2nd Newton law
-% \sidenote{%
-% Law II: The alteration of motion is ever proportional to the motive force impress'd;
-% and is made in the direction of the right line in which that force is impress'd.
-% \\Orignal: \emph{Lex II: Mutationem motus proportionalem esse vi motrici impressae,
-% et fieri secundum lineam rectam qua vis illa imprimitur.}}
-
-% \begin{equation}
-%     F = m a
-% \end{equation}
-
-% \begin{equation}
-%     F = \kgrad{\pressure}
-% \end{equation}
-% $\kgrad$ denotes the three-dimensional gradient with, namely respect to space.
-
-% 3nd Newton law and Conservation of momentum
-% \sidenote{%
-% Law III (action-reaction law): To every action there is always opposed an equal reaction:
-% or the mutual actions of two bodies upon each other are always equal, and directed to contrary parts
-% \\Original: \emph{Lex III: Actioni contrariam semper et æqualem esse reactionem:
-% sive corporum duorum actiones in se mutuo semper esse æquales et in partes contrarias dirigi.}}
-% writes
-% \begin{equation}
-%     \label{eq:acoustics:momentum}
-%     \kgrad{\pressure} = - \mass \kpderiv[]{\bfv}{t} = - \volumeUnit \kpderiv[]{\bfv}{t}
-% \end{equation}
-% where the mass $\mass$ is substituted by the density per unit volume $\volumeUnit$ since the unit of volume $V$ is considered as reference.
-
-% Evolution of sound pressure $\pressure \depSpaceTime$
-% as a function of position $\positionMicrophone = \klist{x, y, z}$ $[\si{\metre}]$ and time $t$ $[\si{\second}]$.
-
 % \newthought{Conservation of Mass}
 % \sidenote{Nothing comes from noting. In latin \textit{nihilo nihil fit} ---Parmenide}
-
-% In the field of fluid and continuous mechanics, the this law can be formulated mathematically using the \textit{continuity equation} in \textit{differential form}:
-% \begin{equation}
-%     \kpderiv[]{\rho}{t} + \kdivergence{\kparen{\rho \bfv}} = 0
-%     ,
-% \end{equation}
-% where $\rho$ is the density (mass per unit volume).
-
-
-% \begin{equation}
-%     \kpderiv[]{\eta}{t} + \eta_0 \kdivergence{\bfv} + = 0
-%     ,
-% \end{equation}
-
-% Considering the same unit of volume $V$, the conservation of mass law states that in a system that does not exchange
-% neither energy nor mass with the surrounding environment, the mass remains constant.
-% This is equivalent to say that the variation of mass inside $V$ is equal to the the amount of mass passing thought its volumetric surface, namely:
-
-
-% where $\knabla\cdot$ is the divergence operator, $\eta$ is the density (mass per unit volume) and $\bfv$ is flow velocity field.
-% where $\eta = \eta_0 + \Delta\eta$ is the total density within the volume accounting for the a static part $\eta_0$ and a variable part $\Delta\eta$.
-
-% The interpretation of the continuity equation for mass is the following: For a given closed surface in the system,
-% the change in time of the mass enclosed by the surface is equal to the mass that traverses the surface, positive if matter goes in and negative if matter goes out
-
-% By dividing the momentum conservation law in \cref{eq:acoustics:momentum} and differentiating both members with respect to space, it becomes:
-% \begin{equation}
-%     \kpderiv[]{}{t} \knabla\cdot \bfv = - \frac{1}{\volumeUnit} \knabla^2 p
-% \end{equation}
-
-
-
-% \marginpar{
-%     $\knabla^2 = \kpderiv[2]{}{x} + \kpderiv[2]{}{y} + \kpderiv[2]{}{z}$
-%     is the \textit{Laplacian} expressed  in  the  Cartesian  coordinates $\klist{x, y, z}$.
-% }
-% \begin{equation}
-%     \label{eq:acoustics:wave}
-%     \kpderiv[2]{\pressureSpaceTime}{t} = \cair^2 \knabla^2 \pressureSpaceTime
-%     ,
-% \end{equation}
-% where $\cair$ is the speed of sounds.
-
-% This equation is accurate as long as the sound field $\abs{\pressureSpaceTime} \ll \densityEq \cair^2$
-% where $\densityEq$ is the density of the propagation medium at equilibrium. It is not true when
-% \begin{itemize}
-%     \item scalar inhomogeneities (spatial distribution of sound speed or air density): temperature variation in the medium
-%     \item vector inhomogeneities (spatial distribution of particle mean velocity): presence of fans or air conditioning
-% \end{itemize}
-% In room acoustics this effects are too small, hence typically ignored.
-
-% Sound field from a source in a specific room, we need the source function and boundary condition that describes the sound reflection and absorption at the walls.
-% \begin{equation}
-%     \label{eq:acoustics:wave}
-%     \kpderiv[2]{\pressureSpaceTime}{t} - \cair^2 \knabla^2 \pressureSpaceTime = - \contSource\depSpaceTime
-%     ,
-% \end{equation}
-% where $\contSource\depSpaceTime$ denote the source function \cite{Room Impulse Response Generator, Habets}
-
-% By applying the Fourier Transform to \cref{eq:acoustics:wave}, we obtain the time-independent Helmholtz equation
-% \sidenote{\textbf{Helmholtz equation:} In mathematics, it is referred to the eigenvalue problem for the laplacian operator, that is.
-% $\knabla^2 f = - k^2 f$.  where $k$ is the eigenvalue, called \textit{wave number} in case of waves, and $f$ in the (eigen)function, \textit{amplitude} in case of wave.}:
-% \begin{equation}
-%     \knabla^2 P(\positionMicrophone ; f) + k^2 P(\positionMicrophone ; f) = 0
-% \end{equation}
-% where $k = \sfrac{2 \pi f}{\cair}$ is the \textit{wave number}, function of frequency $f$ and
-
-
-% In presence of a harmonic source producing waves described by the function $s(\positionMicrophone ; f)$, the propagation of its acoustic
-% signal (small amplitude, ideal (non-viscous)) in a fluid medium my be described by the following \textit{linear}, lossless, non-homogeneous wave equation
-% \begin{equation}
-%     \label{eq:acoustics:helmholtzSource}
-%     \knabla^2 p(t, \positionMicrophone) + \frac{1}{\cair^2} \kpderiv[2]{\pressureSpaceTime}{t} = s(t, \positionMicrophone).
-% \end{equation}
-
-% Threating the fluid medium as a \textit{linear filter}, this equation may be solved taking advantages of the signal and system theory.
-% We get the alternative solution to this problem (as compared with the conventional approach).
-
-% In the typical signal and system theory, the relation between the input (source) $x(t, \positionSource)$ and
-% the output $y(t', \positionMicrophone)$ is described by the following relation:
-
-% \begin{equation}
-%     \label{eq:acoustics:lti}
-%     y(t', \positionMicrophone) =
-%     \int \int
-%         h(t \kto  t' ; \positionSource \kto \positionMicrophone)
-%         x(t, \positionSource)
-%         \kdiff t  \kdiff \positionSource
-% \end{equation}
-
-% where $h(t \kto  t' ; \positionSource \kto \positionMicrophone)$ is the \textit{impulse response} of the linear filter, namely the response of the system
-% in the point with coordinates $\positionMicrophone$ at the time $t'$, if the unit-amplitude impulse was applied at the input at the time $t$ and location $\positionSource$.
-
-% By considering now the generic source function $s(t, \positionSource)$ as input function of the linear system and considering the pressure variation $\pressure$ as the output of the system,
-% we can rewrite \cref{eq:acoustics:lti} as follows:
-
-% \begin{equation}
-%     \label{eq:acoustics:lti:pressure}
-%     p(t', \positionMicrophone) =
-%     \int \int
-%         h(t \kto  t', \positionSource \kto \positionMicrophone)
-%         s(t, \positionSource)
-%         \kdiff t  \kdiff \positionSource
-% \end{equation}
-% The function $h(t \kto  t', \positionSource \kto \positionMicrophone)$ is the impulse response (Green's function)
-% along the transmission path between the source point $\positionSource$ and the receiver point $\positionSource$.
-
-% By applying the Fourier transform to both sides of equation \cref{eq:acoustics:helmholtzSource}, we obtain:
-% \begin{equation}
-%     \label{eq:acoustics:helmholtzSource}
-%     \knabla^2 P(f, \positionMicrophone) + \kparen{2 \pi f / \cair}^2 P(f, \positionMicrophone) = S(f, \positionMicrophone).
-% \end{equation}
-
-% where  $P(f, \positionMicrophone)$ is the Fourier transform of the pressure $\pressure$ and $f$ in the frequency in $\si{\hertz}$.
-
-% In the frequency domain, eq.~\cref{eq:acoustics:lti:pressure} writes
-
-% \begin{equation}
-%     P(f, \beta) = H(f, \beta) S(f, \beta)
-% \end{equation}
-
-
-% If a unit-amplitude harmonic point source at position $\positionSource$, $S(\positionMicrophone ; f) = \delta(\positionMicrophone - \positionSource)$,
-% where $\delta$ is the Kronecker delta function defining a point in the space.
-% The partial differential equation \cref{eq:acoustics:helmholtzSource} can be solved by first solving the following inhomogeneous equation:
-% \begin{equation}
-%     \knabla^2 G(\positionMicrophone ; f) + k^2 G(\positionMicrophone ; f) = - \delta(\positionMicrophone - \positionSource)
-% \end{equation}
-
-% where the the solution $G(\positionMicrophone ; f)$ is called \textit{Green's function}.
-
-% \subsection{The Green's Function as solution of the Wave Equation}
-
-% Why do we use Green's functions?
-% \cpother{Using the Green theorem, the integrated equation may be constructed,
-% linking the effect of action of the source, wave propagation,
-% boundary and initial conditions in the simple formula.}
-
-% Green's functions
-% \begin{itemize}
-%     \item used to solve initial- and boundary-value problems, involving differential equations [Duffy, 15]
-%     \item defined as impulse responses of homogeneous systems
-% \end{itemize}
-% Thus they are used to solve the sound wave equation for indoor propagation.
-
-% The solution of equation eq.~\cref{eq:acoustics:helmholtzSource} can be expressed in term of \textit{bundary conditions},
-% \textit{initial conditions} and the \textit{Green's function} $g$.
-% Such function is found by solving
-
-% \begin{equation}
-%     \knabla^2 g + \frac{1}{\cair^2} \kpderiv[2]{g}{t} = - \delta(\positionMicrophone - \positionSource)\delta(t - t_0)
-% \end{equation}
-% where $\positionSource$ is the position of the source.
-% This equation describes the effect of an impulse as it propagates from $\positionMicrophone=\positionSource$ as time increases form $t = t_0$.
-
-
-
-% The Green's function $g({\positionMicrophone}_0, t_0, \positionMicrophone, t)$ is then the solution to the wave equation
-
-% As in Duffy: Acoustic wave equation defined in \cref{eq:acoustics:wave}, can be rewritten
-% \begin{equation}
-%     \kderiv{2}{g}{t}
-% \end{equation}
-
-% The solution of the Helmholtz equation, describing the propagation of a wave in the free space
-% The Green's function for a free (unbounded) space for an omnidirectional point sources is
-% \begin{equation}
-%     G(f, \positionMicrophone \mid \positionMicrophone = - \frac{1}{4 \pi \norm{\positionMicrophone - {\positionMicrophone}_0}} e^{- \frac{\Ii  2 \pi f \norm{\positionMicrophone - {\positionMicrophone}_0}}{\cair}}
-% \end{equation}
-
-% The inverse Fourier Transform
-% \begin{equation}
-%     g(t, \positionMicrophone \mid \positionMicrophone = - \frac{1}{4 \pi \norm{\positionMicrophone - {\positionMicrophone}_0}} \delta \kparen{t - \frac{\norm{\positionMicrophone -{\positionMicrophone}_0}}{\cair}}
-% \end{equation}
-
-% The Green's function for the sound wave equation will be here derived here:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acoustic Reflections}
 
 \todo{From Schimmel's paper, Kutruff and Remaggi}
-
+\todo{Speak about far-field}
 % The acoustic reflection are the main object of this thesis.
 The equations derived so far assumed unbounded medium, \ie/ free space: a rare scenario in everyday applications.
 Real mediums are bounded, limited, at least partially.
 For instance for the sound (wave) in a room, the air (propagation medium) is bounded by walls, ceiling, and floor.
 When sound travel outdoor, the ground acts as a boundary for one of the propagation direction.
 Thus, the sound wave does not just stop when it reaches the end of the medium or when it encounters an obstacle in its path.
-Rather, a sound wave will undergo certain behaviors depending on the obstacle physical properties, including
-\textit{reflection} off the obstacle, \textit{diffraction} around the obstacle, and \textit{transmission} (accompanied by refraction) into the obstacle.
-In other words, when a sound hits a surfaces,
-part of its energy is reflected specularly (\ie/, the angle of incidence equals the angle of reflection),
-part of it is reflected diffusely (\ie/, scatter in every direction),
-and part of its energy is absorbed by the surface.
-The three proportion of the sound energy are frequency dependent properties of the surface.
-For typical indoor scenario, the sound wave is absorbed and reflected by room facets and objects in the room, and diffracted around edges.
+Rather, a sound wave will undergo certain behaviors depending on the obstacle acoustics and geometrical properties, including
+\begin{itemize}
+    \item \textit{reflection} off the obstacle,
+    \item \textit{diffraction} around the obstacle,
+    \item and \textit{transmission} into the obstacle.
+\end{itemize}
 
-In the previous section, we manipulated the wave equation in the free and indoor space for a simple cuboid room.
-However in case of modeling reflection, working with the wave equation might results complicated and difficult.
-A simplified yet effective approach is to model sound waves as \textit{acoustic rays}, namely
-a vanishingly small portion of a spherical wave emitted by a point source in a room.
-This ray has well-defined direction and velocity of propagation, and conveys a total energy which remains constant.
-This simplified description takes the name of \textit{geometrical acoustics} (GA) and has strict similarities with geometrical optics.
+In order, reflections arise typically when a sound wave hit a large surface, like a room wall.
+\\Instead, when the sound meet an wall edge or a slit, the wave diffracts, namely it bends around the corners of an obstacle.
+This effect can be seen as diffracting object or aperture effectively becomes a secondary source of the propagating wave, which
+may interact with the first one.
+\\The part of energy transmitted to the object may be absorbed or refracted.
+In fact, the object is characterized by a proper acoustic resistance (\textit{impedance}), which
+describes its acoustic inertia and the energy dissipated, similarly to an electric components.
+The other part may continue to propagate causing resulting in the \textit{refraction} phenomenon.
+This is more commonly observed when light pass thought different medium, like a prism.
+
+\newthought{When sound reflects}, part of its energy
+\begin{itemize}
+    \item is reflected \textit{specularly}, \ie/, the angle of incidence equals the angle of reflection;
+    \item is reflected \textit{diffusely} - or \textit{scattered}, \ie/, scatter in every direction);
+    \item and part of its energy is absorbed by the surface.
+\end{itemize}
+The proportion of these quantities depends on the acoustics and geometrical properties of surface.
+It is also dependent on the angle of incidence of the sound wave\sidenote{Depending on the application,
+all this factors are different level of importances.}.
+
+In general, all these phenomena occurs with different level of importance depending on the acoustic and physical
+\textit{operating point}.
+, it is common in acoustics and in some field of audio signal processing, \ie/
+\textit{beamforming}, it is common to characterized this point with the sound wavelength $[\si{\metre}]$,
+\begin{equation}
+    \lambda = \frac{2 \pi}{k} = \frac{\speedOfSound}{f}
+    ,
+\end{equation}
+where $f$ is the sound frequency.
+$\lambda$ measures the spatial distance between two molecules in the medium having the same value of pressure, or
+the length of \emph{step} of the wave.
 \marginpar{%
-although typical wavelengths and propagation velocities are very different in the two cases.
-Note that the assumption of extremely high frequencies is practically met in many cases
-of interest in room acoustics: a frequency of 1 kHz corresponds to a wavelength of
-approximately 34 cm, which is one or two orders of magnitude smaller than typical linear
-dimensions of rooms, as well as typical distances traveled by sound waves in a room.}
+a frequency of $\SI{1}{\kHz}$ corresponds to a wavelength of approximately $\SI{34}{\cm}$ ,
+which is one or two orders of magnitude smaller than typical linear dimensions of rooms,
+as well as typical distances traveled by sound waves in a room
+}
+\\Using this quantity we can identify the following three response of the objects (irregularities) of size $d$ to a plane-wave
+\begin{itemize}
+    \item $\lambda \gg d$, the irregularities are negligible and the sound wave reflection is of specular type;
+    \item $\lambda \approx d$, the irregularities break the sound waves which is reflected towards every direction;
+    \item $\lambda \ll d$, each irregularities is a surface reflecting specularly the sound waves.
+\end{itemize}
 
+% All these effects contributes to create a rich
+% It is interesting to note that the diffraction waves produced by the semi-infinite reflector edge allow the area that is “behind” the reflector (i.e. the so called shadow zone), to be reached by the propagating sound.
 
-\subsection{Infinite smooth surfaces, specular reflections, Echoes}
+In the previous section, we manipulated the wave equation in free space, namely unbounded medium.
+However in case of modeling reflection for indoor propagation, working with those formulas might results complicated and difficult.
+A simplified yet effective approach is to model incoming sound waves as \textit{acoustic rays}, namely
+a small portion of a the wave emitted by a point source in a room.
+This ray has well-defined direction and velocity of propagation, and conveys a total energy which remains constant.
+This simplified description undergoes with the name of \textit{geometrical acoustics} (GA), and share many fundamentals with geometrical optics.
+
+This model will be convenient to describe and visualize the reflection behavior hereafter.
+
+\subsection{Large smooth surfaces, specular reflections and echoes}
 \todo{Savioja2015geometric}
 % The main focus of this section and the this whole thesis goes on \textit{specular reflections}.
-These type of reflections occurs when sound bounce off room walls which can be modelled as infinite\sidenote{bigger than the wave lenght}, flat and smooth surfaces.
-This mirror-like reflection are called \textit{specular}.
-Within the \GA/ modeling, an acoustic ray that strikes a plane surface is reflected according to the \textit{law of reflection}, stating the following principles:
-(a) the reflected ray remains in the plane identified by the incident ray and the normal to the surface,
-and (b) the angles of the incident and reflected rays with the normal are equal.
+Specular reflection occurs when sound bounce off room walls which can be modelled as infinite flat and smooth surfaces.
+This happens when the surface has dimension much bigger than the sound wavelength and it results in a mirror-like effects.
+Here the acoustic ray that strikes a plane surface is reflected according to the \textit{law of reflection}, stating the following principles:
+(i) the reflected ray remains in the plane identified by the incident ray and the normal to the surface,
+and (ii) the angles of the incident and reflected rays with the normal are equal.
 \marginpar{%
     \centering
     \footnotesize
@@ -545,7 +366,8 @@ and (b) the angles of the incident and reflected rays with the normal are equal.
     }
     \label{fig:mirage:scene}
 }
-% Not all the energy is reflected, part of it is absorbed.
+
+\newthoughtpar{Absorption (and Reflection) coefficient}
 The proportion of energy absorbed by the surface and the incident acoustic wave is measured
 through the reflector's \textit{acoustic impedance}\sidenote{%
 \textbf{acoustic impendence} measures the opposition that an acoustic system presents to the acoustic pressure.
@@ -559,23 +381,40 @@ one can derive the \textit{plane-wave reflection coefficient} or \textit{pressur
 where $\impedence_w(f)$ and $\impedenceAir(f)$ are the frequency-dependent impedance of the surface and the air respectively,
 and $\theta$ is the angle of incidence.
 
-This formula holds as long as the far field assumption, namely the source, or receiver, is several wavelengths away from the infinite reflecting plane.
+This formula holds as long as the far field assumption is verified as well for the reflectors:
+the source, or receiver, is several wavelengths away from the infinite reflecting plane.
 
-For the more commonly applied energy-based GA techniques,
-it is customary to use the absorption coefficient a $\absCoeff$ defined as
+Within the context of \GA, it is common to use consider the energy or the intensity of the plane wave, which is
+proportional to the square of the pressure amplitude. Thus, it is customary to use the absorption coefficient,
 \begin{equation}
-    \absCoeff = 1 - \abs{R(f, \theta)}^2
+    \absCoeff = 1 - \abs{\reflCoeff(f, \theta)}^2
+    ,
 \end{equation}
+where the phase information of the reflection process is lost.
+\\Estimating acoustic impedance and absorption coefficient of a real material and difference between them has long been a topic of study
+In audio signal processing and in acoustics,
+
+However, data made available by surface material manufacturers is typically measured according to the reverberation room standard, with octave-band or third-octave-band reso- lution for the range 100 Hz–5 kHz,
+true arand has long been a topic of study
+
+Moreover, the dependency on the angle is often relaxed in favor of a more simplified yet solid parameter where
+averaged across incidence angles h is the quantity that is used by various implementations of the GA techniques.
 
 
-
-
+Specular reflection results in a delta-like peak in the function such that all of the energy is reflected in one direction, while the function takes on a value of 0 elsewhere
 
 
 \subsection{Scattering and Diffraction}
+Real-world surfaces are not ideally flat and smooth; they
+include various irregularities. Irregularities that are substan- tially smaller than the wavelength can be neglected because they do not affect the reflection, whereas irregularities that are much larger than the wavelength can be thought of as curved surfaces or even as a locally flat surface. However, irregularities whose dimensions are of the same order of magnitude as the wavelength of sound can have a large effect on the reflected sound. This means that a single absorption coefficient or complex impedance is insufficient to describe the acoustic properties of such a surface or mate- rial, even if the coefficients are frequency dependent. Instead, more complicated measures are needed in modeling such materials.
+
+
+Important:
+Siltanen et al.52 have described how to apply this reflection model in practice with beam-tracing. Their results show that although the values of the room acoustic attributes remain within just- noticeable-differences, the model results in audible differen- ces in auralization
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Room Acoustic Modeling and the Room Impulse Response}
+\section{From Acoustics to Room Impulse Response via Geometrical Room Acoustics}
 By adding boundary condition we can write the acoustic pressure within a 3-dimensional enclosure.
 Let us assume the simplest possible 3-D enclosure: a cuboid room with perfectly smooth and rigid facets
 \sidenote{%
@@ -592,10 +431,6 @@ Let $\calB$ be the boundaries of $\calC$, \ie/ the rigid room facets.
 
 The multiple sound propagation paths from a source to a
 receiver in a room can be modeled accurately by a linear time- invariant system defined by the so-called room impulse re- sponse. A room impulse response contains several perceptu- ally relevant components
-
-
-\subsection{Simulating Room Acoustics}
-
 
 \subsection{the Image Source Method}
 https://reuk.github.io/wayverb/context.html
