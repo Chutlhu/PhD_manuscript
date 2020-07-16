@@ -1,31 +1,38 @@
 \documentclass[pdftex,dvipsnames]{dissertation}
 
+% --- Encoding stuff ----------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% --- English stuff -----------------------------------------------------------
+\usepackage[english]{babel}
+\usepackage{xspace}
+\usepackage{csquotes}
+
+% --- Debug stuff -------------------------------------------------------------
 \usepackage{morewrites} % workaround for "no room for new \write" error
 
-%%% MY PACKAGES
+% --- Blind text --------------------------------------------------------------
 \usepackage{blindtext} % provide \blindtext, \Blindtext
 \usepackage{lipsum}
 
-%%% SETUP TODO NOTES
-% dep
 \usepackage{xargs}   % Use more than one optional parameter in a new commands
 \usepackage{xcolor}  % Coloured text etc.
-% pkg
+
+% --- TODO notes --------------------------------------------------------------
 \usepackage[colorinlistoftodos,prependcaption,textsize=small,shadow]{todonotes}
 % my alias
 \input{utils/todonotes}
 
-% --- Symbols, Units and Icons
-\usepackage{fontawesome}
-\usepackage{siunitx}    % provide \ang
+% --- Symbols, Units and Icons ------------------------------------------------
+\usepackage{fontawesome} % fontawesomeicons
 
-% ## Math
-% ### cool delimiters
-\usepackage{kmath}
-% ### cool fractions
-\usepackage{xfrac} % provide \sfrac
+% --- Math --------------------------------------------------------------------
+\usepackage{kmath} % cool delimiters
+\usepackage{xfrac} % provide \sfrac, cool fractions
+\usepackage{siunitx}    % provide \ang and SI units
 
-%%% THEOREMS and ENVIROMENTS
+% --- Theorem environment------------------------------------------------------
 \usepackage{amsthm}
 \usepackage{thmtools}
 \usepackage{thm-restate}
@@ -39,12 +46,16 @@
     numbered={unless unique},
 ]{secclaim}
 
-%%% OTHER PCKs FROM THE AUTHOR
+% --- Packages from Frederich -------------------------------------------------
 \usepackage{longtable}
 \usepackage{pdflscape}
 \usepackage{enumitem}
 
-%% COLORS %%
+% --- Colors ------------------------------------------------------------------
+\usepackage{xcolor}
+\colorlet{citecolor}{black}
+\colorlet{linkcolor}{black}
+\colorlet{urlcolor}{black}
 \definecolor{RoyalBlue}{cmyk}{1,0.5,0,0}
 \definecolor{Black}{cmyk}{0,0,0,0}
 \definecolor{alertred}{rgb}{0.80,0.12,0.12}
@@ -54,30 +65,31 @@
 \input{utils/my_commands.tex}
 \input{utils/my_notation.tex}
 
+% --- Table of Contents -------------------------------------------------------
 %%% TOC STYLE : check in the dissertation class
 % check dissertation class
 % %% MINITOC per CHAPTER
 \usepackage{minitoc} % must be inserted after any modification of TOC
 
-% --- Graphics ---
-
-\graphicspath{{./figures/}}
+% --- Graphics ----------------------------------------------------------------
+\usepackage{tikz}
+\graphicspath{{./figures/}{./icons/}{./logos/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
 % \pgfplotsset{%
 %     table/search path={./figures/plots/},
 % }
 
+% --- Bibliopgraphy -----------------------------------------------------------
 \bibliography{contents/back_matter/references}
-
-
-\title{Hunting Acoustic Echoes for Auditory Scene Analysis}
-\author{Diego DI CARLO}
-\date{\today}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%DOCUMENT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Hunting Acoustic Echoes for Auditory Scene Analysis}
+\author{Diego DI CARLO}
+\date{\today}
 
 \begin{document}
 \frontmatter{}

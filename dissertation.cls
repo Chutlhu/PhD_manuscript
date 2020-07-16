@@ -16,14 +16,12 @@
 
 \RequirePackage{geometry}
 
-%%% SET FONTS %%%
+% --- Fonts -------------------------------------------------------------------
 \RequirePackage{libertine}
 
 % first the mathematical one
 % ==  mathematical fonts ==
 % \RequirePackage{ccfonts}  % mathematical fonts
-\RequirePackage[utf8]{inputenc}
-% \RequirePackage[T1]{fontenc}
 % \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
 % ==  mathematical fonts ==
 

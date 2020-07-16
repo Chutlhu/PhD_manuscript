@@ -273,8 +273,23 @@ This corresponds to a pure impulse at time $t = \tfrac{\norm{\positionMicrophone
 \newthought{Finally,} the initial sound pressure $\pressureSpaceTime$ can now be computed by taking the frequency-directional inverse Fourier transform of \cref{eq:acoustics:helmholz_conv}.
 \todo{from this to convolution}
 
-% \newthought{Conservation of Mass}
-% \sidenote{Nothing comes from noting. In latin \textit{nihilo nihil fit} ---Parmenide}
+As a consequence of \cref{eq:acoustics:greenFreeTime}, the sound propagate around the source with a spherical pattern.
+When the receiver is far enough from the source, the waves can be approximated as \textit{plane waves}, namely the spherical behavior
+of the \textit{wavefronts} are well approximated by its tangent, namely orthogonal to the propagation direction.
+This scenario depicted in \cref{fig:acoustics:planewaves} is known as \textit{far-field}.
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{general/planewaves.png}
+    \captionof{figure}{%
+    Visualization of the sound propagation. Since the sensor (i.e. a microphone)
+    is drawn in the far field, the incoming waves can be approximated as plane waves.
+    }
+    \label{fig:acoustics:planewaves}
+}
+When the distance between the source and the receiver is small, typically less than $2\lambda$, the scenario is called \textit{near field}.
+
+\sidenote{Nothing comes from noting. In latin \textit{nihilo nihil fit} ---Parmenide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acoustic Reflections}
@@ -283,53 +298,51 @@ This corresponds to a pure impulse at time $t = \tfrac{\norm{\positionMicrophone
 \todo{Speak about far-field}
 % The acoustic reflection are the main object of this thesis.
 The equations derived so far assumed unbounded medium, \ie/ free space: a rare scenario in everyday applications.
-Real mediums are bounded, limited, at least partially.
-For instance for the sound (wave) in a room, the air (propagation medium) is bounded by walls, ceiling, and floor.
+Real mediums are typically bounded, limited, at least partially.
+For instance in a room, the air (propagation medium) is bounded by walls, ceiling, and floor.
 When sound travel outdoor, the ground acts as a boundary for one of the propagation direction.
 Thus, the sound wave does not just stop when it reaches the end of the medium or when it encounters an obstacle in its path.
 Rather, a sound wave will undergo certain behaviors depending on the obstacle acoustics and geometrical properties, including
 \begin{itemize}
     \item \textit{reflection} off the obstacle,
     \item \textit{diffraction} around the obstacle,
-    \item and \textit{transmission} into the obstacle.
+    \item and \textit{transmission} into the obstacle, causing
+    \begin{itemize}
+        \item \textit{dissipation}, and
+        \item \textit{refraction}.
+    \end{itemize}
 \end{itemize}
 
 In order, reflections arise typically when a sound wave hit a large surface, like a room wall.
-\\Instead, when the sound meet an wall edge or a slit, the wave diffracts, namely it bends around the corners of an obstacle.
-This effect can be seen as diffracting object or aperture effectively becomes a secondary source of the propagating wave, which
-may interact with the first one.
-\\The part of energy transmitted to the object may be absorbed or refracted.
-In fact, the object is characterized by a proper acoustic resistance (\textit{impedance}), which
-describes its acoustic inertia and the energy dissipated, similarly to an electric components.
-The other part may continue to propagate causing resulting in the \textit{refraction} phenomenon.
+\\Instead, when the sound meets a wall edge or a slit, the wave diffracts, namely it bends around the corners of an obstacle.
+The point of diffraction effectively becomes a secondary source which may interact with the first one.
+\\The part of energy transmitted to the object may be \textit{absorbed} and \textit{refracted}.
+In fact, the object is characterized by a proper acoustic resistance, called \textit{acoustic impedance}, which
+describes its acoustic inertia as well as the energy dissipation.
+The remaining contribution may continue to propagate causing resulting in the \textit{refraction} phenomenon.
 This is more commonly observed when light pass thought different medium, like a prism.
 
 \newthought{When sound reflects}, part of its energy
 \begin{itemize}
-    \item is reflected \textit{specularly}, \ie/, the angle of incidence equals the angle of reflection;
-    \item is reflected \textit{diffusely} - or \textit{scattered}, \ie/, scatter in every direction);
-    \item and part of its energy is absorbed by the surface.
+    \item is reflected \textit{specularly}, \ie/, the angle of incidence equals the angle of reflection; and
+    \item is reflected \textit{diffusely} - or \textit{scattered}, \ie/, scatter in every direction).
 \end{itemize}
-The proportion of these quantities depends on the acoustics and geometrical properties of surface.
-It is also dependent on the angle of incidence of the sound wave\sidenote{Depending on the application,
-all this factors are different level of importances.}.
 
-In general, all these phenomena occurs with different level of importance depending on the acoustic and physical
-\textit{operating point}.
-, it is common in acoustics and in some field of audio signal processing, \ie/
-\textit{beamforming}, it is common to characterized this point with the sound wavelength $[\si{\metre}]$,
+
+In general, all these phenomena occurs in different proportions depending on the acoustics and geometrical properties of surface as well as
+the frequencies content of the wave.
+In acoustics, the \textit{operating point} is determined by the sound \textit{wavelength} $[\si{\metre}]$,
 \begin{equation}
     \lambda = \frac{2 \pi}{k} = \frac{\speedOfSound}{f}
     ,
 \end{equation}
-where $f$ is the sound frequency.
-$\lambda$ measures the spatial distance between two molecules in the medium having the same value of pressure, or
-the length of \emph{step} of the wave.
+where $f$ is the frequency of the sound wave.
+$\lambda$ measures the spatial distance between two molecules in the medium having the same value of pressure
 \marginpar{%
 a frequency of $\SI{1}{\kHz}$ corresponds to a wavelength of approximately $\SI{34}{\cm}$ ,
 which is one or two orders of magnitude smaller than typical linear dimensions of rooms,
 as well as typical distances traveled by sound waves in a room
-}
+}.
 \\Using this quantity we can identify the following three response of the objects (irregularities) of size $d$ to a plane-wave
 \begin{itemize}
     \item $\lambda \gg d$, the irregularities are negligible and the sound wave reflection is of specular type;
@@ -340,7 +353,7 @@ as well as typical distances traveled by sound waves in a room
 % All these effects contributes to create a rich
 % It is interesting to note that the diffraction waves produced by the semi-infinite reflector edge allow the area that is “behind” the reflector (i.e. the so called shadow zone), to be reached by the propagating sound.
 
-In the previous section, we manipulated the wave equation in free space, namely unbounded medium.
+\newthoughtpar{In the previous section,} we manipulated the wave equation in free space.
 However in case of modeling reflection for indoor propagation, working with those formulas might results complicated and difficult.
 A simplified yet effective approach is to model incoming sound waves as \textit{acoustic rays}, namely
 a small portion of a the wave emitted by a point source in a room.
@@ -349,12 +362,12 @@ This simplified description undergoes with the name of \textit{geometrical acous
 
 This model will be convenient to describe and visualize the reflection behavior hereafter.
 
-\subsection{Large smooth surfaces, specular reflections and echoes}
+\subsection{Large smooth surfaces, absorption and echoes}
 \todo{Savioja2015geometric}
 % The main focus of this section and the this whole thesis goes on \textit{specular reflections}.
-Specular reflection occurs when sound bounce off room walls which can be modelled as infinite flat and smooth surfaces.
+Specular reflection occurs when sound bounces off surfaces which can be modelled as infinite flat and smooth surfaces.
 This happens when the surface has dimension much bigger than the sound wavelength and it results in a mirror-like effects.
-Here the acoustic ray that strikes a plane surface is reflected according to the \textit{law of reflection}, stating the following principles:
+Here the acoustic ray is reflected according to the \textit{law of reflection}, stating that
 (i) the reflected ray remains in the plane identified by the incident ray and the normal to the surface,
 and (ii) the angles of the incident and reflected rays with the normal are equal.
 \marginpar{%
@@ -384,7 +397,7 @@ and $\theta$ is the angle of incidence.
 This formula holds as long as the far field assumption is verified as well for the reflectors:
 the source, or receiver, is several wavelengths away from the infinite reflecting plane.
 
-Within the context of \GA, it is common to use consider the energy or the intensity of the plane wave, which is
+Within the context of \GA/, it is common to use consider the energy or the intensity of the plane wave, which is
 proportional to the square of the pressure amplitude. Thus, it is customary to use the absorption coefficient,
 \begin{equation}
     \absCoeff = 1 - \abs{\reflCoeff(f, \theta)}^2
@@ -400,20 +413,42 @@ true arand has long been a topic of study
 Moreover, the dependency on the angle is often relaxed in favor of a more simplified yet solid parameter where
 averaged across incidence angles h is the quantity that is used by various implementations of the GA techniques.
 
-
 Specular reflection results in a delta-like peak in the function such that all of the energy is reflected in one direction, while the function takes on a value of 0 elsewhere
 
+\newthoughtpar{Echoes}
+In audio signal processing and acoustics, echo is a reflection of sound that arrives at the listener with a delay after the direct sound.
+The delay is directly proportional to the distance of the reflecting surface from the source and the listener.
 
-\subsection{Scattering and Diffraction}
-Real-world surfaces are not ideally flat and smooth; they
-include various irregularities. Irregularities that are substan- tially smaller than the wavelength can be neglected because they do not affect the reflection, whereas irregularities that are much larger than the wavelength can be thought of as curved surfaces or even as a locally flat surface. However, irregularities whose dimensions are of the same order of magnitude as the wavelength of sound can have a large effect on the reflected sound. This means that a single absorption coefficient or complex impedance is insufficient to describe the acoustic properties of such a surface or mate- rial, even if the coefficients are frequency dependent. Instead, more complicated measures are needed in modeling such materials.
+The word echo derives from the Greek ἠχώ (ēchō),[1] itself from ἦχος (ēchos), "sound".[2] Echo in the folk story of Greek is a mountain nymph whose ability to speak was cursed, only able to repeat the last words anyone spoke to her. Some animals use echo for location sensing and navigation, such as cetaceans (dolphins and whales) and bats.
+
+kuttruff
+There are two experiences of the subjective effect of reflected portions
+of sound which are familiar to everyone: under certain conditions such a reflection can become a distinct ‘echo’. In that case it is heard consciously as a repetition of the original signal. This can frequently be observed outdoors with sound reflections from the walls of houses or from the edge of forests. In closed rooms such experiences are less familiar, since the echoes in them are fortunately usually masked by the general reverberation of the room. Whether a reflection will become an echo or not depends on its delay with respect to the direct sound, on its relative strength, on the nature of the sound signal, and on the presence of other reflections which eventually mask the reflection under consideration
+
+In the following the term ‘echo’ will be used for any sound reflection which
+is subjectively noticeable as a temporal or spatially separated repetition of the original sound signal, and we are discussing the conditions under which a reflection will become an echo. Thus we are taking up again the second question raised at the outset of the foregoing section.
+
+\subsection{Diffusion, Scattering and Diffraction}
+\cite{Dalenback1994macroscopic}
+Real-world surfaces are not ideally flat and smooth; they may includes various irregularities.
+Examples of such surfaces are coffered ceilings, faceted walls, raw brick walls as well as the entire audience area of a concert hall.
+When the \textit{roughness} of the surface is in the same order of the sound wavelength, \textit{diffuse reflection} is observed.
+
+The acoustic ray can be thought of as a bundle of individual rays which are traveling parallel.
+When it strikes the surface, each individual rays are bounced off irregularly, creating \textit{scattering}.
+In the context of \GA/, this type of reflection is modeled as a number of new rays, uniformly distributed in the original half-space.
+The total amound of energy of this reflection may be computed a-priori with the surface \textit{scattering} coefficient
+or a-posteriori with the \textit{diffuse coefficient}, namely the ratio between
+the specularly reflected energy over the total reflected energy.
+
+This process is well modeled thought the \textit{Lambert's emission law}, which was original used to describe optical diffuse reflection.
+
+\newthought{Diffraction} occurs at the boundaries of semi-finite surfaces, for instance around corners or through door openings.
+to be continued...
 
 
-Important:
-Siltanen et al.52 have described how to apply this reflection model in practice with beam-tracing. Their results show that although the values of the room acoustic attributes remain within just- noticeable-differences, the model results in audible differen- ces in auralization
+% -----------------------------------------------------------------------------
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{From Acoustics to Room Impulse Response via Geometrical Room Acoustics}
 By adding boundary condition we can write the acoustic pressure within a 3-dimensional enclosure.
 Let us assume the simplest possible 3-D enclosure: a cuboid room with perfectly smooth and rigid facets
