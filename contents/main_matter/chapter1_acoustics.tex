@@ -581,8 +581,17 @@ For these reasons, the image-source method is only suitable for early reflection
 As discussed above, the image-source method is accurate for early reflections, but slow for longer responses.
 The ray tracing method is by nature an approximation, but produces acceptable responses for diffuse field.
 The waveguide method models physical phenomena better than the geometric methods, but is expensive at high frequencies.
+This limitation corresponds into three regions in the Time-Frequency representation of the \RIR/.
+As depicted in~\cref{fig:acoustics:rir_regions},
+\begin{itemize}
+    \item in the time domain, a transition can be identified between the early vs. late reflection, corresponding to the validity of the deterministic vs. stochastic models;
+    \item and in the frequency domain, between geometric and wave-based modeling.
+\end{itemize}
+
 By combining all three models, accurate broadband impulse responses can be created,
 but for a much lower computational cost than would be possible with any individual method.
+However, this is possible provided that the time- and frequency-domain
+\textit{crossover point} are respected and the level of each component is scaled accordingly.
 
 \marginpar{%
     \centering
@@ -594,20 +603,17 @@ but for a much lower computational cost than would be possible with any individu
     \label{fig:acoustics:rir_regions}
 }
 
+The crossover point in the time domain is called \textit{transition time}.
+It identifies the moment after which reflections are so frequent that they form a continuum and, because the sound is partially absorbed by the room surfaces at every reflection, the sound level decays exponentially over time \cite{Badeau2019common}
+This point define the cross-fade between the deterministic and the stochastic process.
+Notice, that the latter will record both specular and diffuse reflections.
 
-However the combination of this model must take into account the cross-over of the three regimes:
-\begin{itemize}
-    \item Transition time
-    \begin{itemize}
-        \item \textit{Early} and \textit{Late Reflection}
-        \item \textit{Crossover point}
-    \end{itemize}
-    \item Level matching
-    \begin{itemize}
-        \item IMS vs Ray
-        \item Geom and Wave
-    \end{itemize}
-\end{itemize}
+The crossover point in the frequency domain is called \textit{Schroeder's frequency}, splitting the
+spectrum of the \RIR/ into a region with a few isolated modes and one where they can be threated as a
+continuous random process, called respectively the \textit{resonant} and \textit{even} behaviors.
+This point define the cross-fade between the geometrical and wave-based model.
+
+Each simulator has its own way to compute and implement this crossover points.
 
 
 \subsection{the Image Model and the Image Method}
