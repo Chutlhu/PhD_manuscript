@@ -253,6 +253,20 @@ Green say that the partial differential equations above can be solved for arbitr
 where $\volume_\contSource$ denotes the source volume,
 and  $\kdiff\positionSource =  \kdiff{x_\contSource}\,\kdiff{y_\contSource}\,\kdiff{z_\contSource}$ the  differential  volume element at position $\positionSource$.
 
+The conventional way to solve~\cref{eq:acoustics:helmholtz} is to find a set of functions $\Psi_\boundariesConditions(f, \positionMicrophone)$ which
+satisfy the homogenous equation~\cref{eq:acoustics:helmholz} for a certain interval and boundary conditions at the end of the such interval.
+This type of functions are called \textit{eigenfunction} and depends on $\boundariesConditions$.
+Subsequently, the general expression of the Green's function $H(f, \positionMicrophone \mid \positionSource)$ can be expressed as a sum of the eigenfunction weighted on
+a coefficient $C_l(f, \positionSource)$ dependent on the source position:
+
+\begin{equation}
+    \label{eq:acoustics:eigenfunction}
+    H(f, \positionMicrophone \mid \positionSource) =
+        \sum_{l=0}^\infty
+            C_l(f, \positionSource)
+            \Psi_\boundariesConditions(f, \positionMicrophone)
+\end{equation}
+
 It can be shown \cite{Kutruff} that the time-invariant Green's function for~\cref{eq:acoustics:helmholtz,eq:acoustics:green_definition} writes
 \begin{equation}
     \label{eq:acoustics:greenFreeFreq}
@@ -274,8 +288,8 @@ This corresponds to a pure impulse at time $t = \tfrac{\norm{\positionMicrophone
 \todo{from this to convolution}
 
 As a consequence of \cref{eq:acoustics:greenFreeTime}, the sound propagate around the source with a spherical pattern.
-When the receiver is far enough from the source, the waves can be approximated as \textit{plane waves}, namely the spherical behavior
-of the \textit{wavefronts} are well approximated by its tangent, namely orthogonal to the propagation direction.
+When the receiver is far enough from the source, the curvature of the \textit{wavefront} may be ignored.
+The waves can be approximated as \textit{plane waves} orthogonal to the propagation direction.
 This scenario depicted in \cref{fig:acoustics:planewaves} is known as \textit{far-field}.
 \marginpar{%
     \centering
@@ -292,7 +306,7 @@ When the distance between the source and the receiver is small, typically less t
 \sidenote{Nothing comes from noting. In latin \textit{nihilo nihil fit} ---Parmenide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Acoustic Reflections}
+\section{Acoustic Reflections}\label{ch:acoustics:sec:reflection}
 
 \todo{From Schimmel's paper, Kutruff and Remaggi}
 \todo{Speak about far-field}
@@ -415,29 +429,16 @@ averaged across incidence angles h is the quantity that is used by various imple
 
 Specular reflection results in a delta-like peak in the function such that all of the energy is reflected in one direction, while the function takes on a value of 0 elsewhere
 
-\newthoughtpar{Echoes}
-In audio signal processing and acoustics, echo is a reflection of sound that arrives at the listener with a delay after the direct sound.
-The delay is directly proportional to the distance of the reflecting surface from the source and the listener.
-
-The word echo derives from the Greek ἠχώ (ēchō),[1] itself from ἦχος (ēchos), "sound".[2] Echo in the folk story of Greek is a mountain nymph whose ability to speak was cursed, only able to repeat the last words anyone spoke to her. Some animals use echo for location sensing and navigation, such as cetaceans (dolphins and whales) and bats.
-
-kuttruff
-There are two experiences of the subjective effect of reflected portions
-of sound which are familiar to everyone: under certain conditions such a reflection can become a distinct ‘echo’. In that case it is heard consciously as a repetition of the original signal. This can frequently be observed outdoors with sound reflections from the walls of houses or from the edge of forests. In closed rooms such experiences are less familiar, since the echoes in them are fortunately usually masked by the general reverberation of the room. Whether a reflection will become an echo or not depends on its delay with respect to the direct sound, on its relative strength, on the nature of the sound signal, and on the presence of other reflections which eventually mask the reflection under consideration
-
-In the following the term ‘echo’ will be used for any sound reflection which
-is subjectively noticeable as a temporal or spatially separated repetition of the original sound signal, and we are discussing the conditions under which a reflection will become an echo. Thus we are taking up again the second question raised at the outset of the foregoing section.
-
 \subsection{Diffusion, Scattering and Diffraction}
-\cite{Dalenback1994macroscopic}
 Real-world surfaces are not ideally flat and smooth; they may includes various irregularities.
 Examples of such surfaces are coffered ceilings, faceted walls, raw brick walls as well as the entire audience area of a concert hall.
 When the \textit{roughness} of the surface is in the same order of the sound wavelength, \textit{diffuse reflection} is observed.
+% \cite{Dalenback1994macroscopic}
 
 The acoustic ray can be thought of as a bundle of individual rays which are traveling parallel.
 When it strikes the surface, each individual rays are bounced off irregularly, creating \textit{scattering}.
 In the context of \GA/, this type of reflection is modeled as a number of new rays, uniformly distributed in the original half-space.
-The total amound of energy of this reflection may be computed a-priori with the surface \textit{scattering} coefficient
+The total amount of energy of this reflection may be computed a-priori with the surface \textit{scattering} coefficient
 or a-posteriori with the \textit{diffuse coefficient}, namely the ratio between
 the specularly reflected energy over the total reflected energy.
 
@@ -449,28 +450,61 @@ to be continued...
 
 % -----------------------------------------------------------------------------
 
-\section{From Acoustics to Room Impulse Response via Geometrical Room Acoustics}
-By adding boundary condition we can write the acoustic pressure within a 3-dimensional enclosure.
-Let us assume the simplest possible 3-D enclosure: a cuboid room with perfectly smooth and rigid facets
-\sidenote{%
-\textbf{facet}: each of the plane surfaces of a polytope.
-}.
-More precisely, let define $\calC$ the domain of the problem as the cuboid with length $L$, width $W$ and height $H$, that is
+\section{Room Acoustics and Room Impulse Response}
+Room acoustics concerns with acoustic waves propagating in air enclosed in a volumes with a set of surfaces
+(walls, floors, etc.), from which an incident wave may be interact as described in \cref{ch:acoustics:sec:reflection}.
+Thus, a room is a physical enclosure that containing the medium and has boundaries that limit the sound propagation.
+
+% By adding boundary condition we can now write the wave equation for indoor propagation, namely within a 3-dimensional enclosure.
+% Let us assume the simplest possible 3-D enclosure: a cuboid room with perfectly smooth and rigid facets
+% \sidenote{%
+% \textbf{facet}: each of the plane surfaces of a polytope.
+% }.
+% More precisely, let define $\calC$ the domain of the problem as the cuboid with length $L$, width $W$ and height $H$, that is
+% \begin{equation}
+%     \calC = \kset{\positionMicrophone = (x,y,z)}{
+%         0 \le x \le L,\,
+%         0 \le y \le W,\,
+%         0 \le z \le Z}
+% \end{equation}
+% Let $\calB$ be the boundaries of $\calC$, \ie/ the rigid room facets.
+
+Given the boundaries $\calB$, the frequency-domain Green's function associated to \cref{eq:acoustics:helmholtz} is given by
 \begin{equation}
-    \calC = \kset{\positionMicrophone = (x,y,z)}{
-        0 \le x \le L,\,
-        0 \le y \le W,\,
-        0 \le z \le Z}
+    \label{eq:acoustics:greenBounded}
+    H(f, \positionMicrophone \mid \positionSource) =
+        - \frac{1}{V}
+        \sum_{\pos=-\infty}^{\infty}
+        \frac{\Psi_{\pos}(\positionMicrophone)\Psi_{\pos}(\positionSource)}{\kappa_{\pos} - \kparen{\sfrac{f}{c}}^2}
 \end{equation}
-Let $\calB$ be the boundaries of $\calC$, \ie/ the rigid room facets.
+where
+\begin{equation}
+    \psi_{\pos}(\positionMicrophone) =
+\end{equation}
+is the eigenfunction for the boundaries $\calC$.
 
-The multiple sound propagation paths from a source to a
-receiver in a room can be modeled accurately by a linear time- invariant system defined by the so-called room impulse re- sponse. A room impulse response contains several perceptu- ally relevant components
+The inverse Fourier transform of the frequency response of the room described by (13)leads to a RIR,h(r,rs,t).
 
-\subsection{the Image Source Method}
+\newthought{Mathematically the sound propagation} is described by the wave equation.
+An impulse response from a source to a microphone can be obtained by solving the wave equation.
+Since it can seldom be expressed in an analytic form the solution must be approximated.
+
+
+\subsection{the Image Model and the Image Method}
+Finally, the equation becomes
+\begin{equation}
+    \label{eq:acoustics:ims:frourier}
+    H(f, \positionMicrophone \mid \positionSource) =
+        \sum_{p=1}^{8}
+            \sum_{\pos=-\infty}^{\infty}
+                \frac{1}{4 \pi \norm{\coordinatePermutation_p +  \coordinatePermutation_p}}
+\end{equation}
+
+by taking the inverse Fourier Transform, the echo structure becomes explicit.
+
 https://reuk.github.io/wayverb/context.html
 
-\newthought{Finally} we can write the final Room Impulse Response $\rir_{ij}(t)$ as follows:
+We can write the final Room Impulse Response $\rir_{ij}(t)$ as follows:
 \begin{equation}
     \contMicrophoneSignal(t) = (\rir_{ij} \conv \contSource)(t)
 \end{equation}
@@ -484,14 +518,36 @@ where
     \item $\tau_r = \norm{\positionMicrophone_\idxMic - \positionSource_\idxEch}$ is the distance between the microphone and the $\idxEch$-th image of source $\idxSrc$.
 \end{itemize}
 
-\newthought{The Image Source Method}
-
+\subsection{Simulating Room Acoustics}
 
 \subsection{The Acoustic Impulse Response}
+The multiple sound propagation paths from a source to a receiver in a room can be
+modeled accurately by a linear time-invariant system defined by the so-called room impulse response.
+A room impulse response contains several perceptually relevant components
+
 
 \subsection{Properties of the Room Impulse Response}
 \newthoughtpar{direct path}
 \newthoughtpar{early echoes}
+\newthought{The echoes are} specular reflections which stand out in terms of strength or timing.
+Whether a reflection will become an echo or not depends on its delay with respect to the direct sound, on its relative strength, on the nature of the sound signal, and on the presence of other reflections which eventually mask the reflection under consideration
+the term ‘echo’ will be used for any sound reflection which
+is subjectively noticeable as a temporal or spatially separated repetition of the original sound signal, and we are discussing the conditions under which a reflection will become an echo
+\newthoughtpar{Echoes}
+The \textit{echoes} are a particular type of specular reflection.
+Whether a reflection can be defined as a echo or not depends
+on the delay with respect to the direct sound and its relative strength.
+Originally, echo referred to
+
+\marginpar{%
+    The word echo derives from the Greek
+    %ἠχώ (ēchō),[1] itself from ἦχος (ēchos), "sound".[2]
+    Echo in the folk story of Greek is a mountain nymph whose ability to speak was cursed,
+    only able to repeat the last words anyone spoke to her.
+}
+% In the following the term ‘echo’ will be used for any sound reflection which
+% is subjectively noticeable as a temporal or spatially separated repetition of the original sound signal, and we are discussing the conditions under which a reflection will become an echo. Thus we are taking up again the second question raised at the outset of the foregoing section.
+
 \newthoughtpar{late reverberation}
 
 \subsection{Room Acoustic Simulators}
@@ -506,4 +562,5 @@ https://reuk.github.io/wayverb/context.html
 \newthoughtpar{Critical Distance}
 \newthoughtpar{Interchannel Coherence}
 \newthoughtpar{Perception of the Early Reflection}
+At low levels it manifests itself only by an increase of loudness of the total sound signal, by a change in timbre, or by an increase of the apparent size of the sound source. But at higher levels a reflection can be heard as a separate event, i.e. as a repetition of the original sound signal
 \newthoughtpar{Perception of the Late Reverberation}
