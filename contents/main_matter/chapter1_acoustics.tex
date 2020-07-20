@@ -4,7 +4,7 @@
 Acoustics is basically how sounds works in environment.
 
 
-\section{Sound Wave Propagation}
+\section{Sound Wave Propagation}\label{ch:acoustics:sec:wave}
 
 Sound is a complex concept and complex concepts creates theories.
 
@@ -450,7 +450,7 @@ to be continued...
 
 % -----------------------------------------------------------------------------
 
-\section{Room Acoustics and Room Impulse Response}
+\section{Room Acoustics and Room Impulse Response}\label{ch:acoustics:sec:rir}
 Room acoustics concerns with acoustic waves propagating in air enclosed in a volumes with a set of surfaces
 (walls, floors, etc.), from which an incident wave may be interact as described in \cref{ch:acoustics:sec:reflection}.
 Thus, a room is a physical enclosure that containing the medium and has boundaries that limit the sound propagation.
@@ -519,6 +519,47 @@ where
 \end{itemize}
 
 \subsection{Simulating Room Acoustics}
+Sound propagation is well described mathematically by the wave equation.
+By solving it, the Room Impulse Response can be obtained.
+however its analytic solution is a cumbersome task, thus its solution must be approximated: it can be found only in extrimely
+simple cases such as a 3D shoebox.
+There are two main categories: geometric and wave-based~\cite{Habets2010generator, reuk.github.io, Savioja2015goemetric}.
+\begin{itemize}
+    \item \textit{wave-based} aims at solving wave equation numerically, while
+    \item \textit{geometric} methods make some simplifying assumption about the wave propagation. It results a less accurate, but faster simulation.
+    They assumption typically ignore the \textit{wave} behavior of the sound, choosing much lighter model such as \textit{ray}s or \texit{particle}s.
+\end{itemize}
+
+\newthought{Wave-based}. Most accurate, but computationally more demanding.
+
+% description
+the Element methods:
+\FEMf/ divide the space into small volume elements smaller of the sound wavelengths,
+\BEMf/ divide only the boundaries of the space are divided into surface elements.
+This elements interact with each other according to the math of the wave equation.
+At high frequencies, the elements must be very small, so their number increases, so the computational complexity increases.
+This are better for low frequencies and small enclosures.
+\FDTD/ methods replacing the derivatives in the wave equation, with its discrete approximation, \ie/ finite differences.
+\DWM/ methods..
+
+% drawbacks
+For the wave-based method the most difficult part is the definition of the boundaries condition.
+Their require for instance to know the complex impedances of the surfaces, a parameter hard to find in the literature.
+
+% modes
+On the other hand, these methods inherently account for effects such as diffraction and interference.
+This methods are capable of simulating the low-frequencies components of the \RIR/, where they contribute form \textit{room modes}.
+Modes have the effect of amplifying and attenuating specific frequencies in the \RIR/, and produce much of the subjective sonic “colour” or “character” of a room.
+Reproducing this modes is of vital importance for evaluating acoustic of rooms, such as concert hall, and recording studios or when producing musically pleasing reverbs.
+
+
+
+\newthought{Ray-tracing}. Modeling of waves as discrete particles Great success in the field of computer graphics for modeling reflection of light.
+The assumption that rays and waves are interchangeable is good for high frequencies. For low frequencies, where the wavelength are of the same order
+of the wall surface, it may leads to strong approximation error: interferences and diffractions effects are not taken into account at these frequencies\cite{Savioja2015goemetric}.
+
+
+\newthought{Hybrid Methods}
 
 \subsection{The Acoustic Impulse Response}
 The multiple sound propagation paths from a source to a receiver in a room can be
