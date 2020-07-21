@@ -616,7 +616,64 @@ This point define the cross-fade between the geometrical and wave-based model.
 Each simulator has its own way to compute and implement this crossover points.
 
 
-\subsection{the Image Model and the Image Method}
+\subsection{the Image Source Model and the Image Source Method}
+
+The \textit{image source model} simulates the reverberation in a room given source and receiver position.
+It is based on purely specular reflection and it assumes that the sound energy travels around a scene in “rays”.
+
+Based on this, Allen and Berkley developed an efficient method, the \ISMf/, to compute a \FIRf/ that model
+the acoustic channel between the source and the receiver in rectangular rooms.
+In the appendix of their They also proved that this method produce a close solution to the one the Helmholtz's equation.
+The image solution of a rectangular enclosure
+rapidly approaches an exact solution of the wave equation as the walls of the room become rigid.
+
+\newthought{The Image Model} defines the interaction of the propagating sound with the reflectors.
+It is based on the observation that when a ray is reflected, it spawns a secondary source “behind” the boundary surface.
+This additional source is located on a line perpendicular to the wall, at the same distance from it as the original source, as if the original source has been “mirrored” in the surface.
+
+Assumption:
+\begin{itemize}
+    \item sound source and receiver as points in a rectangular cavity
+    \item purely specular reflection paths between a source and a receiver
+    \item This process is simplified by assuming that sound propagates only along straight lines or rays
+    \item Rays are perfectly reflected at boundaries
+\end{itemize}
+
+
+When a rigid wall is present, it represents a boundary condition to the wave equation, namely to have zero normal velocity vector.
+Assuming a lossless reflection, \ie/ $\absCoeff = 0$, a way to satisfy the boundary condition is to assume
+an additional sound source, called the \textit{image source}, placed symmetrically to the main source on the far side of the wall.
+
+Moreover, as discussed in~\cref{ch:acoustics:sec:reflection}, such a surface generates specular reflection.
+
+
+The model is depicted in~\cref{fig:acoustics:image_model}.
+A sound source is located in $\positionSource$ near a reflecting wall.
+At the receiver position $\positionMicrophone$ two signals arrives: the one coming directly from $\positionSource$
+
+
+A ray which is reflected from several boundaries is represented by a “higher-order” image-source,
+which has been mirrored in each of those boundaries\cite{Kuttruff}. In this way, the
+
+
+All sources, original and image, emit the same impulsive source signal at the same time. The total impulse response (i.e. sound pressure against time) is found by summing the signals from each source, delayed and attenuated appropriately depending on the distance between that source and the receiver, which is equivalent to the length of the specular reflection path. The frequency response of the signal from each image source will additionally be modified depending on the characteristics of each boundary in which that source was reflected.
+
+In the real world, not all energy is perfectly reflected at a boundary.
+Some energy will be randomly diffused in non-specular directions.
+The image-source model is not capable of modelling this phenomenon, though this is not particularly problematic.
+Consider that, once scattered, sound energy cannot become un-scattered.
+The conversion from incoming energy to scattered energy is unidirectional, so repeated reflections cause the ratio of scattered to specular energy to increase monotonically.
+Kuttruff shows that, though the earliest reflections may be largely specular, after a few reflections the large majority of sound energy becomes diffuse [2, p. 126].
+This suggests that the image model should be used only for very early reflections, where most energy is not scattered, and a secondary model used to compute late, diffuse reflections.
+In Wayverb, the image model is used for early reflections, and stochastic ray-tracing is used for the diffuse tail.
+The combination of the two models is described in the Hybrid Model section.
+
+
+
+\newthought{The Image Method}
+
+\newthoughtpar{Relation with the Helmholtz Equation}
+
 Finally, the equation becomes
 \begin{equation}
     \label{eq:acoustics:ims:frourier}
