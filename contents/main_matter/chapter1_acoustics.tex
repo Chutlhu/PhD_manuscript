@@ -1,54 +1,114 @@
 \chapter{Element of Room Acoustics}\label{chap:acoustics}
-
-\newthought{Synopsis} This chapter will cross an important bridges: from the physics to analog signal processing
-Acoustics is basically how sounds works in environment.
-
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/sound_propagation.jpg}
+    \label{fig:acoustics:sound}
+}
+\openepigraph{Sound, a certain movement of air.}{Aristotele, De Anima II.8 420b12}
+\vspace{-2.5em}
+\newthought{Synopsis}
+This chapter will build a first important bridge: from the physics to analog signal processing.
+% Acoustics explains how sounds works in environment, while room acoustic explain sound in enclosed spaces, such as living rooms, offices, concert halls and many others.
+It first defines sound and how its propagation~\cref{ch:acoustics:sec:wave} connected the concept of impulse response.
+Then the interaction with the environment is show~\cref{ch:acoustics:sec:reflection}, teasing out the fundamental concept of this thesis: the echoes.
+By assuming some approximation, the \RIRf/ will be defined.
+Finally, a description of the way the human auditory system perceives the sound will be reported.
+In particular, the influence of the first early reflection on the sound perception will be elaborated.
+One of the most frequently effects produced during sound propagation in a medium is reverberation,
+which is caused by physical surfaces that partly absorb and partly reflect sound waves in air. We will first examine in Sec. 4.2 the physical and perceptual background of reverberation. The knowledge gained on these aspects will enable us to study some of the most known reverberation algorithms in Sec. 4.3. Finally we will review in Sec. 4.4 more recent approaches to synthetic reverberation, that are based on feedback delay networks and waveguide meshes.
 
 \section{Sound Wave Propagation}\label{ch:acoustics:sec:wave}
-
-Sound is a complex concept and complex concepts creates theories.
-
-
-from https://plato.stanford.edu/entries/sounds/
-The main relevant families of answers include proximal, medial, distal, and aspatial theories.
-Proximal theories would claim that sounds are where the hearer is.
-Medial theories—exemplified by mainstream acoustics—locate sounds in the medium between the resonating object and the hearer.
-Distal theories consider sounds to be located at the resonating object. Finally, aspatial theories deny spatial relevance to sounds.
-
-What is the definition? The etymology?
-How is it perceived, how is it measured? How is it represented?
-
-speed of sound
-
-\begin{equation}
-    \cair =  331.4 + 0.6\temperature + 0.0124\rhumidity \; \text{m/s}
-    .
-\end{equation}
-
-
-If we think at the process of sound production in the light of the classic \textit{source-medium-receiver} model of communication theory,
-we can say that in we have studied models for the source of sound signals. We now move a step further and examine the effects of the medium in which sound propagates, and the receiver, specifically a human receiver with two ears.
-
-Equation are reproduced or modified from \cite{Kuttruff2009room, Marczuk2006modelling, Habets2010generator, Avanzini2019Chapter4, Allen1999image}
-
-When vibrating objects excites air, molecules that start oscillating creating local pressure deviation from the atmospheric pressure.
-Such vibration of of air molecules takes place in the direction of the excitement, with the next layer of molecules excited by the first layer.
-The molecules oscillate in the frequency of the initial exciting vibration, creating oscillating of higher and lower density of molecules.
-Pushing layer by layer forward, a \textit{longitudinal} wave is created.
-% \marginpar{%
-    % \animategraphics[loop,autoplay]{12}{./figures/general/Lwave-}{0}{50}
-% }
-
-Sound is mechanical energy in the form of pressure variances in an elastic medium. These pressure variances propagate as waves from a vibrating source.
-
-Changes in air pressure (air being a propagating medium) can be represented by a WAVEFORM, which is a graphic representation of a sound. In reality, sound waves propagate through the air in LONGITITUDAL WAVES (and not TRANSVERSE WAVES):
-
-\subsection{The Acoustic wave equation}
-\label{subsec:acoustics:waveq}
-
-The \textit{acoustic wave equation} governs the propagation of acoustic waves through a perfectly elastic medium (gas or liquid) in a 3D space.
-The equation describes the evolution of acoustic pressure $\pressure$ as function of the position $\positionSource$ $[\si{\metre}]$ and time $t$ $[\si{\second}]$
 \marginpar{%
+    \small
+    Noun: from Middle English sownde, alteration of sowne, borrowed from Anglo-Norman sun, soun, Old French son, from accusative of Latin sonus.
+}
+According to common dictionaries and encyclopedias,
+\begin{center}
+    \textit{sound is the sensation perceived by the ear caused by the vibration of air}.
+\end{center}
+Sound has then two aspects: a physical one, characterized by the vibrating air particles; and a perceptive one, involving the an auditory system.
+\marginpar{
+    \small
+    It is legit to interrogate about where is the sounds.
+    % If the sounds we hear have spatial locations, they can be thought to be located either where the material sources are (distal theories), or where the hearers are (proximal theories), or somewhere in between (medial theories). It has also been denied that sounds have any spatial locations, which gives rise to a fourth class of theories, aspatial theories.
+    % Proximal theories would claim that sounds are where the hearer is.
+    % Medial theories—exemplified by mainstream acoustics—locate sounds in the medium between the resonating object and the hearer.
+    % Distal theories consider sounds to be located at the resonating object. Finally, aspatial theories deny spatial relevance to sounds.
+}
+Focusing on the former phenomenon, when vibrating objects excites air, air molecules starts oscillating,
+producing zones with different air densities (compressions-rarefactions)\sidenote{%
+Sound needs a medium to travel: it cannot travel through a vacuum.
+\\Unfortunately, there is no sound in outer space.
+}.
+Such vibration of molecules takes place in the direction of the excitement, with the next layer of molecules excited by the first layer.
+Pushing layer by layer forward, a \textit{longitudinal wave} is created.
+Under a this perspective,
+\begin{center}
+    \textit{sound is a longitudinal, mechanical wave}.
+\end{center}
+\marginpar{
+    \small
+    % In a longitudinal wave the particle displacement is parallel to the direction of wave propagation.
+    % In a transverse wave the particle displacement is perpendicular to the direction of wave propagation.
+    As opposed to mechanical vibrations in a string or (drum) membrane,
+    acoustic vibrations are \textit{longitudinal} rather than \textit{transversal},
+    \ie/ the air particles are displaced in the same direction of the wave propagation.
+}
+A \textit{wave} is a disturbance that propagates though a medium, which could be solid, liquid or gaseous.
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/lake.png}
+    \captionof{figure}{%
+    Imagine a calm pool. The surface is flat and smooth. Drop a rock into it. Kerploop. The surface is now disturbed.
+    The disturbance spreads propagates, as well know waves. The medium here is the water surface.
+    }
+    \label{fig:acoustics:lake}
+}
+The propagation happens at a certain speed which depends on the physical properties of the medium, such as its density and composition.
+The medium assumed through out the entire thesis is air.
+Under the fair assumption of air being homogeneous and steady,
+the speed of sound can be computed with the following approximated formula:
+\begin{equation}
+    \cair =  331.4 + 0.6\temperature + 0.0124\rhumidity \hspace{1em} [\sfrac{\si{\metre}}{\si{\second}}]
+    ,
+\end{equation}
+where $\temperature$ is the air temperature $[\si{\celsius}]$ and $\rhumidity$ is the relative air humidity $[\%]$.
+The changes in air pressure can be represented by a \textit{waveform}, which is a graphic representation of a sound.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{acoustics/acoustic_wave.png}
+    \caption{snapshot of a longitudinal wave in air}
+    \label{fig:acoustic:acoustics_wave}
+\end{figure}
+In general, the sound field is complex which can be decomposed as a superimposition of several waves~\cite{kuttruff2016room}.
+
+We think at this process in the light of the classic \textit{source-medium-receiver} model of communication theory.
+\begin{description}
+    \item[source] is anything that emits or expends energy (waves)
+    \sidenote{%
+    example of sources are vibrating solids (\eg/ speakers membrane),
+    rapid compression or expansion (\eg/ explosions or implosions)
+    or air vortices with characteristics frequencies (\eg/ flute and whistles).
+    },
+    \item[medium] is the vehicle for carrying waves from one point to another, and
+    \item[receiver] absorbs the such waves.
+\end{description}
+
+The behavior of acoustic waves is defined by the acoustic-wave equation.
+The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \cite{kuttruff2016room, marczuk2006modelling, avanzini2019sound}.
+
+\subsection{The Acoustic wave equation}\label{subsec:acoustics:waveq}
+It is a second-order partial differential equation
+\sidenote{
+    In 1746, d’Alembert discovered the one-dimensional wave equation for music strings,
+    and within ten years Euler discovered the three-dimensional wave equation for fluids.
+} which describes the evolution of acoustic pressure $\pressure$
+as function of the position $\positionMicrophone$ $[\si{\metre}]$ and time $t$ $[\si{\second}]$
+\marginpar{%
+    \footnotesize
     The symbol $\knabla^2 = \kpderiv[2]{}{x} + \kpderiv[2]{}{y} + \kpderiv[2]{}{z}$
     stands for the 3-dimensional \textit{Laplacian} operator.
 }
@@ -57,36 +117,33 @@ The equation describes the evolution of acoustic pressure $\pressure$ as functio
     \knabla^2 \pressureSpaceTime - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t} = 0
     .
 \end{equation}
-The constant $\speedOfSound$ is the sound velocity in the medium with dimension $\frac{\si{\metre}}{\si{\second}}$.
-
-As opposed to mechanical vibrations in a string or (drum) membrane, acoustic vibrations are \textit{longitudinal} rather than \textit{transversal},
-\ie/ the air particles are displaced in the same direction of the wave propagation.
-\marginpar{%
-    In 1746, d’Alembert discovered the one-dimensional wave equation for music strings,
-    and within ten years Euler discovered the three-dimensional wave equation for fluids.
-}
+The constant $\speedOfSound$ is the sound velocity in the medium with dimension $[\frac{\si{\metre}}{\si{\second}}]$.
 
 Assuming the propagation of the wave in a homogeneous medium, one can obtain the equation above by combining three fundamental physical laws:
 \begin{itemize}
-    \item the \textit{conservation of momentum}\sidenote{its appliction to fluids comes with the name of the Euler's equation},
-    \item the \textit{conservation of mass} (\aka/ the continuity equation), and
-    \item the \textit{equation of state} (\aka/ the gas law)
+    \item the \textit{conservation of momentum}\sidenote{In fluidodynamics, it comes with the name of the Euler's equation},
+    \item the \textit{conservation of mass}, and
+    \item the \textit{polytropic process relation}\sidenote{meaning that the medium is an ideal gas undergoing a reversible adiabatic process}.
 \end{itemize}
-In case of inhomogeneous medium, scalar inhomogeneities, \eg/ due to temperature variation,
-and vector inhomogeneities, \eg/ due to presence of fans or air conditioning
-brakes the underlying assumption of the model.
-However these effect are typically small in typical application of speech and audio signal processing.
-Thus they are commonly ignored.
 
-\newthought{The Derivation of}~\cref{eq:acoustics:wave} starts by considers a infinitesimal volume unit $V$ of a fluid or gas (such as air), whose center of gravity is located at $\positionMicrophone$.
+In general medium are not uniform or without irregularities, which can be of two types:
+scalar inhomogeneities, \eg/ due to temperature variation,
+and vector inhomogeneities, \eg/ due to presence of fans or air conditioning.
+Although these affect the underlying assumption of the model, the effect are small in typical application of speech and audio signal processing.
+Therefore they are commonly ignored.
+
+\newthoughtpar{The Derivation of the Acoustic Wave Equation}
+Let's starts by considering a infinitesimal volume unit $\volume$ of a fluid or gas (such as air),
+whose center of gravity is located at $\positionMicrophone \in \bbR^3$.
 Let $\mass$ be the mass of such volume.
-By the well-known Newton's second law, applying a force $F$ to the fluid, its acceleration increase proportionally to $\mass$,
+By the well-known Newton's second law, applying a force $\forceVec$ to the fluid, its acceleration increase proportionally to $\mass$,
 namely:
 \begin{equation}
     \label{eq:acoustics:newton}
     \forceVec = \mass \kpderiv[]{\velocity\depSpaceTime}{t}
 \end{equation}
 \marginpar{%
+\footnotesize
 Newton's Law II: The alteration of motion is ever proportional to the motive force impress'd;
 and is made in the direction of the right line in which that force is impress'd.
 \\Orignal: \emph{Lex II: Mutationem motus proportionalem esse vi motrici impressae,
@@ -96,10 +153,10 @@ where $\velocity(\positionSource, t)$ denotes the volume velocity and $t$ the ti
 The force can be expressed in terms of difference of acoustic pressure $p$ at $\positionMicrophone$ on a surface of the volume, $\surface$, namely
 \begin{equation}
     \label{eq:acoustics:pressure}
-    \forceVec = - V \kbracket{\kgrad{\pressureSpaceTime}}
+    \forceVec = - \surface \kbracket{\kgrad{\pressureSpaceTime}}
 \end{equation}
 where $\kgrad{}$ is is the gradient operator.
-By combining \cref{eq:acoustics:newton,eq:acoustics:pressure}, we obtain the famous \textit{Euler's equation of motion}:
+\\By combining \cref{eq:acoustics:newton,eq:acoustics:pressure}, we obtain the famous \textit{Euler's equation of motion}:
 \begin{equation}
     \label{eq:acoustics:euler}
     \kgrad{\pressureSpaceTime} = - \densityEq \kpderiv[]{\velocity\depSpaceTime}{t}
@@ -107,43 +164,56 @@ By combining \cref{eq:acoustics:newton,eq:acoustics:pressure}, we obtain the fam
 where $\densityEq = \frac{\mass}{\surface}$ is the static density of the medium
 \footnote{%
 \label{fn:acoustics:airconstanc}
+Selected physical quantities for air:
 \\Air Denisity $\density_{\text{air}} = 1.18 \tfrac{\si{\kilogram}}{\si{\metre^3}}$.
 \\Air Gas constant $R_{\text{air}} = 286.9 \tfrac{\si{\joule}}{\si{\kilogram} \si{\mole}}$.
 \\Air Adiabatic index $\gamma_{\text{air}} = 1.4$.
 \\Speed of sound in air $\speedOfSound_{\text{air}} = 343.1 \tfrac{\si{\metre}}{\si{\second}}$.
 }.
 
-\newthought{Secondly, by the Conservation of Mass} principle,
-the total mass must remain constant as the it is in a deformable medium. This principle
-translates into the \textit{continuity equation}, written in the differential form:
+\newthought{By the Conservation of Mass principle}, states that, in a deformable medium, the total mass must remain constant.
+This principle translates into the \textit{continuity equation}, which its differential form writes
+\marginpar{%
+    \footnotesize
+    $\divergence{} = \kpderiv[]{}{x} + \kpderiv[]{}{y} + \kpderiv[]{}{z}$ is the divergence operator.
+}
 \begin{equation}
     \label{eq:acoustics:continuity}
-    \kpderiv[]{\eta\depSpaceTime}{t} = V \kbracket{\divergence{\bfq\depSpaceTime}}
+    \kpderiv[]{\volumeUnit\depSpaceTime}{t} = V \kbracket{\divergence{\flux\depSpaceTime}}
 \end{equation}
 where
 \begin{itemize}
-    \item $\eta\depSpaceTime$ is the the amount of the quantity q per unit volume
-    \item $\eta\depSpaceTime$ is the volume variation due to the pressure changing
+    \item $\volumeUnit\depSpaceTime$ is the volume variation due to the pressure changing, and
+    \item $\flux\depSpaceTime$ is the \textit{flux} of mass $m$ per unit volume (\aka/ flux)
+    \sidenote{%
+        \footnotesize
+        flux is by definition equal to the density times the velocity.
+        In math, $\flux\depSpaceTime = \densityEq \velocity\depSpaceTime$.
+    }.
 \end{itemize}
-inside the volume $\volumeUnit$ in time is equal to the total amount of mass passing thought the surface .
+% This equation state that the variation of mass inside the volume $\volume$ in time is equal to the total amount of mass passing thought the surface.
 
-\newthought{Finally, the State Equation} describes the properties of the propagation medium.
-Assuming that the fluid (or gas) to be ideal, the \textit{Charles-Boyle} gas law states\sidenote{The original gas law writes $P V = n R T$. Here the law is written in terms of \textit{specific volume}}
-\begin{equation}
-    P V = R T
-\end{equation}
-where $P$ is the total pressure on the volume $V$; $T$ the absolute temperature in degrees Kelvin and $R$ is specific gas constant\cref{fn:acoustics:airconstanc}.
-The dependency upon space and time $\depSpaceTime$ is here omitted for sake of compactness and readability.
-
-Since the exchange of heat of wave of acoustic frequencies range in negligible, the whole process can be considered thermodynamically \textit{adiabatic}.
-In such scenario, the relation between the total pressure and the volume is given by
+\newthought{The Polytropic Process Relation} assumed properties on the propagation medium.
+% Assuming that the fluid (or gas) to be ideal, the \textit{Charles-Boyle} gas law states\sidenote{The original gas law writes $P V = n R T$. Here the law is written in terms of \textit{specific volume}}
+% \begin{equation}
+%     P V = R T
+% \end{equation}
+% where $P$ is the total pressure on the volume $V$; $T$ the absolute temperature in degrees Kelvin and $R$ is specific gas constant\sidenote{Cfr.~\cref{fn:acoustics:airconstanc}}.
+Since the exchange of heat in negligible in the acoustic frequencies range,
+the whole process can be considered thermodynamically \textit{adiabatic}.
+In such scenario, the relation between the total pressure $\calP$ and the total volume $\volume$ is given by
+\marginpar{
+    \footnotesize
+    The dependency upon space and time $\depSpaceTime$ is here omitted for sake of compactness and readability.
+}
 \begin{equation}
     \label{eq:acoustics:state}
-    P V^\gamma = \const
+    \calP \volume^\gamma = \const
 \end{equation}
-where $\gamma$ is the adiabatic index of the medium~\cref{fn:acoustics:airconstanc}.
-
-The total pressure and the total volume consist in a sum of a constant and a variable term, that is $P = P_0 + p$, $V = V_0 + \nu$ respectively.
+where $\gamma$ is the adiabatic index of the medium\sidenote{Cfr.~\cref{fn:acoustics:airconstanc}}.
+The total pressure and the total volume consist in a sum of a constant and a variable term,
+that is $\calP = P_0 + p$,
+$\volume = V_0 + \nu$ respectively.
 Considering that $p \ll P_0$ and $\nu \ll V_0$, the time-differential of~\cref{eq:acoustics:state} with respect to time reads
 \begin{equation}
     \label{eq:acoustics:statediff}
@@ -151,53 +221,56 @@ Considering that $p \ll P_0$ and $\nu \ll V_0$, the time-differential of~\cref{e
 \end{equation}
 
 \newthought{Finally, the Acoustic Wave Equation} can be now derived by combining together
-the equation of motion~\ref{eq:acoustics:euler},
-the continuity equation~\ref{eq:acoustics:continuity},
-and the state equation~\ref{eq:acoustics:statediff}.
+the equation of motion~\eqref{eq:acoustics:euler},
+the continuity equation~\eqref{eq:acoustics:continuity},
+and the thermodynamic balance of the medium~\eqref{eq:acoustics:statediff}.
 In particular the combination of~\cref{eq:acoustics:continuity,eq:acoustics:statediff},
 \begin{equation}
-    \kpderiv[]{\pressureSpaceTime}{t} = - \gamma P_0 \kbracket{\divergence{\bfq\depSpaceTime}}
+    \kpderiv[]{\pressureSpaceTime}{t} = - \gamma P_0 \kbracket{\divergence{\flux\depSpaceTime}}
     ,
 \end{equation}
 can be differentiated with respect to time $t$ yielding to
 \begin{equation}
-    \kpderiv[2]{\pressureSpaceTime}{t} = - \gamma P_0 \kbracket{\divergence{\kpderiv[]{\bfq\depSpaceTime}{t}}}
+    \kpderiv[2]{\pressureSpaceTime}{t} = - \gamma P_0 \kbracket{\divergence{\kpderiv[]{\flux\depSpaceTime}{t}}}
     .
 \end{equation}
-Taking the divergence of each side of the~\cref{eq:acoustics:euler}, we get
+Taking the divergence of each side of the~\cref{eq:acoustics:euler} and remembering the definition of flux, we get
 \marginpar{%
-The \textit{Laplacian} of a function is the given by the divergence of the gradient of that function,
-\\in math $\knabla^2 x = \divergence{\kgrad{x}}$}
+    \footnotesize
+    The \textit{Laplacian} of a function is equivalent to the divergence of the gradient of that function.
+    \\In math, $\knabla^2 x = \divergence{\kgrad{x}}$}
 \begin{equation}
-    \knabla^2 \pressureSpaceTime = -\densityEq \kbracket{\divergence{q\depSpaceTime}}
+    \knabla^2 \pressureSpaceTime = -\densityEq \kbracket{\divergence{\flux\depSpaceTime}}
 \end{equation}
 The above two equation can be combined leading to
 \begin{equation}
     \knabla^2 \pressureSpaceTime = \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t}
+    ,
 \end{equation}
-where the $\speedOfSound$ is the speed of sound and is related to the medium properties through
+which is equivalent to~\cref{eq:acoustics:wave}.
+The constant $\speedOfSound$ is the wave speed, in our case the speed of sound.
+Notice that it is related to the medium properties through
 \begin{equation}
     \speedOfSound^2 = \frac{\gamma P_0}{\densityEq}
     .
 \end{equation}
 
-
 \newthoughtpar{The Helmholtz's equation}
 The wave equation~\ref{eq:acoustics:wave} is expressed in the space-time domain $\depSpaceTime$.
-By applying the temporal Fourier transform to the wave equation we obtain the time-independent \textit{Helmholtz equation} is obtained, \ie/
+By applying the temporal Fourier transform, we obtain the \textit{Helmholtz equation}, \ie/
 \begin{equation}
     \label{eq:acoustics:helmholtz}
     \knabla^2 P(\positionMicrophone, f) + k^2 P(\positionMicrophone, f) = 0
     ,
 \end{equation}
-where $k \frac{2 \pi f}{c}$ denotes the \textit{wave number}, that relates the frequency $[\si{\hertz}]$ and the propagation velocity.
+where $k = \frac{2 \pi f}{c}$ is known as \textit{wave number}, that relates the frequency $f$ $[\si{\hertz}]$ and the propagation velocity $c$.
 
-The wave equation~\ref{eq:acoustics:wave} and the Helmholtz's equation~\ref{eq:acoustics:helmholtz} are source independent,
-namely no source is present in the medium. Therefore they called \textit{homogeneous} as the right-hand term are zero.
+Both the wave equation~\ref{eq:acoustics:wave} and the Helmholtz's equation~\ref{eq:acoustics:helmholtz} are source independent,
+namely no source is present in the medium.
+Therefore they are called \textit{homogeneous} as the right-hand term is zero.
 
-Normally the sound field is a complex field generated by multiple acoustics sources. As consequence, the two equation becames
-inhomogeneous as some non-zero terms needs to be added to the right-hand sides.
-\todo{cite [27]}
+Normally the sound field is a complex field generated by acoustics sources.
+As consequence, the two equation becomes inhomogeneous as some non-zero terms needs to be added to the right-hand sides\cite{kuttruff2016room}.
 
 In presence of a sound source producing waves with distribution function $s(t, \positionSource)$, the wave equation can be written
 \begin{equation}
@@ -294,7 +367,7 @@ This scenario depicted in \cref{fig:acoustics:planewaves} is known as \textit{fa
 \marginpar{%
     \centering
     \footnotesize
-    \includegraphics[width=\linewidth]{general/planewaves.png}
+    \includegraphics[width=\linewidth]{acoustics/planewaves.png}
     \captionof{figure}{%
     Visualization of the sound propagation. Since the sensor (i.e. a microphone)
     is drawn in the far field, the incoming waves can be approximated as plane waves.
@@ -387,7 +460,7 @@ and (ii) the angles of the incident and reflected rays with the normal are equal
 \marginpar{%
     \centering
     \footnotesize
-    \includegraphics[width=\linewidth]{general/reflection_law.png}
+    \includegraphics[width=\linewidth]{acoustics/reflection_law.png}
     \captionof{figure}{%
         Specular reflection
     }
@@ -494,7 +567,7 @@ Sound propagation is well described mathematically by the wave equation.
 By solving it, the Room Impulse Response can be obtained.
 however its analytic solution is a cumbersome task, thus its solution must be approximated: it can be found only in extrimely
 simple cases such as a 3D shoebox.
-There are two main categories: geometric and wave-based~\cite{Habets2010generator, reuk.github.io, Savioja2015goemetric}.
+There are two main categories: geometric and wave-based~\cite{habets2010generator, reuk.github.io, Savioja2015goemetric}.
 \begin{itemize}
     \item \textit{wave-based} aims at solving wave equation numerically, while
     \item \textit{geometric} methods make some simplifying assumption about the wave propagation.
@@ -565,7 +638,7 @@ At each reflection, the ray's energy over frequency, its time and angle of arriv
 This map is then used as prior distribution for drawing random set of impulses which are used to form the \RIR/.
 
 \newthought{Deterministic} methods.
-the most popular is the Allen and Barkley's \ISMf/\cite{Allen1979image}.
+the most popular is the Allen and Barkley's \ISMf/\cite{allen1979image}.
 It accurate traces the exact direction and the timing of the main reflections' paths.
 
 For a 3D shoebox with rigid walls, it is able to produce an exact solution to the wave equation.
@@ -596,7 +669,7 @@ However, this is possible provided that the time- and frequency-domain
 \marginpar{%
     \centering
     \footnotesize
-    \includegraphics[width=\linewidth]{general/rir_regions.pdf}
+    \includegraphics[width=\linewidth]{acoustics/rir_regions.pdf}
     \captionof{figure}{%
     Time-Frequency profile of reverberation Adapted from \cite{Badeau2019common, Wayverb}.
     }
@@ -616,20 +689,24 @@ This point define the cross-fade between the geometrical and wave-based model.
 Each simulator has its own way to compute and implement this crossover points.
 
 
-\subsection{the Image Source Model and the Image Source Method}
+\subsection{The Method of Images and the Image Source Model}
 
-The \textit{image source model} simulates the reverberation in a room given source and receiver position.
-It is based on purely specular reflection and it assumes that the sound energy travels around a scene in “rays”.
+The \textit{Method of Images} is a mathematical tool for solving certain class of differential equations subjected to boundary conditions.
+By assuming the presence of a ``mirrored'' source, certain boundary condition are verified greatly facilitating the solution of the original problem.
+This methods is widely used in many fields of physics, and interestingly with specific application to Green's functions.
+Its application to acoustic was originally proposed by Allen and Berkley in \cite{allen1979image} and it is know as the \ISMf/.
+Now it is probably the most used technique for \RIR/ simulation due its conceptual simplicity and its flexibility.
 
-Based on this, Allen and Berkley developed an efficient method, the \ISMf/, to compute a \FIRf/ that model
-the acoustic channel between the source and the receiver in rectangular rooms.
-In the appendix of their They also proved that this method produce a close solution to the one the Helmholtz's equation.
+The \ISM/ is based on purely specular reflection and it assumes that the sound energy travels around a scene in “rays”.
+
+In the appendix of \cite{allen1979image}, the authors also proved that this method produce a close solution to the one the Helmholtz's equation.
 The image solution of a rectangular enclosure
 rapidly approaches an exact solution of the wave equation as the walls of the room become rigid.
 
-\newthought{The Image Model} defines the interaction of the propagating sound with the reflectors.
+\newthought{Locally, the Image Source} defines the interaction of the propagating sound with the reflectors.
 It is based on the observation that when a ray is reflected, it spawns a secondary source “behind” the boundary surface.
 This additional source is located on a line perpendicular to the wall, at the same distance from it as the original source, as if the original source has been “mirrored” in the surface.
+In this way, the each wavefront that arrives to the receiver from each reflection off the walls as the direct path received from an equivalent (or image) source.
 
 Assumption:
 \begin{itemize}
@@ -668,10 +745,6 @@ This suggests that the image model should be used only for very early reflection
 In Wayverb, the image model is used for early reflections, and stochastic ray-tracing is used for the diffuse tail.
 The combination of the two models is described in the Hybrid Model section.
 
-
-
-\newthought{The Image Method}
-
 \newthoughtpar{Relation with the Helmholtz Equation}
 
 Finally, the equation becomes
@@ -684,8 +757,6 @@ Finally, the equation becomes
 \end{equation}
 
 by taking the inverse Fourier Transform, the echo structure becomes explicit.
-
-https://reuk.github.io/wayverb/context.html
 
 We can write the final Room Impulse Response $\rir_{ij}(t)$ as follows:
 \begin{equation}
@@ -735,7 +806,7 @@ Originally, echo referred to
 https://reuk.github.io/wayverb/context.html
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Acoustic Parameters and Perception}
+\section{Acoustic Parameters and Perception}\label{ch:acoustics:sec:perception}
 \itodo{cite Sacks}
 \newthoughtpar{The Mixing Time}
 \newthoughtpar{Reverberation Time}

@@ -159,6 +159,10 @@
 \setbeforeparaskip{1em}
 \setafterparaskip{-0.5em}
 
+
+% --- ITEMIZE and ENUMERATE STYLE ---------------------------------------------
+% \RequirePackage{enumitem}
+
 %%% ToC Styling %%%
 \RequirePackage{ragged2e}
 \settocdepth{section}
@@ -237,7 +241,7 @@
 
 \newcommand{\openepigraph}[2]{%
   \marginpar{%
-    \footnotesize%
+    \small
     \flushright%
     %\justifying{%
     \enquote{\textit{#1}}%
@@ -454,7 +458,7 @@
 \RequirePackage{mathtools,empheq}
 
 
-%%% HyperRef %%%
+% --- HyperRef and links  --- %
 \RequirePackage{hyperref}
 \hypersetup{%
     linktocpage,
@@ -468,6 +472,8 @@
 }
 
 \RequirePackage[capitalise,nameinlink]{cleveref}
+\crefname{section}{§}{§§}
+\Crefname{section}{§}{§§}
 
 % newtheorems have to be declared after loading cleveref
 % https://tex.stackexchange.com/a/19106/37762

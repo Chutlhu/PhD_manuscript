@@ -4,7 +4,7 @@
 all: main.pdf
 
 main.pdf: main.tex logs
-	latexmk -pdf --shell-escape -file-line-error -f -jobname=./logs/main main.tex
+	latexmk -pdf --shell-escape -file-line-error -f -jobname=logs/main main.tex
 	cp ./logs/main.pdf ./main.pdf
 
 clean:
