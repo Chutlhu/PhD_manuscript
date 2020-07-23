@@ -12,7 +12,7 @@ This chapter will build a first important bridge: from the physics to analog sig
 % Acoustics explains how sounds works in environment, while room acoustic explain sound in enclosed spaces, such as living rooms, offices, concert halls and many others.
 It first defines sound and how its propagation~\cref{ch:acoustics:sec:wave} connected the concept of impulse response.
 Then the interaction with the environment is show~\cref{ch:acoustics:sec:reflection}, teasing out the fundamental concept of this thesis: the echoes.
-By assuming some approximation, the \RIRf/ will be defined.
+By assuming some approximation, the \RIRdef/ will be defined.
 Finally, a description of the way the human auditory system perceives the sound will be reported.
 In particular, the influence of the first early reflection on the sound perception will be elaborated.
 One of the most frequently effects produced during sound propagation in a medium is reverberation,
@@ -554,6 +554,18 @@ Therefore, it is customary to use the absorption coefficient, defined as
 \end{equation}
 where $\bar{\reflCoeff}$ is the reflection coefficient averaged over the angles $\theta$.
 
+\newthought{Echoes are specular reflections} which stand out in terms of energy strength or timing~\citeonly{kuttruff2016room}.
+Originally this term used to indicate sound reflections which are subjectively noticeable as a separated repetition of the original sound signal.
+These can be heard consciously in outdoor scenario, such as in mountain. However, they are less noticeable to the listener in close rooms.
+In~\cref{ch:acoustics:subsec:rir} a proper definition of echoes will be given with respect the temporal distribution of the acoustic reflection.
+
+\marginpar{%
+    The word echo derives from the Greek %ἠχώ (ēchō),[1] itself from ἦχος (ēchos), "sound".[2]
+    Echo in the folk story of Greek is a mountain nymph whose ability to speak was cursed,
+    only able to repeat the last words anyone spoke to her.
+}
+
+
 \subsection{Diffusion, Scattering and Diffraction}
 Real-world surfaces are not ideally flat and smooth; they are rough and uneven.
 Examples of such surfaces are coffered ceilings, faceted walls, raw brick walls as well as the entire audience area of a concert hall.
@@ -602,13 +614,13 @@ Given the boundaries $\calB$ of $\calD$, the frequency-domain Green's function a
 \end{equation}
 where
 \begin{equation}
-    \psi_{\pos}(\positionMicrophone) =
+    \Psi_{\pos}(\positionMicrophone) =
 \end{equation}
 is the eigenfunction for the boundaries $\calC$ \citeauthor{kuttruff2016room}.
 
 The inverse Fourier transform of the frequency response of the room described by (13)leads to a RIR,h(r,rs,t).
 
-\newthought{Mathematically the sound propagation} is described by the wave equation.
+\textsc{Mathematically the sound propagation} is described by the wave equation.
 An impulse response from a source to a microphone can be obtained by solving the wave equation.
 Since it can seldom be expressed in an analytic form the solution must be approximated.
 
@@ -726,7 +738,7 @@ However, this is possible provided that the time- and frequency-domain
     \label{fig:acoustics:rir_regions}
 }
 
-The crossover point in the time domain is called \textit{transition time}.
+The crossover point in the time domain is called \textit{transition time} or \textit{mixing time}.
 It identifies the moment after which reflections are so frequent that they form a continuum and, because the sound is partially absorbed by the room surfaces at every reflection, the sound level decays exponentially over time \cite{Badeau2019common}
 This point define the cross-fade between the deterministic and the stochastic process.
 Notice, that the latter will record both specular and diffuse reflections.
@@ -737,7 +749,6 @@ continuous random process, called respectively the \textit{resonant} and \textit
 This point define the cross-fade between the geometrical and wave-based model.
 
 Each simulator has its own way to compute and implement this crossover points.
-
 
 \subsection{The Method of Images and the Image Source Model}
 
@@ -766,22 +777,18 @@ Assumption:
     \item Rays are perfectly reflected at boundaries
 \end{itemize}
 
-
 When a rigid wall is present, it represents a boundary condition to the wave equation, namely to have zero normal velocity vector.
 Assuming a lossless reflection, \ie/ $\absCoeff = 0$, a way to satisfy the boundary condition is to assume
 an additional sound source, called the \textit{image source}, placed symmetrically to the main source on the far side of the wall.
 
 Moreover, as discussed in~\cref{ch:acoustics:sec:reflection}, such a surface generates specular reflection.
 
-
 The model is depicted in~\cref{fig:acoustics:image_model}.
 A sound source is located in $\positionSource$ near a reflecting wall.
 At the receiver position $\positionMicrophone$ two signals arrives: the one coming directly from $\positionSource$
 
-
 A ray which is reflected from several boundaries is represented by a “higher-order” image-source,
 which has been mirrored in each of those boundaries\cite{Kuttruff}. In this way, the
-
 
 All sources, original and image, emit the same impulsive source signal at the same time. The total impulse response (i.e. sound pressure against time) is found by summing the signals from each source, delayed and attenuated appropriately depending on the distance between that source and the receiver, which is equivalent to the length of the specular reflection path. The frequency response of the signal from each image source will additionally be modified depending on the characteristics of each boundary in which that source was reflected.
 
@@ -822,47 +829,62 @@ where
     \item $\tau_r = \norm{\positionMicrophone_\idxMic - \positionSource_\idxEch}$ is the distance between the microphone and the $\idxEch$-th image of source $\idxSrc$.
 \end{itemize}
 
-\subsection{The Acoustic Impulse Response}
-The multiple sound propagation paths from a source to a receiver in a room can be
-modeled accurately by a linear time-invariant system defined by the so-called room impulse response.
-A room impulse response contains several perceptually relevant components
+\subsection{The Room Impulse Response}\label{ch:acoustics:subsec:rir}
+The causal time-domain filter that accounts for the whole sound propagation in generic
+environments from a source to a receiver is denote as \AIRdef/ (\ATFdef/ in the Fourier transform of the \AIR/).
+In the context of room acoustics, it is commonly referred to as \RIRdef/, usually to put attention of
+on the geometric relation between reflections and the geometry of the scene.
+In this thesis the two terms will be used indistinctly.
+\cref{fig:acoustics:rir} provides a schematic illustration of the shape of a \RIR/ in comparison with measured one.
 
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{acoustics/rir_schematic.png}
+    \end{minipage}%
+    \begin{minipage}[b]{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{acoustics/rir_measured.png}
+    \end{minipage}
+    \caption{Schematic illustration of the shape of an \RIR/ and the first 100 ms of a measured one.}
+    \label{fig:acoustics:rir}
+\end{figure}
 
-\subsection{Properties of the Room Impulse Response}
-\newthoughtpar{direct path}
-\newthoughtpar{early echoes}
-\newthought{The echoes are} specular reflections which stand out in terms of strength or timing.
-Whether a reflection will become an echo or not depends on its delay with respect to the direct sound, on its relative strength, on the nature of the sound signal, and on the presence of other reflections which eventually mask the reflection under consideration
-the term ‘echo’ will be used for any sound reflection which
-is subjectively noticeable as a temporal or spatially separated repetition of the original sound signal, and we are discussing the conditions under which a reflection will become an echo
-\newthoughtpar{Echoes}
-The \textit{echoes} are a particular type of specular reflection.
-Whether a reflection can be defined as a echo or not depends
-on the delay with respect to the direct sound and its relative strength.
-Originally, echo referred to
+ \RIRs/ usually exhibits common structure which translate into the the following relevant components\citeonly{kuttruff2016room}:
 
-\marginpar{%
-    The word echo derives from the Greek
-    %ἠχώ (ēchō),[1] itself from ἦχος (ēchos), "sound".[2]
-    Echo in the folk story of Greek is a mountain nymph whose ability to speak was cursed,
-    only able to repeat the last words anyone spoke to her.
-}
-% In the following the term ‘echo’ will be used for any sound reflection which
-% is subjectively noticeable as a temporal or spatially separated repetition of the original sound signal, and we are discussing the conditions under which a reflection will become an echo. Thus we are taking up again the second question raised at the outset of the foregoing section.
+\begin{description}
+    \item[Direct path] which is the line-of-sight contribution of the sound wave.
+    This term coincides with the spike modeled by the free-field propagation\sidenote{Cfr. The free-field Green's function, \ie/~\cref{eq:acoustics:greenFreeTime})}.
+    \item[Echoes or Early Refelction] are the few disjoint reflections coming typically from room surfaces.
+    They are usually characterized by sparsity in the time domain and greater prominence in amplitude.
+    This first reflections are typically specular and are well modeled in general by the \ISM/ \cite{savioja2015overview}.
+    \item[Later Reverberation] or simply \textit{reverberation} collects many reflections occurring simultaneously.
+    This part is characterized by a diffuse sound filed with exponentially decreasing energy.
+\end{description}
 
-\newthoughtpar{late reverberation}
-
-\subsection{Room Acoustic Simulators}
-https://reuk.github.io/wayverb/context.html
+This three components are not only ``visible'' when plotting the \RIR/ against time,
+but they are characterized by different perceptual features, as explained in the following section.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%y
-\section{Acoustic Parameters and Perception}\label{ch:acoustics:sec:perception}
-\itodo{cite Sacks}
-\newthoughtpar{The Mixing Time}
+\section{Acoustic Parameters and their Perception}\label{ch:acoustics:sec:perception}
+In the previous sections we have analyzed reverberation from a purely physical point of view.
+However in many applications it is important to correlate physical measurements to subjective acoustical qualities.
+This will be important in order to define evaluation scenarios later in this thesis.
+\sidenote{
+    \footnotesize
+    \textbf{\textit{Cite Sacks about perception}}
+}
+
+\newthoughtpar{Perception of the Early Reflection}
+while the direct path reveals the direction of the source, the early reflections convey a sense of the geometry, whereas the late reverberation is indicative of the size of the environment [V¨alim¨aki
+the early reflections are sonic manifestation of a nearby object [Blesser,
+At low levels it manifests itself only by an increase of loudness of the total sound signal, by a change in timbre, or by an increase of the apparent size of the sound source. But at higher levels a reflection can be heard as a separate event, i.e. as a repetition of the original sound signal
+
+highly correlated to the direct sound, and, by interacting with it, it generates acoustical effects that modify the perception of the produced sound
+
 \newthoughtpar{Reverberation Time}
 \newthoughtpar{Direct-to-revebrerant ratio}
 \newthoughtpar{Critical Distance}
 \newthoughtpar{Interchannel Coherence}
-\newthoughtpar{Perception of the Early Reflection}
-At low levels it manifests itself only by an increase of loudness of the total sound signal, by a change in timbre, or by an increase of the apparent size of the sound source. But at higher levels a reflection can be heard as a separate event, i.e. as a repetition of the original sound signal
 \newthoughtpar{Perception of the Late Reverberation}
