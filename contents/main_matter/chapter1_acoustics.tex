@@ -17,6 +17,7 @@ Finally, a description of the way the human auditory system perceives the sound 
 In particular, the influence of the first early reflection on the sound perception will be elaborated.
 One of the most frequently effects produced during sound propagation in a medium is reverberation,
 which is caused by physical surfaces that partly absorb and partly reflect sound waves in air. We will first examine in Sec. 4.2 the physical and perceptual background of reverberation. The knowledge gained on these aspects will enable us to study some of the most known reverberation algorithms in Sec. 4.3. Finally we will review in Sec. 4.4 more recent approaches to synthetic reverberation, that are based on feedback delay networks and waveguide meshes.
+The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \cite{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
 
 \section{Sound Wave Propagation}\label{ch:acoustics:sec:wave}
 \marginpar{%
@@ -81,7 +82,7 @@ The changes in air pressure can be represented by a \textit{waveform}, which is 
     \centering
     \includegraphics[width=\linewidth]{acoustics/acoustic_wave.png}
     \caption{snapshot of a longitudinal wave in air}
-    \label{fig:acoustic:acoustics_wave}
+    \label{fig:acoustics:acoustics_wave}
 \end{figure}
 In general, the sound field is complex which can be decomposed as a superimposition of several waves~\cite{kuttruff2016room}.
 
@@ -98,7 +99,7 @@ We think at this process in the light of the classic \textit{source-medium-recei
 \end{description}
 
 The behavior of acoustic waves is defined by the acoustic-wave equation.
-The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \cite{kuttruff2016room, marczuk2006modelling, avanzini2019sound}.
+The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \cite{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
 
 \subsection{The Acoustic wave equation}\label{subsec:acoustics:waveq}
 It is a second-order partial differential equation
@@ -369,9 +370,8 @@ where $\norm{\cdot}$ denotes the Euclidean norm.
         \frac{1}{4 \pi \norm{\positionMicrophone - \positionSource}}
         \diracOf{t - \frac{\norm{\positionMicrophone - \positionSource}}{\speedOfSound}}
 \end{equation}
-where $\diracOf{\cdot}$ is the time-directional Dirac delta function.
-This corresponds to a pure impulse at time $t = \tfrac{\norm{\positionMicrophone - \positionSource}}{\speedOfSound}$,
-\ie/ the propagation time from $\positionSource$ to $\positionMicrophone$ with a distance-dependent attenuation.
+where $\diracOf{\cdot}$ is the time-directional Dirac delta function,
+corresponding to a pure impulse at time $t = \tfrac{\norm{\positionMicrophone - \positionSource}}{\speedOfSound}$.
 
 As a consequence of \cref{eq:acoustics:greenFreeTime}, the sound propagate around a point source with a spherical pattern.
 When the receiver is far enough from the source, the curvature of the \textit{wavefront} may be ignored.
@@ -387,7 +387,7 @@ This scenario depicted in \cref{fig:acoustics:planewaves} is known as \textit{fa
     }
     \label{fig:acoustics:planewaves}
 }
-When the distance between the source and the receiver is small, typically less than $2\lambda$, the scenario is called \textit{near field}.
+As opposed to, when the distance between the source and the receiver is small, the scenario is called \textit{near field}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acoustic Reflections}\label{ch:acoustics:sec:reflection}
@@ -402,65 +402,106 @@ Rather, a sound wave will undergo certain behaviors depending on the obstacle ac
     \item \textit{diffraction} around the obstacle,
     \item and \textit{transmission} into the obstacle, causing
     \begin{itemize}
-        \item \textit{dissipation}, and
-        \item \textit{refraction}.
+        \item \textit{refraction} though it, and
+        \item \textit{dissipation} of the energy.
     \end{itemize}
 \end{itemize}
 
 In order, reflections arise typically when a sound wave hit a large surface, like a room wall.
-\\Instead, when the sound meets a wall edge or a slit, the wave diffracts, namely it bends around the corners of an obstacle.
+When the sound meets a wall edge or a slit, the wave diffracts, namely it bends around the corners of an obstacle.
 The point of diffraction effectively becomes a secondary source which may interact with the first one.
-\\The part of energy transmitted to the object may be \textit{absorbed} and \textit{refracted}.
-In fact, the object is characterized by a proper acoustic resistance, called \textit{acoustic impedance}, which
+\\The part of energy transmitted to the object may be absorbed and refracted.
+Object are characterized by a proper acoustic resistance, called \textit{acoustic impedance}, which
 describes its acoustic inertia as well as the energy dissipation.
-The remaining contribution may continue to propagate causing resulting in the \textit{refraction} phenomenon.
-This is more commonly observed when light pass thought different medium, like a prism.
+The remaining contribution may continue to propagate causing resulting in the refraction phenomenon \sidenote{%
+    This is more commonly observed when light pass thought different medium, like a prism.
+}.
 
-\newthought{When sound reflects}, part of its energy
+\textsc{When sound reflects} on an solid surface, two type of acoustic reflection can occurs: part of the sound energy
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/reflection.png}
+    \captionof{figure}{%
+        Specular vs diffuse reflection
+    }
+    \label{fig:acoustics:reflection}
+}
 \begin{itemize}
     \item is reflected \textit{specularly}, \ie/, the angle of incidence equals the angle of reflection; and
     \item is reflected \textit{diffusely} - or \textit{scattered}, \ie/, scatter in every direction).
 \end{itemize}
 
-
-In general, all these phenomena occurs in different proportions depending on the acoustics and geometrical properties of surface as well as
-the frequencies content of the wave.
-In acoustics, the \textit{operating point} is determined by the sound \textit{wavelength} $[\si{\metre}]$,
+All the phenomena occurs with different proportions depending on the acoustics and geometrical properties of surface and the frequency content of the wave.
+In acoustics, it is common to define the \textit{operating points} and different \textit{regimes}\sidenote{for instance near- vs. far-field}
+according to the sound frequencies or the correspondent \textit{wavelength} $[\si{\metre}]$,
 \begin{equation}
-    \lambda = \frac{2 \pi}{k} = \frac{\speedOfSound}{f}
+    \wavelength = \frac{2 \pi}{k} = \frac{\speedOfSound}{f} \hspace{1em} [\si{\metre}]
     ,
 \end{equation}
 where $f$ is the frequency of the sound wave.
-$\lambda$ measures the spatial distance between two molecules in the medium having the same value of pressure
 \marginpar{%
-a frequency of $\SI{1}{\kHz}$ corresponds to a wavelength of approximately $\SI{34}{\cm}$ ,
-which is one or two orders of magnitude smaller than typical linear dimensions of rooms,
-as well as typical distances traveled by sound waves in a room
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/wavelength.jpg}
+    \captionof{figure}{%
+        wavelength
+    }
+    \label{fig:acoustics:wavelength}
+}
+As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spatial distance between two molecules in the medium having the same value of pressure
+\marginpar{%
+    \footnotesize
+    a frequency of $\SI{1}{\kHz}$ corresponds to a wavelength of approximately $\SI{34}{\cm}$ ,
+    which is one or two orders of magnitude smaller than typical linear dimensions of rooms,
+    as well as typical distances traveled by sound waves in a room
 }.
-\\Using this quantity we can identify the following three response of the objects (irregularities) of size $d$ to a plane-wave
+\\Using this quantity we can identify the following three response of the objects (irregularities) of size $d$ to a plane-wave depicted in~\cref{fig:acoustics:irregularities}
+\begin{figure}
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/irregularities.png}
+    \captionof{figure}{%
+        A reflector having irregularities on its surface with width $d$ much smaller than the sound wavelength $\wavelength$.
+        Image courtesy of \citeonly{kuttruff2016room}.
+    }
+    \label{fig:acoustics:irregularities}
+\end{figure}
 \begin{itemize}
-    \item $\lambda \gg d$, the irregularities are negligible and the sound wave reflection is of specular type;
-    \item $\lambda \approx d$, the irregularities break the sound waves which is reflected towards every direction;
-    \item $\lambda \ll d$, each irregularities is a surface reflecting specularly the sound waves.
+    \item $\wavelength \gg d$, the irregularities are negligible and the sound wave reflection is of specular type;
+    \item $\wavelength \approx d$, the irregularities break the sound waves which is reflected towards every direction;
+    \item $\wavelength \ll d$, each irregularities is a surface reflecting specularly the sound waves.
 \end{itemize}
 
-% All these effects contributes to create a rich
-% It is interesting to note that the diffraction waves produced by the semi-infinite reflector edge allow the area that is “behind” the reflector (i.e. the so called shadow zone), to be reached by the propagating sound.
-
-\newthoughtpar{In the previous section,} we manipulated the wave equation in free space.
-However in case of modeling reflection for indoor propagation, working with those formulas might results complicated and difficult.
-A simplified yet effective approach is to model incoming sound waves as \textit{acoustic rays}, namely
-a small portion of a the wave emitted by a point source in a room.
-This ray has well-defined direction and velocity of propagation, and conveys a total energy which remains constant.
-This simplified description undergoes with the name of \textit{geometrical acoustics} (GA), and share many fundamentals with geometrical optics.
-
+\marginpar{
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/sound_pulse1926.png}
+    \captionof{figure}{%
+        Photographs showing successive stages in the progress of a Sound Pulse in a Model Section of a Debating Chamber.
+        \imgsrc{\citeonly{davis1926sound}}
+    }
+    \label{fig:acoustics:reflection}
+}
+\marginpar{
+    \footnotesize
+    \textit{Sabine had previously used ray-based acoustics in the
+    early 1900s to investigate sound propagation paths using Schlieren photography.
+    Their impressive visualizations show wavefronts that are augmented
+    with rays that are perpendicular to the wavefronts.}
+    \\---\citeauthor{savioja2015overview}
+}
+\textsc{All this presented behavior} can be described with the wave equation imposing opportune boundary conditions.
+% However working with this formula might results complicated and difficult.
+A simplified yet effective approach - just as in optics - is to model incoming sound waves as \textit{acoustic rays}\citeonly{davis1926sound, krokstad1968calculating}.
+A ray has well-defined direction and velocity of propagation, and conveys a total wave energy which remains constant.
+This simplified description undergoes with the name of \GAdef/\cite{savioja2015overview}, and share many fundamentals with geometrical optics.
 This model will be convenient to describe and visualize the reflection behavior hereafter.
 
 \subsection{Large smooth surfaces, absorption and echoes}
-\todo{Savioja2015geometric}
 % The main focus of this section and the this whole thesis goes on \textit{specular reflections}.
-Specular reflection occurs when sound bounces off surfaces which can be modelled as infinite flat and smooth surfaces.
-This happens when the surface has dimension much bigger than the sound wavelength and it results in a mirror-like effects.
+Specular reflection are generated by surfaces which can be modelled as infinite flat, smooth and rigid (\ie/ stationary).
+As mentioned above, this assumption is valid as long as the surface has dimension much bigger than the sound wavelength.
 Here the acoustic ray is reflected according to the \textit{law of reflection}, stating that
 (i) the reflected ray remains in the plane identified by the incident ray and the normal to the surface,
 and (ii) the angles of the incident and reflected rays with the normal are equal.
@@ -471,85 +512,87 @@ and (ii) the angles of the incident and reflected rays with the normal are equal
     \captionof{figure}{%
         Specular reflection
     }
-    \label{fig:mirage:scene}
+    \label{fig:acoustic:reflection_law}
 }
 
-\newthoughtpar{Absorption (and Reflection) coefficient}
-The proportion of energy absorbed by the surface and the incident acoustic wave is measured
-through the reflector's \textit{acoustic impedance}\sidenote{%
-\textbf{acoustic impendence} measures the opposition that an acoustic system presents to the acoustic pressure.
-}.
-By relating the acoustic pressure at the reflector location with the velocity of the incoming plane waves,
-one can derive the \textit{plane-wave reflection coefficient} or \textit{pressure reflector factor} $\reflCoeff$ \cite{kuttruff} as
+If the surface $\surface$ is not perfectly rigid or impenetrable, its behavior is described by the \textit{acoustic impedance}, $\impedence_\surface(f) \in \bbC$.
+%\sidenote{\textbf{acoustic impendence} measures the opposition that an acoustic system presents to the acoustic pressure}.
+Analytically, it is defined as relation between sound pressure and particle velocity at the boundary.
+It consists of a real and imaginary part, called respectively acoustic \textit{resistance} and \textit{reactance}.
+The former can be seen as the part where energy is lost, while the latter as the part where energy is stored.
+% It measures the portion of energy absorbed by the surface and the incident acoustic wave.
+% describes the relation between pressures of the incident arriving waveform and the reflected wave
+
+\newthought{The reflection coefficient} $\reflCoeff$ can be derived by the acoustic impedance
+for plane waves, \ie/ under assuming a far-field regime between source, receiver and surface,.
+\begin{center}
+    \textit{It measures the portion of energy absorbed by the surface
+    \\and the incident acoustic wave.}
+\end{center}
+Analytically, it is defined as  \cite{kuttruff2016room,pierce2019acoustics}
 \begin{equation}
-    \reflCoeff(f, \theta) = \frac{\impedence_w(f)\cos(\theta) - \impedenceAir(f)}{\impedence_w(f)\cos(\theta) + \impedenceAir(f)}
+    \reflCoeff(f, \theta) = \frac{\impedence_\surface(f)\cos{\theta} - \impedenceAir(f)}{\impedence_\surface(f)\cos{\theta} + \impedenceAir(f)}
     ,
 \end{equation}
-where $\impedence_w(f)$ and $\impedenceAir(f)$ are the frequency-dependent impedance of the surface and the air respectively,
+where $\impedence_\surface(f)$ and $\impedenceAir(f)$ are the frequency-dependent impedance of the surface and the air respectively,
 and $\theta$ is the angle of incidence.
 
-This formula holds as long as the far field assumption is verified as well for the reflectors:
-the source, or receiver, is several wavelengths away from the infinite reflecting plane.
+\textsc{The absorption coefficient} is typically used instead in the context of \GA/ and the audio signal processing.
+It comes from following approximations~\citeonly{savioja2015overview}.
+(i) The energy or intensity of the plane wave\sidenote{%
+    since it is the square magnitude of the acoustic pressure, the phase information is lost.
+}, is considered instead of the acoustic pressure;
+(ii) dependency on the angle of incidence is relaxed in favor of the averaged quantities;
+(iii) local dependency on frequencies is relaxed in favor of a frequency-independent scalar or at most a description per octave-band.
+This assumption are motivated by the difficulty of measuring the acoustic impedance
+and the possibility to compute an equivalent coefficient a posteriori
 
-Within the context of \GA/, it is common to use consider the energy or the intensity of the plane wave, which is
-proportional to the square of the pressure amplitude. Thus, it is customary to use the absorption coefficient,
+Therefore, it is customary to use the absorption coefficient, defined as
 \begin{equation}
-    \absCoeff = 1 - \abs{\reflCoeff(f, \theta)}^2
+    \absCoeff(f) = 1 - \abs{\bar{\reflCoeff}(f)}^2
     ,
 \end{equation}
-where the phase information of the reflection process is lost.
-\\Estimating acoustic impedance and absorption coefficient of a real material and difference between them has long been a topic of study
-In audio signal processing and in acoustics,
-
-However, data made available by surface material manufacturers is typically measured according to the reverberation room standard, with octave-band or third-octave-band reso- lution for the range 100 Hz–5 kHz,
-true arand has long been a topic of study
-
-Moreover, the dependency on the angle is often relaxed in favor of a more simplified yet solid parameter where
-averaged across incidence angles h is the quantity that is used by various implementations of the GA techniques.
-
-Specular reflection results in a delta-like peak in the function such that all of the energy is reflected in one direction, while the function takes on a value of 0 elsewhere
+where $\bar{\reflCoeff}$ is the reflection coefficient averaged over the angles $\theta$.
 
 \subsection{Diffusion, Scattering and Diffraction}
-Real-world surfaces are not ideally flat and smooth; they may includes various irregularities.
+Real-world surfaces are not ideally flat and smooth; they are rough and uneven.
 Examples of such surfaces are coffered ceilings, faceted walls, raw brick walls as well as the entire audience area of a concert hall.
-When the \textit{roughness} of the surface is in the same order of the sound wavelength, \textit{diffuse reflection} is observed.
+When such irregularities are in same order of the sound wavelength, \textit{diffuse reflections} is observed.
 % \cite{Dalenback1994macroscopic}
 
-The acoustic ray can be thought of as a bundle of individual rays which are traveling parallel.
-When it strikes the surface, each individual rays are bounced off irregularly, creating \textit{scattering}.
-In the context of \GA/, this type of reflection is modeled as a number of new rays, uniformly distributed in the original half-space.
-The total amount of energy of this reflection may be computed a-priori with the surface \textit{scattering} coefficient
-or a-posteriori with the \textit{diffuse coefficient}, namely the ratio between
+In the context of \GA/, the acoustic ray associated to a plane-wave can be though as a bundle of rays traveling parallel.
+When it strikes such a surface, each individual rays are bounced off irregularly, creating \textit{scattering}:
+a number of new rays are created, uniformly distributed in the original half-space.
+The energy carried by each of the outgoing ray is angle dependent and it
+is well modeled thought the \textit{Lambert's cosine law}, originally used to describe optical diffuse reflection.
+
+The total amount of energy of this reflection may be computed a-priori
+knowing the \textit{scattering} coefficient proper of the surface material.
+Alternatively, it can be derived a-posteriori with the \textit{diffuse coefficient}, namely the ratio between
 the specularly reflected energy over the total reflected energy.
 
-This process is well modeled thought the \textit{Lambert's emission law}, which was original used to describe optical diffuse reflection.
-
-\newthought{Diffraction} occurs at the boundaries of semi-finite surfaces, for instance around corners or through door openings.
-to be continued...
-
+\newthought{Diffraction waves} occurs when the sound confronts the edge of a finite surfaces, for instance around corners or through door openings.
+At the centre of this figure, it is reported the semi-infinite reflector. On its left, the planar sound wave propagates parallel to the reflector normal direction. Once it reaches the reflector position, the wave: continues its propagation where it does not encounter any obstacle; is reflected where it encoun- ters the semi-infinite reflector; is diffracted behind the reflector where it encounters the edge of the reflector. It is interesting to note that the diffraction waves produced by the semi-infinite reflector edge allow the area that is “behind” the reflector (i.e. the so called shadow zone), to be reached by the propagating sound. This an important physi- cal characteristic, since the same concept is exploited by the human auditory system to localise sound sources.
 
 % -----------------------------------------------------------------------------
 
 \section{Room Acoustics and Room Impulse Response}\label{ch:acoustics:sec:rir}
 Room acoustics concerns with acoustic waves propagating in air enclosed in a volumes with a set of surfaces
 (walls, floors, etc.), from which an incident wave may be interact as described in \cref{ch:acoustics:sec:reflection}.
-Thus, a room is a physical enclosure that containing the medium and has boundaries that limit the sound propagation.
+In this context, a
+\begin{center}
+    \textit{\emph{room} is a physical enclosure containing the medium and has boundaries limit the sound propagation.}
+\end{center}
 
-% By adding boundary condition we can now write the wave equation for indoor propagation, namely within a 3-dimensional enclosure.
-% Let us assume the simplest possible 3-D enclosure: a cuboid room with perfectly smooth and rigid facets
-% \sidenote{%
-% \textbf{facet}: each of the plane surfaces of a polytope.
-% }.
-% More precisely, let define $\calC$ the domain of the problem as the cuboid with length $L$, width $W$ and height $H$, that is
-% \begin{equation}
-%     \calC = \kset{\positionMicrophone = (x,y,z)}{
-%         0 \le x \le L,\,
-%         0 \le y \le W,\,
-%         0 \le z \le Z}
-% \end{equation}
-% Let $\calB$ be the boundaries of $\calC$, \ie/ the rigid room facets.
-
-Given the boundaries $\calB$, the frequency-domain Green's function associated to \cref{eq:acoustics:helmholtz} is given by
+Let us assume the simplest possible 3D enclosure: a \textit{shoebox}, \ie/ a cuboid room with perfectly smooth and rigid facets.
+Lets define the domain $\calD$ of the problem: the cuboid length $L$, width $W$ and height $H$, that is
+\begin{equation}
+    \calD = \kset{\positionMicrophone = (x,y,z)}{
+        0 \le x \le L,\,
+        0 \le y \le W,\,
+        0 \le z \le H}
+\end{equation}
+Given the boundaries $\calB$ of $\calD$, the frequency-domain Green's function associated to \cref{eq:acoustics:helmholtz} is given by
 \begin{equation}
     \label{eq:acoustics:greenBounded}
     H(f, \positionMicrophone \mid \positionSource) =
@@ -561,7 +604,7 @@ where
 \begin{equation}
     \psi_{\pos}(\positionMicrophone) =
 \end{equation}
-is the eigenfunction for the boundaries $\calC$.
+is the eigenfunction for the boundaries $\calC$ \citeauthor{kuttruff2016room}.
 
 The inverse Fourier transform of the frequency response of the room described by (13)leads to a RIR,h(r,rs,t).
 
@@ -812,7 +855,7 @@ Originally, echo referred to
 \subsection{Room Acoustic Simulators}
 https://reuk.github.io/wayverb/context.html
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%y
 \section{Acoustic Parameters and Perception}\label{ch:acoustics:sec:perception}
 \itodo{cite Sacks}
 \newthoughtpar{The Mixing Time}
