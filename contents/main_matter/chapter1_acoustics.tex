@@ -335,12 +335,15 @@ where $\volume_\contSource$ denotes the source volume,
 and  $\kdiff\positionSource =  \kdiff{x_\contSource}\,\kdiff{y_\contSource}\,\kdiff{z_\contSource}$ the  differential  volume element at position $\positionSource$.
 \\The requested sound pressure $\pressureSpaceTime$ can now be computed by taking the frequency-directional inverse Fourier transform of \cref{eq:acoustics:helmholz_conv}.
 
-The conventional way to solve~\cref{eq:acoustics:helmholtz} is to find a set of Functions
-$\Psi_\boundariesConditions(f, \positionMicrophone)$
+The conventional way to solve~\cref{eq:acoustics:helmholtz} is to find a set of Functions $\Psi_l(f, \positionMicrophone)$ for $l = 0, \dots, \infty$
 which satisfy the homogenous equation~\cref{eq:acoustics:helmholtz}
-for a certain interval\sidenote{it may be respect to time or space.}
-and boundary conditions $\boundariesConditions$ at the end of the such interval.
-\\This type of functions are called \textit{eigenfunction} and depends on $\boundariesConditions$.
+for a certain interval and its boundary conditions $\boundariesConditions$.
+\\This type of functions are called \textit{characteristic function} or \textit{eigenfunction}
+\sidenote{Notice that that~\cref{eq:acoustics:helmholtz} can be written as eigenfunction/eigenvalue equation, \ie/ $\knabla^2 H = -k^2 H$ }
+and depends on $\boundariesConditions$.
+In general, such kind of function are too difficult to be computed in closed form and needs to be approximated with numerical methods.
+Their analytical expression is known only for a few room shapes combined with simple boundary conditions.
+
 Subsequently, the general expression of the Green's function $H(f, \positionMicrophone \mid \positionSource)$ can be expressed as a sum of the eigenfunction weighted on
 a coefficient $C_l(f, \positionSource)$ dependent on the source position \citeonly{habets2006room}:
 
@@ -349,7 +352,7 @@ a coefficient $C_l(f, \positionSource)$ dependent on the source position \citeon
     H(f, \positionMicrophone \mid \positionSource) =
         \sum_{l=0}^\infty
             C_l(f, \positionSource)
-            \Psi_\boundariesConditions(f, \positionMicrophone)
+            \Psi_l(f, \positionMicrophone)
 \end{equation}
 
 It can be shown \citeonly{habets2006room,kuttruff2016room,marczuk2006modelling}
@@ -600,24 +603,48 @@ Let us assume the simplest possible 3D enclosure: a \textit{shoebox}, \ie/ a cub
 Lets define the domain $\calD$ of the problem: the cuboid length $L$, width $W$ and height $H$, that is
 \begin{equation}
     \calD = \kset{\positionMicrophone = (x,y,z)}{
-        0 \le x \le L,\,
-        0 \le y \le W,\,
-        0 \le z \le H}
+        0 \le x \le L_x,\,
+        0 \le y \le L_y,\,
+        0 \le z \le L_z}
 \end{equation}
 Given the boundaries $\calB$ of $\calD$, the frequency-domain Green's function associated to \cref{eq:acoustics:helmholtz} is given by
+\marginpar{%
+    \footnotesize
+    $k = \sfrac{2 \pi f}{c}$,
+    \\$\ntuple = \ktuple{n_x, n_y, n_z}$,
+    \\$n_i \in \bbN \hspace{1em} \kforall[i \in \kbrace{x, y, z}]$,
+    \\$V = L_x L_y L_z$ is the room volume,
+    \\$\calM = \kset{\ktuple{n_x, n_y, n_z}}{n_i \in N}$.
+}
 \begin{equation}
     \label{eq:acoustics:greenBounded}
     H(f, \positionMicrophone \mid \positionSource) =
-        - \frac{1}{V}
-        \sum_{\pos=-\infty}^{\infty}
-        \frac{\Psi_{\pos}(\positionMicrophone)\Psi_{\pos}(\positionSource)}{\kappa_{\pos} - \kparen{\sfrac{f}{c}}^2}
-\end{equation}
+    - \frac{1}{V}
+    \sum_{\ntuple \in \calM}
+    \frac{\Psi_{\ntuple}(\positionMicrophone)\Psi_{\ntuple}(\positionSource)}{\kappa^2_{\ntuple} - k^2}
+\end{equation}%
 where
+\marginpar{%
+    \footnotesize
+    $k_i = \sfrac{n_i \pi}{L_i} \hspace{1em} \kforall[i \in \kbrace{x, y, z}]$
+}%
+\begin{align}
+    \kappa_{\ntuple}    &= \ktuple{\frac{n_x \pi}{L}, \frac{n_y \pi}{W}, \frac{n_z \pi}{H}} = \ktuple{k_x, k_y, k_z} \nonumber\\
+    \kappa_{\ntuple}^2  &= \abs{\kappa_{\ntuple}}^2 = k_x + k_y + k_z \nonumber\\
+    \Psi_{\ntuple}(\pos) &= \cos\kparen{k_x x}\cos\kparen{k_y y}\cos\kparen{k_z z} \label{eq:acoustics:mode}
+\end{align}
+is the eigenfunction\sidenote{Cfr~\cref{eq:acoustics:eigenfunction}} for the specific shoebox boundaries $\boundariesConditions$~\citeonly{kuttruff2016room}.
+
+Using the exponential expansion of the cosine for~\cref{eq:acoustics:mode}
+and using it in~\cref{eq:acoustics:greenBounded}, we obtain
+
 \begin{equation}
-    \Psi_{\pos}(\positionMicrophone) =
-\end{equation}
-is the eigenfunction\sidenote{Cfr~\cref{eq:acoustics:eigenfunction}}
-for the boundaries $\calC$~\citeonly{kuttruff2016room}.
+    H(f, \positionMicrophone \mid \positionSource) =
+    - \frac{1}{8 V}
+    \sum_{\ntuple \in \calM}
+    \sum_{\ntuple \in \calM}
+    \frac{\Psi_{\ntuple}(\positionMicrophone)\Psi_{\ntuple}(\positionSource)}{\kappa^2_{\ntuple} - k^2}
+\end{equation}%
 
 The inverse Fourier transform of the frequency response of the room described by (13)leads to a RIR,h(r,rs,t).
 
