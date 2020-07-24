@@ -616,7 +616,8 @@ where
 \begin{equation}
     \Psi_{\pos}(\positionMicrophone) =
 \end{equation}
-is the eigenfunction for the boundaries $\calC$ \citeauthor{kuttruff2016room}.
+is the eigenfunction\sidenote{Cfr~\cref{eq:acoustics:eigenfunction}}
+for the boundaries $\calC$~\citeonly{kuttruff2016room}.
 
 The inverse Fourier transform of the frequency response of the room described by (13)leads to a RIR,h(r,rs,t).
 
@@ -624,7 +625,7 @@ The inverse Fourier transform of the frequency response of the room described by
 An impulse response from a source to a microphone can be obtained by solving the wave equation.
 Since it can seldom be expressed in an analytic form the solution must be approximated.
 
-\subsection{Simulating Room Acoustics}
+\subsection{Simulating Room Acoustics}\label{sec:acoustics:simulators}
 Sound propagation is well described mathematically by the wave equation.
 By solving it, the Room Impulse Response can be obtained.
 however its analytic solution is a cumbersome task, thus its solution must be approximated: it can be found only in extrimely
@@ -836,8 +837,7 @@ In the context of room acoustics, it is commonly referred to as \RIRdef/, usuall
 on the geometric relation between reflections and the geometry of the scene.
 In this thesis the two terms will be used indistinctly.
 \cref{fig:acoustics:rir} provides a schematic illustration of the shape of a \RIR/ in comparison with measured one.
-
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{minipage}[b]{.5\textwidth}
         \centering
@@ -851,7 +851,12 @@ In this thesis the two terms will be used indistinctly.
     \label{fig:acoustics:rir}
 \end{figure}
 
- \RIRs/ usually exhibits common structure which translate into the the following relevant components\citeonly{kuttruff2016room}:
+\begin{equation}\label{eq:acoustics:rir_full}
+    \rir_{ij}(t) = h^d_{ij}(t) + h^e_{ij}(t) + h^l_{ij}(t)
+    ,
+\end{equation}
+
+\RIRs/ usually exhibits common structure which translate into the the following relevant components\citeonly{kuttruff2016room}:
 
 \begin{description}
     \item[Direct path] which is the line-of-sight contribution of the sound wave.
@@ -867,24 +872,111 @@ This three components are not only ``visible'' when plotting the \RIR/ against t
 but they are characterized by different perceptual features, as explained in the following section.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%y
-\section{Acoustic Parameters and their Perception}\label{ch:acoustics:sec:perception}
+\section{Perception and Some Acoustic Parameters}\label{ch:acoustics:sec:perception}
 In the previous sections we have analyzed reverberation from a purely physical point of view.
-However in many applications it is important to correlate physical measurements to subjective acoustical qualities.
+However in many applications it is important to correlate physical measurements to subjective and perceptual acoustical qualities.
 This will be important in order to define evaluation scenarios later in this thesis.
 \sidenote{
     \footnotesize
     \textbf{\textit{Cite Sacks about perception}}
 }
+\subsection{The Perception of the \RIR/ elements}
+It is commonly accepted that the \RIR/ components defined in~\cref{ch:acoustics:subsec:rir} play rather separate roles in the perception of sound propagation.
 
-\newthoughtpar{Perception of the Early Reflection}
-while the direct path reveals the direction of the source, the early reflections convey a sense of the geometry, whereas the late reverberation is indicative of the size of the environment [V¨alim¨aki
-the early reflections are sonic manifestation of a nearby object [Blesser,
-At low levels it manifests itself only by an increase of loudness of the total sound signal, by a change in timbre, or by an increase of the apparent size of the sound source. But at higher levels a reflection can be heard as a separate event, i.e. as a repetition of the original sound signal
+\newthought{The Direct Path} is the delayed and attenuated version of source signal itself.
+It coincides with the free-field sound propagation and, as we will see in~\cref{chap:mirage}, it reveals the direction of the source.
 
-highly correlated to the direct sound, and, by interacting with it, it generates acoustical effects that modify the perception of the produced sound
+\newthought{Early Reflections and Echoes} are reflections which are by nature highly correlated with to the direct sound.
+They convey a sense of geometry which modify the general perception of the sound:
+\begin{description}
+    \item[The Precedence Effect] occurs when two correlated sounds are perceived as a single auditory event~\cite{wallach1973precedence}.
+    This happens usually when they reach the listener with a delay within $\SI{5}{\ms}$ to $\SI{40}{\ms}$.
+    However, the perceived spatial location carried by the first-arriving sound is preserved suppress the perceived location of the lagging sound.
+    This allows human to accurately localize the direction of the main source, even in presence of its strong reflections.
+    \item[The Comb Filter Effect] indicates the change in timbre of the perceived sound, named \textit{coloration}.
+    This happens when multiples reflections arrive with periodic patterns and some constructive or destructive interferes may arise.
+    Such phenomena can be well modeled with a comb filter \cite{barron1971subjective}..
+    \item[Apparent Source Width] is the audible impression of a spatially extended sound source~\cite{griesinger1997psychoacoustics}.
+    By the presence of early reflection, the perceived energy increases, providing the impression that a source sounds larger than its optical size.
+    \item[Distance and Depth Perception] provides to the listener cues about the source location.
+    While the former refers to the spatial range, the latter relates the source to the auditory scene as a whole~\cite{kearney2012distance}.
+    A fundamental cue for distance perception is the \textit{direct-to-reverberant ratio} ($\DRR$)\sidenote{Cfr.~\cref{ch:acoustics:subsec:drr}},
+    \ie/ the ratio between the direct path ration and the remain portion of the \RIR/.
+    Regarding the depth perception, early reflection are the main responsible.
+    In the context of virtual reality, correct modeling of these quantities is essentials in order to maintain a coherent depth impression~\cite{kearney2012distance}.
+\end{description}
 
-\newthoughtpar{Reverberation Time}
-\newthoughtpar{Direct-to-revebrerant ratio}
-\newthoughtpar{Critical Distance}
-\newthoughtpar{Interchannel Coherence}
-\newthoughtpar{Perception of the Late Reverberation}
+\newthought{The Late Reverberation} in room acoustics is indicative of the size the environment and the materials within~\cite{valimaki2016more}.
+It provides the \textit{listener envelopment}, \ie/ the degree of immersion in the sound field~\cite{griesinger1997psychoacoustics}.
+This portion of the \RIR/ is mainly characterized by the sound diffusion, which depend on the surfaces roughness.
+
+\subsection{Mixing time}
+Perceptually, it define the instant when the reverberation cannot be distinguished from that of any other position of the listener in the room.
+Analytically,  the
+\begin{center}
+    \textit{\emph{mixing time} is the instant that divides the early reflections from the late reverberation in a RIR},
+\end{center}
+And it is represented in Equation 2.47 by the symbol Tm.
+Due to this, it is an parameters important also in the context of \RIRs/ synthesis as it defines cross-over point for room acoustics simulator using hybrid methods~\citeonly{savioja2015overview}\sidenote{Cfr.~\cref{sec:acoustics:simulators}}.
+
+\subsection{Reverberation Time}
+The \textit{reverberation time} measures the time that takes the sound to ``fade away'' after it ceases.
+In order to quantify it, acoustics and in audio signal processing use the \textit{Reverberation Time at 60 dB}, \ie/
+\begin{center}
+    \textit{the $\RT$, the time after which the sound energy relatively dropped by 60 dB.}
+\end{center}
+It depends on the size and absorption level of the room (including obstacles), but not on the position of specific position of the source and the receiver.
+Real measurements of \RIRs/ are affected by noise.
+As a consequence, it is not always possible to consider a dynamic range of 60 dB,
+\ie/ the energy gap between the direct path and the ground noise level.
+In this case, the $\RT$ value must be approximated with other methods.
+A practical approach is presented in~\cref{ap:rir:sec:rt60}.
+
+By knowing the room geometry and the surfaces acoustics profiles,
+it is possible to use the empirical \textit{Sabine's equation}:
+\begin{equation}
+    \RT
+    \approx 0.161 \frac{V_{\text{TOT}}}{\sum_l \absCoeff_l S_l} \hspace{1em} [\si{\second}]
+    ,
+\end{equation}
+where $V_{\text{TOT}}$ is the total volume of the room $[\si{\metre^3}]$ and $\absCoeff_l$ and $S_l$ are the
+absorption coefficient and the area $[\si{\metre^2}]$  of the $l$-th surface.
+
+\subsection{Direct-to-Reverberant ratio and Critical Distance}\label{ch:acoustics:subsec:drr}
+\begin{center}
+    \textit{The \emph{direct-to-reverberant ratio} ($\DRR$) quantifies the power of direct against indirect sound~\cite{zahorik2002direct}.}
+\end{center}
+It varies with the size and the absorption of the room, but also with the distance between the source and the receiver according to the curves
+depicted in~\cref{fig:acoustics:drr}
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/drr_rt60.png}
+    \includegraphics[width=\linewidth]{acoustics/ddr_dist.png}
+    \captionof{figure}{%
+        DRR as a function of the RT60 and the source distance rij based on Eyring’s formula (Gustafsson et al., 2003).
+        These curves assume that there is no obstacle between the source and the microphone, so that the direct path exists.
+        The room dimensions are the same as in Figure 3.1.
+    }
+    \label{fig:acoustics:drr}
+}
+% A proper analytical definition will be provided in the next chapter.
+% % The $\DRR$ at the mth microphone in each microphone configuration was calculated using the method
+% % \begin{equation}
+% %     \DRR_\idxMic = 10 \log_{10}{\frac{
+% %         \sum_{n=-\infty}^{\infty} \kparen{h^d_{ij}(n)}^2}%
+% %         {\sum_{n=-\infty}^{\infty} \kparen{h^e_{ij(n)}}^2}}
+% %         = 10 \log_{10}{\frac{
+% %             \sum_{n=-\infty}^{\infty} \kparen{h^d_{ij}(n)}^2}%
+% %             {\sum_{n=-\infty}^{\infty} \kparen{h^e_{ij}(n)}^2}}
+% % \end{equation}
+The distance beyond which the power of indirect sound becomes larger than that of direct sound is called the \textit{critical distance}.
+
+These quantities represent an important parameter to assert the robustness of audio signal processing methods,
+since they basically measure the validity of the free-field assumption.
+
+% Similarly, one can define the \textit{direct-to-early ratio} ($\DER$), which is the power of direct sound divided by the remaining power in the first ??c samples (defined above),
+% quantifies the modification of the power spectrum of the signal induced by early echoes.
+%  It is low when the microphone and/or the source is close to an obstacle such as a table or a window, and higher otherwise.
+%  The DRR and the direct-to-early ratio are not systematically reported when describing experiments in the literature,
+%   yet they are as important as the RT60 to characterize multichannel mixtures
