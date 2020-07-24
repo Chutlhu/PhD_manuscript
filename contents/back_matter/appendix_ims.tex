@@ -1,0 +1,188 @@
+\newthoughtpar{The Derivation of the Acoustic Wave Equation}
+Let's starts by considering a infinitesimal volume unit $\volume$ of a fluid or gas (such as air),
+whose center of gravity is located at $\positionMicrophone \in \bbR^3$.
+Let $\mass$ be the mass of such volume.
+By the well-known Newton's second law, applying a force $\forceVec$ to the fluid, its acceleration increase proportionally to $\mass$,
+namely:
+\begin{equation}
+    \label{eq:acoustics:newton}
+    \forceVec = \mass \kpderiv[]{\velocity\depSpaceTime}{t}
+\end{equation}
+\marginpar{%
+\footnotesize
+Newton's Law II: The alteration of motion is ever proportional to the motive force impress'd;
+and is made in the direction of the right line in which that force is impress'd.
+\\Orignal: \emph{Lex II: Mutationem motus proportionalem esse vi motrici impressae,
+et fieri secundum lineam rectam qua vis illa imprimitur.}
+}
+where $\velocity(\positionSource, t)$ denotes the volume velocity and $t$ the time $[\si{\second}]$.
+The force can be expressed in terms of difference of acoustic pressure $p$ at $\positionMicrophone$ on a surface of the volume, $\surface$, namely
+\begin{equation}
+    \label{eq:acoustics:pressure}
+    \forceVec = - \surface \kbracket{\kgrad{\pressureSpaceTime}}
+\end{equation}
+where $\kgrad{}$ is is the gradient operator.
+\\By combining \cref{eq:acoustics:newton,eq:acoustics:pressure}, we obtain the famous \textit{Euler's equation of motion}:
+\begin{equation}
+    \label{eq:acoustics:euler}
+    \kgrad{\pressureSpaceTime} = - \densityEq \kpderiv[]{\velocity\depSpaceTime}{t}
+\end{equation}
+where $\densityEq = \frac{\mass}{\surface}$ is the static density of the medium
+\footnote{%
+\label{fn:acoustics:airconstanc}
+Selected physical quantities for air:
+\\Air Denisity $\density_{\text{air}} = 1.18 \tfrac{\si{\kilogram}}{\si{\metre^3}}$.
+\\Air Gas constant $R_{\text{air}} = 286.9 \tfrac{\si{\joule}}{\si{\kilogram} \si{\mole}}$.
+\\Air Adiabatic index $\gamma_{\text{air}} = 1.4$.
+\\Speed of sound in air $\speedOfSound_{\text{air}} = 343.1 \tfrac{\si{\metre}}{\si{\second}}$.
+}.
+
+\newthought{By the Conservation of Mass principle}, states that, in a deformable medium, the total mass must remain constant.
+This principle translates into the \textit{continuity equation}, which its differential form writes
+\marginpar{%
+    \footnotesize
+    $\divergence{} = \kpderiv[]{}{x} + \kpderiv[]{}{y} + \kpderiv[]{}{z}$ is the divergence operator.
+}
+\begin{equation}
+    \label{eq:acoustics:continuity}
+    \kpderiv[]{\volumeUnit\depSpaceTime}{t} = V \kbracket{\divergence{\flux\depSpaceTime}}
+\end{equation}
+where
+\begin{itemize}
+    \item $\volumeUnit\depSpaceTime$ is the volume variation due to the pressure changing, and
+    \item $\flux\depSpaceTime$ is the \textit{flux} of mass $m$ per unit volume (\aka/ flux)
+    \sidenote{%
+        \footnotesize
+        flux is by definition equal to the density times the velocity.
+        In math, $\flux\depSpaceTime = \densityEq \velocity\depSpaceTime$.
+    }.
+\end{itemize}
+
+\newthought{The Polytropic Process Relation} assumed properties on the propagation medium.
+Since the exchange of heat in negligible in the acoustic frequencies range,
+the whole process can be considered thermodynamically \textit{adiabatic}.
+In such scenario, the relation between the total pressure $\calP$ and the total volume $\volume$ is given by
+\marginpar{
+    \footnotesize
+    The dependency upon space and time $\depSpaceTime$ is here omitted for sake of compactness and readability.
+}
+\begin{equation}
+    \label{eq:acoustics:state}
+    \calP \volume^\gamma = \const
+\end{equation}
+where $\gamma$ is the adiabatic index of the medium\sidenote{Cfr.~\cref{fn:acoustics:airconstanc}}.
+The total pressure and the total volume consist in a sum of a constant and a variable term,
+that is $\calP = P_0 + p$,
+$\volume = V_0 + \nu$ respectively.
+Considering that $p \ll P_0$ and $\nu \ll V_0$, the time-differential of~\cref{eq:acoustics:state} with respect to time reads
+\begin{equation}
+    \label{eq:acoustics:statediff}
+    \kpderiv[]{\pressureSpaceTime}{t} = - \gamma \frac{P_0}{V_0} \kpderiv[]{\nu\depSpaceTime}{t}
+\end{equation}
+
+\newthought{Finally, the Acoustic Wave Equation} can be now derived by combining together
+the equation of motion~\eqref{eq:acoustics:euler},
+the continuity equation~\eqref{eq:acoustics:continuity},
+and the thermodynamic balance of the medium~\eqref{eq:acoustics:statediff}.
+In particular the combination of~\cref{eq:acoustics:continuity,eq:acoustics:statediff},
+\begin{equation}
+    \kpderiv[]{\pressureSpaceTime}{t} = - \gamma P_0 \kbracket{\divergence{\flux\depSpaceTime}}
+    ,
+\end{equation}
+can be differentiated with respect to time $t$ yielding to
+\begin{equation}
+    \kpderiv[2]{\pressureSpaceTime}{t} = - \gamma P_0 \kbracket{\divergence{\kpderiv[]{\flux\depSpaceTime}{t}}}
+    .
+\end{equation}
+Taking the divergence of each side of the~\cref{eq:acoustics:euler} and remembering the definition of flux, we get
+\marginpar{%
+    \footnotesize
+    The \textit{Laplacian} of a function is equivalent to the divergence of the gradient of that function.
+    \\In math, $\knabla^2 x = \divergence{\kgrad{x}}$}
+\begin{equation}
+    \knabla^2 \pressureSpaceTime = -\densityEq \kbracket{\divergence{\flux\depSpaceTime}}
+\end{equation}
+The above two equation can be combined leading to
+\begin{equation}
+    \knabla^2 \pressureSpaceTime = \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t}
+    ,
+\end{equation}
+which is equivalent to~\cref{eq:acoustics:wave}.
+The constant $\speedOfSound$ is the wave speed, in our case the speed of sound.
+Notice that it is related to the medium properties through
+\begin{equation}
+    \speedOfSound^2 = \frac{\gamma P_0}{\densityEq}
+    .
+\end{equation}
+
+---
+
+The conventional way to solve~\cref{eq:acoustics:helmholtz} is to find a set of Functions $\Psi_l(f, \positionMicrophone)$ for $l = 0, \dots, \infty$
+which satisfy the homogenous equation~\cref{eq:acoustics:helmholtz}
+for a certain interval and its boundary conditions $\boundariesConditions$.
+\\This type of functions are called \textit{characteristic function} or \textit{eigenfunction}
+\sidenote{Notice that that~\cref{eq:acoustics:helmholtz} can be written as eigenfunction/eigenvalue equation, \ie/ $\knabla^2 H = -k^2 H$ }
+and depends on $\boundariesConditions$.
+In general, such kind of function are too difficult to be computed in closed form and needs to be approximated with numerical methods.
+Their analytical expression is known only for a few room shapes combined with simple boundary conditions.
+
+Subsequently, the general expression of the Green's function $H(f, \positionMicrophone \mid \positionSource)$ can be expressed as a sum of the eigenfunction weighted on
+a coefficient $C_l(f, \positionSource)$ dependent on the source position \citeonly{habets2006room}:
+
+\begin{equation}
+    \label{eq:acoustics:eigenfunction}
+    H(f, \positionMicrophone \mid \positionSource) =
+        \sum_{l=0}^\infty
+            C_l(f, \positionSource)
+            \Psi_l(f, \positionMicrophone)
+\end{equation}
+
+---
+
+
+Let us assume the simplest possible 3D enclosure: a \textit{shoebox}, \ie/ a cuboid room with perfectly smooth and rigid facets.
+Lets define the domain $\calD$ of the problem: the cuboid length $L$, width $W$ and height $H$, that is
+\begin{equation}
+    \calD = \kset{\positionMicrophone = (x,y,z)}{
+        0 \le x \le L_x,\,
+        0 \le y \le L_y,\,
+        0 \le z \le L_z}
+\end{equation}
+Given the boundaries $\calB$ of $\calD$, the frequency-domain Green's function associated to \cref{eq:acoustics:helmholtz} is given by
+\marginpar{%
+    \footnotesize
+    $k = \sfrac{2 \pi f}{c}$,
+    \\$\ntuple = \ktuple{n_x, n_y, n_z}$,
+    \\$n_i \in \bbN \hspace{1em} \kforall[i \in \kbrace{x, y, z}]$,
+    \\$V = L_x L_y L_z$ is the room volume,
+    \\$\calM = \kset{\ktuple{n_x, n_y, n_z}}{n_i \in N}$.
+}
+\begin{equation}
+    \label{eq:acoustics:greenBounded}
+    H(f, \positionMicrophone \mid \positionSource) =
+    - \frac{1}{V}
+    \sum_{\ntuple \in \calM}
+    \frac{\Psi_{\ntuple}(\positionMicrophone)\Psi_{\ntuple}(\positionSource)}{\kappa^2_{\ntuple} - k^2}
+\end{equation}%
+where
+\marginpar{%
+    \footnotesize
+    $k_i = \sfrac{n_i \pi}{L_i} \hspace{1em} \kforall[i \in \kbrace{x, y, z}]$
+}%
+\begin{align}
+    \kappa_{\ntuple}    &= \ktuple{\frac{n_x \pi}{L}, \frac{n_y \pi}{W}, \frac{n_z \pi}{H}} = \ktuple{k_x, k_y, k_z} \nonumber\\
+    \kappa_{\ntuple}^2  &= \abs{\kappa_{\ntuple}}^2 = k_x + k_y + k_z \nonumber\\
+    \Psi_{\ntuple}(\pos) &= \cos\kparen{k_x x}\cos\kparen{k_y y}\cos\kparen{k_z z} \label{eq:acoustics:mode}
+\end{align}
+is the eigenfunction\sidenote{Cfr~\cref{eq:acoustics:eigenfunction}} for the specific shoebox boundaries $\boundariesConditions$~\citeonly{kuttruff2016room}.
+
+Using the exponential expansion of the cosine for~\cref{eq:acoustics:mode}
+and using it in~\cref{eq:acoustics:greenBounded}, we obtain
+
+\begin{equation}
+    H(f, \positionMicrophone \mid \positionSource) =
+    - \frac{1}{8 V}
+    \sum_{\ntuple \in \calM}
+    \sum_{\ntuple \in \calM}
+    \frac{\Psi_{\ntuple}(\positionMicrophone)\Psi_{\ntuple}(\positionSource)}{\kappa^2_{\ntuple} - k^2}
+\end{equation}%

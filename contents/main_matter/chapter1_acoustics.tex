@@ -127,134 +127,11 @@ Assuming the propagation of the wave in a homogeneous medium, one can obtain the
     \item the \textit{polytropic process relation}\sidenote{meaning that the medium is an ideal gas undergoing a reversible adiabatic process}.
 \end{itemize}
 
-In general medium are not uniform or without irregularities, which can be of two types:
+In general medium are not uniform and features inhomogeneities of two types:
 scalar inhomogeneities, \eg/ due to temperature variation,
 and vector inhomogeneities, \eg/ due to presence of fans or air conditioning.
 Although these affect the underlying assumption of the model, the effect are small in typical application of speech and audio signal processing.
 Therefore they are commonly ignored.
-
-\newthoughtpar{The Derivation of the Acoustic Wave Equation}
-Let's starts by considering a infinitesimal volume unit $\volume$ of a fluid or gas (such as air),
-whose center of gravity is located at $\positionMicrophone \in \bbR^3$.
-Let $\mass$ be the mass of such volume.
-By the well-known Newton's second law, applying a force $\forceVec$ to the fluid, its acceleration increase proportionally to $\mass$,
-namely:
-\begin{equation}
-    \label{eq:acoustics:newton}
-    \forceVec = \mass \kpderiv[]{\velocity\depSpaceTime}{t}
-\end{equation}
-\marginpar{%
-\footnotesize
-Newton's Law II: The alteration of motion is ever proportional to the motive force impress'd;
-and is made in the direction of the right line in which that force is impress'd.
-\\Orignal: \emph{Lex II: Mutationem motus proportionalem esse vi motrici impressae,
-et fieri secundum lineam rectam qua vis illa imprimitur.}
-}
-where $\velocity(\positionSource, t)$ denotes the volume velocity and $t$ the time $[\si{\second}]$.
-The force can be expressed in terms of difference of acoustic pressure $p$ at $\positionMicrophone$ on a surface of the volume, $\surface$, namely
-\begin{equation}
-    \label{eq:acoustics:pressure}
-    \forceVec = - \surface \kbracket{\kgrad{\pressureSpaceTime}}
-\end{equation}
-where $\kgrad{}$ is is the gradient operator.
-\\By combining \cref{eq:acoustics:newton,eq:acoustics:pressure}, we obtain the famous \textit{Euler's equation of motion}:
-\begin{equation}
-    \label{eq:acoustics:euler}
-    \kgrad{\pressureSpaceTime} = - \densityEq \kpderiv[]{\velocity\depSpaceTime}{t}
-\end{equation}
-where $\densityEq = \frac{\mass}{\surface}$ is the static density of the medium
-\footnote{%
-\label{fn:acoustics:airconstanc}
-Selected physical quantities for air:
-\\Air Denisity $\density_{\text{air}} = 1.18 \tfrac{\si{\kilogram}}{\si{\metre^3}}$.
-\\Air Gas constant $R_{\text{air}} = 286.9 \tfrac{\si{\joule}}{\si{\kilogram} \si{\mole}}$.
-\\Air Adiabatic index $\gamma_{\text{air}} = 1.4$.
-\\Speed of sound in air $\speedOfSound_{\text{air}} = 343.1 \tfrac{\si{\metre}}{\si{\second}}$.
-}.
-
-\newthought{By the Conservation of Mass principle}, states that, in a deformable medium, the total mass must remain constant.
-This principle translates into the \textit{continuity equation}, which its differential form writes
-\marginpar{%
-    \footnotesize
-    $\divergence{} = \kpderiv[]{}{x} + \kpderiv[]{}{y} + \kpderiv[]{}{z}$ is the divergence operator.
-}
-\begin{equation}
-    \label{eq:acoustics:continuity}
-    \kpderiv[]{\volumeUnit\depSpaceTime}{t} = V \kbracket{\divergence{\flux\depSpaceTime}}
-\end{equation}
-where
-\begin{itemize}
-    \item $\volumeUnit\depSpaceTime$ is the volume variation due to the pressure changing, and
-    \item $\flux\depSpaceTime$ is the \textit{flux} of mass $m$ per unit volume (\aka/ flux)
-    \sidenote{%
-        \footnotesize
-        flux is by definition equal to the density times the velocity.
-        In math, $\flux\depSpaceTime = \densityEq \velocity\depSpaceTime$.
-    }.
-\end{itemize}
-% This equation state that the variation of mass inside the volume $\volume$ in time is equal to the total amount of mass passing thought the surface.
-
-\newthought{The Polytropic Process Relation} assumed properties on the propagation medium.
-% Assuming that the fluid (or gas) to be ideal, the \textit{Charles-Boyle} gas law states\sidenote{The original gas law writes $P V = n R T$. Here the law is written in terms of \textit{specific volume}}
-% \begin{equation}
-%     P V = R T
-% \end{equation}
-% where $P$ is the total pressure on the volume $V$; $T$ the absolute temperature in degrees Kelvin and $R$ is specific gas constant\sidenote{Cfr.~\cref{fn:acoustics:airconstanc}}.
-Since the exchange of heat in negligible in the acoustic frequencies range,
-the whole process can be considered thermodynamically \textit{adiabatic}.
-In such scenario, the relation between the total pressure $\calP$ and the total volume $\volume$ is given by
-\marginpar{
-    \footnotesize
-    The dependency upon space and time $\depSpaceTime$ is here omitted for sake of compactness and readability.
-}
-\begin{equation}
-    \label{eq:acoustics:state}
-    \calP \volume^\gamma = \const
-\end{equation}
-where $\gamma$ is the adiabatic index of the medium\sidenote{Cfr.~\cref{fn:acoustics:airconstanc}}.
-The total pressure and the total volume consist in a sum of a constant and a variable term,
-that is $\calP = P_0 + p$,
-$\volume = V_0 + \nu$ respectively.
-Considering that $p \ll P_0$ and $\nu \ll V_0$, the time-differential of~\cref{eq:acoustics:state} with respect to time reads
-\begin{equation}
-    \label{eq:acoustics:statediff}
-    \kpderiv[]{\pressureSpaceTime}{t} = - \gamma \frac{P_0}{V_0} \kpderiv[]{\nu\depSpaceTime}{t}
-\end{equation}
-
-\newthought{Finally, the Acoustic Wave Equation} can be now derived by combining together
-the equation of motion~\eqref{eq:acoustics:euler},
-the continuity equation~\eqref{eq:acoustics:continuity},
-and the thermodynamic balance of the medium~\eqref{eq:acoustics:statediff}.
-In particular the combination of~\cref{eq:acoustics:continuity,eq:acoustics:statediff},
-\begin{equation}
-    \kpderiv[]{\pressureSpaceTime}{t} = - \gamma P_0 \kbracket{\divergence{\flux\depSpaceTime}}
-    ,
-\end{equation}
-can be differentiated with respect to time $t$ yielding to
-\begin{equation}
-    \kpderiv[2]{\pressureSpaceTime}{t} = - \gamma P_0 \kbracket{\divergence{\kpderiv[]{\flux\depSpaceTime}{t}}}
-    .
-\end{equation}
-Taking the divergence of each side of the~\cref{eq:acoustics:euler} and remembering the definition of flux, we get
-\marginpar{%
-    \footnotesize
-    The \textit{Laplacian} of a function is equivalent to the divergence of the gradient of that function.
-    \\In math, $\knabla^2 x = \divergence{\kgrad{x}}$}
-\begin{equation}
-    \knabla^2 \pressureSpaceTime = -\densityEq \kbracket{\divergence{\flux\depSpaceTime}}
-\end{equation}
-The above two equation can be combined leading to
-\begin{equation}
-    \knabla^2 \pressureSpaceTime = \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t}
-    ,
-\end{equation}
-which is equivalent to~\cref{eq:acoustics:wave}.
-The constant $\speedOfSound$ is the wave speed, in our case the speed of sound.
-Notice that it is related to the medium properties through
-\begin{equation}
-    \speedOfSound^2 = \frac{\gamma P_0}{\densityEq}
-    .
-\end{equation}
 
 \newthoughtpar{The Helmholtz's equation}
 The wave equation~\ref{eq:acoustics:wave} is expressed in the space-time domain $\depSpaceTime$.
@@ -264,7 +141,7 @@ By applying the temporal Fourier transform, we obtain the \textit{Helmholtz equa
     \knabla^2 P(\positionMicrophone, f) + k^2 P(\positionMicrophone, f) = 0
     ,
 \end{equation}
-where $k = \frac{2 \pi f}{c}$ is known as \textit{wave number}, that relates the frequency $f$ $[\si{\hertz}]$ and the propagation velocity $c$.
+where $k = \frac{2 \pi f}{c}$  is known as \textit{wave number} $[\si{\metre^{-1}}]$, that relates the frequency $f \; [\si{\hertz}]$ and the propagation velocity $c$.
 
 Both the wave equation~\ref{eq:acoustics:wave} and the Helmholtz's equation~\ref{eq:acoustics:helmholtz} are source independent,
 namely no source is present in the medium.
@@ -286,9 +163,8 @@ Then, the correspondent Helmholtz's equation writes
     .
 \end{equation}
 
-For instance one can assume an infinitesimally small pulsating sphere locate at $\positionSource$ radiating constant acoustic energy at frequency $f$
-\ie/ $S(\positionMicrophone) = 1 \delta(positionMicrophone - positionSource)$.
-% The source is describe here by $\delta(\positionMicrophone - \positionSource)$, which in this context is a 3-dimension Dirac function.
+For instance one can assume an infinitesimally small pulsating sphere locate at $\positionSource$ radiating constant acoustic energy at frequency $f$,
+\ie/ $S(\positionMicrophone) = \delta(\positionMicrophone - \positionSource)$.
 At the receiver position $\positionMicrophone \neq \positionSource$, the Helmholtz's equation writes
 \begin{equation}
     \label{eq:acoustics:green_definition}
@@ -298,7 +174,7 @@ At the receiver position $\positionMicrophone \neq \positionSource$, the Helmhol
 \end{equation}
 The function $H(f, \positionMicrophone \mid \positionSource)$ that satisfy \cref{eq:acoustics:green_definition} is the \textit{Green's function}
 associated to ~\cref{eq:acoustics:helmholtz}, for which is also a solution.
-We will see in the next subsection that the function $H$ can be interpreted as the free-field \textit{Transfer Function}
+\\In the next subsection, we will see that the function $H$ can be interpreted as the free-field \textit{Transfer Function}
 between the source at $\positionSource$ and the receiver at $\positionMicrophone$.
 
 \subsection{... and its solution as Green's function}
@@ -315,13 +191,13 @@ They have been used to solve many fundamental equations, among which \cref{eq:ac
 \begin{center}
     \textit{
     They can be seen as the equivalent concept of the
-    \\ \emph{impulse responses}
-    \sidenote{when in the time domain, otherwise trasfer fuction in the one of frequencies.}
+    \\ \emph{impulse responses
+    \sidenote{impulse response in time domain, trasfer fuction in the frequency domain.}}
     used in signal processing.}
 \end{center}
 Under this light the physic so-far can be rewritten in the vocabulary of the communication theory, namely \textit{input}, \textit{filter} and \textit{output}.
 
-According to Green method, the equations above can be solved in the frequency domain for arbitrary source as follows:
+According to Green's method, the equations above can be solved in the frequency domain for arbitrary source as follows:
 \marginpar{%
     \footnotesize
     If one ignores the space integal, one can see the close relation with a transfer function.
@@ -335,38 +211,17 @@ where $\volume_\contSource$ denotes the source volume,
 and  $\kdiff\positionSource =  \kdiff{x_\contSource}\,\kdiff{y_\contSource}\,\kdiff{z_\contSource}$ the  differential  volume element at position $\positionSource$.
 \\The requested sound pressure $\pressureSpaceTime$ can now be computed by taking the frequency-directional inverse Fourier transform of \cref{eq:acoustics:helmholz_conv}.
 
-The conventional way to solve~\cref{eq:acoustics:helmholtz} is to find a set of Functions $\Psi_l(f, \positionMicrophone)$ for $l = 0, \dots, \infty$
-which satisfy the homogenous equation~\cref{eq:acoustics:helmholtz}
-for a certain interval and its boundary conditions $\boundariesConditions$.
-\\This type of functions are called \textit{characteristic function} or \textit{eigenfunction}
-\sidenote{Notice that that~\cref{eq:acoustics:helmholtz} can be written as eigenfunction/eigenvalue equation, \ie/ $\knabla^2 H = -k^2 H$ }
-and depends on $\boundariesConditions$.
-In general, such kind of function are too difficult to be computed in closed form and needs to be approximated with numerical methods.
-Their analytical expression is known only for a few room shapes combined with simple boundary conditions.
-
-Subsequently, the general expression of the Green's function $H(f, \positionMicrophone \mid \positionSource)$ can be expressed as a sum of the eigenfunction weighted on
-a coefficient $C_l(f, \positionSource)$ dependent on the source position \citeonly{habets2006room}:
-
-\begin{equation}
-    \label{eq:acoustics:eigenfunction}
-    H(f, \positionMicrophone \mid \positionSource) =
-        \sum_{l=0}^\infty
-            C_l(f, \positionSource)
-            \Psi_l(f, \positionMicrophone)
-\end{equation}
-
-It can be shown \citeonly{habets2006room,kuttruff2016room,marczuk2006modelling}
-\todo{make this step.}
-that the time-invariant Green's function for~\cref{eq:acoustics:helmholtz,eq:acoustics:green_definition} writes
+It can be shown \citeonly{kuttruff2016room} that the Green's function for~\cref{eq:acoustics:helmholtz,eq:acoustics:green_definition} writes
 \marginpar{%
-This equation can be interpreted as the free-field transfer function between the source at $\positionSource$ and the receiver at $\positionMicrophone$
+    \footnotesize
+    This equation can be interpreted as the free-field transfer function between
+    the source at $\positionSource$ and the receiver at $\positionMicrophone$
 }
 \begin{equation}
     \label{eq:acoustics:greenFreeFreq}
     H(f, \positionMicrophone \mid \positionSource) = \frac{1}{4 \pi \norm{\positionMicrophone - \positionSource}} e^{- \frac{\Ii 2 \pi f \norm{\positionMicrophone - \positionSource}}{\speedOfSound}}
 \end{equation}
-where $\norm{\cdot}$ denotes the Euclidean norm.
-\\By applying the inverse Fourier transform to the result above, we can write the time-domain Green's function as
+where $\norm{\cdot}$ denotes the Euclidean norm. By applying the inverse Fourier transform to the result above, we can write the time-domain Green's function as
 \begin{equation}
     \label{eq:acoustics:greenFreeTime}
     h(t, \positionMicrophone \mid \positionSource) =
@@ -375,6 +230,7 @@ where $\norm{\cdot}$ denotes the Euclidean norm.
 \end{equation}
 where $\diracOf{\cdot}$ is the time-directional Dirac delta function,
 corresponding to a pure impulse at time $t = \tfrac{\norm{\positionMicrophone - \positionSource}}{\speedOfSound}$.
+\\\cref{eq:acoustics:greenFreeFreq,eq:acoustics:greenFreeTime} are respectively the free-field transfer function and the impulse response.
 
 As a consequence of \cref{eq:acoustics:greenFreeTime}, the sound propagate around a point source with a spherical pattern.
 When the receiver is far enough from the source, the curvature of the \textit{wavefront} may be ignored.
@@ -395,10 +251,10 @@ As opposed to, when the distance between the source and the receiver is small, t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acoustic Reflections}\label{ch:acoustics:sec:reflection}
 The equations derived so far assumed unbounded medium, \ie/ free space: a rare scenario in everyday applications.
-Real mediums are typically bounded, limited, at least partially.
+Real mediums are typically bounded, at least partially.
 For instance in a room, the air (propagation medium) is bounded by walls, ceiling, and floor.
 When sound travel outdoor, the ground acts as a boundary for one of the propagation direction.
-Thus, the sound wave does not just stop when it reaches the end of the medium or when it encounters an obstacle in its path.
+Therefore, the sound wave does not just stop when it reaches the end of the medium or when it encounters an obstacle in its path.
 Rather, a sound wave will undergo certain behaviors depending on the obstacle acoustics and geometrical properties, including
 \begin{itemize}
     \item \textit{reflection} off the obstacle,
@@ -410,6 +266,15 @@ Rather, a sound wave will undergo certain behaviors depending on the obstacle ac
     \end{itemize}
 \end{itemize}
 
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/wavelength.jpg}
+    \captionof{figure}{%
+        wavelength
+    }
+    \label{fig:acoustics:wavelength}
+}
 In order, reflections arise typically when a sound wave hit a large surface, like a room wall.
 When the sound meets a wall edge or a slit, the wave diffracts, namely it bends around the corners of an obstacle.
 The point of diffraction effectively becomes a secondary source which may interact with the first one.
@@ -443,25 +308,34 @@ according to the sound frequencies or the correspondent \textit{wavelength} $[\s
     ,
 \end{equation}
 where $f$ is the frequency of the sound wave.
-\marginpar{%
+
+\marginpar{
+    \footnotesize
+    \textit{Sabine had previously used ray-based acoustics in the
+    early 1900s to investigate sound propagation paths using Schlieren photography.
+    Their impressive visualizations show wavefronts that are augmented
+    with rays that are perpendicular to the wavefronts.}
+    \\---\citeauthor{savioja2015overview}
+}
+As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spatial distance between two molecules in the medium having the same value of pressure.
+% \marginpar{%
+%     \footnotesize
+%     a frequency of $\SI{1}{\kHz}$ corresponds to a wavelength of approximately $\SI{34}{\cm}$ ,
+%     which is one or two orders of magnitude smaller than typical linear dimensions of rooms,
+%     as well as typical distances traveled by sound waves in a room
+% }.
+\marginpar{
     \centering
     \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/wavelength.jpg}
+    \includegraphics[trim={0 205 0 0},clip,width=\linewidth]{acoustics/sound_pulse1926.png}
     \captionof{figure}{%
-        wavelength
+        Photographs showing successive stages in the progress of a Sound Pulse in a Model Section of a Debating Chamber.
+        \imgsrc{\citeonly{davis1926sound}}
     }
-    \label{fig:acoustics:wavelength}
+    \label{fig:acoustics:reflection}
 }
-As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spatial distance between two molecules in the medium having the same value of pressure
-\marginpar{%
-    \footnotesize
-    a frequency of $\SI{1}{\kHz}$ corresponds to a wavelength of approximately $\SI{34}{\cm}$ ,
-    which is one or two orders of magnitude smaller than typical linear dimensions of rooms,
-    as well as typical distances traveled by sound waves in a room
-}.
 \\Using this quantity we can identify the following three response of the objects (irregularities) of size $d$ to a plane-wave depicted in~\cref{fig:acoustics:irregularities}
 \begin{figure}
-    \centering
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/irregularities.png}
     \captionof{figure}{%
@@ -476,29 +350,11 @@ As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spati
     \item $\wavelength \ll d$, each irregularities is a surface reflecting specularly the sound waves.
 \end{itemize}
 
-\marginpar{
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/sound_pulse1926.png}
-    \captionof{figure}{%
-        Photographs showing successive stages in the progress of a Sound Pulse in a Model Section of a Debating Chamber.
-        \imgsrc{\citeonly{davis1926sound}}
-    }
-    \label{fig:acoustics:reflection}
-}
-\marginpar{
-    \footnotesize
-    \textit{Sabine had previously used ray-based acoustics in the
-    early 1900s to investigate sound propagation paths using Schlieren photography.
-    Their impressive visualizations show wavefronts that are augmented
-    with rays that are perpendicular to the wavefronts.}
-    \\---\citeauthor{savioja2015overview}
-}
 \textsc{All this presented behavior} can be described with the wave equation imposing opportune boundary conditions.
 % However working with this formula might results complicated and difficult.
-A simplified yet effective approach - just as in optics - is to model incoming sound waves as \textit{acoustic rays}\citeonly{davis1926sound, krokstad1968calculating}.
+A simplified yet effective approach - just as in optics - is to model incoming sound waves as \textit{acoustic rays}~\citeonly{davis1926sound, krokstad1968calculating}.
 A ray has well-defined direction and velocity of propagation, and conveys a total wave energy which remains constant.
-This simplified description undergoes with the name of \GAdef/\cite{savioja2015overview}, and share many fundamentals with geometrical optics.
+This simplified description undergoes with the name of \GAdef/~\cite{savioja2015overview}, and share many fundamentals with geometrical optics.
 This model will be convenient to describe and visualize the reflection behavior hereafter.
 
 \subsection{Large smooth surfaces, absorption and echoes}
@@ -573,7 +429,6 @@ In~\cref{ch:acoustics:subsec:rir} a proper definition of echoes will be given wi
 Real-world surfaces are not ideally flat and smooth; they are rough and uneven.
 Examples of such surfaces are coffered ceilings, faceted walls, raw brick walls as well as the entire audience area of a concert hall.
 When such irregularities are in same order of the sound wavelength, \textit{diffuse reflections} is observed.
-% \cite{Dalenback1994macroscopic}
 
 In the context of \GA/, the acoustic ray associated to a plane-wave can be though as a bundle of rays traveling parallel.
 When it strikes such a surface, each individual rays are bounced off irregularly, creating \textit{scattering}:
@@ -598,53 +453,6 @@ In this context, a
 \begin{center}
     \textit{\emph{room} is a physical enclosure containing the medium and has boundaries limit the sound propagation.}
 \end{center}
-
-Let us assume the simplest possible 3D enclosure: a \textit{shoebox}, \ie/ a cuboid room with perfectly smooth and rigid facets.
-Lets define the domain $\calD$ of the problem: the cuboid length $L$, width $W$ and height $H$, that is
-\begin{equation}
-    \calD = \kset{\positionMicrophone = (x,y,z)}{
-        0 \le x \le L_x,\,
-        0 \le y \le L_y,\,
-        0 \le z \le L_z}
-\end{equation}
-Given the boundaries $\calB$ of $\calD$, the frequency-domain Green's function associated to \cref{eq:acoustics:helmholtz} is given by
-\marginpar{%
-    \footnotesize
-    $k = \sfrac{2 \pi f}{c}$,
-    \\$\ntuple = \ktuple{n_x, n_y, n_z}$,
-    \\$n_i \in \bbN \hspace{1em} \kforall[i \in \kbrace{x, y, z}]$,
-    \\$V = L_x L_y L_z$ is the room volume,
-    \\$\calM = \kset{\ktuple{n_x, n_y, n_z}}{n_i \in N}$.
-}
-\begin{equation}
-    \label{eq:acoustics:greenBounded}
-    H(f, \positionMicrophone \mid \positionSource) =
-    - \frac{1}{V}
-    \sum_{\ntuple \in \calM}
-    \frac{\Psi_{\ntuple}(\positionMicrophone)\Psi_{\ntuple}(\positionSource)}{\kappa^2_{\ntuple} - k^2}
-\end{equation}%
-where
-\marginpar{%
-    \footnotesize
-    $k_i = \sfrac{n_i \pi}{L_i} \hspace{1em} \kforall[i \in \kbrace{x, y, z}]$
-}%
-\begin{align}
-    \kappa_{\ntuple}    &= \ktuple{\frac{n_x \pi}{L}, \frac{n_y \pi}{W}, \frac{n_z \pi}{H}} = \ktuple{k_x, k_y, k_z} \nonumber\\
-    \kappa_{\ntuple}^2  &= \abs{\kappa_{\ntuple}}^2 = k_x + k_y + k_z \nonumber\\
-    \Psi_{\ntuple}(\pos) &= \cos\kparen{k_x x}\cos\kparen{k_y y}\cos\kparen{k_z z} \label{eq:acoustics:mode}
-\end{align}
-is the eigenfunction\sidenote{Cfr~\cref{eq:acoustics:eigenfunction}} for the specific shoebox boundaries $\boundariesConditions$~\citeonly{kuttruff2016room}.
-
-Using the exponential expansion of the cosine for~\cref{eq:acoustics:mode}
-and using it in~\cref{eq:acoustics:greenBounded}, we obtain
-
-\begin{equation}
-    H(f, \positionMicrophone \mid \positionSource) =
-    - \frac{1}{8 V}
-    \sum_{\ntuple \in \calM}
-    \sum_{\ntuple \in \calM}
-    \frac{\Psi_{\ntuple}(\positionMicrophone)\Psi_{\ntuple}(\positionSource)}{\kappa^2_{\ntuple} - k^2}
-\end{equation}%
 
 The inverse Fourier transform of the frequency response of the room described by (13)leads to a RIR,h(r,rs,t).
 
