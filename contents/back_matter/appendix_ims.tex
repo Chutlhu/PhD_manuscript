@@ -186,3 +186,31 @@ and using it in~\cref{eq:acoustics:greenBounded}, we obtain
     \sum_{\ntuple \in \calM}
     \frac{\Psi_{\ntuple}(\positionMicrophone)\Psi_{\ntuple}(\positionSource)}{\kappa^2_{\ntuple} - k^2}
 \end{equation}%
+
+---
+\newthoughtpar{Relation with the Helmholtz Equation}
+
+Finally, the equation becomes
+\begin{equation}
+    \label{eq:acoustics:ims:frourier}
+    H(f, \positionMicrophone \mid \positionSource) =
+        \sum_{p=1}^{8}
+            \sum_{\pos=-\infty}^{\infty}
+                \frac{1}{4 \pi \norm{\coordinatePermutation_p +  \coordinatePermutation_p}}
+\end{equation}
+
+by taking the inverse Fourier Transform, the echo structure becomes explicit.
+
+We can write the final Room Impulse Response $\rir_{ij}(t)$ as follows:
+\begin{equation}
+    \contMicrophoneSignal(t) = (\rir_{ij} \conv \contSource)(t)
+\end{equation}
+
+\begin{equation}
+    \rir_{ij}(t) = \sum_{r=0}^{R} \frac{\alpha_r}{4 \pi \tau_r / \cair} \delta \kparen{t - \tau_r}
+\end{equation}
+where
+\begin{itemize}
+    \item $\alpha_r \in \kintervcc{0}{1}$ is the attenuation coefficient of the $r$-th reflection
+    \item $\tau_r = \norm{\positionMicrophone_\idxMic - \positionSource_\idxEch}$ is the distance between the microphone and the $\idxEch$-th image of source $\idxSrc$.
+\end{itemize}
