@@ -532,31 +532,41 @@ A part for certain simple scenarios, computing \RIRs/ in closed forms is a cumbe
 Therefore numerical solver or approximation model are used instead.
 
 \subsection{Simulating Room Acoustics}\label{sec:acoustics:simulators}
-There are two main categories: geometric and wave-based methods~\cite{habets2006room, savioja2015overview}.
+\sidenote{
+    \footnotesize
+    The docoumentation of the \href{https://reuk.github.io/wayverb/introduction.html}{Wayverb}
+    acoustic simulator offers a complete overview of
+    the \SOTA/ in acoustic simulator methods\citeonly{thomas2017wayverb}.}
+There are two main categories: geometric and wave-based methods~\cite{habets2006room, savioja2015overview, thomas2017wayverb}.
 \begin{description}
     \item[wave-based] aims at solving the wave equation numerically, while
     \item[geometric] methods make some simplifying assumption about the wave propagation:
     they typically ignore the \textit{wave} behavior of the sound, choosing much lighter models such as \textit{ray}s or \textit{particle}s.
 \end{description}
 
-\newthoughtpar{Wave-based Methods}.
-% description
+\newthoughtpar{Wave-based Methods}
 These are iterative methods that divide the 3D bounded enclosure into a grid of interconnected nodes
---- mechanical unit with simple degree of freedoms.
-For instance, the
-\FEMf/ divide the space into small volume elements smaller of the sound wavelengths, while
+\sidenote{\eg/ mechanical unit with simple degrees of freedoms, like mass-spring system or one-sample-delay unit}.
+For instance, the \FEMf/ divide the space into small volume elements smaller of the sound wavelengths, while
 \BEMf/ divide only the boundaries of the space are divided into surface elements.
 These nodes interact with each other according to the math of the wave equation.
-Unfortunately, at high frequencies, the elements must be very small, so their number increases, so the computational complexity increases.
-This methods allow to create grid with denser interconnection where required.
-\\The \FDTDf/ method replace the derivatives in the wave equation, with its discrete approximation, \ie/ finite differences.
-The space is divided into a regular grid, where the changes of a quantity (air pressure or velocity) is computed over time at each grid point.
+Unfortunately, simulating higher frequencies requires denser interconnection, so the computational complexity increases.
+\\The \FDTDf/ method replace the derivatives with their discrete approximation, \ie/ finite differences.
+The space is divided into a regular grid, where the changes of a quantity (air pressure or velocity ) is computed over time at each grid point.
 \DWMf/ methods are a subclass of \FDTD/ often used in acoustics problem.
+\marginpar{
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/mass_spring_model.png}
+    \captionof{figure}{%
+        Example of  mass-spring linear mesh used to simulate a 1D transversal wave.
+    }
+    \label{fig:acoustics:dwm}
+}
 
 \begin{figure}[t]
     \label{fig:acoustics:fdtd}
-    \centerfloat
-    \includegraphics[width=.8\paperwidth]{acoustics/simulator_dwg.jpg}
+    \includegraphics[width=\textwidth]{acoustics/simulator_dwg.jpg}
     \caption{Simulation of Sound propagation at four consecutive timestamps using the \DWM/ technique.
     A short, sharp, impulsive sound fired into the larger of two rooms causes a circular wavefront to spread out from the sound source.
     The the wave is reflected from the walls and part of it passes through a gap into the smaller room.
@@ -573,67 +583,112 @@ The space is divided into a regular grid, where the changes of a quantity (air p
     \caption{Sound propagation at three consecutive timestamps using the \FDTD/-based \textit{Triton} simulator from Microsoft}
 \end{figure}
 
-\textsc{The main drawback of these methods} is  discretisation problem:
+\textsc{The main drawback of these methods} is discretisation problem:
 less dense grid may simplify too much the simulation, while denser grid increase the computational load.
-Moreover, in order to achieve good simulation, their require delicate definitions of the boundaries condition and
-their complex impedances, parameters not always available in the literature.
-\\\textsc{On the other hand} these methods inherently account for many effects such as reflection, diffusion, diffraction and interferences.
-In particular by simulating the low-frequencies components of the \RIR/, they are able to well approximate \textit{room modes}
+Moreover, they require delicate definitions of the boundaries condition at the physical lever,
+like knowing complex impedances, parameters not always available in the literature.
+\\\textsc{On the other hand} these methods inherently account for many effects such as occlusion, reflections, diffusion, diffractions and interferences.
+In particular by simulating accurately low-frequencies components of the \RIR/, they are able to well characterize the \textit{room modes},
+namely collection of resonances that exist in a room and characterize it.
 \sidenote{
     Room modes have the effect of amplifying and attenuating specific frequencies in the \RIR/,
     and produce much of the subjective sonic ``colour'' of a room.
+    Their analysis and synthesis is of vital importance for evaluating acoustic of rooms,
+    such as concert hall, and recording studios or when producing musically pleasing reverbs.
 }
-Reproducing and studying modes is of vital importance
-for evaluating acoustic of rooms, such as concert hall, and recording studios or when producing musically pleasing reverbs.
-
-Above all, \DWMf/ are usually preferred\cite{valimaki2016more}: they run directly in the time domain, requiring easier implementation;
-and they exhibits a natural huge level of parallelism
-\sidenote{each individual node in the grid
-(in number of thousands or millions) can be updated without synchronization,
-leading to an massive computational reduction}.
+\\As stated in \cite{valimaki2016more}, among the wave-based methods, \DWMf/ are usually preferred:
+they run directly in the time domain, requiring typically an easier implementation, and they exhibits a natural huge level of parallelism.
 
 \newthoughtpar{Geometric metods}
 \marginpar{For a detailed discussion about geometric acoustic methods, please refer to \cite{Savioja2015goemetric}}
 They can be grouped into \textit{stochastic} and \textit{deterministic} approaches.
 They typically compute the reflection path(s) between the source and the receivers,
-assuming that the wave behaves like a particles and a ray carrying the acoustic energy around the scene.
+assuming that the wave behaves like a particle or a ray carrying the acoustic energy around the scene.
 
 \newthought{Stochastics} are approximate by nature.
-They are based on statistical modeling of the \RIRs/ or approximation via Monte Carlo methods.
+They are based on statistical modeling of the \RIRs/ or Monte Carlo simulation methods.
 The formers writes statistical signal processing models based on prior knowledge,
-such as energy envelopes and probability distribution of the \RIR/ in regions of time-frequency domain  \cite{Badeau2019common}.
-The latters randomly and repeatedly subsample the problem space, recording samples which fulfil some correctness criteria, and discarding the rest.
+such as probability distribution of the \RIR/ in regions of time-frequency domain~\cite{Badeau2019common}.
+Rather than the detailed room geometry, these methods generally use high-level descriptors\sidenote{such as the amount of reverberation}
+to synthesize \RIRs/ and in some application are preferable.
+\\The latters randomly and repeatedly subsample the problem space, \eg/ tracing the path of random reflections,
+recording samples which fulfil some correctness criteria, and discarding the rest.
 By combining the results from multiple samples, the probability of an incorrect result is reduced, and the accuracy is increased.
-Typically the trade-off between quality and speed is straightforwardly adjusted by choosing the number of samples.
+Typically the trade-off between quality and speed of these approaches is based on the number of samples and
+the qualities of the prior knowledge modeled.
 
-The most common is the \textit{ray-tracing}\cite{Kulowski1985algorithmic} or \textit{diffuse rain}\cite{Schroeder2007fast, Heinz1993binaural, Wabniz2010}
-
-\newthought{Ray-tracing}.
-Modeling of waves as discrete particles.
-Great success in the field of computer graphics for modeling reflection of light.
-The assumption that rays and waves are interchangeable is good for high frequencies.
-For low frequencies, where the wavelength are of the same order of the wall surface, it may leads to strong approximation error:
-interferences and diffractions effects are not taken into account at these frequencies\cite{Savioja2015goemetric}.
-
-This simulation technique models the propagation by a series of discrete rays that are traced around the room.
-Each ray trajectory is reflected in a random direction every time it hits a wall and its energy is scaled according to the wall absorption, air absorption and distance attenuation).
+\textsc{Ray-tracing}~\cite{kulowski1985algorithmic} is one the most common method that fall in this category and very popular
+in the field of computer graphic for light simulation.
+The basic idea is to collect ``valid'' paths of discrete rays traced around the room.
+Many technique have been proposed to reduce the computational load, among all the \textit{diffuse rain algorithm}~\cite{schroder2007fast, heinz1993binaural}
+is commonly used in many acoustic simulator.
+Each ray trajectory is reflected in a random direction every time it hits a wall and its energy is scaled according to the wall absorption.
 The process of tracing a ray is continued until the ray’s energy falls below a predefined threshold.
-At each reflection, the ray's energy over frequency, its time and angle of arrival are recorded in histogram, namely a
-\textit{directional time-frequency-energy map} of the room’s diffuse sound field for a giver receiver location.
+At each reflection time and for each frequency (bin or band), the ray's energy and angle of arrival are recorded in histogram,
+namely a \textit{directional-time-frequency energy map} of the room’s diffuse sound field for a giver receiver location (\cfr{~\cref{fig:acoustics:diffuse_map}})
 This map is then used as prior distribution for drawing random set of impulses which are used to form the \RIR/.
 
-\newthought{Deterministic} methods.
-the most popular is the Allen and Barkley's \ISMf/\cite{allen1979image}.
-It accurate traces the exact direction and the timing of the main reflections' paths.
+While neglecting some detailed description of early reflection and room modes,
+these methods are good to capture and simulate the statistical behavior of the diffuse sound field for low computational cost.
 
-For a 3D shoebox with rigid walls, it is able to produce an exact solution to the wave equation.
-It models only specular (perfect) reflections, ignoring diffuse and diffracted components.
-For this is only approximate inexactly arbitrary enclosures and the late reflections, which is predominantly diffuse.
+\marginpar{
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/simulator_ray1.png}
+    \includegraphics[width=\linewidth]{acoustics/simulator_ray2.png}
+    \includegraphics[width=\linewidth]{acoustics/simulator_ray3.png}
+    \includegraphics[width=\linewidth]{acoustics/simulator_ray4.png}
+    \captionof{figure}{%
+        Visualization of ray-tracing method.
+        From top to bottom: first the method will eventually find specular reflection;
+        then diffuse reflections can be modeled either by splitting a ray into several new rays or a single random one.
+        In the diffuse rain technique a shadow-ray is cast from each diffuse reflection
+        point to the receiver to speed-up convergence of the simulation.
+        \imgsrc{\citeonly{Savioja2015goemetric}}
+    }
+    \label{fig:acoustics:simulator_ray}
+}
 
-The naive implementation reflects the sound source against all surfaces in the scene, resulting in a set of image sources. Then, each of these image sources is itself reflected against all surfaces
+\marginpar{
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/simulator_diffuse_map.png}
+    \captionof{figure}{%
+        Directional-time-frequency Energy map resulting form the diffuse rain algorithm\citeonly{schroder2007fast}.
+        For each direction, that is receiver's spherical bin, a time-frequency histogram collects the energy of incoming rays.
+        \imgsrc{\citeonly{schimmel2009fast}}
+    }
+    \label{fig:acoustics:diffuse_map}
+}
+
+\newthought{Deterministic} methods are good to simulate early reflection instead:
+they accurate traces the exact direction and the timing of the main reflections' paths.
+
+The most popular is the Allen and Barkley's \ISMf/\cite{allen1979image}.
+Even if the basic idea is rather inutile and simple, the model
+is able to produce the exact solution to the wave equation for a 3D shoebox with rigid walls.
+Since it models only specular (perfect) reflections, ignoring diffuse and diffracted components.
+it only approximate arbitrary enclosures and the late diffuse reflections.
+
+The na\:ive implementation reflects the sound source against all surfaces in the scene, resulting in a set of \textit{image} sources.
+\marginpar{
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/simulator_ism2.png}
+    \captionof{figure}{%
+        Virtual image sources correspond to multiple sound propagation paths in the \ISM/.
+        \imgsrc{\citeonly{schimmel2009fast}}
+    }
+    \label{fig:acoustics:simulator_ism}
+}
+Then, each of these image sources is itself reflected against all surfaces.
 For these reasons, the image-source method is only suitable for early reflections, and is generally combined with a stochastic method to find the late part of an impulse response
 For higher order of reflection (\~20), the algorithmic complexity explodes becomes impractical.
 For these reasons, the image-source method is only suitable for early reflections, and is generally combined with a stochastic method to find the late part of an impulse response (IR).
+
+First specular ray tracing will eventually find all the same reflection paths as the IS technique although the volumetric receivers may cause some false detections
+
+
 
 \newthought{Hybrid Methods}
 As discussed above, the image-source method is accurate for early reflections, but slow for longer responses.
@@ -656,7 +711,7 @@ However, this is possible provided that the time- and frequency-domain
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/rir_regions.pdf}
     \captionof{figure}{%
-    Time-Frequency profile of reverberation Adapted from \cite{Badeau2019common, Wayverb}.
+    Time-Frequency profile of reverberation Adapted from \citeonly{Badeau2019common, Wayverb}.
     }
     \label{fig:acoustics:rir_regions}
 }
@@ -670,6 +725,11 @@ The crossover point in the frequency domain is called \textit{Schroeder's freque
 spectrum of the \RIR/ into a region with a few isolated modes and one where they can be threated as a
 continuous random process, called respectively the \textit{resonant} and \textit{even} behaviors.
 This point define the cross-fade between the geometrical and wave-based model.
+
+The main drawback of this approach is it may leads to strong approximation error at low frequencies:
+here the wavelength are of the same order of the wall surface and
+interferences, resonances, diffractions effects are not taken into account at these frequencies\cite{Savioja2015goemetric}.
+This
 
 Each simulator has its own way to compute and implement this crossover points.
 
