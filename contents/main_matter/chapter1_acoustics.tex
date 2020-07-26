@@ -6,7 +6,7 @@
     \label{fig:acoustics:sound}
 }
 \openepigraph{Sound, a certain movement of air.}{Aristotele, De Anima II.8 420b12}
-\vspace{-2.5em}
+\vs/pace{-2.5em}
 \newthought{Synopsis}
 This chapter will build a first important bridge: from the physics to analog signal processing.
 % Acoustics explains how sounds works in environment, while room acoustic explain sound in enclosed spaces, such as living rooms, offices, concert halls and many others.
@@ -303,7 +303,7 @@ The remaining contribution may continue to propagate causing resulting in the re
 \end{itemize}
 
 All the phenomena occurs with different proportions depending on the acoustics and geometrical properties of surface and the frequency content of the wave.
-In acoustics, it is common to define the \textit{operating points} and different \textit{regimes}\sidenote{for instance near- vs. far-field}
+In acoustics, it is common to define the \textit{operating points} and different \textit{regimes}\sidenote{for instance near- \vs/ far-field}
 according to the sound frequencies or the correspondent \textit{wavelength} $[\si{\metre}]$,
 \begin{equation}
     \wavelength = \frac{2 \pi}{k} = \frac{\speedOfSound}{f} \hspace{1em} [\si{\metre}]
@@ -588,27 +588,30 @@ less dense grid may simplify too much the simulation, while denser grid increase
 Moreover, they require delicate definitions of the boundaries condition at the physical lever,
 like knowing complex impedances, parameters not always available in the literature.
 \\\textsc{On the other hand} these methods inherently account for many effects such as occlusion, reflections, diffusion, diffractions and interferences.
-In particular by simulating accurately low-frequencies components of the \RIR/, they are able to well characterize the \textit{room modes},
-namely collection of resonances that exist in a room and characterize it.
+In particular by simulating accurately low-frequencies components of the \RIR/, they are able to well characterize the \textit{room modes}
 \sidenote{
     Room modes have the effect of amplifying and attenuating specific frequencies in the \RIR/,
     and produce much of the subjective sonic ``colour'' of a room.
     Their analysis and synthesis is of vital importance for evaluating acoustic of rooms,
     such as concert hall, and recording studios or when producing musically pleasing reverbs.
-}
+},
+namely collection of resonances that exist in a room and characterize it.
 \\As stated in \cite{valimaki2016more}, among the wave-based methods, \DWMf/ are usually preferred:
 they run directly in the time domain, requiring typically an easier implementation, and they exhibits a natural huge level of parallelism.
 
 \newthoughtpar{Geometric metods}
-\marginpar{For a detailed discussion about geometric acoustic methods, please refer to \cite{Savioja2015goemetric}}
 They can be grouped into \textit{stochastic} and \textit{deterministic} approaches.
+\marginpar{
+    \footnotesize
+    For a detailed discussion about geometric acoustic methods, please refer to \citeonly{savioja2015overview}.
+}
 They typically compute the reflection path(s) between the source and the receivers,
 assuming that the wave behaves like a particle or a ray carrying the acoustic energy around the scene.
 
 \newthought{Stochastics} are approximate by nature.
 They are based on statistical modeling of the \RIRs/ or Monte Carlo simulation methods.
 The formers writes statistical signal processing models based on prior knowledge,
-such as probability distribution of the \RIR/ in regions of time-frequency domain~\cite{Badeau2019common}.
+such as probability distribution of the \RIR/ in regions of time-frequency domain~\cite{badeau2019common}.
 Rather than the detailed room geometry, these methods generally use high-level descriptors\sidenote{such as the amount of reverberation}
 to synthesize \RIRs/ and in some application are preferable.
 \\The latters randomly and repeatedly subsample the problem space, \eg/ tracing the path of random reflections,
@@ -664,13 +667,12 @@ these methods are good to capture and simulate the statistical behavior of the d
 \newthought{Deterministic} methods are good to simulate early reflection instead:
 they accurate traces the exact direction and the timing of the main reflections' paths.
 
-The most popular is the Allen and Barkley's \ISMf/\cite{allen1979image}.
-Even if the basic idea is rather inutile and simple, the model
-is able to produce the exact solution to the wave equation for a 3D shoebox with rigid walls.
+The most popular is the Allen and Barkley's \ISMf/~\cite{allen1979image}.
+Even if the basic idea is rather inutile and simple, the model is able to produce the exact solution to the wave equation for a 3D shoebox with rigid walls.
 Since it models only specular (perfect) reflections, ignoring diffuse and diffracted components.
 it only approximate arbitrary enclosures and the late diffuse reflections.
 
-The na\:ive implementation reflects the sound source against all surfaces in the scene, resulting in a set of \textit{image} sources.
+The na\"ive implementation reflects the sound source against all surfaces in the scene, resulting in a set of \textit{image} sources.
 \marginpar{
     \centering
     \footnotesize
@@ -682,73 +684,82 @@ The na\:ive implementation reflects the sound source against all surfaces in the
     \label{fig:acoustics:simulator_ism}
 }
 Then, each of these image sources is itself reflected against all surfaces.
-For these reasons, the image-source method is only suitable for early reflections, and is generally combined with a stochastic method to find the late part of an impulse response
-For higher order of reflection (\~20), the algorithmic complexity explodes becomes impractical.
-For these reasons, the image-source method is only suitable for early reflections, and is generally combined with a stochastic method to find the late part of an impulse response (IR).
-
-First specular ray tracing will eventually find all the same reflection paths as the IS technique although the volumetric receivers may cause some false detections
-
-
+Two are the main limitation of this method.
+First, in a shoebox the complexity of the algorithm is cubic in the order of reflection and for order higher 30 the algorithm become impractical.
+Second it models only the specular reflection, neglecting the diffuse sound field.
+\\For these reasons, the image-source method is generally combined with a stochastic method in hybrid method to model the full impulse response.
 
 \newthought{Hybrid Methods}
-As discussed above, the image-source method is accurate for early reflections, but slow for longer responses.
+As discussed above, the image-source method is accurate for early reflections, but slow and not accurate for longer responses.
 The ray tracing method is by nature an approximation, but produces acceptable responses for diffuse field.
+And in general geometric methods fails to proper model lower frequencies and room modes.
 The waveguide method models physical phenomena better than the geometric methods, but is expensive at high frequencies.
-This limitation corresponds into three regions in the Time-Frequency representation of the \RIR/.
+All these limitations corresponds into three regions in the \TFdef/ representation of the \RIR/.
 As depicted in~\cref{fig:acoustics:rir_regions},
-\begin{itemize}
-    \item in the time domain, a transition can be identified between the early vs. late reflection, corresponding to the validity of the deterministic vs. stochastic models;
-    \item and in the frequency domain, between geometric and wave-based modeling.
-\end{itemize}
-
-By combining all three models, accurate broadband impulse responses can be created,
-but for a much lower computational cost than would be possible with any individual method.
-However, this is possible provided that the time- and frequency-domain
-\textit{crossover point} are respected and the level of each component is scaled accordingly.
-
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/rir_freq.png}
+    \captionof{figure}{%
+    Time-Frequency profile of a measured \RIR/.
+    }
+    \label{fig:acoustics:rir_regions}
+}
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/rir_regions_stochastic.png}
+    \captionof{figure}{%
+    Schematic of Time-Frequency \RIR/. \imgsrc{\citeonly{badeau2019common}}.
+    }
+    \label{fig:acoustics:rir_regions}
+}
 \marginpar{%
     \centering
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/rir_regions.pdf}
     \captionof{figure}{%
-    Time-Frequency profile of reverberation Adapted from \citeonly{Badeau2019common, Wayverb}.
+    Time-Frequency regions of \RIR/ associated to the method that better simulate them. \imgsrc{\citeonly{thomas2017wayverb}}.
     }
     \label{fig:acoustics:rir_regions}
 }
+\begin{itemize}
+    \item in the time domain, a transition can be identified between the early \vs/ late reflection, corresponding to the validity of the deterministic \vs/ stochastic models; and
+    \item in the frequency domain, between geometric \vs/ wave-based modeling.
+\end{itemize}
+By combining three methods, accurate broadband impulse responses can be synthesized,
+but for a much lower computational cost than would be possible with any individual method.
+However, this is possible provided that the time- and frequency-domain
+\textit{crossover points} are respected and the level of each component is scaled accordingly~\citeonly{badeau2019common}.
 
-The crossover point in the time domain is called \textit{transition time} or \textit{mixing time}.
-It identifies the moment after which reflections are so frequent that they form a continuum and, because the sound is partially absorbed by the room surfaces at every reflection, the sound level decays exponentially over time \cite{Badeau2019common}
-This point define the cross-fade between the deterministic and the stochastic process.
-Notice, that the latter will record both specular and diffuse reflections.
-
-The crossover point in the frequency domain is called \textit{Schroeder's frequency}, splitting the
-spectrum of the \RIR/ into a region with a few isolated modes and one where they can be threated as a
-continuous random process, called respectively the \textit{resonant} and \textit{even} behaviors.
+\textsc{The Crossover Point} in the time domain is called \textit{transition time} or \textit{mixing time}.
+It identifies the moment after which reflections are so frequent that they form a continuum and,
+because the sound is partially absorbed by the room surfaces at every reflection,
+the sound level decays exponentially over time.
+This point define the cross-fade between the deterministic and the stochastic process
+\sidenote{Notice that the stochastic simulator will record both specular and diffuse reflections.
+Therefore, the mix between the two must be done prudently.}.
+\\The crossover point in the frequency domain is called \textit{Schroeder's frequency}
+and it split the spectrum of the \RIR/ into a region with a few isolated modes and one denser,
+called respectively the \textit{resonant} and \textit{even} behaviors.
 This point define the cross-fade between the geometrical and wave-based model.
 
-The main drawback of this approach is it may leads to strong approximation error at low frequencies:
-here the wavelength are of the same order of the wall surface and
-interferences, resonances, diffractions effects are not taken into account at these frequencies\cite{Savioja2015goemetric}.
-This
-
-Each simulator has its own way to compute and implement this crossover points.
+Each simulator available has its own way to compute and implement this crossover points as well as mixing the three methods.
 
 \subsection{The Method of Images and the Image Source Model}\label{subsec:acoustics:ism}
-
 The \textit{Method of Images} is a mathematical tool for solving certain class of differential equations subjected to boundary conditions.
-By assuming the presence of a ``mirrored'' source, certain boundary condition are verified greatly facilitating the solution of the original problem.
+By assuming the presence of a ``mirrored'' source, certain boundary conditions are verified facilitating the solution of the original problem.
 This methods is widely used in many fields of physics, and interestingly with specific application to Green's functions.
-Its application to acoustic was originally proposed by Allen and Berkley in \cite{allen1979image} and it is know as the \ISMf/.
-Now it is probably the most used technique for \RIR/ simulation due its conceptual simplicity and its flexibility.
+Its application to acoustic was originally proposed by \citeauthor{allen1979image} in \cite{allen1979image} and it is know as the \ISMdef/.
+Now \ISM/ is probably the most used technique for deterministic \RIR/ simulation due its conceptual simplicity and its flexibility.
 
-The \ISM/ is based on purely specular reflection and it assumes that the sound energy travels around a scene in “rays”.
+The \ISM/ is based on purely specular reflection and it assumes that the sound energy travels around a scene in ``rays''.
 
-In the appendix of \cite{allen1979image}, the authors also proved that this method produce a close solution to the one the Helmholtz's equation.
-The image solution of a rectangular enclosure
-rapidly approaches an exact solution of the wave equation as the walls of the room become rigid.
+In the appendix of \cite{allen1979image}, the authors also proved that this method produce a solution the Helmholtz's equation
+for rectangular enclosure with rigid boundaries.
 
-\newthought{Locally, the Image Source} defines the interaction of the propagating sound with the reflectors.
-It is based on the observation that when a ray is reflected, it spawns a secondary source “behind” the boundary surface.
+\newthought{On a single reflector, the Image Source} defines the interaction of the propagating sound and the surface.
+It is based on the observation that when a ray is reflected, it spawns a secondary source ``behind'' the boundary surface.
 This additional source is located on a line perpendicular to the wall, at the same distance from it as the original source, as if the original source has been “mirrored” in the surface.
 In this way, the each wavefront that arrives to the receiver from each reflection off the walls as the direct path received from an equivalent (or image) source.
 
