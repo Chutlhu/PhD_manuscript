@@ -6,18 +6,18 @@
     \label{fig:acoustics:sound}
 }
 \openepigraph{Sound, a certain movement of air.}{Aristotele, De Anima II.8 420b12}
-\vs/pace{-2.5em}
+\vspace{-2.5em}
 \newthought{Synopsis}
 This chapter will build a first important bridge: from the physics to analog signal processing.
 % Acoustics explains how sounds works in environment, while room acoustic explain sound in enclosed spaces, such as living rooms, offices, concert halls and many others.
-It first defines sound and how its propagation~\cref{ch:acoustics:sec:wave} connected the concept of impulse response.
+It first defines sound and how it propagates~\cref{ch:acoustics:sec:wave} defining the concept of impulse response.
 Then the interaction with the environment is show~\cref{ch:acoustics:sec:reflection}, teasing out the fundamental concept of this thesis: the echoes.
-By assuming some approximation, the \RIRdef/ will be defined.
-Finally, a description of the way the human auditory system perceives the sound will be reported.
-In particular, the influence of the first early reflection on the sound perception will be elaborated.
-One of the most frequently effects produced during sound propagation in a medium is reverberation,
-which is caused by physical surfaces that partly absorb and partly reflect sound waves in air. We will first examine in Sec. 4.2 the physical and perceptual background of reverberation. The knowledge gained on these aspects will enable us to study some of the most known reverberation algorithms in Sec. 4.3. Finally we will review in Sec. 4.4 more recent approaches to synthetic reverberation, that are based on feedback delay networks and waveguide meshes.
-The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \cite{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
+By assuming some approximation, the \RIRdef/ will be defined ~\cref{ch:acoustics:sec:rir} describing methods to compute or approximate it.
+Finally in~\cref{ch:acoustics:sec:perception} a description of the way the human auditory system perceives reverberation will be reported.
+% In particular, the influence of the first early reflection on the sound perception will be elaborated.
+% One of the most frequently effects produced during sound propagation in a medium is reverberation,
+% which is caused by physical surfaces that partly absorb and partly reflect sound waves in air. We will first examine in Sec. 4.2 the physical and perceptual background of reverberation. The knowledge gained on these aspects will enable us to study some of the most known reverberation algorithms in Sec. 4.3. Finally we will review in Sec. 4.4 more recent approaches to synthetic reverberation, that are based on feedback delay networks and waveguide meshes.
+% The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \cite{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
 
 \section{Sound Wave Propagation}\label{ch:acoustics:sec:wave}
 \marginpar{%
@@ -425,8 +425,6 @@ Originally this term used to indicate sound reflections which are subjectively n
 These can be heard consciously in outdoor scenario, such as in mountain. However, they are less noticeable to the listener in close rooms.
 In~\cref{ch:acoustics:subsec:rir} a proper definition of echoes will be given with respect the temporal distribution of the acoustic reflection.
 
-
-
 \subsection{Diffusion, Scattering and Diffraction of Sound}
 Real-world surfaces are not ideally flat and smooth; they are rough and uneven.
 Examples of such surfaces are coffered ceilings, faceted walls, raw brick walls as well as the entire audience area of a concert hall.
@@ -667,7 +665,7 @@ these methods are good to capture and simulate the statistical behavior of the d
 \newthought{Deterministic} methods are good to simulate early reflection instead:
 they accurate traces the exact direction and the timing of the main reflections' paths.
 
-The most popular is the Allen and Barkley's \ISMf/~\cite{allen1979image}.
+The most popular is the Allen and Barkley's \ISMdef/~\cite{allen1979image}.
 Even if the basic idea is rather inutile and simple, the model is able to produce the exact solution to the wave equation for a 3D shoebox with rigid walls.
 Since it models only specular (perfect) reflections, ignoring diffuse and diffracted components.
 it only approximate arbitrary enclosures and the late diffuse reflections.
@@ -744,7 +742,7 @@ and it split the spectrum of the \RIR/ into a region with a few isolated modes a
 called respectively the \textit{resonant} and \textit{even} behaviors.
 This point define the cross-fade between the geometrical and wave-based model.
 
-Each simulator available has its own way to compute and implement this crossover points as well as mixing the three methods.
+Each simulator available has its own way to compute and implement this crossover points as well as mixing the results of the three methods.
 
 \subsection{The Method of Images and the Image Source Model}\label{subsec:acoustics:ism}
 The \textit{Method of Images} is a mathematical tool for solving certain class of differential equations subjected to boundary conditions.
@@ -754,16 +752,15 @@ Its application to acoustic was originally proposed by \citeauthor{allen1979imag
 Now \ISM/ is probably the most used technique for deterministic \RIR/ simulation due its conceptual simplicity and its flexibility.
 
 The \ISM/ is based on purely specular reflection and it assumes that the sound energy travels around a scene in ``rays''.
-
-In the appendix of \cite{allen1979image}, the authors also proved that this method produce a solution the Helmholtz's equation
+\\In the appendix of \cite{allen1979image}, the authors also proved that this method produce a solution the Helmholtz's equation
 for rectangular enclosure with rigid boundaries.
 
 \newthought{On a single reflector, the Image Source} defines the interaction of the propagating sound and the surface.
 It is based on the observation that when a ray is reflected, it spawns a secondary source ``behind'' the boundary surface.
-This additional source is located on a line perpendicular to the wall, at the same distance from it as the original source, as if the original source has been “mirrored” in the surface.
+As show in~\cref{fig:acoustics:image_model}, this additional source is located on a line perpendicular to the wall, at the same distance from it as the original source, as if the original source has been “mirrored” in the surface.
 In this way, the each wavefront that arrives to the receiver from each reflection off the walls as the direct path received from an equivalent (or image) source.
 
-Assumption:
+The \ISM/ makes use of the following assumptions:
 \begin{itemize}
     \item sound source and receiver as points in a rectangular cavity
     \item purely specular reflection paths between a source and a receiver
@@ -771,41 +768,67 @@ Assumption:
     \item Rays are perfectly reflected at boundaries
 \end{itemize}
 
-When a rigid wall is present, it represents a boundary condition to the wave equation, namely to have zero normal velocity vector.
-Assuming a lossless reflection, \ie/ $\absCoeff = 0$, a way to satisfy the boundary condition is to assume
-an additional sound source, called the \textit{image source}, placed symmetrically to the main source on the far side of the wall.
+% When a rigid wall is present, it represents a boundary condition to the wave equation, namely to have zero normal velocity vector.
+% Assuming a lossless reflection, \ie/ $\absCoeff = 0$, a way to satisfy the boundary condition is to assume
+% an additional sound source, called the \textit{image source}, placed symmetrically to the main source on the far side of the wall.
+% Moreover, as discussed in~\cref{ch:acoustics:sec:reflection}, such a surface generates specular reflection.
 
-Moreover, as discussed in~\cref{ch:acoustics:sec:reflection}, such a surface generates specular reflection.
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/ism_1.png}
+    \includegraphics[width=\linewidth]{acoustics/ism_2.png}
+    \captionof{figure}{%
+    Path involving one reflection obtained using first-order image (top) and two reflections obtained using two images.
+    It. \imgsrc{\citeonly{habets2006room}}.
+    }
+    \label{fig:acoustics:image_model}
+}
 
-The model is depicted in~\cref{fig:acoustics:image_model}.
-A sound source is located in $\positionSource$ near a reflecting wall.
-At the receiver position $\positionMicrophone$ two signals arrives: the one coming directly from $\positionSource$
+% A sound source is located in $\positionSource$ near a reflecting wall.
+% At the receiver position $\positionMicrophone$ two signals arrives: the one coming directly from $\positionSource$
 
-A ray which is reflected from several boundaries is represented by a “higher-order” image-source,
-which has been mirrored in each of those boundaries\cite{Kuttruff}. In this way, the
+% A ray which is reflected from several boundaries is represented by a “higher-order” image-source,
+% which has been mirrored in each of those boundaries\cite{Kuttruff}. In this way, the
 
-All sources, original and image, emit the same impulsive source signal at the same time. The total impulse response (i.e. sound pressure against time) is found by summing the signals from each source, delayed and attenuated appropriately depending on the distance between that source and the receiver, which is equivalent to the length of the specular reflection path. The frequency response of the signal from each image source will additionally be modified depending on the characteristics of each boundary in which that source was reflected.
+% All sources, original and image, emit the same impulsive source signal at the same time.
+\newthought{Finally \RIR/} is found by summing the contribution from each (image) source, delayed and attenuated appropriately depending on their distance from the receiver.
+Therefore, in the time domain the \RIR/ associated to the source in position $\positionSource$ and the receiver in $\positionMicrophone$ reads
+\begin{equation}\label{eq:acoustics:ims}
+    \rir_{\mathtt{ISM}}(t, \positionMicrophone \mid \positionSource) =
+    \sum_{\idxEch=0}^{\numEchs}
+        \frac{1}{4 \pi \norm{\positionMicrophone - \positionSource_\idxEch}}
+        \diracOf{t - \frac{\norm{\positionMicrophone - \positionSource_\idxEch}}{\speedOfSound}}
+\end{equation}
+where $\positionSource_\idxEch$ is the $\idxEch$-th image of the source.
 
-In the real world, not all energy is perfectly reflected at a boundary.
-Some energy will be randomly diffused in non-specular directions.
-The image-source model is not capable of modelling this phenomenon, though this is not particularly problematic.
-Consider that, once scattered, sound energy cannot become un-scattered.
-The conversion from incoming energy to scattered energy is unidirectional, so repeated reflections cause the ratio of scattered to specular energy to increase monotonically.
-Kuttruff shows that, though the earliest reflections may be largely specular, after a few reflections the large majority of sound energy becomes diffuse [2, p. 126].
-This suggests that the image model should be used only for very early reflections, where most energy is not scattered, and a secondary model used to compute late, diffuse reflections.
-In Wayverb, the image model is used for early reflections, and stochastic ray-tracing is used for the diffuse tail.
-The combination of the two models is described in the Hybrid Model section.
+The above equation assume perfect rigid and reflective wall.
+In order to easily incorporate frequency-dependent acoustic impedances (and absorption coefficient)
+of real surfaces, the Fourier transform of~\cref{eq:acoustics:ims} is consider instead, where
+each reflection term addendum is appropriately scaled
+\begin{equation}
+    \label{eq:acoustics:ims}
+    \rirFreq_{\mathtt{ISM}}(f, \positionMicrophone \mid \positionSource) =
+        \sum_{\idxEch=0}^{\numEchs} \frac{\absCoeff_{\idxEch}(f)}{4 \pi \norm{\positionMicrophone - \positionSource_\idxEch}}
+        \exp\kparen{- \Ii 2 \pi f \frac{\norm{\positionMicrophone - \positionSource_\idxEch}}{\speedOfSound}}
+        ,
+\end{equation}
+where $\absCoeff_{\idxEch}$ is the damping coefficient related to the $\idxEch$-th image which in general
+consider the all the absorption coefficient of the considered surfaces.
+% When simulating the discrete version of a \RIR/ on a computer, in general this distances corresponds to delays that are not on
+% integer multiple of the sampling frequencies.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%y
 \section{Perception and Some Acoustic Parameters}\label{ch:acoustics:sec:perception}
-In the previous sections we have analyzed reverberation from a purely physical point of view.
-However in many applications it is important to correlate physical measurements to subjective and perceptual acoustical qualities.
+So far we have analyzed reverberation from a purely mathematical point of view.
+However in many applications it is important to correlate physical measurements to subjective and perceptual qualities.
 This will be important in order to define evaluation scenarios later in this thesis.
 \sidenote{
     \footnotesize
     \textbf{\textit{Cite Sacks about perception}}
 }
-\subsection{The Perception of the \RIR/ elements}
+\subsection{The Perception of the \RIR/'s elements}
 It is commonly accepted that the \RIR/ components defined in~\cref{ch:acoustics:subsec:rir} play rather separate roles in the perception of sound propagation.
 
 \newthought{The Direct Path} is the delayed and attenuated version of source signal itself.
@@ -845,6 +868,16 @@ And it is represented in Equation 2.47 by the symbol Tm.
 Due to this, it is an parameters important also in the context of \RIRs/ synthesis as it defines cross-over point for room acoustics simulator using hybrid methods~\citeonly{savioja2015overview}\sidenote{\cfr~\cref{sec:acoustics:simulators}}.
 
 \subsection{Reverberation Time}
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/rt60.png}
+    \captionof{figure}{%
+    illustration of the Reverberation Time ($\RT$) definition.
+    It. \imgsrc{wikipedia}.
+    }
+    \label{fig:acoustics:image_model}
+}
 The \textit{reverberation time} measures the time that takes the sound to ``fade away'' after it ceases.
 In order to quantify it, acoustics and in audio signal processing use the \textit{Reverberation Time at 60 dB}, \ie/
 \begin{center}
