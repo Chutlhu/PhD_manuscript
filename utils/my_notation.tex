@@ -28,6 +28,10 @@
   \expandafter\xdef\csname bb\x \endcsname{\noexpand\ensuremath{\noexpand\mathbb{\x}}}
 %   % mathds -- ???
   \expandafter\xdef\csname ds\x \endcsname{\noexpand\ensuremath{\noexpand\mathds{\x}}}
+%   % mathfrak -- gothic
+  \expandafter\xdef\csname fk\x \endcsname{\noexpand\ensuremath{\noexpand\mathfrak{\x}}}
+%   % mathfrak -- curly
+  \expandafter\xdef\csname scr\x \endcsname{\noexpand\ensuremath{\noexpand\mathscr{\x}}}
 %   % mathcal -- calligraphy
   \expandafter\xdef\csname cal\x \endcsname{\noexpand\ensuremath{\noexpand\mathcal{\x}}}
 }
@@ -124,7 +128,6 @@
 \newcommand{\const}{\ensuremath{\text{\textit{const.}}}}
 
 \newcommand{\idealLowPassFilter}{\phi}
-
 \newcommand{\disRadonMeasure}{\calM(\Theta)}
 \newcommand{\posDisRadonMeasure}{\calM_+(\Theta)}
 
@@ -161,7 +164,7 @@
 % % delimiter command, the vertical bar will resize appropriately
 % % Example:
 % %   \set{ x \in W \given x > 0 }
-% \newcommand{\given}{\;\mdelim\vert\;}
+\newcommand{\given}{\;\mdelim\vert\;}
 
 
 % --- Math operators
@@ -173,3 +176,7 @@
 % --- Mathematical operators and function
 \newcommand{\conv}{\ast}
 \newcommand{\diracOf}[1]{\dirac\kparen{#1}}
+
+% other definition
+\newcommand{\myeq}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
+\newcommand{\mathspace}{\hspace{1em}}

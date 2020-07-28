@@ -6,7 +6,7 @@ signal processing
 \blindtext[1]
 Notation and definition are based on \cite{gannot2017consolidated}.
 
-\section{Signal Model and Definitions}
+\section{Signal Model and Definitions}\label{sec:processing:model}
 \marginpar{
     \footnotesize
     In this section and in the rest of the dissertation,
@@ -41,7 +41,7 @@ using by means of an intermediate representation~\cite{sturmel2012linear}:
 Being $\spat_\idxSrc(\cdot)$ a possibly nonlinear spatialization operation, the spatial images
 $\imgs_\idxSrc(t) = \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}}$ with respect to the $\numMics$ reads
 \begin{equation}
-    \imgs_\idxSrc(t) = \kbracket{\spat_\idxSrc(\src_\idxSrc)}(t)
+    \imgs_\idxSrc(t) = \kbracket{\spat_\idxSrc(\idxSrc)}(t)
     .
 \end{equation}
 In second stage, the images of all (point and diffuse) sources are added together and passed through a possibly
@@ -76,27 +76,107 @@ from source $\idxSrc$ to microphone $\idxMic$ and the post-mixing operation $\ma
 \end{align}
 where $\conv$ is the linear convolution operator.
 % \sum_{\tau=-\infty}^{+\infty} \bsh_\idxSrc(\tau) s_\idxSrc(t - \tau)
-%
-Target noise
 
-\subsection{Time-Frequency Analysis and Synthesis}
-
-\subsection{Artificial Mixtures}
-
-\subsection{Impulse Response Models}
-\newthoughtpar{Acoustic and Room Impulse Response}
-
-\newthoughtpar{Acoustic and Room Transfer Functions}
-
-\newthoughtpar{Steering Vectors}
-
-\newthoughtpar{Relative Transfer Functions}
-
-\newthoughtpar{Full-Rank Covariance Models}
+With the above notation, all the sources are threated in the same way, including \textit{target}, \textit{interfering} and \textit{noise} sources.
+These definition depends on the specific use case, field of research and application.
+Nevertheless, in speech processing context,
+it is common to refers to interfering and noisy sources as undesired speech \vs/ nonspeech sources respectively.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Audio Inverse Problems}
-\newthoughtpar{Forward vs Inverse Problem}
+\cite{kitic2015cosparse}
+\openepigraph{Their generality is of such a wide scope that onemayeven argue that solving inverse problems is what signal processing is all about}{Srdan Kiti\'c, \textit{Cosparse regularization of physics-driven inverse problems}}
+\openepigraph{everything is an optimization problem}{\citeonly{watson2001nonlinear}}
+\marginpar{
+    \footnotesize
+    One can see the paralelism with the engineering concepts: analysis and sythesis.
+}
+In~\cref{sec:intro:problem} we have informally defined \textit{inverse problems}, with an emphasis on inverse problems in signal processing.
+An inverse problem is a type of a mathematical problem where we start with the observations and we want to estimate model parameters that produced them.
+\\Inverse problems pervades all the field of science and engineering:
+source localization~\cite{},
+image processing~\cite{},
+acoustic imaging and tomography~\cite{},
+\marginpar{
+    \footnotesize
+    A historical example are the calculation of the Earth circunference by Eratosthenes in III century b.c.\\
+    and the calculations of Adams and Le Verrier which led to the discovery of Neptune from the perturbed trajectory of Uranus.
+}
+
+A inverse problems may be defined as the dual of a \textit{forward}\sidenote{often referred to as \textit{direct}} problem.
+Without falling in and deep mathematical formalism and taxonomies which can be found in \citeonly{bal2012introduction},
+we will simply consider the following informal definition:
+\begin{center}
+    \textit{\emph{Forward problem} starts from known input, while \emph{inverse problem} starts from known output~\cite{santamarina2005discrete}.}
+\end{center}
+Both these problems focus on an operation relating maps objects of interest, called \textit{parameters} or \textit{variables},
+to information collected about these objects, called \textit{measurements}, \textit{data} or \textit{observation}.
+
+For instance, in our context, the direct problem may be the estimation of the \RIR/(s) starting from the known room parameters,
+and, the related inverse problem would be the estimation of such room properties from the observation of the \RIR/(s).
+
+Formally, a forward problem is defined through a mathematical model, described by a \textit{operation} $\scrM(\cdot)$
+mapping \textit{parameters} $x \in \scrX$ to the \textit{observation} (or measurement) $y \in \scrY$:
+\begin{equation}\label{eq:processing:model}
+    y = \scrM(x)
+    .
+\end{equation}
+Then, the inverse problem defines a method $\kinv{\scrM}$ that ``reverts'' $\scrM$ in order to recover (estimate) $x$ form the observation of $y$.
+% The operator $\scrM$ describes our best effort to construct a \textit{model} for the available data $y$.
+% The choice of $\scrX$ describes our best effort to characterize the space where we believe the parameters belong.
+
+As discussed in~\cite{bal2012introduction}, \textit{solving} the inverse problem consists in finding point(s) $x \in \scrX$ from (knowledge of) data $y \in \scrY$
+such that~\cref{eq:processing:model} or an approximation of~\cref{eq:processing:model} holds.
+Under this light, the operator $\scrM$ ant the choice of $\scrX$ describes our best effort to construct a \textit{model} for the data $y$ and
+the space where the parameters $x$ belong, respectively.
+\marginpar{
+    \footnotesize
+    one can already see the paralelism the the definition of the mixing process defined in~\cref{sec:intro:problem}
+}
+
+\textsc{For instance, in Case of} \textit{linear} inverse problem, and for $\scrY$ and $\scrX$ being vector spaces of dimensions $M$ and $N$ respectively,
+then the forward map can be written as a linear system:
+\begin{equation}\label{eq:processing:linear_forward}
+    \bfy = \bfM \bfx
+\end{equation}
+where $\bfM$ being a matrix, namely the operator $\scrM$ becomes a matrix multiplication by $M$.
+It follows that the inverse map associated to~\cref{eq:processing:linear_forward} is the application of the inverse matrix $\kinv{M}$.
+% While solving a direct problem the an operator needs to be found, in solving the inverse one either the operator is known and needs
+% to be $reverts$t
+
+Typically, forward problems are considered somehow the ``easier''.
+In fact, even in the observation model $\scrM$ is known perfectly, it is not always possible to find its counterpart.
+This because of
+\begin{itemize}
+    \item presence of \textit{noise} in the measurement which are not always additive and statistically independent \wrt/ $x$.
+    \item the problem is \textit{well-posed} and \textit{well-conditioned}, namely $\scrM$ needs be injective and stable.
+    In other words, some information is recoverable, other is completely lost, other highly sensible to noise
+    \sidenote{
+        \textbf{injective} ensure the uniqueness of the solution, while \textbf{stability}
+        ensure a continuity on the data.
+        These are known as the Hadamard's \textit{solvability conditions}.
+    }.
+\end{itemize}
+
+As we could images, many interesting and fundamental inverse problem are
+\textit{ill-posed} or \textit{ill-conditioned} in general, even in the following ``simple'' ones~\cite{kitic2015cosparse}:
+The solution to the deconvolution problem, where the direct inversion of the transfer function results in instabilities
+at high frequency; and the solution a linear system $\bfy = \bfM \bfx$ where $\bfM$ is invertible
+may lead to erroneous results and numerical instabilities.
+
+Therefore, sometimes ones have to settle for restring the set of solution $\scrC \subset \scrX$,
+where $\scrM$ is stable and injective\sidenote{This framework was originally proposed by Tikhonov.}.
+Promoting solution $x \in \scrC$ is can be achieved through \textit{model priors}, namely prior knowledge about solution, which can
+be classified in the following methodologies:
+the usage of \textit{geometric constraints} that deterministically define the solutions; the imposition of \textit{penalization}
+which ``promotes'' solution of a certain shape (\eg/ \textit{sparse}\sidenote{\textbf{sparsity} will be fundamental concept in this work} or \textit{smoothness});
+and casting the problem in a \textit{bayesian framework} which versatilely incorporate prior and posterior density function describing the data.
+
+
+\textit{regularization} of the inverse problem
+and done by
+Rather famous example of a regularization methods are \textit{smoothness}, assuming
+nad \textit{sparsity}, for which parameters with simple structure are promoted.
 
 \subsection{General Processing Scheme}
 General Processing Pipeline
@@ -115,28 +195,44 @@ General Processing Pipeline
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Taxonomy through dichotomies}
 %% acoustics %%
-\newthoughtpar{Single-Channel vs. Multichannel}
-\newthoughtpar{Point vs. Diffuse Sources}
-\newthoughtpar{Directonal vs. Onmidirectional Recordings}
-\newthoughtpar{Diffuse vs. Measurements Noise}
+\newthoughtpar{Single-Channel \vs/ Multichannel}
+\newthoughtpar{Point \vs/ Diffuse Sources}
+\newthoughtpar{Directonal \vs/ Onmidirectional Recordings}
+\newthoughtpar{Diffuse \vs/ Measurements Noise}
 %% processing %%
-\newthoughtpar{Natural vs. Artificial Mixtures}
+\newthoughtpar{Natural \vs/ Artificial Mixtures}
+\newthoughtpar{Linear \vs/ Nonlinear}
 %% pipeline %%
-\newthoughtpar{Problem vs. Model}
-\newthoughtpar{Synthesis vs. Abstaction}
+\newthoughtpar{Problem \vs/ Model}
+\newthoughtpar{Synthesis \vs/ Abstaction}
 %% problems %%
-\newthoughtpar{Separation vs. Enhancement}
+\newthoughtpar{Separation \vs/ Enhancement}
 %% models %%
-\newthoughtpar{end2end vs. 2step}
+\newthoughtpar{end2end \vs/ 2step}
 end2end: from data to (feature to) target
 \\2-step: (from data to features) + features to target
 
-\newthoughtpar{Knowledge-based vs. Learning-based}
+\newthoughtpar{Knowledge-based \vs/ Learning-based}
 \begin{itemize}
     \item Bottom-up vs Top-down information processing
     \item Knowledge-based: specialized signal processing and mathematical algorithms informed by knowledge;
     \item Learning-based: machine learning usually trained in supervised fashion.
 \end{itemize}
 
-\newthoughtpar{Supervised vs. Unsupervised}
-\newthoughtpar{Machine Learning vs. Deep Learning}
+\newthoughtpar{Supervised \vs/ Unsupervised}
+\newthoughtpar{Machine Learning \vs/ Deep Learning}
+
+\section{Time-Frequency Analysis and Synthesis}
+
+\subsection{Artificial Mixtures}
+
+\subsection{Impulse Response Models}
+\newthoughtpar{Acoustic and Room Impulse Response}
+
+\newthoughtpar{Acoustic and Room Transfer Functions}
+
+\newthoughtpar{Steering Vectors}
+
+\newthoughtpar{Relative Transfer Functions}
+
+\newthoughtpar{Full-Rank Covariance Models}
