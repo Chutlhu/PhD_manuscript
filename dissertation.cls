@@ -278,12 +278,14 @@
 
 \RequirePackage[
     backend=bibtex8,
+    % backend=biber,
     bibencoding=utf8,
     hyperref=true,
     maxbibnames=20,
     maxcitenames=2,
     %giveninits=true,
-    style=alphabetic,
+    % style= apa,%alphabetic,
+    style=authoryear,
     sorting=nyt,
     sortcites=false,
     citetracker=true,
@@ -450,7 +452,21 @@
 
 \RequirePackage[section]{placeins}
 
+% --- COLORS ------------------------------------------------------------------
+\usepackage{xcolor}
+
 \definecolor{Burgundy}{RGB}{144, 0, 32}
+\definecolor{RoyalBlue}{cmyk}{1,0.5,0,0}
+\definecolor{Black}{cmyk}{0,0,0,0}
+\definecolor{alertred}{rgb}{0.80,0.12,0.12}
+\definecolor{linkgreen}{RGB}{0,166,0}
+\definecolor{mygray}{gray}{0.55}
+\definecolor{myorange}{HTML}{ed8c01}
+
+\colorlet{citecolor}{mygray}
+\colorlet{linkcolor}{myorange}
+\colorlet{urlcolor}{mygray}
+\colorlet{acrocolor}{myorange}
 
 \RequirePackage{csquotes}
 
@@ -462,14 +478,20 @@
 % --- HyperRef and links  --- %
 \RequirePackage{hyperref}
 \hypersetup{%
-    linktocpage,
-    bookmarks,
-    bookmarksdepth = section,
-    colorlinks = true,
-    linkcolor = Burgundy,
-    urlcolor = Burgundy,
-    citecolor = Burgundy,
-    pdfpagelayout=TwoPageLeft,
+  linktocpage,
+  bookmarks,
+  bookmarksdepth = section,
+  colorlinks = true,
+  linkcolor = linkcolor,
+  urlcolor = urlcolor,
+  citecolor = citecolor,
+  pdfpagelayout=TwoPageLeft,
+  % pdftitle={\myTitle},%
+  % pdfauthor={\textcopyright\ \myName, \myUni, \myFaculty},%
+  % pdfsubject={},%
+  % pdfkeywords={},%
+  % pdfcreator={pdfLaTeX},%
+  % pdfproducer={LaTeX with hyperref and classicthesis}%
 }
 
 \RequirePackage[capitalise,nameinlink]{cleveref}

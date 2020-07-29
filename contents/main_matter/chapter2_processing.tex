@@ -18,9 +18,9 @@ The signals are emitted by sources and they are observed, received or recorded b
 A set of microphones is called a microphone \textit{array} and its signal are called \textit{channels}.
 
 Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$.
-A \textit{single-channel} signal ($\numMics = 1$) is represented by the scalar $\mic(t) \in \bbR$,
+A \textit{single-channel} signal ($\numMics = 1$) is represented by the scalar $\mic(t) \in \R$,
 while a \textit{multichannel} ($\numMics >   1$) is represented by the vector
-$\mics(t) = \ktranspose{\klist{\mic_1(t), \dots, \mic_{\numMics}(t)}} \in \bbR^{\numMics \times 1}$.
+$\mics(t) = \ktranspose{\klist{\mic_1(t), \dots, \mic_{\numMics}(t)}} \in \R^{\numMics \times 1}$.
 The $\idxMic$-th microphone have a well defined position in the space which is denoted with $\positionMicrophone_\idxMic$.
 \\Furthermore, let assume that there are $\numSrcs$ sources indexed by $\idxSrc \in \numSrcs$.
 Sources can be of two types:
@@ -231,16 +231,58 @@ interconnect and hierarchical approaches may be built\sidenote{Machine Learing a
 for instance, many spatial filtering techniques used for \SE/ rely on \SSL/ blocks;
 and in order to achieves \RooGE/, \AER/ must be done.
 
-\section{Time, Frequency and Time-Frequency}
+\section{Time, Frequency and Time-Frequency Audio Signals}
+The \textit{audio signal} is the variation of pressure over time on the microphone membrane.
+Mathematically it can be written as the the \textit{measure}\sidenote{measure, function, operator}
+$x$ continuous both in time $t \in \R$ and in amplitude $x(t) \in \R$.
+\\Today signals are processed, stored and analyzed by computer and digital modules in their
+digital representation.
+In short, the \textit{digital audio signal} is obtained from an analog signal in two steps:
+first, the continuous time signal $x(t)$ is converted to a discrete time series,
+so that one sample\sidenote{
+   Please note, that the use of the word \textit{sample} will have different
+   meanings in the context of machine learning, where a sample is an instance of a full signal instead of a single time
+} $x(n)$ with $n \in \Z$ is \textit{sampled} with equidistant steps $\Ts$;
+second, the amplitude values can be \textit{quantized}.
+At the end of the digitalization process, $x(n) \in \R$ with $n = 0, \dots, N-1$, represents a one dimensional time series of amplitudes.
+\\An important parameter in the process of digitization is the \textit{sampling frequency},  $\Fs = \sfrac{1}{\Ts}$
+where $\Ts$ is the sampling period.
+The choice of $\Fs$ depends massively on the application since it translates into a trade-off between computational power, sound and processing quality.
+Historically two iconic values are $\SI{44.1}{\kHz}$ for music distribution on CDs and $\SI{8}{\kHz}$ for first-generation speech communication.
+Now multiple of $\SI{8}{\kHz}$ are typical chosen values: ($16, 48, 96, \SI{128}{\kHz}$).
+\\For further details, we refer the reader to audio signal processing basics books such as~\cite{rocchesso2003introduction}.
+
+\newthought{The Frequency Representation}
+As discussed so far, signals describe naturally quantities of interest that varies over times.
+
+We design and analyze  in the frequency domain. That is, we will be
+working with the discrete-time Fourier transform (DTFT) of the discrete-time signal
+
+\FTdef/ of the signal $x$:
+\begin{equation}
+    X(f) = \fourierTrans{x}(f) =
+        \int_{-\infty}^{+\infty}
+        x(t)
+        \cste^{-\csti 2 \pi f t}
+        \,\kdiff{t}.
+\end{equation}
+
+\DFTdef/ of the signal $x$:
+\begin{equation}
+    X[k] = \discreteFT{x}(k) =
+    \sum_{n = 0}^{2 N - 1}
+    x[n]
+    \cste^{-\csti2\pi \tfrac{kn}{2N}}.
+\end{equation}
+
 \subsection{Time and Frequency}
+Due to the harmonic properties of the sound signals, it is now a well-established to represents
+them with
 
 \subsection{Time-Frequency Analysis Synthesis}
 
-\subsection{Time-Frequency Filtering}
 
-% \section{Evaluation of an Inverse Problem}
-% The inverse problem above listed are far to be solved or solved in everyday-life conditions.
-% Ground-truth parameters
+\subsection{Time-Frequency Filtering}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Taxonomy through dichotomies}

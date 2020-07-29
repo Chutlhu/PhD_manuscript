@@ -54,16 +54,6 @@
 \usepackage{pdflscape}
 \usepackage{enumitem}
 
-% --- Colors ------------------------------------------------------------------
-\usepackage{xcolor}
-\colorlet{citecolor}{black}
-\colorlet{linkcolor}{black}
-\colorlet{urlcolor}{black}
-\definecolor{RoyalBlue}{cmyk}{1,0.5,0,0}
-\definecolor{Black}{cmyk}{0,0,0,0}
-\definecolor{alertred}{rgb}{0.80,0.12,0.12}
-\definecolor{linkgreen}{RGB}{0,166,0}
-
 %%% OTHER INCLUDES
 \input{utils/my_commands.tex}
 \input{utils/my_notation.tex}
@@ -117,18 +107,23 @@
 \input{contents/front_matter/acknowledgments}
 \cleardoublepage{}
 
+%*******************************************************
+% Table of Contents
+%*******************************************************
 \doparttoc[n]
 \tableofcontents*\addcontentsline{toc}{chapter}{Contents}
 \clearpage{}
 
-\listofalgorithms\addcontentsline{toc}{chapter}{List of Algorithms}
-\vspace{\baselineskip}
+\input{contents/front_matter/glossary}
+\cleardoublepage{}
 \clearpage{}
 
-\listoftodos[TODOs and Notes]\addcontentsline{toc}{chapter}{List of TODOs and Notes}
-\vspace{\baselineskip}
-\clearpage{}
-
+% \listofalgorithms\addcontentsline{toc}{chapter}{List of Algorithms}
+% \vspace{\baselineskip}
+% \clearpage{}
+%*******************************************************
+% List of Figures
+%*******************************************************
 \listoffigures*\addcontentsline{toc}{chapter}{List of Figures}
 \vspace{\baselineskip}
 \clearpage{}
@@ -195,9 +190,6 @@
 
 \input{contents/back_matter/appendices}
 \input{contents/back_matter/bibliography}
-
-% \printglossary[type=\acronymtype]
-% \printglossary
 % \input{back_matter/index}
 
 

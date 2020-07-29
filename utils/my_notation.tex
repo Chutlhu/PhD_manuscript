@@ -12,11 +12,14 @@
 
 %----------------
 \usepackage{pgffor}
+% for math stuff
 \foreach \x in {a,...,z}{
   % mathbf
   \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
   % Bold symbol
   \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
+  % Typewriter
+  \expandafter\xdef\csname tt\x \endcsname{\noexpand\ensuremath{\noexpand\mathtt{\x}}}
 }
 
 \foreach \x in {A,...,Z}{
@@ -39,6 +42,10 @@
 % --- Math Notation
 % math
 \newcommand{\Ii}{\ensuremath{\imath}}
+% \newcommand{\cstj}{\ensuremath{\jmath}}
+\newcommand{\R}{\ensuremath{\bbR}}
+\newcommand{\N}{\ensuremath{\bbN}}
+\newcommand{\Z}{\ensuremath{\bbZ}}
 % indexing
 \newcommand{\idxSrc}{\ensuremath{j}}
 \newcommand{\idxMic}{\ensuremath{i}}
@@ -103,6 +110,7 @@
 
 % signal processing
 \newcommand{\filterLength}{\ensuremath{{L}}}
+\newcommand{\Ts}{\ensuremath{T_s}}
 \newcommand{\Fs}{\ensuremath{F_s}}
 \newcommand{\zeroVect}{\ensuremath{\mathbf{0}}}
 \newcommand{\rir}{\ensuremath{h^{\text{rir}}}}
@@ -168,7 +176,8 @@
 
 
 % --- Math operators
-\DeclareMathOperator*{\fourierTrans}{\calF}
+\DeclareMathOperator*{\fourierTrans}{\scrF}
+\DeclareMathOperator*{\discreteFT}{\bfF}
 \DeclareMathOperator*{\divergence}{\nabla\cdot}
 \DeclareMathOperator*{\dirac}{\delta}
 \newcommand{\average}{\operatornamewithlimits{average}}
