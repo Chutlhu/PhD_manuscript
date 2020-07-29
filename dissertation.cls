@@ -439,10 +439,11 @@
 %    #1
 %    \EndAccSupp{}
 %}
-
 \RequirePackage{xcolor}
 \RequirePackage{booktabs}
 \RequirePackage{colortbl}
+\RequirePackage{tabularx}
+\RequirePackage{makecell} % provide \makecell for multirow/column cells
 \RequirePackage{multirow}
 \RequirePackage{paralist}
 \RequirePackage{threeparttable}
