@@ -112,37 +112,38 @@ Recalling the derivation in~\cref{ch:acoustics:subsec:rir}, we adopt the followi
     ,
 \end{equation}
 
-\newthought{Steering Vector}\label{eq:processing:steering}
+\newthought{Steering Vector}
 In case of absence of echoes and reverberation, namely assuming free-field propagation,
 the \RIRs/ simplify to \textit{steering vector}, than is the DFT of~\cref{eq:acoustics:greenFreeTime}:
-\begin{equation}
+\begin{equation}\label{eq:processing:steering}
     \bsd_{j}(k) = \klist{\frac{1}{4 \pi \distMicSrc_{1j}} \cste^{-\csti 2 \pi f_k \distMicSrc_{ij} / c},
                             \cdots,
                             \frac{1}{4 \pi \distMicSrc_{Ij}} \cste^{-\csti 2 \pi f_k \distMicSrc_{Ij} / c},
                     }
 \end{equation}
 In far-field regimes, the microphone-to-source distance $\distMicSrc_{ij}$ are larger than the
-inter-microphones distance $d_{ii'}$. Here the attenuation factors $\frac{1}{4 \pi \distMicSrc_{ij}}$ becomes approximately equal
+inter-microphones distance $d_{ii'}$. Here the attenuation factors $\sfrac{1}{4 \pi \distMicSrc_{ij}}$ becomes approximately equal
 and ofter are ignored.
 
 
 \newthoughtpar{Relative Transfer Functions} modeled
+Let us assume that the reference microphone is the first
 The \RTFdef/:
 \begin{equation}\label{eq:processing:rtf}
-    \rtfs_j(k) = \frac{1}{\rir_{rj}(k)} \rirs_j(k)
+    \rtfs_j(k) = \frac{1}{\rir_{1j}(k)} \rirs_j(k)
 \end{equation}
-$r$ is the index of the reference microphone.
 
 \newthought{Relative Steering Vectors} are under the free-far-field assumption on the sound propagation.
 Interestingly from their closed form definition, an important geometrical property arise.
-Let us assume that the reference microphone is the firs, namely $r = 1$.
-By combining~\cref{eq:processing:steering, eq:processing:rtf}, the \textit{relative steering vector} writes
+By combining~\cref{eq:processing:steering,eq:processing:rtf}, the \textit{relative steering vector} writes
 \begin{equation}
-    \bsd_{j}(k) = \klist{\cste^{-\csti 2 \pi f_k \distMicSrc_{ij} / c},
+    \bsd_{j}(k) = \klist{1,
+                         \cste^{-\csti 2 \pi f_k \deltaTaus_{2j}},
                          \cdots,
-                         \cste^{-\csti 2 \pi f_k \distMicSrc_{Ij} / c},
+                         \cste^{-\csti 2 \pi f_k \deltaTaus_{Ij}},
                     }
 \end{equation}
+where $\deltaTaus_{ij} = \frac{\distMicSrc_{ij}-\distMicSrc_{1j}}{c}$ is the \TDOAdef/.
 
 \newthought{Interchannel Cues}
 The \RTFs/ encodes the \ILDdef/ and the \IPDdef/
@@ -151,8 +152,11 @@ The \RTFs/ encodes the \ILDdef/ and the \IPDdef/
     \ipd_{ij}(k) &= \phaseOf{\rtf(k)} \mathspace                  & [\si{\radian}]
 \end{align}
 
-As shown in ... the \ILD/ and the \IPD/ cluster around the direct path. However early echoes and
+As shown in ... the so-called \ILD/ and the \IPD/ cluster around the direct path. However early echoes and
 reverberation make them significantly diverge.
+\sidenote{%
+    this terminology is used in the psycoacoustics fields
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -370,23 +374,17 @@ the \STFT/ has the following useful properties for audio processing~\cite{vincen
     \item the \DFT/ can be efficienciently computed with the \FFT/ algorithm;
     \item the \STFT/ is simple to invert.
 \end{itemize}
-Source properties:
-\begin{itemize}
-    \item sparsity
-    \item structure
-\end{itemize}
 
-\subsection{Time-Frequency Analysis, Processing and Synthesis}
-In line with the audio processing community, we will use the \TF/ representation for .
-In this context we will define the following processing steps.
-
-\newthought{Analysis} is the process of convert the signal in the time-frequency domain.
-\newthought{Processing} is the process of convert the signal back to its original domain.
-\newthought{Synthesis} is the process of convert the signal back to its original domain.
-
-\subsection{Time-Frequency Filtering}
-
-\subsection{The narrowband approximating}
+\newthoughtpar{Time-Frequency Analysis, Processing and Synthesis}
+Throughout this dissertation both estimation and processing will be conducted in the  \TF/ domain.
+This is a common approach in the audio signal processing community, but it is not the only one:
+Many algorithm are designed directly in the time domain.
+\\Along with common motivation supported by time-domain resolution or computational load requirements,
+powerful machine-learning approaches are able to learn both representation and estimation steps~\cref{subsec:application:algos}.
+\\In the context of \STFT/, the process of converting the signal into the \TF/-domain is called \textit{analysis}, while
+its counterpart converting back to time-domain is called \textit{synthesis}.
+Between the two we will conduct \textit{estimation}, \textit{processing} and \textit{enhancement}.
+\\The \STFT/ Analysis, \STFT/ Synthesis
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Taxonomy through dichotomies}
@@ -420,11 +418,6 @@ spatial filtering can be view under this light, where ``virtual'' microphones wi
 
 
 %% processing %%
-\newthoughtpar{Speech \vs/ Music processing}
-Speech and Music signal are different, even when music feature singing voice.
-In this thesis we will focus only on speech music.
-
-
 \newthought{Linear \vs/ Non-linear}
 If the whole mixing (and mastering) processes is \textit{linear}, and \textit{non-linear} otherwise.
 
@@ -457,26 +450,3 @@ In the context of audio inverse problem, it is common to model noise as an addit
 In this thesis, we will refer to this type noise as \textit{measurement noise}, as it corrupts the observed (\ie/ measured) data,
 and it is modeled as white (\ie/ spectrally flat) Gaussian noise, which is the basic noise model used in signal processing to mimic the effect of many random processes that occur in nature.
 \\When comes to microphones recordings, environmental noise is diffuse with
-
-%% pipeline %%
-\newthoughtpar{Problem \vs/ Model}
-
-\newthoughtpar{Synthesis \vs/ Analysis}
-
-%% problems %%
-\newthoughtpar{Separation \vs/ Enhancement}
-
-%% models %%
-\newthoughtpar{end2end \vs/ 2step}
-end2end: from data to (feature to) target
-\\2-step: (from data to features) + features to target
-
-\newthoughtpar{Knowledge-based \vs/ Learning-based}
-\begin{itemize}
-    \item Bottom-up vs Top-down information processing
-    \item Knowledge-based: specialized signal processing and mathematical algorithms informed by knowledge;
-    \item Learning-based: machine learning usually trained in supervised fashion.
-\end{itemize}
-
-\newthoughtpar{Supervised \vs/ Unsupervised}
-\newthoughtpar{Machine Learning \vs/ Deep Learning}
