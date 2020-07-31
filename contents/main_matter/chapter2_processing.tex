@@ -70,17 +70,90 @@ In this case, the spatialization operation $\spat_\idxSrc(\cdot)$ is expressed b
 collection of convolution with \RIR/ $h_{\idxMic\idxSrc}$
 from source $\idxSrc$ to microphone $\idxMic$ and the post-mixing operation $\master(\cdot)$ reduces to the identity:
 \begin{align}
-    \img_{\idxMic\idxSrc}(t) &=  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} (t) \\
-    \imgs_\idxSrc(t) &=  \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}}\\
-    \mics(t)         &= \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc(t)
+    \mics(t)         &= \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc(t)\\
+    \imgs_\idxSrc(t) &= \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}}\\
+    \img_{\idxMic\idxSrc}(t) &=  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} (t)
 \end{align}
-where $\conv$ is the linear convolution operator.
-% \sum_{\tau=-\infty}^{+\infty} \bsh_\idxSrc(\tau) s_\idxSrc(t - \tau)
+where $\conv$ is the linear convolution operator. The filters with coefficient $h_{\idxMic\idxSrc}(t)$ are the \RIR/.
 
 With the above notation, all the sources are threated in the same way, including \textit{target}, \textit{interfering} and \textit{noise} sources.
 These definition depends on the specific use case, field of research and application.
 Nevertheless, in speech processing context,
 it is common to refers to interfering and noisy sources as undesired speech \vs/ nonspeech sources respectively.
+
+\subsection{Impulse Response Models}
+we describe here the model used throughout the rest of this dissertation:
+\begin{center}
+    \textit{linear mixing, unit post-filtering, time-invariant filters and static sources in the time-frequency domain}.
+\end{center}
+
+Thanks to the convolution theorem, time-domain convolution can be implemented as a multiplication in the frequency-domain.
+However this does not generalized straightforwardly to the time-frequency domain:
+it depends on the length of the filter \wrt/ to the length of the analysis window on of the \STFT/.
+Issues arise with long filter, which are common for microphone recoding in highly reverberant or time-varying scenarios.
+To circumvent this issues, the \textit{convolutional STFT} with arbitrary analysis window have been proposed:
+it implements the time-domain convolution into inter-time-frame and inter-frequency-bands products~\cref{aoe}.
+
+In this thesis, we will assume that the filter length is much shorter than the analysis window length.
+This known in the literature as the \textit{narrowband approximation}\cite{}.
+\\In the time-frequency domain, $\mics_j(l,k)$  and $\src_j(l,k)$ are the \STFT/ of $\mics_j(l,k)$ and $\src_j(l,k)$ respectively.
+Therefore, the time-domain filtering can be approximated by complex-valued multiplication in the STFT domain:
+\begin{equation}
+    \mics_j(l,k) = \bsh_j(k) \src_j(l,k)
+    ,
+\end{equation}
+where the $\bsh_j(f) = \klist{h_{1j}(f), \cdots, h_{1j}(f)}$ is the $I \times 1$ vector of the DFT of the
+\RIRs/ for the source $j$,
+
+Recalling the derivation in~\cref{ch:acoustics:subsec:rir}, we adopt the following model for the room transfer function as:
+\sidenote{\cfr{\cref{eq:acoustics:ims}}}
+\begin{equation}
+    \rir (k, \positionMicrophone \mid \positionSource) =
+    ,
+\end{equation}
+
+\newthought{Steering Vector}\label{eq:processing:steering}
+In case of absence of echoes and reverberation, namely assuming free-field propagation,
+the \RIRs/ simplify to \textit{steering vector}, than is the DFT of~\cref{eq:acoustics:greenFreeTime}:
+\begin{equation}
+    \bsd_{j}(k) = \klist{\frac{1}{4 \pi \distMicSrc_{1j}} \cste^{-\csti 2 \pi f_k \distMicSrc_{ij} / c},
+                            \cdots,
+                            \frac{1}{4 \pi \distMicSrc_{Ij}} \cste^{-\csti 2 \pi f_k \distMicSrc_{Ij} / c},
+                    }
+\end{equation}
+In far-field regimes, the microphone-to-source distance $\distMicSrc_{ij}$ are larger than the
+inter-microphones distance $d_{ii'}$. Here the attenuation factors $\frac{1}{4 \pi \distMicSrc_{ij}}$ becomes approximately equal
+and ofter are ignored.
+
+
+\newthoughtpar{Relative Transfer Functions} modeled
+The \RTFdef/:
+\begin{equation}\label{eq:processing:rtf}
+    \rtfs_j(k) = \frac{1}{\rir_{rj}(k)} \rirs_j(k)
+\end{equation}
+$r$ is the index of the reference microphone.
+
+\newthought{Relative Steering Vectors} are under the free-far-field assumption on the sound propagation.
+Interestingly from their closed form definition, an important geometrical property arise.
+Let us assume that the reference microphone is the firs, namely $r = 1$.
+By combining~\cref{eq:processing:steering, eq:processing:rtf}, the \textit{relative steering vector} writes
+\begin{equation}
+    \bsd_{j}(k) = \klist{\cste^{-\csti 2 \pi f_k \distMicSrc_{ij} / c},
+                         \cdots,
+                         \cste^{-\csti 2 \pi f_k \distMicSrc_{Ij} / c},
+                    }
+\end{equation}
+
+\newthought{Interchannel Cues}
+The \RTFs/ encodes the \ILDdef/ and the \IPDdef/
+\begin{align}
+    \ild_{ij}(k) &= 20 \log_{10} \magnitudeOf{\rtf(k)} \mathspace & [\si{\dB}]\\
+    \ipd_{ij}(k) &= \phaseOf{\rtf(k)} \mathspace                  & [\si{\radian}]
+\end{align}
+
+As shown in ... the \ILD/ and the \IPD/ cluster around the direct path. However early echoes and
+reverberation make them significantly diverge.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Audio Inverse Problems}
@@ -187,7 +260,7 @@ Many problems can be decomposed into blocks that belong to one of these categori
     \\Representation can be lossy or lossless, and are generally implemented through (non)linear mapping, such as change of basis or feature.
     The most famous representation is the Fourier basis.
     \\Depending on the task the representation may be invertible.
-    \\Analysis and Synthesis
+    The process of changing representation is often called: Analysis and Synthesis
 
     \item[Enhancement] Measurement are affected by noise and interferences which corrupt and hide relevant information, making inverse problems ill-posed and ill-conditioned.
     Therefore, signal enhancement, that is removing noise, is a necessary step.
@@ -232,7 +305,7 @@ for instance, many spatial filtering techniques used for \SE/ rely on \SSL/ bloc
 and in order to achieves \RooGE/, \AER/ must be done.
 
 \section{Time, Frequency and Time-Frequency Audio Signals}
-The \textit{audio signal} is the variation of pressure over time on the microphone membrane.
+The raw \textit{audio signal} encodes the variation of pressure over time on the microphone membrane.
 Mathematically it can be written as the the \textit{measure}\sidenote{measure, function, operator}
 $x$ continuous both in time $t \in \R$ and in amplitude $x(t) \in \R$.
 \\Today signals are processed, stored and analyzed by computer and digital modules in their
@@ -252,56 +325,147 @@ Historically two iconic values are $\SI{44.1}{\kHz}$ for music distribution on C
 Now multiple of $\SI{8}{\kHz}$ are typical chosen values: ($16, 48, 96, \SI{128}{\kHz}$).
 \\For further details, we refer the reader to audio signal processing basics books such as~\cite{rocchesso2003introduction}.
 
-\newthought{The Frequency Representation}
-As discussed so far, signals describe naturally quantities of interest that varies over times.
+\newthought{The Frequency Representation}, \aka/ \textit{spectral representation}, is probably the most famous signal representation used in signal processing.
+It was introduced by Joseph Fourier in his work on the heat equation~\cref{baron1822theorie}.
+He proposed a mathematical tool, named later \textit{Fourier Decomposition}, aiming at approximating any signal by a sum of sine and cosine waves.
+Speech and music signals, naturally exhibits harmonic and periodic behaviors, are well described
+by combination of sinusoids as function of their frequencies.
 
-We design and analyze  in the frequency domain. That is, we will be
-working with the discrete-time Fourier transform (DTFT) of the discrete-time signal
-
-\FTdef/ of the signal $x$:
+The (forward) \FTdef/ of the continuous time domain signal $x$:
 \begin{equation}
-    X(f) = \fourierTrans{x}(f) =
+    x(f) = \fourierTrans{x}(f) =
         \int_{-\infty}^{+\infty}
         x(t)
         \cste^{-\csti 2 \pi f t}
         \,\kdiff{t}.
 \end{equation}
+where $f \in \kintervoc{-\sfrac{\Fs}{2}}{\sfrac{\Fs}{2}}$ are the \textit{natural frequency} in $\si{\Hz}$ and $\csti$ is the imaginary unit.
 
-\DFTdef/ of the signal $x$:
-\begin{equation}
-    X[k] = \discreteFT{x}(k) =
+The (forward) \DFTdef/ of the discrete-time domain signal $x$:
+\begin{equation}\label{eq:processing:dft}
+    x(k) = \discreteFT{x}(k) =
     \sum_{n = 0}^{2 N - 1}
-    x[n]
-    \cste^{-\csti2\pi \tfrac{kn}{2N}}.
+    x(n)
+    \cste^{-\csti2\pi \tfrac{k n}{2 F}}.
+\end{equation}
+with $k \in \kintervcc{0}{2 F - 1}$.
+
+We denote the frequency in $\si{\Hz}$ associated with the frequency bins $k = 0, \cdots, $ as:
+\begin{equation}
+    f = \frac{k}{F}\Fs.
 \end{equation}
 
-\subsection{Time and Frequency}
-Due to the harmonic properties of the sound signals, it is now a well-established to represents
-them with
+A raw audio signal encodes the amplitude of a sound as a function of time; while, its Fourier spectrum
+represents it as a function of frequency, but los completely variation over time.
+In order to jointly account for temporal and spectral characteristic, following representation is used.
 
-\subsection{Time-Frequency Analysis Synthesis}
+\newthought{\TFdef/ Representation} aims to jointly describe the signal in time and frequency domain.
+the \STFTdef/ It encodes the time-varying spectra into a matrix $x(k,l) \in \bbC^{F,T}$ with frequencies $k$ and time frames $l$.
 
+the \STFT/ has the following useful properties for audio processing~\cite{vincent2018audio}:
+\begin{itemize}
+    \item the frequencies scale $f$ is a linear function of the frequency bin $k$;
+    \item the resulting matrix allows easy treatment of
+          the phase $\phaseOf{x(k,l)}$, the magnitude $\magnitudeOf{x(k,l)}$ and the power $\powerOf{x(k,l)}$ separately;
+    \item the \DFT/ can be efficienciently computed with the \FFT/ algorithm;
+    \item the \STFT/ is simple to invert.
+\end{itemize}
+Source properties:
+\begin{itemize}
+    \item sparsity
+    \item structure
+\end{itemize}
+
+\subsection{Time-Frequency Analysis, Processing and Synthesis}
+In line with the audio processing community, we will use the \TF/ representation for .
+In this context we will define the following processing steps.
+
+\newthought{Analysis} is the process of convert the signal in the time-frequency domain.
+\newthought{Processing} is the process of convert the signal back to its original domain.
+\newthought{Synthesis} is the process of convert the signal back to its original domain.
 
 \subsection{Time-Frequency Filtering}
 
+\subsection{The narrowband approximating}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Taxonomy through dichotomies}
+\cite{vincent2018audio}
+
 %% acoustics %%
-\newthoughtpar{Source \vs/ Mixtures}
+\newthoughtpar{Sources \vs/ Mixtures}
+Sound sources emits sounds.
+When multiple sources are active at the same time, the sound that reaches our ears or is recorded using a microphone is superimposed or \textit{mixed} to a single sound.
+A \textit{mixture} represents a mapping from a set of sources $s$ to an output signal $x$.
+
 \newthoughtpar{Single-Channel \vs/ Multichannel}
+A \textit{single-channel} signal ($\numMics = 1$) is represented by the scalar $\mic(t) \in \R$,
+while a \textit{multichannel} ($\numMics >   1$) is represented by the vector
+
 \newthoughtpar{Point \vs/ Diffuse Sources}
-\newthoughtpar{Directonal \vs/ Onmidirectional Recordings}
-\newthoughtpar{Diffuse \vs/ Measurements Noise}
+\textit{Point sources} are emitted by a single and well-defined point in the space $\positionSource_\idxSrc$ and their signal is single channel.
+Point sources are for instance human speakers or the sound emitted by a loudspeaker.
+\\\textit{Diffuse sources} refers for instance to wind, traffic noise, or large musical instruments, which emit sound in a large region of space.
+Their sound cannot be associate to a punctual source, but rather a distributed (infinite) collection of them.
+
+\newthoughtpar{Directional \vs/ Onmidirectional Sources and Receiver}
+An \textit{omnidirectional} source (\resp/ receiver) will in principle emit (\resp/ pick up) sound equally from all directions,
+with respect both time and frequency.
+Although this simplify greatly processing frameworks, this is not true in real scenario.
+The physical properties of real sources (\resp/ receivers) leads to \textit{directivity patterns} which may
+be different at different frequencies.
+This effect may be a source of undesired effects, such as microphones \textit{leakage} or source localization error.
+Nevertheless sometimes it can be exploited to promote \textit{spatial selectivity}:
+spatial filtering can be view under this light, where ``virtual'' microphones with engineered directivity pattern.
+
+
 %% processing %%
 \newthoughtpar{Speech \vs/ Music processing}
-\newthoughtpar{Instantaneous \vs/ Convolutive Mixtures}
+Speech and Music signal are different, even when music feature singing voice.
+In this thesis we will focus only on speech music.
+
+
+\newthought{Linear \vs/ Non-linear}
+If the whole mixing (and mastering) processes is \textit{linear}, and \textit{non-linear} otherwise.
+
 \newthoughtpar{Natural \vs/ Artificial Mixtures}
-\newthoughtpar{Linear \vs/ Nonlinear}
+Natural mixture, or Microphone recordings, refer to the situation when multiple sources which are simultaneously active are captured by a microphone array.
+Typical examples include hands-free phones, audio conferencing systems, and hearing aids.
+Artificial mixtures, by contrast, are generated by mixing individually recorded sound sources using appropriate hardware or software. Most audio media (television, music, cinema, etc.) fall into this category
+
+\newthoughtpar{Instantaneous \vs/ Convolutive Mixtures}
+For instantaneous mixtures, all sources are mixed using fixed mixing parameters aj.
+This is the typical scenario when sources are mixed using a mixing console.
+In convolutive mixtures, each source sj is convolved by a filter response rj before summation
+Usually, the mixing process is assumed to be time-invariant but for
+a variety of signals, such as live recordings with moving sources, it can also be time-variant. The mathematical notations of different mixing models are summarized in Table 2.2.
+
+\newthoughtpar{White Gaussian \vs/ Babble Noise}
+White noise
+
+\newthoughtpar{Measurements \vs/ Diffuse Noise}
+\begin{center}
+    \textit{\emph{Noise} is a general term for unwanted (and, in general, unknown) modifications that a signal may suffer during capture, storage, transmission, processing, or conversion}
+    ~\cref{tuzlukov2018signal}.
+\end{center}
+Modeling noise is important in context of signal processing as it accounts for all the unwanted or unknown effects:
+it may refer to undermodeling (residual) errors, undesired sound sources, \etc/.
+In the context of audio inverse problem, it is common to model noise as an additive error term following a Gaussian distribution:
+\begin{equation}\label{eq:processing:model}
+    y = \scrM(x) + \error \mathspace \error \text{with} \; \sim \calN(0, \sigma^2)
+\end{equation}
+In this thesis, we will refer to this type noise as \textit{measurement noise}, as it corrupts the observed (\ie/ measured) data,
+and it is modeled as white (\ie/ spectrally flat) Gaussian noise, which is the basic noise model used in signal processing to mimic the effect of many random processes that occur in nature.
+\\When comes to microphones recordings, environmental noise is diffuse with
+
 %% pipeline %%
 \newthoughtpar{Problem \vs/ Model}
-\newthoughtpar{Synthesis \vs/ Abstaction}
+
+\newthoughtpar{Synthesis \vs/ Analysis}
+
 %% problems %%
 \newthoughtpar{Separation \vs/ Enhancement}
+
 %% models %%
 \newthoughtpar{end2end \vs/ 2step}
 end2end: from data to (feature to) target
@@ -316,18 +480,3 @@ end2end: from data to (feature to) target
 
 \newthoughtpar{Supervised \vs/ Unsupervised}
 \newthoughtpar{Machine Learning \vs/ Deep Learning}
-
-\section{Time-Frequency Analysis and Synthesis}
-
-\subsection{Artificial Mixtures}
-
-\subsection{Impulse Response Models}
-\newthoughtpar{Acoustic and Room Impulse Response}
-
-\newthoughtpar{Acoustic and Room Transfer Functions}
-
-\newthoughtpar{Steering Vectors}
-
-\newthoughtpar{Relative Transfer Functions}
-
-\newthoughtpar{Full-Rank Covariance Models}

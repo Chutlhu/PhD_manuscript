@@ -109,14 +109,20 @@
 \newcommand{\pressureSpaceTime}{\ensuremath{\pressure\depSpaceTime}}
 
 % signal processing
+\newcommand{\error}{\ensuremath{{\varepsilon}}}
 \newcommand{\filterLength}{\ensuremath{{L}}}
 \newcommand{\Ts}{\ensuremath{T_s}}
 \newcommand{\Fs}{\ensuremath{F_s}}
 \newcommand{\zeroVect}{\ensuremath{\mathbf{0}}}
-\newcommand{\rir}{\ensuremath{h^{\text{rir}}}}
-\newcommand{\rirFreq}{\ensuremath{H^{\text{rir}}}}
+\newcommand{\rir}{\ensuremath{h}}
+\newcommand{\rirFreq}{\ensuremath{H}}
+\newcommand{\rirs}{\ensuremath{\bsh}}
+\newcommand{\rtf}{\ensuremath{\tilde{\rir}}}
+\newcommand{\rtfs}{\ensuremath{\tilde{\rirs}}}
+\newcommand{\ild}{\ensuremath{\mathtt{ILD}}}
+\newcommand{\ipd}{\ensuremath{\mathtt{IPD}}}
 
-% math vars and constan
+% math vars and constant
 \newcommand{\spike}[1]{\delta_{#1}}
 \newcommand{\opObs}{\calA}
 \newcommand{\thr}{\tau_\text{max}}
@@ -124,6 +130,7 @@
 \newcommand{\algoBsn}{BSN}
 \newcommand{\algoCrocco}{IL1C}
 
+% variable
 \newcommand{\RT}{\ensuremath{\mathtt{RT}_{60}}}
 \newcommand{\DRR}{\ensuremath{\mathtt{DRR}}}
 \newcommand{\DER}{\ensuremath{\mathtt{DER}}}
@@ -185,6 +192,11 @@
 % --- Mathematical operators and function
 \newcommand{\conv}{\ast}
 \newcommand{\diracOf}[1]{\dirac\kparen{#1}}
+\DeclareMathOperator*{\phase}{\angle}
+\newcommand{\phaseOf}[1]{\phase{#1}}
+\newcommand{\magnitudeOf}[1]{\abs{#1}}
+\newcommand{\powerOf}[1]{\abs{#1}^2}
+
 
 % other definition
 \newcommand{\myeq}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
