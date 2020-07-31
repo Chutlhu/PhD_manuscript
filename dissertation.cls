@@ -16,25 +16,15 @@
 
 \RequirePackage{geometry}
 
-%%% SET FONTS %%%
-% \RequirePackage{libertine}
-\RequirePackage{charter}
+% --- Fonts -------------------------------------------------------------------
+\RequirePackage{libertine}
 
-
-%%% MATH FONTS and SYMBOLS %%%%
+% first the mathematical one
+% ==  mathematical fonts ==
 % \RequirePackage{ccfonts}  % mathematical fonts
-% \RequirePackage[T1]{fontenc}  % mathematical fonts
 % \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
+% ==  mathematical fonts ==
 
-
-% set mathdesign as math font
-\RequirePackage[charter]{mathdesign}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage[T1]{fontenc}
-
-% fix mathdesigns redefinition of hrulefill
-% see https://tex.stackexchange.com/a/135356/37762
-\def\hrulefill{\leavevmode\leaders \hrule height \rulethickness \hfill\kern\z@}
 
 % set (replace) mathcal font
 % see https://tex.stackexchange.com/a/496198/37762
@@ -157,8 +147,7 @@
 \renewcommand*{\aftertoctitle}{\par\nobreak\vspace*{-10pt}\hrulefill\vskip\aftertocskip}
 
 %%% Section and Subsection Style %%%
-\setsecheadstyle{\small\scshape\MakeTextLowercase}
-% \setsecheadstyle{\scshape}
+\setsecheadstyle{\scshape}
 \setsubsecheadstyle{\itshape}
 \setsecnumformat{\llap{\scriptsize\upshape\csname #1secnumformat\endcsname}}
 \newcommand\sectionsecnumformat{\thesection\quad}
@@ -170,12 +159,14 @@
 \setbeforeparaskip{1em}
 \setafterparaskip{-0.5em}
 
+
+% --- ITEMIZE and ENUMERATE STYLE ---------------------------------------------
+% \RequirePackage{enumitem}
+
 %%% ToC Styling %%%
 \RequirePackage{ragged2e}
 \settocdepth{section}
 \setsecnumdepth{subsection}
-% \setcounter{secnumdepth}{5}
-% \setcounter{tocdepth}{5}
 
 \renewcommand{\cftpartfont}{%
 \bfseries\color{Burgundy}\MakeTextUppercase%
@@ -250,7 +241,7 @@
 
 \newcommand{\openepigraph}[2]{%
   \marginpar{%
-    \footnotesize%
+    \small
     \flushright%
     %\justifying{%
     \enquote{\textit{#1}}%
@@ -287,12 +278,14 @@
 
 \RequirePackage[
     backend=bibtex8,
+    % backend=biber,
     bibencoding=utf8,
     hyperref=true,
     maxbibnames=20,
     maxcitenames=2,
     %giveninits=true,
-    style=alphabetic,
+    % style= apa,%alphabetic,
+    style=authoryear,
     sorting=nyt,
     sortcites=false,
     citetracker=true,
@@ -413,20 +406,27 @@
   {\usebibmacro{textcite:postnote}}
 
 
-% \RequirePackage[utf8]{inputenc}
-% \RequirePackage[T1]{fontenc}
 \RequirePackage{microtype}
-
 \RequirePackage{abbrv, delimiters}
 
-\usepackage{algorithm}
+% --- float ---
+%
+% Support for arrangement of figures and tables
+%
+\usepackage{float}
+
+% --- Algorthims ----
+% \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \newcommand*\Let[2]{\State{} #1 $\gets$ #2}
 \algrenewcommand\alglinenumber[1]{%
     {\sffamily\footnotesize#1}}
 \algrenewcommand\algorithmicrequire{\textbf{Precondition:}}
 \algrenewcommand\algorithmicensure{\textbf{Postcondition:}}
+\usepackage[algoruled, linesnumbered, onelanguage]{algorithm2e}
 
+
+% --- Code Listing ----
 \RequirePackage[newfloat]{minted}
 \newminted{c}{mathescape, linenos=true, numberblanklines=false, fontsize=\footnotesize}
 \newminted{sage}{mathescape, linenos=true, numberblanklines=false, fontsize=\footnotesize}
@@ -441,46 +441,62 @@
 %    #1
 %    \EndAccSupp{}
 %}
-
 \RequirePackage{xcolor}
 \RequirePackage{booktabs}
 \RequirePackage{colortbl}
+\RequirePackage{tabularx}
+\RequirePackage{makecell} % provide \makecell for multirow/column cells
 \RequirePackage{multirow}
 \RequirePackage{paralist}
 \RequirePackage{threeparttable}
 
 \RequirePackage[section]{placeins}
 
-\definecolor{Burgundy}{RGB}{144, 0, 32}
+% --- COLORS ------------------------------------------------------------------
+\usepackage{xcolor}
 
-%%% Math Stuff %%%
-\RequirePackage{amsmath, amsthm, mathtools}
+\definecolor{Burgundy}{RGB}{144, 0, 32}
+\definecolor{RoyalBlue}{cmyk}{1,0.5,0,0}
+\definecolor{Black}{cmyk}{0,0,0,0}
+\definecolor{alertred}{rgb}{0.80,0.12,0.12}
+\definecolor{linkgreen}{RGB}{0,166,0}
+\definecolor{mygray}{gray}{0.55}
+\definecolor{myorange}{HTML}{ed8c01}
+
+\colorlet{citecolor}{mygray}
+\colorlet{linkcolor}{myorange}
+\colorlet{urlcolor}{mygray}
+\colorlet{acrocolor}{myorange}
 
 \RequirePackage{csquotes}
 
-% \RequirePackage[%
-%     textsize=small,
-%     color=green!20!white,
-%     shadow,
-% ]{todonotes}
-% \newcommand{\itodo}[1]{\todo[inline]{#1}}
+%%% Math Stuff %%%
+\RequirePackage{amsmath, amsthm}
+\RequirePackage{mathtools,empheq}
 
 
-%%% HyperRef %%%
+% --- HyperRef and links  --- %
 \RequirePackage{hyperref}
 \hypersetup{%
-    linktocpage,
-    bookmarks,
-    bookmarksdepth = section,
-    colorlinks = true,
-    linkcolor = Burgundy,
-    urlcolor = Burgundy,
-    citecolor = Burgundy,
-    pdfpagelayout=TwoPageLeft,
+  linktocpage,
+  bookmarks,
+  bookmarksdepth = section,
+  colorlinks = true,
+  linkcolor = linkcolor,
+  urlcolor = urlcolor,
+  citecolor = citecolor,
+  pdfpagelayout=TwoPageLeft,
+  % pdftitle={\myTitle},%
+  % pdfauthor={\textcopyright\ \myName, \myUni, \myFaculty},%
+  % pdfsubject={},%
+  % pdfkeywords={},%
+  % pdfcreator={pdfLaTeX},%
+  % pdfproducer={LaTeX with hyperref and classicthesis}%
 }
 
-%\usepackage{nameref}
 \RequirePackage[capitalise,nameinlink]{cleveref}
+\crefname{section}{§}{§§}
+\Crefname{section}{§}{§§}
 
 % newtheorems have to be declared after loading cleveref
 % https://tex.stackexchange.com/a/19106/37762

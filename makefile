@@ -1,19 +1,18 @@
-.PHONY: main.pdf all clean clean-all
+.PHONY: main.pdf all clean clean-all run
 
+# should always be the "all" rule, so that "make" and "make all" are identical.
 all: main.pdf
 
-main.pdf: main.tex
-	latexmk -pdf --shell-escape -file-line-error -f main.tex
+main.pdf: main.tex logs
+	latexmk -pdf --shell-escape -file-line-error -f -jobname=logs/main main.tex
+	cp ./logs/main.pdf ./main.pdf
 
 clean:
-	latexmk -c
-	rm -f main.auxlock
-	rm -f main.loa
-	rm -f main.unq
-	rm -f main.run.xml
+	rm ./logs/main*
 
 clean-all: clean
-	rm -f main.bbl
-
-clean-purge: clean-all
-	latexmk -C
+	# rm -f main.bbl
+	# rm -f main-blx.bib
+	# rm -f main.run.xml
+	# rm -f main.tdo
+	# rm -f main.unq

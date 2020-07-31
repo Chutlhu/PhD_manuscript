@@ -1,0 +1,23 @@
+\newrobustcmd*{\fullfullcite}{%
+    \AtNextCite{%
+        \AtEachCitekey{%
+            \defcounter{maxnames}{99}%
+            \DeclareNameAlias{labelname}{given-family}%
+        }%
+    }%
+    \fullcite
+}
+
+%% IMAGE AS SYMBOL
+
+% % set the Bison QED symbol
+% \renewcommand{\qed}{%
+% \leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill%
+% \quad\hbox{\includegraphics[height=1em]{bison/bison-qed.jpg}}}
+
+\newcommand{\cpother}[1]{{\color{BlueGreen} #1}}
+\newcommand{\cpmine}[1]{{\color{GreenYellow} #1}}
+
+% --- my abbreviation ---------------------------------------------------------
+\newcommand{\imgsrc}[1]{Image courtesy of #1}
+\newcommand{\cfr}[1]{See #1}

@@ -10,6 +10,8 @@
     {#1.\@}}}
 \ExplSyntaxOff{}
 
+\def\vs/{\latinabbrev{vs}}
+\def\wrt/{\latinabbrev{w.\,r.\,t}}
 \def\aka/{\latinabbrev{a.\,k.\,a}}
 \def\cf/{\latinabbrev{cf}}
 \def\Cf/{\latinabbrev{Cf}}
@@ -25,51 +27,91 @@
 \def\resp/{\latinabbrev{resp}}
 \def\Resp/{\latinabbrev{Resp}}
 
-\RequirePackage[nolist,nohyperlinks]{acronym}
-%\newcommand{\abbrv}[1]{%
-%    \csdef{#1}{\ac{##1}}%
-%    \csdef{#1l}{\acl{##1}}%
-%}
-\begin{acronym}
-\acro{AB}{Almost Bent}
-\acro{ACT}{Autocorrelation Table}
-\acro{AES}{Advanced Encryption Standart}
-\acro{ANF}{Algebraic Normal Form}
-\acro{APN}{Almost Perfect Nonlinear}
-\acro{ASIC}{Application Specific Integrated Circuit}
-\acro{BCT}{Boomerang Connectivity Table}
-\acro{BCT}{Boomerang Connectivity Table}
-\acro{CBC}{Cipher Block Chaining}
-\acro{CCA}{Chosen Ciphertext Attack}
-\acro{CFB}{Cipher Feedback}
-\acro{CPA}{Chosen Plaintext Attack}
-\acro{CTR}{Counter}
-\acro{DDT}{Difference Distribution Table}
-\acro{DES}{Data Encryption Standart}
-\acro{DLCT}{Differential-Linear Connectivity Table}
-\acro{DP}{Differential Probability}
-\acro{ECB}{Electronic Codebook}
-\acro{EDP}{Expected Differential Probability}
-\acro{ELP}{Expected Linear Potential}
-\acro{FPGA}{Field Programmable Gate Array}
-\acro{IoT}{Internet-of-Things}
-\acro{KPA}{Known Plaintext Attack}
-\acro{LAT}{Linear Approximation Table}
-\acro{LFSR}{Linear Feedback Shift Register}
-\acro{LP}{Linear Potential}
-\acro{LUT}{Look Up Table}
-\acro{LWC}{Lightweight Crypto}
-\acro{MDS}{Maximum Distance Separable}
-\acro{MEDP}{Maximum Expected Differential Probability}
-\acro{MELP}{Maximum Expected Linear Potential}
-\acro{MILP}{Mixed Integer Linear Program}
-\acro{OFB}{Output Feedback}
-\acro{OTP}{One Time Pad}
-\acro{PRP}{Pseudo\-random Permutation}
-\acro{SLP}{Straight-Line Program}
-\acro{SPN}{Substitution Permutation Network}
-\acro{WSN}{Whitened Swap-Or-Not}
-\end{acronym}
+% \RequirePackage[nolist,nohyperlinks]{acronym}
+\RequirePackage[printonlyused,withpage]{acronym}
+% --- mine
+% how to use it
+% \XYA  : the acronym
+% \XYAf : full (with definition)
+% \XYAl : long
+% \XYAp : plurals
+% \XYAs : short
+\def\SOTA/{\ac{SOTA}}
+
+\def\GA/{\ac{GA}}
+\def\GAdef/{\acf{GA}}
+\def\GAlong/{\acl{GA}}
+\def\GAs/{\acp{GA}}
+
+\def\FEM/{\ac{FEM}}
+\def\FEMf/{\acf{FEM}}
+
+\def\BEM/{\ac{BEM}}
+\def\BEMf/{\acf{BEM}}
+
+\def\FDTD/{\ac{FDTD}}
+\def\FDTDf/{\acf{FDTD}}
+
+\def\DWM/{\ac{DWM}}
+\def\DWMf/{\acf{DWM}}
+
+\def\RIR/{\ac{RIR}}
+\def\RIRs/{\acp{RIR}}
+\def\RIRdef/{\acf{RIR}}
+
+\def\ISM/{\ac{ISM}}
+\def\ISMdef/{\acf{ISM}}
+
+\def\FIR/{\ac{FIR}}
+\def\FIRf/{\acf{FIR}}
+
+\def\AIR/{\ac{AIR}}
+\def\AIRdef/{\acf{AIR}}
+\def\AIRlong/{\acl{AIR}}
+\def\AIRs/{\acp{AIR}}
+
+\def\ATF/{\ac{ATF}}
+\def\ATFdef/{\acf{ATF}}
+\def\ATFlong/{\acl{ATF}}
+\def\ATFs/{\acp{ATF}}
+
+\def\TF/{\ac{TF}}
+\def\TFdef/{\acf{TF}}
+
+\def\SE/{\ac{SE}}
+\def\SEdef/{\acf{SE}}
+\def\SSS/{\ac{SSS}}
+\def\SSSdef/{\acf{SSS}}
+\def\SSL/{\ac{SSL}}
+\def\SSLdef/{\acf{SSL}}
+\def\RooGE/{\ac{RooGE}}
+\def\RooGEdef/{\acf{RooGE}}
+\def\AER/{\ac{AER}}
+\def\AERdef/{\acf{AER}}
+\def\FT/{\ac{FT}}
+\def\FTdef/{\acf{FT}}
+\def\DFT/{\ac{DFT}}
+\def\DFTdef/{\acf{DFT}}
+\def\STFT/{\ac{STFT}}
+\def\STFTdef/{\acf{STFT}}
+\def\FFT/{\ac{FFT}}
+\def\FFTdef/{\acf{FFT}}
+\def\RTF/{\ac{RTF}}
+\def\RTFs/{\acp{RTF}}
+\def\RTFdef/{\acf{RTF}}
+\def\ILD/{\ac{ILD}}
+\def\ILDdef/{\acf{ILD}}
+\def\IPD/{\ac{IPD}}
+\def\IPDdef/{\acf{IPD}}
+\def\TDOA/{\ac{TDOA}}
+\def\TDOAdef/{\acf{TDOA}}
+% -------------------------------
+
+\def\DES/{\ac{DES}}
+\def\DESf/{\acf{DES}}
+\def\DESl/{\acl{DES}}
+\def\DESp/{\acp{DES}}
+\def\DESs/{\acs{DES}}
 
 \def\AB/{\ac{AB}}
 \def\ABf/{\acf{AB}}

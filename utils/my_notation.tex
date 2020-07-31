@@ -1,0 +1,205 @@
+% --- correct bad hyphenation
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+% --- Algos and Methods names:
+\newcommand{\mirage}{\textsc{Mirage}}
+\newcommand{\separake}{\textsc{Separake}}
+\newcommand{\brioche}{\textsc{Brioche}}
+\newcommand{\blaster}{\textsc{Blaster}}
+\newcommand{\blasterr}{\textsc{Blaster2}}
+\newcommand{\lantern}{\textsc{Lantern}}
+\newcommand{\dechorate}{d'\textsc{Echorate}}
+
+%----------------
+\usepackage{pgffor}
+% for math stuff
+\foreach \x in {a,...,z}{
+  % mathbf
+  \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
+  % Bold symbol
+  \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
+  % Typewriter
+  \expandafter\xdef\csname tt\x \endcsname{\noexpand\ensuremath{\noexpand\mathtt{\x}}}
+}
+
+\foreach \x in {A,...,Z}{
+%   % Bold symbol -- bold
+  \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
+%   % mathbf -- bold
+  \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
+%   % mathbb -- blackboard-bold for uppercase letters and lowercase ( for sets )
+  \expandafter\xdef\csname bb\x \endcsname{\noexpand\ensuremath{\noexpand\mathbb{\x}}}
+%   % mathds -- ???
+  \expandafter\xdef\csname ds\x \endcsname{\noexpand\ensuremath{\noexpand\mathds{\x}}}
+%   % mathfrak -- gothic
+  \expandafter\xdef\csname fk\x \endcsname{\noexpand\ensuremath{\noexpand\mathfrak{\x}}}
+%   % mathfrak -- curly
+  \expandafter\xdef\csname scr\x \endcsname{\noexpand\ensuremath{\noexpand\mathscr{\x}}}
+%   % mathcal -- calligraphy
+  \expandafter\xdef\csname cal\x \endcsname{\noexpand\ensuremath{\noexpand\mathcal{\x}}}
+}
+
+% --- Math Notation
+% math
+\newcommand{\Ii}{\ensuremath{\imath}}
+% \newcommand{\cstj}{\ensuremath{\jmath}}
+\newcommand{\R}{\ensuremath{\bbR}}
+\newcommand{\N}{\ensuremath{\bbN}}
+\newcommand{\Z}{\ensuremath{\bbZ}}
+% indexing
+\newcommand{\idxSrc}{\ensuremath{j}}
+\newcommand{\idxMic}{\ensuremath{i}}
+\newcommand{\idxEch}{\ensuremath{r}}
+\newcommand{\numSrcs}{\ensuremath{J}}
+\newcommand{\numMics}{\ensuremath{I}}
+\newcommand{\numEchs}{\ensuremath{R}}
+% geometry
+\newcommand{\positionMicrophone}{\ensuremath{\underline{\bfx}}}
+\newcommand{\positionSource}{\ensuremath{\underline{\bfs}}}
+\newcommand{\positionSurface}{\ensuremath{\underline{\bfp}}}
+\newcommand{\pos}{\ensuremath{\bfr}}
+\newcommand{\coordinatePermutation}{\ensuremath{\bfR}}
+\newcommand{\distMicSrc}{\ensuremath{r}}
+\newcommand{\distMicMic}{\ensuremath{d}}
+% signal model
+\newcommand{\src}{\ensuremath{s}}
+\newcommand{\mic}{\ensuremath{x}}
+\newcommand{\mics}{\ensuremath{\bsx}}
+\newcommand{\img}{\ensuremath{c}}
+\newcommand{\imgs}{\ensuremath{\bsc}}
+\newcommand{\spat}{\ensuremath{\boldsymbol{\Xi}}}
+\newcommand{\master}{\ensuremath{\boldsymbol{\Upsilon}}}
+\newcommand{\contRecordedSignal}{\ensuremath{x}}
+\newcommand{\contMicrophoneSignal}{\contRecordedSignal}
+\newcommand{\contSource}{\ensuremath{s}}
+\newcommand{\contFilter}{\ensuremath{h}}
+\newcommand{\contFilterHat}{\widehat{\contFilter}}
+\newcommand{\contRIR}{\contFilter}
+\newcommand{\contNoise}{\ensuremath{n}}
+\newcommand{\disRecordedSignal}{\bfx}
+\newcommand{\disFilter}{\bfh}
+\newcommand{\disFilterHat}{\widehat{\disFilter}}
+\newcommand{\RecordedSignalDFT}{\bfX}
+\newcommand{\deltaTaus}{\ensuremath{\Delta}}
+
+% (room) acoustics
+\newcommand{\speedOfSound}{\ensuremath{c}}
+\newcommand{\cair}{\ensuremath{\speedOfSound_\text{air}}}
+\newcommand{\temperature}{\ensuremath{T}}
+\newcommand{\rhumidity}{\ensuremath{H}}
+\newcommand{\forceVec}{\ensuremath{\bsF}}
+\newcommand{\velocity}{\ensuremath{\bsv}}
+\newcommand{\pressure}{\ensuremath{p}}
+\newcommand{\Pressure}{\ensuremath{P}}
+\newcommand{\flux}{\ensuremath{\bsq}}
+\newcommand{\density}{\ensuremath{\rho}}
+\newcommand{\densityEq}{\density_0}
+\newcommand{\mass}{\ensuremath{m}}
+\newcommand{\volumeUnit}{\ensuremath{\nu}}
+\newcommand{\surface}{\ensuremath{S}}
+\newcommand{\volume}{\ensuremath{\calV}}
+\newcommand{\impedence}{\ensuremath{Z}}
+\newcommand{\impedenceAir}{\ensuremath{\impedence_\text{air}}}
+\newcommand{\absCoeff}{\ensuremath{\alpha}}
+\newcommand{\reflCoeff}{\ensuremath{\beta}}
+\newcommand{\boundariesConditions}{\ensuremath{\calB}}
+\newcommand{\wavelength}{\ensuremath{\lambda}}
+\newcommand{\ntuple}{\ensuremath{\bsm}}
+
+\newcommand{\depSpaceTime}{\ensuremath{\kparen{\positionMicrophone, t}}}
+\newcommand{\pressureSpaceTime}{\ensuremath{\pressure\depSpaceTime}}
+
+% signal processing
+\newcommand{\error}{\ensuremath{{\varepsilon}}}
+\newcommand{\filterLength}{\ensuremath{{L}}}
+\newcommand{\Ts}{\ensuremath{T_s}}
+\newcommand{\Fs}{\ensuremath{F_s}}
+\newcommand{\zeroVect}{\ensuremath{\mathbf{0}}}
+\newcommand{\rir}{\ensuremath{h}}
+\newcommand{\rirFreq}{\ensuremath{H}}
+\newcommand{\rirs}{\ensuremath{\bsh}}
+\newcommand{\rtf}{\ensuremath{\tilde{\rir}}}
+\newcommand{\rtfs}{\ensuremath{\tilde{\rirs}}}
+\newcommand{\ild}{\ensuremath{\mathtt{ILD}}}
+\newcommand{\ipd}{\ensuremath{\mathtt{IPD}}}
+
+% math vars and constant
+\newcommand{\spike}[1]{\delta_{#1}}
+\newcommand{\opObs}{\calA}
+\newcommand{\thr}{\tau_\text{max}}
+\newcommand{\algoBraire}{BLASTER}
+\newcommand{\algoBsn}{BSN}
+\newcommand{\algoCrocco}{IL1C}
+
+% variable
+\newcommand{\RT}{\ensuremath{\mathtt{RT}_{60}}}
+\newcommand{\DRR}{\ensuremath{\mathtt{DRR}}}
+\newcommand{\DER}{\ensuremath{\mathtt{DER}}}
+\newcommand{\SNR}{\ensuremath{\mathtt{SNR}}}
+\newcommand{\dsetValid}{$\mathbf{\mathcal{D}}^{\:\text{(valid)}}$}
+\newcommand{\dsetSNR}{$\mathbf{\mathcal{D}}^{\:\SNR}$}
+\newcommand{\dsetRT}{$\mathbf{\mathcal{D}}^{\:\RT}$}
+
+% --- Other (constant)
+\newcommand{\const}{\ensuremath{\text{\textit{const.}}}}
+
+\newcommand{\idealLowPassFilter}{\phi}
+\newcommand{\disRadonMeasure}{\calM(\Theta)}
+\newcommand{\posDisRadonMeasure}{\calM_+(\Theta)}
+
+% \newcommand{\m1}{\mathbf{m}_1}
+% \newcommand{\m2}{\mathbf{m}_2}
+% \newcommand{\s}{{\mathbf s}}
+% \newcommand{\params}{\mathbf{\theta}}
+
+% --- Quantities names
+
+% --- Mathematical Delimiters
+
+% % syntactically named delimiters
+% \newdelimcommand{ceil}{\lceil}{\rceil}
+% \newdelimcommand{floor}{\lfloor}{\rfloor}
+% \newdelimcommand{angles}{\langle}{\rangle}
+% \newdelimcommand{parens}{\lparen}{\rparen}
+% \newdelimcommand{bracket}{[}{]}
+% \newdelimcommand{braces}{\lbrace}{\rbrace}
+% \newdelimcommand{verts}{\lvert}{\rvert}
+% \newdelimcommand{Verts}{\lVert}{\rVert}
+
+% % semantically named delimiters
+\newcommand{\set}[1]{\kbrace{#1}}
+% \newcommand{\abs}{\verts}
+% \newcommand{\size}{\verts}
+\newcommand{\abs}[1]{\kvbar{#1}}
+\newcommand{\norm}[1]{\kvvbar{#1}}
+\newcommand{\normTV}[1]{\ensuremath{\norm{#1}_{\mathtt{TV}}}}
+% \newcommand{\tuple}{\angles}
+% \newcommand{\iprod}{\angles}
+
+% % Automagic `such that' for set comprehension. Inside an automagic
+% % delimiter command, the vertical bar will resize appropriately
+% % Example:
+% %   \set{ x \in W \given x > 0 }
+\newcommand{\given}{\;\mdelim\vert\;}
+
+
+% --- Math operators
+\DeclareMathOperator*{\fourierTrans}{\scrF}
+\DeclareMathOperator*{\discreteFT}{\bfF}
+\DeclareMathOperator*{\divergence}{\nabla\cdot}
+\DeclareMathOperator*{\dirac}{\delta}
+\newcommand{\average}{\operatornamewithlimits{average}}
+
+% --- Mathematical operators and function
+\newcommand{\conv}{\ast}
+\newcommand{\diracOf}[1]{\dirac\kparen{#1}}
+\DeclareMathOperator*{\phase}{\angle}
+\newcommand{\phaseOf}[1]{\phase{#1}}
+\newcommand{\magnitudeOf}[1]{\abs{#1}}
+\newcommand{\powerOf}[1]{\abs{#1}^2}
+
+
+% other definition
+\newcommand{\myeq}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
+\newcommand{\mathspace}{\hspace{1em}}
+\newcommand{\mathspecific}[1]{\hspace{1em}\text{#1}\;}

@@ -1,32 +1,42 @@
 \documentclass[pdftex,dvipsnames]{dissertation}
 
-%%% MY PACKAGES
+% --- Encoding stuff ----------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% --- English stuff -----------------------------------------------------------
+\usepackage[english]{babel}
+
+\usepackage{xspace}
+\usepackage{csquotes}
+
+% --- Debug stuff -------------------------------------------------------------
+\usepackage{morewrites} % workaround for "no room for new \write" error
+
+% --- Blind text --------------------------------------------------------------
 \usepackage{blindtext} % provide \blindtext, \Blindtext
 \usepackage{lipsum}
-% \usepackage{libertine} % nice font
-% % ==  mathematical fonts ==
-% \usepackage{ccfonts}  % mathematical fonts
-% \usepackage[T1]{fontenc}  % mathematical fonts
-% \renewcommand{\rmdefault}{cmr}% cmr = Computer Modern Roman
-% % ==  mathematical fonts ==
 
-%%% TOC per CHAPTER %%%
-\usepackage{minitoc}
-
-%%% SETUP TODO NOTES
-% dep
 \usepackage{xargs}   % Use more than one optional parameter in a new commands
 \usepackage{xcolor}  % Coloured text etc.
-% pkg
+
+% --- TODO notes --------------------------------------------------------------
 \usepackage[colorinlistoftodos,prependcaption,textsize=small,shadow]{todonotes}
 % my alias
 \input{utils/todonotes}
 
-%%% DEFAULT PACKAGE
-\usepackage{amsmath,mathtools,empheq}
-\usepackage{amsthm}
+% --- Symbols, Units and Icons ------------------------------------------------
+\usepackage{fontawesome} % fontawesomeicons
 
-%%% THEOREMS and ENVIROMENTS
+% --- Math --------------------------------------------------------------------
+\usepackage{kmath} % cool delimiters
+\usepackage{dsfont} % double stroke
+\usepackage[mathscr]{euscript}
+\usepackage{xfrac} % provide \sfrac, cool fractions
+\usepackage{siunitx}    % provide \ang and SI units
+
+% --- Theorem environment------------------------------------------------------
+\usepackage{amsthm}
 \usepackage{thmtools}
 \usepackage{thm-restate}
 \declaretheorem[%
@@ -39,48 +49,54 @@
     numbered={unless unique},
 ]{secclaim}
 
-%%% OTHER PCKs FROM THE AUTHOR
+% --- Packages from Frederich -------------------------------------------------
 \usepackage{longtable}
 \usepackage{pdflscape}
 \usepackage{enumitem}
 
-%% COLORS %%
-\definecolor{RoyalBlue}{cmyk}{1,0.5,0,0}
-\definecolor{Black}{cmyk}{0,0,0,0}
-\definecolor{alertred}{rgb}{0.80,0.12,0.12}
-\definecolor{linkgreen}{RGB}{0,166,0}
+%%% OTHER INCLUDES
+\input{utils/my_commands.tex}
+\input{utils/my_notation.tex}
 
+% --- Table of Contents -------------------------------------------------------
 %%% TOC STYLE : check in the dissertation class
-% \setcounter{secnumdepth}{5}
-% \setcounter{tocdepth}{5}
-%
+% check dissertation class
+% %% MINITOC per CHAPTER
+\usepackage{minitoc} % must be inserted after any modification of TOC
 
-\input{my_commands.tex}
-\input{my_notation.tex}
+% --- Graphics ----------------------------------------------------------------
+\usepackage{tikz}
+\graphicspath{{./figures/}{./icons/}{./logos/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
-%%% FILE ORGANIZATION
-% \graphicspath{{./figures/}{./tikzpictures/}}
 % \pgfplotsset{%
 %     table/search path={./figures/plots/},
 % }
-\bibliography{contents/bibliography/abbrev3,
-              contents/bibliography/crypto,
-              contents/bibliography/references}
 
+% --- Bibliopgraphy -----------------------------------------------------------
+\bibliography{contents/back_matter/references.bib}
+
+
+% --- Include only ------------------------------------------------------------
+% \includeonly{   % Of course this list allows many more file
+% %  intro,       % should also work with files in different paths
+%     chapter1_acoustics,
+%     chapter2_processing,
+%     chapter3_evaluation,
+% %  chapter3
+% }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%DOCUMENT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title{Hunting Acoustic Echoes for Auditory Scene Analysis}
 \author{Diego DI CARLO}
 \date{\today}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{document}
 \frontmatter{}
 
-
-% \input{frontbackmatter/titlepage}
 \input{contents/front_matter/title_page}
 
 \input{contents/front_matter/abstract}
@@ -91,17 +107,23 @@
 \input{contents/front_matter/acknowledgments}
 \cleardoublepage{}
 
+%*******************************************************
+% Table of Contents
+%*******************************************************
+\doparttoc[n]
 \tableofcontents*\addcontentsline{toc}{chapter}{Contents}
 \clearpage{}
 
-% \listofalgorithms\addcontentsline{toc}{chapter}{List of Algorithms}
-% %\clearpage{}
-% \vspace{\baselineskip}
-
-\listoftodos[TODOs and Notes]\addcontentsline{toc}{chapter}{List of TODOs and Notes}
-\vspace{\baselineskip}
+\input{contents/front_matter/glossary}
+\cleardoublepage{}
 \clearpage{}
 
+% \listofalgorithms\addcontentsline{toc}{chapter}{List of Algorithms}
+% \vspace{\baselineskip}
+% \clearpage{}
+%*******************************************************
+% List of Figures
+%*******************************************************
 \listoffigures*\addcontentsline{toc}{chapter}{List of Figures}
 \vspace{\baselineskip}
 \clearpage{}
@@ -109,56 +131,66 @@
 \listoftables*\addcontentsline{toc}{chapter}{List of Tables}
 \clearpage{}
 
-\mainmatter{}
-% \begin{fullwidth}
-% \part{Prologue}
-% \end{fullwidth}
-% \cleardoublepage{}
-
-% \input{mainmatter/introduction}
-% \input{mainmatter/preliminaries}
-\input{contents/main_matter/chapter0_latex}
-\input{contents/main_matter/chapter0_intro}
-
-\begin{fullwidth}
-    \part{Room Acoustics and Audio Signal Processing}
-\end{fullwidth}
-\input{contents/main_matter/chapter1_acoustics}
-\input{contents/main_matter/chapter2_processing}
-\input{contents/main_matter/chapter3_data_metrics}
-
-\begin{fullwidth}
-\part{Acoustic Echoes Retrieval}
-\end{fullwidth}
-% \input{contents/main_matter/chapter3_aer}
-% \input{contents/main_matter/chapter4_lantern}
-% \input{contents/main_matter/chapter5_blaster}
-
-\begin{fullwidth}
-\part{Echo-aware Application}
-\end{fullwidth}
-% \input{contents/main_matter/chapter6_applications}
-% \input{contents/main_matter/chapter7_mirage}
-% \input{contents/main_matter/chapter8_brioche}
-
-% \begin{fullwidth}
-% \part{Epilogue}
-% \end{fullwidth}
-% \input{contents/main_matter/chapter9_conclusion}
-
-\backmatter{}
-
-\begin{fullwidth}
-\printbibliography{}
-\end{fullwidth}
-
+\input{contents/front_matter/notation}
 \cleardoublepage{}
 
-%%%% APPENDIX
+\setcounter{mtc}{9}
 
-\begin{appendices}
-\input{contents/appendices/appendix1_mindmaps}
-\input{contents/appendices/appendix2_measurements}
-\end{appendices}
+% === MAIN BODY ===
+\mainmatter{}
+
+%% PROLOGE
+% \begin{fullwidth}
+%     \part{Prologue}
+% \end{fullwidth}
+% \parttoc[n]
+% \cleardoublepage{}
+
+\input{contents/main_matter/chapter0_intro}
+
+%% I. Room Acoustic
+\begin{fullwidth}
+    \part{Room Acoustic meets Signal Processing}
+\end{fullwidth}
+\parttoc[n]
+\input{contents/main_matter/chapter1_acoustics}
+\input{contents/main_matter/chapter2_processing}
+\input{contents/main_matter/chapter3_evaluation}
+
+%% II. Estimation
+\begin{fullwidth}
+\part{Acoustic Echo Retrieval}\label{pt:estimation}
+\end{fullwidth}
+\parttoc[n]
+\input{contents/main_matter/chapter4_estimation}
+\input{contents/main_matter/chapter5_lantern}
+\input{contents/main_matter/chapter6_blaster}
+\input{contents/main_matter/chapter7_blaster2}
+
+%% III. Application
+\begin{fullwidth}
+\part{Echo-aware Application}\label{pt:application}
+\end{fullwidth}
+\parttoc[n]
+\input{contents/main_matter/chapter9_applications}
+\input{contents/main_matter/chapter10_separake}
+\input{contents/main_matter/chapter11_mirage}
+\input{contents/main_matter/chapter12_brioche}
+
+%% IV. Conclusion
+\begin{fullwidth}
+\part{Epilogue}
+\end{fullwidth}
+\parttoc[n]
+\input{contents/main_matter/chapter20_conclusion}
+
+
+% === BACK MATTER ===
+\backmatter{}
+
+\input{contents/back_matter/appendices}
+\input{contents/back_matter/bibliography}
+% \input{back_matter/index}
+
 
 \end{document}

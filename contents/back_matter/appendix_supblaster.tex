@@ -1,0 +1,213 @@
+\chapter{Sliding Frank-Wolfe algorithm \& Non-negative Blasso}
+
+\section{Sliding Frank-Wolfe algorithm} \label{sec:suppblaster:SFW}
+
+%In this section, we discuss the resolution of~\eqref{eq:TV-BLASSO}.
+Among all the methods that address the resolution of~\eqref{eq:TV-BLASSO}, a significant number of them are based on variations of the well-known Frank-Wolfe iterative algorithm, see, \textit{e.g.},~\cite{Bredies2013,Rao2015,denoyelle2019}.
+In this paper, we particularize the \emph{sliding Frank-Wolfe} (SFW) algorithm proposed in~\cite{denoyelle2019}.
+% to solve~\eqref{eq:TV-BLASSO}.
+Starting from an initial guess (\textit{e.g.}, the null measure), SFW repeats the four following steps until convergence:
+\begin{enumerate}
+	\item add a parameter (position of echo) to the support of the solution,
+	%
+	\item update all the coefficients solving a (finite dimensional) Lasso,
+	%
+	\item update jointly the position of the echoes  and the coefficients,
+	%
+	\item eventually remove parameters (echoes) associated to coefficients equal to zero.
+\end{enumerate}
+Finally, SFW stops as soon as an iterate satisfies the first order optimality condition associated to the convex problem~\eqref{eq:TV-BLASSO}.
+More particularly, denoting $\mu^{(t)}$ the estimated filters at iteration $t$, SFW stops as soon as $\mu^{(t)}$ satisfies~\cite[Proposition 3.6]{Bredies2013}
+
+
+\begin{equation}
+	\label{eq:blasso-dual_certif}
+	\sup_{\theta\in\Theta} \,\kinv{\lambda}\kvbar{ \kangle{
+		\opObs{}\spike{\theta}, \bfy - \opObs{}\mu^{(t)}
+	}}
+	\leq 1
+	.
+\end{equation}
+
+
+The complete SFW method for echo estimation is described by Algorithm~\ref{algo:FW}.
+We now provide additional details about the implementation of each step.
+
+
+\begin{algorithm}
+
+	% \newcommand{\thetanew}{\theta_{\texttt{new}}}
+	\newcommand{\thetanew}{\theta^{\texttt{new}}}
+	\newcommand{\muIt}[1]{\mu^{(#1)}}
+	\newcommand{\thetaIt}[1]{\theta^{(#1)}}
+	\newcommand{\coeffIt}[1]{c^{(#1)}}
+	\newcommand{\vcoeffIt}[1]{\bfc^{(#1)}}
+	\newcommand{\etaIt}[1]{\eta^{(#1)}}
+	\newcommand{\ThetaIt}[1]{\calE^{(#1)}}
+	\newcommand{\myspace}{\vspace*{4pt}}
+
+	\caption{
+		\label{algo:FW}
+		Sliding Frank-Wolfe algorithm for solving~\eqref{eq:TV-BLASSO}.
+	}
+
+	\KwIn{Observation operator $\opObs$, positive scalar $\lambda$, precision $\varepsilon$}
+	\KwOut{Channels represented as a measure $\widehat{\mu}$}
+	%
+	\BlankLine
+	\tcp{Initialization}
+	$\bfy \leftarrow -\opObs{}\spike{(0,1)}$ \tcp{observation vector}
+	$\muIt{0} = 0_{\calM}$ \tcp{estimated filters}
+	$\ThetaIt{0} = \emptyset$ \tcp{estimated echoes}
+	$x_{\max} = \kinv{(2\lambda)}\kvvbar{\bfy}_2^2$ \;
+	%$\widehat{\calS} = \emptyset$ \tcp{estimated support}
+	\BlankLine
+
+	\tcp{Starting algorithm}
+	\Repeat{until convergence}{
+		$t \leftarrow t + 1$ \tcp{Iteration index}
+
+        \myspace
+		\tcp{1. Add new element to the support}
+		Find $\thetanew\in \kargmax_{\theta\in\Theta} \kRe\kparen{\kangle{\opObs\spike{\theta}, \bfy - \opObs{}\muIt{t-1}}}$ \label{line:alg:FW:newTheta}\;
+		%$\widehat{c}_t \leftarrow 0$ \;
+		%, see Algorithm~\ref{algo:FW-thetanew} \;
+		\BlankLine
+
+		$\etaIt{t} \leftarrow \kinv{\lambda}\kRe\kparen{\kangle{\opObs\spike{\thetanew}, \bfy - \opObs{}\muIt{t-1}}}$ \;
+
+		\If{ $\etaIt{t} \leq 1+ \varepsilon$}{
+			Stop and return $\widehat{\mu} = \muIt{t-1}$ is a solution \;
+		}
+
+		$\ThetaIt{t-\text{\textonehalf}} \leftarrow \ThetaIt{t-\text{\textonehalf}} \cup \{\thetanew\}$ \;
+
+        $R^{(t)} \leftarrow \texttt{card}(\ThetaIt{t-\text{\textonehalf}})$
+        \tcp{Number of detected echoes}
+
+        \myspace
+		\tcp{2. Lasso update of the coefficients}
+		$
+		\displaystyle
+		\vcoeffIt{t-\text{\textonehalf}} \leftarrow \kargmin_{\bfc\in\kR_+^{R^{(t)}}} \frac{1}{2} \big\Vert{\bfy - \sum_{\theta\in\ThetaIt{t-\text{\textonehalf}}} c_\theta \opObs\spike{\theta}}\big\Vert_2^2 + \lambda\kvvbar{\bfc}_1$
+		approximated using a proximal gradient algorithm
+		\label{line:alg:FW:lassoUpdate} \;
+
+        \myspace
+		\tcp{3. Joint update for a given number of spikes}
+		{
+		\setlength{\abovedisplayskip}{-1.5em}
+		   %\vspace*{-2em}
+		\begin{multline*}
+		%K^{(t)}
+		\ThetaIt{t},\vcoeffIt{t} \leftarrow \\ \kargmin_{\boldsymbol{\theta}\in\Theta^{R^{(t)}},\bfc\in[0, x_{\max}]^{R^{(t)}}} \frac{1}{2} \big\Vert{\bfy - \sum_{r=1}^{R^{(t)}} \bfc_r \opObs\spike{\theta_r}}\big\Vert_2^2 + \lambda\kvvbar{\bfc}_1
+		\end{multline*}
+		approximated using a non-convex solver initialized with $(\ThetaIt{t-\text{\textonehalf}},\bfc^{(t-\text{\textonehalf})})$
+		\label{line:alg:FW:jointUpdate} \;
+        }
+
+        \myspace
+		\tcp{4. Eventually remove zero amplitude Dirac masses}
+		$\ThetaIt{t}\leftarrow \kset{\thetaIt{t}_r\in\ThetaIt{t}}{\vcoeffIt{t}_r\neq0}$ \;
+		$\vcoeffIt{t} \leftarrow \kset{\vcoeffIt{t}_r}{\vcoeffIt{t}_r\neq0}$ \;
+		$\displaystyle\muIt{t} \leftarrow \sum_{r=1}^{\texttt{card}(\ThetaIt{t})} \vcoeffIt{t}_r \delta_{\thetaIt{t}_r}$ \;
+		%Eventually remove zero amplitude Dirac masses from $\muIt{t}$ \;
+	}
+\end{algorithm}
+
+
+\textbf{\itshape Non-negative Blasso.}
+To take into account the non-negative constraint on the coefficients, the authors of~\cite{denoyelle2019} have proposed to slightly modify the SFW algorithm by \textit{i)} removing the absolute value in~\eqref{eq:blasso-dual_certif} and \textit{ii)} adding the non-negativity constraints at step 2 and 3 (see lines~\ref{line:alg:FW:lassoUpdate} and~\ref{line:alg:FW:jointUpdate} of Algorithm~\ref{algo:FW}).
+The reader is referred to~\cite[remark~8 in Section~4.1]{denoyelle2019} for more details.
+
+\vspace*{1em}
+
+\noindent
+\textbf{\itshape Real part in~\eqref{eq:blasso-dual_certif}.}
+%We have shown earlier that the solution $\mu^\star$ of \eqref{eq:TV-BLASSO} obeys~\eqref{eq:def:mu_star} and has to satisfy~\eqref{eq:blasso-dual_certif} and~\eqref{eq:blasso-dual_certif-sign}.
+We have shown earlier that SFW stops as soon as an iterate $\mu^{(t)}$ satisfies~\eqref{eq:blasso-dual_certif} at some iteration $t$.
+%Here, due to the non-negativity constraint, %condition~\eqref{eq:blasso-dual_certif-sign} rewrites for all $\ell\in\{1,\dotsc,k\}$
+%\begin{equation}
+%	\kinv{\lambda} \kangle{\opObs{}\spike{\theta_\ell^\star}, \bfy - %\opObs{}\mu^\star}
+%	=
+%	\mathrm{sign}(c_\ell^\star) = 1
+%	.
+%\end{equation}
+%where the last equality results from the non-negativity constraints.
+Since the estimated coefficients $\kfamily{c_r^{(t)}}{r=1}^R$ are (non-negative) scalars,~\eqref{eq:blasso-dual_certif} can be rewritten as
+%(when removing the absolute value, see the previous paragraph)
+\begin{equation}
+	\sup_{\theta\in\Theta} \, \kinv{\lambda}\kRe\kparen{\kangle{
+		\opObs{}\spike{\theta}, \bfy - \opObs{}\mu^\star
+	}}
+	\leq 1
+	.
+\end{equation}
+In particular, using the real part in the implementation allows to remove the imaginary part that may appear due to the imprecision.
+
+
+\vspace*{1em}
+\noindent
+\textbf{\itshape Precision of the stopping criterion.}
+%We can only compute the solution~\eqref{eq:TV-BLASSO} up to some prescribed accuracy.
+Unfortunately, condition~\eqref{eq:blasso-dual_certif} cannot be met due to the machine precision, \textit{i.e.}, the solution of~\eqref{eq:TV-BLASSO} is computed up to some prescribed accuracy.
+In this paper, we say that the algorithm stops as soon as
+\begin{equation}
+	\sup_{\theta\in\Theta} \, \kinv{\lambda}\kRe\kparen{\kangle{
+		\opObs{}\spike{\theta}, \bfy - \opObs{}\mu^\star
+	}}
+	\leq 1 + \varepsilon
+\end{equation}
+where $\varepsilon$ is a positive scalar set to $\varepsilon=10^{-3}$.
+
+
+
+\vspace*{1em}
+\noindent
+\textbf{\itshape Finding new parameters (Line~\ref{line:alg:FW:newTheta}).}
+The new parameter is found by solving
+\begin{equation}
+	\kargmax_{\theta\in\Theta} \kRe\kparen{\kangle{\opObs\spike{\theta}, \bfy - \opObs{}\widehat{\mu}}}
+	.
+\end{equation}
+To solve this optimization problem, we first find a maximizer on a thin grid made of $20000$ points.
+We then proceed to a local refinement using the \texttt{scipy} optimization library\footnote{ \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html}. \label{note1}}.
+%\textcolor{red}{TODO: add size of the grid?}
+
+
+\vspace*{1em}
+\noindent
+\textbf{\itshape Nonnegative Lasso (Line~\ref{line:alg:FW:lassoUpdate}).}
+The nonnegative Lasso is solved using a custom implementation of a proximal gradient algorithm.
+In particular, the procedure stops as soon as a stopping criterion in terms of duality gap is reached ($10^{-6}$).
+
+\vspace*{1em}
+\noindent
+\textbf{\itshape Joint update (Line~\ref{line:alg:FW:jointUpdate}).}
+In order to ease the numerical resolution, we show that given a positive integer $R$, the solution of
+\begin{equation}
+	\label{eq:joint-update}
+	\kargmin_{\boldsymbol{\theta}\in\Theta^R,\bfc\in\kR^R} \tfrac{1}{2} \big\Vert{\bfy - \sum_{r=1}^R \bfc_r \opObs\spike{\theta_r}}\big\Vert_2^2 + \lambda\kvvbar{\bfc}_1
+\end{equation}
+is equivalent to the solution of
+\begin{equation}
+	\kargmin_{\boldsymbol{\theta}\in\Theta^R,\bfc\in[0, x_{\max}]^R} \tfrac{1}{2} \big\Vert{\bfy - \sum_{r=1}^R \bfc_r \opObs\spike{\theta_r}}\big\Vert_2^2 + \lambda\kvvbar{\bfc}_1
+\end{equation}
+where
+\begin{equation}
+	x_{\max} = \frac{1}{2\lambda} \kvvbar{\bfy}_2^2.
+\end{equation}
+Indeed, let us denote $\boldsymbol{\theta}^\star,\bfc^\star$ the minimizers of~\eqref{eq:joint-update}.
+For any $\boldsymbol{\theta}\in\Theta^R$, the couple $\boldsymbol{\theta},\zeroVect_R$ is admissible for~\eqref{eq:joint-update} so we have by definition
+\begin{equation}
+	\tfrac{1}{2}\big\Vert{\bfy - \sum_{r=1}^R \bfc^\star_r \opObs\spike{\theta^\star_r}}\big\Vert_2^2 + \lambda\kvvbar{\bfc^\star}_1
+	\leq
+	\tfrac{1}{2} \big\Vert \bfy \big\Vert_2^2
+	.
+\end{equation}
+Hence
+\begin{equation}
+	0 \leq c_r^\star \leq \kvvbar{\bfc^\star}_1 \leq \tfrac{1}{2\lambda} \big\Vert \bfy \big\Vert_2^2 \triangleq x_{\max}
+		.
+\end{equation}
+Finally, the joint update of the coefficients and parameters is performed using the Sequential Least SQuares Programming (SLSQP) implemented in the \texttt{scipy} optimization library, see \cref{note1}.
