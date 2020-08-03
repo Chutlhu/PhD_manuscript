@@ -136,7 +136,7 @@
 
 %%% Chapter Style %%%
 \setlength{\beforechapskip}{0pt}
-\renewcommand{\chapnumfont}{\fontsize{72pt}{96pt}\selectfont}
+\renewcommand{\chapnumfont}{\fontsize{72pt}{96pt}\selectfont\color{chapnumcolor}}
 \renewcommand{\chaptitlefont}{\huge\rmfamily\itshape\color{darkgray}}
 \renewcommand*{\printchaptername}{\chapnumfont}
 \renewcommand*{\afterchaptertitle}{\par\nobreak\vspace*{-10pt}\hrulefill\vskip\afterchapskip}
@@ -467,6 +467,7 @@
 \colorlet{linkcolor}{myorange}
 \colorlet{urlcolor}{mygray}
 \colorlet{acrocolor}{myorange}
+\colorlet{chapnumcolor}{mygray}
 
 \RequirePackage{csquotes}
 

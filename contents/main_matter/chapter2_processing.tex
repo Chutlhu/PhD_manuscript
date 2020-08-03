@@ -1,22 +1,22 @@
 \chapter{Audio Signal Processing and Inverse Problem}\label{ch:processing}
-\openepigraph{Sound, a certain movement of air.}{Aristotele, De Anima II.8 420b12}
+% \openepigraph{Sound, a certain movement of air.}{Aristotele, De Anima II.8 420b12}
 \vspace{-2.5em}
-\newthought{Synopsis} Let us now move from the physical domain to discrete time
-signal processing
-\blindtext[1]
-Notation and definition are based on \cite{gannot2017consolidated}.
+\newthought{Synopsis} Let us now move from the physic to digital signal processing.
+This chapter formalizes the concept of mixtures of audio signals and the concept of audio inverse problems.
+\\The chapter defines and discusses the signal model~\cref{sec:processing:model}.
 
-\section{Signal Model and Definitions}\label{sec:processing:model}
+\section{Definitions and signal model}\label{sec:processing:model}
 \marginpar{
     \footnotesize
-    In this section and in the rest of the dissertation,
-    we adopt the following general notations defined in~\cpageref{ch:notation}
-    and introduced by \citeonly{gannot2017consolidated}.
+    The notation presented in this chapter is reported in~\cpageref{ch:notation},
+    and is inspired to the one used in \citeonly{gannot2017consolidated}.
 }
-In this thesis, an \textit{auditory} scene consists in sound \textit{sources}, \textit{microphones} deployed in a room.
-The signals are emitted by sources and they are observed, received or recorded by microphones.
-A set of microphones is called a microphone \textit{array} and its signal are called \textit{channels}.
-
+The signals are emitted by sources and are observed, received or recorded by microphones.
+A set of microphones is called a microphone \textit{array} and it signal consists of \textit{channels}.
+In this thesis, these objects are assumed to have been deployed in a indoor environment, a room.
+\begin{center}
+    \textit{All of these make our \emph{auditory scene}.}
+\end{center}
 Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$.
 A \textit{single-channel} signal ($\numMics = 1$) is represented by the scalar $\mic(t) \in \R$,
 while a \textit{multichannel} ($\numMics >   1$) is represented by the vector
@@ -31,62 +31,76 @@ Sources can be of two types:
     Their sound cannot be associate to a punctual source, but rather a distributed (infinite) collection of them.
 \end{description}
 
-\newthought{The Mixing Process} leading to the observed signal can be
-using by means of an intermediate representation~\cite{sturmel2012linear}:
+\subsection{The Mixing Process}
+The mixing process leading to the observed signal can be using by means of an intermediate representation~\cite{sturmel2012linear}:
 \begin{center}
     \textit{The \emph{source spatial images}, or \emph{images},  $\img_{\idxMic\idxSrc}(t)$ describes the contribution
     of the source $\idxSrc$ to the microphone $\idxMic$ by means of a spatialization
     operation\sidenote{\eg/ the propagation from the point source to the microphone including reverberation}}.
 \end{center}
-Being $\spat_\idxSrc(\cdot)$ a possibly nonlinear spatialization operation, the spatial images
-$\imgs_\idxSrc(t) = \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}}$ with respect to the $\numMics$ reads
-\begin{equation}
-    \imgs_\idxSrc(t) = \kbracket{\spat_\idxSrc(\idxSrc)}(t)
-    .
-\end{equation}
-In second stage, the images of all (point and diffuse) sources are added together and passed through a possibly
-nonlinear \textit{post-mixing} operation $\master(\cdot)$ to obtain the mixture signal $\mics(t)$
-\begin{equation}
-    \mics(t) = \kbracket{ \master\kparen{
-                    \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc
-                    }}(t)
-\end{equation}
-\marginpar{
-    \footnotesize
-    In the field of music productions,
-    $\spat_\idxSrc(\cdot)$ and $\master(\cdot)$ may be identify rispectively with the \textit{mixing} and \textit{mastering} process.
-}
+
+The mixing process describes the nature of the mixtures, namely possibly non-linear combination of images, which are themselves possibly non-linear transformation of source signals.
+Based on the application, the mixing process can lead to
+\begin{description}
+    \item[microphone recordings] referring to mixtures recorded naturally simultaneously the same auditory scene, \ie/ teleconferencing systems or hands-free phones.
+    \item[artificial mixtures] created by mixing together different individual, possibly processed, recordings.
+    This are the typical mixtures for professional music production where the usage of long-chain of audio effects typically ``hide'' the recoding environment of the sound sources.
+\end{description}
+In this thesis, we will focus on the latters as it is possible to define a natural correspondence between images source, room impulse responses and the
+room properties of the auditory scene.
+
+% Being $\spat_\idxSrc(\cdot)$ a possibly nonlinear spatialization operation, the spatial images
+% $\imgs_\idxSrc(t) = \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}}$ with respect to the $\numMics$ reads
+% \begin{equation}
+%     \imgs_\idxSrc(t) = \kbracket{\spat_\idxSrc(\idxSrc)}(t)
+%     .
+% \end{equation}
+% In second stage, the images of all (point and diffuse) sources are added together and passed through a possibly
+% nonlinear \textit{post-mixing} operation $\master(\cdot)$ to obtain the mixture signal $\mics(t)$
+% \begin{equation}
+%     \mics(t) = \kbracket{ \master\kparen{
+%                     \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc
+%                     }}(t)
+% \end{equation}
+% \marginpar{
+%     \footnotesize
+%     In the field of music productions,
+%     $\spat_\idxSrc(\cdot)$ and $\master(\cdot)$ may be identify rispectively with the \textit{mixing} and \textit{mastering} process.
+% }
+
 \begin{figure}[t]
-    \centering
-    \includegraphics[width=\linewidth]{processing/mixing_process.png}
-    \caption{General mixing process,
-    illustrated in the case of $\numSrcs = 4$ sources,
-    including three point sources and one diffuse source, and $\numMics = 2$ channels.}
+    \begin{fullwidthfig}
+        \includegraphics[width=\linewidth+\marginparsep]{processing/mixing_process.png}
+    \end{fullwidthfig}
+
+    \vspace{-\baselineskip}\vspace{-\baselineskip}
+    \sideparmargin{outer}
+    \sidepar{\vspace{\baselineskip}
+    \caption{General mixing process, illustrated in the case of $\numSrcs = 4$ sources,
+      including three point sources and one diffuse source, and $\numMics = 2$ channels.}
+    }
     \label{fig:processing:mixing}
 \end{figure}
-\textsc{In Room Acoustics, the mixing process} is due to the propagation of sound in the auditory scene.
+
+In context of room acoustics and microphone recording, the mixing process is due to the propagation of sound in the auditory scene.
 As discussed in~\cref{ch:acoustics:sec:wave}, this process is linear (and time invariant provided a static scenario).
-In this case, the spatialization operation $\spat_\idxSrc(\cdot)$ is expressed by
-collection of convolution with \RIR/ $h_{\idxMic\idxSrc}$
-from source $\idxSrc$ to microphone $\idxMic$ and the post-mixing operation $\master(\cdot)$ reduces to the identity:
+% In this case, the spatialization operation $\spat_\idxSrc(\cdot)$ is expressed by
+% collection of convolution with \RIR/ $h_{\idxMic\idxSrc}$
+% from source $\idxSrc$ to microphone $\idxMic$ and the post-mixing operation $\master(\cdot)$ reduces to the identity:
+\newthought{Therefore, we will model} the resulting mixture as the simple summation of the sound images,
+which are the collections of convolution between the \RIRs/ and source signal:
 \begin{align}
     \mics(t)         &= \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc(t)\\
     \imgs_\idxSrc(t) &= \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}}\\
     \img_{\idxMic\idxSrc}(t) &=  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} (t)
 \end{align}
-where $\conv$ is the linear convolution operator. The filters with coefficient $h_{\idxMic\idxSrc}(t)$ are the \RIR/.
+where $\conv$ is the linear convolution operator.
 
 With the above notation, all the sources are threated in the same way, including \textit{target}, \textit{interfering} and \textit{noise} sources.
 These definition depends on the specific use case, field of research and application.
-Nevertheless, in speech processing context,
-it is common to refers to interfering and noisy sources as undesired speech \vs/ nonspeech sources respectively.
+Nevertheless, in speech processing context, it is common to refers to interfering and noisy sources as undesired speech \vs/ nonspeech sources respectively.
 
 \subsection{Impulse Response Models}
-we describe here the model used throughout the rest of this dissertation:
-\begin{center}
-    \textit{linear mixing, unit post-filtering, time-invariant filters and static sources in the time-frequency domain}.
-\end{center}
-
 Thanks to the convolution theorem, time-domain convolution can be implemented as a multiplication in the frequency-domain.
 However this does not generalized straightforwardly to the time-frequency domain:
 it depends on the length of the filter \wrt/ to the length of the analysis window on of the \STFT/.
