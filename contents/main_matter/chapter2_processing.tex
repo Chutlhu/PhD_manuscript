@@ -7,14 +7,15 @@ At first this chapter formalized fundamental concepts of audio signal processing
 Secondly, this concepts representation~\cref{sec:processing:domains}
 The notation presented in this chapter is reported in~\cpageref{ch:notation}, and is inspired to the one used in \citeonly{gannot2017consolidated}.
 
-% In the previous chapter we formalized the physics that rule the sound propagation from the source 'till the microphone.
-% The protagonist of this chapter is the audio signal.
 
 \section{Signal model in the time domain}\label{sec:processing:model}
-The raw \textit{audio signal} encodes the variation of pressure over time on the microphone membrane.
-Mathematically it can be written as the function
+In the previous chapter we formalized the physics that rule the sound propagation from the source 'till the microphone.
+The protagonist of this chapter is the audio signal.
+A raw \textit{audio signal} encodes the variation of pressure over time on the microphone membrane.
+Mathematically it is denoted as the function
 \begin{center}
     $x(t)$
+    ,
 \end{center}
 continuous both in time $t \in \R$ and in amplitude $x(t_0) \in \R$.
 
@@ -34,14 +35,13 @@ Historically two iconic values are $\SI{44.1}{\kHz}$ for music distribution on C
 Now multiple of $\SI{8}{\kHz}$ are typical chosen values: ($16, 48, 96, \SI{128}{\kHz}$).
 \\For further details, we refer the reader to audio signal processing basics books such as~\cite{rocchesso2003introduction}.
 
-\newthought{Signals are emitted by Sources} and are observed, received or recorded by microphones.
-A set of microphones is called a microphone \textit{array}.
+\newthought{Audio Signals are emitted by Sources} and are observed, received or recorded by microphones.
+A set of microphones is called a microphone \textit{array}, whose element is sometime referred to as \textit{channel}.
 In this thesis, these objects are assumed to have been deployed in a indoor environment, a room.
 \begin{center}
-    \textit{All of these make our \emph{auditory scene}.}
+    \textit{All of these make our indoor \emph{auditory scene}.}
 \end{center}
-
-Some taxonomy through dichotomies:
+Before describing the mixing process, let us provide some taxonomy, through some dichotomies:
 
 \dichotomy{Sources \vs/ Mixtures:}
 Sound sources emits sounds.
@@ -49,11 +49,17 @@ When multiple sources are active at the same time, the sound that reaches our ea
 The \textit{mixture} represents this (set of) signal which are also denotes as channel(s).
 
 \dichotomy{Single-Channel \vs/ Multichannel:}
+The term \textit{channel}
+\sidenote{
+    Please note, the term \textit{channel} has also different meaning:
+    it indicates the medium in communication (\eg/ Channel Estimation)
+    and sometimes one of the dimension of the input in machine learning (\eg/ image's channel)
+} is used here to indicate the output of one microphones or one source.
 A \textit{single-channel} signal ($\numMics = 1$) is represented by the scalar $\mic(t) \in \R$,
 while a \textit{multichannel} ($\numMics >   1$) is represented by the vector.
 
 \dichotomy{Point \vs/ Diffuse Sources:}
-\textit{Point sources} are emitted by a single and well-defined point in the space $\positionSource_\idxSrc$ and their signal is single channel.
+\textit{Point sources} are emitted by a single and well-defined point in the space and their signal is single-channel.
 Point sources are for instance human speakers or the sound emitted by a loudspeaker.
 \\\textit{Diffuse sources} refers for instance to wind, traffic noise, or large musical instruments, which emit sound in a large region of space.
 Their sound cannot be associate to a punctual source, but rather a distributed (infinite) collection of them.
@@ -62,31 +68,35 @@ Their sound cannot be associate to a punctual source, but rather a distributed (
 An \textit{omnidirectional} source (\resp/ receiver) will in principle emit (\resp/ pick up) sound equally from all directions,
 with respect both time and frequency.
 Although this simplify greatly processing frameworks, this is not true in real scenario.
-The physical properties of real sources (\resp/ receivers) leads to \textit{directivity patterns} which may
+The physical properties of real sources (\resp/ receivers) leads to \textit{directivity patterns}, \aka/ \textit{polarity}, which may
 be different at different frequencies.
 This effect may be a source of undesired effects, such as microphones \textit{leakage} or source localization error.
 Nevertheless sometimes it can be exploited to promote \textit{spatial selectivity}:
 spatial filtering can be view under this light, where ``virtual'' microphones with engineered directivity pattern.
 
 \subsection{The Mixing Process}
-Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$.
+Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$,
 $\mics(t) = \ktranspose{\klist{\mic_1(t), \dots, \mic_{\numMics}(t)}} \in \R^{\numMics \times 1}$.
-The $\idxMic$-th microphone have a well defined position in the space which is denoted with $\positionMicrophone_\idxMic$.
-\\Furthermore, let assume that there are $\numSrcs$ sources indexed by $\idxSrc \in \numSrcs$.
-Sources can be of two types:
+Let us assume that there are $\numSrcs$ sources indexed by $\idxSrc \in \numSrcs$.
+Each microphone $\idxMic$ and each source $\idxSrc$ have a well defined position in the space, $\positionMicrophone_\idxMic$, $\positionSource_\idxSrc$, respectively.
 
-The mixing process leading to the observed signal can be using by means of an intermediate representation~\cite{sturmel2012linear}:
+The mixing process describes then the nature of the mixtures.
+In order to better formalized it, \citeauthor{sturmel2012linear} introduced an intermediate representation:
 \begin{center}
-    \textit{The \emph{source spatial images}, or \emph{images},  $\img_{\idxMic\idxSrc}(t)$ describes the
-    contribution\sidenote{\eg/ the propagation from the point source to the microphone including reverberation}
-    of the source $\idxSrc$ to the microphone $\idxMic$}.
+    \textit{The \emph{source spatial images} $\img_{\idxMic\idxSrc}(t)$ describes the contribution of the
+    \\source $\idxSrc$ to the microphone $\idxMic$, and
+    \\the \emph{mixture} $\mic(t)$ is the possibly non-linear combination of images.}
 \end{center}
-
-The mixing process describes the nature of the mixtures, namely possibly non-linear combination of images, which are themselves possibly non-linear transformation of source signals.
-Based on the application, the mixing process can lead to ...
+% In math,
+% \begin{equation}
+%     \img_{\idxMic\idxSrc}(t) &=  \kparen{g_{\idxMic\idxSrc} \conv \src_\idxSrc} (t)
+%     ,
+% \end{equation}
+% where $g_{\idxMic\idxSrc}$ is a generic filter proper of source $\idxSrc$ and microphone $\idxSrc$.
+Depending on the ``contribution'' the image describes, the following type of mixture can be defined:
 
 \dichotomy{Natural \vs/ Artificial Mixtures:}
-The former refers to mixtures recorded simultaneously the same auditory scene, \eg/ teleconferencing systems or hands-free phones.
+The former refers to microphone mixtures recorded simultaneously the same auditory scene, \eg/ teleconferencing systems or hands-free phones.
 By contrast, the latters are created by mixing together different individual, possibly processed, recordings.
 This are the typical mixtures used professional music production\sidenote{here the usage of long-chain of audio effects typically ``hide'' the recoding environment of the sound sources}.
 
@@ -211,6 +221,9 @@ In~\cref{eq:processing:mixing} no noise is included:
 all the sources are threated in the same way, including \textit{target}, \textit{interfering} and \textit{noise} sources.
 While the definition of target sound source is quite self-explanatory,
 the term interfer and noise depends on the specific use case, problem, field of research and application.
+With this being said, we will define and use the following type of noises:
+\newthought{Interfers} identifies the undesired source with properties similar to the target source.
+For instance, a concurrent speech source for speech application or concurrent music instrument in case of music.
 \marginpar{
     \centering
         \resizebox{\linewidth}{!}{
@@ -228,18 +241,19 @@ the term interfer and noise depends on the specific use case, problem, field of 
             \draw (465.5,327.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\boldsymbol{\varepsilon }( t)$};
             \end{tikzpicture}
         }
-        \captionof{figure}{Graphical representation of the mixing model~\ref{eq:processing:mixing}.}\label{fig:processing:mixing}
+        \captionof{figure}{Graphical representation of the mixing model~\ref{eq:processing:mixing}:
+        $s_2(t)$ is the \textit{interferer},
+        $\boldsymbol{n}( t)$ contributes to the \textit{diffuse noise field}, and
+        $\boldsymbol{\varepsilon }( t)$ model acquisition and modeling errors.
+        }\label{fig:processing:mixing}
 }
-With this being said, we will define and use the following type of noises:
-\newthought{Interfers} identifies the undesired source with properties similar to the target source.
-For instance, a concurrent speech source for speech application or concurrent music instrument in case of music.
 \newthought{Noise} collects all the remaining effects, typically nonspeech sources. Moreover we will make a further distinction:
 \newthought{Diffuse Noise Field} describes the background diffuse sources present in the auditory scene, such as car noise, indistinct talking or winds.
 It can be modeled as \AWGNdef/, but its spatial description must be taken into account\citeonly{habets2007generating}.
-\newthought{Measurement or Model Noise} account for general residual miss- and under-modeling error.
+\newthought{Measurement and Model Noise} accounts for general residual miss- and under-modeling error.
 As common is signal processing and information theory, this error term will be modeled as \AWGN/.
 
-\section{Spectral representations}\label{sec:processing:domains}
+\section{Signal Model in the Spectral domains}\label{sec:processing:domains}
 The frequency, or spectral, representation is probably the most famous signal representation used in signal processing
 \sidenote{%
 It was introduced by Joseph Fourier in his work on the heat equation~\citeonly{fourier1822theorie}.
@@ -248,6 +262,16 @@ aims at approximating any signal by a sum of sine and cosine waves}.
 Here speech and music signals, which naturally exhibit harmonic and periodic behaviors,
 are described as combination of sinusoids as function of their frequencies.
 % https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati
+
+A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms has the property of converting convolution into products.
+This results undergoes with the name of \textit{convolution theorem} and rewrite the model in~\cref{eq:processing:mixing}
+
+\begin{equation}
+    \img_{\idxMic\idxSrc}( t) =  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} ( t)
+    \;\rightarrow\;
+    \img_{\idxMic\idxSrc}( f) =  h_{\idxMic\idxSrc}( f) \src_\idxSrc( f)
+\end{equation}
+
 
 \subsection{Frequency domain}
 The (forward) \FTdef/, $\fourierTrans{}$, maps a continuous-time-domain signal $x$ into a continuous-frequency-domain:
@@ -259,6 +283,7 @@ The (forward) \FTdef/, $\fourierTrans{}$, maps a continuous-time-domain signal $
         \,\kdiff{t}.
 \end{equation}
 where $f \in \kintervoc{-\sfrac{\Fs}{2}}{\sfrac{\Fs}{2}}$ are the \textit{natural frequency} in $\si{\Hz}$ and $\csti$ is the imaginary unit.
+\\The time-domain signal is projected into a continuous basis of sinusoids
 
 The (forward) \DFTdef/ of the discrete-time domain signal $x$:
 \begin{equation}\label{eq:processing:dft}
@@ -271,7 +296,7 @@ with $k \in \kintervcc{0}{2 F - 1}$.
 
 We denote the frequency in $\si{\Hz}$ associated with the frequency bins $k = 0, \cdots, $ as:
 \begin{equation}
-    f = \frac{k}{F}\Fs.
+    f_k = \frac{k}{F}\Fs.
 \end{equation}
 
 A raw audio signal encodes the amplitude of a sound as a function of time; while, its Fourier spectrum
