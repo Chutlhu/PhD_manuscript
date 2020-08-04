@@ -1,4 +1,4 @@
-\chapter{Audio Signal Processing and Inverse Problem}\label{ch:processing}
+\chapter{Elements of Audio Signal Processing}\label{ch:processing}
 \openepigraph{Signal, a function that conveys information about a phenomenon.
 $[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
 \vspace{-2.5em}
@@ -6,6 +6,9 @@ $[\dots]$ Consider an acoustic wave, which can convey acoustic or music informat
 At first this chapter formalized fundamental concepts of audio signal processing such as signal, mixtures and noise~\cref{sec:processing:model}.
 Secondly, this concepts representation~\cref{sec:processing:domains}
 The notation presented in this chapter is reported in~\cpageref{ch:notation}, and is inspired to the one used in \citeonly{gannot2017consolidated}.
+
+% In the previous chapter we formalized the physics that rule the sound propagation from the source 'till the microphone.
+% The protagonist of this chapter is the audio signal.
 
 \section{Signal model in the time domain}\label{sec:processing:model}
 The raw \textit{audio signal} encodes the variation of pressure over time on the microphone membrane.
@@ -37,6 +40,8 @@ In this thesis, these objects are assumed to have been deployed in a indoor envi
 \begin{center}
     \textit{All of these make our \emph{auditory scene}.}
 \end{center}
+
+Some taxonomy through dichotomies:
 
 \dichotomy{Sources \vs/ Mixtures:}
 Sound sources emits sounds.
@@ -234,16 +239,17 @@ It can be modeled as \AWGNdef/, but its spatial description must be taken into a
 \newthought{Measurement or Model Noise} account for general residual miss- and under-modeling error.
 As common is signal processing and information theory, this error term will be modeled as \AWGN/.
 
-\section{Frequency and Time-Frequency representation}\label{sec:processing:domains}
+\section{Spectral representations}\label{sec:processing:domains}
 The frequency, or spectral, representation is probably the most famous signal representation used in signal processing
 \sidenote{%
-    It was introduced by Joseph Fourier in his work on the heat equation~\citeonly{fourier1822theorie}.
-    His mathematical tool, named later \textit{Fourier Decomposition},
-    aims at approximating any signal by a sum of sine and cosine waves}.
+It was introduced by Joseph Fourier in his work on the heat equation~\citeonly{fourier1822theorie}.
+His mathematical tool, named later \textit{Fourier Decomposition},
+aims at approximating any signal by a sum of sine and cosine waves}.
 Here speech and music signals, which naturally exhibit harmonic and periodic behaviors,
 are described as combination of sinusoids as function of their frequencies.
 % https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati
 
+\subsection{Frequency domain}
 The (forward) \FTdef/, $\fourierTrans{}$, maps a continuous-time-domain signal $x$ into a continuous-frequency-domain:
 \begin{equation}
     x(f) = (\fourierTrans{x})(f) =
@@ -272,6 +278,7 @@ A raw audio signal encodes the amplitude of a sound as a function of time; while
 represents it as a function of frequency, but los completely variation over time.
 In order to jointly account for temporal and spectral characteristic, following representation is used.
 
+\subsection{Time-Frequency domain}
 \newthought{\TFdef/ Representation} aims to jointly describe the signal in time and frequency domain.
 the \STFTdef/ encodes the time-varying spectra into a matrix $x(k,l) \in \bbC^{F,T}$ with frequencies $k$ and time frames $l$.
 
@@ -295,7 +302,7 @@ its counterpart converting back to time-domain is called \textit{synthesis}.
 Between the two we will conduct \textit{estimation}, \textit{processing} and \textit{enhancement}.
 
 
-\subsection{Impulse Response Models}
+\section{RIR and Echoes Models}
 Thanks to the convolution theorem, time-domain convolution can be implemented as a multiplication in the frequency-domain.
 However this does not generalized straightforwardly to the time-frequency domain:
 it depends on the length of the filter \wrt/ to the length of the analysis window on of the \STFT/.
