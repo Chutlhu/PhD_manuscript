@@ -1,4 +1,4 @@
-\chapter{Prologue}\label{chap:intro}
+\chapter{Overture}\label{chap:intro}
 
 \openepigraph{Only echoes answer me.}{Anton Chekhov, Swan Song}
 \openepigraph{\textsc{Écho.} Citer ceux du Panthéon et du pont de Neuilly. }{Gustave Flaubert, Dictionnaire des idées reçues}
@@ -54,6 +54,155 @@ in closed rooms it is less noticeable. In fact, echoes are usually masked by a g
 Auralization is the process of rendering audible, by physical or mathematical modelling, the sound field
 of a source in a space, in such a way as to simulate the binaural listening experience at a given position in the modelled space
 
+\section{Audio Inverse Problems}\label{sec:processing:inverse}
+\cite{kitic2015cosparse}
+\openepigraph{Their generality is of such a wide scope that onemayeven argue that solving inverse problems is what signal processing is all about}{Srdan Kiti\'c, \textit{Cosparse regularization of physics-driven inverse problems}}
+\openepigraph{everything is an optimization problem}{\citeonly{watson2001nonlinear}}
+\marginpar{
+    \footnotesize
+    One can see the paralelism with the engineering concepts: analysis and sythesis.
+}
+In~\cref{sec:intro:problem} we have informally defined \textit{inverse problems}, with an emphasis on inverse problems in signal processing.
+An inverse problem is a type of a mathematical problem where we start with the observations and we want to estimate model parameters that produced them.
+\\Inverse problems pervades all the field of science and engineering:
+source localization~\cite{},
+image processing~\cite{},
+acoustic imaging and tomography~\cite{},
+\marginpar{
+    \footnotesize
+    A historical example are the calculation of the Earth circunference by Eratosthenes in III century b.c.\\
+    and the calculations of Adams and Le Verrier which led to the discovery of Neptune from the perturbed trajectory of Uranus.
+}
+
+A inverse problems is defined as the counterpart of a \textit{forward}\sidenote{often referred to as \textit{direct}} problem.
+Without falling in and deep mathematical formalism and taxonomies which can be found in \citeonly{bal2012introduction},
+we will simply consider the following informal definition:
+\begin{center}
+    \textit{\emph{Forward problem} starts from known input, while \emph{inverse problem} starts from known output~\cite{santamarina2005discrete}.}
+\end{center}
+Both these problems focus on an operation relating maps objects of interest, called \textit{parameters} or \textit{variables},
+to information collected about these objects, called \textit{measurements}, \textit{data} or \textit{observation}.
+
+For instance, in our context, the direct problem may be the estimation of the \RIR/(s) starting from the known room parameters,
+and, the related inverse problem would be the estimation of such room properties from the observation of the \RIR/(s).
+
+Formally, a forward problem is defined through a mathematical model, described by a \textit{operation} $\scrM(\cdot)$
+mapping \textit{parameters} $x \in \scrX$ to the \textit{observation} (or measurement) $y \in \scrY$:
+\begin{equation}\label{eq:processing:model}
+    y = \scrM(x)
+    .
+\end{equation}
+Then, the inverse problem defines a method $\kinv{\scrM}$ that ``reverts'' $\scrM$ in order to recover (estimate) $x$ form the observation of $y$.
+% The operator $\scrM$ describes our best effort to construct a \textit{model} for the available data $y$.
+% The choice of $\scrX$ describes our best effort to characterize the space where we believe the parameters belong.
+
+As discussed in~\cite{bal2012introduction}, \textit{solving} the inverse problem consists in finding point(s) $x \in \scrX$ from (knowledge of) data $y \in \scrY$
+such that~\cref{eq:processing:model} or an approximation of~\cref{eq:processing:model} holds.
+Under this light, the operator $\scrM$ ant the choice of $\scrX$ describes our best effort to construct a \textit{model} for the data $y$ and
+the space where the parameters $x$ belong, respectively.
+\marginpar{
+    \footnotesize
+    one can already see the paralelism the the definition of the mixing process defined in~\cref{sec:intro:problem}
+}
+
+\textsc{For instance, in Case of} \textit{linear} inverse problem, and for $\scrY$ and $\scrX$ being vector spaces of dimensions $M$ and $N$ respectively,
+then the forward map can be written as a linear system:
+\begin{equation}\label{eq:processing:linear_forward}
+    \bfy = \bfM \bfx
+\end{equation}
+where $\bfM$ being a matrix, namely the operator $\scrM$ becomes a matrix multiplication by $M$.
+It follows that the inverse map associated to~\cref{eq:processing:linear_forward} is the application of the inverse matrix $\kinv{M}$.
+% While solving a direct problem the an operator needs to be found, in solving the inverse one either the operator is known and needs
+% to be $reverts$t
+
+Typically, forward problems are considered somehow the ``easier''.
+In fact, even in the observation model $\scrM$ is known perfectly, it is not always possible to find its counterpart.
+This because of
+\begin{itemize}
+    \item presence of \textit{noise} in the measurement which are not always additive and statistically independent \wrt/ $x$.
+    \item the problem is \textit{well-posed} and \textit{well-conditioned}, namely $\scrM$ needs be injective and stable.
+    In other words, some information is recoverable, other is completely lost, other highly sensible to noise
+    \sidenote{
+        \textbf{injective} ensure the uniqueness of the solution, while \textbf{stability}
+        ensure a continuity on the data.
+        These are known as the Hadamard's \textit{solvability conditions}.
+    }.
+\end{itemize}
+
+As we could images, many interesting and fundamental inverse problem are
+\textit{ill-posed} or \textit{ill-conditioned} in general, even in the following ``simple'' ones~\cite{kitic2015cosparse}:
+The solution to the deconvolution problem, where the direct inversion of the transfer function results in instabilities
+at high frequency; and the solution a linear system $\bfy = \bfM \bfx$ where $\bfM$ is invertible
+may lead to erroneous results and numerical instabilities.
+
+Therefore, sometimes ones have to settle for restring the set of solution $\scrC \subset \scrX$,
+where $\scrM$ is stable and injective\sidenote{This framework was originally proposed by Tikhonov.}.
+Promoting solution $x \in \scrC$ is can be achieved through \textit{model priors}, namely prior knowledge about solution, which can
+be classified in the following methodologies:
+the usage of \textit{geometric constraints} that deterministically define the solutions; the imposition of \textit{penalization}
+which ``promotes'' solution of a certain shape (\eg/ \textit{sparse}
+\sidenote{\textbf{sparsity} is a fundamental concept of this thesis, better discussed in~\cref{pt:estimation}
+} or \textit{smoothness});
+and casting the problem in a \textit{bayesian framework} which versatilely incorporate prior and posterior density function describing the data.
+
+\subsection{General Processing Scheme}
+Digital signal processing (DSP) is the process of analyzing and modifying a signal to optimize or improve its efficiency or performance. It involves applying various mathematical and computational algorithms to analog and digital signals to produce a signal that's of higher quality than the original signal.
+It is traditional in engineering to represent complex systems as a collection of simpler subsystems, with well-defined tasks, interacting with each other.
+In signal processing, these subsystems roughly fall into four categories: \textit{representation}, \textit{enhancement}, \textit{estimation}, and \textit{adaptive processing}.
+Many problems can be decomposed into blocks that belong to one of these categories.
+
+\begin{description}
+    \item[Representation] Objects can be represent (described) in many different way.
+    Through different representations, some object \textit{information} becomes more relevant and suitable for certain tasks
+    than other.
+    \\Representation can be lossy or lossless, and are generally implemented through (non)linear mapping, such as change of basis or feature.
+    The most famous representation is the Fourier basis.
+    \\Depending on the task the representation may be invertible.
+    The process of changing representation is often called: Analysis and Synthesis
+
+    \item[Enhancement] Measurement are affected by noise and interferences which corrupt and hide relevant information, making inverse problems ill-posed and ill-conditioned.
+    Therefore, signal enhancement, that is removing noise, is a necessary step.
+    \\Enhancement constitute a huge dome of methods: form simple denoising by averaging of repeated measurement to
+    spectral subtraction to source separation with neural network.
+
+    \item[Estimation] Often we wish to estimate some key properties of the target signal which may be used as inputs to a different algorithm.
+
+    \item[Adaptive processing] deals with adaptive algorithms and filters controlled by variable parameters.
+    A common means to adjust those parameters according to an optimization algorithm which rely on statistical properties of the signal of interest.
+    They often implement a kind of online optimization where an objective function is being minimized.
+    When new data is observed, its discrepancy with the current estimate is used to produce a new estimate in a way that reduces the objective.
+\end{description}
+
+Let us give two example of practical systems that will be recurrent thought out the entire thesis.
+
+\subsection{Selected Audio Inverse Problems}
+Here follow some famous problems in the field of audio signal processing with application to speech, music and environmental audio.
+Given the mixing process defined in~\cref{sec:processing:model},
+
+% \begin{description}
+%     \item[sound source separation and enhancements] as the problem of retrieving a (set of) source signal from a mixture.
+%     \item[sound source localization] estimation of source location from the observation of the sound production.
+%     This has sense as long as the impulse response convey space properties.
+%     \item[microphones calibration] estimation of the microphone placement.
+%     \item[\RIR/ estimation] estimation of the filters.
+%     Blind Channel Estimation or System Identification.
+%     \item[Acoustic Echoes Estimation] estimation of the filters
+%     \item[dereverberation] estimation of the filters
+%     \item[room geometry estimation] estimation of the room
+%     \item[automatich speech recognition]
+% \end{description}
+
+\input{tables/processing/tab_inverseproblem.tex}
+
+\openepigraph{Everything is connected}{Douglas Adams, \textit{Dirk Gently's Holistic Detective Agency}}
+\newthought{Depending on the scenario}, all these problems exhibits strong inter-connections,
+namely the solution of one may be (dependent on) the solution of another.
+Therefore, exploiting expertise and knowledge,
+interconnect and hierarchical approaches may be built\sidenote{Machine Learing allows now for end2end approaches}:
+for instance, many spatial filtering techniques used for \SE/ rely on \SSL/ blocks;
+and in order to achieves \RooGE/, \AER/ must be done.
+
+
 \section{My Thesis}
 \subsection{Hunting Acoustic Echoes}
 \subsection{Echo-aware Auditory Scene Analysis}
@@ -83,5 +232,19 @@ Finally, the dissertation concludes with Chapter X, which summarizes
 the contributions and raises several additional research questions
 
 
-\section{Don't Panic}
-How to read a This (Tufte) Thesis
+\section{This Thesis: Don't Panic!}
+The reader will have already noticed that a large margin is left free on the right side of each page of the manuscript.
+We will use it to insert comments, historical notes as well as figures and tables to complete the subject.
+This graphic charter is inspired by the work of Tufte (2001) and produced using the latex tufte-latex class.
+We emphasize that the presence of the clickable GitHub logo in the margin indicates the online availability of the codes.
+
+\newthought{Quick vademecum} for the readers:
+\begin{itemize}
+    \item Bibliographic references are denoted as \cite{kuttruff2016room}.
+    \item Figures, Tables and other floating objects as well as equations are numbered within the chapter number.
+    \item Equations are referred as~\cref{eq:acoustics:green_definition}
+    \item The main matter of the Thesis’s manuscript starts at page 1, until page 103.
+    \item The back matter covers the list of the candidate’s publications and the bibiographic references cited along the text.
+    \item Small notes on the margin might be used to easily navigate through the Example of margin note manuscript. They are meant to summarize paragraphs/blocks of text.
+    \item The end of the chapter is shown by the following sign between horizontal rules.
+\end{itemize}

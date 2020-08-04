@@ -241,7 +241,7 @@
 
 \newcommand{\openepigraph}[2]{%
   \marginpar{%
-    \small
+    \footnotesize
     \flushright%
     %\justifying{%
     \enquote{\textit{#1}}%
@@ -264,6 +264,8 @@
 \providecommand\newthoughtbreak{\par\ifdim\lastskip<\newthoughtskipamount
   \removelastskip\penalty-100\newthoughtskip\fi}
 
+% --- Tufte's newthoughts ------------------------------------------------------
+% --- Aaron's newthought I: with triangle
 \newcommand{\newthoughtskip}{\vspace\newthoughtskipamount}
 \providecommand\newthought[1]{%
     \nopagebreak
@@ -272,7 +274,19 @@
     {\llap{\color{black!30}\scriptsize\raisebox{1pt}{$\blacktriangleright$}\quad}}%
     \textsc{#1}%
 }
+% --- Aaron's newthought II: with linebreak
 \providecommand\newthoughtpar[1]{\nopagebreak\newthought{#1}\par\nopagebreak\noindent\ignorespaces}
+
+% --- Diego's newthought:
+% used for dichotomies
+\providecommand\dichotomy[1]{%
+    \nopagebreak
+    \newthoughtbreak
+    \noindent%
+    %{\llap{\color{black!50}\scriptsize\raisebox{1pt}{$\overset{\text{\footnotesize\scrD}}{\rightleftarrows}$}\quad}}%
+    {\llap{\color{black!50}\scriptsize\raisebox{1pt}{$\rightleftarrows$}\quad}}%
+    \textsc{#1}%
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
