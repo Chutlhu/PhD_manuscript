@@ -22,15 +22,24 @@ continuous both in time $t \in \R$ and in amplitude $x(t_0) \in \R$.
 Today signals are processed, stored and analyzed by computer and modules in their digital representation.
 In short, the \textit{digital audio signal} is obtained from an analog signal in two steps:
 first, the continuous time signal $x(t)$ is converted to a discrete time series,
-so that $x(n)$ with $n \in \Z$ is \textit{sampled}\sidenote{
+so that $x[n]$ with $n \in \Z$ is \textit{sampled}\sidenote{
    Please note, that the use of the word \textit{sample} will have different
    meanings in the context of machine learning, where a sample is an instance of a full signal instead of a single time
 }  with equidistant steps $\Ts\;[\si{\second}]$, called sampling period;
 secondly, the amplitude values can be \textit{quantized}.
-At the end of the digitalization process, $x(n) \in \R$ with $n = 0, \dots, N-1$, represents a one dimensional time series of amplitudes.
-
-An important parameter in this process is the \textit{sampling frequency},  $\Fs = \sfrac{1}{\Ts}\;[\si{\Hz}]$.
-The choice of $\Fs$ depends massively on the application since it translates into a trade-off between computational power, sound and processing quality.
+At the end of the digitalization process, $x[n] \in \R$ with $n = 0, \dots, N-1$, represents a one dimensional time series of amplitudes.
+It is important to notice that this series is finite, with $N$ values.
+This process can be modeled in two stage: first, the continuous-time signal undergoes a (ideal) low-pass filter
+limiting the signal frequencies to at max $\Fs$; secondly, it is regularly sampled at rate $\Fs$.
+By using the (ideal) low-pass filter $\lowpassfilter$ with frequency support $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$,
+this processes writes:
+\begin{equation}
+    x[n] = (\lowpassfilter \conv x)\kparen{\frac{n}{\Fs}}
+    \mathspace
+    \kforall[n = 0, \cdots, N-1]
+\end{equation}
+where $\Fs = \sfrac{1}{\Ts}\;[\si{\Hz}]$ is the \textit{sampling frequency}.
+\\The choice of $\Fs$ depends massively on the application since it translates into a trade-off between computational power, sound and processing quality.
 Historically two iconic values are $\SI{44.1}{\kHz}$ for music distribution on CDs and $\SI{8}{\kHz}$ for first-generation speech communication.
 Now multiple of $\SI{8}{\kHz}$ are typical chosen values: ($16, 48, 96, \SI{128}{\kHz}$).
 \\For further details, we refer the reader to audio signal processing basics books such as~\cite{rocchesso2003introduction}.
@@ -290,53 +299,72 @@ Here speech and music signals, which naturally exhibit harmonic and periodic beh
 are described as combination of sinusoids as function of their frequencies.
 % https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati
 
-A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms two fundamental properties:
-it is linear and it converts time-convolution into element products.
-\\First, linearity allows to write~\cref{eq:processing:mixing:mix} simply as:
-
-\begin{equation}
-    \mics( t) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( t)
-    \;\rightarrow\;
-    \mics( f) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( f)
-\end{equation}
-
-Secondly, by the \textit{convolution theorem}, the source spatial images in~\cref{eq:processing:mixing} writes as:
-
-\begin{equation}
-    \img_{\idxMic\idxSrc}( t) =  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} ( t)
-    \;\rightarrow\;
-    \img_{\idxMic\idxSrc}( f) =  h_{\idxMic\idxSrc}( f) \src_\idxSrc( f)
-\end{equation}
-
-
-\subsection{Continuos \vs/ Discrete Frequency domain}
-The (forward) \FTdef/, $\fourierTrans{}$, maps a continuous-time-domain signal $x$ into a continuous-frequency-domain:
-\begin{equation}
+This operation is achieved through the \FTdef/, $\fourierTrans{}:\bbR\kmapsto\bbC$, which maps a continuous-time-domain signal $x$ into a continuous-frequency-domain:
+\begin{equation}\label{eq:processing:ft}
     x(f) = (\fourierTrans{x})(f) =
         \int_{-\infty}^{+\infty}
         x(t)
         \cste^{-\csti 2 \pi f t}
         \,\kdiff{t}.
 \end{equation}
-where $f \in \kintervoc{-\sfrac{\Fs}{2}}{\sfrac{\Fs}{2}}$ are the \textit{natural frequency} in $\si{\Hz}$ and $\csti$ is the imaginary unit.
-\\The time-domain signal is projected into a continuous basis of sinusoids
+where $f \in \bbR$ are the \textit{natural frequency} in $\si{\Hz}$ and $\csti$ is the imaginary unit.
 
-The (forward) \DFTdef/ of the discrete-time domain signal $x$:
+A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms two fundamental properties:
+it is linear and it converts time-convolution into element products.
+\\First, linearity allows to write~\cref{eq:processing:mixing:mix} simply as:
+\begin{equation}
+    \mics( t) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( t)
+    \;\rightarrow\;
+    \mics( f) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( f)
+\end{equation}
+Secondly, by the \textit{convolution theorem}, the source spatial images in~\cref{eq:processing:mixing:img} writes as:
+\begin{equation}\label{eq:processing:conv}
+    \img_{\idxMic\idxSrc}( t) =  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} ( t)
+    \;\rightarrow\;
+    \img_{\idxMic\idxSrc}( f) =  h_{\idxMic\idxSrc}( f) \src_\idxSrc( f)
+\end{equation}
+
+Notice that this formulation represents a continuous-time signal in the domain of continuous frequencies.
+In fact in some cases, the \FT/ of a \RIR/, $\fourierTrans{h_{ij}})$ can be computed in closed-form\sidenote{
+    \cfr{\cref{eq:acoustics:ims,eq:processing:mixing_filter}}
+}. However, the \FT/ of the mixtures in not available due to the measurement process.
+In practice, only the sampled and finite-length mixture signals are available.
+Therefore, a discrete version of~\cref{eq:processing:ft} is needed.
+
+\subsection{Discrete Frequency domain}
+The discrete-finite-frequency domain representation of a discrete-finite-time signal $x[n]$ is given by its (forward) \DFTdef/, $\discreteFT{}:\bbR\kmapsto\bbC$
+\sidenote{
+    Please note that the notation for applying the \DFT/ is the one used for matrices.
+    In fact, the \DFT/ can be efficiently implemented as a matrix multiplication operation.
+    Its most famous implemention is called \FFT/.
+}:
 \begin{equation}\label{eq:processing:dft}
     x(k) = (\discreteFT{x})(k) =
-    \sum_{n = 0}^{2 N - 1}
-    x(n)
-    \cste^{-\csti2\pi \tfrac{k n}{2 F}}.
+    \sum_{n = 0}^{N - 1}
+    x[n]
+    \cste^{-\csti2\pi k n / F}.
 \end{equation}
-with $k \in \kintervcc{0}{2 F - 1}$.
-
-We denote the frequency in $\si{\Hz}$ associated with the frequency bins $k = 0, \cdots, $ as:
+where $k \in \kintervcc{0}{F - 1}$ in the discrete \textit{frequency bin} and $F$ is the total number of bins.
+The natural frequency $f_k$ in $\si{\Hz}$ correspondent to the $k$-th frequency bin as:
 \begin{equation}
-    f_k = \frac{k}{F}\Fs.
+    f_k = \frac{k}{F}\Fs
+    .
 \end{equation}
 
-A raw audio signal encodes the amplitude of a sound as a function of time; while, its Fourier spectrum
-represents it as a function of frequency, but los completely variation over time.
+Now the continuous model~\ref{eq:acoustics:ims} can be approximated in the discrete and finite time by
+\begin{equation}
+    c_{ij}[n] \approx (h_{ij} \convDis x)[n]
+\end{equation}
+where $\convDis$ is the finite-time convolution operator\sidenote{
+    The finite-time convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
+    \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
+    .
+}.
+
+
+
+While the raw audio signal encodes the amplitude of a sound as a function of time,
+its Fourier spectrum represents it as a function of frequency, but los completely variation over time.
 In order to jointly account for temporal and spectral characteristic, following representation is used.
 
 \subsection{Time-Frequency domain}
