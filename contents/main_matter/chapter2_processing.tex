@@ -111,10 +111,10 @@ This is the typical scenario when sources are mixed using a mixing console.
         \toprule
         instantaneous   & $x_{i} \ =\sum ^{J}_{j=1} a_{ij} s_{j} $ \\
         anechoic        & $x_{i} \ =\sum ^{J}_{j=1} a_{ij} s_{j}( t - \tau _{ij}) $ \\
-        convolutive     & $x_{i} \ =\sum ^{J}_{j=1}( h_{ij} \ast s_{j})( t)$ \\
+        convolutive     & $x_{i} \ =\sum ^{J}_{j=1}( g_{ij} \ast s_{j})( t)$ \\
         \bottomrule
         \end{tabular}
-        \captionof{table}{Taxonomy of linear mixing models for a mixture channel $x_i$, sources $s_j$, filter response $h_{ij}$,
+        \captionof{table}{Taxonomy of linear mixing models for a mixture channel $x_i$, sources $s_j$, impulse response $g_{ij}$,
         scaling factor $a_{ij}$ and delay $\tau_{ij}$.}
 }
 Convolutive mixtures, instead, denote the more general case where the each mixture is the sum of filtered signals.
@@ -206,24 +206,37 @@ which are the collections of convolution between the \RIRs/ and source signal:
         }
         \captionof{figure}{Graphical representation of the mixing model~\ref{eq:processing:mixing} for 2 sources and 2 microphones.}\label{fig:processing:mixing}
 }
-\begin{align}\label{eq:processing:mixing}
-    \img_{\idxMic\idxSrc}(t) &=  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} (t)     \nonumber\\
+\begin{align}
+    \img_{\idxMic\idxSrc}(t) &=  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} (t)     \label{eq:processing:mixing:img} \\
     \imgs_\idxSrc(t) &= \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}} \nonumber\\
-    \mics(t)         &= \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc(t)
+    \mics(t)         &= \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc(t)                    \label{eq:processing:mixing:mix}
 \end{align}%
 where $\conv$ is the linear convolution operator.
+Considering the time domain description of the \RIR/ derived (and approximated) in the previous chapter\sidenote{\cfr{\cref{eq:acoustics:rir_full,eq:acoustics:ims}}},
+the time-domain \emph{mixing filters} $h_{ij}( t)$ will be modeled as follows:
+\begin{equation}\label{eq:processing:mixing_filter}
+    h_{ij}( t) = \sum_{\idxEch=0}^{\numEchs} \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
+                       \diracOf{t - \tau_{ij}^r} + \varepsilon_{ij}(t)
+\end{equation}
+where $\absCoeff_{ij}^r$ and $\tau_{ij}^r$ are the attenuation coefficient and the time delay of the reflection $\idxEch$.
+The noise term $\varepsilon_{ij}( t)$ collects later echoes ($\idxEch > \numEchs$) and the tail of the reverberation.
+We do not assume $\varepsilon_{ij}( t)$ to be known.
 
-\subsection{Target, Interferer and Noise}
+\subsection{Noise, interferer and errors}
 \openepigraph{%
     \emph{Noise} is a general term for unwanted (and, in general, unknown) modifications that a signal may suffer during capture, storage, transmission, processing, or conversion
 }{V. Tuzlukov, \textit{Signal processing noise}}
-In~\cref{eq:processing:mixing} no noise is included:
+In~\cref{eq:processing:mixing:mix} no noise is included:
 all the sources are threated in the same way, including \textit{target}, \textit{interfering} and \textit{noise} sources.
-While the definition of target sound source is quite self-explanatory,
-the term interfer and noise depends on the specific use case, problem, field of research and application.
+In~\cref{eq:processing:mixing_filter} a noise term is added to collects unknown quantities.
+Noise has then different meanings.
+While the definition of target sound source is quite self-explanatory and it will denoted as the source $j = 1$,
+the term interfer and noise depends on the specific use case, problem, application, and research field.
 With this being said, we will define and use the following type of noises:
 \newthought{Interfers} identifies the undesired source with properties similar to the target source.
 For instance, a concurrent speech source for speech application or concurrent music instrument in case of music.
+\\In this thesis, and in particular in~\cref{chap:dataset,chap:brioche}, the interfer sources will be denoted
+as additional source indexed by $j > 1$.
 \marginpar{
     \centering
         \resizebox{\linewidth}{!}{
@@ -248,10 +261,24 @@ For instance, a concurrent speech source for speech application or concurrent mu
         }\label{fig:processing:mixing}
 }
 \newthought{Noise} collects all the remaining effects, typically nonspeech sources. Moreover we will make a further distinction:
+
 \newthought{Diffuse Noise Field} describes the background diffuse sources present in the auditory scene, such as car noise, indistinct talking or winds.
 It can be modeled as \AWGNdef/, but its spatial description must be taken into account\citeonly{habets2007generating}.
+\\In this thesis, it is denoted as $\bsn(t) \sim \calN(0, \cov_{nn})$ where $\cov_{nn} \in \bbR^{I \times I}$ is the noise \textit{spatial covariance matrix}
+
 \newthought{Measurement and Model Noise} accounts for general residual miss- and under-modeling error.
 As common is signal processing and information theory, this error term will be modeled as \AWGN/.
+\\In this thesis, it will denoted as $\varepsilon_{ij}( t)$ will be used to model residuals and measurement error,
+\eg/ approximation of the \RIR/ with the \ISM/ or sensor noise, respectively.
+
+\medskip\noindent
+Making the noise terms and sources explicit, the mixing model in~\cref{eq:processing:mixing:img,eq:processing:mixing:mix} writes:
+\begin{align}
+    \img_{\idxMic\idxSrc}(t) &=  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} (t) +  \varepsilon_{ij}(t)\\
+    \imgs_\idxSrc(t)         &= \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}} \nonumber\\
+    \mics(t)                 &= \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc(t) + \bsn( t)
+\end{align}%
+
 
 \section{Signal Model in the Spectral domains}\label{sec:processing:domains}
 The frequency, or spectral, representation is probably the most famous signal representation used in signal processing
@@ -263,8 +290,17 @@ Here speech and music signals, which naturally exhibit harmonic and periodic beh
 are described as combination of sinusoids as function of their frequencies.
 % https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati
 
-A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms has the property of converting convolution into products.
-This results undergoes with the name of \textit{convolution theorem} and rewrite the model in~\cref{eq:processing:mixing}
+A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms two fundamental properties:
+it is linear and it converts time-convolution into element products.
+\\First, linearity allows to write~\cref{eq:processing:mixing:mix} simply as:
+
+\begin{equation}
+    \mics( t) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( t)
+    \;\rightarrow\;
+    \mics( f) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( f)
+\end{equation}
+
+Secondly, by the \textit{convolution theorem}, the source spatial images in~\cref{eq:processing:mixing} writes as:
 
 \begin{equation}
     \img_{\idxMic\idxSrc}( t) =  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} ( t)
@@ -273,7 +309,7 @@ This results undergoes with the name of \textit{convolution theorem} and rewrite
 \end{equation}
 
 
-\subsection{Frequency domain}
+\subsection{Continuos \vs/ Discrete Frequency domain}
 The (forward) \FTdef/, $\fourierTrans{}$, maps a continuous-time-domain signal $x$ into a continuous-frequency-domain:
 \begin{equation}
     x(f) = (\fourierTrans{x})(f) =
