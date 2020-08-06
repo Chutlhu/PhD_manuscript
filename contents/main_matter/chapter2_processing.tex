@@ -31,7 +31,10 @@ At the end of the digitalization process, $x[n] \in \R$ with $n = 0, \dots, N-1$
 It is important to notice that this series is finite, with $N$ values.
 This process can be modeled in two stage: first, the continuous-time signal undergoes a (ideal) low-pass filter
 limiting the signal frequencies to at max $\Fs$; secondly, it is regularly sampled at rate $\Fs$.
-By using the (ideal) low-pass filter $\lowpassfilter$ with frequency support $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$,
+By using the (ideal) low-pass filter $\lowpassfilter$\sidenote{
+    The low-pass filter is used to reduce aliasing (spectral components higher than Fs)
+    $\lowpassfilter(t) = \sinc(t) = \sin(\pi t) / (\pi t)$.
+} with frequency support $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$,
 this processes writes:
 \begin{equation}
     x[n] = (\lowpassfilter \conv x)\kparen{\frac{n}{\Fs}}
@@ -294,42 +297,51 @@ The frequency, or spectral, representation is probably the most famous signal re
 \sidenote{%
 It was introduced by Joseph Fourier in his work on the heat equation~\citeonly{fourier1822theorie}.
 His mathematical tool, named later \textit{Fourier Decomposition},
-aims at approximating any signal by a sum of sine and cosine waves}.
+aims at approximating any signal by a sum of sine and cosine waves.}.
 Here speech and music signals, which naturally exhibit harmonic and periodic behaviors,
 are described as combination of sinusoids as function of their frequencies.
 % https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati
 
-This operation is achieved through the \FTdef/, $\fourierTrans{}:\bbR\kmapsto\bbC$, which maps a continuous-time-domain signal $x$ into a continuous-frequency-domain:
+This operation is achieved through the \FTdef/, $\fourierTrans{}:\bbR\kmapsto\bbC$, which
+project a continuous-time-domain signal $x$ onto a space spanned by continuous-frequency complex exponentials:
 \begin{equation}\label{eq:processing:ft}
     x(f) = (\fourierTrans{x})(f) =
         \int_{-\infty}^{+\infty}
         x(t)
         \cste^{-\csti 2 \pi f t}
-        \,\kdiff{t}.
+        \,\kdiff{t}
+    ,
 \end{equation}
 where $f \in \bbR$ are the \textit{natural frequency} in $\si{\Hz}$ and $\csti$ is the imaginary unit.
 
-A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms two fundamental properties:
+A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms benefits of two fundamental properties:
 it is linear and it converts time-convolution into element products.
 \\First, linearity allows to write~\cref{eq:processing:mixing:mix} simply as:
-\begin{equation}
+\begin{equation}\label{eq:processing:ft:mix}
     \mics( t) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( t)
-    \;\rightarrow\;
+    \;\overset{\fourierTrans{}}{\rightarrow}\;
     \mics( f) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( f)
 \end{equation}
 Secondly, by the \textit{convolution theorem}, the source spatial images in~\cref{eq:processing:mixing:img} writes as:
 \begin{equation}\label{eq:processing:conv}
     \img_{\idxMic\idxSrc}( t) =  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} ( t)
-    \;\rightarrow\;
+    \;\overset{\fourierTrans{}}{\rightarrow}\;
     \img_{\idxMic\idxSrc}( f) =  h_{\idxMic\idxSrc}( f) \src_\idxSrc( f)
 \end{equation}
 
-Notice that this formulation represents a continuous-time signal in the domain of continuous frequencies.
-In fact in some cases, the \FT/ of a \RIR/, $\fourierTrans{h_{ij}})$ can be computed in closed-form\sidenote{
+Notice that here both $f$ and $t$ are continuous and infinite variables, so the support of the signals.
+In practice, we work with finite and discrete-time signals for which the properties~\eqref{eq:processing:conv} is not valid in general.
+\\As discussed in~\cref{chap:acoustics}, the \FT/ of a \RIR/, $h_{ij}( f)$
+can be computed in closed-form with some approximation\sidenote{
     \cfr{\cref{eq:acoustics:ims,eq:processing:mixing_filter}}
-}. However, the \FT/ of the mixtures in not available due to the measurement process.
-In practice, only the sampled and finite-length mixture signals are available.
-Therefore, a discrete version of~\cref{eq:processing:ft} is needed.
+}
+\begin{equation}\label{eq:processing:rir:ft}
+    h_{ij}( f) = \sum_{\idxEch=0}^{\numEchs}
+                    \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
+                    \cste^{- \csti 2 \pi f \tau_{ij}^r}
+    .
+\end{equation}
+However, the \FT/ of the mixtures, $x_i( f)$, in not available due to the measurement process of sampling.
 
 \subsection{Discrete Frequency domain}
 The discrete-finite-frequency domain representation of a discrete-finite-time signal $x[n]$ is given by its (forward) \DFTdef/, $\discreteFT{}:\bbR\kmapsto\bbC$
@@ -337,9 +349,10 @@ The discrete-finite-frequency domain representation of a discrete-finite-time si
     Please note that the notation for applying the \DFT/ is the one used for matrices.
     In fact, the \DFT/ can be efficiently implemented as a matrix multiplication operation.
     Its most famous implemention is called \FFT/.
+    \\This can be intrepreded as the projection onto the space spanned by a finite number of complex exponentials.
 }:
 \begin{equation}\label{eq:processing:dft}
-    x(k) = (\discreteFT{x})(k) =
+    x[k] = (\discreteFT{x})[k] =
     \sum_{n = 0}^{N - 1}
     x[n]
     \cste^{-\csti2\pi k n / F}.
@@ -351,16 +364,57 @@ The natural frequency $f_k$ in $\si{\Hz}$ correspondent to the $k$-th frequency 
     .
 \end{equation}
 
-Now the continuous model~\ref{eq:acoustics:ims} can be approximated in the discrete and finite time by
+In practice, the \DFT/ is used as valid approximation of the \FT/ for the measurement
 \begin{equation}
-    c_{ij}[n] \approx (h_{ij} \convDis x)[n]
+    \fourierTrans{(\lowpassfilter \conv x_i)} (f_k) \approx x_i[k]
+    ,
+\end{equation}
+and this approximation become arbitrarily precise as the number of samples $N$ grows to infinity.
+
+By the linearity of the \DFT/, \cref{eq:processing:ft:mix} simply translates
+\begin{equation}\label{eq:processing:ft:mix}
+    \mics( f) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( f)
+    \;\leadsto\;
+    \mics( k) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( k)
+\end{equation}
+
+
+As explained~\cite{tukuljac2018mulan}, particular emphasis should be paid when approximating~\cref{eq:processing:mixing:img},
+since we will make use to the closed-form \FT/ of the \RIR/, $h_{ij}(f)$ of~\cref{eq:processing:rir:ft}.
+\begin{enumerate}
+    \item\label{en:processing:dft:one}
+        the discrete-correspondent of the convolution theorem is valid for \textit{circular convolution}.
+    This is only approximated by the \textit{linear convolution}, which can be reasonably good when many samples are available\sidenote{reduce bundary artifacts}.
+    \item\label{en:processing:dtf:two}
+        Secondly, the closed-form~\cref{eq:processing:rir:ft} is true asymptotically for $N\to\infty$.
+\end{enumerate}
+With that being said, the following approximated model
+\begin{equation}
+    \underbrace{c_{ij}[n] \approx (h_{ij} \convDis x)[n]}_{\text{approx.~\ref{en:processing:dft:one}}}
+    \;\overset{\discreteFT{}}{\leadsto}\;
+    c_{ij}[k] \approx h_{ij}[k] x[k]
 \end{equation}
 where $\convDis$ is the finite-time convolution operator\sidenote{
     The finite-time convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
     \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
     .
 }.
+Notice that few approximation are made here
+\begin{itemize}
+    \item First, the validity of the approximation of the right-hand equation depends on the way $h_{ij}(t)$ and $s(t)$ are sampled.
+    \item Secondly, \DFT/ 's correspondent of the convolution theorem applies to \textit{circular convolution}.
+          However, the actual model provides for linear convolution between finite and non-periodic signals, resulting in an approximation error.
+\end{itemize}
 
+% Note that the smoothing sinc kernel φ(t) does not impact this formula, since only frequencies below fs/2 are considered.
+% Importantly, both approximations in (5.11) become arbitrarily precise as the number of samples N grows to infinit
+
+% The validity of approximation (5.5) depends on the way hm(t) and s(t) are sampled
+% First, the time-domain convolution between ˆhm and ˆs has been transformed into a multiplication through the DFT.
+% This would be exact for a circular convolution, but the actual model is a linear convolution between infinite and non periodic signals, resulting in an approximation error.
+% Second, the formula used for ˆhm in the right hand side of (5.11) is the one that would result from the discrete-time Fourier transform (DTFT) ofhm which would require infinitely many samples N to be calculated exactly, as opposed to the DFT
+%
+%
 
 
 While the raw audio signal encodes the amplitude of a sound as a function of time,
