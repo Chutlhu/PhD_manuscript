@@ -319,13 +319,13 @@ it is linear and it converts time-convolution into element products.
 \\First, linearity allows to write~\cref{eq:processing:mixing:mix} simply as:
 \begin{equation}\label{eq:processing:ft:mix}
     \mics( t) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( t)
-    \;\overset{\fourierTrans{}}{\rightarrow}\;
+    \;\overset{\fourierTrans{}}{\kto}\;
     \mics( f) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( f)
 \end{equation}
 Secondly, by the \textit{convolution theorem}, the source spatial images in~\cref{eq:processing:mixing:img} writes as:
 \begin{equation}\label{eq:processing:conv}
     \img_{\idxMic\idxSrc}( t) =  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} ( t)
-    \;\overset{\fourierTrans{}}{\rightarrow}\;
+    \;\overset{\fourierTrans{}}{\kto}\;
     \img_{\idxMic\idxSrc}( f) =  h_{\idxMic\idxSrc}( f) \src_\idxSrc( f)
 \end{equation}
 
@@ -341,7 +341,7 @@ can be computed in closed-form with some approximation\sidenote{
                     \cste^{- \csti 2 \pi f \tau_{ij}^r}
     .
 \end{equation}
-However, the \FT/ of the mixtures, $x_i( f)$, in not available due to the measurement process of sampling.
+However, the mixtures $x_i( n)$ and their TF $x_i( f)$ are not available due to the measurement process of sampling.
 
 \subsection{Discrete Frequency domain}
 The discrete-finite-frequency domain representation of a discrete-finite-time signal $x[n]$ is given by its (forward) \DFTdef/, $\discreteFT{}:\bbR\kmapsto\bbC$
@@ -373,9 +373,9 @@ and this approximation become arbitrarily precise as the number of samples $N$ g
 
 By the linearity of the \DFT/, \cref{eq:processing:ft:mix} simply translates
 \begin{equation}\label{eq:processing:ft:mix}
-    \mics( f) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( f)
-    \;\leadsto\;
-    \mics( k) = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc( k)
+    \mics[ n] = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc[ n]
+    \;\overset{\discreteFT}{\kto}\;
+    \mics[ k] = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc[ k]
 \end{equation}
 
 
@@ -385,20 +385,26 @@ since we will make use to the closed-form \FT/ of the \RIR/, $h_{ij}(f)$ of~\cre
     \item\label{en:processing:dft:one}
         the discrete-correspondent of the convolution theorem is valid for \textit{circular convolution}.
     This is only approximated by the \textit{linear convolution}, which can be reasonably good when many samples are available\sidenote{reduce bundary artifacts}.
+    \begin{equation}
+        \underbrace{c_{ij}[n] \approx (h_{ij} \convDis x)[n]}_{\text{approx.~\ref{en:processing:dft:one}}}
+        \;\overset{\discreteFT{}}{\kto}\;
+        h_{ij}[k] x[k] \approx c_{ij}[k]
+    \end{equation}
+    where $\convDis$ is the finite-time linear convolution operator\sidenote{
+        The finite-time linear convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
+        \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
+        .
+    }.
     \item\label{en:processing:dtf:two}
-        Secondly, the closed-form~\cref{eq:processing:rir:ft} is true asymptotically for $N\to\infty$.
+        Secondly, the usage of the closed-form~\eqref{eq:processing:rir:ft} for $h_{ij}[k]$ would be true for $N\kto\infty$.
+        \begin{equation}
+            h_{ij}[ k] \approx h_{ij}( f_k) = \sum_{\idxEch=0}^{\numEchs}
+                        \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
+                        \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
+        \end{equation}
 \end{enumerate}
-With that being said, the following approximated model
-\begin{equation}
-    \underbrace{c_{ij}[n] \approx (h_{ij} \convDis x)[n]}_{\text{approx.~\ref{en:processing:dft:one}}}
-    \;\overset{\discreteFT{}}{\leadsto}\;
-    c_{ij}[k] \approx h_{ij}[k] x[k]
-\end{equation}
-where $\convDis$ is the finite-time convolution operator\sidenote{
-    The finite-time convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
-    \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
-    .
-}.
+This two observations yields to the following approximated model:
+
 Notice that few approximation are made here
 \begin{itemize}
     \item First, the validity of the approximation of the right-hand equation depends on the way $h_{ij}(t)$ and $s(t)$ are sampled.
