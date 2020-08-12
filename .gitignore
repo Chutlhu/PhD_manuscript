@@ -21,3 +21,6 @@
 logs/*
 
 main.pdf
+
+## do not track python
+scripts/venv/

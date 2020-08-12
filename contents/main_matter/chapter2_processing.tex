@@ -344,13 +344,15 @@ can be computed in closed-form with some approximation\sidenote{
 However, the mixtures $x_i( n)$ and their TF $x_i( f)$ are not available due to the measurement process of sampling.
 
 \subsection{Discrete Frequency domain}
-The discrete-finite-frequency domain representation of a discrete-finite-time signal $x[n]$ is given by its (forward) \DFTdef/, $\discreteFT{}:\bbR\kmapsto\bbC$
+In practice discrete and finite sequence both in time and it frequency domain are considered:
+The discrete-finite-frequency domain representation of a discrete-finite-time signal $x[n]$ is given by its (forward) \DFTdef/
 \sidenote{
     Please note that the notation for applying the \DFT/ is the one used for matrices.
     In fact, the \DFT/ can be efficiently implemented as a matrix multiplication operation.
     Its most famous implemention is called \FFT/.
     \\This can be intrepreded as the projection onto the space spanned by a finite number of complex exponentials.
-}:
+},
+$\discreteFT{}:\bbR\kmapsto\bbC$:
 \begin{equation}\label{eq:processing:dft}
     x[k] = (\discreteFT{x})[k] =
     \sum_{n = 0}^{N - 1}
@@ -364,53 +366,175 @@ The natural frequency $f_k$ in $\si{\Hz}$ correspondent to the $k$-th frequency 
     .
 \end{equation}
 
-In practice, the \DFT/ is used as valid approximation of the \FT/ for the measurement
-\begin{equation}
-    \fourierTrans{(\lowpassfilter \conv x_i)} (f_k) \approx x_i[k]
-    ,
-\end{equation}
-and this approximation become arbitrarily precise as the number of samples $N$ grows to infinity.
+% In audio processing application, the \DFT/ is used as valid approximation of the \FT/ for the measurement, meaning:
+% \begin{equation}
+%     x_i[k] \approx \fourierTrans{(\lowpassfilter \conv x_i)} (f_k)
+%     .
+% \end{equation}
+% This approximation become arbitrarily precise as the number of samples $N$ grows to infinity with it is typically the case.
 
-By the linearity of the \DFT/, \cref{eq:processing:ft:mix} simply translates
-\begin{equation}\label{eq:processing:ft:mix}
+By the linearity of the \DFT/, the approximation of \cref{eq:processing:ft:mix} is
+\begin{equation}\label{eq:processing:dft:mix}
     \mics[ n] = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc[ n]
     \;\overset{\discreteFT}{\kto}\;
     \mics[ k] = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc[ k]
 \end{equation}
 
+Secondly, the discrete version of~\cref{eq:processing:mixing:img} requires few careful steps.
+The final approximated model for the spatial images in the discrete Frequency domain writes:
 
-As explained~\cite{tukuljac2018mulan}, particular emphasis should be paid when approximating~\cref{eq:processing:mixing:img},
-since we will make use to the closed-form \FT/ of the \RIR/, $h_{ij}(f)$ of~\cref{eq:processing:rir:ft}.
-\begin{enumerate}
-    \item\label{en:processing:dft:one}
-        the discrete-correspondent of the convolution theorem is valid for \textit{circular convolution}.
-    This is only approximated by the \textit{linear convolution}, which can be reasonably good when many samples are available\sidenote{reduce bundary artifacts}.
-    \begin{equation}
-        \underbrace{c_{ij}[n] \approx (h_{ij} \convDis x)[n]}_{\text{approx.~\ref{en:processing:dft:one}}}
-        \;\overset{\discreteFT{}}{\kto}\;
-        h_{ij}[k] x[k] \approx c_{ij}[k]
+\begin{equation}
+    c_{ij}[n] = (h_{ij} \conv x)[n]
+    \;\overset{\discreteFT{}}{\kto}\;
+    c_{ij}[k] \approx h_{ij}[k] x[k]
+\end{equation}
+where $\convDis$ is the finite-time linear convolution operator\sidenote{
+    The finite-time linear convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
+    \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
+    .
+} and
+    \begin{equation}\label{eq:processing:discreteModel:rir}
+        h_{ij}[ k] = \sum_{\idxEch=0}^{\numEchs}
+                    \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
+                    \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
     \end{equation}
-    where $\convDis$ is the finite-time linear convolution operator\sidenote{
-        The finite-time linear convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
-        \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
-        .
-    }.
-    \item\label{en:processing:dtf:two}
-        Secondly, the usage of the closed-form~\eqref{eq:processing:rir:ft} for $h_{ij}[k]$ would be true for $N\kto\infty$.
-        \begin{equation}
-            h_{ij}[ k] \approx h_{ij}( f_k) = \sum_{\idxEch=0}^{\numEchs}
-                        \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
-                        \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
-        \end{equation}
-\end{enumerate}
-This two observations yields to the following approximated model:
+is the \RIR/.
 
-Notice that few approximation are made here
-\begin{itemize}
-    \item First, the validity of the approximation of the right-hand equation depends on the way $h_{ij}(t)$ and $s(t)$ are sampled.
-    \item Secondly, \DFT/ 's correspondent of the convolution theorem applies to \textit{circular convolution}.
-          However, the actual model provides for linear convolution between finite and non-periodic signals, resulting in an approximation error.
-\end{itemize}
+As explained in~\citeonly{tukuljac2018mulan}, the issues arise from the simultaneously usage of the closed-form \RIR/ model derived in~\cref{eq:processing:rir:ft}
+and the sampled observations $x_i[n]$. In particular three approximations are made here:
+
+\begin{enumerate}
+    \item\label{en:processing:dft:1}
+    In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\src(t)$ has a spectrum limited by $\Fs$, then it discrete version after the convolution with \textit{any} filter $h$
+    is equivalent to the \textit{linear} convolution between the its sampled version $\src[n]$ and the low-passed version of the filter $h$.
+    The first approximation is then to consider that filter $h$ have a limited support bounded by $\pm \sfrac{\Fs}{2}$.
+    \item\label{en:processing:dft:2}
+    In the discrete time domains, the convolution theorem applies to the \textit{circular convolution}, which is only approximated by the \textit{linear convolution}.
+    This second approximation is reasonably good when many samples are available\sidenote{reduce bundary artifacts} and when one of the two signals is periodic, which
+    are typical cases for audio signals.
+    \item\label{en:processing:dft:3}
+    The third approximation regards the closed-form of $h_{ij}(f)$ of~\cref{eq:processing:discreteModel:rir} which
+    would require infinitely many samples and unlimited frequency support to be computed
+    \sidenote{it results from the \DTFTdef/ of $h_ij(t)$}
+\end{enumerate}
+
+With that being said, notice that
+
+\begin{figure}[!h]
+    \begin{fullwidthfig}
+    \centering
+
+    \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+    \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+    %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+    %Straight Lines [id:da7927134367673876]
+    \draw    (180,50) -- (180,78) ;
+    \draw [shift={(180,80)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da09619366568520138]
+    \draw    (180,120) -- (180,148) ;
+    \draw [shift={(180,150)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da2716481804496049]
+    \draw    (180,242) -- (180,268) ;
+    \draw [shift={(180,270)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [shift={(180,240)}, rotate = 90] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da30816265676852506]
+    \draw    (470,50) -- (470,78) ;
+    \draw [shift={(470,80)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da21568835625662197]
+    \draw    (262,30) -- (408,30) ;
+    \draw [shift={(410,30)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [shift={(260,30)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da54643853486241]
+    \draw    (262,280) -- (620,280) -- (620,100) -- (552,100) ;
+    \draw [shift={(550,100)}, rotate = 360] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [shift={(260,280)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da9938899239910718]
+    \draw    (470,110) -- (470,208) ;
+    \draw [shift={(470,210)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Shape: Rectangle [id:dp48531095488636056]
+    \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.61 ] (100,210) -- (550,210) -- (550,240) -- (100,240) -- cycle ;
+    %Straight Lines [id:da9352991083161488]
+    \draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.42 ]   (408,220) -- (262,220) ;
+    \draw [shift={(260,220)}, rotate = 360] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.42 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [shift={(410,220)}, rotate = 180] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.42 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da16856177378543868]
+    \draw    (180,180) -- (180,208) ;
+    \draw [shift={(180,210)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+
+    % Text Node
+    \draw (131,22.4) node [anchor=north west][inner sep=0.75pt]    {$c( t) \ =\ ( h\star s)( t)$};
+    % Text Node
+    \draw (422,22.4) node [anchor=north west][inner sep=0.75pt]    {$c( f) =h( f) s( f)$};
+    % Text Node
+    \draw (131,272.4) node [anchor=north west][inner sep=0.75pt]    {$c[ n] =( h\circledast s)[ n] \ $};
+    % Text Node
+    \draw (190,132) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {Prop 2 in [26]};
+    % Text Node
+    \draw (191,52) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {measurement: $\displaystyle \phi _{LP}$ and $\displaystyle \left(\frac{n}{F_{s}}\right)$};
+    % Text Node
+    \draw (131,212.4) node [anchor=north west][inner sep=0.75pt]    {$c[ n] =( h\ast s)[ n] \ $};
+    % Text Node
+    \draw (191,181) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\tiny \textcolor[rgb]{0.96,0.65,0.14}{Approx1:} $\displaystyle \phi _{LP} h\ \approx \ h$}};
+    % Text Node
+    \draw (191,252) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {\textcolor[rgb]{0.96,0.65,0.14}{Approx2}: linear to circ convolution};
+    % Text Node
+    \draw (418,88) node [anchor=north west][inner sep=0.75pt]    {$c( f_{k}) =h( f_{k}) s( f_{k})$};
+    % Text Node
+    \draw (88,82.4) node [anchor=north west][inner sep=0.75pt]    {$( \phi _{LP} \ c)\left(\frac{n}{F_{s}}\right) =\phi _{LP}( h\star s)\left(\frac{n}{F_{s}}\right) \ $};
+    % Text Node
+    \draw (481,61) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {measurement at $\displaystyle ( f_{k}) ,\ f_{k} \leq F_{s}$};
+    % Text Node
+    \draw (480,132) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\tiny $\displaystyle s$ is band-limited $\displaystyle \Longrightarrow $ $\displaystyle s( f_{k}) \ =\ s[ k]$;}\\{\tiny \textcolor[rgb]{0.96,0.65,0.14}{Approx3:} $\displaystyle h[ k] \ \approx \ h( f_{k}) \ $}};
+    % Text Node
+    \draw (308,22) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {FT - conv thoerem};
+    % Text Node
+    \draw (421,212.4) node [anchor=north west][inner sep=0.75pt]    {$c[ k] =h[ k] s[ k]$};
+    % Text Node
+    \draw (301,272) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {DFT - conv thoerem};
+    % Text Node
+    \draw (311,212) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {\textcolor[rgb]{0.61,0.61,0.61}{D}FT in practice};
+    % Text Node
+    \draw (121,152.4) node [anchor=north west][inner sep=0.75pt]    {$c[ n] =( \phi _{LP} h\ast s)[ n] \ $};
+
+
+    \end{tikzpicture}
+    \end{fullwidthfig}
+
+\end{figure}
+
+% \begin{enumerate}
+%     \item
+%     \item\label{en:processing:dft:one}
+%         the discrete-correspondent of the convolution theorem is valid for \textit{circular convolution}.
+%     This is only approximated by the \textit{linear convolution}, which can be reasonably good when many samples are available\sidenote{reduce bundary artifacts}.
+%     \begin{equation}
+%         \underbrace{c_{ij}[n] \approx (h_{ij} \convDis x)[n]}_{\text{approx.~\ref{en:processing:dft:one}}}
+%         \;\overset{\discreteFT{}}{\kto}\;
+%         h_{ij}[k] x[k] \approx c_{ij}[k]
+%     \end{equation}
+%     where $\convDis$ is the finite-time linear convolution operator\sidenote{
+%         The finite-time linear convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
+%         \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
+%         .
+%     }.
+%     \item\label{en:processing:dtf:two}
+%         Secondly, the usage of the closed-form~\eqref{eq:processing:rir:ft} for $h_{ij}[k]$ would be true for $N\kto\infty$.
+%         \begin{equation}
+%             h_{ij}[ k] \approx h_{ij}( f_k) = \sum_{\idxEch=0}^{\numEchs}
+%                         \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
+%                         \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
+%         \end{equation}
+% \end{enumerate}
+% This two observations yields to the following approximated model:
+
+% Notice that few approximation are made here
+% \begin{itemize}
+%     \item First, the validity of the approximation of the right-hand equation depends on the way $h_{ij}(t)$ and $s(t)$ are sampled.
+%     \item Secondly, \DFT/ 's correspondent of the convolution theorem applies to \textit{circular convolution}.
+%           However, the actual model provides for linear convolution between finite and non-periodic signals, resulting in an approximation error.
+% \end{itemize}
 
 % Note that the smoothing sinc kernel φ(t) does not impact this formula, since only frequencies below fs/2 are considered.
 % Importantly, both approximations in (5.11) become arbitrarily precise as the number of samples N grows to infinit

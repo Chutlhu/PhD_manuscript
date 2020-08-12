@@ -1,4 +1,6 @@
 \chapter{Element of Room Acoustics}\label{chap:acoustics}
+\vspace{-2.5em}
+\newthought{Synopsis}
 \marginpar{%
     \centering
     \footnotesize
@@ -6,62 +8,58 @@
     \label{fig:acoustics:sound}
 }
 \openepigraph{Sound, a certain movement of air.}{Aristotele, De Anima II.8 420b12}
-\vspace{-2.5em}
-\newthought{Synopsis}
-This chapter will build a first important bridge: from the physics to analog signal processing.
+This chapter will build a first important bridge: from physics to analog signal processing.
 % Acoustics explains how sounds works in environment, while room acoustic explain sound in enclosed spaces, such as living rooms, offices, concert halls and many others.
-It first defines sound and how it propagates~\cref{ch:acoustics:sec:wave} defining the concept of impulse response.
-Then the interaction with the environment is show~\cref{ch:acoustics:sec:reflection}, teasing out the fundamental concept of this thesis: the echoes.
+It first defines sound and how it propagates~\cref{ch:acoustics:sec:wave} using the concept of impulse response.
+Then the interaction with the environment is shown in~\cref{ch:acoustics:sec:reflection}, teasing out the fundamental concept of this thesis: the echoes.
 By assuming some approximation, the \RIRdef/ will be defined ~\cref{ch:acoustics:sec:rir} describing methods to compute or approximate it.
 Finally in~\cref{ch:acoustics:sec:perception} a description of the way the human auditory system perceives reverberation will be reported.
 Some auxiliary technical details appear in Appendix A.
 % In particular, the influence of the first early reflection on the sound perception will be elaborated.
 % One of the most frequently effects produced during sound propagation in a medium is reverberation,
 % which is caused by physical surfaces that partly absorb and partly reflect sound waves in air. We will first examine in Sec. 4.2 the physical and perceptual background of reverberation. The knowledge gained on these aspects will enable us to study some of the most known reverberation algorithms in Sec. 4.3. Finally we will review in Sec. 4.4 more recent approaches to synthetic reverberation, that are based on feedback delay networks and waveguide meshes.
-% The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \cite{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
+% The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \citeonly{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
 
+% \marginpar{%
+%     \small
+%     \textbf{Sound}, noun, from Middle English sownde, alteration of sowne, borrowed from Anglo-Norman sun, soun, Old French son, from accusative of Latin sonus.
+% }
 \section{Sound Wave Propagation}\label{ch:acoustics:sec:wave}
-\marginpar{%
-    \small
-    Noun: from Middle English sownde, alteration of sowne, borrowed from Anglo-Norman sun, soun, Old French son, from accusative of Latin sonus.
-}
 According to common dictionaries and encyclopedias,
 \begin{center}
     \textit{sound is the sensation perceived by the ear caused by the vibration of air}.
 \end{center}
 Sound has then two aspects: a physical one, characterized by the vibrating air particles; and a perceptive one, involving the an auditory system.
-\marginpar{
-    \small
-    It is legit to interrogate about where is the sounds.
-    % If the sounds we hear have spatial locations, they can be thought to be located either where the material sources are (distal theories), or where the hearers are (proximal theories), or somewhere in between (medial theories). It has also been denied that sounds have any spatial locations, which gives rise to a fourth class of theories, aspatial theories.
-    % Proximal theories would claim that sounds are where the hearer is.
-    % Medial theories—exemplified by mainstream acoustics—locate sounds in the medium between the resonating object and the hearer.
-    % Distal theories consider sounds to be located at the resonating object. Finally, aspatial theories deny spatial relevance to sounds.
-}
+% \marginpar{
+%     \small
+%     It is legit to interrogate about where is the sounds.
+%     % If the sounds we hear have spatial locations, they can be thought to be located either where the material sources are (distal theories), or where the hearers are (proximal theories), or somewhere in between (medial theories). It has also been denied that sounds have any spatial locations, which gives rise to a fourth class of theories, aspatial theories.
+%     % Proximal theories would claim that sounds are where the hearer is.
+%     % Medial theories—exemplified by mainstream acoustics—locate sounds in the medium between the resonating object and the hearer.
+%     % Distal theories consider sounds to be located at the resonating object. Finally, aspatial theories deny spatial relevance to sounds.
+% }
 Focusing on the former phenomenon, when vibrating objects excites air, air molecules starts oscillating,
 producing zones with different air densities (compressions-rarefactions)\sidenote{%
 Sound needs a medium to travel: it cannot travel through a vacuum.
 \\Unfortunately, there is no sound in outer space.
 }.
 Such vibration of molecules takes place in the direction of the excitement, with the next layer of molecules excited by the first layer.
-Pushing layer by layer forward, a \textit{longitudinal wave} is created.
+Pushing layer by layer forward, a \textit{longitudinal wave}\sidenote{%
+    As opposed to mechanical vibrations in a string or (drum) membrane,
+    acoustic vibrations are \textit{longitudinal} rather than \textit{transversal},
+    \ie/ the air particles are displaced in the same direction of the wave propagation.
+} is created.
 Under a this perspective,
 \begin{center}
     \textit{sound is a longitudinal, mechanical wave}.
 \end{center}
-\marginpar{
-    \small
-    % In a longitudinal wave the particle displacement is parallel to the direction of wave propagation.
-    % In a transverse wave the particle displacement is perpendicular to the direction of wave propagation.
-    As opposed to mechanical vibrations in a string or (drum) membrane,
-    acoustic vibrations are \textit{longitudinal} rather than \textit{transversal},
-    \ie/ the air particles are displaced in the same direction of the wave propagation.
-}
+
 A \textit{wave} is a disturbance that propagates though a medium, which could be solid, liquid or gaseous.
 \marginpar{%
     \centering
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/lake.png}
+    \captionsetup{labelformat=empty}
     \captionof{figure}{%
     Imagine a calm pool. The surface is flat and smooth. Drop a rock into it. Kerploop. The surface is now disturbed.
     The disturbance spreads propagates, as well know waves. The medium here is the water surface.
@@ -69,7 +67,7 @@ A \textit{wave} is a disturbance that propagates though a medium, which could be
     \label{fig:acoustics:lake}
 }
 The propagation happens at a certain speed which depends on the physical properties of the medium, such as its density and composition.
-The medium assumed through out the entire thesis is air.
+The medium assumed throughout the entire thesis is air, although extensions of the developed methods to other media could be envisioned.
 Under the fair assumption of air being homogeneous and steady,
 the speed of sound can be computed with the following approximated formula:
 \begin{equation}
@@ -77,66 +75,61 @@ the speed of sound can be computed with the following approximated formula:
     ,
 \end{equation}
 where $\temperature$ is the air temperature $[\si{\celsius}]$ and $\rhumidity$ is the relative air humidity $[\%]$.
-The changes in air pressure can be represented by a \textit{waveform}, which is a graphic representation of a sound.
-
+The changes in air pressure at one point in space can be represented by a \textit{waveform}, which is a graphical representation of a sound
+~\cref{fig:acoustics:acoustics_wave}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{acoustics/acoustic_wave.png}
     \caption{snapshot of a longitudinal wave in air}
     \label{fig:acoustics:acoustics_wave}
 \end{figure}
-In general, the sound field is complex which can be decomposed as a superimposition of several waves~\cite{kuttruff2016room}.
 
-We think at this process in the light of the classic \textit{source-medium-receiver} model of communication theory.
+In general, the sound field is complex and can be decomposed as a superimposition of several waves~\citeonly{kuttruff2016room}.
+
+We think of this process in the light of the classic \textit{source-medium-receiver} model of communication theory.
 \begin{description}
-    \item[source] is anything that emits or expends energy (waves)
-    \sidenote{%
-    example of sources are vibrating solids (\eg/ speakers membrane),
+    \item[source] is anything that emits or expends energy (waves)\sidenote{%
+    example of sources are vibrating solids (\eg/ loudspeakers membrane),
     rapid compression or expansion (\eg/ explosions or implosions)
     or air vortices with characteristics frequencies (\eg/ flute and whistles).
     },
     \item[medium] is the vehicle for carrying waves from one point to another, and
-    \item[receiver] absorbs the such waves.
+    \item[receiver] absorbs such waves.
 \end{description}
 
 The behavior of acoustic waves is defined by the acoustic-wave equation.
-The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \cite{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
+The rest of this section introduce of this equation, re-arranging the derivation presented in \citeonly{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
+The derivation of the wave equation in light of room acoustic is presented in~\cref{ap:wave2rir}.
 
-\subsection{The Acoustic wave equation}\label{subsec:acoustics:waveq}
-It is a second-order partial differential equation
-\sidenote{
+\subsection{The acoustic wave equation}\label{subsec:acoustics:waveq}
+The acoustic wave equation is a second-order partial differential equation\sidenote{%
     In 1746, d’Alembert discovered the one-dimensional wave equation for music strings,
     and within ten years Euler discovered the three-dimensional wave equation for fluids.
 } which describes the evolution of acoustic pressure $\pressure$
-as function of the position $\positionMicrophone$ $[\si{\metre}]$ and time $t$ $[\si{\second}]$
-\marginpar{%
-    \footnotesize
-    The symbol $\knabla^2 = \kpderiv[2]{}{x} + \kpderiv[2]{}{y} + \kpderiv[2]{}{z}$
-    stands for the 3-dimensional \textit{Laplacian} operator.
-}
+as a function of the position $\positionMicrophone$ $[\si{\metre}]$ and time $t$ $[\si{\second}]$
 \begin{equation}
     \label{eq:acoustics:wave}
     \knabla^2 \pressureSpaceTime - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t} = 0
-    .
+    ,
 \end{equation}
+where $\knabla^2 = \kpderiv[2]{}{x} + \kpderiv[2]{}{y} + \kpderiv[2]{}{z}$ stands for the 3-dimensional \textit{Laplacian} operator.
 The constant $\speedOfSound$ is the sound velocity in the medium with dimension $[\frac{\si{\metre}}{\si{\second}}]$.
 
 Despite its complicated formulation, the wave equation is linear.
-This has two implications~\cite{kuttruff2016room}:
+This has two implications~\citeonly{kuttruff2016room}:
 \begin{itemize}
     \item the pressure field at any time is the sum of the pressure fields resulting from each source at that time;
     \item the pressure field emitted at a given source propagates over space and time according to a linear operation.
 \end{itemize}
 
-
 Assuming the propagation of the wave in a homogeneous medium, one can obtain the equation above by combining three fundamental physical laws:
 \begin{itemize}
-    \item the \textit{conservation of momentum}\sidenote{In fluidodynamics, it comes with the name of the Euler's equation},
+    \item the \textit{conservation of momentum}\sidenote{In fluidodynamics, it comes with the name of the Euler's equation.},
     \item the \textit{conservation of mass}, and
-    \item the \textit{polytropic process relation}\sidenote{meaning that the medium is an ideal gas undergoing a reversible adiabatic process}.
+    \item the \textit{polytropic process relation}\sidenote{meaning that the medium is an ideal gas undergoing a reversible adiabatic process.}.
 \end{itemize}
 
-In general medium are not uniform and features inhomogeneities of two types:
+In general media are not uniform and features inhomogeneities of two types:
 scalar inhomogeneities, \eg/ due to temperature variation,
 and vector inhomogeneities, \eg/ due to presence of fans or air conditioning.
 Although these affect the underlying assumption of the model, the effect are small in typical application of speech and audio signal processing.
@@ -152,20 +145,23 @@ By applying the temporal Fourier transform, we obtain the \textit{Helmholtz equa
 \end{equation}
 where $k = \frac{2 \pi f}{c}$  is known as \textit{wave number} $[\si{\metre^{-1}}]$, that relates the frequency $f \; [\si{\hertz}]$ and the propagation velocity $c$.
 
-Both the wave equation~\ref{eq:acoustics:wave} and the Helmholtz's equation~\ref{eq:acoustics:helmholtz} are source independent,
+Both the wave equation~\ref{eq:acoustics:wave} and the Helmholtz's equation~\ref{eq:acoustics:helmholtz} are source-independent,
 namely no source is present in the medium.
 Therefore they are called \textit{homogeneous} as the right-hand term is zero.
 
 Normally the sound field is a complex field generated by acoustics sources.
-As consequence, the two equation becomes inhomogeneous as some non-zero terms needs to be added to the right-hand sides.
+As consequence, the two equations become inhomogeneous as some non-zero terms needs to be added to the right-hand sides.
 
-In presence of a sound source producing waves with distribution function $s(t, \positionMicrophone)$, the wave equation can be written
+In the presence of a sound source producing waves with distribution function $s(t, \positionMicrophone)$, the wave equation can be written\marginpar{%
+    \footnotesize
+    The minus sign is a conventions.
+}
 \begin{equation}
     \label{eq:acoustics:source}
-    \knabla^2 \pressureSpaceTime - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t} = s(t, \positionMicrophone)
+    \knabla^2 \pressureSpaceTime - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t} = -s(t, \positionMicrophone)
     .
 \end{equation}
-Then, the correspondent Helmholtz's equation writes
+Then, the corresponding Helmholtz's equation writes
 \begin{equation}
     \label{eq:acoustics:source_freq}
     \knabla^2 P(\positionMicrophone, f) + k^2 P(\positionMicrophone, f) = - S(\positionMicrophone, f)
@@ -182,7 +178,7 @@ At the receiver position $\positionMicrophone \neq \positionSource$, the Helmhol
     ,
 \end{equation}
 The function $H(f, \positionMicrophone \mid \positionSource)$ that satisfy \cref{eq:acoustics:green_definition} is the \textit{Green's function}
-associated to ~\cref{eq:acoustics:helmholtz}, for which is also a solution.
+associated to ~\cref{eq:acoustics:helmholtz}, of which it is also a solution.
 \\In the next subsection, we will see that the function $H$ can be interpreted as the free-field \textit{Transfer Function}
 between the source at $\positionSource$ and the receiver at $\positionMicrophone$.
 
@@ -195,14 +191,15 @@ between the source at $\positionSource$ and the receiver at $\positionMicrophone
     who used it during his study of the three-dimensional wave equation.
     He used this solution to derive his famous \textit{Kirchhoff’s theorem}~\citeonly{duffy2015green}.
 }
-\textsc{The Green's Functions} are mathematical tools for solving linear differential equations with specified initial- and boundary- conditions~\cite{duffy2015green}.
+\textsc{The Green's Functions} are mathematical tools for solving linear differential equations with specified initial- and boundary- conditions~\citeonly{duffy2015green}.
 They have been used to solve many fundamental equations, among which \cref{eq:acoustics:helmholtz,eq:acoustics:wave} for both free and bounded propagation.
 \begin{center}
     \textit{
-    They can be seen as the equivalent concept of the
-    \\ \emph{impulse responses
-    \sidenote{impulse response in time domain, trasfer fuction in the frequency domain.}}
-    used in signal processing.}
+    They can be seen as a concept analogous to
+    \\ \emph{impulse responses}\sidenote{%
+        Impulse responses in time domain, transfer fuctions in the frequency domain.}
+    in signal processing.
+    }
 \end{center}
 Under this light the physic so-far can be rewritten in the vocabulary of the communication theory, namely \textit{input}, \textit{filter} and \textit{output}.
 
@@ -238,12 +235,11 @@ By applying the inverse Fourier transform to the result above, we can write the 
         \diracOf{t - \frac{\norm{\positionMicrophone - \positionSource}}{\speedOfSound}}
 \end{equation}
 where $\diracOf{\cdot}$ is the time-directional Dirac delta function.
-\\As a consequence, the \textit{free field}, that is in open air without any obstacle, the  sound propagation
-incurs a delay $\distMicSrc / c$
+\\As consequence, the \textit{free field}, that is open air without any obstacle, the  sound propagation incurs a delay $\distMicSrc / c$
 and an attention $1 / (4 \pi \distMicSrc)$ as function of the distance
-$ \distMicSrc = \norm{\positionMicrophone - \positionSource}$ from source to the microphone.
+$ \distMicSrc = \norm{\positionMicrophone - \positionSource}$ from the source to the microphone.
 
-According to \cref{eq:acoustics:greenFreeTime}, the sound propagate around a point source with a spherical pattern.
+According to \cref{eq:acoustics:greenFreeTime}, the sound propagates away from a point source with a spherical pattern.
 When the receiver is far enough from the source, the curvature of the \textit{wavefront} may be ignored.
 The waves can be approximated as \textit{plane waves} orthogonal to the propagation direction.
 This scenario depicted in \cref{fig:acoustics:planewaves} is known as \textit{far-field}.
@@ -257,26 +253,25 @@ This scenario depicted in \cref{fig:acoustics:planewaves} is known as \textit{fa
     }
     \label{fig:acoustics:planewaves}
 }
-As opposed to, when the distance between the source and the receiver is small, the scenario is called \textit{near field}.
+In contrast, when the distance between the source and the receiver is small, the scenario is called \textit{near field}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Acoustic Reflections}\label{ch:acoustics:sec:reflection}
+\section{Acoustic reflections}\label{ch:acoustics:sec:reflection}
 The equations derived so far assumed unbounded medium, \ie/ free space: a rare scenario in everyday applications.
 Real mediums are typically bounded, at least partially.
 For instance in a room, the air (propagation medium) is bounded by walls, ceiling, and floor.
-When sound travel outdoor, the ground acts as a boundary for one of the propagation direction.
+When sound travels outdoor, the ground acts as a boundary for one of the propagation directions.
 Therefore, the sound wave does not just stop when it reaches the end of the medium or when it encounters an obstacle in its path.
-Rather, a sound wave will undergo certain behaviors depending on the obstacle acoustics and geometrical properties, including
+Rather, a sound wave will undergo certain behaviors depending on the obstacles' acoustics and geometrical properties, including
 \begin{itemize}
     \item \textit{reflection} off the obstacle,
-    \item \textit{diffraction} around the obstacle,
-    \item and \textit{transmission} into the obstacle, causing
+    \item \textit{diffraction} around the obstacle, and
+    \item \textit{transmission} into the obstacle, causing
     \begin{itemize}
-        \item \textit{refraction} though it, and
+        \item \textit{refraction} through it, and
         \item \textit{dissipation} of the energy.
     \end{itemize}
 \end{itemize}
-
 \marginpar{%
     \centering
     \footnotesize
@@ -286,17 +281,18 @@ Rather, a sound wave will undergo certain behaviors depending on the obstacle ac
     }
     \label{fig:acoustics:wavelength}
 }
-In order, reflections arise typically when a sound wave hit a large surface, like a room wall.
+
+\newthought{Reflections typically arise} when a sound wave hits a large surface, like a room wall.
 When the sound meets a wall edge or a slit, the wave diffracts, namely it bends around the corners of an obstacle.
 The point of diffraction effectively becomes a secondary source which may interact with the first one.
 \\The part of energy transmitted to the object may be absorbed and refracted.
-Object are characterized by a proper acoustic resistance, called \textit{acoustic impedance}, which
-describes its acoustic inertia as well as the energy dissipation.
-The remaining contribution may continue to propagate causing resulting in the refraction phenomenon \sidenote{%
-    This is more commonly observed when light pass thought different medium, like a prism.
+Objects are characterized by a proper acoustic resistance, called \textit{acoustic impedance}, which
+describes their acoustic inertia as well as the energy dissipation.
+The remaining contribution may continue to propagate resulting in the refraction phenomenon\sidenote{%
+    This is more commonly observed when light passes thought different medium, like a prism.
 }.
 
-\textsc{When sound reflects} on an solid surface, two type of acoustic reflection can occurs: part of the sound energy
+When sound reflects on an solid surface, two types of acoustic reflections can occur: part of the sound energy
 \marginpar{%
     \centering
     \footnotesize
@@ -311,24 +307,22 @@ The remaining contribution may continue to propagate causing resulting in the re
     \item is reflected \textit{diffusely} - or \textit{scattered}, \ie/, scatter in every direction).
 \end{itemize}
 
-All the phenomena occurs with different proportions depending on the acoustics and geometrical properties of surface and the frequency content of the wave.
+All the phenomena occur with different proportions depending on the acoustics and geometrical properties of surfaces and the frequency content of the wave.
 In acoustics, it is common to define the \textit{operating points} and different \textit{regimes}\sidenote{for instance near- \vs/ far-field}
-according to the sound frequencies or the correspondent \textit{wavelength} $[\si{\metre}]$,
+according to the sound frequencies or the corresponding \textit{wavelength},
 \begin{equation}
-    \wavelength = \frac{2 \pi}{k} = \frac{\speedOfSound}{f} \hspace{1em} [\si{\metre}]
+    \wavelength = \frac{2 \pi}{k} = \frac{\speedOfSound}{f} \mathspace [\si{\metre}]
     ,
 \end{equation}
 where $f$ is the frequency of the sound wave.
 
-\marginpar{
-    \footnotesize
-    \textit{Sabine had previously used ray-based acoustics in the
+\openepigraph{
+    Sabine had previously used ray-based acoustics in the
     early 1900s to investigate sound propagation paths using Schlieren photography.
     Their impressive visualizations show wavefronts that are augmented
-    with rays that are perpendicular to the wavefronts.}
-    \\---\citeauthor{savioja2015overview}
-}
-As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spatial distance between two molecules in the medium having the same value of pressure.
+    with rays that are perpendicular to the wavefronts.}{\citeonly{savioja2015overview}}
+
+As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spatial distance between two points around which the medium has the same value of pressure.
 % \marginpar{%
 %     \footnotesize
 %     a frequency of $\SI{1}{\kHz}$ corresponds to a wavelength of approximately $\SI{34}{\cm}$ ,
@@ -339,13 +333,14 @@ As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spati
     \centering
     \footnotesize
     \includegraphics[trim={0 205 0 0},clip,width=\linewidth]{acoustics/sound_pulse1926.png}
+    \captionsetup{labelformat=empty}
     \captionof{figure}{%
-        Photographs showing successive stages in the progress of a Sound Pulse in a Model Section of a Debating Chamber.
+        Photographs showing successive stages in the progress of a sound pulse in a section of a Debating Chamber.
         \imgsrc{\citeonly{davis1926sound}}
     }
     \label{fig:acoustics:reflection}
 }
-\\Using this quantity we can identify the following three response of the objects (irregularities) of size $d$ to a plane-wave depicted in~\cref{fig:acoustics:irregularities}
+\\Using this quantity we can identify the following three responses of objects (irregularities) of size $d$ to a plane-wave, as depicted in~\cref{fig:acoustics:irregularities}
 \begin{figure}
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/irregularities.png}
@@ -357,21 +352,21 @@ As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spati
 \end{figure}
 \begin{itemize}
     \item $\wavelength \gg d$, the irregularities are negligible and the sound wave reflection is of specular type;
-    \item $\wavelength \approx d$, the irregularities break the sound waves which is reflected towards every direction;
+    \item $\wavelength \approx d$, the irregularities break the sound wave which is reflected towards every direction;
     \item $\wavelength \ll d$, each irregularities is a surface reflecting specularly the sound waves.
 \end{itemize}
 
-\textsc{All this presented behavior} can be described with the wave equation imposing opportune boundary conditions.
+\textsc{This presented behavior} can be described with the wave equation by imposing adequate boundary conditions.
 % However working with this formula might results complicated and difficult.
 A simplified yet effective approach - just as in optics - is to model incoming sound waves as \textit{acoustic rays}~\citeonly{davis1926sound, krokstad1968calculating}.
 A ray has well-defined direction and velocity of propagation, and conveys a total wave energy which remains constant.
-This simplified description undergoes with the name of \GAdef/~\cite{savioja2015overview}, and share many fundamentals with geometrical optics.
+This simplified description undergoes with the name of \GAdef/~\citeonly{savioja2015overview}, and share many fundamentals with geometrical optics.
 This model will be convenient to describe and visualize the reflection behavior hereafter.
 
 \subsection{Large smooth surfaces, absorption and echoes}
 % The main focus of this section and the this whole thesis goes on \textit{specular reflections}.
-Specular reflection are generated by surfaces which can be modelled as infinite flat, smooth and rigid (\ie/ stationary).
-As mentioned above, this assumption is valid as long as the surface has dimension much bigger than the sound wavelength.
+Specular reflections are generated by surfaces which can be modelled as infinite, flat, smooth and rigid.
+As mentioned above, this assumption is valid as long as the surface has dimension much larger than the sound wavelength.
 Here the acoustic ray is reflected according to the \textit{law of reflection}, stating that
 (i) the reflected ray remains in the plane identified by the incident ray and the normal to the surface,
 and (ii) the angles of the incident and reflected rays with the normal are equal.
@@ -380,26 +375,26 @@ and (ii) the angles of the incident and reflected rays with the normal are equal
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/reflection_law.png}
     \captionof{figure}{%
-        Specular reflection
+        Schematic representation of specular reflection.
     }
     \label{fig:acoustics:reflection_law}
 }
 
 If the surface $\surface$ is not perfectly rigid or impenetrable, its behavior is described by the \textit{acoustic impedance}, $\impedence_\surface(f) \in \bbC$.
 %\sidenote{\textbf{acoustic impendence} measures the opposition that an acoustic system presents to the acoustic pressure}.
-Analytically, it is defined as relation between sound pressure and particle velocity at the boundary.
+Analytically, it is defined as a relation between sound pressure and particle velocity at the boundary.
 It consists of a real and imaginary part, called respectively acoustic \textit{resistance} and \textit{reactance}.
-The former can be seen as the part where energy is lost, while the latter as the part where energy is stored.
+The former can be seen as the part of the energy which is lost, and the latter as the part which is stored.
 % It measures the portion of energy absorbed by the surface and the incident acoustic wave.
 % describes the relation between pressures of the incident arriving waveform and the reflected wave
 
-\newthought{The reflection coefficient} $\reflCoeff$ can be derived by the acoustic impedance
+\newthought{The reflection coefficient} $\reflCoeff$ can be derived from the acoustic impedance
 for plane waves, \ie/ under assuming a far-field regime between source, receiver and surface,.
 \begin{center}
     \textit{It measures the portion of energy absorbed by the surface
     \\and the incident acoustic wave.}
 \end{center}
-Analytically, it is defined as  \cite{kuttruff2016room,pierce2019acoustics}
+Analytically, it is defined as  \citeonly{kuttruff2016room,pierce2019acoustics}
 \begin{equation}
     \reflCoeff(f, \theta) = \frac{\impedence_\surface(f)\cos{\theta} - \impedenceAir(f)}{\impedence_\surface(f)\cos{\theta} + \impedenceAir(f)}
     ,
@@ -408,13 +403,13 @@ where $\impedence_\surface(f)$ and $\impedenceAir(f)$ are the frequency-dependen
 and $\theta$ is the angle of incidence.
 
 \textsc{The absorption coefficient} is typically used instead in the context of \GA/ and the audio signal processing.
-It comes from following approximations~\citeonly{savioja2015overview}.
-(i) The energy or intensity of the plane wave\sidenote{%
-    since it is the square magnitude of the acoustic pressure, the phase information is lost.
+It comes from the following approximations~\citeonly{savioja2015overview}:
+(\textit{i}) The energy or intensity of the plane wave\sidenote{%
+    Since it is the square magnitude of the acoustic pressure, the phase information is lost.
 }, is considered instead of the acoustic pressure;
-(ii) dependency on the angle of incidence is relaxed in favor of the averaged quantities;
-(iii) local dependency on frequencies is relaxed in favor of a frequency-independent scalar or at most a description per octave-band.
-This assumption are motivated by the difficulty of measuring the acoustic impedance
+(\textit{ii}) dependency on the angle of incidence is relaxed in favor of the averaged quantities;
+(\textit{iii}) local dependency on frequencies is relaxed in favor of a frequency-independent scalar or at most a description per octave-band.
+These assumption are motivated by the difficulty of measuring the acoustic impedance
 and the possibility to compute an equivalent coefficient a posteriori
 
 Therefore, it is customary to use the absorption coefficient, defined as
@@ -424,45 +419,46 @@ Therefore, it is customary to use the absorption coefficient, defined as
 \end{equation}
 where $\bar{\reflCoeff}$ is the reflection coefficient averaged over the angles $\theta$.
 
-\marginpar{%
+\newthought{Echoes are specular reflections}\marginpar{%
     \footnotesize
-    The word echo derives from the Greek 'echos', litterarly ``sound''.
+    The word echo derives from the Greek ``echos'', litterarly ``sound''.
     In the folk story of Greek, Echo is a mountain nymph whose ability to speak was cursed:
     she only able to repeat the last words anyone spoke to her.
-}\newthought{Echoes are specular reflections} which stand out in terms of energy strength or timing~\citeonly{kuttruff2016room}.
-Originally this term used to indicate sound reflections which are subjectively noticeable as a separated repetition of the original sound signal.
+} which stand out in terms of energy strength or timing.
+Originally this term used to refer to sound reflections which are subjectively noticeable as a separated repetition of the original sound signal.
 These can be heard consciously in outdoor scenario, such as in mountain. However, they are less noticeable to the listener in close rooms.
-In~\cref{ch:acoustics:subsec:rir} a proper definition of echoes will be given with respect the temporal distribution of the acoustic reflection.
+In~\cref{ch:acoustics:subsec:rir} a proper definition of echoes will be given with respect to the temporal distribution of the acoustic reflections.
 
-\subsection{Diffusion, Scattering and Diffraction of Sound}
+\subsection{Diffusion, scattering and diffraction of Sound}
 Real-world surfaces are not ideally flat and smooth; they are rough and uneven.
 Examples of such surfaces are coffered ceilings, faceted walls, raw brick walls as well as the entire audience area of a concert hall.
-When such irregularities are in same order of the sound wavelength, \textit{diffuse reflections} is observed.
+When such irregularities are in the same order as the sound wavelength, \textit{diffuse reflections} is observed.
 
-In the context of \GA/, the acoustic ray associated to a plane-wave can be though as a bundle of rays traveling parallel.
+In the context of \GA/, the acoustic ray associated to a plane-wave can be though of as a bundle of rays traveling in parallel.
 When it strikes such a surface, each individual rays are bounced off irregularly, creating \textit{scattering}:
 a number of new rays are created, uniformly distributed in the original half-space.
 The energy carried by each of the outgoing ray is angle dependent and it
 is well modeled thought the \textit{Lambert's cosine law}, originally used to describe optical diffuse reflection.
 
 The total amount of energy of this reflection may be computed a-priori
-knowing the \textit{scattering} coefficient proper of the surface material.
-Alternatively, it can be derived a-posteriori with the \textit{diffuse coefficient}, namely the ratio between
+knowing the \textit{scattering} coefficient of the surface material.
+Alternatively, it can be derived a-posteriori with the \textit{diffusion coefficient}, namely the ratio between
 the specularly reflected energy over the total reflected energy.
 
-\textit{Diffraction waves} occurs when the sound confronts the edge of a finite surfaces, for instance around corners or through door openings.
-This effect is show in~\cref{fig:acoustics:diffraction}
+\textit{Diffraction waves} occur when the sound confronts the edge of a finite surface, for instance around corners or through door openings.
+This effect is shown in~\cref{fig:acoustics:diffraction}
 \marginpar{%
     \centering
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/sound_diffraction.jpg}
     \captionof{figure}{%
-        Sound Diffraction effect.
+        Schematic representation of sound diffraction.
+        This effect allows to hear ``behind walls''.
     }
     \label{fig:acoustics:diffraction}
 }
 At first the sound wave propagates spherically from the source.
-Once it reaches the reflector with apertures, the wave is diffracted, \ie/ bended, behind it.
+Once it reaches the reflector's  apertures, the wave is diffracted, \ie/ bended, behind it.
 It is interesting to note that the diffraction waves produced by the semi-infinite reflector edge
 allow the area that is ``behind'' the reflector to be reached by the propagating sound.
 This physical effect is exploited naturally by the human auditory system to localize sound sources.
@@ -484,7 +480,7 @@ In the context of room acoustics, it is commonly referred to as \RIRdef/, usuall
 on the geometric relation between reflections and the geometry of the scene.
 In this thesis the two terms will be used indistinctly.
 
-\subsection{The Room Impulse Response}\label{ch:acoustics:subsec:rir}
+\subsection{The room impulse response}\label{ch:acoustics:subsec:rir}
 It is a fundamental concept of this dissertation and it is where physical room acoustic
 (Green's function/Solution of wave equation) and indoor audio signal processing meets.
 From now on, we well adopt an signal processing perspective and
@@ -538,13 +534,13 @@ where the symbol $\conv$ is the convolution operator.
 A part for certain simple scenarios, computing \RIRs/ in closed forms is a cumbersome task.
 Therefore numerical solver or approximation model are used instead.
 
-\subsection{Simulating Room Acoustics}\label{sec:acoustics:simulators}
+\subsection{Simulating room acoustics}\label{sec:acoustics:simulators}
 \sidenote{
     \footnotesize
     The docoumentation of the \href{https://reuk.github.io/wayverb/introduction.html}{Wayverb}
     acoustic simulator offers a complete overview of
     the \SOTA/ in acoustic simulator methods\citeonly{thomas2017wayverb}.}
-There are two main categories: geometric and wave-based methods~\cite{habets2006room, savioja2015overview, thomas2017wayverb}.
+There are two main categories: geometric and wave-based methods~\citeonly{habets2006room, savioja2015overview, thomas2017wayverb}.
 \begin{description}
     \item[wave-based] aims at solving the wave equation numerically, while
     \item[geometric] methods make some simplifying assumption about the wave propagation:
@@ -603,7 +599,7 @@ In particular by simulating accurately low-frequencies components of the \RIR/, 
     such as concert hall, and recording studios or when producing musically pleasing reverbs.
 },
 namely collection of resonances that exist in a room and characterize it.
-\\As stated in \cite{valimaki2016more}, among the wave-based methods, \DWMf/ are usually preferred:
+\\As stated in \citeonly{valimaki2016more}, among the wave-based methods, \DWMf/ are usually preferred:
 they run directly in the time domain, requiring typically an easier implementation, and they exhibits a natural huge level of parallelism.
 
 \newthoughtpar{Geometric metods}
@@ -618,7 +614,7 @@ assuming that the wave behaves like a particle or a ray carrying the acoustic en
 \newthought{Stochastics} are approximate by nature.
 They are based on statistical modeling of the \RIRs/ or Monte Carlo simulation methods.
 The formers writes statistical signal processing models based on prior knowledge,
-such as probability distribution of the \RIR/ in regions of time-frequency domain~\cite{badeau2019common}.
+such as probability distribution of the \RIR/ in regions of time-frequency domain~\citeonly{badeau2019common}.
 Rather than the detailed room geometry, these methods generally use high-level descriptors\sidenote{such as the amount of reverberation}
 to synthesize \RIRs/ and in some application are preferable.
 \\The latters randomly and repeatedly subsample the problem space, \eg/ tracing the path of random reflections,
@@ -627,10 +623,10 @@ By combining the results from multiple samples, the probability of an incorrect 
 Typically the trade-off between quality and speed of these approaches is based on the number of samples and
 the qualities of the prior knowledge modeled.
 
-\textsc{Ray-tracing}~\cite{kulowski1985algorithmic} is one the most common method that fall in this category and very popular
+\textsc{Ray-tracing}~\citeonly{kulowski1985algorithmic} is one the most common method that fall in this category and very popular
 in the field of computer graphic for light simulation.
 The basic idea is to collect ``valid'' paths of discrete rays traced around the room.
-Many technique have been proposed to reduce the computational load, among all the \textit{diffuse rain algorithm}~\cite{schroder2007fast, heinz1993binaural}
+Many technique have been proposed to reduce the computational load, among all the \textit{diffuse rain algorithm}~\citeonly{schroder2007fast, heinz1993binaural}
 is commonly used in many acoustic simulator.
 Each ray trajectory is reflected in a random direction every time it hits a wall and its energy is scaled according to the wall absorption.
 The process of tracing a ray is continued until the ray’s energy falls below a predefined threshold.
@@ -674,7 +670,7 @@ these methods are good to capture and simulate the statistical behavior of the d
 \newthought{Deterministic} methods are good to simulate early reflection instead:
 they accurate traces the exact direction and the timing of the main reflections' paths.
 
-The most popular is the Allen and Barkley's \ISMdef/~\cite{allen1979image}.
+The most popular is the Allen and Barkley's \ISMdef/~\citeonly{allen1979image}.
 Even if the basic idea is rather inutile and simple, the model is able to produce the exact solution to the wave equation for a 3D shoebox with rigid walls.
 Since it models only specular (perfect) reflections, ignoring diffuse and diffracted components.
 it only approximate arbitrary enclosures and the late diffuse reflections.
@@ -753,15 +749,15 @@ This point define the cross-fade between the geometrical and wave-based model.
 
 Each simulator available has its own way to compute and implement this crossover points as well as mixing the results of the three methods.
 
-\subsection{The Method of Images and the Image Source Model}\label{subsec:acoustics:ism}
+\subsection{The method of images and the image source model}\label{subsec:acoustics:ism}
 The \textit{Method of Images} is a mathematical tool for solving certain class of differential equations subjected to boundary conditions.
 By assuming the presence of a ``mirrored'' source, certain boundary conditions are verified facilitating the solution of the original problem.
 This methods is widely used in many fields of physics, and interestingly with specific application to Green's functions.
-Its application to acoustic was originally proposed by \citeauthor{allen1979image} in \cite{allen1979image} and it is know as the \ISMdef/.
+Its application to acoustic was originally proposed by \citeauthor{allen1979image} in \citeonly{allen1979image} and it is know as the \ISMdef/.
 Now \ISM/ is probably the most used technique for deterministic \RIR/ simulation due its conceptual simplicity and its flexibility.
 
 The \ISM/ is based on purely specular reflection and it assumes that the sound energy travels around a scene in ``rays''.
-\\In the appendix of \cite{allen1979image}, the authors also proved that this method produce a solution the Helmholtz's equation
+\\In the appendix of \citeonly{allen1979image}, the authors also proved that this method produce a solution the Helmholtz's equation
 for rectangular enclosure with rigid boundaries.
 
 \newthought{On a single reflector, the Image Source} defines the interaction of the propagating sound and the surface.
@@ -798,7 +794,7 @@ The \ISM/ makes use of the following assumptions:
 % At the receiver position $\positionMicrophone$ two signals arrives: the one coming directly from $\positionSource$
 
 % A ray which is reflected from several boundaries is represented by a “higher-order” image-source,
-% which has been mirrored in each of those boundaries\cite{Kuttruff}. In this way, the
+% which has been mirrored in each of those boundaries\citeonly{Kuttruff}. In this way, the
 
 % All sources, original and image, emit the same impulsive source signal at the same time.
 \newthought{Finally \RIR/} is found by summing the contribution from each (image) source, delayed and attenuated appropriately depending on their distance from the receiver.
@@ -837,7 +833,7 @@ This will be important in order to define evaluation scenarios later in this the
     \footnotesize
     \textbf{\textit{Cite Sacks about perception}}
 }
-\subsection{The Perception of the \RIR/'s elements}
+\subsection{The perception of the \RIR/'s elements}
 It is commonly accepted that the \RIR/ components defined in~\cref{ch:acoustics:subsec:rir} play rather separate roles in the perception of sound propagation.
 
 \newthought{The Direct Path} is the delayed and attenuated version of source signal itself.
@@ -846,25 +842,25 @@ It coincides with the free-field sound propagation and, as we will see in~\cref{
 \newthought{Early Reflections and Echoes} are reflections which are by nature highly correlated with to the direct sound.
 They convey a sense of geometry which modify the general perception of the sound:
 \begin{description}
-    \item[The Precedence Effect] occurs when two correlated sounds are perceived as a single auditory event~\cite{wallach1973precedence}.
+    \item[The Precedence Effect] occurs when two correlated sounds are perceived as a single auditory event~\citeonly{wallach1973precedence}.
     This happens usually when they reach the listener with a delay within $\SI{5}{\ms}$ to $\SI{40}{\ms}$.
     However, the perceived spatial location carried by the first-arriving sound is preserved suppress the perceived location of the lagging sound.
     This allows human to accurately localize the direction of the main source, even in presence of its strong reflections.
     \item[The Comb Filter Effect] indicates the change in timbre of the perceived sound, named \textit{coloration}.
     This happens when multiples reflections arrive with periodic patterns and some constructive or destructive interferes may arise.
-    Such phenomena can be well modeled with a comb filter \cite{barron1971subjective}..
-    \item[Apparent Source Width] is the audible impression of a spatially extended sound source~\cite{griesinger1997psychoacoustics}.
+    Such phenomena can be well modeled with a comb filter \citeonly{barron1971subjective}..
+    \item[Apparent Source Width] is the audible impression of a spatially extended sound source~\citeonly{griesinger1997psychoacoustics}.
     By the presence of early reflection, the perceived energy increases, providing the impression that a source sounds larger than its optical size.
     \item[Distance and Depth Perception] provides to the listener cues about the source location.
-    While the former refers to the spatial range, the latter relates the source to the auditory scene as a whole~\cite{kearney2012distance}.
+    While the former refers to the spatial range, the latter relates the source to the auditory scene as a whole~\citeonly{kearney2012distance}.
     A fundamental cue for distance perception is the \textit{direct-to-reverberant ratio} ($\DRR$)\sidenote{\cfr~\cref{ch:acoustics:subsec:drr}},
     \ie/ the ratio between the direct path ration and the remain portion of the \RIR/.
     Regarding the depth perception, early reflection are the main responsible.
-    In the context of virtual reality, correct modeling of these quantities is essentials in order to maintain a coherent depth impression~\cite{kearney2012distance}.
+    In the context of virtual reality, correct modeling of these quantities is essentials in order to maintain a coherent depth impression~\citeonly{kearney2012distance}.
 \end{description}
 
-\newthought{The Late Reverberation} in room acoustics is indicative of the size the environment and the materials within~\cite{valimaki2016more}.
-It provides the \textit{listener envelopment}, \ie/ the degree of immersion in the sound field~\cite{griesinger1997psychoacoustics}.
+\newthought{The Late Reverberation} in room acoustics is indicative of the size the environment and the materials within~\citeonly{valimaki2016more}.
+It provides the \textit{listener envelopment}, \ie/ the degree of immersion in the sound field~\citeonly{griesinger1997psychoacoustics}.
 This portion of the \RIR/ is mainly characterized by the sound diffusion, which depend on the surfaces roughness.
 
 \subsection{Mixing time}
@@ -876,7 +872,7 @@ Analytically,  the
 And it is represented in Equation 2.47 by the symbol Tm.
 Due to this, it is an parameters important also in the context of \RIRs/ synthesis as it defines cross-over point for room acoustics simulator using hybrid methods~\citeonly{savioja2015overview}\sidenote{\cfr~\cref{sec:acoustics:simulators}}.
 
-\subsection{Reverberation Time}
+\subsection{Reverberation time}
 \marginpar{%
     \centering
     \footnotesize
@@ -909,9 +905,9 @@ it is possible to use the empirical \textit{Sabine's equation}:
 where $V_{\text{TOT}}$ is the total volume of the room $[\si{\metre^3}]$ and $\absCoeff_l$ and $S_l$ are the
 absorption coefficient and the area $[\si{\metre^2}]$  of the $l$-th surface.
 
-\subsection{Direct-to-Reverberant ratio and Critical Distance}\label{ch:acoustics:subsec:drr}
+\subsection{Direct-to-Reverberant ratio and the critical distance}\label{ch:acoustics:subsec:drr}
 \begin{center}
-    \textit{The \emph{direct-to-reverberant ratio} ($\DRR$) quantifies the power of direct against indirect sound~\cite{zahorik2002direct}.}
+    \textit{The \emph{direct-to-reverberant ratio} ($\DRR$) quantifies the power of direct against indirect sound~\citeonly{zahorik2002direct}.}
 \end{center}
 It varies with the size and the absorption of the room, but also with the distance between the source and the receiver according to the curves
 depicted in~\cref{fig:acoustics:drr}
