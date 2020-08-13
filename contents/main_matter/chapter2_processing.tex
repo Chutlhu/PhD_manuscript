@@ -361,7 +361,7 @@ $\discreteFT{}:\bbR\kmapsto\bbC$:
 \end{equation}
 where $k \in \kintervcc{0}{F - 1}$ in the discrete \textit{frequency bin} and $F$ is the total number of bins.
 The natural frequency $f_k$ in $\si{\Hz}$ correspondent to the $k$-th frequency bin as:
-\begin{equation}
+\begin{equation}\label{eq:processing:fk}
     f_k = \frac{k}{F}\Fs
     .
 \end{equation}
@@ -392,33 +392,31 @@ where $\convDis$ is the finite-time linear convolution operator\sidenote{
     The finite-time linear convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
     \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
     .
-} and
+} and the \RIR/ writes
     \begin{equation}\label{eq:processing:discreteModel:rir}
         h_{ij}[ k] = \sum_{\idxEch=0}^{\numEchs}
                     \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
                     \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
+        .
     \end{equation}
-is the \RIR/.
 
 As explained in~\citeonly{tukuljac2018mulan}, the issues arise from the simultaneously usage of the closed-form \RIR/ model derived in~\cref{eq:processing:rir:ft}
 and the sampled observations $x_i[n]$. In particular three approximations are made here:
 
 \begin{enumerate}
-    \item\label{en:processing:dft:1}
+    \item\label{en:processing:dft:approx1}
     In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\src(t)$ has a spectrum limited by $\Fs$, then it discrete version after the convolution with \textit{any} filter $h$
     is equivalent to the \textit{linear} convolution between the its sampled version $\src[n]$ and the low-passed version of the filter $h$.
     The first approximation is then to consider that filter $h$ have a limited support bounded by $\pm \sfrac{\Fs}{2}$.
-    \item\label{en:processing:dft:2}
+    \item\label{en:processing:dft:approx2}
     In the discrete time domains, the convolution theorem applies to the \textit{circular convolution}, which is only approximated by the \textit{linear convolution}.
     This second approximation is reasonably good when many samples are available\sidenote{reduce bundary artifacts} and when one of the two signals is periodic, which
     are typical cases for audio signals.
-    \item\label{en:processing:dft:3}
+    \item\label{en:processing:dft:approx3}
     The third approximation regards the closed-form of $h_{ij}(f)$ of~\cref{eq:processing:discreteModel:rir} which
     would require infinitely many samples and unlimited frequency support to be computed
     \sidenote{it results from the \DTFTdef/ of $h_ij(t)$}
 \end{enumerate}
-
-With that being said, notice that
 
 \begin{figure}[!h]
     \begin{fullwidthfig}
@@ -504,76 +502,53 @@ With that being said, notice that
 
 \end{figure}
 
-% \begin{enumerate}
-%     \item
-%     \item\label{en:processing:dft:one}
-%         the discrete-correspondent of the convolution theorem is valid for \textit{circular convolution}.
-%     This is only approximated by the \textit{linear convolution}, which can be reasonably good when many samples are available\sidenote{reduce bundary artifacts}.
-%     \begin{equation}
-%         \underbrace{c_{ij}[n] \approx (h_{ij} \convDis x)[n]}_{\text{approx.~\ref{en:processing:dft:one}}}
-%         \;\overset{\discreteFT{}}{\kto}\;
-%         h_{ij}[k] x[k] \approx c_{ij}[k]
-%     \end{equation}
-%     where $\convDis$ is the finite-time linear convolution operator\sidenote{
-%         The finite-time linear convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
-%         \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
-%         .
-%     }.
-%     \item\label{en:processing:dtf:two}
-%         Secondly, the usage of the closed-form~\eqref{eq:processing:rir:ft} for $h_{ij}[k]$ would be true for $N\kto\infty$.
-%         \begin{equation}
-%             h_{ij}[ k] \approx h_{ij}( f_k) = \sum_{\idxEch=0}^{\numEchs}
-%                         \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
-%                         \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
-%         \end{equation}
-% \end{enumerate}
-% This two observations yields to the following approximated model:
-
-% Notice that few approximation are made here
-% \begin{itemize}
-%     \item First, the validity of the approximation of the right-hand equation depends on the way $h_{ij}(t)$ and $s(t)$ are sampled.
-%     \item Secondly, \DFT/ 's correspondent of the convolution theorem applies to \textit{circular convolution}.
-%           However, the actual model provides for linear convolution between finite and non-periodic signals, resulting in an approximation error.
-% \end{itemize}
-
-% Note that the smoothing sinc kernel φ(t) does not impact this formula, since only frequencies below fs/2 are considered.
-% Importantly, both approximations in (5.11) become arbitrarily precise as the number of samples N grows to infinit
-
-% The validity of approximation (5.5) depends on the way hm(t) and s(t) are sampled
-% First, the time-domain convolution between ˆhm and ˆs has been transformed into a multiplication through the DFT.
-% This would be exact for a circular convolution, but the actual model is a linear convolution between infinite and non periodic signals, resulting in an approximation error.
-% Second, the formula used for ˆhm in the right hand side of (5.11) is the one that would result from the discrete-time Fourier transform (DTFT) ofhm which would require infinitely many samples N to be calculated exactly, as opposed to the DFT
-%
-%
-
+Importantly, these approximations become arbitrarily precise as the number of samples $N$ grows to infinity.
 
 While the raw audio signal encodes the amplitude of a sound as a function of time,
-its Fourier spectrum represents it as a function of frequency, but los completely variation over time.
-In order to jointly account for temporal and spectral characteristic, following representation is used.
+its Fourier spectrum represents it as a function of frequency.
+However the information on when these frequencies occur is hidden in the transform.
+In order to jointly account for both temporal and spectral characteristic, joint representations are used.
 
 \subsection{Time-Frequency domain}
-\newthought{\TFdef/ Representation} aims to jointly describe the signal in time and frequency domain.
-the \STFTdef/ encodes the time-varying spectra into a matrix $x(k,l) \in \bbC^{F,T}$ with frequencies $k$ and time frames $l$.
+\TFdef/ representations aim to jointly describe the signal in time and frequency domain.
+Instead of considering the entire signal, the main idea is to consider only a small section of the signal.
+To this end, one fixes a so-called \textit{window} function, $w[n]$, whose is nonzero for only a period of time $W$ shorter than
+the entire signal length, $W \ll N$.
+This function iteratively shifts and multiplies the original signal, producing consecutive \textit{frames}.
+Finally, the frequency information are then extracted independently from each frame.
+The choice of a window function $w[n]$ depends on the application since its contribution reflects in the \TF/ representation together with the
+one of the signal.
 
-the \STFT/ has the following useful properties for audio processing~\cite{vincent2018audio}:
-\begin{itemize}
-    \item the frequencies scale $f$ is a linear function of the frequency bin $k$;
-    \item the resulting matrix allows easy treatment of
-          the phase $\phaseOf{x(k,l)}$, the magnitude $\magnitudeOf{x(k,l)}$ and the power $\powerOf{x(k,l)}$ separately;
-    \item the \DFT/ can be efficienciently computed with the \FFT/ algorithm;
-    \item the \STFT/ is simple to invert.
-\end{itemize}
+\newthought{The distrete \STFTdef/}\marginpar{\footnotesize%
+The \STFT/ was  introduced by Dennis Gabor in the 1946.
+}
+is the most commonly used \TF/-representation in audio signal processing
+The representation encodes the time-varying spectra into a matrix $x[k,l] \in \bbC^{F,T}$ with frequency index $k$ and time frame index $l$.
+\\More formally, the processes to compute the complex \STFT/ coefficients is given by
+\begin{equation}\label{eq:processing:stft}
+    x[k, l]  = \sum_{n=0}^{W-1} w[n] x[n + l H] \cste^{- \csti 2 \pi k n / F} \mathspace\in\bbC
+\end{equation}
+where $W$ is the window length and $H$ is the \textit{hop size} which specify how much the window needs to be shifted across the signal.
+Equivalently, \cref{eq:processing:stft} can be expressed as \DFT/s of windowed frames, $x[k, l] = \discreteFT{x[n,l]}$ where $x[n,l] = x[n + l H] w[n]$.
+\\Since each \STFT/ coefficient $x[k, l]$ lives in the complex space $\bbC$, the squared magnitude of the STFT, $\powerOf{x(k,l)}$ is
+commonly used for visualization and for processing\sidenote{The phase is not important sometimes...}.
+The resulting two-dimensional representation is called \textsc{spectrogram}.
+It can be visualized by means of a two-dimensional image, where the horizontal axis represents time and the vertical axis represents frequency.
+In this image, the spectrogram value Y(m,k) is represented by the intensity or color in the image at the coordinate (m,k).
+Note that in the discrete case, the time axis is indexed by the frame indices m and the frequency axis is indexed by the frequency indices k.
 
-\newthoughtpar{Time-Frequency Analysis, Processing and Synthesis}
-Throughout this dissertation both estimation and processing will be conducted in the  \TF/ domain.
+Throughout this work both estimation and processing will be conducted in the \STFT/ domain.
 This is a common approach in the audio signal processing community, but it is not the only one:
-Many algorithm are designed directly in the time domain.
-\\Along with common motivation supported by time-domain resolution or computational load requirements,
-powerful machine-learning approaches are able to learn both representation and estimation steps~\cref{subsec:application:algos}.
-\\In the context of \STFT/, the process of converting the signal into the \TF/-domain is called \textit{analysis}, while
-its counterpart converting back to time-domain is called \textit{synthesis}.
-Between the two we will conduct \textit{estimation}, \textit{processing} and \textit{enhancement}.
-
+many algorithm are designed directly in the time domain or alternatives \TF/ representation\sidenote{such as MelScale, FilterBank, learned-TF reperestation}.
+As discussed~\cite{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
+\begin{itemize}
+    \item the frequencies scale $f$ is a linear function of the frequency bin $k$\cfr{\cref{eq:processing:fk}};
+    \item the resulting matrix allows easy treatment of the phase $\phaseOf{x(k,l)}$, the magnitude $\magnitudeOf{x(k,l)}$ and the power $\powerOf{x(k,l)}$ separately;
+    \item the \STFT/ representation inherit the linearity property of the \DFT/ and it is simple to invert.
+    \item the \DFT/ can be efficienciently computed with the \FFT/ algorithm;
+\end{itemize}
+For more mathematical detailed description on \DFT/ and \STFT/ can be found in \citeonly{oppenheim1987signals}.
+For a audio-processing-oriented and music-processing-oriented explanation please refer to Chapter 2 of \citeonly{vincent2018audio} (Chapter2) and Chapter 2 of \citeonly{muller2015fundamentals}, respectively.
 
 \section{RIR and Echoes Models}
 Thanks to the convolution theorem, time-domain convolution can be implemented as a multiplication in the frequency-domain.

@@ -13,14 +13,27 @@ Thus I would be happy about any feedback on how to improve this template, and I 
 ## pres
 
 - [x] 3 separate branch: bison, lorem and thesis
-- [ ] import notation from report
+- [x] import notation from report
 - [ ] import papers
-  - [ ] Mirage
-  - [ ] Blaster
+  - [x] Mirage
+  - [x] Blaster
   - [ ] dEchorate
 - [ ] import projects
-  - [ ] Lantern
+  - [x] Lantern
   - [ ] Brioche
 
 
-## currents
+## current
+
+### Chapter 2
+
+- [ ] implement Antoine correction
+  - [x] 2.1, 2.2
+  - [ ] 2.3 --->
+- [ ] figures
+
+### Chapter 3
+
+- [ ] notation DFT and notation continuous
+- [ ] STFT
+
