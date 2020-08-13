@@ -383,7 +383,7 @@ By the linearity of the \DFT/, the approximation of \cref{eq:processing:ft:mix} 
 Secondly, the discrete version of~\cref{eq:processing:mixing:img} requires few careful steps.
 The final approximated model for the spatial images in the discrete Frequency domain writes:
 
-\begin{equation}
+\begin{equation}\label{eq:processing:discreteModel}
     c_{ij}[n] = (h_{ij} \conv x)[n]
     \;\overset{\discreteFT{}}{\kto}\;
     c_{ij}[k] \approx h_{ij}[k] x[k]
@@ -544,53 +544,71 @@ As discussed~\cite{vincent2018audio}, the \STFT/ has the following useful proper
 \begin{itemize}
     \item the frequencies scale $f$ is a linear function of the frequency bin $k$\cfr{\cref{eq:processing:fk}};
     \item the resulting matrix allows easy treatment of the phase $\phaseOf{x(k,l)}$, the magnitude $\magnitudeOf{x(k,l)}$ and the power $\powerOf{x(k,l)}$ separately;
-    \item the \STFT/ representation inherit the linearity property of the \DFT/ and it is simple to invert.
+    \item the \STFT/ simple to invert;
     \item the \DFT/ can be efficienciently computed with the \FFT/ algorithm;
+    \item this representation inherits the linearity and convolution property of the \DFT/ under some condition about the length of the signals.
 \end{itemize}
-For more mathematical detailed description on \DFT/ and \STFT/ can be found in \citeonly{oppenheim1987signals}.
-For a audio-processing-oriented and music-processing-oriented explanation please refer to Chapter 2 of \citeonly{vincent2018audio} (Chapter2) and Chapter 2 of \citeonly{muller2015fundamentals}, respectively.
+\marginpar{%
+    \vspace{-4cm}
+    \footnotesize
+    For more mathematical detailed description on \DFT/ and \STFT/ can be found in \citeonly{oppenheim1987signals}.
+    For a audio-processing-oriented and music-processing-oriented explanation please refer to Chapter 2 of \citeonly{vincent2018audio} (Chapter2) and Chapter 2 of \citeonly{muller2015fundamentals}, respectively.
+}
 
-\section{RIR and Echoes Models}
-Thanks to the convolution theorem, time-domain convolution can be implemented as a multiplication in the frequency-domain.
+\subsection{The final model}
+The model \eqref{eq:processing:discreteModel} shows how in practice the RIRs are threated in the frequency-domain.
 However this does not generalized straightforwardly to the time-frequency domain:
 it depends on the length of the filter \wrt/ to the length of the analysis window on of the \STFT/.
-Issues arise with long filter, which are common for microphone recoding in highly reverberant or time-varying scenarios.
-To circumvent this issues, the \textit{convolutional STFT} with arbitrary analysis window have been proposed:
-it implements the time-domain convolution into inter-time-frame and inter-frequency-bands products~\cref{aoe}.
-
-In this thesis, we will assume that the filter length is much shorter than the analysis window length.
-This known in the literature as the \textit{narrowband approximation}\cite{}.
-\\In the time-frequency domain, $\mics_j(l,k)$  and $\src_j(l,k)$ are the \STFT/ of $\mics_j(l,k)$ and $\src_j(l,k)$ respectively.
+Issues arise with long filter, which are common for recoding in highly reverberant or time-varying scenarios.
+To circumvent this issues, the \textit{convolutional STFT} for arbitrary window functions have been proposed\sidenote{%
+It translates the time-domain convolution into inter-frame and inter-band convolutions, rather than pointwise multiplication of Fourier transforms.}~\citeonly{gilloire1992adaptive}.
+Although mathematically exact, it is computationally and memory intensive.
+\\In this thesis, we will assume that the filter length is shorter than the analysis window length.
+This known in the literature as the \textit{narrowband approximation}~\citeonly{gannot2017consolidated}.
+In the time-frequency domain, $\imgs_j(l,k)$  and $\src_j(l,k)$ are the \STFT/ of $\imgs_j(t)$ and $\src_j(t)$ respectively.
 Therefore, the time-domain filtering can be approximated by complex-valued multiplication in the STFT domain:
 \begin{equation}
-    \mics_j(l,k) = \bsh_j(k) \src_j(l,k)
+    \imgs_j(l,k) = \bsh(k) \src_j(l,k)
     ,
 \end{equation}
-where the $\bsh_j(f) = \klist{h_{1j}(f), \cdots, h_{1j}(f)}$ is the $I \times 1$ vector of the DFT of the
-\RIRs/ for the source $j$,
-
-Recalling the derivation in~\cref{ch:acoustics:subsec:rir}, we adopt the following model for the room transfer function as:
-\sidenote{\cfr{\cref{eq:acoustics:ims}}}
+where the $\bsh_j(f) = \ktranspose{\klist{h_{1j}(f), \cdots, h_{Ij}(f)}}$ is the $I \times 1$ vector of the room transfer functions for the source $j$.
+It is practical to concatenate all this vectors into an $I \times J$ matrix $\bfH(f) = \klist{\bsh_1(f),\cdots,\bsh_J(f)}$ called \textit{mixing matrix}.
+\\With notation and all the consideration so far, mixing process including noise terms can be written in the \STFT/ domain compactly as:
 \begin{equation}
-    \rir (k, \positionMicrophone \mid \positionSource) =
-    ,
+    \bsx(l,k) = \bfH(l,k) \bss(l,k) + \bsu(l,k)
 \end{equation}
+where $\bsu(n,k) = \bsn(n,k) + \boldsymbol{\varepsilon}(n,k)$ is the contribution of all the diffuse noise sources and modeling error.
 
-\newthought{Steering Vector}
+\section{Other room impulse response spectral models}
+As discussed so far \RIRs/ are complicated quantities to model, embed in processing frameworks, computed and estimated.
+The representations of the \RIR/ discussed so far explicitly model early echoes e reverberation deterministically.
+Furthermore, alternative models are common in the audio processing literature.
+
+\subsection{Steering vector model}
 In case of absence of echoes and reverberation, namely assuming free-field propagation,
 the \RIRs/ simplify to \textit{steering vector}, than is the DFT of~\cref{eq:acoustics:greenFreeTime}:
 \begin{equation}\label{eq:processing:steering}
-    \bsd_{j}(k) = \klist{\frac{1}{4 \pi \distMicSrc_{1j}} \cste^{-\csti 2 \pi f_k \distMicSrc_{ij} / c},
+    \bsd_{j}(k) = \klist{\frac{1}{4 \pi \distMicSrc_{1j}} \cste^{-\csti 2 \pi f_k \distMicSrc_{1j} / c},
                             \cdots,
                             \frac{1}{4 \pi \distMicSrc_{Ij}} \cste^{-\csti 2 \pi f_k \distMicSrc_{Ij} / c},
                     }
 \end{equation}
-In far-field regimes, the microphone-to-source distance $\distMicSrc_{ij}$ are larger than the
-inter-microphones distance $d_{ii'}$. Here the attenuation factors $\sfrac{1}{4 \pi \distMicSrc_{ij}}$ becomes approximately equal
-and ofter are ignored.
+Furthermore, assuming far-field regimes, the microphone-to-source distance $\distMicSrc_{ij}$ are larger than the
+inter-microphones distance $d_{ii'}$ making the attenuation factors $\sfrac{1}{4 \pi \distMicSrc_{ij}}$ becomes approximately equal
+and ofter are ignored
+
+\subsection{Relative transfer function and interchannel models}
+An alternative way is to consider relative filters between channels for a given source.
+Given a pair of microphone $i$ and $i'$, their noisy observation writes
+\begin{align}
+    c_i = s \conv h_i + u_i
+    c_i' = s \conv h_i' + u_i'
+\end{align}
+
+This representation allows to resolve gain ambiguities and it comes particularly useful since its estimation is ``easier'' than
+the esti.
 
 
-\newthoughtpar{Relative Transfer Functions} modeled
 Let us assume that the reference microphone is the first
 The \RTFdef/:
 \begin{equation}\label{eq:processing:rtf}
@@ -622,6 +640,7 @@ reverberation make them significantly diverge.
     this terminology is used in the psycoacoustics fields
 }
 
+\subsection{Probabilistic and Full-rank covariance model}
 
 \section{Evaluation}\label{sec:evaluation}
 
