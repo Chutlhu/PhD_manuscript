@@ -289,8 +289,9 @@ Making the noise terms and sources explicit, the mixing model in~\cref{eq:proces
     \img_{\idxMic\idxSrc}(t) &=  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} (t) +  \varepsilon_{ij}(t)\\
     \imgs_\idxSrc(t)         &= \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}} \nonumber\\
     \mics(t)                 &= \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc(t) + \bsn( t)
-\end{align}%
+\end{align}
 
+$\bsu = \bsn + \boldsymbol{\varepsilon}$
 
 \section{Signal Model in the Spectral domains}\label{sec:processing:domains}
 The frequency, or spectral, representation is probably the most famous signal representation used in signal processing
@@ -568,18 +569,18 @@ This known in the literature as the \textit{narrowband approximation}~\citeonly{
 In the time-frequency domain, $\imgs_j(l,k)$  and $\src_j(l,k)$ are the \STFT/ of $\imgs_j(t)$ and $\src_j(t)$ respectively.
 Therefore, the time-domain filtering can be approximated by complex-valued multiplication in the STFT domain:
 \begin{equation}
-    \imgs_j(l,k) = \bsh(k) \src_j(l,k)
+    \imgs_j(l,k) = \bsh[k] \src_j(l,k)
     ,
 \end{equation}
 where the $\bsh_j(f) = \ktranspose{\klist{h_{1j}(f), \cdots, h_{Ij}(f)}}$ is the $I \times 1$ vector of the room transfer functions for the source $j$.
 It is practical to concatenate all this vectors into an $I \times J$ matrix $\bfH(f) = \klist{\bsh_1(f),\cdots,\bsh_J(f)}$ called \textit{mixing matrix}.
 \\With notation and all the consideration so far, mixing process including noise terms can be written in the \STFT/ domain compactly as:
-\begin{equation}
+\begin{equation}\label{eq:processing:model:stfs}
     \bsx(l,k) = \bfH(l,k) \bss(l,k) + \bsu(l,k)
 \end{equation}
 where $\bsu(n,k) = \bsn(n,k) + \boldsymbol{\varepsilon}(n,k)$ is the contribution of all the diffuse noise sources and modeling error.
 
-\section{Other room impulse response spectral models}
+\section{Other (room) impulse response spectral models}
 As discussed so far \RIRs/ are complicated quantities to model, embed in processing frameworks, computed and estimated.
 The representations of the \RIR/ discussed so far explicitly model early echoes e reverberation deterministically.
 Furthermore, alternative models are common in the audio processing literature.
@@ -588,7 +589,7 @@ Furthermore, alternative models are common in the audio processing literature.
 In case of absence of echoes and reverberation, namely assuming free-field propagation,
 the \RIRs/ simplify to \textit{steering vector}, than is the DFT of~\cref{eq:acoustics:greenFreeTime}:
 \begin{equation}\label{eq:processing:steering}
-    \bsd_{j}(k) = \klist{\frac{1}{4 \pi \distMicSrc_{1j}} \cste^{-\csti 2 \pi f_k \distMicSrc_{1j} / c},
+    \bsd_{j}[k] = \klist{\frac{1}{4 \pi \distMicSrc_{1j}} \cste^{-\csti 2 \pi f_k \distMicSrc_{1j} / c},
                             \cdots,
                             \frac{1}{4 \pi \distMicSrc_{Ij}} \cste^{-\csti 2 \pi f_k \distMicSrc_{Ij} / c},
                     }
@@ -598,28 +599,53 @@ inter-microphones distance $d_{ii'}$ making the attenuation factors $\sfrac{1}{4
 and ofter are ignored
 
 \subsection{Relative transfer function and interchannel models}
-An alternative way is to consider relative filters between channels for a given source.
-Given a pair of microphone $i$ and $i'$, their noisy observation writes
-\begin{align}
-    c_i = s \conv h_i + u_i
-    c_i' = s \conv h_i' + u_i'
-\end{align}
-
-This representation allows to resolve gain ambiguities and it comes particularly useful since its estimation is ``easier'' than
-the esti.
-
-
-Let us assume that the reference microphone is the first
-The \RTFdef/:
+Let us consider now only two channels, $i$ and $i'$ and only one source signal in the model~\cref{eq:processing:model:stfs}.
+Dropping the dependency on $j$ for readability and taking the $i$-th as a reference, the \RTFdef/ associated the the $i'$-th channel is defined as~\citeonly{gannot2001signal}
 \begin{equation}\label{eq:processing:rtf}
-    \rtfs_j(k) = \frac{1}{\rir_{1j}(k)} \rirs_j(k)
+    \rtf_{i'}[k] = \frac{\rir_{i'}[k]}{\rir_i[k]}
+    ,
 \end{equation}
+namely the point-wise ratio of the (D)FTs of the two filters.
+\\The time-domain counterpart is called as \ReIRdef/ and can be interpreted as the filter ``transforming'' the $i$ impulse response into the $i'$-th one.
+Considering the noisy observation $x_i$ and $x_{i'}$, their signals can be re-written in term of $\rtf_{i'}$ as follows
+\begin{equation}
+    \begin{matrix}
+    \begin{aligned}
+            \mic_i &= \rir_i \conv s + \allNoise_i, \\
+            \mic_{i'} &= \rir_{i'} \conv s + \allNoise_{i'},
+    \end{aligned} & \kto  & \begin{aligned}
+        \mic_i &= \rir_i \conv s + \allNoise_i, \\
+        \mic_{i'} &= \rtf_{i'} \conv \rir_{i} \conv s + \allNoise_{i'}.
+    \end{aligned}
+    \end{matrix}
+\end{equation}
+Therefore, notice that $\rir_{i'} = \rtf_{i'} \conv \rir_{i}$, corresponding to~\cref{eq:processing:rtf} in the frequency domain.
+Note that although real-world acoustic channels $h_i$ and $h_{i'}$ are causal, the $\rtf_{i'}$ need not be so.
+
+The \RTFs/ benefits of several interesting properties that will be of fundamental importance for this thesis.
+In particular:
+\begin{itemize}
+    \item The estimation \RTF/ is considered an ``easier'' problem with respect to the \RIRs/ estimation.
+    in fact, in noiseless case ($u_i = u_{i'} = 0$), it holds that $\mic_{i'} = \rtf_{i'} \conv \mic_i$.
+    \item The \RTF/ encodes all properties of the related impulse responses and there are many advance methods to estimate them.
+    Therefore, it can be then used as proxy for \RIRs/ estimation.
+    \item A \RIR/ can be seen as a special case of \RTF/ where the non-reference microphone is a virtual one whose
+    output is the original (non-spatial) source signal $\src$. Then, $\rir_i = \delta$ and $\rir_{i'} = \rir_{i'}$.
+    \item
+\end{itemize}
+
+In the general case of multiple microphone array ($I>2$) and multiple sources, the vector of \RTFs/ $\rtfs_j[k] = \ktranspose{\klist{\rtf_{1j}, \cdots, \rtf_{Ij}}}$
+for the $j$-th source is defined as
+\begin{equation}\label{eq:processing:rtf}
+    \rtfs_j[k] = \frac{1}{\rir_{1j}[k]} \rirs_j[k]
+\end{equation}
+
 
 \newthought{Relative Steering Vectors} are under the free-far-field assumption on the sound propagation.
 Interestingly from their closed form definition, an important geometrical property arise.
 By combining~\cref{eq:processing:steering,eq:processing:rtf}, the \textit{relative steering vector} writes
 \begin{equation}
-    \bsd_{j}(k) = \klist{1,
+    \bsd_{j}[k] = \klist{1,
                          \cste^{-\csti 2 \pi f_k \deltaTaus_{2j}},
                          \cdots,
                          \cste^{-\csti 2 \pi f_k \deltaTaus_{Ij}},
@@ -630,8 +656,8 @@ where $\deltaTaus_{ij} = \frac{\distMicSrc_{ij}-\distMicSrc_{1j}}{c}$ is the \TD
 \newthought{Interchannel Cues}
 The \RTFs/ encodes the \ILDdef/ and the \IPDdef/
 \begin{align}
-    \ild_{ij}(k) &= 20 \log_{10} \magnitudeOf{\rtf(k)} \mathspace & [\si{\dB}]\\
-    \ipd_{ij}(k) &= \phaseOf{\rtf(k)} \mathspace                  & [\si{\radian}]
+    \ild_{ij}[k] &= 20 \log_{10} \magnitudeOf{\rtf[k]} \mathspace & [\si{\dB}]\\
+    \ipd_{ij}[k] &= \phaseOf{\rtf[k]} \mathspace                  & [\si{\radian}]
 \end{align}
 
 As shown in ... the so-called \ILD/ and the \IPD/ cluster around the direct path. However early echoes and
