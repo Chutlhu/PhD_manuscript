@@ -628,17 +628,19 @@ In particular:
     \item The estimation \RTF/ is considered an ``easier'' problem with respect to the \RIRs/ estimation.
     in fact, in noiseless case ($u_i = u_{i'} = 0$), it holds that $\mic_{i'} = \rtf_{i'} \conv \mic_i$.
     \item The \RTF/ encodes all properties of the related impulse responses and there are many advance methods to estimate them.
-    Therefore, it can be then used as proxy for \RIRs/ estimation.
+    Therefore, it may be then used as a proxy for the estimations of (components of) \RIRs/.
     \item A \RIR/ can be seen as a special case of \RTF/ where the non-reference microphone is a virtual one whose
-    output is the original (non-spatial) source signal $\src$. Then, $\rir_i = \delta$ and $\rir_{i'} = \rir_{i'}$.
-    \item
+    output is the original (non-spatial) source signal $\src$. Then, $\rir_i = \delta$ and $\rir_{i'} = \rir_{i'}$\sidenote{%
+    In practice this virtual microphone is substituted by a microphone that is very close to the source.}
 \end{itemize}
 
 In the general case of multiple microphone array ($I>2$) and multiple sources, the vector of \RTFs/ $\rtfs_j[k] = \ktranspose{\klist{\rtf_{1j}, \cdots, \rtf_{Ij}}}$
 for the $j$-th source is defined as
 \begin{equation}\label{eq:processing:rtf}
     \rtfs_j[k] = \frac{1}{\rir_{1j}[k]} \rirs_j[k]
+    .
 \end{equation}
+Notice that $\rtf_{ii'}[k] = 1\mathspace{for} i = i'$.
 
 
 \newthought{Relative Steering Vectors} are under the free-far-field assumption on the sound propagation.
