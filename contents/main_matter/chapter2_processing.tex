@@ -510,7 +510,7 @@ its Fourier spectrum represents it as a function of frequency.
 However the information on when these frequencies occur is hidden in the transform.
 In order to jointly account for both temporal and spectral characteristic, joint representations are used.
 
-\subsection{Time-Frequency domain}
+\subsection{Time-Frequency domain representation}
 \TFdef/ representations aim to jointly describe the signal in time and frequency domain.
 Instead of considering the entire signal, the main idea is to consider only a small section of the signal.
 To this end, one fixes a so-called \textit{window} function, $w[n]$, whose is nonzero for only a period of time $W$ shorter than
@@ -520,8 +520,8 @@ Finally, the frequency information are then extracted independently from each fr
 The choice of a window function $w[n]$ depends on the application since its contribution reflects in the \TF/ representation together with the
 one of the signal.
 
-\newthought{The distrete \STFTdef/}\marginpar{\footnotesize%
-The \STFT/ was  introduced by Dennis Gabor in the 1946.
+\newthought{The distrete \STFT/}\marginpar{\footnotesize%
+The \STFT/ was introduced by Dennis Gabor in the 1946.
 }
 is the most commonly used \TF/-representation in audio signal processing
 The representation encodes the time-varying spectra into a matrix $x[k,l] \in \bbC^{F,T}$ with frequency index $k$ and time frame index $l$.
@@ -540,7 +540,7 @@ Note that in the discrete case, the time axis is indexed by the frame indices m 
 
 Throughout this work both estimation and processing will be conducted in the \STFT/ domain.
 This is a common approach in the audio signal processing community, but it is not the only one:
-many algorithm are designed directly in the time domain or alternatives \TF/ representation\sidenote{such as MelScale, FilterBank, learned-TF reperestation}.
+many algorithm are designed directly in the time domain or alternatives \TF/ representation\sidenote{such as MelScale, FilterBank, or the quadratic STFT transfrom}.
 As discussed~\cite{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
 \begin{itemize}
     \item the frequencies scale $f$ is a linear function of the frequency bin $k$\cfr{\cref{eq:processing:fk}};
@@ -580,6 +580,11 @@ It is practical to concatenate all this vectors into an $I \times J$ matrix $\bf
 \end{equation}
 where $\bsu(n,k) = \bsn(n,k) + \boldsymbol{\varepsilon}(n,k)$ is the contribution of all the diffuse noise sources and modeling error.
 
+\newthoughtpar{The spatial quadratic STFT transform}
+\begin{equation}
+    \cov_{\mics}(l,k) = \bbE \klist{\mics(l,k)\khermitian{\mics(l,k)}}
+\end{equation}
+
 \section{Other (room) impulse response spectral models}
 As discussed so far \RIRs/ are complicated quantities to model, embed in processing frameworks, computed and estimated.
 The representations of the \RIR/ discussed so far explicitly model early echoes e reverberation deterministically.
@@ -600,75 +605,86 @@ and ofter are ignored
 
 \subsection{Relative transfer function and interchannel models}
 Let us consider now only two channels, $i$ and $i'$ and only one source signal in the model~\cref{eq:processing:model:stfs}.
-Dropping the dependency on $j$ for readability and taking the $i$-th as a reference, the \RTFdef/ associated the the $i'$-th channel is defined as~\citeonly{gannot2001signal}
+Dropping the dependency on $j$ for readability and taking the first channel as reference, the \RTFdef/ associated the the $i$-th channel is defined as~\citeonly{gannot2001signal}
 \begin{equation}\label{eq:processing:rtf}
-    \rtf_{i'}[k] = \frac{\rir_{i'}[k]}{\rir_i[k]}
+    \rtf_i[k] = \frac{\rir_i[k]}{\rir_1[k]}
     ,
 \end{equation}
 namely the point-wise ratio of the (D)FTs of the two filters.
 \\The time-domain counterpart is called as \ReIRdef/ and can be interpreted as the filter ``transforming'' the $i$ impulse response into the $i'$-th one.
-Considering the noisy observation $x_i$ and $x_{i'}$, their signals can be re-written in term of $\rtf_{i'}$ as follows
+Considering the noisy observation $x_i$ and $x_{i'}$, their signals can be re-written in term of $\rtf_i$ as follows
 \begin{equation}
     \begin{matrix}
-    \begin{aligned}
-            \mic_i &= \rir_i \conv s + \allNoise_i, \\
-            \mic_{i'} &= \rir_{i'} \conv s + \allNoise_{i'},
-    \end{aligned} & \kto  & \begin{aligned}
-        \mic_i &= \rir_i \conv s + \allNoise_i, \\
-        \mic_{i'} &= \rtf_{i'} \conv \rir_{i} \conv s + \allNoise_{i'}.
-    \end{aligned}
+    \begin{cases}
+        \mic_1 = \rir_1 \conv s + \allNoise_1 \\
+        \mic_i = \rir_i \conv s + \allNoise_i
+    \end{cases} & \kto  & \begin{cases}
+        \mic_1 = \rir_1 \conv s + \allNoise_1 \\
+        \mic_i = \rtf_i \conv \rir_i \conv s + \allNoise_i
+    \end{cases}
     \end{matrix}
+    .
 \end{equation}
-Therefore, notice that $\rir_{i'} = \rtf_{i'} \conv \rir_{i}$, corresponding to~\cref{eq:processing:rtf} in the frequency domain.
-Note that although real-world acoustic channels $h_i$ and $h_{i'}$ are causal, the $\rtf_{i'}$ need not be so.
+Therefore, notice that $\rir_i = \rtf_i \conv \rir_1$, corresponding to~\cref{eq:processing:rtf} in the frequency domain.
+Note that although real-world acoustic channels $h_1$ and $h_i$ are causal, the $\rtf_i$ need not be so.
+\marginpar{%
+    \footnotesize
+    In~\cref{chap:brioche} methods for estimation the RTF will be discussed
+}
 
 The \RTFs/ benefits of several interesting properties that will be of fundamental importance for this thesis.
 In particular:
 \begin{itemize}
+    \item the \RTF/ associated to the reference channel ($i = 1$) is equal to $1$ for each frequencies $k$.
     \item The estimation \RTF/ is considered an ``easier'' problem with respect to the \RIRs/ estimation.
-    in fact, in noiseless case ($u_i = u_{i'} = 0$), it holds that $\mic_{i'} = \rtf_{i'} \conv \mic_i$.
+    in fact, in noiseless case ($u_1 = u_i = 0$), it holds that $\mic_i = \rtf_i \conv \mic_1$.
     \item The \RTF/ encodes all properties of the related impulse responses and there are many advance methods to estimate them.
     Therefore, it may be then used as a proxy for the estimations of (components of) \RIRs/.
     \item A \RIR/ can be seen as a special case of \RTF/ where the non-reference microphone is a virtual one whose
-    output is the original (non-spatial) source signal $\src$. Then, $\rir_i = \delta$ and $\rir_{i'} = \rir_{i'}$\sidenote{%
-    In practice this virtual microphone is substituted by a microphone that is very close to the source.}
+    output is the original (non-spatial) source signal $\src$. Then, $\rir_1 = \delta$ and $\rtf_i = \rir_i$\sidenote{%
+    In practice this virtual microphone is substituted by a microphone that is very close to the source.}.
+    \item As discussed below, also \RTFs/ simplify to special steering vectors in free- and far-field, which has interesting
+    geometrical properties.
 \end{itemize}
 
-In the general case of multiple microphone array ($I>2$) and multiple sources, the vector of \RTFs/ $\rtfs_j[k] = \ktranspose{\klist{\rtf_{1j}, \cdots, \rtf_{Ij}}}$
+In the general case of multiple microphone array ($I>2$) and multiple sources, the vector of \RTFs/ $\rtfs_j[k] = \ktranspose{\klist{\rtf_ {1j}, \cdots, \rtf_{Ij}}}$
 for the $j$-th source is defined as
 \begin{equation}\label{eq:processing:rtf}
     \rtfs_j[k] = \frac{1}{\rir_{1j}[k]} \rirs_j[k]
     .
 \end{equation}
-Notice that $\rtf_{ii'}[k] = 1\mathspace{for} i = i'$.
 
 
-\newthought{Relative Steering Vectors} are under the free-far-field assumption on the sound propagation.
-Interestingly from their closed form definition, an important geometrical property arise.
-By combining~\cref{eq:processing:steering,eq:processing:rtf}, the \textit{relative steering vector} writes
+\newthought{The relative steering vectors} results by combining~\cref{eq:processing:steering,eq:processing:rtf} as
 \begin{equation}
-    \bsd_{j}[k] = \klist{1,
-                         \cste^{-\csti 2 \pi f_k \deltaTaus_{2j}},
+    \boldsymbol{\tilde{d}}_{j}[k] = \klist{
+                         1,
+                         \cste^{-\csti 2 \pi f_k (\distMicSrc_{2j}-\distMicSrc_{i'j}) / \speedOfSound},
                          \cdots,
-                         \cste^{-\csti 2 \pi f_k \deltaTaus_{Ij}},
+                         \cste^{-\csti 2 \pi f_k (\distMicSrc_{Ij}-\distMicSrc_{i'j}) / \speedOfSound},
                     }
 \end{equation}
-where $\deltaTaus_{ij} = \frac{\distMicSrc_{ij}-\distMicSrc_{1j}}{c}$ is the \TDOAdef/.
+where $\sfrac{(\distMicSrc_{ij}-\distMicSrc_{1j})}{\speedOfSound}$ is the \TDOA/ between the $i$-th and the reference microphones.
+The \TDOAs/ will be the protagonists of~\cref{chap:mirage} as they are fundamental quantities for sound source localization.
 
-\newthought{Interchannel Cues}
-The \RTFs/ encodes the \ILDdef/ and the \IPDdef/
-\begin{align}
-    \ild_{ij}[k] &= 20 \log_{10} \magnitudeOf{\rtf[k]} \mathspace & [\si{\dB}]\\
-    \ipd_{ij}[k] &= \phaseOf{\rtf[k]} \mathspace                  & [\si{\radian}]
-\end{align}
+\newthought{In the context of spatial auditory perception} and \CASA/, the \RTF/ is related to the \textit{interchannel cues}\sidenote{%
+sometimes refers to as \textit{interaural cues} when a stress is put on the fact that the two ears are considered as receivers}.
+In fact, the \RTFs/ encodes the so-called \ILD/ and the \IPD/
+\begin{equation}
+    \begin{aligned}
+        \ild_{ij}[k] &= 20 \log_{10} \magnitudeOf{\rtf[k]} & [\si{\dB}]\\
+        \ipd_{ij}[k] &= \phaseOf{\rtf[k]} \mathspace       & [\si{\radian}]
+    \end{aligned}
+\end{equation}
 
-As shown in ... the so-called \ILD/ and the \IPD/ cluster around the direct path. However early echoes and
-reverberation make them significantly diverge.
-\sidenote{%
-    this terminology is used in the psycoacoustics fields
-}
+As shown in~\cref{fig:processing:ildipd}, the \ILD/ and the \IPD/ cluster around the direct path.
+However early echoes and reverberation make them significantly diverge.
 
-\subsection{Probabilistic and Full-rank covariance model}
+% \subsection{Probabilistic and Full-rank covariance model}
+% For certain applications, it is more common to assume a statistical point of view, known as the \textit{Local Gaussian Model}\cite{}.
+% Assume that the source STFT coefficients sj(n, f) have a zero-mean nonstationary Gaussian distribution with variance σ2
+% sj (n, f), and they are all independent source-,
+% frame- and frequency-wise (i.e., over j, n and f)
 
 \section{Evaluation}\label{sec:evaluation}
 
