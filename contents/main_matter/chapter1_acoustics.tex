@@ -1,81 +1,62 @@
 \chapter{Elements of Room Acoustics}\label{chap:acoustics}
 \vspace{-2.5em}
 \newthought{Synopsis}
-\marginpar{%
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/sound_propagation.jpg}
-    \label{fig:acoustics:sound}
-}
+% \marginpar{%
+%     \centering
+%     \footnotesize
+%     \includegraphics[width=\linewidth]{acoustics/sound_propagation.jpg}
+%     \label{fig:acoustics:sound}
+% }
 \openepigraph{Sound, a certain movement of air.}{Aristotele, De Anima II.8 420b12}
 This chapter will build a first important bridge: from acoustics to audio signal processing.
-% Acoustics explains how sounds works in environment, while room acoustic explain sound in enclosed spaces, such as living rooms, offices, concert halls and many others.
-It first defines sound and how it propagates \gc{in the environment}~\cref{ch:acoustics:sec:wave} \gccor{using the concept of impulse response.}{introducing the fundamental concepts of echoes~\cref{ch:acoustics:sec:reflection} and \RIRdef/~\cref{ch:acoustics:sec:rir}}
-\gcrm{\gccor{Then the interaction}{How the sound interacts} with the environment is shown in~\cref{ch:acoustics:sec:reflection}, teasing out the fundamental concept of this thesis: the echoes.
-By assuming some approximation, the \RIRdef/ will be defined ~\cref{ch:acoustics:sec:rir} describing methods to compute \gcrm{or approximate }it.}
-Finally in~\cref{ch:acoustics:sec:perception} \gccor{a description of the way}{how} the human auditory system perceives reverberation will be reported.
-Technical details are reported in Appendix A.
-% In particular, the influence of the first early reflection on the sound perception will be elaborated.
-% One of the most frequently effects produced during sound propagation in a medium is reverberation,
-% which is caused by physical surfaces that partly absorb and partly reflect sound waves in air. We will first examine in Sec. 4.2 the physical and perceptual background of reverberation. The knowledge gained on these aspects will enable us to study some of the most known reverberation algorithms in Sec. 4.3. Finally we will review in Sec. 4.4 more recent approaches to synthetic reverberation, that are based on feedback delay networks and waveguide meshes.
-% The rest of the section is reproduce the derivation of this equation, re-arranging the derivation presented in \citeonly{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
+It first defines sound and how it propagates in the environment~\cref{ch:acoustics:sec:wave} teasing out the fundamental concepts of this thesis: the echoes.~\cref{ch:acoustics:sec:reflection} and \RIRdef/~\cref{ch:acoustics:sec:rir}.
+By assuming some approximations, the \RIR/ will be described in all its parts in relation with methods to compute them.
+Finally in~\cref{ch:acoustics:sec:perception} how the human auditory system perceives reverberation will be reported.
+\\The material on waves and acoustic reflection is digested from classic texts on room acoustics and PDEs:
+Kuttruff’s \textit{Room Acoustics}, Pierce's \textit{Acoustics: an introduction to its physical principles and applications}, Duffy’s \textit{Green’s Functions with Applications}.
+Notions on acoustic simulators are extracted from the Habet's tutorial paper \textit{Room impulse response generator}.
+More technical details are reported in Appendix~\ref{ap:roomAcoustics}.
 
-% \marginpar{%
-%     \small
-%     \textbf{Sound}, noun, from Middle English sownde, alteration of sowne, borrowed from Anglo-Norman sun, soun, Old French son, from accusative of Latin sonus.
-% }
-\section{Sound Wave Propagation}\label{ch:acoustics:sec:wave}
-According to common dictionaries and encyclopedias \gccmt{I would cite the exact source},
-\begin{center}
-    \textit{sound is the sensation perceived by the ear caused by the vibration of air}.
-\end{center}
-\gccor{Sound has then two aspects:}{This definition highlights two aspects of sound:} a physical one, characterized by the \gccor{vibrating air particles}{vibration of air particles}; and a \gccor{perceptive}{perceptual} one, involving the \gcrm{an} auditory system.
-% \marginpar{
-%     \small
-%     It is legit to interrogate about where is the sounds.
-%     % If the sounds we hear have spatial locations, they can be thought to be located either where the material sources are (distal theories), or where the hearers are (proximal theories), or somewhere in between (medial theories). It has also been denied that sounds have any spatial locations, which gives rise to a fourth class of theories, aspatial theories.
-%     % Proximal theories would claim that sounds are where the hearer is.
-%     % Medial theories—exemplified by mainstream acoustics—locate sounds in the medium between the resonating object and the hearer.
-%     % Distal theories consider sounds to be located at the resonating object. Finally, aspatial theories deny spatial relevance to sounds.
-% }
-Focusing on the former phenomenon, when vibrating objects excites air, \gc{surrounding} air molecules starts oscillating,
-producing zones with different air densities \gccor{(compressions-rarefactions)}{, leading to the compressions-rarefactions phenomenon} 
-\sidenote{Sound needs a medium to travel: it cannot travel through a vacuum.\\Unfortunately, there is no sound in outer space.}.
-Such vibration of molecules takes place in the direction of the excitement, with the next layer of molecules excited by the \gccor{first layer}{previous one}.
-Pushing layer by layer forward, a \textit{longitudinal \gc{mechanical} wave}\sidenote{%
-    As opposed to mechanical vibrations in a string or (drum) membrane,
-    acoustic vibrations are \textit{longitudinal} rather than \textit{transversal},
-    \ie/ the air particles are displaced in the same direction of the wave propagation.
-} is \gccor{created}{generated}.
-
-\gcrm{Under a this perspective,
-\begin{center}
-    \textit{sound is a longitudinal, mechanical wave}.
-\end{center}}
-
-
-\gccor{Such}{A} \textit{wave} \gcrm{is a disturbance that } propagates though a medium, which \gccor{could}{can} be solid, liquid or gaseous.
+\section{Sound Wave Propagation}\label{ch:acoustics:sec:wave}%\marginpar{\footnotesize Namely, there is no sound in outer space.}
 \marginpar{%
     \centering
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/lake.png}
     \captionsetup{labelformat=empty}
     \captionof{figure}{%
-    Imagine a calm pool. The surface is flat and smooth. Drop a rock into it. Kerploop. The surface is now disturbed.
-    The disturbance spreads propagates, as well know waves. The medium here is the water surface.
+    Imagine a calm pond. The surface is flat and smooth. Drop a rock into it. \textit{Kerploop!} The surface is now disturbed.
+    The disturbances spread propagate, as waves. The medium here is the water surface.
     }
     \label{fig:acoustics:lake}
 }
+According to common dictionaries and encyclopedias,
+\begin{center}
+    \textit{sound is the sensation perceived by the ear caused by the vibration of air}.
+\end{center}
+This definition highlights two aspects of sound: a physical one, characterized by the vibration of air particles; and a perceptual one, involving the auditory system.
+
+Focusing on the former phenomenon, when vibrating objects excites air, surrounding air molecules starts oscillating,
+producing zones with different air densities leading to a compressions-rarefactions phenomenon.
+Such vibration of molecules takes place in the direction of the excitement, with the next layer of molecules excited by the previous one.
+Pushing layer by layer forward, a \textit{longitudinal mechanical wave}\sidenote{%
+    As opposed to mechanical vibrations in a string or (drum) membrane,
+    acoustic vibrations are \textit{longitudinal} rather than \textit{transversal},
+    \ie/ the air particles are displaced in the same direction of the wave propagation.
+} is generated.
+Notice that therefore sound needs a medium to travel: it cannot travel through a vacuum and no sound is present in outer space.
+
+
+A \textit{wave} is a disturbance that propagates though a medium, which can be solid, liquid or gaseous.
 The propagation happens at a certain speed which depends on the physical properties of the medium, such as its density and composition.
 The medium assumed throughout the entire thesis is air, although extensions of the developed methods to other media could be envisioned.
 Under the fair assumption of air being homogeneous and steady,
-the speed of sound can be \gccor{computed with the following approximated formula}{approximated as follows}:
+the speed of sound can be approximated as follows:
 \begin{equation}
     \cair =  331.4 + 0.6\temperature + 0.0124\rhumidity \hspace{1em} [\sfrac{\si{\metre}}{\si{\second}}]
     ,
 \end{equation}
 where $\temperature$ is the air temperature $[\si{\celsius}]$ and $\rhumidity$ is the relative air humidity $[\%]$.
-The \gccor{changes in air pressure}{air pressure variations} at one point in space can be represented by a \textit{waveform}, which is a graphical representation of a sound
+The air pressure variations at one point in space can be represented by a \textit{waveform}, which is a graphical representation of a sound
 ~\cref{fig:acoustics:acoustics_wave}.
 \begin{figure}[h]
     \centering
@@ -84,28 +65,21 @@ The \gccor{changes in air pressure}{air pressure variations} at one point in spa
     \label{fig:acoustics:acoustics_wave}
 \end{figure}
 
-In general, the sound field is complex and can be decomposed as a superimposition of several waves~\citeonly{kuttruff2016room}.
-
+% In general, the sound field is complex and can be decomposed as a superimposition of several waves.
 We think of this process in the light of the classic \textit{source-medium-receiver} model of communication theory.
-\begin{description}
-    \item[source] \gcrm{is anything that} emits or expends energy (waves)\sidenote{%
+The \textit{source}] is anything that emits or expends energy (waves)\sidenote{%
     example of sources are vibrating solids (\eg/ loudspeakers membrane),
     rapid compression or expansion (\eg/ explosions or implosions)
     or air vortices with characteristics frequencies (\eg/ flute and whistles).
-    },
-    \item[medium] \gccor{is the vehicle for carrying}{carries} waves from one point to another, and
-    \item[receiver] absorbs such waves.
-\end{description}
+},
+the \textit{medium} carries the waves from one point to another, and the \textit{receiver} absorbs them.
 
-\gccmt{Non mi piace l'elenco source medium reciver, scriverei nel testo}
-
-\gcrm{The behavior of acoustic waves is defined by the acoustic-wave equation.
-The rest of this section introduce of this equation, re-arranging the derivation presented in \citeonly{kuttruff2016room, pierce2019acoustics, marczuk2006modelling, avanzini2019sound}.
-The derivation of the wave equation in light of room acoustic is presented in~\cref{ap:wave2rir}.}
+% \gcrm{The behavior of acoustic waves is defined by the acoustic-wave equation.
+% The rest of this section introduce of this equation, re-arranging the derivation presented in \citeonly{kuttruff2016room, }.
+% The derivation of the wave equation in light of room acoustic is presented in~\cref{ap:wave2rir}.}
 
 \subsection{The acoustic wave equation}\label{subsec:acoustics:waveq}
-\gccor{The behavior of acoustic waves is defined by the acoustic-wave equation,}{The acoustic wave equation is} 
-a second-order partial differential equation\sidenote{%
+The acoustic wave equation is a second-order partial differential equation\sidenote{%
     In 1746, d’Alembert discovered the one-dimensional wave equation for music strings,
     and within ten years Euler discovered the three-dimensional wave equation for fluids.
 } which describes the evolution of acoustic pressure $\pressure$
@@ -118,11 +92,10 @@ as a function of the position $\positionMicrophone$ $[\si{\metre}]$ and time $t$
 where $\knabla^2 = \kpderiv[2]{}{x} + \kpderiv[2]{}{y} + \kpderiv[2]{}{z}$ stands for the 3-dimensional \textit{Laplacian} operator.
 The constant $\speedOfSound$ is the sound velocity in the medium \gccor{with}{and has} dimension $[\frac{\si{\metre}}{\si{\second}}]$.
 
-Despite its complicated formulation, the wave equation is linear \gccor{. This has two implications}{leading to the following implications}~\citeonly{kuttruff2016room}:.
-
+Despite its complicated formulation, the wave equation is linear leading to the following implications:
 \begin{itemize}
     \item the pressure field at any time is the sum of the pressure fields resulting from each source at that time;
-    \item the pressure field emitted \gccor{at}{from} a given source propagates over space and time according to a linear operation.
+    \item the pressure field emitted at a given position propagates over space and time according to a linear operation.
 \end{itemize}
 
 Assuming the propagation of the wave in a homogeneous medium, one can obtain the equation above by combining three fundamental physical laws:
@@ -131,8 +104,7 @@ Assuming the propagation of the wave in a homogeneous medium, one can obtain the
     \item the \textit{conservation of mass}, and
     \item the \textit{polytropic process relation}\sidenote{meaning that the medium is an ideal gas undergoing a reversible adiabatic process.}.
 \end{itemize}
-
-In general media are not uniform and feature inhomogeneities of two types:
+However media are not uniform and feature inhomogeneities of two types:
 scalar inhomogeneities, \eg/ due to temperature variation,
 and vector inhomogeneities, \eg/ due to presence of fans or air conditioning.
 Although these affect the underlying assumption of the model, the effects are small in typical application of speech and audio signal processing.
