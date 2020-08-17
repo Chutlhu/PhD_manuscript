@@ -1,28 +1,72 @@
 \chapter{Overture}\label{chap:intro}
-
-\openepigraph{Only echoes answer me.}{Anton Chekhov, Swan Song}
+\openepigraph{Only echoes answer me.}{Anton Chekhov, Swan Song}%
 \openepigraph{\textsc{Écho.} Citer ceux du Panthéon et du pont de Neuilly. }{Gustave Flaubert, Dictionnaire des idées reçues}
+\openepigraph{\textsc{``Echoes''} shows the direction that we’re moving in. }{David Gilmour, about the making of ``The Dark Side Of The Moon''}
 
-\section{Preamble}
-Animals and humans have a remarkable ability to listen to the acoustic response of their environment.
-Also known as \emph{echolocation} or \emph{bio-sonar}, it is used consciously and unconsciously to retrieve
-information about the environment and objects using sound waves.
-Two (of the most) striking examples are bats and whales which use it as navigation and foraging mechanisms.
+\vspace{-2.5em}
+
+\def\MyText{\textsc{Echooooooooooes}}
+% \newcommand\shadetext[2][]{%
+%   \setbox0=\hbox{{\special{pdf:literal 7 Tr }#2}}%
+%   \tikz[baseline=0]\path [#1] \pgfextra{\rlap{\copy0}} (0,-\dp0) rectangle (\wd0,\ht0);%
+% }
+\newcommand\mytext[2][black]{\scalebox{#2}{\textcolor{#1}{\MyText}}}
+
+% \newthought{Picture yourself} standing in room you've never been before, blindfold.
+% Clap your hands and listen. Can you tell the size of the room?
 
 
-\marginpar{%
-    \begin{itemize}
-        \item[\faYoutube] \href{https://www.youtube.com/watch?v=lLUcOFwZvyY&t=22s}{Testing The World's Longest Echo}
-        \item[\faYoutube] \href{https://www.youtube.com/watch?v=px3oVGXr4mo}{What Does Sound Look Like? | SKUNK BEAR}
-        \item[\faYoutube] arte
-    \end{itemize}
+% This thesis is about taking inspiration from people, bats, Daredevil and Pink Floyd.
 
-}
+% \stackinset{c}{4ex}{c}{ 1.4ex}{\mytext[black!70]{.8}}{%
+% \stackinset{c}{2ex}{c}{ 3.2ex}{\mytext[black!25]{.7}}{%
+% \stackinset{c}{3ex}{c}{-1.3ex}{\mytext[black!35]{.9}}{%
+% \mytext{1}%
+% }}} and how these properties can be exploited for analyzing auditory scenes.
 
-Definitions of: In this thesis, an \textit{auditory scene} consists in \textit{sound sources}, \textit{microphones} deployed in a room.
 
+% % \\We live immersed in a complex acoustical world, where every concrete thing sounds and resounds.
+% % Sounds are produced by sources and interacts with the surrounding space while reaching our hears or being recorded by microphones.
+% % \\\textsc{sounds convey and contain information}: the semantics
+
+
+
+% Acoustic echoes are a natural phenomena created by a particular interaction of the sound with the environment.
+
+% Animals and humans have a remarkable ability to listen to the acoustic response of their environment.
+% Also known as \emph{echolocation} or \emph{bio-sonar}, it is used consciously and unconsciously to retrieve
+% information about the environment and objects using sound waves.
+% Two (of the most) striking examples are bats and whales which use it as navigation and foraging mechanisms.
+
+
+% \marginpar{%
+%     \begin{itemize}
+%         \item[\faYoutube] \href{https://www.youtube.com/watch?v=lLUcOFwZvyY&t=22s}{Testing The World's Longest Echo}
+%         \item[\faYoutube] \href{https://www.youtube.com/watch?v=px3oVGXr4mo}{SKUNK BEAR : What Does Sound Look Like?}
+%         \item[\faYoutube] \href{https://www.youtube.com/watch?v=ZwgovJSQ5UM}{ARTE : La Magie Du Son}
+%         \item[\faYoutube] \href{https://www.youtube.com/watch?v=uH0aihGWB8U&t=631s}{Daniel Kish: How I use sonar to navigate the world}
+%     \end{itemize}
+
+% }
+
+% Definitions of: In this thesis, an \textit{auditory scene} consists in \textit{sound sources}, \textit{microphones} deployed in a room.
+\newthought{ASD}\lipsum[1]
 
 \section{The Problem}\label{sec:intro:problem}
+In the context of audio signal processing, algorithms can be grouped according to how they deal with sound propagation.
+
+\section{My Thesis}
+The goal of this dissertation is to improve the above state of affairs along two axes:
+First, by deepening our understanding of sophisticated scalable algorithms, isolating their essence and thus reducing the barrier to building new ones. Second, by developing new ways ofexpressing scalable algorithms that are abstract, declarative, and user-extensible.
+To that end, the dissertation demonstrates two claims:
+\begin{itemize}
+    \item
+    Scalable algorithms can be understood through linked protocols govern- ing each part of their state, which enables verification that is local in space, time, and thread execution.
+    \item
+    Scalable algorithms can be expressed through a mixture of shared-state and message-passing combinators, which enables extension by clients without imposing prohibitive overhead.
+\end{itemize}
+We elaborate on each claim in turn.
+
 \subsection{Audio Signal Processing}
 \begin{itemize}
     \item Motivation

@@ -566,24 +566,27 @@ It translates the time-domain convolution into inter-frame and inter-band convol
 Although mathematically exact, it is computationally and memory intensive.
 \\In this thesis, we will assume that the filter length is shorter than the analysis window length.
 This known in the literature as the \textit{narrowband approximation}~\citeonly{gannot2017consolidated}.
-In the time-frequency domain, $\imgs_j(l,k)$  and $\src_j(l,k)$ are the \STFT/ of $\imgs_j(t)$ and $\src_j(t)$ respectively.
-Therefore, the time-domain filtering can be approximated by complex-valued multiplication in the STFT domain:
+In the time-frequency domain, $\imgs_j[l,k]$  and $\src_j[l,k]$ are the \STFT/ of $\imgs_j[n]$ and $\src_j[n]$ respectively.
+Therefore, the time-domain filtering can be approximated by complex-valued multiplication in each time-frequency bin $[l,k]$ domain:
 \begin{equation}
-    \imgs_j(l,k) = \bsh[k] \src_j(l,k)
+    \imgs_j[l,k] = \bsh[k] \src_j[l,k]
     ,
 \end{equation}
 where the $\bsh_j(f) = \ktranspose{\klist{h_{1j}(f), \cdots, h_{Ij}(f)}}$ is the $I \times 1$ vector of the room transfer functions for the source $j$.
 It is practical to concatenate all this vectors into an $I \times J$ matrix $\bfH(f) = \klist{\bsh_1(f),\cdots,\bsh_J(f)}$ called \textit{mixing matrix}.
 \\With notation and all the consideration so far, mixing process including noise terms can be written in the \STFT/ domain compactly as:
 \begin{equation}\label{eq:processing:model:stfs}
-    \bsx(l,k) = \bfH(l,k) \bss(l,k) + \bsu(l,k)
+    \bsx[l,k] = \bfH[l,k] \bss[l,k] + \bsu[l,k]
 \end{equation}
-where $\bsu(n,k) = \bsn(n,k) + \boldsymbol{\varepsilon}(n,k)$ is the contribution of all the diffuse noise sources and modeling error.
+where $\bsu(l,k) = \bsn(l,k) + \boldsymbol{\varepsilon}(l,k)$ is the contribution of all the diffuse noise sources and modeling error.
 
-\newthoughtpar{The spatial quadratic STFT transform}
-\begin{equation}
-    \cov_{\mics}(l,k) = \bbE \klist{\mics(l,k)\khermitian{\mics(l,k)}}
-\end{equation}
+% The above equation can be seen as a \textit{deterministic} parametrization of the mixing process and it does not consider a statistical description
+% of the reverberation. In fact it the filter
+
+% \newthoughtpar{The spatial quadratic STFT transform}
+% \begin{equation}
+%     \cov_{\mics}[l,k] = \bbE \klist{\mics[l,k]\khermitian{\mics[l,k]}}
+% \end{equation}
 
 \section{Other (room) impulse response spectral models}
 As discussed so far \RIRs/ are complicated quantities to model, embed in processing frameworks, computed and estimated.
@@ -680,20 +683,9 @@ In fact, the \RTFs/ encodes the so-called \ILD/ and the \IPD/
 As shown in~\cref{fig:processing:ildipd}, the \ILD/ and the \IPD/ cluster around the direct path.
 However early echoes and reverberation make them significantly diverge.
 
+
 % \subsection{Probabilistic and Full-rank covariance model}
 % For certain applications, it is more common to assume a statistical point of view, known as the \textit{Local Gaussian Model}\cite{}.
 % Assume that the source STFT coefficients sj(n, f) have a zero-mean nonstationary Gaussian distribution with variance σ2
 % sj (n, f), and they are all independent source-,
 % frame- and frequency-wise (i.e., over j, n and f)
-
-\section{Evaluation}\label{sec:evaluation}
-
-\subsection{Signal-based metrics}
-\subsection{Perceptual metrics}
-
-
-\section{Data and Dataset}
-
-\subsection{Picnic of the Muses dB}
-
-\subsection{\dechorate}
