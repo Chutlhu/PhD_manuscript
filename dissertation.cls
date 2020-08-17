@@ -287,7 +287,11 @@
     {\llap{\color{black!50}\scriptsize\raisebox{1pt}{$\rightleftarrows$}\quad}}%
     \textsc{#1}%
 }
-
+\providecommand\mynewline{%
+    \nopagebreak
+    \newthoughtbreak
+    \noindent%
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage[

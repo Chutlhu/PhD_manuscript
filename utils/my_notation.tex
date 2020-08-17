@@ -47,6 +47,11 @@
 \newcommand{\N}{\ensuremath{\bbN}}
 \newcommand{\Z}{\ensuremath{\bbZ}}
 % indexing
+\newcommand{\idxTime}{\ensuremath{t}}
+\newcommand{\idxSample}{\ensuremath{n}}
+\newcommand{\idxFreq}{\ensuremath{f}}
+\newcommand{\idxBin}{\ensuremath{l}}
+\newcommand{\idxFrame}{\ensuremath{l}}
 \newcommand{\idxSrc}{\ensuremath{j}}
 \newcommand{\idxMic}{\ensuremath{i}}
 \newcommand{\idxEch}{\ensuremath{r}}
@@ -196,6 +201,10 @@
 \newcommand{\average}{\operatornamewithlimits{average}}
 
 % --- Mathematical operators and function
+\newcommand{\contTime}[1]{\ensuremath{\tilde{#1}(\idxTime)}}
+\newcommand{\discTime}[1]{\ensuremath{\tilde{#1}[\idxSample]}}
+\newcommand{\contFreq}[1]{\ensuremath{#1(\idxFreq)}}
+\newcommand{\discFreq}[1]{\ensuremath{#1[\idxBin]}}
 \newcommand{\conv}{\ast}
 \newcommand{\convDis}{\star}
 \newcommand{\diracOf}[1]{\dirac\kparen{#1}}

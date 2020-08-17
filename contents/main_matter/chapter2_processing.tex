@@ -2,115 +2,112 @@
 \openepigraph{Signal, a function that conveys information about a phenomenon.
 $[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
 \vspace{-2.5em}
-\newthought{Synopsis} Let us now move from the physic to digital signal processing.
+\newthought{Synopsis} Let us now move from the physics to digital signal processing.
 At first this chapter formalized fundamental concepts of audio signal processing such as signal, mixtures and noise~\cref{sec:processing:model}.
 Secondly, this concepts representation~\cref{sec:processing:domains}
-The notation presented in this chapter is reported in~\cpageref{ch:notation}, and is inspired to the one used in \citeonly{gannot2017consolidated}.
-
+The notation and the material presented in this chapter are inspired and extracted from~\citeauthor{vincent2018audio}'s book \textit{Audio source separation and speech enhancement}.
 
 \section{Signal model in the time domain}\label{sec:processing:model}
 In the previous chapter we formalized the physics that rule the sound propagation from the source 'till the microphone.
-The protagonist of this chapter is the audio signal.
 A raw \textit{audio signal} encodes the variation of pressure over time on the microphone membrane.
 Mathematically it is denoted as the function
 \begin{center}
-    $x(t)$
+    $\contTime{\mic}\in\bbR$
     ,
 \end{center}
-continuous both in time $t \in \R$ and in amplitude $x(t_0) \in \R$.
+continuous both in time $t \in \R$ and amplitudes.
 
-Today signals are processed, stored and analyzed by computer and modules in their digital representation.
-In short, the \textit{digital audio signal} is obtained from an analog signal in two steps:
-first, the continuous time signal $x(t)$ is converted to a discrete time series,
-so that $x[n]$ with $n \in \Z$ is \textit{sampled}\sidenote{
+Today signals are processed, stored and analyzed by computers and modules as \textit{digital audio signal}:
+\begin{center}
+    $\discTime{\mic}\in\bbR$
+    ,
+\end{center}
+with discrete value in time $n \in \Z$.
+In short, the digital representation is obtained from an analog signal in two steps:
+first, the continuous time signal is \textit{sampled}\sidenote{
    Please note, that the use of the word \textit{sample} will have different
    meanings in the context of machine learning, where a sample is an instance of a full signal instead of a single time
-}  with equidistant steps $\Ts\;[\si{\second}]$, called sampling period;
+}
+at the \textit{sampling rate},  $\Fs$ in $[\si{\Hz}]$;
 secondly, the amplitude values can be \textit{quantized}.
-At the end of the digitalization process, $x[n] \in \R$ with $n = 0, \dots, N-1$, represents a one dimensional time series of amplitudes.
-It is important to notice that this series is finite, with $N$ values.
-This process can be modeled in two stage: first, the continuous-time signal undergoes a (ideal) low-pass filter
-limiting the signal frequencies to at max $\Fs$; secondly, it is regularly sampled at rate $\Fs$.
-By using the (ideal) low-pass filter $\lowpassfilter$\sidenote{
-    The low-pass filter is used to reduce aliasing (spectral components higher than Fs)
+At the end of the digitalization, $x[n] \in \R$ with $n = 0, \dots, N-1$, represents a one dimensional finite time series of amplitudes.
+
+The sampling can be modeled as a two-stage process:
+first, the continuous-time signal undergoes a (ideal) low-pass filter $\lowpassfilter$\sidenote{
+    The low-pass filter is used to reduce aliasing by removing spectral components higher than Fs.
     $\lowpassfilter(t) = \sinc(t) = \sin(\pi t) / (\pi t)$.
-} with frequency support $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$,
-this processes writes:
+} with frequency support in $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$, limiting the signal frequencies to at max $\sfrac{\Fs}{2}$;
+secondly, it is regularly sampled at rate $\Fs$.
+This processes can be written in one equation:
 \begin{equation}
     x[n] = (\lowpassfilter \conv x)\kparen{\frac{n}{\Fs}}
     \mathspace
     \kforall[n = 0, \cdots, N-1]
+    ,
 \end{equation}
-where $\Fs = \sfrac{1}{\Ts}\;[\si{\Hz}]$ is the \textit{sampling frequency}.
-\\The choice of $\Fs$ depends massively on the application since it translates into a trade-off between computational power, sound and processing quality.
-Historically two iconic values are $\SI{44.1}{\kHz}$ for music distribution on CDs and $\SI{8}{\kHz}$ for first-generation speech communication.
-Now multiple of $\SI{8}{\kHz}$ are typical chosen values: ($16, 48, 96, \SI{128}{\kHz}$).
-\\For further details, we refer the reader to audio signal processing basics books such as~\cite{rocchesso2003introduction}.
+where $\conv$ is the continuous-time convolution operator.
+\\The choice of $\Fs$ depends on the application since it is a trade-off between computational power, processing and rendering quality.
+Historically the two iconic values are $\SI{44.1}{\kHz}$ for music distribution on CDs and $\SI{8}{\kHz}$ for first-generation speech communication.
+Now multiple of $\SI{8}{\kHz}$ are typical used in audio processing: ($16, 48, 96, \SI{128}{\kHz}$).
+\\For further details, we refer the reader to audio signal processing basics books such as~\citeonly{rocchesso2003introduction}.
 
-\newthought{Audio Signals are emitted by Sources} and are observed, received or recorded by microphones.
-A set of microphones is called a microphone \textit{array}, whose element is sometime referred to as \textit{channel}.
-In this thesis, these objects are assumed to have been deployed in a indoor environment, a room.
-\begin{center}
-    \textit{All of these make our indoor \emph{auditory scene}.}
-\end{center}
-Before describing the mixing process, let us provide some taxonomy, through some dichotomies:
+\mynewline
+Audio signals are emitted by sources and are observed, received or recorded by microphones.
+A set of microphones is called a microphone \textit{array}, whose signals are sometime referred to as \textit{channels}.
+In this thesis, these objects are assumed to have been deployed in a indoor environment, called generically \textit{room}.
+% \begin{center}
+%     \textit{All of these make our indoor \emph{auditory scene}.}
+% \end{center}
+Let us provide some taxonomy, through some dichotomies, useful for describe the mixing process later:
 
 \dichotomy{Sources \vs/ Mixtures:}
 Sound sources emits sounds.
 When multiple sources are active at the same time, the sound that reaches our ears or is recorded using a microphone is superimposed or \textit{mixed} to a single sound.
-The \textit{mixture} represents this (set of) signal which are also denotes as channel(s).
+This resulting signal is denoted as \textit{mixture}.
 
 \dichotomy{Single-Channel \vs/ Multichannel:}
-The term \textit{channel}
-\sidenote{
+The term \textit{channel}\sidenote{%
     Please note, the term \textit{channel} has also different meaning:
     it indicates the medium in communication (\eg/ Channel Estimation)
-    and sometimes one of the dimension of the input in machine learning (\eg/ image's channel)
+    and sometimes one of the dimension of the input in machine learning (\eg/ image's channel).
 } is used here to indicate the output of one microphones or one source.
 A \textit{single-channel} signal ($\numMics = 1$) is represented by the scalar $\mic(t) \in \R$,
-while a \textit{multichannel} ($\numMics >   1$) is represented by the vector.
+while a \textit{multichannel} ($\numMics >   1$) is represented by the vector $\mics(t) = \ktranspose{\klist{\mic_1(t), \dots, \mic_{\numMics}(t)}} \in \R^{\numMics}$.
 
 \dichotomy{Point \vs/ Diffuse Sources:}
 \textit{Point sources} are emitted by a single and well-defined point in the space and their signal is single-channel.
 Point sources are for instance human speakers or the sound emitted by a loudspeaker.
 \\\textit{Diffuse sources} refers for instance to wind, traffic noise, or large musical instruments, which emit sound in a large region of space.
-Their sound cannot be associate to a punctual source, but rather a distributed (infinite) collection of them.
+Their sound cannot be associate to a punctual source, but rather a distributed collection of them.
 
 \dichotomy{Directional \vs/ Onmidirectional:}
 An \textit{omnidirectional} source (\resp/ receiver) will in principle emit (\resp/ pick up) sound equally from all directions,
-with respect both time and frequency.
-Although this simplify greatly processing frameworks, this is not true in real scenario.
+both in time and in frequency.
+Although this simplify greatly processing models and frameworks, this is not true in real scenario.
 The physical properties of real sources (\resp/ receivers) leads to \textit{directivity patterns}, \aka/ \textit{polarity}, which may
 be different at different frequencies.
-This effect may be a source of undesired effects, such as microphones \textit{leakage} or source localization error.
-Nevertheless sometimes it can be exploited to promote \textit{spatial selectivity}:
-spatial filtering can be view under this light, where ``virtual'' microphones with engineered directivity pattern.
+In this thesis we will assume always omnidirectional sources and receivers.
+% This effect may be a source of undesired effects, such as microphones \textit{leakage} or source localization error.
+% Nevertheless sometimes it can be exploited to promote \textit{spatial selectivity}:
+% spatial filtering can be view under this light, where ``virtual'' microphones with engineered directivity pattern.
 
 \subsection{The Mixing Process}
-Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$,
-$\mics(t) = \ktranspose{\klist{\mic_1(t), \dots, \mic_{\numMics}(t)}} \in \R^{\numMics \times 1}$.
-Let us assume that there are $\numSrcs$ sources indexed by $\idxSrc \in \numSrcs$.
+Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$.
+Let us assume that there are $\numSrcs$ sources indexed by $\idxSrc \in \kbrace{1,\dots,\numSrcs}$.
 Each microphone $\idxMic$ and each source $\idxSrc$ have a well defined position in the space, $\positionMicrophone_\idxMic$, $\positionSource_\idxSrc$, respectively.
 
 The mixing process describes then the nature of the mixtures.
-In order to better formalized it, \citeauthor{sturmel2012linear} introduced an intermediate representation:
+In order to better formalized it, \citeauthor{sturmel2012linear} introduced the intermediate representation called \emph{source spatial images}:
 \begin{center}
-    \textit{The \emph{source spatial images} $\img_{\idxMic\idxSrc}(t)$ describes the contribution of the
-    \\source $\idxSrc$ to the microphone $\idxMic$, and
-    \\the \emph{mixture} $\mic(t)$ is the possibly non-linear combination of images.}
+    \textit{$\img_{\idxMic\idxSrc}(t)$ describes the contribution of the source $\idxSrc$ to the microphone $\idxMic$}.
 \end{center}
-% In math,
-% \begin{equation}
-%     \img_{\idxMic\idxSrc}(t) &=  \kparen{g_{\idxMic\idxSrc} \conv \src_\idxSrc} (t)
-%     ,
-% \end{equation}
-% where $g_{\idxMic\idxSrc}$ is a generic filter proper of source $\idxSrc$ and microphone $\idxSrc$.
+Consequently, the \textit{mixture} $\mic_{\idxSrc}(t)$ is the possibly non-linear combination of images associated to the source $j$.
 Depending on the ``contribution'' the image describes, the following type of mixture can be defined:
 
 \dichotomy{Natural \vs/ Artificial Mixtures:}
-The former refers to microphone mixtures recorded simultaneously the same auditory scene, \eg/ teleconferencing systems or hands-free phones.
+The former refers to microphone mixtures recorded simultaneously the same auditory scene, \eg/ teleconferencing systems or hands-free devices.
 By contrast, the latters are created by mixing together different individual, possibly processed, recordings.
-This are the typical mixtures used professional music production\sidenote{here the usage of long-chain of audio effects typically ``hide'' the recoding environment of the sound sources}.
+This are the typical mixtures used professional music production\sidenote{here the usage of long-chain of audio effects typically ``hide'', willingly or not, the recording environment of the sound sources}.
 
 \dichotomy{Instantaneous \vs/ Convolutive Mixtures:}
 In the fist case, the mixing process boils down to a simple linear combination of the source signals, namely
@@ -131,10 +128,7 @@ This is the typical scenario when sources are mixed using a mixing console.
 }
 Convolutive mixtures, instead, denote the more general case where the each mixture is the sum of filtered signals.
 In between are the \textit{anechoic} mixtures involving the sum of scaled and delayed source signals.
-
-With this being said, natural mixtures are convolutive by nature and ideal free-far-field natural recording are well approximated by anechoic mixtures.
-In this thesis, we will particularly focus on natural mixture which exhibits a natural correspondence between image sources, impulse responses and the
-room properties of the auditory scene.
+Natural mixtures are convolutive by nature and ideal free-far-field natural recording are well approximated by anechoic mixtures.
 
 % Being $\spat_\idxSrc(\cdot)$ a possibly nonlinear spatialization operation, the spatial images
 % $\imgs_\idxSrc(t) = \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}}$ with respect to the $\numMics$ reads
@@ -169,8 +163,8 @@ room properties of the auditory scene.
     \label{fig:processing:mixing}
 \end{figure}
 
-\newthought{In context of room acoustics}, the microphone mixture listen to the propagation of sound in the auditory scene.
-As discussed in~\cref{ch:acoustics:sec:wave}, this process is linear (and time invariant provided a static scenario).
+\newthought{In this thesis}, we will particularly focus on natural mixture:
+the microphone mixture listens to the propagation of sound in the room and this process is linear (\cfr{\cref{ch:acoustics:sec:wave}}) and time invariant provided a static scenario.
 % In this case, the spatialization operation $\spat_\idxSrc(\cdot)$ is expressed by
 % collection of convolution with \RIR/ $h_{\idxMic\idxSrc}$
 % from source $\idxSrc$ to microphone $\idxMic$ and the post-mixing operation $\master(\cdot)$ reduces to the identity:
@@ -216,15 +210,15 @@ which are the collections of convolution between the \RIRs/ and source signal:
 
             \end{tikzpicture}
         }
-        \captionof{figure}{Graphical representation of the mixing model~\ref{eq:processing:mixing} for 2 sources and 2 microphones.}\label{fig:processing:mixing}
+        \captionof{figure}{Graphical representation of the mixing model~\ref{eq:processing:mixing:mix} for 2 sources and 2 microphones.}\label{fig:processing:mixing}
 }
 \begin{align}
     \img_{\idxMic\idxSrc}(t) &=  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} (t)     \label{eq:processing:mixing:img} \\
     \imgs_\idxSrc(t) &= \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}} \nonumber\\
     \mics(t)         &= \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc(t)                    \label{eq:processing:mixing:mix}
+    .
 \end{align}%
-where $\conv$ is the linear convolution operator.
-Considering the time domain description of the \RIR/ derived (and approximated) in the previous chapter\sidenote{\cfr{\cref{eq:acoustics:rir_full,eq:acoustics:ims}}},
+Considering the time domain description of the \RIR/ derived (and approximated) in the previous chapter,
 the time-domain \emph{mixing filters} $h_{ij}( t)$ will be modeled as follows:
 \begin{equation}\label{eq:processing:mixing_filter}
     h_{ij}( t) = \sum_{\idxEch=0}^{\numEchs} \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
@@ -235,20 +229,9 @@ The noise term $\varepsilon_{ij}( t)$ collects later echoes ($\idxEch > \numEchs
 We do not assume $\varepsilon_{ij}( t)$ to be known.
 
 \subsection{Noise, interferer and errors}
-\openepigraph{%
-    \emph{Noise} is a general term for unwanted (and, in general, unknown) modifications that a signal may suffer during capture, storage, transmission, processing, or conversion
-}{V. Tuzlukov, \textit{Signal processing noise}}
-In~\cref{eq:processing:mixing:mix} no noise is included:
-all the sources are threated in the same way, including \textit{target}, \textit{interfering} and \textit{noise} sources.
-In~\cref{eq:processing:mixing_filter} a noise term is added to collects unknown quantities.
-Noise has then different meanings.
-While the definition of target sound source is quite self-explanatory and it will denoted as the source $j = 1$,
-the term interfer and noise depends on the specific use case, problem, application, and research field.
-With this being said, we will define and use the following type of noises:
-\newthought{Interfers} identifies the undesired source with properties similar to the target source.
-For instance, a concurrent speech source for speech application or concurrent music instrument in case of music.
-\\In this thesis, and in particular in~\cref{chap:dataset,chap:brioche}, the interfer sources will be denoted
-as additional source indexed by $j > 1$.
+% \openepigraph{%
+%     \emph{Noise} is a general term for unwanted (and, in general, unknown) modifications that a signal may suffer during capture, storage, transmission, processing, or conversion
+% }{V. Tuzlukov, \textit{Signal processing noise}}
 \marginpar{
     \centering
         \resizebox{\linewidth}{!}{
@@ -266,45 +249,58 @@ as additional source indexed by $j > 1$.
             \draw (465.5,327.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\boldsymbol{\varepsilon }( t)$};
             \end{tikzpicture}
         }
-        \captionof{figure}{Graphical representation of the mixing model~\ref{eq:processing:mixing}:
+        \captionof{figure}{Graphical representation of the mixing model~\eqref{eq:processing:mixing:mix}:
         $s_2(t)$ is the \textit{interferer},
         $\boldsymbol{n}( t)$ contributes to the \textit{diffuse noise field}, and
         $\boldsymbol{\varepsilon }( t)$ model acquisition and modeling errors.
         }\label{fig:processing:mixing}
 }
-\newthought{Noise} collects all the remaining effects, typically nonspeech sources. Moreover we will make a further distinction:
+In~\cref{eq:processing:mixing:mix} no noise is included:
+all the sources are threated in the same way, including \textit{target}, \textit{interfering} and \textit{noise} sources.
+While the definition of target sound source is quite self-explanatory and it will denoted by default as the first source, that is $j = 1$,
+the term interfer and noise depends on the specific use case, problem, application, and research field.
+Notice that in~\cref{eq:processing:mixing_filter} a noise term is added to gather unknown quantities.
+\begin{center}
+    \textit{\emph{Noise} is a general term for unwanted (and, in general, unknown) modifications that a signal may suffer during capture, storage, transmission, processing, or conversion
+    }\citeonly{tuzlukov2018signal}
+\end{center}
+With this being said, we will define and use the following type of noises:
 
-\newthought{Diffuse Noise Field} describes the background diffuse sources present in the auditory scene, such as car noise, indistinct talking or winds.
-It can be modeled as \AWGNdef/, but its spatial description must be taken into account\citeonly{habets2007generating}.
-\\In this thesis, it is denoted as $\bsn(t) \sim \calN(0, \cov_{nn})$ where $\cov_{nn} \in \bbR^{I \times I}$ is the noise \textit{spatial covariance matrix}
+\newthought{Interfers} identifies the undesired source with properties similar to the target source.
+For instance, a concurrent speech source for speech application or concurrent music instrument in case of music.
+\\In this thesis, and in particular in~\cref{ch:dataset,ch:brioche}, the interfer sources will be denoted
+as additional source indexed by $j > 1$.
+\newthought{Noise} collects all the remaining effects, typically nonspeech sources. Moreover we will make a further distinction between the followings.
+
+\newthought{Diffuse Noise Field} describes the background diffuse sources present in the auditory scene, \eg/ car noise, indistinct talking or winds.
+It can be recorded or approximated as \AWGN/ with a specific spatial description~\citeonly{habets2007generating}.
+% \\In this thesis, it is denoted as $\bsn(t) \sim \calN(0, \cov_{nn})$ where $\cov_{nn} \in \bbR^{I \times I}$ is the noise \textit{spatial covariance matrix}
 
 \newthought{Measurement and Model Noise} accounts for general residual miss- and under-modeling error.
 As common is signal processing and information theory, this error term will be modeled as \AWGN/.
-\\In this thesis, it will denoted as $\varepsilon_{ij}( t)$ will be used to model residuals and measurement error,
-\eg/ approximation of the \RIR/ with the \ISM/ or sensor noise, respectively.
+\\In this thesis, it will denoted as $\varepsilon_{ij}( t)$ and will be used to model the
+approximation of the \RIR/ with the \ISM/ or sensor noise, respectively.
 
-\medskip\noindent
-Making the noise terms and sources explicit, the mixing model in~\cref{eq:processing:mixing:img,eq:processing:mixing:mix} writes:
+\mynewline
+By making the noisy terms explicit, the mixing model in~\cref{eq:processing:mixing:img,eq:processing:mixing:mix} writes:
 \begin{align}
     \img_{\idxMic\idxSrc}(t) &=  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} (t) +  \varepsilon_{ij}(t)\\
     \imgs_\idxSrc(t)         &= \ktranspose{\klist{\img_{1\idxSrc}(t), \dots, \img_{\numMics\idxSrc}(t)}} \nonumber\\
     \mics(t)                 &= \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc(t) + \bsn( t)
 \end{align}
 
-$\bsu = \bsn + \boldsymbol{\varepsilon}$
+% $\bsu = \bsn + \boldsymbol{\varepsilon}$
 
 \section{Signal Model in the Spectral domains}\label{sec:processing:domains}
-The frequency, or spectral, representation is probably the most famous signal representation used in signal processing
-\sidenote{%
+The frequency, or spectral, representation is probably the most famous signal representation used in signal processing\sidenote{%
 It was introduced by Joseph Fourier in his work on the heat equation~\citeonly{fourier1822theorie}.
 His mathematical tool, named later \textit{Fourier Decomposition},
-aims at approximating any signal by a sum of sine and cosine waves.}.
-Here speech and music signals, which naturally exhibit harmonic and periodic behaviors,
-are described as combination of sinusoids as function of their frequencies.
+aims at approximating any signal by a sum of sine and cosine waves.}:
+Speech and music signals naturally exhibit harmonic and periodic behaviors and
+through it are described as combination of sinusoids as function of their frequencies.
 % https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati
 
-This operation is achieved through the \FTdef/, $\fourierTrans{}:\bbR\kmapsto\bbC$, which
-project a continuous-time-domain signal $x$ onto a space spanned by continuous-frequency complex exponentials:
+This operation is achieved by the \FTdef/, $\fourierTrans{}:\bbR\kmapsto\bbC$, which projects a continuous-time-domain signal $x$ onto a space spanned by continuous-frequency complex exponentials:
 \begin{equation}\label{eq:processing:ft}
     x(f) = (\fourierTrans{x})(f) =
         \int_{-\infty}^{+\infty}
@@ -328,28 +324,26 @@ Secondly, by the \textit{convolution theorem}, the source spatial images in~\cre
     \img_{\idxMic\idxSrc}( t) =  \kparen{h_{\idxMic\idxSrc} \conv \src_\idxSrc} ( t)
     \;\overset{\fourierTrans{}}{\kto}\;
     \img_{\idxMic\idxSrc}( f) =  h_{\idxMic\idxSrc}( f) \src_\idxSrc( f)
-\end{equation}
-
-Notice that here both $f$ and $t$ are continuous and infinite variables, so the support of the signals.
-In practice, we work with finite and discrete-time signals for which the properties~\eqref{eq:processing:conv} is not valid in general.
-\\As discussed in~\cref{chap:acoustics}, the \FT/ of a \RIR/, $h_{ij}( f)$
-can be computed in closed-form with some approximation\sidenote{
-    \cfr{\cref{eq:acoustics:ims,eq:processing:mixing_filter}}
-}
-\begin{equation}\label{eq:processing:rir:ft}
-    h_{ij}( f) = \sum_{\idxEch=0}^{\numEchs}
-                    \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
-                    \cste^{- \csti 2 \pi f \tau_{ij}^r}
     .
 \end{equation}
-However, the mixtures $x_i( n)$ and their TF $x_i( f)$ are not available due to the measurement process of sampling.
+As discussed in~\cref{chap:acoustics}, the \FT/ of a \RIR/ can be computed exactly in closed-form as
+\begin{equation}\label{eq:processing:rir:ft}
+    h_{ij}( f) = \sum_{\idxEch=0}^{\numEchs}
+    \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
+    \cste^{- \csti 2 \pi f \tau_{ij}^r}
+    .
+\end{equation}
+In practice, the filters $h_{ij}$ are not available in the continuous time domain nor in the continuous frequency domain directly.
+They can be estimated from the observation of the mixtures $x_i( n)$, therefore,
+after the convolution with a source and the measurement process.
+Notice that here both $f$ and $t$ are continuous and infinite variables.
+In practice, we have access to finite and discrete-time microphones signals for which the properties~\eqref{eq:processing:conv} is valid with some precautions.
 
-\subsection{Discrete Frequency domain}
-In practice discrete and finite sequence both in time and it frequency domain are considered:
-The discrete-finite-frequency domain representation of a discrete-finite-time signal $x[n]$ is given by its (forward) \DFTdef/
+\subsection{Discrete frequency domain}
+The spectral representation of a discrete-finite-time signal $x[n]$ is given by its (forward) \DFTdef/
 \sidenote{
-    Please note that the notation for applying the \DFT/ is the one used for matrices.
-    In fact, the \DFT/ can be efficiently implemented as a matrix multiplication operation.
+    % Please note that the notation for applying the \DFT/ is the one used for matrices.
+    % In fact, the \DFT/ can be efficiently implemented as a matrix multiplication operation.
     Its most famous implemention is called \FFT/.
     \\This can be intrepreded as the projection onto the space spanned by a finite number of complex exponentials.
 },
@@ -361,31 +355,22 @@ $\discreteFT{}:\bbR\kmapsto\bbC$:
     \cste^{-\csti2\pi k n / F}.
 \end{equation}
 where $k \in \kintervcc{0}{F - 1}$ in the discrete \textit{frequency bin} and $F$ is the total number of bins.
-The natural frequency $f_k$ in $\si{\Hz}$ correspondent to the $k$-th frequency bin as:
+The natural frequency $f_k$ in $\si{\Hz}$ corresponding to the $k$-th frequency bin can be computed as
 \begin{equation}\label{eq:processing:fk}
     f_k = \frac{k}{F}\Fs
     .
 \end{equation}
 
-% In audio processing application, the \DFT/ is used as valid approximation of the \FT/ for the measurement, meaning:
-% \begin{equation}
-%     x_i[k] \approx \fourierTrans{(\lowpassfilter \conv x_i)} (f_k)
-%     .
-% \end{equation}
-% This approximation become arbitrarily precise as the number of samples $N$ grows to infinity with it is typically the case.
-
-By the linearity of the \DFT/, the approximation of \cref{eq:processing:ft:mix} is
+\mynewline
+The \DFT/ is linear, so the discrete version of \cref{eq:processing:ft:mix} becomes
 \begin{equation}\label{eq:processing:dft:mix}
     \mics[ n] = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc[ n]
     \;\overset{\discreteFT}{\kto}\;
     \mics[ k] = \sum_{\idxSrc=1}^{\numSrcs} \imgs_\idxSrc[ k]
 \end{equation}
-
-Secondly, the discrete version of~\cref{eq:processing:mixing:img} requires few careful steps.
-The final approximated model for the spatial images in the discrete Frequency domain writes:
-
+Secondly, using the discrete convolution theorem, one may translate \cref{eq:processing:mixing:img} as
 \begin{equation}\label{eq:processing:discreteModel}
-    c_{ij}[n] = (h_{ij} \conv x)[n]
+    c_{ij}[n] = (h_{ij} \convDis x)[n]
     \;\overset{\discreteFT{}}{\kto}\;
     c_{ij}[k] \approx h_{ij}[k] x[k]
 \end{equation}
@@ -393,31 +378,17 @@ where $\convDis$ is the finite-time linear convolution operator\sidenote{
     The finite-time linear convolution for two vectors $\ttu\in\bbR^L$ and $\ttv\in\bbR^D$ is
     \\$(\ttu \convDis \ttv)[n] = \sum_{l=0}^{L-1} \ttu[l] \ttv[L-1+n-j]$ for $n = 0, \cdots, D-L$
     .
-} and the \RIR/ writes
-    \begin{equation}\label{eq:processing:discreteModel:rir}
-        h_{ij}[ k] = \sum_{\idxEch=0}^{\numEchs}
-                    \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
-                    \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
-        .
-    \end{equation}
+} and the \RIR/ as
+\begin{equation}\label{eq:processing:discreteModel:rir}
+    h_{ij}[ k] = \sum_{\idxEch=0}^{\numEchs}
+                \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
+                \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
+    .
+\end{equation}
 
-As explained in~\citeonly{tukuljac2018mulan}, the issues arise from the simultaneously usage of the closed-form \RIR/ model derived in~\cref{eq:processing:rir:ft}
-and the sampled observations $x_i[n]$. In particular three approximations are made here:
-
-\begin{enumerate}
-    \item\label{en:processing:dft:approx1}
-    In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\src(t)$ has a spectrum limited by $\Fs$, then it discrete version after the convolution with \textit{any} filter $h$
-    is equivalent to the \textit{linear} convolution between the its sampled version $\src[n]$ and the low-passed version of the filter $h$.
-    The first approximation is then to consider that filter $h$ have a limited support bounded by $\pm \sfrac{\Fs}{2}$.
-    \item\label{en:processing:dft:approx2}
-    In the discrete time domains, the convolution theorem applies to the \textit{circular convolution}, which is only approximated by the \textit{linear convolution}.
-    This second approximation is reasonably good when many samples are available\sidenote{reduce bundary artifacts} and when one of the two signals is periodic, which
-    are typical cases for audio signals.
-    \item\label{en:processing:dft:approx3}
-    The third approximation regards the closed-form of $h_{ij}(f)$ of~\cref{eq:processing:discreteModel:rir} which
-    would require infinitely many samples and unlimited frequency support to be computed
-    \sidenote{it results from the \DTFTdef/ of $h_ij(t)$}
-\end{enumerate}
+\newthought{Although used in practice}, this model is an approximation.
+As explained in~\citeonly{tukuljac2018mulan}, issues arise from the simultaneously usage of the closed-form \RIR/ model derived in~\cref{eq:processing:rir:ft}
+and the sampled observations $x_i[n]$. In particular, three approximations are made and are depicted in the following diagram
 
 \begin{figure}[!h]
     \begin{fullwidthfig}
@@ -426,84 +397,135 @@ and the sampled observations $x_i[n]$. In particular three approximations are ma
     \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
 
     \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-    %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+    %uncomment if require: \path (0,558); %set diagram left start at 0, and has height of 558
 
+    %Shape: Rectangle [id:dp614839268877243]
+    \draw  [draw opacity=0][fill={myorange}  ,fill opacity=0.15 ] (350,100) -- (680,100) -- (680,370) -- (350,370) -- cycle ;
+    %Shape: Rectangle [id:dp7784558007487852]
+    \draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.15 ] (20,100) -- (350,100) -- (350,370) -- (20,370) -- cycle ;
+    %Shape: Rectangle [id:dp004173328113190822]
+    \draw  [draw opacity=0] (50,260) -- (650,260) -- (650,300) -- (50,300) -- cycle ;
+    %Shape: Rectangle [id:dp6147771436517397]
+    \draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.5 ] (20,30) -- (350,30) -- (350,100) -- (20,100) -- cycle ;
+    %Shape: Rectangle [id:dp9816909096187794]
+    \draw  [draw opacity=0][fill={myorange}  ,fill opacity=0.5 ] (350,30) -- (680,30) -- (680,100) -- (350,100) -- cycle ;
     %Straight Lines [id:da7927134367673876]
-    \draw    (180,50) -- (180,78) ;
-    \draw [shift={(180,80)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da09619366568520138]
-    \draw    (180,120) -- (180,148) ;
-    \draw [shift={(180,150)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw    (160,80) -- (160,128) ;
+    \draw [shift={(160,130)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
     %Straight Lines [id:da2716481804496049]
-    \draw    (180,242) -- (180,268) ;
-    \draw [shift={(180,270)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    \draw [shift={(180,240)}, rotate = 90] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da30816265676852506]
-    \draw    (470,50) -- (470,78) ;
-    \draw [shift={(470,80)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da21568835625662197]
-    \draw    (262,30) -- (408,30) ;
-    \draw [shift={(410,30)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    \draw [shift={(260,30)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (160,302) -- (160,328) ;
+    \draw [shift={(160,330)}, rotate = 270] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [shift={(160,300)}, rotate = 90] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
     %Straight Lines [id:da54643853486241]
-    \draw    (262,280) -- (620,280) -- (620,100) -- (552,100) ;
-    \draw [shift={(550,100)}, rotate = 360] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    \draw [shift={(260,280)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (222,340) -- (540,340) -- (540,302) ;
+    \draw [shift={(540,300)}, rotate = 450] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [shift={(220,340)}, rotate = 0] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
     %Straight Lines [id:da9938899239910718]
-    \draw    (470,110) -- (470,208) ;
-    \draw [shift={(470,210)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Shape: Rectangle [id:dp48531095488636056]
-    \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.61 ] (100,210) -- (550,210) -- (550,240) -- (100,240) -- cycle ;
+    \draw    (540,80) -- (540,128) ;
+    \draw [shift={(540,130)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
     %Straight Lines [id:da9352991083161488]
-    \draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.42 ]   (408,220) -- (262,220) ;
-    \draw [shift={(260,220)}, rotate = 360] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.42 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    \draw [shift={(410,220)}, rotate = 180] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.42 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da16856177378543868]
-    \draw    (180,180) -- (180,208) ;
-    \draw [shift={(180,210)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ]   (478,280) -- (222,280) ;
+    \draw [shift={(220,280)}, rotate = 360] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [shift={(480,280)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da7896607930231315]
+    \draw    (160,160) -- (160,188) ;
+    \draw [shift={(160,190)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da12071942117446954]
+    \draw    (160,210) -- (160,268) ;
+    \draw [shift={(160,270)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da608956068141512]
+    \draw    (540,160) -- (540,268) ;
+    \draw [shift={(540,270)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    %Straight Lines [id:da415565407952709]
+    \draw    (232,60) -- (478,60) ;
+    \draw [shift={(480,60)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+    \draw [shift={(230,60)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
 
     % Text Node
-    \draw (131,22.4) node [anchor=north west][inner sep=0.75pt]    {$c( t) \ =\ ( h\star s)( t)$};
+    \draw (160,60) node    {$c( t) \ =\ ( h\star s)( t)$};
     % Text Node
-    \draw (422,22.4) node [anchor=north west][inner sep=0.75pt]    {$c( f) =h( f) s( f)$};
+    \draw (540.5,60) node    {$c( f) =h( f) s( f)$};
     % Text Node
-    \draw (131,272.4) node [anchor=north west][inner sep=0.75pt]    {$c[ n] =( h\circledast s)[ n] \ $};
+    \draw (118,332.4) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize]  {$c[ n] =( h\circledast s)[ n] \ $};
     % Text Node
-    \draw (190,132) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {Prop 2 in [26]};
+    \draw (120,170.5) node  [font=\normalsize] [align=left] {{\scriptsize Proposition 2}};
     % Text Node
-    \draw (191,52) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {measurement: $\displaystyle \phi _{LP}$ and $\displaystyle \left(\frac{n}{F_{s}}\right)$};
+    \draw (95,117) node  [font=\normalsize] [align=left] {{\scriptsize measurement: $\lowpassfilter, \kparen{\frac{n}{\Fs}}$}};
     % Text Node
-    \draw (131,212.4) node [anchor=north west][inner sep=0.75pt]    {$c[ n] =( h\ast s)[ n] \ $};
+    \draw (102,271.4) node [anchor=north west][inner sep=0.75pt]    {$c[ n] =( h\ast s)[ n] \ $};
     % Text Node
-    \draw (191,181) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\tiny \textcolor[rgb]{0.96,0.65,0.14}{Approx1:} $\displaystyle \phi _{LP} h\ \approx \ h$}};
+    \draw (99,310.5) node  [font=\normalsize] [align=left] {{\scriptsize \textcolor{myorange}{Approx. 2:} $ h\ast s\approx h\circledast s$}};
     % Text Node
-    \draw (191,252) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {\textcolor[rgb]{0.96,0.65,0.14}{Approx2}: linear to circ convolution};
+    \draw  [draw opacity=0]  (491,136) -- (588,136) -- (588,156) -- (491,156) -- cycle  ;
+    \draw (494,140.4) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize]  {$c( f_{k}) =h( f_{k}) s( f_{k})$};
     % Text Node
-    \draw (418,88) node [anchor=north west][inner sep=0.75pt]    {$c( f_{k}) =h( f_{k}) s( f_{k})$};
+    \draw  [draw opacity=0]  (100,131) -- (220,131) -- (220,162) -- (100,162) -- cycle  ;
+    \draw (103,135.4) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize]  {$\ c[ n] =\lowpassfilter ( h\star s)\left(\frac{n}{F_{s}}\right) \ $};
     % Text Node
-    \draw (88,82.4) node [anchor=north west][inner sep=0.75pt]    {$( \phi _{LP} \ c)\left(\frac{n}{F_{s}}\right) =\phi _{LP}( h\star s)\left(\frac{n}{F_{s}}\right) \ $};
+    \draw (314,50) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{50.818644000000006pt}\setlength\topsep{0pt}
+        \begin{center}
+        continuous-time conv. theorem
+        \end{center}
+    \end{minipage}};
     % Text Node
-    \draw (481,61) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {measurement at $\displaystyle ( f_{k}) ,\ f_{k} \leq F_{s}$};
+    \draw (489,272.4) node [anchor=north west][inner sep=0.75pt]    {$c[ k] =h[ k] s[ k]$};
     % Text Node
-    \draw (480,132) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\tiny $\displaystyle s$ is band-limited $\displaystyle \Longrightarrow $ $\displaystyle s( f_{k}) \ =\ s[ k]$;}\\{\tiny \textcolor[rgb]{0.96,0.65,0.14}{Approx3:} $\displaystyle h[ k] \ \approx \ h( f_{k}) \ $}};
+    \draw (314,329) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize,color={rgb, 255:red, 155; green, 155; blue, 155 }  ,opacity=1 ] [align=left] {\begin{minipage}[lt]{50.818644000000006pt}\setlength\topsep{0pt}
+        \begin{center}
+        discrete-time conv. theorem
+        \end{center}
+    \end{minipage}};
     % Text Node
-    \draw (308,22) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {FT - conv thoerem};
+    \draw (324,267) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{37.320644pt}\setlength\topsep{0pt}
+    \begin{center}
+    in practice
+    \end{center}
+
+    \end{minipage}};
     % Text Node
-    \draw (421,212.4) node [anchor=north west][inner sep=0.75pt]    {$c[ k] =h[ k] s[ k]$};
+    \draw  [draw opacity=0]  (102,189) -- (218,189) -- (218,209) -- (102,209) -- cycle  ;
+    \draw (105,193.4) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize]  {$c[ n] =( \lowpassfilter \ast h\ast s)[ n] \ $};
     % Text Node
-    \draw (301,272) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {DFT - conv thoerem};
+    \draw (591.5,110.5) node  [font=\normalsize] [align=left] {{\scriptsize discretization at $ f_{k}$}};
     % Text Node
-    \draw (311,212) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {\textcolor[rgb]{0.61,0.61,0.61}{D}FT in practice};
+    \draw (160,23.5) node  [font=\scriptsize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ] [align=left] {\textit{\textbf{Time}}};
     % Text Node
-    \draw (121,152.4) node [anchor=north west][inner sep=0.75pt]    {$c[ n] =( \phi _{LP} h\ast s)[ n] \ $};
+    \draw (544.5,22.5) node  [font=\scriptsize,color={myorange}  ,opacity=1 ] [align=left] {\textit{\textbf{Frequency}}};
+    % Text Node
+    \draw (104.5,230.5) node  [font=\normalsize] [align=left] {{\scriptsize \textcolor{myorange}{Approx. 1}: $ \lowpassfilter \ast h\approx h$}};
+    % Text Node
+    \draw (544,172) node [anchor=north west][inner sep=0.75pt]  [font=\normalsize] [align=left] {{\scriptsize measurement: $ f_{k} \leq F_{s}$}\\{\scriptsize $ s$ band-limited: $ s( f_{k}) =s[ k]$}\\{\scriptsize \textcolor{myorange}{Approx3:} $ h[ k] \ \approx \ h( f_{k}) \ $}};
+    % Text Node
+    \draw (12.5,64.5) node  [font=\scriptsize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ,rotate=-270] [align=left] {\textit{\textbf{Continuous}}};
+    % Text Node
+    \draw (12.5,232) node  [font=\scriptsize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ,rotate=-270] [align=left] {\begin{minipage}[lt]{30.248644000000002pt}\setlength\topsep{0pt}
+    \begin{center}
+    \textit{\textbf{Discrete}}
+    \end{center}
+
+    \end{minipage}};
 
 
     \end{tikzpicture}
-    \end{fullwidthfig}
 
+    \end{fullwidthfig}
 \end{figure}
 
-Importantly, these approximations become arbitrarily precise as the number of samples $N$ grows to infinity.
+\begin{enumerate}
+    \item\label{en:processing:dft:approx1}
+    In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\src(t)$ has a spectrum limited by $\Fs$, then its discrete version after the convolution with \textit{any} filter $h$
+    is equivalent to the \textit{linear} convolution between the its sampled version $\src[n]$ and the low-passed version of the filter $h$.
+    The first approximation is then to consider that filter $h$ have a limited support bounded by $\pm \sfrac{\Fs}{2}$.
+    \item\label{en:processing:dft:approx2}
+    In the discrete time domains, the convolution theorem applies to the \textit{circular convolution}, which is only approximated by the \textit{linear convolution}.
+    This second approximation is reasonably good when many samples are available and when one of the two signals is periodic, which
+    are typical cases for audio signals.
+    \item\label{en:processing:dft:approx3}
+    The third approximation regards the closed-form of $h_{ij}(f)$ of~\cref{eq:processing:discreteModel:rir} which
+    would require infinitely many samples and unlimited frequency support to be computed\sidenote{This formula would results from the \DTFTdef/ of $h_{ij}(t)$}.
+\end{enumerate}
+
+Nevertheless, it is important to notice that these approximations become arbitrarily precise as the number of samples $N$ grows to infinity.
 
 While the raw audio signal encodes the amplitude of a sound as a function of time,
 its Fourier spectrum represents it as a function of frequency.
@@ -516,38 +538,38 @@ Instead of considering the entire signal, the main idea is to consider only a sm
 To this end, one fixes a so-called \textit{window} function, $w[n]$, whose is nonzero for only a period of time $W$ shorter than
 the entire signal length, $W \ll N$.
 This function iteratively shifts and multiplies the original signal, producing consecutive \textit{frames}.
-Finally, the frequency information are then extracted independently from each frame.
+Finally, the frequency information are extracted independently from each frame.
 The choice of a window function $w[n]$ depends on the application since its contribution reflects in the \TF/ representation together with the
 one of the signal.
 
-\newthought{The distrete \STFT/}\marginpar{\footnotesize%
-The \STFT/ was introduced by Dennis Gabor in the 1946.
+\newthought{The discrete \STFT/}\marginpar{\footnotesize%
+The \STFT/ was introduced by Dennis Gabor in the 1946, the person behind Holography and Gaborlets.
 }
 is the most commonly used \TF/-representation in audio signal processing
-The representation encodes the time-varying spectra into a matrix $x[k,l] \in \bbC^{F,T}$ with frequency index $k$ and time frame index $l$.
-\\More formally, the processes to compute the complex \STFT/ coefficients is given by
+This representation encodes the time-varying spectra into a matrix $x[k,l] \in \bbC^{F,T}$ with frequency index $k$ and time frame index $l$. More formally, the processes to compute the complex \STFT/ coefficients is given by
 \begin{equation}\label{eq:processing:stft}
     x[k, l]  = \sum_{n=0}^{W-1} w[n] x[n + l H] \cste^{- \csti 2 \pi k n / F} \mathspace\in\bbC
 \end{equation}
 where $W$ is the window length and $H$ is the \textit{hop size} which specify how much the window needs to be shifted across the signal.
 Equivalently, \cref{eq:processing:stft} can be expressed as \DFT/s of windowed frames, $x[k, l] = \discreteFT{x[n,l]}$ where $x[n,l] = x[n + l H] w[n]$.
-\\Since each \STFT/ coefficient $x[k, l]$ lives in the complex space $\bbC$, the squared magnitude of the STFT, $\powerOf{x(k,l)}$ is
-commonly used for visualization and for processing\sidenote{The phase is not important sometimes...}.
-The resulting two-dimensional representation is called \textsc{spectrogram}.
-It can be visualized by means of a two-dimensional image, where the horizontal axis represents time and the vertical axis represents frequency.
-In this image, the spectrogram value Y(m,k) is represented by the intensity or color in the image at the coordinate (m,k).
-Note that in the discrete case, the time axis is indexed by the frame indices m and the frequency axis is indexed by the frequency indices k.
+
+Since each \STFT/ coefficient $x[k, l]$ lives in the complex space $\bbC$, the squared magnitude of the \STFT/, $\powerOf{x[k,l]}$ is
+commonly used for visualization and for processing\sidenote{The phase in some application is completely ignored because of difficult interpretation or commonly considered less informative with respect to the sound magnitude}.
+The resulting two-dimensional representation is called \textit{spectrogram}.
+It can be visualized by means of a two-dimensional image, whose axes represent time frames and frequency bins.
+In this image, the value $\powerOf{x[k,l]}$ is represented by the intensity or color in the image at the coordinate $[k,l]$.
 
 Throughout this work both estimation and processing will be conducted in the \STFT/ domain.
 This is a common approach in the audio signal processing community, but it is not the only one:
-many algorithm are designed directly in the time domain or alternatives \TF/ representation\sidenote{such as MelScale, FilterBank, or the quadratic STFT transfrom}.
-As discussed~\cite{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
+many algorithm are designed directly in the time domain or in alternatives \TF/ representation, \eg/ Mel-Scale, Filter-Banks, or the quadratic STFT transform\sidenote{The quadratic STFT transfrom will introduced and used in~\cref{ch:brioche}}.
+
+As discussed~\citeonly{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
 \begin{itemize}
-    \item the frequencies scale $f$ is a linear function of the frequency bin $k$\cfr{\cref{eq:processing:fk}};
-    \item the resulting matrix allows easy treatment of the phase $\phaseOf{x(k,l)}$, the magnitude $\magnitudeOf{x(k,l)}$ and the power $\powerOf{x(k,l)}$ separately;
-    \item the \STFT/ simple to invert;
+    \item the frequencies scale $f_k$ is a linear function of the frequency bin $k$;
+    \item the resulting matrix allows easy treatment of the phase $\phaseOf{x[k,l]}$, the magnitude $\magnitudeOf{x[k,l]}$ and the power $\powerOf{x[k,l]}$ separately;
     \item the \DFT/ can be efficienciently computed with the \FFT/ algorithm;
-    \item this representation inherits the linearity and convolution property of the \DFT/ under some condition about the length of the signals.
+    \item the \STFT/ is simple to invert;
+    \item the \STFT/ inherits the linearity and convolution property of the \DFT/ under some condition about the length of the signals.
 \end{itemize}
 \marginpar{%
     \vspace{-4cm}
@@ -558,27 +580,28 @@ As discussed~\cite{vincent2018audio}, the \STFT/ has the following useful proper
 
 \subsection{The final model}
 The model \eqref{eq:processing:discreteModel} shows how in practice the RIRs are threated in the frequency-domain.
-However this does not generalized straightforwardly to the time-frequency domain:
+However this does not generalize straightforwardly to the time-frequency domain:
 it depends on the length of the filter \wrt/ to the length of the analysis window on of the \STFT/.
-Issues arise with long filter, which are common for recoding in highly reverberant or time-varying scenarios.
+Issues arise with ``long'' filters, which are common in highly reverberant or time-varying scenarios.
 To circumvent this issues, the \textit{convolutional STFT} for arbitrary window functions have been proposed\sidenote{%
-It translates the time-domain convolution into inter-frame and inter-band convolutions, rather than pointwise multiplication of Fourier transforms.}~\citeonly{gilloire1992adaptive}.
+It translates the time-domain convolution into inter-frame and inter-band convolutions, rather than pointwise multiplication of Fourier transforms.
+}~\citeonly{gilloire1992adaptive}.
 Although mathematically exact, it is computationally and memory intensive.
-\\In this thesis, we will assume that the filter length is shorter than the analysis window length.
-This known in the literature as the \textit{narrowband approximation}~\citeonly{gannot2017consolidated}.
-In the time-frequency domain, $\imgs_j[l,k]$  and $\src_j[l,k]$ are the \STFT/ of $\imgs_j[n]$ and $\src_j[n]$ respectively.
-Therefore, the time-domain filtering can be approximated by complex-valued multiplication in each time-frequency bin $[l,k]$ domain:
+
+In this thesis, we will assume that the filter length is shorter than the analysis window length.
+This known in the literature as the \textit{narrowband approximation}, namely the time-domain filtering can be approximated by complex-valued multiplication in each time-frequency bin $[l,k]$:
 \begin{equation}
-    \imgs_j[l,k] = \bsh[k] \src_j[l,k]
+    \imgs_j[l,k] \approx \bsh[k] \src_j[l,k]
     ,
 \end{equation}
 where the $\bsh_j(f) = \ktranspose{\klist{h_{1j}(f), \cdots, h_{Ij}(f)}}$ is the $I \times 1$ vector of the room transfer functions for the source $j$.
-It is practical to concatenate all this vectors into an $I \times J$ matrix $\bfH(f) = \klist{\bsh_1(f),\cdots,\bsh_J(f)}$ called \textit{mixing matrix}.
-\\With notation and all the consideration so far, mixing process including noise terms can be written in the \STFT/ domain compactly as:
+It is sometimes practical to concatenate all this vectors into an $I \times J$ matrix $\bfH(f) = \klist{\bsh_1(f),\cdots,\bsh_J(f)}$ called \textit{mixing matrix}.
+
+With the above notation and considerations, mixing process including noise terms can be written in the \STFT/ domain compactly as:
 \begin{equation}\label{eq:processing:model:stfs}
     \bsx[l,k] = \bfH[l,k] \bss[l,k] + \bsu[l,k]
 \end{equation}
-where $\bsu(l,k) = \bsn(l,k) + \boldsymbol{\varepsilon}(l,k)$ is the contribution of all the diffuse noise sources and modeling error.
+where $\bsu(l,k) = \bsn(l,k) + \boldsymbol{\varepsilon}(l,k)$ includes the contribution of both diffuse noise sources, modeling and measurement errors.
 
 % The above equation can be seen as a \textit{deterministic} parametrization of the mixing process and it does not consider a statistical description
 % of the reverberation. In fact it the filter
@@ -589,13 +612,13 @@ where $\bsu(l,k) = \bsn(l,k) + \boldsymbol{\varepsilon}(l,k)$ is the contributio
 % \end{equation}
 
 \section{Other (room) impulse response spectral models}
-As discussed so far \RIRs/ are complicated quantities to model, embed in processing frameworks, computed and estimated.
+\RIRs/ are complicated quantities to model, embed in processing frameworks, compute and estimate.
 The representations of the \RIR/ discussed so far explicitly model early echoes e reverberation deterministically.
 Furthermore, alternative models are common in the audio processing literature.
 
 \subsection{Steering vector model}
 In case of absence of echoes and reverberation, namely assuming free-field propagation,
-the \RIRs/ simplify to \textit{steering vector}, than is the DFT of~\cref{eq:acoustics:greenFreeTime}:
+the \RIRs/ simplify to \textit{steering vector}, namely the DFT of~\cref{eq:acoustics:greenFreeTime}:
 \begin{equation}\label{eq:processing:steering}
     \bsd_{j}[k] = \klist{\frac{1}{4 \pi \distMicSrc_{1j}} \cste^{-\csti 2 \pi f_k \distMicSrc_{1j} / c},
                             \cdots,
@@ -603,19 +626,19 @@ the \RIRs/ simplify to \textit{steering vector}, than is the DFT of~\cref{eq:aco
                     }
 \end{equation}
 Furthermore, assuming far-field regimes, the microphone-to-source distance $\distMicSrc_{ij}$ are larger than the
-inter-microphones distance $d_{ii'}$ making the attenuation factors $\sfrac{1}{4 \pi \distMicSrc_{ij}}$ becomes approximately equal
-and ofter are ignored
+inter-microphones distance $d_{ii'}$ making the attenuation factors $\sfrac{1}{4 \pi \distMicSrc_{ij}}$ approximately equal, hence ignored.
 
 \subsection{Relative transfer function and interchannel models}
-Let us consider now only two channels, $i$ and $i'$ and only one source signal in the model~\cref{eq:processing:model:stfs}.
-Dropping the dependency on $j$ for readability and taking the first channel as reference, the \RTFdef/ associated the the $i$-th channel is defined as~\citeonly{gannot2001signal}
+Let us consider now only two channels and only one source signal in the model~\cref{eq:processing:model:stfs}.
+Dropping the dependency on $j$ for readability and taking the first channel as reference, the \RTFdef/ associated the the $i$-th channel is defined as
+the element-wise ratio of the (D)FTs of the two filters~\citeonly{gannot2001signal}
 \begin{equation}\label{eq:processing:rtf}
     \rtf_i[k] = \frac{\rir_i[k]}{\rir_1[k]}
-    ,
+    .
 \end{equation}
-namely the point-wise ratio of the (D)FTs of the two filters.
-\\The time-domain counterpart is called as \ReIRdef/ and can be interpreted as the filter ``transforming'' the $i$ impulse response into the $i'$-th one.
-Considering the noisy observation $x_i$ and $x_{i'}$, their signals can be re-written in term of $\rtf_i$ as follows
+
+The time-domain counterpart is called as \ReIRdef/ and can be interpreted as the filter ``transforming'' the $i$-th impulse response into the one of the reference channel.
+Considering the noisy observation $x_i$ and $x_1$, their signals can be re-written in term of $\rtf_i$ as follows
 \begin{equation}
     \begin{matrix}
     \begin{cases}
@@ -628,23 +651,23 @@ Considering the noisy observation $x_i$ and $x_{i'}$, their signals can be re-wr
     \end{matrix}
     .
 \end{equation}
-Therefore, notice that $\rir_i = \rtf_i \conv \rir_1$, corresponding to~\cref{eq:processing:rtf} in the frequency domain.
-Note that although real-world acoustic channels $h_1$ and $h_i$ are causal, the $\rtf_i$ need not be so.
+Notice that $\rir_i = \rtf_i \conv \rir_1$, corresponding to~\cref{eq:processing:rtf} in the frequency domain.
+Moreover although the real-world \RIRs/ $h_1$ and $h_i$ are causal, their \RTF/ need not be so.
 \marginpar{%
     \footnotesize
-    In~\cref{chap:brioche} methods for estimation the RTF will be discussed
+    In~\cref{ch:brioche} methods for estimation the RTF will be discussed
 }
 
 The \RTFs/ benefits of several interesting properties that will be of fundamental importance for this thesis.
 In particular:
 \begin{itemize}
-    \item the \RTF/ associated to the reference channel ($i = 1$) is equal to $1$ for each frequencies $k$.
-    \item The estimation \RTF/ is considered an ``easier'' problem with respect to the \RIRs/ estimation.
-    in fact, in noiseless case ($u_1 = u_i = 0$), it holds that $\mic_i = \rtf_i \conv \mic_1$.
-    \item The \RTF/ encodes all properties of the related impulse responses and there are many advance methods to estimate them.
-    Therefore, it may be then used as a proxy for the estimations of (components of) \RIRs/.
+    \item the \RTF/ associated to the reference channel ($i = 1$) is equal to $1$ for each frequency bin $k$.
+    \item The problem of estimating the \RTF/ can be considered ``easier'' with respect to the \RIRs/ estimation.
+    In fact, in noiseless case, it holds that $\mic_i = \rtf_i \conv \mic_1$.
+    \item The \RTF/ encodes properties of the related impulse responses and there are many advance methods to estimate them.
+    Therefore, it may be used as a proxy for the estimations of (components of) \RIRs/.
     \item A \RIR/ can be seen as a special case of \RTF/ where the non-reference microphone is a virtual one whose
-    output is the original (non-spatial) source signal $\src$. Then, $\rir_1 = \delta$ and $\rtf_i = \rir_i$\sidenote{%
+    output is the original (non-spatial) source signal $\src$. In fact, if $\rir_1 = \delta$ then $\rtf_i = \rir_i$\sidenote{%
     In practice this virtual microphone is substituted by a microphone that is very close to the source.}.
     \item As discussed below, also \RTFs/ simplify to special steering vectors in free- and far-field, which has interesting
     geometrical properties.
