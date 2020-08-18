@@ -655,10 +655,16 @@ commonly used for visualization and for processing\sidenote{The phase in some ap
 The resulting two-dimensional representation is called \textit{spectrogram}.
 It can be visualized by means of a two-dimensional image, whose axes represent time frames and frequency bins.
 In this image, the value $\powerOf{x[k,l]}$ is represented by the intensity or color in the image at the coordinate $[k,l]$.
-
+\marginpar{
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{processing/py-speech_spectrogram.pdf}
+    \captionof{figure}{STFT spectrogram of an example speech signal. Higher energies are illustrated with darker colors.}
+    \label{fig:processing:spectrogram}
+}
 Throughout this work both estimation and processing will be conducted in the \STFT/ domain.
 This is a common approach in the audio signal processing community, but it is not the only one:
-many algorithm are designed directly in the time domain or in alternatives \TF/ representation, \eg/ Mel-Scale, Filter-Banks, or the quadratic STFT transform\sidenote{The quadratic STFT transfrom will introduced and used in~\cref{ch:brioche}}.
+many algorithm are designed directly in the time domain or in alternatives \TF/ representation, \eg/ Mel-Scale, Filter-Banks, or the quadratic STFT transform used in~\cref{ch:brioche}.
 
 As discussed~\citeonly{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
 \begin{itemize}
@@ -903,7 +909,7 @@ for the $j$-th source is defined as
 
 
 \newthought{The relative steering vectors} results by combining~\cref{eq:processing:steering,eq:processing:rtf} as
-\begin{equation}
+\begin{equation}\label{eq:processing:relativesteering}
     \boldsymbol{\tilde{d}}_{j}[k] = \klist{
                          1,
                          \cste^{-\csti 2 \pi f_k (\distMicSrc_{2j}-\distMicSrc_{i'j}) / \speedOfSound},
@@ -926,6 +932,20 @@ In fact, the \RTFs/ encodes the so-called \ILD/ and the \IPD/
 
 As shown in~\cref{fig:processing:ildipd}, the \ILD/ and the \IPD/ cluster around the direct path.
 However early echoes and reverberation make them significantly diverge.
+
+\begin{figure}[b]
+    \begin{fullwidthfig}
+        \includegraphics[width=\linewidth+\marginparsep]{processing/py-rtf.pdf}
+        \caption{
+            \RIR/, \ILD/ and \IPD/ corresponding to the pair of synthetic impulse responses of~\cref{fig:acoustics:rir} for different absorption conditions.
+            Orange lines denote the theoretical far- and free- field \ILD/ and \IPD/ as defined by the relative steering vectors of~\cref{eq:processing:relativesteering}
+        }\label{fig:processing:ildipd}
+    \end{fullwidthfig}
+
+    % \vspace{-\baselineskip}\vspace{-\baselineskip}
+    % \sideparmargin{outer}
+    % \sidepar{\vspace{\baselineskip}
+\end{figure}
 
 
 % \subsection{Probabilistic and Full-rank covariance model}
