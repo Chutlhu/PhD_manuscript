@@ -145,15 +145,15 @@
 % \listofalgorithms\addcontentsline{toc}{chapter}{List of Algorithms}
 % \vspace{\baselineskip}
 % \clearpage{}
-%*******************************************************
-% List of Figures
-%*******************************************************
-\listoffigures*\addcontentsline{toc}{chapter}{List of Figures}
-\vspace{\baselineskip}
-\clearpage{}
+% %*******************************************************
+% % List of Figures
+% %*******************************************************
+% \listoffigures*\addcontentsline{toc}{chapter}{List of Figures}
+% \vspace{\baselineskip}
+% \clearpage{}
 
-\listoftables*\addcontentsline{toc}{chapter}{List of Tables}
-\clearpage{}
+% \listoftables*\addcontentsline{toc}{chapter}{List of Tables}
+% \clearpage{}
 
 \input{contents/front_matter/notation}
 \cleardoublepage{}
@@ -181,12 +181,12 @@
 \input{contents/main_matter/chapter2_processing}
 % \input{contents/main_matter/chapter3_evaluation}
 
-% %% II. Estimation
-% \begin{fullwidth}
-% \part{Acoustic Echo Retrieval}\label{pt:estimation}
-% \end{fullwidth}
-% \parttoc[n]
-% \input{contents/main_matter/chapter4_estimation}
+%% II. Estimation
+\begin{fullwidth}
+\part{Acoustic Echo Retrieval}\label{pt:estimation}
+\end{fullwidth}
+\parttoc[n]
+\input{contents/main_matter/chapter4_estimation}
 % \input{contents/main_matter/chapter5_lantern}
 % \input{contents/main_matter/chapter6_blaster}
 % \input{contents/main_matter/chapter7_blaster2}

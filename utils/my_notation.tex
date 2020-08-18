@@ -20,23 +20,29 @@
   \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
   % Typewriter
   \expandafter\xdef\csname tt\x \endcsname{\noexpand\ensuremath{\noexpand\mathtt{\x}}}
+  % mathfrak -- curly
+  \expandafter\xdef\csname scr\x \endcsname{\noexpand\ensuremath{\noexpand\mathscr{\x}}}
+  % short for \hat{}
+  \expandafter\xdef\csname hat\x \endcsname{\noexpand\ensuremath{\noexpand\hat{\x}}}
 }
 
 \foreach \x in {A,...,Z}{
-%   % Bold symbol -- bold
+%   Bold symbol -- bold
   \expandafter\xdef\csname bs\x \endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\x}}}
-%   % mathbf -- bold
+%   mathbf -- bold
   \expandafter\xdef\csname bf\x \endcsname{\noexpand\ensuremath{\noexpand\mathbf{\x}}}
-%   % mathbb -- blackboard-bold for uppercase letters and lowercase ( for sets )
+%   mathbb -- blackboard-bold for uppercase letters and lowercase ( for sets )
   \expandafter\xdef\csname bb\x \endcsname{\noexpand\ensuremath{\noexpand\mathbb{\x}}}
-%   % mathds -- ???
+%   mathds -- ???
   \expandafter\xdef\csname ds\x \endcsname{\noexpand\ensuremath{\noexpand\mathds{\x}}}
-%   % mathfrak -- gothic
+%   mathfrak -- gothic
   \expandafter\xdef\csname fk\x \endcsname{\noexpand\ensuremath{\noexpand\mathfrak{\x}}}
-%   % mathfrak -- curly
+%   mathfrak -- curly
   \expandafter\xdef\csname scr\x \endcsname{\noexpand\ensuremath{\noexpand\mathscr{\x}}}
-%   % mathcal -- calligraphy
+%   mathcal -- calligraphy
   \expandafter\xdef\csname cal\x \endcsname{\noexpand\ensuremath{\noexpand\mathcal{\x}}}
+%   short for \hat{}
+  \expandafter\xdef\csname hat\x \endcsname{\noexpand\ensuremath{\noexpand\hat{\x}}}
 }
 
 % --- Math Notation
@@ -89,7 +95,7 @@
 \newcommand{\RecordedSignalDFT}{\bfX}
 \newcommand{\deltaTaus}{\ensuremath{\Delta}}
 \newcommand{\cov}{\ensuremath{\mathbf{\Sigma}}}
-\newcommand{\lowpassfilter}{\ensuremath{\phi_\mathtt{LP}}}
+\newcommand{\lowpassfilter}{\ensuremath{\contTime{\phi}_\mathtt{LP}}}
 
 % (room) acoustics
 \newcommand{\speedOfSound}{\ensuremath{c}}
@@ -201,12 +207,37 @@
 \newcommand{\average}{\operatornamewithlimits{average}}
 
 % --- Mathematical operators and function
-\newcommand{\contTime}[1]{\ensuremath{\tilde{#1}(\idxTime)}}
-\newcommand{\discTime}[1]{\ensuremath{\tilde{#1}[\idxSample]}}
-\newcommand{\contFreq}[1]{\ensuremath{#1(\idxFreq)}}
-\newcommand{\discFreq}[1]{\ensuremath{#1[\idxBin]}}
+% \newcommand{\contTime}[1]{\ensuremath{\tilde{#1}(\idxTime)}}
+\newcommand*{\toFreq}[1]{\expandafter\MakeUppercase\expandafter{#1}}
+\newcommand*{\contTime}[2][]{%
+  \ifx &#1&%
+    \ensuremath{\tilde{#2}}
+  \else%
+    \ensuremath{\tilde{#2}\kparen{#1}}%
+\fi}
+\newcommand*{\discTime}[2][]{%
+  \ifx &#1&%
+    \ensuremath{\hat{#2}}
+  \else%
+    \ensuremath{\hat{#2}\kbracket{#1}}%
+\fi}
+\newcommand*{\contFreq}[2][]{%
+  \ifx &#1&%
+    \ensuremath{\tilde{\toFreq{#2}}}
+  \else%
+    \ensuremath{\tilde{\toFreq{#2}}\kparen{#1}}%
+\fi}
+\newcommand*{\discFreq}[2][]{%
+  \ifx &#1&%
+    \ensuremath{\hat{\toFreq{#2}}}
+  \else%
+    \ensuremath{\hat{\toFreq{#2}}\kbracket{#1}}%
+\fi}
+% \newcommand{\contFreq}[1]{\ensuremath{#1(\idxFreq)}}
+% \newcommand{\discFreq}[1]{\ensuremath{#1[\idxBin]}}
+\newcommand{\convCont}{\star}
+\newcommand{\convDis}{\ast}
 \newcommand{\conv}{\ast}
-\newcommand{\convDis}{\star}
 \newcommand{\diracOf}[1]{\dirac\kparen{#1}}
 \DeclareMathOperator*{\phase}{\angle}
 \newcommand{\phaseOf}[1]{\phase{#1}}
@@ -216,5 +247,5 @@
 
 % other definition
 \newcommand{\myeq}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
-\newcommand{\mathspace}{\qquad}
+\newcommand{\mathspace}{\quad}
 \newcommand{\mathspecific}[1]{\hspace{1em}\text{#1}\;}
