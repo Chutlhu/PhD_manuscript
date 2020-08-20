@@ -480,12 +480,18 @@
 \definecolor{linkgreen}{RGB}{0,166,0}
 \definecolor{mygray}{gray}{0.55}
 \definecolor{myorange}{HTML}{ed8c01}
+%define colors
+\definecolor{lightgray}{rgb}{0.8, 0.8, 0.8} %grid of coordinate system, axes
+\definecolor{midgray}{rgb}{0.6, 0.6, 0.6} %layer of border
+\definecolor{darkgray}{rgb}{0.4, 0.4, 0.4} %curves, fill under curve
 
 \colorlet{citecolor}{mygray}
 \colorlet{linkcolor}{myorange}
 \colorlet{urlcolor}{mygray}
 \colorlet{acrocolor}{myorange}
 \colorlet{chapnumcolor}{mygray}
+
+
 
 \RequirePackage{csquotes}
 

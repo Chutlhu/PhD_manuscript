@@ -12,10 +12,10 @@ Finally, after assuming the narrowband approximation, in~\cref{sec:processing:ri
 In the previous chapter we formalized the physics that rule the sound propagation from the source 'till the microphone.
 A raw \textit{audio signal} encodes the variation of pressure over time on the microphone membrane.
 Mathematically it is denoted as the function
-\begin{center}
-    $\contTime[\idxTime]{\mic} \in \R$
+\begin{equation}
+    \contTime[\idxTime]{\mic} \in \R
     ,
-\end{center}
+\end{equation}
 continuous both in time $t \in \R$ and amplitudes.
 \marginpar{
     \centering
@@ -24,37 +24,29 @@ continuous both in time $t \in \R$ and amplitudes.
     \captionof{figure}{Continuous-time signal and its sampled version.}
     \label{fig:processing:sampling}
 }
-Today signals are processed, stored and analyzed by computers and modules as \textit{digital audio signal}:
-\begin{center}
-    $\discTime[\idxSample]{\mic} \in \R$
-    ,
-\end{center}
-with discrete value in time $n \in \Z$.
-In this thesis we will assume that amplitudes of discrete signals are real numbers.
-\\By the digitalization process \textit{samples} the continuous-time signal
-\sidenote{
+
+Today signals are typically processed, stored and analyzed by computers and modules as \textit{digital audio signal}.
+This corresponds to the discrete-time signal $\hat{x}$ obtained by periodically sampling\sidenote{%
     The use of the word \textit{sample} will have different
     meanings in the context of machine learning, where a sample is an instance of a set instead of a time instant.
-} at a given \textit{sampling rate},  $\Fs$ in $[\si{\Hz}]$.
-At the end, the signal is represented as a one-dimensional finite time series, or a vector, of amplitudes.
-
-The sampling can be modeled as a two-stage process:
-first, the continuous-time signal undergoes a (ideal) low-pass filter $\lowpassfilter$\sidenote{
-    The low-pass filter is used to reduce aliasing by removing spectral components higher than Fs.
-    $\lowpassfilter(t) = \sinc(t) = \sin(\pi t) / (\pi t)$.
-} with frequency support in $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$, limiting the signal frequencies to at max $\sfrac{\Fs}{2}$;
-secondly, it is regularly sampled at rate $\Fs$.
-This processes can be written in one equation:
+} the continuous-time signal $\tilde{x}$ at rate $\Fs\;[\si{\Hz}]$.
+As common to most measurement models, we assume that the sampling process involves two steps:
+first, the impinging signal undergoes an ideal low-pass filter $\lowpassfilter$\sidenote{The ideal low-pass filter is\\$\lowpassfilter(t) = \sinc(t) = \sin(\pi t) / (\pi t)$} with frequency support in $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$;
+then it time-support is regularly discretized, $t = n/\Fs$ for $n \in \Z$.
+This will restrict the frequency support of signal to satisfy the Nyquist–Shannon sampling theorem and avoid aliasing effect.
+This is expressed by
 \begin{equation}
-    \discTime[n]{\mic} = \kparen{\lowpassfilter\convCont\contTime{\mic}} \kparen{\frac{n}{\Fs}}
+    \discTime[\idxSample]{\mic} = \tilde{x}\kparen{\frac{n}{\Fs}} \in \R
     ,
 \end{equation}
 where $\convCont$ is the continuous-time convolution operator.
+Moreover, in this thesis we assume that amplitudes of discrete signals are real values, ignoring the \textit{quantization} process.
+% Note also the use of square brackets and $\hat{}$ in the notation for a discrete-time signal $\hatx[n]$,
+% which avoids ambiguity with the notation $\tilde{x}(t)$ used for a continuous-time signal.
 
 The choice of $\Fs$ depends on the application since it is a trade-off between computational power, processing and rendering quality.
 Historically the two iconic values are $\SI{44.1}{\kHz}$ for music distribution on CDs and $\SI{8}{\kHz}$ for first-generation speech communication.
 Now multiple of $\SI{8}{\kHz}$ are typical used in audio processing: ($16, 48, 96, \SI{128}{\kHz}$).
-\\For further details, we refer the reader to audio signal processing basics books such as~\citeonly{rocchesso2003introduction}.
 
 \mynewline
 Audio signals are emitted by sources and are observed, received or recorded by microphones.
@@ -92,9 +84,6 @@ Although this simplify greatly processing models and frameworks, this is not tru
 The physical properties of real sources (\resp/ receivers) leads to \textit{directivity patterns}, \aka/ \textit{polarity}, which may
 be different at different frequencies.
 In this thesis we will assume always omnidirectional sources and receivers.
-% This effect may be a source of undesired effects, such as microphones \textit{leakage} or source localization error.
-% Nevertheless sometimes it can be exploited to promote \textit{spatial selectivity}:
-% spatial filtering can be view under this light, where ``virtual'' microphones with engineered directivity pattern.
 
 \subsection{The Mixing Process}
 Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$.
@@ -103,16 +92,16 @@ Each microphone $\idxMic$ and each source $\idxSrc$ have a well defined position
 
 The mixing process describes then the nature of the mixtures.
 In order to better formalized it, \citeauthor{sturmel2012linear} introduced the intermediate representation called \emph{source spatial images}:
-\begin{center}
+\begin{quote}
     \textit{$\contTime[t]{\img_{\idxMic\idxSrc}}$ describes the contribution of the source $\idxSrc$ to the microphone $\idxMic$}.
-\end{center}
+\end{quote}
 Consequently, the \textit{mixture} $\contTime[t]{\mic_{\idxSrc}}$ is the possibly non-linear combination of images associated to the source $j$.
 Depending on the ``contribution'' the image describes, the following type of mixture can be defined:
 
 \dichotomy{Natural \vs/ Artificial Mixtures:}
 The former refers to microphone mixtures recorded simultaneously the same auditory scene, \eg/ teleconferencing systems or hands-free devices.
 By contrast, the latters are created by mixing together different individual, possibly processed, recordings.
-This are the typical mixtures used professional music production\sidenote{here the usage of long-chain of audio effects typically ``hide'', willingly or not, the recording environment of the sound sources}.
+This are the typical mixtures used professional music production where the usage of long-chain of audio effects typically ``hide'', willingly or not, the recording environment of the sound sources.
 
 \dichotomy{Instantaneous \vs/ Convolutive Mixtures:}
 In the first case, the mixing process boils down to a simple linear combination of the source signals, namely
@@ -298,91 +287,16 @@ where $f \in \bbR$ are the \textit{natural frequency} in $\si{\Hz}$ and $\csti$ 
 
 \marginpar{
 
-    %define colors
-    \definecolor{lightgray}{rgb}{0.8, 0.8, 0.8} %grid of coordinate system, axes
-    \definecolor{midgray}{rgb}{0.6, 0.6, 0.6} %layer of border
-    \definecolor{darkgray}{rgb}{0.4, 0.4, 0.4} %curves, fill under curve
-
     \centering
     \resizebox{\linewidth}{!}{
+        \input{figures/processing/time2freq.tikz}
+    }
 
-        \begin{tikzpicture} %create tikz picture
-        \begin{axis}[ %create 3d plot within tikz
-            set layers=standard, %use predefined layers
-            view={50}{30}, %perspective adjustment
-            domain=0:10, %plot limit in time direction
-            samples y=1, %samples for frequency direction
-            unit vector ratio*=1 2 1, %rescale unit vectors
-            hide axis, %do not plot axes
-            xtick=\empty, ytick=\empty, ztick=\empty, %no ticks on coordinate axes
-            clip=false %let me plot outside the coordinate system
-        ]
-            %limit variables
-            \def\xmax{100} %limits for curves and layers
-            \def\xmin{0}
-            \def\ymax{35}
-            \def\ymin{5}
-            \def\zmax{25}
-            \def\zmin{-5}
-            \def\xlayer{110} %frequency layer
-            \def\sumcurve{0} %sum curve of time signal
-
-            %frequency curves
-            \pgfplotsinvokeforeach{1,2,3}{ %for each frequency component
-                \draw [on layer=background, lightgray] (axis cs:0,#1,0) -- (axis cs:10,#1,0); %axes
-                \addplot3 [on layer=main, darkgray, smooth, samples=200] (x,#1,{1.3*sin(2*#1*x*(157))/(#1*2)}); %plot curves (curves are somewhat arbitrary)
-
-                \xdef\sumcurve{\sumcurve + sin(#1*x*(157))/(#1*2)} %add current curve to sumcurve
-            }
-
-            %transparent layers
-            \fill[white,opacity=0.7] (\xmin,0,\zmin) -- (\xmin,0,\zmax) -- (\xmax,0,\zmax) -- (\xmax,0,\zmin) -- cycle; %transparent layer in time space
-            \fill[white,opacity=0.7] (\xlayer,\ymin,\zmin) -- (\xlayer,\ymin,\zmax) -- (\xlayer,\ymax,\zmax) -- (\xlayer,\ymax,\zmin) -- cycle; % transparent layer for frequency space
-
-            %grid lines
-            \pgfplotsinvokeforeach{\xmin,\xmin+5,...,\xmax}{ %create horizontal grid lines (time layer)
-                \draw[lightgray,opacity=0.6] (#1,0,\zmin) -- (#1,0,\zmax);
-            }
-            \pgfplotsinvokeforeach{\ymin,\ymin+2.5,...,\ymax}{ %create horizontal grid lines (frequency layer)
-                \draw[lightgray,opacity=0.6] (\xlayer,#1,\zmin) -- (\xlayer,#1,\zmax);
-            }
-            \pgfplotsinvokeforeach{\zmin,\zmin+5,...,\zmax}{ %create vertical grid lines (both layers)
-                \draw[lightgray,opacity=0.6] (\xmin,0,#1) -- (\xmax,0,#1);
-                \draw[lightgray,opacity=0.6] (\xlayer,\ymin,#1) -- (\xlayer,\ymax,#1);
-            }
-
-            %borders layer
-            \draw[midgray] (\xmin,0,\zmin) -- (\xmin,0,\zmax) -- (\xmax,0,\zmax) -- (\xmax,0,\zmin) -- cycle; %time space layer border line
-            \draw[midgray] (\xlayer,\ymin,\zmin) -- (\xlayer,\ymin,\zmax) -- (\xlayer,\ymax,\zmax) -- (\xlayer,\ymax,\zmin) -- cycle; %frequency space layer border line
-
-            %sum curve
-            \addplot3 [samples=200] (x,0,{\sumcurve+rand/7+0.2*sin(x*400)}); %sum curve time space with added random noise
-
-            % frequency curve
-            \addplot3 [name path=f,samples=200,domain=0.5:3.5] (11,x,{rand/30+2*sin((x-0.7)*180)^200*e^(-x/2)-0.3}); %experimentally modified curve with noise
-
-            %create fill under curve
-            \addplot3 [name path=ax,draw=none,samples=2,domain=0.5:3.5] (11,x,-0.5); %create fill axis
-            \addplot3 [darkgray] fill between [of=f and ax]; %create fill between curve and axis
-
-            %create coordinate axis
-            \draw[-{stealth}] (\xmin,0,\zmin-7) -- (\xmax/5.3,0,\zmin-7); %time axis
-            \draw[-{stealth}] (\xlayer,\ymin,\zmin-7) -- (\xlayer,\ymin+\ymax/4,\zmin-7); %frequency axis
-
-            %axis labels
-            \node[scale=0.7] at (0,0,-21) {Time}; %axis time space
-            \node[scale=0.7] at (100,22,-32) {Frequency}; %axis frequency space
-
-        \end{axis}
-        \end{tikzpicture}
-
-        }
-        % https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati
-        \captionof{figure}{
-            A signals resolved into its Fourier series:
-            a linear combination of sines and cosines
-            represented as peaks in the frequency domain.
-        }\label{fig:processing:mixing}
+    \captionof{figure}{
+        A signals resolved into its Fourier series:
+        a linear combination of sines and cosines
+        represented as peaks in the frequency domain.
+    }\label{fig:processing:mixing}
 }
 
 A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms benefits of two fundamental properties:
@@ -408,9 +322,8 @@ As discussed in~\cref{chap:acoustics}, the \FT/ of a \RIR/ can be computed exact
     .
 \end{equation}
 In practice, the filters $\tilde{h}_{ij}$ are not available in the continuous time domain nor in the continuous frequency domain directly.
-They can be estimated from the observation of the discrete-time mixtures $\hat{x}_i[n]$, therefore,
+They must be estimated from the observation of the discrete-time mixtures $\hat{x}_i[n]$, therefore,
 after the convolution with a source and the measurement process.
-Notice that here both $f$ and $t$ are continuous and infinite variables.
 In practice, we have only access to finite and discrete-time microphones signals for which the properties~\eqref{eq:processing:conv} is valid with some precautions.
 
 \subsection{Discrete frequency domain}
@@ -442,7 +355,7 @@ The \DFT/ is linear, so the discrete version of \cref{eq:processing:ft:mix} beco
     \mathspace\overset{\discreteFT}{\kto}\mathspace
     \hat{\mics}[ k] = \sum_{\idxSrc=1}^{\numSrcs} \hat{\imgs}_\idxSrc[ k]
 \end{equation}
-Secondly, using the discrete convolution theorem, one may translate \cref{eq:processing:mixing:img} as
+Secondly, by using na\"ively the discrete convolution theorem, one may translate \cref{eq:processing:mixing:img} as
 \begin{equation}\label{eq:processing:discreteModel}
     \hat{\img}_{ij}[n] = (\hat{\rir}_{ij} \convDis \hat{\src})[n]
     \mathspace\overset{\discreteFT{}}{\kto}\mathspace
@@ -461,152 +374,50 @@ where $\convDis$ is the finite-time linear convolution operator\sidenote{
 \end{equation}
 
 \newthought{Although used in practice}, this model makes use of approximations.
-As explained in~\citeonly{tukuljac2018mulan}, issues arise from the simultaneously usage of the closed-form \RIR/ model derived in~\cref{eq:processing:rir:ft}
-and the sampled observations $\hatx_i[n]$. In particular, three approximations are made and are depicted in the following diagram
+As explained in~\citeonly{tukuljac2018mulan}, issues arise from simultaneously using the closed-form \RIR/ model derived in~\cref{eq:processing:rir:ft}
+and the sampled observations $\hatx_i[n]$. The paper mention three approximations, which are depicted in the following diagram.
 
 \begin{figure}[!h]
     \begin{fullwidthfig}
     \centering
-
-    \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
-
-    \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-    %uncomment if require: \path (0,558); %set diagram left start at 0, and has height of 558
-
-    %Shape: Rectangle [id:dp614839268877243]
-    \draw  [draw opacity=0][fill={myorange}  ,fill opacity=0.15 ] (350,100) -- (680,100) -- (680,370) -- (350,370) -- cycle ;
-    %Shape: Rectangle [id:dp7784558007487852]
-    \draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.15 ] (20,100) -- (350,100) -- (350,370) -- (20,370) -- cycle ;
-    %Shape: Rectangle [id:dp004173328113190822]
-    \draw  [draw opacity=0] (50,260) -- (650,260) -- (650,300) -- (50,300) -- cycle ;
-    %Shape: Rectangle [id:dp6147771436517397]
-    \draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.5 ] (20,30) -- (350,30) -- (350,100) -- (20,100) -- cycle ;
-    %Shape: Rectangle [id:dp9816909096187794]
-    \draw  [draw opacity=0][fill={myorange}  ,fill opacity=0.5 ] (350,30) -- (680,30) -- (680,100) -- (350,100) -- cycle ;
-    %Straight Lines [id:da7927134367673876]
-    \draw    (160,80) -- (160,128) ;
-    \draw [shift={(160,130)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da2716481804496049]
-    \draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (160,302) -- (160,328) ;
-    \draw [shift={(160,330)}, rotate = 270] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    \draw [shift={(160,300)}, rotate = 90] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da54643853486241]
-    \draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (222,340) -- (540,340) -- (540,302) ;
-    \draw [shift={(540,300)}, rotate = 450] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    \draw [shift={(220,340)}, rotate = 0] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da9938899239910718]
-    \draw    (540,80) -- (540,128) ;
-    \draw [shift={(540,130)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da9352991083161488]
-    \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ]   (478,280) -- (222,280) ;
-    \draw [shift={(220,280)}, rotate = 360] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    \draw [shift={(480,280)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da7896607930231315]
-    \draw    (160,160) -- (160,188) ;
-    \draw [shift={(160,190)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da12071942117446954]
-    \draw    (160,210) -- (160,268) ;
-    \draw [shift={(160,270)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da608956068141512]
-    \draw    (540,160) -- (540,268) ;
-    \draw [shift={(540,270)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    %Straight Lines [id:da415565407952709]
-    \draw    (232,60) -- (478,60) ;
-    \draw [shift={(480,60)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-    \draw [shift={(230,60)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
-
-    % Text Node
-    \draw (160,60) node    {$c( t) \ =\ ( h\star s)( t)$};
-    % Text Node
-    \draw (540.5,60) node    {$c( f) =h( f) s( f)$};
-    % Text Node
-    \draw (118,332.4) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize]  {$c[ n] =( h\circledast s)[ n] \ $};
-    % Text Node
-    \draw (120,170.5) node  [font=\normalsize] [align=left] {{\scriptsize Proposition 2}};
-    % Text Node
-    \draw (95,117) node  [font=\normalsize] [align=left] {{\scriptsize measurement: $\lowpassfilter, \kparen{\frac{n}{\Fs}}$}};
-    % Text Node
-    \draw (102,271.4) node [anchor=north west][inner sep=0.75pt]    {$c[ n] =( h\ast s)[ n] \ $};
-    % Text Node
-    \draw (99,310.5) node  [font=\normalsize] [align=left] {{\scriptsize \textcolor{myorange}{Approx. 2:} $ h\ast s\approx h\circledast s$}};
-    % Text Node
-    \draw  [draw opacity=0]  (491,136) -- (588,136) -- (588,156) -- (491,156) -- cycle  ;
-    \draw (494,140.4) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize]  {$c( f_{k}) =h( f_{k}) s( f_{k})$};
-    % Text Node
-    \draw  [draw opacity=0]  (100,131) -- (220,131) -- (220,162) -- (100,162) -- cycle  ;
-    \draw (103,135.4) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize]  {$\ c[ n] =\lowpassfilter ( h\star s)\left(\frac{n}{F_{s}}\right) \ $};
-    % Text Node
-    \draw (314,50) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{50.818644000000006pt}\setlength\topsep{0pt}
-        \begin{center}
-        continuous-time conv. theorem
-        \end{center}
-    \end{minipage}};
-    % Text Node
-    \draw (489,272.4) node [anchor=north west][inner sep=0.75pt]    {$c[ k] =h[ k] s[ k]$};
-    % Text Node
-    \draw (314,329) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize,color={rgb, 255:red, 155; green, 155; blue, 155 }  ,opacity=1 ] [align=left] {\begin{minipage}[lt]{50.818644000000006pt}\setlength\topsep{0pt}
-        \begin{center}
-        discrete-time conv. theorem
-        \end{center}
-    \end{minipage}};
-    % Text Node
-    \draw (324,267) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{37.320644pt}\setlength\topsep{0pt}
-    \begin{center}
-    in practice
-    \end{center}
-
-    \end{minipage}};
-    % Text Node
-    \draw  [draw opacity=0]  (102,189) -- (218,189) -- (218,209) -- (102,209) -- cycle  ;
-    \draw (105,193.4) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize]  {$c[ n] =( \lowpassfilter \ast h\ast s)[ n] \ $};
-    % Text Node
-    \draw (591.5,110.5) node  [font=\normalsize] [align=left] {{\scriptsize discretization at $ f_{k}$}};
-    % Text Node
-    \draw (160,23.5) node  [font=\scriptsize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ] [align=left] {\textit{\textbf{Time}}};
-    % Text Node
-    \draw (544.5,22.5) node  [font=\scriptsize,color={myorange}  ,opacity=1 ] [align=left] {\textit{\textbf{Frequency}}};
-    % Text Node
-    \draw (104.5,230.5) node  [font=\normalsize] [align=left] {{\scriptsize \textcolor{myorange}{Approx. 1}: $ \lowpassfilter \ast h\approx h$}};
-    % Text Node
-    \draw (544,172) node [anchor=north west][inner sep=0.75pt]  [font=\normalsize] [align=left] {{\scriptsize measurement: $ f_{k} \leq F_{s}$}\\{\scriptsize $ s$ band-limited: $ s( f_{k}) =s[ k]$}\\{\scriptsize \textcolor{myorange}{Approx3:} $ h[ k] \ \approx \ h( f_{k}) \ $}};
-    % Text Node
-    \draw (12.5,64.5) node  [font=\scriptsize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ,rotate=-270] [align=left] {\textit{\textbf{Continuous}}};
-    % Text Node
-    \draw (12.5,232) node  [font=\scriptsize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ,rotate=-270] [align=left] {\begin{minipage}[lt]{30.248644000000002pt}\setlength\topsep{0pt}
-    \begin{center}
-    \textit{\textbf{Discrete}}
-    \end{center}
-
-    \end{minipage}};
-
-
-    \end{tikzpicture}
-
+    \input{figures/processing/approx_diagram.tikz}
     \end{fullwidthfig}
 \end{figure}
 
-\begin{enumerate}
-    \item\label{en:processing:dft:approx1}
-    In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\tilde{\src}(t)$ has a spectrum limited by $\Fs$, then its discrete version after the convolution with \textit{any} filter $\tilde{h}$
-    is equivalent to the \textit{linear} convolution between the its sampled version $\hat{\src}[n]$ and the low-passed version of the filter.
-    The first approximation is then to consider that filter $\tilde{h} \approx \lowpassfilter \convDis \tilde{h}$, in other words
-    we assume that the filter have a limited frequency support bounded by $\pm \sfrac{\Fs}{2}$.
-    \item\label{en:processing:dft:approx2}
-    In the discrete time domains, the convolution theorem applies to the \textit{circular convolution}, which can be approximated by the \textit{linear convolution}
-    that is $\hath \circledast \hats \approx \hath \convDis \hats$.
+The diagram shows a chain of operators (measurements and transforms), provable and approximated equivalences that lead to~\cref{eq:processing:discreteModel}. In order,
+\begin{enumerate}[label=(\roman*)]
+    \item\label{it:processing:dft:approx1}
+    In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\tilde{\src}(t)$ is band-limited by $\Fs$,
+    then sampling the continuous convolution is exactly equivalent to \textit{linearly} convolve the discrete signal $\hat{\src}[n]$ and the discrete and low-passed version of the filter.
+    The source signal is band-limited by nature, however, the $\tilde{h}(t)$ is not (in fact the \RIR/ is modeled as a finite summation of spikes, which has infinite spectrum).
+    Thus, the first approximation~\ref{it:processing:dft:approx1} considers $\tilde{h}[n] \approx \lowpassfilter \convDis \tilde{h}$, in words
+    we assume that the filter is band-limited by $\pm \sfrac{\Fs}{2}$.
+    \\\citeauthor{tukuljac2018mulan} made an important observation here:
+    \begin{quote}
+        Here, it is important to note that contrary to intuition, even in the idealized case where an infinite number of samples are available, the discrete-time filters $\hat{\rir}[n]$
+        involved in the measurement model are never streams of Diracs, but non-sparse, infinite-length filters consisting of decimated combinations of sinc functions.
+        \citeonly{tukuljac2018mulan}.
+    \end{quote}
+    In the context of this thesis, this observation tell us that even in ideal conditions, that is without noise, possibly knowing the transmitted signal, and processing infinitely
+    many samples, the exact estimation of the echo properties of the \RIR/ is challenging task itself.
+
+    \item\label{it:processing:dft:approx2}
+    The discrete-time convolution theorem applies to the \textit{circular convolution}, which can be approximated by the \textit{linear convolution}
+    that is $(\hath \circledast \hats)[n] \approx (\hath \convDis \hats)[n]$.
     This second approximation is reasonably good when many samples are available and when one of the two signals is periodic, which
     are typical cases for audio signals.
-    \item\label{en:processing:dft:approx3}
+
+    \item\label{it:processing:dft:approx3}
     The third approximation regards the closed-form of $h_{ij}(f)$ of~\cref{eq:processing:discreteModel:rir} which
-    would require infinitely many samples and unlimited frequency support to be computed\sidenote{This formula would results from the \DTFTdef/ of $h_{ij}(t)$}.
+    would require infinitely many samples and unlimited frequency support to be computed\sidenote{This formula would results from the \DTFTdef/ of $\tilde{\rir}_{ij}(t)$}.
 \end{enumerate}
 
-Nevertheless, it is important to notice that these approximations become arbitrarily precise as the number of samples $N$ grows to infinity.
-
+Nevertheless, it is important to notice that approximations \ref{it:processing:dft:approx2} and \ref{it:processing:dft:approx3} become arbitrarily precise as the number of samples $N$ grows to infinity.
+\mynewline
 While the raw audio signal encodes the amplitude of a sound as a function of time,
-its Fourier spectrum represents it as a function of frequency.
+its spectrum represents it as a function of frequency.
 However the information on when these frequencies occur is hidden in the transform.
-In order to jointly account for both temporal and spectral characteristic, joint representations are used.
+In order to jointly account for both temporal and spectral characteristic, joint time-frequency representations are used.
 
 \subsection{Time-Frequency domain representation}
 \TFdef/ representations aim to jointly describe the signal in time and frequency domain.

@@ -1,0 +1,125 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,435); %set diagram left start at 0, and has height of 435
+
+%Shape: Rectangle [id:dp614839268877243]
+\draw  [draw opacity=0][fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.15 ] (350,130) -- (670,130) -- (670,380) -- (350,380) -- cycle ;
+%Shape: Rectangle [id:dp7784558007487852]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.15 ] (30,130) -- (350,130) -- (350,380) -- (30,380) -- cycle ;
+%Shape: Rectangle [id:dp004173328113190822]
+\draw  [draw opacity=0] (50,260) -- (650,260) -- (650,300) -- (50,300) -- cycle ;
+%Shape: Rectangle [id:dp6147771436517397]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.5 ] (30,30) -- (350,30) -- (350,130) -- (30,130) -- cycle ;
+%Shape: Rectangle [id:dp9816909096187794]
+\draw  [draw opacity=0][fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.5 ] (350,30) -- (670,30) -- (670,130) -- (350,130) -- cycle ;
+%Straight Lines [id:da7927134367673876]
+\draw    (160,100) -- (160,147) ;
+\draw [shift={(160,150)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+\draw [shift={(160,100)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (0,3.35) -- (0,-3.35)   ;
+%Straight Lines [id:da2716481804496049]
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (160,322) -- (160,348) ;
+\draw [shift={(160,350)}, rotate = 270] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+\draw [shift={(160,320)}, rotate = 90] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+%Straight Lines [id:da9352991083161488]
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (260,300) -- (437,300) ;
+\draw [shift={(440,300)}, rotate = 180] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+\draw [shift={(260,300)}, rotate = 180] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (0,3.35) -- (0,-3.35)   ;
+%Straight Lines [id:da7896607930231315]
+\draw    (160,182) -- (160,208) ;
+\draw [shift={(160,210)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+\draw [shift={(160,180)}, rotate = 90] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+%Straight Lines [id:da12071942117446954]
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (160,242) -- (160,268) ;
+\draw [shift={(160,270)}, rotate = 270] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+\draw [shift={(160,240)}, rotate = 90] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+%Straight Lines [id:da608956068141512]
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (540,182) -- (540,268) ;
+\draw [shift={(540,270)}, rotate = 270] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+\draw [shift={(540,180)}, rotate = 90] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+%Straight Lines [id:da057968566754578066]
+\draw    (540,100) -- (540,147) ;
+\draw [shift={(540,150)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+\draw [shift={(540,100)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (0,3.35) -- (0,-3.35)   ;
+%Straight Lines [id:da8296896479593422]
+\draw    (260,80) -- (437,80) ;
+\draw [shift={(440,80)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+\draw [shift={(260,80)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (0,3.35) -- (0,-3.35)   ;
+%Straight Lines [id:da37801549569398196]
+\draw    (220,360) -- (540,360) -- (540,323) ;
+\draw [shift={(540,320)}, rotate = 450] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+\draw [shift={(220,360)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (0,3.35) -- (0,-3.35)   ;
+%Straight Lines [id:da6066188348300053]
+\draw    (120,400) -- (147,400) ;
+\draw [shift={(150,400)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+\draw [shift={(120,400)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (0,3.35) -- (0,-3.35)   ;
+%Straight Lines [id:da03933712969449343]
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (442,400) -- (468,400) ;
+\draw [shift={(470,400)}, rotate = 180] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+\draw [shift={(440,400)}, rotate = 0] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+%Straight Lines [id:da7494391212201783]
+\draw    (262,400) -- (288,400) ;
+\draw [shift={(290,400)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+\draw [shift={(260,400)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+
+% Text Node
+\draw (160.5,75.5) node  [font=\Large]  {$\tilde{\img}(t) = (\tilde{\rir} \convCont \tilde{\src})( t)$};
+% Text Node
+\draw (538,75.5) node  [font=\Large]  {$\tilde{C}(f) = \tilde{H}( f) \tilde{S}( f)$};
+% Text Node
+\draw (157.53,362.14) node  [font=\scriptsize]  {$\hat{\img}[ n] \approx ( \hat{\rir} \circledast \hat{\src})[ n] \ $};
+% Text Node
+\draw (193,190.5) node  [font=\scriptsize] [align=left] {{Prop.2 \ref{it:processing:dft:approx1}}};
+% Text Node
+\draw (197.5,120.5) node  [font=\scriptsize] [align=left] {{$\lowpassfilter$, $t=n/\Fs$}};
+% Text Node
+\draw (160.03,296.69) node  [font=\Large] {$\hat{\img}[ n] \approx (\hat{\rir} \convDis \hat{\src})[ n]$};
+% Text Node
+\draw (223,330.5) node  [font=\scriptsize] [align=left] {{$(\hat{\rir} \convDis \hat{\src})[n] \approx (\hat{\rir} \circledast \hat{\src})[n]$~\ref{it:processing:dft:approx2}}};
+% Text Node
+\draw  [draw opacity=0]  (491.86,158.83) -- (588.86,158.83) -- (588.86,178.83) -- (491.86,178.83) -- cycle  ;
+\draw (540.36,168.83) node  [font=\scriptsize]  {$\tilde{C}( f_{k}) = \tilde{H}( f_{k}) \tilde{S}( f_{k})$};
+% Text Node
+\draw  [draw opacity=0]  (89.98,154.18) -- (230.98,154.18) -- (230.98,185.18) -- (89.98,185.18) -- cycle  ;
+\draw (160.48,169.68) node  [font=\scriptsize]  {$\tilde{\img}[ n] =( \lowpassfilter \convCont ( h\convCont \src))\left(\frac{n}{\Fs}\right) \ $};
+% Text Node
+\draw (539.92,296.69) node  [font=\Large]  {$C[ k] \approx H[ k] S[ k]$};
+% Text Node
+\draw  [draw opacity=0]  (97.75,212.83) -- (225.75,212.83) -- (225.75,232.83) -- (97.75,232.83) -- cycle  ;
+\draw (161.75,222.83) node  [font=\scriptsize]  {$\hat{\img}[ n] =(( \lowpassfilter \convCont \tilde{\rir}) \convDis \hat{\src})[ n] \ $};
+% Text Node
+\draw (575.5,120.5) node  [font=\scriptsize] [align=left] {{$ f = f_{k} \leq \Fs$ }};
+% Text Node
+\draw (160,23.5) node  [font=\footnotesize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ] [align=left] {\textit{\textbf{Time}}};
+% Text Node
+\draw (542.5,23) node  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ] [align=left] {\textit{\textbf{Frequency}}};
+% Text Node
+\draw (213,250.5) node  [font=\scriptsize] [align=left] {{$\hat{\rir}[n] \approx (\lowpassfilter \convCont \tilde{\rir})[n]$~\ref{it:processing:dft:approx1}}};
+% Text Node
+\draw (594.96,221) node  [font=\scriptsize] [align=left] {{$\hat{S}[k] = \tilde{S}(f_{k})$}\\{$ \hat{H}[ k] \approx \hat{H}(f_{k})$~\ref{it:processing:dft:approx3}}};
+% Text Node
+\draw (23,80) node  [font=\footnotesize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ,rotate=-270] [align=left] {\textit{\textbf{Continuous}}};
+% Text Node
+\draw (23,242) node  [font=\footnotesize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=0.5 ,rotate=-270] [align=left] {\begin{minipage}[lt]{34.181356pt}\setlength\topsep{0pt}
+\begin{center}
+\textit{\textbf{Discrete}}
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (339,55.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\fourierTrans{}$};
+% Text Node
+\draw (343,272.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large,color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\discreteFT{}$};
+% Text Node
+\draw (343,332.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\discreteFT{}$};
+% Text Node
+\draw (173.6,402.35) node  [font=\scriptsize] [align=left] {operator};
+% Text Node
+\draw (351.31,402.35) node  [font=\scriptsize] [align=left] {provable equivalence};
+% Text Node
+\draw (543.38,400.35) node  [font=\scriptsize] [align=left] {approximated equivalence};
+
+
+\end{tikzpicture}
