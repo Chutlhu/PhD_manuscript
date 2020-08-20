@@ -85,7 +85,7 @@ The physical properties of real sources (\resp/ receivers) leads to \textit{dire
 be different at different frequencies.
 In this thesis we will assume always omnidirectional sources and receivers.
 
-\subsection{The Mixing Process}
+\subsection{The mixing process}
 Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$.
 Let us assume that there are $\numSrcs$ sources indexed by $\idxSrc \in \kbrace{1,\dots,\numSrcs}$.
 Each microphone $\idxMic$ and each source $\idxSrc$ have a well defined position in the space, $\positionMicrophone_\idxMic$, $\positionSource_\idxSrc$, respectively.
@@ -390,16 +390,19 @@ The diagram shows a chain of operators (measurements and transforms), provable a
     In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\tilde{\src}(t)$ is band-limited by $\Fs$,
     then sampling the continuous convolution is exactly equivalent to \textit{linearly} convolve the discrete signal $\hat{\src}[n]$ and the discrete and low-passed version of the filter.
     The source signal is band-limited by nature, however, the $\tilde{h}(t)$ is not (in fact the \RIR/ is modeled as a finite summation of spikes, which has infinite spectrum).
-    Thus, the first approximation~\ref{it:processing:dft:approx1} considers $\tilde{h}[n] \approx \lowpassfilter \convDis \tilde{h}$, in words
+    Thus, the first approximation~\ref{it:processing:dft:approx1} considers $\tilde{h}[n] \approx (\lowpassfilter \convDis \tilde{h})[n]$, in words
     we assume that the filter is band-limited by $\pm \sfrac{\Fs}{2}$.
     \\\citeauthor{tukuljac2018mulan} made an important observation here:
     \begin{quote}
-        Here, it is important to note that contrary to intuition, even in the idealized case where an infinite number of samples are available, the discrete-time filters $\hat{\rir}[n]$
-        involved in the measurement model are never streams of Diracs, but non-sparse, infinite-length filters consisting of decimated combinations of sinc functions.
+        ``Here, it is important to note that contrary to intuition, even in the idealized case where an infinite number of samples are available, the discrete-time filters $\hat{\rir}[n]$
+        involved in the measurement model are never streams of Diracs, but non-sparse, infinite-length filters consisting of decimated combinations of sinc functions.''
         \citeonly{tukuljac2018mulan}.
     \end{quote}
     In the context of this thesis, this observation tell us that even in ideal conditions, that is without noise, possibly knowing the transmitted signal, and processing infinitely
-    many samples, the exact estimation of the echo properties of the \RIR/ is challenging task itself.
+    many samples, the exact estimation of the echo properties of the \RIR/ is challenging task itself. This is a fundamental difference between \RIR/ estimation and estimating the
+    time of arrivals of the early echoes.
+    \\Note, for instance, that we wrote the echo model only in the continuous-time domain or with its closed-form form discrete frequencies.
+    The discrete-time domain was avoided on purpose since the echoes' arrival time are naturally off the sampling grid, namely not integer multiple $\Fs$.
 
     \item\label{it:processing:dft:approx2}
     The discrete-time convolution theorem applies to the \textit{circular convolution}, which can be approximated by the \textit{linear convolution}

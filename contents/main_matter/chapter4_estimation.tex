@@ -1,6 +1,39 @@
 \chapter{Acoustic Echo Estimation}\label{chap:estimation}
+\openepigraph{Signal, a function that conveys information about a phenomenon.
+$[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
+\vspace{-2.5em}
+\newthought{Synopsis} Let us now move from the physics to digital signal processing.
+At first this chapter formalized fundamental concepts of audio signal processing such as signal, mixtures and noise~\cref{sec:processing:model} in the time domain.
+In~\cref{sec:processing:domains} we will presents the signal representation that we will use throughout the entire thesis: the STFT domain.
+Finally, after assuming the narrowband approximation, in~\cref{sec:processing:rirmodels} some important models for the \RIR/ are described.
 
-\section{Overview}
+Giving the frequency domain model of the \RIR/ defined in the previous chapters,
+\begin{equation}
+    \hat{h}[k] = \sum_{r=0}^K
+\end{equation}
+the \AER/ problem consists in estimating the echo timings $\kbrace{\tau_r}$ and attenuations $\kbrace{\alpha_r}$.
+The term \AER/ is not typical in the audio signal processing community and it can be seen as instance of
+channel estimation problem or time of arrival problems.
+
+\section{as (sparse) \RIR/ estimation}
+\begin{itemize}
+    \item[def] estimation of the whole channel acoustic channel
+    \item[methods] Signal know \vs/ unknown. statistical methods \vs/ blind method
+\end{itemize}
+
+\subsection{Other echo-related parameters estimation}
+\newthought{\TDOA/ estimation}
+\begin{itemize}
+    \item[def] estimation of the the difference of the direct path
+    \item[methods] Cross-correlation
+\end{itemize}
+
+\newthought{Echo Density Estimation}
+
+\newthought{$\RT$ and $\DRR$ estimation}
+
+\section{Acoustic Echo Estimation is}
+
 \begin{itemize}
     \item Acoustic Echo Retrieval definition
     \item Acoustic Echo Retrieval scope and placement in the signal processing pipeline

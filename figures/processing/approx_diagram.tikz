@@ -111,7 +111,7 @@
 % Text Node
 \draw (339,55.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\fourierTrans{}$};
 % Text Node
-\draw (343,272.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large,color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\discreteFT{}$};
+\draw (343,272.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large,color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\discreteFT{}$ {\footnotesize in~\cref{eq:processing:discreteModel}}};
 % Text Node
 \draw (343,332.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\discreteFT{}$};
 % Text Node
