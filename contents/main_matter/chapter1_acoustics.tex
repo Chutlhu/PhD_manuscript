@@ -484,6 +484,9 @@ Based on the consideration of~\cref{ch:acoustics:sec:reflection}, they are commo
 \rir(t) = h^d(t) + h^e(t) + h^l(t)
 ,
 \end{equation}
+
+MULTIPATH \vs/ REVERBERANT benesty
+
 where
 \begin{description}
     \item[the direct path] $h^d(t)$ is the line-of-sight contribution of the sound wave.
@@ -622,7 +625,9 @@ the quality of the prior knowledge modeled.
     }
     \label{fig:acoustics:diffuse_map}
 }
-\textsc{Ray-tracing}~\citeonly{kulowski1985algorithmic} is one the most common methods that fall in this category and is very popular in the field of computer graphics for light simulation.
+
+\mynewline
+\textit{Ray-tracing}~\citeonly{kulowski1985algorithmic} is one the most common methods that fall in this category and is very popular in the field of computer graphics for light simulation.
 The basic idea is to collect ``valid'' paths of discrete rays traced around the room.
 Many technique have been proposed to reduce the computational load, among which the \textit{diffuse rain algorithm}~\citeonly{schroder2007fast, heinz1993binaural} is commonly used in many acoustic simulators.
 Each ray trajectory is reflected in a random direction every time it hits a wall and its energy is scaled according to the wall absorption.
@@ -659,6 +664,7 @@ Even if the basic idea is rather simple, the model is able to produce the exact 
 It models only specular reflections, ignoring diffuse and diffracted components.
 it only approximates arbitrary enclosures and the late diffuse reflections.
 
+\mynewline
 The implementation reflects the sound source against all surfaces in the scene, resulting in a set of \textit{image} sources.
 \marginpar{
     \centering
@@ -676,12 +682,12 @@ First, in a shoebox the complexity of the algorithm is cubic in the order of ref
 Second it models only the specular reflection, neglecting the diffuse sound field.
 For these reasons, the image-source method is generally combined with a stochastic method in hybrid methods to model the full impulse response.
 
-\newthought{Hybrid Methods}
+\newthought{Hybrid methods} combines the best of these two approaches.
 As discussed above, the image-source method is accurate for early reflections, but slow and not accurate for longer responses.
-The ray tracing method is by nature an approximation, but produces acceptable responses for diffuse field.
-And in general geometric methods fails to proper model lower frequencies and room modes.
-The waveguide method models physical phenomena better than the geometric methods, but is expensive at high frequencies.
-All these limitations corresponds into three regions in the \TFdef/ representation of the \RIR/.
+The ray tracing method is by nature an approximation, but produces acceptable responses for diffuse fields.
+And in general geometric methods fail to properly model lower frequencies and room modes.
+The waveguide method models physical phenomena better than geometric methods, but is expensive at high frequencies.
+All these limitations correspond to three regions in the \TFdef/ representation of the \RIR/.
 As depicted in~\cref{fig:acoustics:rir_regions},
 
 \marginpar{%
@@ -706,19 +712,15 @@ As depicted in~\cref{fig:acoustics:rir_regions},
     \item in the time domain, a transition can be identified between the early \vs/ late reflection, corresponding to the validity of the deterministic \vs/ stochastic models; and
     \item in the frequency domain, between geometric \vs/ wave-based modeling.
 \end{itemize}
-By combining three methods, accurate broadband impulse responses can be synthesized,
-but for a much lower computational cost than would be possible with any individual method.
+By combining three methods, accurate broadband impulse responses can be synthesized.
 However, this is possible provided that the time- and frequency-domain
 \textit{crossover points} are respected and the level of each component is scaled accordingly~\citeonly{badeau2019common}.
-
-\textsc{The Crossover Point} in the time domain is called \textit{transition time} or \textit{mixing time}.
-It identifies the moment after which reflections are so frequent that they form a continuum and,
+The \textit{transition time}, or \textit{mixing time}, identifies the moment after which reflections are so frequent that they form a continuum and,
 because the sound is partially absorbed by the room surfaces at every reflection,
 the sound level decays exponentially over time.
 This point define the cross-fade between the deterministic and the stochastic process
-\sidenote{Notice that the stochastic simulator will record both specular and diffuse reflections.
-Therefore, the mix between the two must be done prudently.}.
-\\The crossover point in the frequency domain is called \textit{Schroeder's frequency}
+%\sidenote{Notice that the stochastic simulator will record both specular and diffuse reflections. Therefore, the mix between the two must be done prudently.}.
+The crossover point in the frequency domain is called \textit{Schroeder's frequency}
 and it split the spectrum of the \RIR/ into a region with a few isolated modes and one denser,
 called respectively the \textit{resonant} and \textit{even} behaviors.
 This point define the cross-fade between the geometrical and wave-based model.
@@ -726,27 +728,27 @@ This point define the cross-fade between the geometrical and wave-based model.
 Each simulator available has its own way to compute and implement this crossover points as well as mixing the results of the three methods.
 
 \subsection{The method of images and the image source model}\label{subsec:acoustics:ism}
-The \textit{Method of Images} is a mathematical tool for solving certain class of differential equations subjected to boundary conditions.
+The \textit{Method of Images} is a mathematical tool for solving a certain class of differential equations subjected to boundary conditions.
 By assuming the presence of a ``mirrored'' source, certain boundary conditions are verified facilitating the solution of the original problem.
-This methods is widely used in many fields of physics, and interestingly with specific application to Green's functions.
+This methods is widely used in many fields of physics, and interestingly with specific applications to Green's functions.
 Its application to acoustic was originally proposed by \citeauthor{allen1979image} in \citeonly{allen1979image} and it is know as the \ISMdef/.
-Now \ISM/ is probably the most used technique for deterministic \RIR/ simulation due its conceptual simplicity and its flexibility.
+Now \ISM/ is probably the most used technique for deterministic \RIR/ simulation due to its conceptual simplicity and its flexibility.
 
 The \ISM/ is based on purely specular reflection and it assumes that the sound energy travels around a scene in ``rays''.
-\\In the appendix of \citeonly{allen1979image}, the authors also proved that this method produce a solution the Helmholtz's equation
-for rectangular enclosure with rigid boundaries.
+In the appendix of \citeonly{allen1979image}, the authors also proved that this method produces a solution the Helmholtz's equation
+for cuboid enclosures with rigid boundaries.
 
-\newthought{On a single reflector, the Image Source} defines the interaction of the propagating sound and the surface.
+\mynewline
+The image source defines the interaction of the propagating sound and the surface.
 It is based on the observation that when a ray is reflected, it spawns a secondary source ``behind'' the boundary surface.
-As show in~\cref{fig:acoustics:image_model}, this additional source is located on a line perpendicular to the wall, at the same distance from it as the original source, as if the original source has been “mirrored” in the surface.
-In this way, the each wavefront that arrives to the receiver from each reflection off the walls as the direct path received from an equivalent (or image) source.
-
-The \ISM/ makes use of the following assumptions:
+As show in~\cref{fig:acoustics:image_model}, this additional source is located on a line perpendicular to the wall, at the same distance from it as the original source, as if the original source had been “mirrored” in the surface.
+In this way, each wavefront that arrives to the receiver from each reflection off the walls corresponds to the direct path received from an equivalent (or image) source.
+\\The \ISM/ makes use of the following assumptions:
 \begin{itemize}
-    \item sound source and receiver as points in a rectangular cavity
-    \item purely specular reflection paths between a source and a receiver
-    \item This process is simplified by assuming that sound propagates only along straight lines or rays
-    \item Rays are perfectly reflected at boundaries
+    \item sound source and receiver are points in a cuboid enclosure;
+    \item purely specular reflection paths between a source and a receiver;
+    \item this process is simplified by assuming that sound propagates only along straight lines or rays; and
+    \item rays are perfectly reflected at boundaries
 \end{itemize}
 
 % When a rigid wall is present, it represents a boundary condition to the wave equation, namely to have zero normal velocity vector.
@@ -773,82 +775,102 @@ The \ISM/ makes use of the following assumptions:
 % which has been mirrored in each of those boundaries\citeonly{Kuttruff}. In this way, the
 
 % All sources, original and image, emit the same impulsive source signal at the same time.
-\newthought{Finally \RIR/} is found by summing the contribution from each (image) source, delayed and attenuated appropriately depending on their distance from the receiver.
-Therefore, in the time domain the \RIR/ associated to the source in position $\positionSource$ and the receiver in $\positionMicrophone$ reads
-\begin{equation}\label{eq:acoustics:ims}
+\textsc{Finally} the \RIR/ is found by summing the contribution from each (image) source, delayed and attenuated appropriately depending on their distance from the receiver.
+Therefore, in the time domain, the \RIR/ associated to the source at position $\positionSource$ and the receiver at $\positionMicrophone$ reads
+\begin{equation}\label{eq:acoustics:ims:time}
     \rir_{\mathtt{ISM}}(t, \positionMicrophone \mid \positionSource) =
     \sum_{\idxEch=0}^{\numEchs}
-        \frac{1}{4 \pi \norm{\positionMicrophone - \positionSource_\idxEch}}
+        \frac{\bar{\absCoeff}_{\idxEch}}{4 \pi \norm{\positionMicrophone - \positionSource_\idxEch}}
         \diracOf{t - \frac{\norm{\positionMicrophone - \positionSource_\idxEch}}{\speedOfSound}}
 \end{equation}
-where $\positionSource_\idxEch$ is the $\idxEch$-th image of the source.
-
-MULTIPATH \vs/ REVERBERANT benesty
-
-The above equation assume perfect rigid and reflective wall.
-In order to easily incorporate frequency-dependent acoustic impedances (and absorption coefficient)
-of real surfaces, the Fourier transform of~\cref{eq:acoustics:ims} is consider instead, where
-each reflection term addendum is appropriately scaled
-\begin{equation}
-    \label{eq:acoustics:ims}
-    \rirFreq_{\mathtt{ISM}}(f, \positionMicrophone \mid \positionSource) =
-        \sum_{\idxEch=0}^{\numEchs} \frac{\absCoeff_{\idxEch}(f)}{4 \pi \norm{\positionMicrophone - \positionSource_\idxEch}}
-        \exp\kparen{- \Ii 2 \pi f \frac{\norm{\positionMicrophone - \positionSource_\idxEch}}{\speedOfSound}}
-        ,
-\end{equation}
+where $\positionSource_\idxEch$ is the $\idxEch$-th image of the source and $\bar{\absCoeff}_{\idxEch}$
+is the (cumulative) frequency-independent absorption coefficient of the surfaces between $\positionSource_\idxEch$ and $\positionMicrophone$.
 where $\absCoeff_{\idxEch}$ is the damping coefficient related to the $\idxEch$-th image which in general
 consider the all the absorption coefficient of the considered surfaces.
+
+\mynewline
+Before properly defining $\bar{\absCoeff}_{\idxEch}$, the reader should notice that the model~\eqref{eq:acoustics:ims:time} induces an ``order'' among reflections indexed by $\idxEch$.
+Reflections can be ordered based on their \TOA/, $\tau_r = \norm{\positionMicrophone - \positionSource_\idxEch}/\speedOfSound$,
+or their amplitudes, $\bar{\absCoeff}_{\idxEch}/(4 \pi \norm{\positionMicrophone - \positionSource_\idxEch})$.
+Moreover, one can sort them according to their generation, \eg/ direct path, first-order images \etc/.
+However, this requires an arbitrary order within the same generation, typically a fixed wall sequence.
+Notice that the resulting sorted sequences can differ substantially as show in~\cref{fig:acoustics:rir:ref_label}
+\\Assuming a shoebox room and a generation-based ordering, $r = 0$ refers to the ideal propagation path, hence, $\bar{\absCoeff}_0 = \absCoeff_0 = 1$.
+$r \in \kbrace{1, \ldots, 6}$ refers to the first-image sources which separated from the receiver by a single and real plane;
+therefore $\bar{\absCoeff}_r$ coincides with the wall reflection coefficient.
+For $r \geq 7$, the ray from $\positionSource_r$ to $\positionMicrophone$ intersects more the two surfaces.
+
+\mynewline
+The above equation assumes perfectly rigid and reflective walls.
+% Although, the latter issues may be solved by using fractional delays~\citeonly{peterson1986simulating},
+In order to easily incorporate frequency-dependent acoustic impedances (and absorption coefficient)
+of real surfaces, the Fourier transform of~\cref{eq:acoustics:ims:time} is considered instead, where
+each reflection term addendum is appropriately scaled
+\begin{equation}
+    \label{eq:acoustics:ims:freq}
+    \rirFreq_{\mathtt{ISM}}(f, \positionMicrophone \mid \positionSource) =
+        \sum_{\idxEch=0}^{\numEchs} \frac{\absCoeff_{\idxEch}(f)}{4 \pi \norm{\positionMicrophone - \positionSource_\idxEch}}
+        \exp\kparen{- \csti 2 \pi f \frac{\norm{\positionMicrophone - \positionSource_\idxEch}}{\speedOfSound}}
+        ,
+\end{equation}
+where now the $\idxEch$-th damping coefficient $\absCoeff_{\idxEch}$ is frequency dependent.
+Notice that now the damping coefficient acts as a filter,
+requiring~\cref{eq:acoustics:ims:time} to be written as sum of convolutions.
+
 % When simulating the discrete version of a \RIR/ on a computer, in general this distances corresponds to delays that are not on
 % integer multiple of the sampling frequencies.
+
+\questionpar{Can echoes be louder the the direct-path?} Yes.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%y
 \section{Perception and some acoustic parameters}\label{ch:acoustics:sec:perception}
 So far we have analyzed reverberation from a purely mathematical point of view.
 However in many applications it is important to correlate physical measurements to subjective and perceptual qualities.
-This will be important in order to define evaluation scenarios later in this thesis.
+This will be important in order to define evaluation scenarios later in this thesis
 \sidenote{
     \footnotesize
     \textbf{\textit{Cite Sacks about perception}}
-}
+}.
 \subsection{The perception of the \RIR/'s elements}
 It is commonly accepted that the \RIR/ components defined in~\cref{ch:acoustics:subsec:rir} play rather separate roles in the perception of sound propagation.
 
-\newthought{The Direct Path} is the delayed and attenuated version of source signal itself.
+\newthought{The direct path} is the delayed and attenuated version of source signal itself.
 It coincides with the free-field sound propagation and, as we will see in~\cref{chap:mirage}, it reveals the direction of the source.
 
-\newthought{Early Reflections and Echoes} are reflections which are by nature highly correlated with to the direct sound.
-They convey a sense of geometry which modify the general perception of the sound:
+\newthought{The early reflections and echoes} are reflections which are by nature highly correlated with to the direct sound.
+They convey a sense of geometry which modifies the general perception of the sound:
 \begin{description}
-    \item[The Precedence Effect] occurs when two correlated sounds are perceived as a single auditory event~\citeonly{wallach1973precedence}.
+    \item[The precedence effect] occurs when two correlated sounds are perceived as a single auditory event~\citeonly{wallach1973precedence}.
     This happens usually when they reach the listener with a delay within $\SI{5}{\ms}$ to $\SI{40}{\ms}$.
-    However, the perceived spatial location carried by the first-arriving sound is preserved suppress the perceived location of the lagging sound.
+    However, the perceived spatial location carried by the first-arriving sound suppressing the perceived location of the lagging sound.
     This allows human to accurately localize the direction of the main source, even in presence of its strong reflections.
-    \item[The Comb Filter Effect] indicates the change in timbre of the perceived sound, named \textit{coloration}.
+    \item[The comb filter effect] indicates the change in timbre of the perceived sound, named \textit{coloration}.
     This happens when multiples reflections arrive with periodic patterns and some constructive or destructive interferes may arise.
-    Such phenomena can be well modeled with a comb filter \citeonly{barron1971subjective}..
-    \item[Apparent Source Width] is the audible impression of a spatially extended sound source~\citeonly{griesinger1997psychoacoustics}.
-    By the presence of early reflection, the perceived energy increases, providing the impression that a source sounds larger than its optical size.
-    \item[Distance and Depth Perception] provides to the listener cues about the source location.
+    Such phenomena can be well modeled with a comb filter \citeonly{barron1971subjective}.
+    \item[Apparent source width] is the audible impression of a spatially extended sound source~\citeonly{griesinger1997psychoacoustics}.
+    By the presence of early reflection, the perceived energy increases, providing the impression that a source sounds larger than its true size.
+    \item[Distance and depth perception] provides to the listener cues about the source location.
     While the former refers to the spatial range, the latter relates the source to the auditory scene as a whole~\citeonly{kearney2012distance}.
-    A fundamental cue for distance perception is the \textit{direct-to-reverberant ratio} ($\DRR$)\sidenote{\cfr~\cref{ch:acoustics:subsec:drr}},
-    \ie/ the ratio between the direct path ration and the remain portion of the \RIR/.
-    Regarding the depth perception, early reflection are the main responsible.
-    In the context of virtual reality, correct modeling of these quantities is essentials in order to maintain a coherent depth impression~\citeonly{kearney2012distance}.
+    A fundamental cue for distance perception is the \textit{direct-to-reverberant ratio} ($\DRR$),
+    \ie/ the ratio between the direct path ratio and the remaining portion of the \RIR/.
+    Regarding the depth perception, early reflections are the main responsible.
+    In the context of virtual reality, correctly modeling of these quantities is essentials in order to maintain a coherent depth impression~\citeonly{kearney2012distance}.
 \end{description}
 
-\newthought{The Late Reverberation} in room acoustics is indicative of the size the environment and the materials within~\citeonly{valimaki2016more}.
+\newthought{The late reverberation} in room acoustics is indicative of the size the environment and the materials within~\citeonly{valimaki2016more}.
 It provides the \textit{listener envelopment}, \ie/ the degree of immersion in the sound field~\citeonly{griesinger1997psychoacoustics}.
-This portion of the \RIR/ is mainly characterized by the sound diffusion, which depend on the surfaces roughness.
+This portion of the \RIR/ is mainly characterized by the sound diffusion, which depends on the surfaces roughness.
 
 \subsection{Mixing time}
 Perceptually, it define the instant when the reverberation cannot be distinguished from that of any other position of the listener in the room.
 Analytically,  the
 \begin{center}
-    \textit{\emph{mixing time} is the instant that divides the early reflections from the late reverberation in a RIR},
+    \textit{the mixing time is the instant that divides the early reflections from the late reverberation in a RIR},
 \end{center}
-And it is represented in Equation 2.47 by the symbol Tm.
-Due to this, it is an parameters important also in the context of \RIRs/ synthesis as it defines cross-over point for room acoustics simulator using hybrid methods~\citeonly{savioja2015overview}\sidenote{\cfr~\cref{sec:acoustics:simulators}}.
+and it is represented in Equation 2.47 by $\Tmix\;[\si{\second}]$ .
+Due to this, it is an important parameter also in the context of \RIRs/ synthesis as it defines cross-over point for room acoustics simulator using hybrid methods~\citeonly{savioja2015overview}\sidenote{\cfr~\cref{sec:acoustics:simulators}}.
 
 \subsection{Reverberation time}
 \marginpar{%

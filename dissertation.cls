@@ -292,6 +292,13 @@
     \newthoughtbreak
     \noindent%
 }
+\providecommand\questionpar[1]{%
+    \nopagebreak
+    \newthoughtbreak
+    \noindent%
+    {\llap{\color{black!50}\scriptsize\raisebox{1pt}{$\boldsymbol{?}$}\quad}}%
+    \textcolor{mygray}{\textsc{#1}}%
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage[
