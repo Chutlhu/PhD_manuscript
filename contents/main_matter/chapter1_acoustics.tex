@@ -9,9 +9,9 @@
 % }
 \openepigraph{Sound, a certain movement of air.}{Aristotele, De Anima II.8 420b12}
 This chapter will build a first important bridge: from acoustics to audio signal processing.
-It first defines sound and how it propagates in the environment~\cref{ch:acoustics:sec:wave} teasing out the fundamental concepts of this thesis: the echoes.~\cref{ch:acoustics:sec:reflection} and \RIRdef/~\cref{ch:acoustics:sec:rir}.
+It first defines sound and how it propagates in the environment~\cref{ch:acoustics:sec:wave}, teasing out the fundamental concepts of this thesis: the echoes.~\cref{ch:acoustics:sec:reflection} and the \RIRdef/~\cref{ch:acoustics:sec:rir}.
 By assuming some approximations, the \RIR/ will be described in all its parts in relation with methods to compute them.
-Finally in~\cref{ch:acoustics:sec:perception} how the human auditory system perceives reverberation will be reported.
+Finally, in~\cref{ch:acoustics:sec:perception}, how the human auditory system perceives reverberation will be reported.
 \\The material on waves and acoustic reflection is digested from classic texts on room acoustics and PDEs:
 Kuttruff’s \textit{Room Acoustics}, Pierce's \textit{Acoustics: an introduction to its physical principles and applications}, Duffy’s \textit{Green’s Functions with Applications}.
 Notions on acoustic simulators are extracted from the Habet's tutorial paper \textit{Room impulse response generator}.
@@ -33,8 +33,8 @@ According to common dictionaries and encyclopedias,
 \begin{center}
     \textit{sound is the sensation perceived by the ear caused by the vibration of air}.
 \end{center}
-This definition highlights two aspects of sound: a physical one, characterized by the vibration of air particles; and a perceptual one, involving the auditory system.
-
+This definition highlights two aspects of sound: a physical one, characterized by the air particles vibration; and a perceptual one, involving the auditory system.
+\gccmt{non andrei a capo}
 Focusing on the former phenomenon, when vibrating objects excites air, surrounding air molecules starts oscillating,
 producing zones with different air densities leading to a compressions-rarefactions phenomenon.
 Such vibration of molecules takes place in the direction of the excitement, with the next layer of molecules excited by the previous one.
@@ -45,8 +45,8 @@ Pushing layer by layer forward, a \textit{longitudinal mechanical wave}\sidenote
 } is generated.
 Notice that therefore sound needs a medium to travel: it cannot travel through a vacuum and no sound is present in outer space.
 
-
-A \textit{wave} is a disturbance that propagates though a medium, which can be solid, liquid or gaseous.
+\gccmt{perche' a wave? l'hai nominata prima: direi tipo che il sound propagates through a medium. e poi wave l'hai gia' messo in corsivo prima}
+\gccor{A \textit{wave} is a disturbance that}{Thus sound} propagates though a medium, which can be solid, liquid or gaseous.
 The propagation happens at a certain speed which depends on the physical properties of the medium, such as its density and composition.
 The medium assumed throughout the entire thesis is air, although extensions of the developed methods to other media could be envisioned.
 Under the fair assumption of air being homogeneous and steady,
@@ -67,7 +67,7 @@ The air pressure variations at one point in space can be represented by a \texti
 
 % In general, the sound field is complex and can be decomposed as a superimposition of several waves.
 We think of this process in the light of the classic \textit{source-medium-receiver} model of communication theory.
-The \textit{source}] is anything that emits or expends energy (waves)\sidenote{%
+The \textit{source} is anything that emits or expends energy (waves)\gccmt{non mi piace che dici energy, di direttamente wave cosi' sei corente con i vocaboli e non aggiungi termini nuovi: non hai mai parlato di energia}\sidenote{%
     example of sources are vibrating solids (\eg/ loudspeakers membrane),
     rapid compression or expansion (\eg/ explosions or implosions)
     or air vortices with characteristics frequencies (\eg/ flute and whistles).
@@ -83,14 +83,14 @@ The acoustic wave equation is a second-order partial differential equation\siden
     In 1746, d’Alembert discovered the one-dimensional wave equation for music strings,
     and within ten years Euler discovered the three-dimensional wave equation for fluids.
 } which describes the evolution of acoustic pressure $\pressure$
-as a function of the position $\positionMicrophone$ $[\si{\metre}]$ and time $t$ $[\si{\second}]$
+as a function of the position $\positionMicrophone$ $[\si{\metre}]$ and time $t$ $[\si{\second}]$ \gccmt{non mi piace che metti le unita' di misura}
 \begin{equation}
     \label{eq:acoustics:wave}
     \knabla^2 \pressureSpaceTime - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t} = 0
     ,
 \end{equation}
 where $\knabla^2 = \kpderiv[2]{}{x} + \kpderiv[2]{}{y} + \kpderiv[2]{}{z}$ stands for the 3-dimensional \textit{Laplacian} operator.
-The constant $\speedOfSound$ is the sound velocity in the medium \gccor{with}{and has} dimension $[\frac{\si{\metre}}{\si{\second}}]$.
+The constant $\speedOfSound$ is the sound velocity in the medium and has dimension $[\frac{\si{\metre}}{\si{\second}}]$.
 
 Despite its complicated formulation, the wave equation is linear leading to the following implications:
 \begin{itemize}
@@ -100,10 +100,11 @@ Despite its complicated formulation, the wave equation is linear leading to the 
 
 Assuming the propagation of the wave in a homogeneous medium, one can obtain the equation above by combining three fundamental physical laws:
 \begin{itemize}
-    \item the \textit{conservation of momentum}\sidenote{In fluidodynamics, it comes with the name of the Euler's equation.},
+    \item the \textit{conservation of momentum}\sidenote{In fluidodynamics, it comes with the name of the Euler's equation. \gccmt{inutile}},
     \item the \textit{conservation of mass}, and
-    \item the \textit{polytropic process relation}\sidenote{meaning that the medium is an ideal gas undergoing a reversible adiabatic process.}.
+    \item the \textit{polytropic process relation}\sidenote{meaning that the medium is an ideal gas undergoing a reversible adiabatic process. \gccmt{questa la metterei nel testo: non  e' quella che ti  dice che il gas deve essere omogeneo? alloara l'however dopo avrbbe senso}}.
 \end{itemize}
+\gccmt{howver a cosa?}
 However media are not uniform and feature inhomogeneities of two types:
 scalar inhomogeneities, \eg/ due to temperature variation,
 and vector inhomogeneities, \eg/ due to presence of fans or air conditioning.
@@ -111,25 +112,25 @@ Although these affect the underlying assumption of the model, the effects are sm
 Therefore they are commonly ignored.
 
 \newthoughtpar{The Helmholtz's equation}
-The wave equation~\ref{eq:acoustics:wave} is expressed in the space-time domain $\depSpaceTime$.
+The\gcrm{ wave} equation~\ref{eq:acoustics:wave} is expressed in the space-time domain $\depSpaceTime$.
 By applying the temporal Fourier transform, we obtain the \textit{Helmholtz equation}, \ie/
 \begin{equation}
     \label{eq:acoustics:helmholtz}
     \knabla^2 P(\positionMicrophone, f) + k^2 P(\positionMicrophone, f) = 0
     ,
 \end{equation}
-where $k = \frac{2 \pi f}{c}$  is known as \textit{wave number} $[\si{\metre^{-1}}]$, that relates the frequency $f \; [\si{\hertz}]$ and the propagation velocity $c$.
+where $k = \frac{2 \pi f}{c}$  is known as \textit{wave number} $[\si{\metre^{-1}}]$, \gccor{that}{and} relates the frequency $f \; [\si{\hertz}]$ \gccor{and}{to} the propagation velocity $c$.
 
-Both the wave equation~\ref{eq:acoustics:wave} and the Helmholtz's equation~\ref{eq:acoustics:helmholtz} are source-independent,
+Both the wave\gcrm{ equation}~\ref{eq:acoustics:wave} and the Helmholtz's equation~\ref{eq:acoustics:helmholtz} are source-independent,
 namely no source is present in the medium.
-Therefore they are called \textit{homogeneous} as the right-hand term is zero.
-
+Therefore they are \gccor{called}{said to be} \textit{homogeneous} as the right-hand term is zero.
+\gccmt{Non andrei a capo}
 Normally the sound field is a complex field generated by acoustics sources.
 As consequence, the two equations become inhomogeneous as some non-zero terms needs to be added to the right-hand sides.
 
 In the presence of a sound source producing waves with distribution function $s(t, \positionMicrophone)$, the wave equation can be written\marginpar{%
     \footnotesize
-    The minus sign is a conventions.
+    The minus sign is a conventions. \gccmt{inutile}
 }
 \begin{equation}
     \label{eq:acoustics:source}
@@ -152,7 +153,7 @@ At the receiver position $\positionMicrophone \neq \positionSource$, the Helmhol
      + k^2 H(f, \positionMicrophone \mid \positionSource) = - \delta(\positionMicrophone - \positionSource)
     ,
 \end{equation}
-The function $H(f, \positionMicrophone \mid \positionSource)$ that satisfy \cref{eq:acoustics:green_definition} is the \textit{Green's function}
+The function $H(f, \positionMicrophone \mid \positionSource)$ that satisfy \cref{eq:acoustics:green_definition} is \gc{called} the \textit{Green's function} \gc{and is}
 associated to ~\cref{eq:acoustics:helmholtz}, of which it is also a solution.
 \\In the next subsection, we will see that the function $H$ can be interpreted as the free-field \textit{Transfer Function}
 between the source at $\positionSource$ and the receiver at $\positionMicrophone$.
@@ -172,16 +173,16 @@ They have been used to solve many fundamental equations, among which \cref{eq:ac
     \textit{
     They can be seen as a concept analogous to
     \\ \emph{impulse responses}\sidenote{%
-        Impulse responses in time domain, transfer fuctions in the frequency domain.}
-    in signal processing.
+        Impulse responses in time domain, transfer functions in the frequency domain.}
+    in signal processing.\gccmt{citazione! analogo dove? in fisica? in acustica}
     }
 \end{center}
-Under this light the physic so-far can be rewritten in the vocabulary of the communication theory, namely \textit{input}, \textit{filter} and \textit{output}.
+Under this light, the physic so-far can be rewritten \gccor{in}{using} the vocabulary of the communication theory, namely \textit{input}, \textit{filter} and \textit{output}.
 
 According to Green's method, the equations above can be solved in the frequency domain for arbitrary source as follows:
 \marginpar{%
     \footnotesize
-    If one ignores the space integal, one can see the close relation with a transfer function.
+    If one ignores the space integral, one can see the close relation with a transfer function. \gccmt{nel testo}
 }
 \begin{equation}
     \label{eq:acoustics:helmholz_conv}
