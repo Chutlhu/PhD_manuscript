@@ -14,7 +14,8 @@ By assuming some approximations, the \RIR/ will be described in all its parts in
 Finally, in~\cref{ch:acoustics:sec:perception}, how the human auditory system perceives reverberation will be reported.
 \\The material on waves and acoustic reflection is digested from classic texts on room acoustics and PDEs:
 Kuttruff’s \textit{Room Acoustics}, Pierce's \textit{Acoustics: an introduction to its physical principles and applications}, Duffy’s \textit{Green’s Functions with Applications}.
-Notions on acoustic simulators are extracted from the Habet's tutorial paper \textit{Room impulse response generator}.
+Notions on acoustic simulators are extracted from the Habet's tutorial paper \textit{Room impulse response generator},
+the \citeauthor{savioja2015overview}'s paper of geometrical acoustics, and the documentation of the acoustic simulator \textit{Wayverb} in~\citeonly{thomas2017wayverb}.
 More technical details are reported in Appendix~\ref{ap:roomAcoustics}.
 
 \section{Sound wave propagation}\label{ch:acoustics:sec:wave}%\marginpar{\footnotesize Namely, there is no sound in outer space.}
@@ -169,14 +170,14 @@ between the source at $\positionSource$ and the receiver at $\positionMicrophone
 }
 \textsc{The Green's Functions} are mathematical tools for solving linear differential equations with specified initial- and boundary- conditions~\citeonly{duffy2015green}.
 They have been used to solve many fundamental equations, among which \cref{eq:acoustics:helmholtz,eq:acoustics:wave} for both free and bounded propagation.
-\begin{center}
+\begin{quote}
     \textit{
     They can be seen as a concept analogous to
     \\ \emph{impulse responses}\sidenote{%
         Impulse responses in time domain, transfer functions in the frequency domain.}
     in signal processing.\gccmt{citazione! analogo dove? in fisica? in acustica}
     }
-\end{center}
+\end{quote}
 Under this light, the physic so-far can be rewritten \gccor{in}{using} the vocabulary of the communication theory, namely \textit{input}, \textit{filter} and \textit{output}.
 
 According to Green's method, the equations above can be solved in the frequency domain for arbitrary source as follows:
@@ -332,7 +333,8 @@ As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spati
     \item $\wavelength \ll d$, each irregularities is a surface reflecting specularly the sound waves.
 \end{itemize}
 
-\textsc{This presented behavior} can be described with the wave equation by imposing adequate boundary conditions.
+\mynewline
+This presented behavior can be described with the wave equation by imposing adequate boundary conditions.
 % However working with this formula might results complicated and difficult.
 A simplified yet effective approach - just as in optics - is to model incoming sound waves as \textit{acoustic rays}~\citeonly{davis1926sound, krokstad1968calculating}.
 A ray has well-defined direction and velocity of propagation, and conveys a total wave energy which remains constant.
@@ -361,15 +363,13 @@ If the surface $\surface$ is not perfectly rigid or impenetrable, its behavior i
 Analytically, it is defined as a relation between sound pressure and particle velocity at the boundary.
 It consists of a real and imaginary part, called respectively acoustic \textit{resistance} and \textit{reactance}.
 The former can be seen as the part of the energy which is lost, and the latter as the part which is stored.
-% It measures the portion of energy absorbed by the surface and the incident acoustic wave.
-% describes the relation between pressures of the incident arriving waveform and the reflected wave
 
 \newthought{The reflection coefficient} $\reflCoeff$ can be derived from the acoustic impedance
-for plane waves, \ie/ under assuming a far-field regime between source, receiver and surface,.
-\begin{center}
+for plane waves, \ie/ under assuming a far-field regime between source, receiver and surface.
+\begin{quote}
     \textit{It measures the portion of energy absorbed by the surface
     \\and the incident acoustic wave.}
-\end{center}
+\end{quote}
 Analytically, it is defined as  \citeonly{kuttruff2016room,pierce2019acoustics}
 \begin{equation}
     \reflCoeff(f, \theta) = \frac{\impedence_\surface(f)\cos{\theta} - \impedenceAir(f)}{\impedence_\surface(f)\cos{\theta} + \impedenceAir(f)}
@@ -378,14 +378,14 @@ Analytically, it is defined as  \citeonly{kuttruff2016room,pierce2019acoustics}
 where $\impedence_\surface(f)$ and $\impedenceAir(f)$ are the frequency-dependent impedance of the surface and the air respectively,
 and $\theta$ is the angle of incidence.
 
-\textsc{The absorption coefficient} is typically used instead in the context of \GA/ and the audio signal processing.
+\newthought{The absorption coefficient} is typically used instead in the context of \GA/ and audio signal processing.
 It comes from the following approximations~\citeonly{savioja2015overview}:
-(\textit{i}) The energy or intensity of the plane wave\sidenote{%
+(\textit{i}) the energy or intensity of the plane wave\sidenote{%
     Since it is the square magnitude of the acoustic pressure, the phase information is lost.
 }, is considered instead of the acoustic pressure;
 (\textit{ii}) dependency on the angle of incidence is relaxed in favor of the averaged quantities;
 (\textit{iii}) local dependency on frequencies is relaxed in favor of a frequency-independent scalar or at most a description per octave-band.
-These assumption are motivated by the difficulty of measuring the acoustic impedance
+These assumptions are motivated by the difficulty of measuring the acoustic impedance
 and the possibility to compute an equivalent coefficient a posteriori
 
 Therefore, it is customary to use the absorption coefficient, defined as
@@ -397,11 +397,11 @@ where $\bar{\reflCoeff}$ is the reflection coefficient averaged over the angles 
 
 \newthought{Echoes are specular reflections}\marginpar{%
     \footnotesize
-    The word echo derives from the Greek ``echos'', litterarly ``sound''.
+    The word echo derives from the Greek \textit{echos}, literally ``sound''.
     In the folk story of Greek, Echo is a mountain nymph whose ability to speak was cursed:
     she only able to repeat the last words anyone spoke to her.
 } which stand out in terms of energy strength or timing.
-Originally this term used to refer to sound reflections which are subjectively noticeable as a separated repetition of the original sound signal.
+Originally this term is used to refer to sound reflections which are subjectively noticeable as a separated repetition of the original sound signal.
 These can be heard consciously in outdoor scenario, such as in mountain. However, they are less noticeable to the listener in close rooms.
 In~\cref{ch:acoustics:subsec:rir} a proper definition of echoes will be given with respect to the temporal distribution of the acoustic reflections.
 
@@ -442,29 +442,28 @@ This physical effect is exploited naturally by the human auditory system to loca
 % -----------------------------------------------------------------------------
 
 \section{Room acoustics and room impulse response}\label{ch:acoustics:sec:rir}
-Room acoustics concerns with acoustic waves propagating in air enclosed in a volumes with a set of surfaces
-(walls, floors, etc.), from which an incident wave may be interact as described in \cref{ch:acoustics:sec:reflection}.
+Room acoustics is concerned with acoustic waves propagating in air enclosed in a volumes with a set of surfaces
+(walls, floors, etc.), which an incident wave may be interacts with as described in \cref{ch:acoustics:sec:reflection}.
 In this context, a
 \begin{center}
-    \textit{\emph{room} is a physical enclosure containing the medium and has boundaries limit the sound propagation.}
+    \textit{A room is a physical enclosure containing the medium and with boundaries limiting the sound propagation.}
 \end{center}
 
-\textsc{Mathematically} the sound propagation is described by the wave equation~\eqref{eq:acoustics:wave}.
-By solving it, the \AIRdef/\sidenote{\ATFdef/ in the Fourier transform of the \AIR/}
+Mathematically, the sound propagation is described by the wave equation~\eqref{eq:acoustics:wave}.
+By solving it, the \AIRdef/\sidenote{The \ATFdef/ is the Fourier transform of the \AIR/}
 from a source to a microphone can be obtained.
-In the context of room acoustics, it is commonly referred to as \RIRdef/, usually to put attention of
-on the geometric relation between reflections and the geometry of the scene.
+In the context of room acoustics, it is commonly referred to as the \RIRdef/, usually stressing
+the geometric relation between reflections and the geometry of the scene.
 In this thesis the two terms will be used indistinctly.
 
 \subsection{The room impulse response}\label{ch:acoustics:subsec:rir}
-It is a fundamental concept of this dissertation and it is where physical room acoustic
-(Green's function/Solution of wave equation) and indoor audio signal processing meets.
-From now on, we well adopt an signal processing perspective and
+It is a fundamental concept of this dissertation and it is where physical room acoustic and indoor audio signal processing meets.
+From now on, we well adopt a signal processing perspective considering
 \begin{center}
-\textit{The \RIR/ is a causal time-domain filter that accounts for the whole indoor sound propagation
+\textit{the \RIR/ as a causal time-domain filter that accounts for the whole indoor sound propagation
 from a source to a receiver}
 \end{center}
-\cref{fig:acoustics:rir} provides a schematic illustration of the shape of a \RIR/ in comparison with measured one.
+\cref{fig:acoustics:rir} provides a schematic illustration of the shape of a \RIR/ compared to a measured one.
 \begin{figure}[h]
     \centering
     \begin{minipage}[b]{.5\textwidth}
@@ -479,58 +478,56 @@ from a source to a receiver}
     \label{fig:acoustics:rir}
 \end{figure}
 
-\RIRs/ usually exhibits common structure.
-Based on the consideration in~\cref{ch:acoustics:sec:reflection},
-they are commonly divided into three components \citeonly{kuttruff2016room}:
-
+\RIRs/ usually exhibit common structures.
+Based on the consideration of~\cref{ch:acoustics:sec:reflection}, they are commonly divided into three components:
 \begin{equation}\label{eq:acoustics:rir_full}
 \rir(t) = h^d(t) + h^e(t) + h^l(t)
 ,
 \end{equation}
 where
 \begin{description}
-    \item[Direct path] $h^d(t)$ is the line-of-sight contribution of the sound wave.
-    This term coincides with the spike modeled by the free-field propagation\sidenote{\cfr{The free-field Green's function, \ie/~\cref{eq:acoustics:greenFreeTime})}}.
-    \item[Echoes or Early Refelction] are included in $h^e(t)$ comprising few disjoint reflections coming typically from room surfaces.
+    \item[the direct path] $h^d(t)$ is the line-of-sight contribution of the sound wave.
+    This term coincides with the ``pure delay'' modeled by the free-field propagation model~\eqref{eq:acoustics:greenFreeTime}.
+    \item[the acoustics echoes or early refelctions] are included in $h^e(t)$ comprising few disjoint reflections coming typically from room surfaces.
     They are usually characterized by sparsity in the time domain and greater prominence in amplitude.
-    This first reflections are typically specular and are well modeled in general by the \ISM/\sidenote{\cfr{\cref{subsec:acoustics:ism}}}.
-    \item[Later Reverberation] or simply \textit{reverberation} $h^l(t)$ collects many reflections occurring simultaneously.
+    These first reflections are typically specular and are well modeled in general by the \ISMdef/ explained in \cref{subsec:acoustics:ism}.
+    \item[the late reverberation], or simply \textit{reverberation}, $h^l(t)$ collects many reflections occurring simultaneously.
     This part is characterized by a diffuse sound filed with exponentially decreasing energy.
 \end{description}
-This three components are not only ``visible'' when plotting the \RIR/ against time,
+These three components are not only ``visible'' when plotting the \RIR/ against time,
 but they are characterized by different perceptual features, as explained~\cref{ch:acoustics:sec:perception}.
 
-To conclude with, let $s(t)$ be the source signal, sound received is
+To conclude, let $s(t)$ be the source signal. The received sound writes
 \begin{equation}
-    x(t) = (\rir \conv s)(t)
+    x(t) = (\rir \convCont s)(t)
     ,
 \end{equation}
-where the symbol $\conv$ is the convolution operator.
+where the symbol $\convCont$ is the continuos-time convolution operator.
 
-A part for certain simple scenarios, computing \RIRs/ in closed forms is a cumbersome task.
-Therefore numerical solver or approximation model are used instead.
+Apart for certain simple scenarios, computing \RIRs/ in closed forms is a cumbersome task.
+Therefore numerical solvers or approximate models are used instead.
 
 \subsection{Simulating room acoustics}\label{sec:acoustics:simulators}
-\sidenote{
+\marginpar{
     \footnotesize
     The docoumentation of the \href{https://reuk.github.io/wayverb/introduction.html}{Wayverb}
     acoustic simulator offers a complete overview of
-    the \SOTA/ in acoustic simulator methods\citeonly{thomas2017wayverb}.}
-There are two main categories: geometric and wave-based methods~\citeonly{habets2006room, savioja2015overview, thomas2017wayverb}.
+    the \SOTA/ in acoustic simulator methods~\citeonly{thomas2017wayverb}.}
+Most of the simulators available falls in three main categories:
 \begin{description}
-    \item[wave-based] aims at solving the wave equation numerically, while
-    \item[geometric] methods make some simplifying assumption about the wave propagation:
-    they typically ignore the \textit{wave} behavior of the sound, choosing much lighter models such as \textit{ray}s or \textit{particle}s.
+    \item[the wave-based simulators] aims at solving the wave equation numerically;
+    \item[geometric simulators] make some simplifying assumption about the wave propagation.
+    They typically ignore the wave physic, instead they adopt much lighter models such as \textit{ray}s or \textit{particle}s;
+    \item[the hybrid simulators] combining both approaches.
 \end{description}
 
-\newthoughtpar{Wave-based Methods}
-These are iterative methods that divide the 3D bounded enclosure into a grid of interconnected nodes
-\sidenote{\eg/ mechanical unit with simple degrees of freedoms, like mass-spring system or one-sample-delay unit}.
-For instance, the \FEMf/ divide the space into small volume elements smaller of the sound wavelengths, while
-\BEMf/ divide only the boundaries of the space are divided into surface elements.
+\newthought{Wave-based Methods} are iterative methods that divide the 3D bounded enclosure into a grid of interconnected nodes
+\sidenote{\ie/ mechanical unit with simple degrees of freedoms, like mass-spring system or one-sample-delay unit}.
+For instance, the \FEM/ divides the space into small volume elements smaller than the sound wavelengths,
+while the \BEM/ divides only the boundaries of the space into surface elements.
 These nodes interact with each other according to the math of the wave equation.
-Unfortunately, simulating higher frequencies requires denser interconnection, so the computational complexity increases.
-\\The \FDTDf/ method replace the derivatives with their discrete approximation, \ie/ finite differences.
+Unfortunately, simulating higher frequencies requires denser interconnection-, so the computational complexity increases.
+The \FDTDf/ method replaces the derivatives with their discrete approximation, \ie/ finite differences.
 The space is divided into a regular grid, where the changes of a quantity (air pressure or velocity ) is computed over time at each grid point.
 \DWMf/ methods are a subclass of \FDTD/ often used in acoustics problem.
 \marginpar{
@@ -538,80 +535,103 @@ The space is divided into a regular grid, where the changes of a quantity (air p
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/mass_spring_model.png}
     \captionof{figure}{%
-        Example of  mass-spring linear mesh used to simulate a 1D transversal wave.
+        Example of a mass-spring linear mesh used to simulate a 1D transversal wave.
     }
     \label{fig:acoustics:dwm}
 }
 
 \begin{figure}[t]
-    \label{fig:acoustics:fdtd}
-    \includegraphics[width=\textwidth]{acoustics/simulator_dwg.jpg}
-    \caption{Simulation of Sound propagation at four consecutive timestamps using the \DWM/ technique.
-    A short, sharp, impulsive sound fired into the larger of two rooms causes a circular wavefront to spread out from the sound source.
-    The the wave is reflected from the walls and part of it passes through a gap into the smaller room.
-    In the larger room, interference effects are clearly visible;
-    in the smaller room, the sound wave has spread out into an arc, demonstrating the effects of diffraction.
-    A short while after the initial event, the sound energy has spread out in a much more random and complex fashion.
-}
+    \begin{fullwidthfig}
+        \centering
+        \includegraphics[width=\linewidth]{acoustics/simulator_dwg.jpg}
+
+        \caption{Simulation of Sound propagation at four consecutive timestamps using the \DWM/ technique.
+        A short, sharp, impulsive sound fired into the larger of two rooms causes a circular wavefront to spread out from the sound source.
+        The the wave is reflected from the walls and part of it passes through a gap into the smaller room.
+        In the larger room, interference effects are clearly visible;
+        in the smaller room, the sound wave has spread out into an arc, demonstrating the effects of diffraction.
+        A short while after the initial event, the sound energy has spread out in a much more random and complex fashion.
+        }
+        \label{fig:acoustics:dwm}
+    \end{fullwidthfig}
+
 \end{figure}
 
 \begin{figure}[t]
-    \label{fig:acoustics:fdtd}
-    \centering
-    \includegraphics[width=\textwidth]{acoustics/wave-simulation_fdtd.png}
-    \caption{Sound propagation at three consecutive timestamps using the \FDTD/-based \textit{Triton} simulator from Microsoft}
+    \begin{fullwidthfig}
+        \label{fig:acoustics:fdtd}
+        \centering
+        \includegraphics[width=\linewidth]{acoustics/wave-simulation_fdtd.png}
+    \end{fullwidthfig}
+
+    \vspace{-\baselineskip}\vspace{-\baselineskip}
+    \sideparmargin{outer}
+    \sidepar{\vspace{\baselineskip}
+        \caption{Sound propagation at three consecutive timestamps using the \FDTD/-based \textit{Triton} simulator from Microsoft}
+        \label{fig:acoustics:fdtd}
+    }
+
 \end{figure}
 
-\textsc{The main drawback of these methods} is discretisation problem:
-less dense grid may simplify too much the simulation, while denser grid increase the computational load.
-Moreover, they require delicate definitions of the boundaries condition at the physical lever,
-like knowing complex impedances, parameters not always available in the literature.
-\\\textsc{On the other hand} these methods inherently account for many effects such as occlusion, reflections, diffusion, diffractions and interferences.
-In particular by simulating accurately low-frequencies components of the \RIR/, they are able to well characterize the \textit{room modes}
+\mynewline
+The main drawback of these methods is discretisation:
+less dense grids may simplify too much the simulation, while denser grids increase the computational load.
+Moreover, they require delicate definitions of the boundary condition at the physical level,
+like knowing complex impedances, which are rarely available in practice.
+On the other hand these methods inherently account for many effects such as occlusion, reflections, diffusion, diffractions and interferences.
+In particular, by simulating accurately low-frequencies components of the \RIR/, they are able to well characterize the \textit{room modes}
 \sidenote{
     Room modes have the effect of amplifying and attenuating specific frequencies in the \RIR/,
     and produce much of the subjective sonic ``colour'' of a room.
     Their analysis and synthesis is of vital importance for evaluating acoustic of rooms,
-    such as concert hall, and recording studios or when producing musically pleasing reverbs.
+    such as concert hall and recording studios or when producing musically pleasing reverbs.
 },
-namely collection of resonances that exist in a room and characterize it.
-\\As stated in \citeonly{valimaki2016more}, among the wave-based methods, \DWMf/ are usually preferred:
-they run directly in the time domain, requiring typically an easier implementation, and they exhibits a natural huge level of parallelism.
+namely, collections of resonances that exist in a room and characterize it.
+\\As stated in \citeonly{valimaki2016more}, among the wave-based methods, the \DWMs/ are usually preferred:
+they run directly in the time domain, requiring typically an easier implementation, and they exhibit a high level of parallelism.
 
-\newthoughtpar{Geometric metods}
-They can be grouped into \textit{stochastic} and \textit{deterministic} approaches.
+\newthought{Geometric metods}
 \marginpar{
     \footnotesize
     For a detailed discussion about geometric acoustic methods, please refer to \citeonly{savioja2015overview}.
-}
+} can be sub-grouped into \textit{stochastic} and \textit{deterministic} approaches.
 They typically compute the reflection path(s) between the source and the receivers,
 assuming that the wave behaves like a particle or a ray carrying the acoustic energy around the scene.
 
-\newthought{Stochastics} are approximate by nature.
+\mynewline
+\textsc{Stochastic methods} are approximate by nature.
 They are based on statistical modeling of the \RIRs/ or Monte Carlo simulation methods.
 The formers writes statistical signal processing models based on prior knowledge,
-such as probability distribution of the \RIR/ in regions of time-frequency domain~\citeonly{badeau2019common}.
-Rather than the detailed room geometry, these methods generally use high-level descriptors\sidenote{such as the amount of reverberation}
+such as probability distribution of the \RIR/ in regions of the time-frequency domain~\citeonly{badeau2019common}.
+Rather than the detailed room geometry, these methods generally use high-level descriptors\sidenote{such as the amount of reverberation or source-to-receiver distance.}
 to synthesize \RIRs/ and in some application are preferable.
-\\The latters randomly and repeatedly subsample the problem space, \eg/ tracing the path of random reflections,
+The latters randomly and repeatedly subsample the problem space, \eg/ tracing the path of random reflections,
 recording samples which fulfil some correctness criteria, and discarding the rest.
 By combining the results from multiple samples, the probability of an incorrect result is reduced, and the accuracy is increased.
 Typically the trade-off between quality and speed of these approaches is based on the number of samples and
-the qualities of the prior knowledge modeled.
+the quality of the prior knowledge modeled.
 
-\textsc{Ray-tracing}~\citeonly{kulowski1985algorithmic} is one the most common method that fall in this category and very popular
-in the field of computer graphic for light simulation.
+\marginpar{
+    \centering
+    \footnotesize
+    \includegraphics[width=\linewidth]{acoustics/simulator_diffuse_map.png}
+    \captionof{figure}{%
+        Directional-time-frequency Energy map resulting form the diffuse rain algorithm~\citeonly{schroder2007fast}.
+        For each direction, that is receiver's spherical bin, a time-frequency histogram collects the energy of incoming rays.
+        \imgsrc{\citeonly{schimmel2009fast}}
+    }
+    \label{fig:acoustics:diffuse_map}
+}
+\textsc{Ray-tracing}~\citeonly{kulowski1985algorithmic} is one the most common methods that fall in this category and is very popular in the field of computer graphics for light simulation.
 The basic idea is to collect ``valid'' paths of discrete rays traced around the room.
-Many technique have been proposed to reduce the computational load, among all the \textit{diffuse rain algorithm}~\citeonly{schroder2007fast, heinz1993binaural}
-is commonly used in many acoustic simulator.
+Many technique have been proposed to reduce the computational load, among which the \textit{diffuse rain algorithm}~\citeonly{schroder2007fast, heinz1993binaural} is commonly used in many acoustic simulators.
 Each ray trajectory is reflected in a random direction every time it hits a wall and its energy is scaled according to the wall absorption.
 The process of tracing a ray is continued until the ray’s energy falls below a predefined threshold.
-At each reflection time and for each frequency (bin or band), the ray's energy and angle of arrival are recorded in histogram,
-namely a \textit{directional-time-frequency energy map} of the room’s diffuse sound field for a giver receiver location (\cfr{~\cref{fig:acoustics:diffuse_map}})
-This map is then used as prior distribution for drawing random set of impulses which are used to form the \RIR/.
-
-While neglecting some detailed description of early reflection and room modes,
-these methods are good to capture and simulate the statistical behavior of the diffuse sound field for low computational cost.
+At each reflection time and for each frequency (bin or band), the ray's energy and angle of arrival are recorded in histograms,
+namely a \textit{directional-time-frequency energy map} of the room’s diffuse sound field for a given receiver location (\cfr{~\cref{fig:acoustics:diffuse_map}}).
+This map is then used as prior distribution for drawing random sets of impulses which are used to form the \RIR/.
+While lacking a detailed description of early reflections and room modes,
+these methods are good to capture and simulate the statistical behavior of the diffuse sound field at a low computational cost.
 
 \marginpar{
     \centering
@@ -626,32 +646,20 @@ these methods are good to capture and simulate the statistical behavior of the d
         then diffuse reflections can be modeled either by splitting a ray into several new rays or a single random one.
         In the diffuse rain technique a shadow-ray is cast from each diffuse reflection
         point to the receiver to speed-up convergence of the simulation.
-        \imgsrc{\citeonly{Savioja2015goemetric}}
+        \imgsrc{\citeonly{savioja2015overview}}
     }
     \label{fig:acoustics:simulator_ray}
 }
 
-\marginpar{
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/simulator_diffuse_map.png}
-    \captionof{figure}{%
-        Directional-time-frequency Energy map resulting form the diffuse rain algorithm\citeonly{schroder2007fast}.
-        For each direction, that is receiver's spherical bin, a time-frequency histogram collects the energy of incoming rays.
-        \imgsrc{\citeonly{schimmel2009fast}}
-    }
-    \label{fig:acoustics:diffuse_map}
-}
+\mynewline
+\textsc{Deterministic methods} are good to simulate early reflections instead:
+they accurately trace the exact direction and the timing of the main reflections' paths.
+The most popular method is the \ISMdef/, proposed by \citeauthor{allen1979image} in \citeonly{allen1979image}.
+Even if the basic idea is rather simple, the model is able to produce the exact solution to the wave equation for a 3D shoebox with rigid walls.
+It models only specular reflections, ignoring diffuse and diffracted components.
+it only approximates arbitrary enclosures and the late diffuse reflections.
 
-\newthought{Deterministic} methods are good to simulate early reflection instead:
-they accurate traces the exact direction and the timing of the main reflections' paths.
-
-The most popular is the Allen and Barkley's \ISMdef/~\citeonly{allen1979image}.
-Even if the basic idea is rather inutile and simple, the model is able to produce the exact solution to the wave equation for a 3D shoebox with rigid walls.
-Since it models only specular (perfect) reflections, ignoring diffuse and diffracted components.
-it only approximate arbitrary enclosures and the late diffuse reflections.
-
-The na\"ive implementation reflects the sound source against all surfaces in the scene, resulting in a set of \textit{image} sources.
+The implementation reflects the sound source against all surfaces in the scene, resulting in a set of \textit{image} sources.
 \marginpar{
     \centering
     \footnotesize
@@ -663,10 +671,10 @@ The na\"ive implementation reflects the sound source against all surfaces in the
     \label{fig:acoustics:simulator_ism}
 }
 Then, each of these image sources is itself reflected against all surfaces.
-Two are the main limitation of this method.
-First, in a shoebox the complexity of the algorithm is cubic in the order of reflection and for order higher 30 the algorithm become impractical.
+There are two main limitations of this method.
+First, in a shoebox the complexity of the algorithm is cubic in the order of reflections. Therefore when an high order is required, the algorithm becomes impractical.
 Second it models only the specular reflection, neglecting the diffuse sound field.
-\\For these reasons, the image-source method is generally combined with a stochastic method in hybrid method to model the full impulse response.
+For these reasons, the image-source method is generally combined with a stochastic method in hybrid methods to model the full impulse response.
 
 \newthought{Hybrid Methods}
 As discussed above, the image-source method is accurate for early reflections, but slow and not accurate for longer responses.
@@ -675,15 +683,7 @@ And in general geometric methods fails to proper model lower frequencies and roo
 The waveguide method models physical phenomena better than the geometric methods, but is expensive at high frequencies.
 All these limitations corresponds into three regions in the \TFdef/ representation of the \RIR/.
 As depicted in~\cref{fig:acoustics:rir_regions},
-\marginpar{%
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/rir_freq.png}
-    \captionof{figure}{%
-    Time-Frequency profile of a measured \RIR/.
-    }
-    \label{fig:acoustics:rir_regions}
-}
+
 \marginpar{%
     \centering
     \footnotesize
