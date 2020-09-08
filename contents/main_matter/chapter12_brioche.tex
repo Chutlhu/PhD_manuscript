@@ -26,4 +26,36 @@ Bibliography with respect to learning and knowledge approaches
 
 \section{Experimental Evaluation}
 
+\section{Metrics}
+
+\href{https://github.com/aliutkus/speechmetrics}
+
+\newthoughtpar{PESQ}
+\begin{itemize}
+    \item presented in~\citeonly{rix2001perceptual}
+    \item a measure assumed to cover several speech degradation and distortion was promoted in the ITU-T recommendation P.862 [ITU-T 2001]
+    \item This metric named “Perceptual Evaluation of Speech Quality” (PESQ) is for now considered as one of the most reliable metric to predict the overall speech quality
+    \item PESQ was first designed to account mainly for network or telecommunication distortion
+    \item the signals are equalized following the typical frequency response of a telephone
+    \item Practically, after applying an auditory model to the signals (based on a Bark frequency scale) the loudness spectra are estimated.
+    \item From the loudness spectra differences (disturbance), the wideband PESQ predicts a Mean Opinion Score (MOS) as it could be retrieved from genuine listening tests.
+    \item Mean opinion score (MOS) is a measure used in the domain of Quality of Experience and telecommunications engineering, representing overall quality of a stimulus or system. It is the arithmetic mean over all individual "values on a predefined scale that a subject assigns to his opinion of the performance of a system quality".
+    \item The MOS is expressed as a single rational number, typically in the range 1 to 5
+    \item PESQ output scores range from 1 (bad) to 5 (excellent).
+\end{itemize}
+
+\newthoughtpar{SRMR}
+\begin{itemize}
+    \item proposed in~\citeonly{falk2010non}
+    \item Cochlear implant preprocessing: The SRMR is obtained by first applying a 23-channel gammatone filterbank to the time domain signal.
+    \item A Hilbert transform captures the envelope of the output of each filter, and thus the temporal dynamics information.
+    \item These signals are then transformed into the STFT domain to obtain an 8 band modulation spectrum segmented into frames.
+    \item The SRMR is then obtained by comparing the energy in the different bands of the modulation spectrum
+    \item Lastly, the output value is computed as the ratio of the average modulation energy content available in the first four modulation bands (from 3 Hz up to 15 Hz (20 Hz) for CI, thus consistent with clean speech modulation content [16])
+         to the average modulation energy content available in the higher frequency modulation bands (circa 20–160 Hz for the SRMR, 15–82 Hz for the CI-adapted version).
+\end{itemize}
+
+
+
+
 \section{Conclusion}

@@ -35,7 +35,6 @@ According to common dictionaries and encyclopedias,
     \textit{sound is the sensation perceived by the ear caused by the vibration of air}.
 \end{center}
 This definition highlights two aspects of sound: a physical one, characterized by the air particles vibration; and a perceptual one, involving the auditory system.
-\gccmt{non andrei a capo}
 Focusing on the former phenomenon, when vibrating objects excites air, surrounding air molecules starts oscillating,
 producing zones with different air densities leading to a compressions-rarefactions phenomenon.
 Such vibration of molecules takes place in the direction of the excitement, with the next layer of molecules excited by the previous one.
@@ -46,17 +45,16 @@ Pushing layer by layer forward, a \textit{longitudinal mechanical wave}\sidenote
 } is generated.
 Notice that therefore sound needs a medium to travel: it cannot travel through a vacuum and no sound is present in outer space.
 
-\gccmt{perche' a wave? l'hai nominata prima: direi tipo che il sound propagates through a medium. e poi wave l'hai gia' messo in corsivo prima}
-\gccor{A \textit{wave} is a disturbance that}{Thus sound} propagates though a medium, which can be solid, liquid or gaseous.
-The propagation happens at a certain speed which depends on the physical properties of the medium, such as its density and composition.
+Thus sound propagates though a medium, which can be solid, liquid or gaseous.
+The propagation happens at a certain speed which depends on the physical properties of the medium, such as its density.
 The medium assumed throughout the entire thesis is air, although extensions of the developed methods to other media could be envisioned.
-Under the fair assumption of air being homogeneous and steady,
-the speed of sound can be approximated as follows:
+Under the fair assumption of air being homogeneous and steady, the speed of sound can be approximated as follows:
 \begin{equation}
     \cair =  331.4 + 0.6\temperature + 0.0124\rhumidity \hspace{1em} [\sfrac{\si{\metre}}{\si{\second}}]
     ,
 \end{equation}
 where $\temperature$ is the air temperature $[\si{\celsius}]$ and $\rhumidity$ is the relative air humidity $[\%]$.
+
 The air pressure variations at one point in space can be represented by a \textit{waveform}, which is a graphical representation of a sound
 ~\cref{fig:acoustics:acoustics_wave}.
 \begin{figure}[h]
@@ -66,79 +64,69 @@ The air pressure variations at one point in space can be represented by a \texti
     \label{fig:acoustics:acoustics_wave}
 \end{figure}
 
-% In general, the sound field is complex and can be decomposed as a superimposition of several waves.
-We think of this process in the light of the classic \textit{source-medium-receiver} model of communication theory.
-The \textit{source} is anything that emits or expends energy (waves)\gccmt{non mi piace che dici energy, di direttamente wave cosi' sei corente con i vocaboli e non aggiungi termini nuovi: non hai mai parlato di energia}\sidenote{%
+We can think of this process in the light of the classic \textit{source-medium-receiver} model of communication theory:
+the \textit{source} is anything that emits waves\sidenote{%
     example of sources are vibrating solids (\eg/ loudspeakers membrane),
     rapid compression or expansion (\eg/ explosions or implosions)
     or air vortices with characteristics frequencies (\eg/ flute and whistles).
-},
-the \textit{medium} carries the waves from one point to another, and the \textit{receiver} absorbs them.
-
-% \gcrm{The behavior of acoustic waves is defined by the acoustic-wave equation.
-% The rest of this section introduce of this equation, re-arranging the derivation presented in \citeonly{kuttruff2016room, }.
-% The derivation of the wave equation in light of room acoustic is presented in~\cref{ap:wave2rir}.}
+}, the \textit{medium} carries the waves from one point to another, and the \textit{receiver} absorbs them.
 
 \subsection{The acoustic wave equation}\label{subsec:acoustics:waveq}
 The acoustic wave equation is a second-order partial differential equation\sidenote{%
     In 1746, d’Alembert discovered the one-dimensional wave equation for music strings,
     and within ten years Euler discovered the three-dimensional wave equation for fluids.
 } which describes the evolution of acoustic pressure $\pressure$
-as a function of the position $\positionMicrophone$ $[\si{\metre}]$ and time $t$ $[\si{\second}]$ \gccmt{non mi piace che metti le unita' di misura}
+as a function of the position $\positionMicrophone$ and time $t$
 \begin{equation}
     \label{eq:acoustics:wave}
     \knabla^2 \pressureSpaceTime - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t} = 0
     ,
 \end{equation}
 where $\knabla^2 = \kpderiv[2]{}{x} + \kpderiv[2]{}{y} + \kpderiv[2]{}{z}$ stands for the 3-dimensional \textit{Laplacian} operator.
-The constant $\speedOfSound$ is the sound velocity in the medium and has dimension $[\frac{\si{\metre}}{\si{\second}}]$.
-
-Despite its complicated formulation, the wave equation is linear leading to the following implications:
+The constant $\speedOfSound$ is the sound velocity in the medium and has dimension $\kbracket{\frac{\si{\metre}}{\si{\second}}}$.
+\\Despite its complicated formulation, the wave equation is linear. Thus it implies the followings:
 \begin{itemize}
     \item the pressure field at any time is the sum of the pressure fields resulting from each source at that time;
     \item the pressure field emitted at a given position propagates over space and time according to a linear operation.
 \end{itemize}
 
+\mynewline
 Assuming the propagation of the wave in a homogeneous medium, one can obtain the equation above by combining three fundamental physical laws:
 \begin{itemize}
-    \item the \textit{conservation of momentum}\sidenote{In fluidodynamics, it comes with the name of the Euler's equation. \gccmt{inutile}},
+    \item the \textit{conservation of momentum},
     \item the \textit{conservation of mass}, and
-    \item the \textit{polytropic process relation}\sidenote{meaning that the medium is an ideal gas undergoing a reversible adiabatic process. \gccmt{questa la metterei nel testo: non  e' quella che ti  dice che il gas deve essere omogeneo? alloara l'however dopo avrbbe senso}}.
+    \item the \textit{polytropic process relation}, meaning that the medium is an ideal gas undergoing a reversible adiabatic process.
 \end{itemize}
-\gccmt{howver a cosa?}
-However media are not uniform and feature inhomogeneities of two types:
+
+However, media are not uniform and feature inhomogeneities of two types:
 scalar inhomogeneities, \eg/ due to temperature variation,
 and vector inhomogeneities, \eg/ due to presence of fans or air conditioning.
 Although these affect the underlying assumption of the model, the effects are small in typical application of speech and audio signal processing.
 Therefore they are commonly ignored.
 
 \newthoughtpar{The Helmholtz's equation}
-The\gcrm{ wave} equation~\ref{eq:acoustics:wave} is expressed in the space-time domain $\depSpaceTime$.
-By applying the temporal Fourier transform, we obtain the \textit{Helmholtz equation}, \ie/
+The equation~\ref{eq:acoustics:wave} is expressed in the space-time domain $\depSpaceTime$.
+By applying the temporal Fourier transform, we obtain the \textit{Helmholtz equation}:
 \begin{equation}
     \label{eq:acoustics:helmholtz}
     \knabla^2 P(\positionMicrophone, f) + k^2 P(\positionMicrophone, f) = 0
     ,
 \end{equation}
-where $k = \frac{2 \pi f}{c}$  is known as \textit{wave number} $[\si{\metre^{-1}}]$, \gccor{that}{and} relates the frequency $f \; [\si{\hertz}]$ \gccor{and}{to} the propagation velocity $c$.
+where $k = \frac{2 \pi f}{c}$  is known as \textit{wave number} and relates the frequency $f$ to the propagation velocity $c$.
 
-Both the wave\gcrm{ equation}~\ref{eq:acoustics:wave} and the Helmholtz's equation~\ref{eq:acoustics:helmholtz} are source-independent,
+Both the wave~\ref{eq:acoustics:wave} and the Helmholtz's equation~\ref{eq:acoustics:helmholtz} are source-independent,
 namely no source is present in the medium.
-Therefore they are \gccor{called}{said to be} \textit{homogeneous} as the right-hand term is zero.
-\gccmt{Non andrei a capo}
+Therefore they are said to be \textit{homogeneous} as the right-hand term is zero.
 Normally the sound field is a complex field generated by acoustics sources.
 As consequence, the two equations become inhomogeneous as some non-zero terms needs to be added to the right-hand sides.
 
-In the presence of a sound source producing waves with distribution function $s(t, \positionMicrophone)$, the wave equation can be written\marginpar{%
-    \footnotesize
-    The minus sign is a conventions. \gccmt{inutile}
-}
+In the presence of a sound source producing waves with source function $s(t, \positionMicrophone)$, the wave equation can be written
 \begin{equation}
     \label{eq:acoustics:source}
     \knabla^2 \pressureSpaceTime - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t} = -s(t, \positionMicrophone)
-    .
+    ,
 \end{equation}
-Then, the corresponding Helmholtz's equation writes
+where the negative sign is used for convention. Thus, the corresponding Helmholtz's equation writes
 \begin{equation}
     \label{eq:acoustics:source_freq}
     \knabla^2 P(\positionMicrophone, f) + k^2 P(\positionMicrophone, f) = - S(\positionMicrophone, f)
@@ -154,12 +142,12 @@ At the receiver position $\positionMicrophone \neq \positionSource$, the Helmhol
      + k^2 H(f, \positionMicrophone \mid \positionSource) = - \delta(\positionMicrophone - \positionSource)
     ,
 \end{equation}
-The function $H(f, \positionMicrophone \mid \positionSource)$ that satisfy \cref{eq:acoustics:green_definition} is \gc{called} the \textit{Green's function} \gc{and is}
-associated to ~\cref{eq:acoustics:helmholtz}, of which it is also a solution.
-\\In the next subsection, we will see that the function $H$ can be interpreted as the free-field \textit{Transfer Function}
-between the source at $\positionSource$ and the receiver at $\positionMicrophone$.
+The function $H(f, \positionMicrophone \mid \positionSource)$ satisfying \cref{eq:acoustics:green_definition} is called the \textit{Green's function} and is
+associated to ~\cref{eq:acoustics:helmholtz}, for which it is also a solution.
+% \\In the next subsection, we will see that the function $H$ can be interpreted as the free-field \textit{Transfer Function}
+% between the source at $\positionSource$ and the receiver at $\positionMicrophone$.
 
-\subsection{... and its green solution}
+\subsection{... and its Green solution}
 \marginpar{%
     \footnotesize
     By 1950 Green’s functions for Helmholtz’s equation were used to find the
@@ -440,7 +428,6 @@ allow the area that is ``behind'' the reflector to be reached by the propagating
 This physical effect is exploited naturally by the human auditory system to localize sound sources.
 
 % -----------------------------------------------------------------------------
-
 \section{Room acoustics and room impulse response}\label{ch:acoustics:sec:rir}
 Room acoustics is concerned with acoustic waves propagating in air enclosed in a volumes with a set of surfaces
 (walls, floors, etc.), which an incident wave may be interacts with as described in \cref{ch:acoustics:sec:reflection}.
@@ -457,8 +444,8 @@ the geometric relation between reflections and the geometry of the scene.
 In this thesis the two terms will be used indistinctly.
 
 \subsection{The room impulse response}\label{ch:acoustics:subsec:rir}
-It is a fundamental concept of this dissertation and it is where physical room acoustic and indoor audio signal processing meets.
-From now on, we well adopt a signal processing perspective considering
+The \RIRdef/ is where physical room acoustic and indoor audio signal processing meets and from now on, we will adopt a signal processing perspective.
+Therefore
 \begin{center}
 \textit{the \RIR/ as a causal time-domain filter that accounts for the whole indoor sound propagation
 from a source to a receiver}
@@ -478,14 +465,12 @@ from a source to a receiver}
     \label{fig:acoustics:rir}
 \end{figure}
 
-\RIRs/ usually exhibit common structures.
-Based on the consideration of~\cref{ch:acoustics:sec:reflection}, they are commonly divided into three components:
+The \RIRs/ usually exhibit common structures.
+Based on the consideration of~\cref{ch:acoustics:sec:reflection}, they are commonly divided into three partially overlapped components:
 \begin{equation}\label{eq:acoustics:rir_full}
 \rir(t) = h^d(t) + h^e(t) + h^l(t)
 ,
 \end{equation}
-
-MULTIPATH \vs/ REVERBERANT benesty
 
 where
 \begin{description}
@@ -499,6 +484,11 @@ where
 \end{description}
 These three components are not only ``visible'' when plotting the \RIR/ against time,
 but they are characterized by different perceptual features, as explained~\cref{ch:acoustics:sec:perception}.
+
+IDEAL \vs/ MULTIPATH \vs/ REVERBERANT benesty
+\mynewline
+
+
 
 To conclude, let $s(t)$ be the source signal. The received sound writes
 \begin{equation}
@@ -784,28 +774,17 @@ Therefore, in the time domain, the \RIR/ associated to the source at position $\
         \diracOf{t - \frac{\norm{\positionMicrophone - \positionSource_\idxEch}}{\speedOfSound}}
 \end{equation}
 where $\positionSource_\idxEch$ is the $\idxEch$-th image of the source and $\bar{\absCoeff}_{\idxEch}$
-is the (cumulative) frequency-independent absorption coefficient of the surfaces between $\positionSource_\idxEch$ and $\positionMicrophone$.
-where $\absCoeff_{\idxEch}$ is the damping coefficient related to the $\idxEch$-th image which in general
-consider the all the absorption coefficient of the considered surfaces.
+is the total frequency-independent\sidenote{Which is equivalent to consider perfectly rigid and reflective walls} damping coefficient related to the $\idxEch$-th image.
+Such coefficient accounts for all the dissipation effects encountered in the reflection path, \eg/ absorption, air attention and scattering.
+In the original formulation of the \ISM/, $\bar{\absCoeff}_{0} = 1$ is assumed for the direct propagation;
+while for the first order images, it coincides with the frequency-independent surface absorption coefficient of the surface.
+For the subsequent orders of images, the product of all the coefficient of the surfaces encounters in the reflection path is considered.
 
 \mynewline
-Before properly defining $\bar{\absCoeff}_{\idxEch}$, the reader should notice that the model~\eqref{eq:acoustics:ims:time} induces an ``order'' among reflections indexed by $\idxEch$.
-Reflections can be ordered based on their \TOA/, $\tau_r = \norm{\positionMicrophone - \positionSource_\idxEch}/\speedOfSound$,
-or their amplitudes, $\bar{\absCoeff}_{\idxEch}/(4 \pi \norm{\positionMicrophone - \positionSource_\idxEch})$.
-Moreover, one can sort them according to their generation, \eg/ direct path, first-order images \etc/.
-However, this requires an arbitrary order within the same generation, typically a fixed wall sequence.
-Notice that the resulting sorted sequences can differ substantially as show in~\cref{fig:acoustics:rir:ref_label}
-\\Assuming a shoebox room and a generation-based ordering, $r = 0$ refers to the ideal propagation path, hence, $\bar{\absCoeff}_0 = \absCoeff_0 = 1$.
-$r \in \kbrace{1, \ldots, 6}$ refers to the first-image sources which separated from the receiver by a single and real plane;
-therefore $\bar{\absCoeff}_r$ coincides with the wall reflection coefficient.
-For $r \geq 7$, the ray from $\positionSource_r$ to $\positionMicrophone$ intersects more the two surfaces.
-
-\mynewline
-The above equation assumes perfectly rigid and reflective walls.
+% The time-domain solution of the wave equation exhibits the physical essence of the echoes, that is a collection of attentions and delays.
 % Although, the latter issues may be solved by using fractional delays~\citeonly{peterson1986simulating},
-In order to easily incorporate frequency-dependent acoustic impedances (and absorption coefficient)
-of real surfaces, the Fourier transform of~\cref{eq:acoustics:ims:time} is considered instead, where
-each reflection term addendum is appropriately scaled
+In order to easily incorporate frequency-dependent damping effects, the Fourier transform of~\cref{eq:acoustics:ims:time} is considered instead, where
+each reflection term is appropriately scaled
 \begin{equation}
     \label{eq:acoustics:ims:freq}
     \rirFreq_{\mathtt{ISM}}(f, \positionMicrophone \mid \positionSource) =
@@ -814,14 +793,23 @@ each reflection term addendum is appropriately scaled
         ,
 \end{equation}
 where now the $\idxEch$-th damping coefficient $\absCoeff_{\idxEch}$ is frequency dependent.
-Notice that now the damping coefficient acts as a filter,
-requiring~\cref{eq:acoustics:ims:time} to be written as sum of convolutions.
+Notice that now the damping coefficients correspond to filters, requiring~\cref{eq:acoustics:ims:time} to be written as sum of convolutions.
 
 % When simulating the discrete version of a \RIR/ on a computer, in general this distances corresponds to delays that are not on
 % integer multiple of the sampling frequencies.
 
-\questionpar{Can echoes be louder the the direct-path?} Yes.
+\mynewline
+Moreover the reader should notice that the models~\eqref{eq:acoustics:ims:time, eq:acoustics:ims:freq} induce an ``order'' among reflections indexed by $\idxEch$.
+Reflections are usually sorted for increasing \TOA/, $\tau_r = \norm{\positionMicrophone - \positionSource_\idxEch}/\speedOfSound$,
+or decreasing amplitudes, $\bar{\absCoeff}_{\idxEch}/(4 \pi \norm{\positionMicrophone - \positionSource_\idxEch})$.
+Alternatively, one can sort them according to their ``image'' generation, \eg/ direct path, first-, second-order images \etc/.
+This would require an arbitrary order within the same generation, based typically on arbitrary wall sequence.
+Notice that the resulting sorted sequences can differ substantially as show in~\cref{fig:acoustics:rir:ref_label}.
+This translates into non trivial definition of evaluation metrics for the task of estimating echoes.
 
+\questionpar{Can echoes be louder the the direct-path?} Yes, in certain cases reflections maybe carry energy comparable or stronger than the direct contribution.
+This happens for instance when directional sources are directed towards reflectors or when multiple reflections arrive within a very short time.
+Typical scenarios are when a person is presenting facing the slides projected on a wall giving the shoulders to the microphones; or when a person is very far from the microphones
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%y
@@ -869,7 +857,7 @@ Analytically,  the
 \begin{center}
     \textit{the mixing time is the instant that divides the early reflections from the late reverberation in a RIR},
 \end{center}
-and it is represented in Equation 2.47 by $\Tmix\;[\si{\second}]$ .
+% and it is represented in Equation 2.47 by $\Tmix\;[\si{\second}]$ .
 Due to this, it is an important parameter also in the context of \RIRs/ synthesis as it defines cross-over point for room acoustics simulator using hybrid methods~\citeonly{savioja2015overview}\sidenote{\cfr~\cref{sec:acoustics:simulators}}.
 
 \subsection{Reverberation time}
@@ -907,7 +895,7 @@ absorption coefficient and the area $[\si{\metre^2}]$  of the $l$-th surface.
 
 \subsection{Direct-to-Reverberant ratio and the critical distance}\label{ch:acoustics:subsec:drr}
 \begin{center}
-    \textit{The \emph{direct-to-reverberant ratio} ($\DRR$) quantifies the power of direct against indirect sound~\citeonly{zahorik2002direct}.}
+    \textit{The direct-to-reverberant ratio ($\DRR$) quantifies the power of direct against indirect sound~\citeonly{zahorik2002direct}.}
 \end{center}
 It varies with the size and the absorption of the room, but also with the distance between the source and the receiver according to the curves
 depicted in~\cref{fig:acoustics:drr}

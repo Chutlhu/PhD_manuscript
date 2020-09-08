@@ -25,26 +25,25 @@ continuous both in time $t \in \R$ and amplitudes.
     \label{fig:processing:sampling}
 }
 
-Today signals are typically processed, stored and analyzed by computers and modules as \textit{digital audio signal}.
-This corresponds to the discrete-time signal $\hat{x}$ obtained by periodically sampling\sidenote{%
-    The use of the word \textit{sample} will have different
-    meanings in the context of machine learning, where a sample is an instance of a set instead of a time instant.
-} the continuous-time signal $\tilde{x}$ at rate $\Fs\;[\si{\Hz}]$.
+Today signals are typically processed, stored and analyzed by computers as \textit{digital audio signal}.
+This corresponds to finite and discrete-time signal $\hat{x}_\idxSample$ obtained by periodically sampling the continuous-time signal $\tilde{x}$ at rate $\Fs\;[\si{\Hz}]$ and truncate it to $\idxSample$ samples.
 As common to most measurement models, we assume that the sampling process involves two steps:
 first, the impinging signal undergoes an ideal low-pass filter $\lowpassfilter$\sidenote{The ideal low-pass filter is\\$\lowpassfilter(t) = \sinc(t) = \sin(\pi t) / (\pi t)$} with frequency support in $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$;
-then it time-support is regularly discretized, $t = n/\Fs$ for $n \in \Z$.
-This will restrict the frequency support of signal to satisfy the Nyquist–Shannon sampling theorem and avoid aliasing effect.
-This is expressed by
+then it time-support is regularly discretized, $t = n/\Fs$ for $n \in \Z$. This is expressed by
 \begin{equation}
-    \discTime[\idxSample]{\mic} = \tilde{x}\kparen{\frac{n}{\Fs}} \in \R
+    \discTime[\idxSample]{\mic} = \kparen{\lowpassfilter \convCont \tilde{x}}\kparen{\frac{n}{\Fs}} \in \R
     ,
 \end{equation}
 where $\convCont$ is the continuous-time convolution operator.
-Moreover, in this thesis we assume that amplitudes of discrete signals are real values, ignoring the \textit{quantization} process.
-% Note also the use of square brackets and $\hat{}$ in the notation for a discrete-time signal $\hatx[n]$,
-% which avoids ambiguity with the notation $\tilde{x}(t)$ used for a continuous-time signal.
-
-The choice of $\Fs$ depends on the application since it is a trade-off between computational power, processing and rendering quality.
+This will restrict the frequency support of signal to satisfy the Nyquist–Shannon sampling theorem and avoid aliasing effect.
+In this thesis we assume discrete signals are real-valued, ignoring the \textit{quantization} process.
+\\Finally, at the end of the discretisation process, the $\tilde{x}(t)$ is represented as the finite time series or a vector,
+\begin{equation}
+    \hat{\mic}_{\numSample} \in \R^{\numSample}
+    ,
+\end{equation}
+with entries $\hat{\mic}_{\numSample}[\idxSample]$ for $n = 0, \ldots, \numSample-1$.
+\\The choice of $\Fs$ depends on the application since it is a trade-off between computational power, processing and rendering quality.
 Historically the two iconic values are $\SI{44.1}{\kHz}$ for music distribution on CDs and $\SI{8}{\kHz}$ for first-generation speech communication.
 Now multiple of $\SI{8}{\kHz}$ are typical used in audio processing: ($16, 48, 96, \SI{128}{\kHz}$).
 
@@ -149,41 +148,7 @@ which are the collections of convolution between the \RIRs/ and source signal:
     \centering
         \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
         \resizebox{\linewidth}{!}{
-            \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-
-                % Picture Node
-                \draw (333,148.65) node  {\includegraphics[width=333.75pt,height=222.97pt]{processing/mixing_blocks.png}};
-
-                % Text Node
-                \draw (126,53) node [font=\huge]   {$s_{1}$};
-                % Text Node
-                \draw (126,183) node  [font=\huge]  {$s_{2}$};
-                % Text Node
-                \draw (262,63) node  [font=\huge]  {$h_{11} \ast s_{1}$};
-                % Text Node
-                \draw (262,120) node  [font=\huge]  {$h_{21} \ast s_{1}$};
-                % Text Node
-                \draw (370,53) node  [font=\huge]  {$c_{11}$};
-                % Text Node
-                \draw (370,110) node [font=\huge]   {$c_{21}$};
-                % Text Node
-                \draw (530,53) node   [font=\huge] {$x_{1}$};
-                % Text Node
-                \draw (530,110) node  [font=\huge]  {$x_{2}$};
-                % Text Node
-                \draw (262,199) node  [font=\huge]  {$h_{12} \ast s_{2}$};
-                % Text Node
-                \draw (262,256) node  [font=\huge]  {$h_{22} \ast s_{2}$};
-                % Text Node
-                \draw (370,183) node  [font=\huge]  {$c_{12}$};
-                % Text Node
-                \draw (370,240) node   [font=\huge] {$c_{22}$};
-                % Text Node
-                \draw (412,53) node [anchor=north west][inner sep=0.75pt]  [font=\huge]  {$\sum $};
-                % Text Node
-                \draw (448,109) node [anchor=north west][inner sep=0.75pt]  [font=\huge]  {$\sum $};
-
-            \end{tikzpicture}
+            \input{figures/processing/mixing_model.tikz}
         }
         \captionof{figure}{Graphical representation of the mixing model~\ref{eq:processing:mixing:mix} for 2 sources and 2 microphones.}\label{fig:processing:mixing}
 }
@@ -213,26 +178,14 @@ While the definition of target sound source is quite self-explanatory and it wil
 the term interfer and noise depends on the specific use case, problem, application, and research field.
 Notice that in~\cref{eq:processing:mixing_filter} a noise term is added to gather unknown quantities.
 \begin{quote}
-    \textit{\emph{Noise} is a general term for unwanted (and, in general, unknown) modifications that a signal may suffer during capture, storage, transmission, processing, or conversion}
+    \textit{Noise is a general term for unwanted (and, in general, unknown) modifications that a signal may suffer during capture, storage, transmission, processing, or conversion}
     \citeonly{tuzlukov2018signal}.
 \end{quote}
 Therefore, we will define and use the following type of noises:
 \marginpar{
     \centering
         \resizebox{\linewidth}{!}{
-            \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-            \draw (346.67,226.03) node  {\includegraphics[width=246.25pt,height=335.73pt]{processing/noise.png}};
-            % Text Node
-            \draw (203.5,100.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$s_{1}( t)$};
-            % Text Node
-            \draw (429.5,49.9) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$s_{2}( t)$};
-            % Text Node
-            \draw (455.5,196.9) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\boldsymbol{n}( t)$};
-            % Text Node
-            \draw (308.5,285.9) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\boldsymbol{x}( t)$};
-            % Text Node
-            \draw (465.5,327.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\boldsymbol{\varepsilon }( t)$};
-            \end{tikzpicture}
+            \input{figures/processing/noise_model.tikz}
         }
         \captionof{figure}{Graphical representation of the mixing model~\eqref{eq:processing:mixing:mix}:
         $s_2(t)$ is the \textit{interferer},
@@ -261,8 +214,6 @@ By making the noisy terms explicit, the mixing model in~\cref{eq:processing:mixi
     \tilde{\imgs}_\idxSrc(t)         &= \ktranspose{\klist{\tilde{\img}_{1\idxSrc}(t), \dots, \tilde{\img}_{\numMics\idxSrc}(t)}} \nonumber\\
     \tilde{\mics}(t)                 &= \sum_{\idxSrc=1}^{\numSrcs} \tilde{\imgs}_\idxSrc(t) + \tilde{\bsn}( t)
 \end{align}
-
-% $\bsu = \bsn + \boldsymbol{\varepsilon}$
 
 \section{Signal model in the spectral domain}\label{sec:processing:domains}\marginpar{%
     \footnotesize%
@@ -314,48 +265,138 @@ Secondly, by the \textit{convolution theorem}, the source spatial images in~\cre
     \tilde{C}_{\idxMic\idxSrc}( f) =  \tilde{H}_{\idxMic\idxSrc}( f) \tilde{S}_\idxSrc( f)
     .
 \end{equation}
-As discussed in~\cref{chap:acoustics}, the \FT/ of a \RIR/ can be computed exactly in closed-form as
+As discussed in~\cref{chap:acoustics}, the \FT/ of a \RIR/, \aka/ the room transfer function, can be computed exactly in closed-form as
 \begin{equation}\label{eq:processing:rir:ft}
-    \tilde{H}_{ij}( f) = \sum_{\idxEch=0}^{\numEchs}
-    \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
-    \cste^{- \csti 2 \pi f \tau_{ij}^r}
+    \tilde{H}_{ij}( f) = \sum_{\idxEch=0}^{\numEchs} \absCoeff_{ij}^r \cste^{- \csti 2 \pi f \tau_{ij}^r}
     .
 \end{equation}
 In practice, the filters $\tilde{h}_{ij}$ are not available in the continuous time domain nor in the continuous frequency domain directly.
-They must be estimated from the observation of the discrete-time mixtures $\hat{x}_i[n]$, therefore,
-after the convolution with a source and the measurement process.
-In practice, we have only access to finite and discrete-time microphones signals for which the properties~\eqref{eq:processing:conv} is valid with some precautions.
+They must be estimated from the observation of the discrete-time mixtures $\hat{x}_i[n]$, therefore, after the convolution with a source and the measurement process.
+In practice, we don't have access to continuous signal, neither is time and in frequency domain.
+Every signal or spectrum the microphones capture are represented by finite- and discrete time signals for which the properties~\eqref{eq:processing:conv} are valid with some precautions.
+% That gives rise to the field of digital signal processing.
 
-\subsection{Discrete frequency domain}
-The spectral representation of a discrete- and finite-time signal $\hat{x}[n]$ is given by its (forward) \DFTdef/
+\subsection{Discrete time and frequency domains}
+% Since microphones and acquisition systems operate with finite and discrete number of samples, continuous signals cannot be observed, only approximated.
+The spectral representation of a discrete- and finite-time signal $\hat{x}_N$ is given by its (forward) \DFTdef/
 \sidenote{
-    % Please note that the notation for applying the \DFT/ is the one used for matrices.
-    % In fact, the \DFT/ can be efficiently implemented as a matrix multiplication operation.
-    % Its most famous implemention is called \FFT/.
     This can be intrepreded as the projection onto the space spanned by a finite number of complex exponentials.
 },
-$\discreteFT{}:\bbR\kmapsto\bbC$:
+$\discreteFT{}:\bbR^N\kmapsto\bbC$:
 \begin{equation}\label{eq:processing:dft}
-    \hat{X}[ k] = (\discreteFT{x})[k] =
+    \hat{X}_F[ k] = (\discreteFT{\hat{x}_N})[k] =
     \sum_{n = 0}^{N - 1}
-    \hat{x}[ n]
+    \hat{x}_N[ n]
     \cste^{-\csti2\pi k n / F}.
 \end{equation}
-where $k \in \kintervcc{0}{F - 1}$ in the discrete \textit{frequency bin} and $F$ is the total number of bins.
-The natural frequency $f_k$ in $\si{\Hz}$ corresponding to the $k$-th frequency bin can be computed as
+where $k \in \kintervcc{0}{F - 1}$ is the discrete \textit{frequency bin} and $F$ is the total number of bins.
+Again we use the subscript $F$ and the brackets $[k]$ to stress the finite and discrete frequency support of the $\DFT/$.
+\\The natural frequency $f_k$ in $\si{\Hz}$ corresponding to the $k$-th frequency bin can be computed as
 \begin{equation}\label{eq:processing:fk}
     f_k = \frac{k}{F}\Fs
     .
 \end{equation}
 
+\subsection{The DFT as approximation of the FT}
+An important application of the \DFT/ is to approximate numerically the \FT/.
+As mentioned at the beginning of the chapter, with the discretisation process the continuous signal is periodically sampled, low-passed and finally truncated.
+It can be proved that sampling in the time domain corresponds to limiting the signal bandwidth and periodizing the spectrum.
+\\By assuming sampling at rate $\Fs$, in the continuos-frequency domain the spectrum $\tilde{X}(f)$ is repeated every internals of size $\Fs\,\si{\Hz}$ .
+By further assuming that the signal undergoes an ideal low-pass filter, no spectral leakage is presents between each repetition.
+\\So far, the sampled time domain signal, $\hat{x}[n]$, is mapped to the continuous frequency domain $\tilde{X}(f)$.
+This particular case of the \FT/ is called \DTFTdef/ and it is denote with $\tilde{X}_{\Fs}[ k]$.
+\begin{equation}\label{eq:processing:ft2dtft}
+    \begin{aligned}
+        \tilde{X}(f) =
+        \int_{-\infty}^{+\infty}
+        \tilde{x}(t)
+        \cste^{-\csti 2 \pi f t}
+        \,\kdiff{t}
+        \quad \rightarrow \quad
+        \tilde{X}_{\Fs}( f) =
+        \sum_{n = -\infty}^{\infty}
+        \hat{x}[ n]
+        \cste^{-\csti2\pi f \frac{n}{\Fs}}
+    \end{aligned}
+    .
+\end{equation}
+Here the continuous integral the \FT/ is approximated by Riemann sum over the discrete points $n \in \Z$:
+To be more rigorous, when computing a Riemann sum approximation, the length of the discretisation interval multiply the summation.
+In our application, this quantity always set to $\Fs$ and for readability reason such term is dropped.
+\\The quality of this approximation \wrt/ the original continuous spectrum is regulated by the choice of $\Fs$: the higher $\Fs$, the better the approximation.
+The upper bound to the possible value $\Fs$ is the results known as the Nyquist–Shannon's sampling theorem.
+
 \mynewline
-The \DFT/ is linear, so the discrete version of \cref{eq:processing:ft:mix} becomes
+Furthermore, we consider only the finite sequence $\hat{x}_N$ consisting of $N$ samples.
+This would reduce the summation ranges the right part of~\cref{eq:processing:ft2dtft}.
+Instead, we can keep the infinite summation by multiplying the sampled signal by a discrete-time window function $\hat{w}$ selecting the non-zero porting of $\hat{x}$, $\hat{x}_N[n] = \hat{w}[n]\hat{x}[n]$.
+By the \textit{convolution theorem}, the multiplication in the time domain translates in a convolution between the corresponding spectra.
+As a consequence, the spectrum of the truncated signal is distorted by the spectrum of the window function.
+In math,
+\begin{equation}\label{eq:processing:ft2dtft}
+    \tilde{X}_N(f) =
+    \sum_{n=0}^{N-1}
+    \hat{x}_N[n]
+    \cste^{-\csti2\pi f \frac{n}{\Fs}}
+    \quad \leftrightarrow \quad
+    \tilde{X}_{\Fs}( f) =
+    \sum_{n = -\infty}^{\infty}
+    \hat{x}[ n] \hat{w}[ n]
+    \cste^{-\csti2\pi f \frac{n}{\Fs}}
+    .
+\end{equation}
+By the convolution theorem, we have that
+\begin{equation}
+    \hat{x}_N[n] = \hat{x}[ n] \hat{w}[ n]
+    \quad \leftrightarrow \quad
+    \tilde{X}_{N}(f) = (\tilde{X}_{\Fs} \convCont \tilde{W}_{\Fs})(f)
+\end{equation}
+where $\tilde{W}_{\Fs}$ is the \DTFT/ of the sampled window function $\hat{w}[n]$.
+\\Assuming the window function to be an ideal door function\sidenote{door function here}, its \DTFT/ is a ideal low-pass filter, which acts on the original spectrum as a smoothing function.
+As a consequence, the quality of this approximation is then based on the spectral leakage of the chosen window function, $w[n]$.
+As a rule of thumb, here the longer the segment, the better the approximation%
+\sidenote{When short excerpt are considered instead (\eg/ in case of the \STFTdef/), particular types of window function are used but their analysis are out of the scope of this thesis.}
+
+\mynewline
+Finally, we cannot access the \DTFT/ directly because that involves an infinite number of frequencies $f \in \R$.
+Therefore, taking $F$ uniformly-spaced frequency $f_k\in\R$ as in~\cref{eq:processing:fk}, we finally obtain the \DFT/ as in~\cref{eq:processing:dft}, that is
+\begin{equation}
+    \tilde{X}_N(f) =
+    \sum_{n=0}^{N-1}
+    \hat{x}_N[n]
+    \cste^{-\csti2\pi f \frac{n}{\Fs}}
+    \quad \rightarrow \quad
+    \hat{X}_F[k] =
+    \sum_{n=0}^{N-1}
+    \hat{x}_N[n]
+    \cste^{-\csti2\pi k n / F}
+    .
+\end{equation}
+Notice that the $\Fs$ term disappeared in the right part of the equation above as it cancels out when using~\cref{eq:processing:fk}.
+By increasing $F$, we can sample more densely $\hat{X}_F[k]$ which leads to a better approximation to $\tilde{X}_N$.
+However this does not eliminates the distortion of the previous steps, due to $\tilde{W}_{\Fs}$.
+
+\mynewline
+Being rigorous, it should be noticed that the inverse \DFT/ of $\hat{X}_F[k]$ is not $\hat{x}_N[n]$, but its periodic version repeated every $N$ samples.
+In fact, sampling in one of the two domain is equivalent to a periodization in the other domain while truncating lead to convolving with a window function.
+Moreover, the chain of operation (sampling in time and truncation in time and sampling in frequencies) are valid in both way.
+Thus one can arbitrarily first sample and truncate frequency domain and finally sample in time.
+The only difference is in the interpretation of the windowing function, which in one case smooth the spectrum and in the other smooth the signal.
+All this relation and approximation that connects the \FT/ to the \DFT/ are well explained in explanatory material presented in~\sidenote{\url{https://krasjet.com/rnd.wlk/poisson.pdf}}.
+
+
+% Through the use of microphones and computers, our window into the continuous physical world of acoustics is narrow and discrete, both it time and in frequency.
+
+\subsection{Signal model in the discrete Fourier domain}
+Consciously of the above approximations, we can now rewrite our signal model for the discrete case.
+Hereafter we will always consider finite-length sequences and the index $N$ will be dropped to lighten the notation.
+\\The \DFT/ is linear, so the discrete version of \cref{eq:processing:ft:mix} becomes
 \begin{equation}\label{eq:processing:dft:mix}
     \hat{\mics}[ n] = \sum_{\idxSrc=1}^{\numSrcs} \hat{\imgs}_\idxSrc[ n]
     \mathspace\overset{\discreteFT}{\kto}\mathspace
     \hat{\mics}[ k] = \sum_{\idxSrc=1}^{\numSrcs} \hat{\imgs}_\idxSrc[ k]
 \end{equation}
-Secondly, by using na\"ively the discrete convolution theorem, one may translate \cref{eq:processing:mixing:img} as
+Secondly, by using na\"ively the discrete convolution theorem, one could translate \cref{eq:processing:mixing:img} as
 \begin{equation}\label{eq:processing:discreteModel}
     \hat{\img}_{ij}[n] = (\hat{\rir}_{ij} \convDis \hat{\src})[n]
     \mathspace\overset{\discreteFT{}}{\kto}\mathspace
@@ -365,17 +406,19 @@ where $\convDis$ is the finite-time linear convolution operator\sidenote{
     The finite-time linear convolution for two vectors $\hatu\in\bbR^L$ and $\hatv\in\bbR^D$ is
     \\$(\hatu \convDis \hatv)[n] = \sum_{l=0}^{L-1} \hatu[l] \hatv[L-1+n-j]$ for $n = 0, \cdots, D-L$
     .
-} and the \RIR/ as
+}. The filter is the room transfer function for which we can use the closed-form echo model~\cref{eq:acoustics:ims:freq} derived in the previous chapter:
 \begin{equation}\label{eq:processing:discreteModel:rir}
-    \hat{H}_{ij}[ k] \approx \sum_{\idxEch=0}^{\numEchs}
+    \hat{H}_{ij}[ k] = \sum_{\idxEch=0}^{\numEchs}
                 \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
                 \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
     .
 \end{equation}
 
-\newthought{Although used in practice}, this model makes use of approximations.
-As explained in~\citeonly{tukuljac2018mulan}, issues arise from simultaneously using the closed-form \RIR/ model derived in~\cref{eq:processing:rir:ft}
-and the sampled observations $\hatx_i[n]$. The paper mention three approximations, which are depicted in the following diagram.
+\mynewline
+Although used in practice, this model makes use of some approximations that are worth presenting.
+In particular the work by~\citeonly{tukuljac2018mulan} properly discuss them in the context of modeling the echo estimation problem.
+The issues arise from our willing of simultaneously using the closed-form \RIR/ model and the sampled observations $\hatx_i[n]$.
+The paper mention three approximations, which are depicted in the following diagram.
 
 \begin{figure}[!h]
     \begin{fullwidthfig}
@@ -384,7 +427,7 @@ and the sampled observations $\hatx_i[n]$. The paper mention three approximation
     \end{fullwidthfig}
 \end{figure}
 
-The diagram shows a chain of operators (measurements and transforms), provable and approximated equivalences that lead to~\cref{eq:processing:discreteModel}. In order,
+The diagram shows a chain of operators (sampling and transforms) with provable and approximated equivalences that lead to~\cref{eq:processing:discreteModel}. In order,
 \begin{enumerate}[label=(\roman*)]
     \item\label{it:processing:dft:approx1}
     In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\tilde{\src}(t)$ is band-limited by $\Fs$,
@@ -477,144 +520,7 @@ As discussed~\citeonly{vincent2018audio}, the \STFT/ has the following useful pr
 \begin{figure}[t]
     \begin{fullwidthfig}
     \centering
-
-
-
-\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
-
-\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-%uncomment if require: \path (0,242); %set diagram left start at 0, and has height of 242
-
-%Image [id:dp10671338000212693]
-\draw (532,153.33) node  {\includegraphics[width=52.5pt,height=35pt]{processing/py-freq_segment-0.png}};
-%Image [id:dp3443235626087914]
-\draw (575,183.33) node  {\includegraphics[width=52.5pt,height=35pt]{processing/py-freq_segment-1.png}};
-%Image [id:dp2979363128108309]
-\draw (105,146.5) node  {\includegraphics[width=105pt,height=26.25pt]{processing/py-time_segment-0.png}};
-%Shape: Rectangle [id:dp4336148771055519]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (60,180) -- (80,180) -- (80,200) -- (60,200) -- cycle ;
-%Image [id:dp32871739431752567]
-\draw (110,167) node  {\includegraphics[width=105pt,height=30pt]{processing/py-time_segment-1.png}};
-%Shape: Rectangle [id:dp8481412253766418]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (40,160) -- (60,160) -- (60,200) -- (40,200) -- cycle ;
-%Shape: Rectangle [id:dp03992819043895124]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (120,140) -- (180,140) -- (180,180) -- (120,180) -- cycle ;
-%Image [id:dp2476506667174908]
-\draw (150.75,50.81) node  {\includegraphics[width=244.88pt,height=61.22pt]{processing/py-waveform.png}};
-%Shape: Rectangle [id:dp29156630749780055]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (210,20) -- (330,20) -- (330,70) -- (210,70) -- cycle ;
-%Image [id:dp4043877940980434]
-\draw (525,130) node  {\includegraphics[width=67.5pt,height=45pt]{processing/py-freq_segment-2.png}};
-%Shape: Rectangle [id:dp26622297727772126]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (100,140) -- (120,140) -- (120,160) -- (100,160) -- cycle ;
-%Image [id:dp8105828866624712]
-\draw (105,198.5) node  {\includegraphics[width=105pt,height=26.25pt]{processing/py-time_segment-2.png}};
-%Shape: Rectangle [id:dp6067652569911224]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (40,190) -- (120,190) -- (120,210) -- (40,210) -- cycle ;
-%Straight Lines [id:da9676641234627033]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (110,150) -- (478,150) ;
-\draw [shift={(480,150)}, rotate = 180] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-%Straight Lines [id:da16098226613158673]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (130,170) -- (498,170) ;
-\draw [shift={(500,170)}, rotate = 180] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-%Straight Lines [id:da11005264782971791]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (190,200) -- (528,200) ;
-\draw [shift={(530,200)}, rotate = 180] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-%Shape: Square [id:dp8422681084136312]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 80; green, 227; blue, 194 }  ,fill opacity=1 ] (510,65) -- (520,65) -- (520,75) -- (510,75) -- cycle ;
-%Shape: Square [id:dp6895251706790707]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 248; green, 231; blue, 28 }  ,fill opacity=1 ] (510,30) -- (520,30) -- (520,40) -- (510,40) -- cycle ;
-%Shape: Square [id:dp8371453826772035]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (510,20) -- (520,20) -- (520,30) -- (510,30) -- cycle ;
-%Shape: Square [id:dp4704612801462672]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (510,10) -- (520,10) -- (520,20) -- (510,20) -- cycle ;
-%Shape: Square [id:dp04259158217783243]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 248; green, 231; blue, 28 }  ,fill opacity=1 ] (530,10) -- (540,10) -- (540,20) -- (530,20) -- cycle ;
-%Shape: Square [id:dp8235422331679458]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 80; green, 227; blue, 194 }  ,fill opacity=1 ] (530,20) -- (540,20) -- (540,30) -- (530,30) -- cycle ;
-%Shape: Square [id:dp7304739651989954]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 128; green, 128; blue, 128 }  ,fill opacity=1 ] (530,30) -- (540,30) -- (540,40) -- (530,40) -- cycle ;
-%Shape: Square [id:dp4388945574586607]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 126; green, 211; blue, 33 }  ,fill opacity=1 ] (530,65) -- (540,65) -- (540,75) -- (530,75) -- cycle ;
-%Shape: Square [id:dp9653722203138573]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 248; green, 231; blue, 28 }  ,fill opacity=1 ] (570,30) -- (580,30) -- (580,40) -- (570,40) -- cycle ;
-%Shape: Square [id:dp981513589679916]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ] (570,20) -- (580,20) -- (580,30) -- (570,30) -- cycle ;
-%Shape: Square [id:dp8950073186581587]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 80; green, 227; blue, 194 }  ,fill opacity=1 ] (570,10) -- (580,10) -- (580,20) -- (570,20) -- cycle ;
-%Shape: Square [id:dp1665737624049748]
-\draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 126; green, 211; blue, 33 }  ,fill opacity=1 ] (570,65) -- (580,65) -- (580,75) -- (570,75) -- cycle ;
-%Straight Lines [id:da7233973673270127]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (60,110) -- (60,128) ;
-\draw [shift={(60,130)}, rotate = 270] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-%Straight Lines [id:da6893975030077206]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (220,50) -- (478,50) ;
-\draw [shift={(480,50)}, rotate = 180] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-%Straight Lines [id:da7882799041842373]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (514,140) -- (514,92) ;
-\draw [shift={(514,90)}, rotate = 450] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-%Straight Lines [id:da0855776778601487]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (534,160) -- (534,92) ;
-\draw [shift={(534,90)}, rotate = 450] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-%Straight Lines [id:da12659425796956003]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (574,190) -- (574,92) ;
-\draw [shift={(574,90)}, rotate = 450] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-%Image [id:dp7783322035520386]
-\draw (60,91.5) node  {\includegraphics[width=45pt,height=18.75pt]{processing/py-window_hann.png}};
-%Image [id:dp19952118090411974]
-\draw (90,91.5) node  {\includegraphics[width=45pt,height=18.75pt]{processing/py-window_hann.png}};
-%Image [id:dp33944658963121455]
-\draw (150,91.5) node  {\includegraphics[width=45pt,height=18.75pt]{processing/py-window_hann.png}};
-%Flowchart: Process [id:dp8413645612532185]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (152.51,167.51) -- (152.49,172.51) -- (146.49,172.49) -- (146.51,167.49) -- cycle ;
-%Flowchart: Process [id:dp7058794182815539]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (86.5,152.5) -- (86.5,147.5) -- (92.5,147.5) -- (92.5,152.5) -- cycle ;
-%Straight Lines [id:da3609616268595228]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (90,110) -- (90,158) ;
-\draw [shift={(90,160)}, rotate = 270] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-%Flowchart: Process [id:dp9166675646225523]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (152.51,147.51) -- (152.49,152.51) -- (146.49,152.49) -- (146.51,147.49) -- cycle ;
-%Straight Lines [id:da3140233984836672]
-\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (150,110) -- (150,178) ;
-\draw [shift={(150,180)}, rotate = 270] [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
-
-% Text Node
-\draw (323.74,169.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,rotate=-45.3]  {$\dotsc $};
-% Text Node
-\draw (110,79.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\dotsc $};
-% Text Node
-\draw (301,37) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {STFT};
-% Text Node
-\draw (290,137) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {DFT};
-% Text Node
-\draw (307,157) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {DFT};
-% Text Node
-\draw (327,187) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {DFT};
-% Text Node
-\draw (516,126) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,rotate=-270] [align=left] {Vector};
-% Text Node
-\draw (536,126) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,rotate=-270] [align=left] {Vector};
-% Text Node
-\draw (576,126) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,rotate=-270] [align=left] {Vector};
-% Text Node
-\draw (55,72.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\times $};
-% Text Node
-\draw (543,26.4) node [anchor=north west][inner sep=0.75pt]    {$\dotsc $};
-% Text Node
-\draw (561.4,65) node [anchor=north west][inner sep=0.75pt]  [rotate=-270]  {$\dotsc $};
-% Text Node
-\draw (521.4,65) node [anchor=north west][inner sep=0.75pt]  [rotate=-270]  {$\dotsc $};
-% Text Node
-\draw (501.4,65) node [anchor=north west][inner sep=0.75pt]  [rotate=-270]  {$\dotsc $};
-% Text Node
-\draw (86,72.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\times $};
-% Text Node
-\draw (145,72.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\times $};
-
-
-\end{tikzpicture}
-
-
+        \input{figures/processing/diagram_stft.tikz}
     \end{fullwidthfig}
 \end{figure}
 
