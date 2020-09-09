@@ -297,7 +297,7 @@ Again we use the subscript $F$ and the brackets $[k]$ to stress the finite and d
     .
 \end{equation}
 
-\subsection{The DFT as approximation of the FT}
+\subsection{The DFT as approximation of the FT}\label{subsec:processing:ftapprox}
 An important application of the \DFT/ is to approximate numerically the \FT/.
 As mentioned at the beginning of the chapter, with the discretisation process the continuous signal is periodically sampled, low-passed and finally truncated.
 It can be proved that sampling in the time domain corresponds to limiting the signal bandwidth and periodizing the spectrum.
@@ -407,18 +407,19 @@ where $\convDis$ is the finite-time linear convolution operator\sidenote{
     \\$(\hatu \convDis \hatv)[n] = \sum_{l=0}^{L-1} \hatu[l] \hatv[L-1+n-j]$ for $n = 0, \cdots, D-L$
     .
 }.
-The filter is the room transfer function for which we can use the closed-form echo model~\cref{eq:acoustics:ims:freq} derived in the previous chapter.
+The filter $\hat{H}_{ij}[k]$ is the \DFT/ of the room impulse response.
+As mentioned in the~\cref{subsec:processing:ftapprox}, this just approximates the room transfer function of~\cref{eq:processing:rtf}.
+Thus we can write,
 \begin{equation}\label{eq:processing:discreteModel:rir}
-    \hat{H}_{ij}[ k] = \sum_{\idxEch=0}^{\numEchs}
+    \hat{H}_{ij}[ k] \approx \sum_{\idxEch=0}^{\numEchs}
                 \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
                 \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
     .
 \end{equation}
 
 \mynewline
-Although used in practice, this model makes use of some approximations that are worth presenting.
-In particular the work by~\citeonly{tukuljac2018mulan} properly discuss them in the context of modeling the echo estimation problem.
-The issues arise from our willing of simultaneously using the closed-form \RIR/ model and the sampled observations $\hatx_i[n]$.
+Although used in practice, the model~\eqref{sec:processing:discreteModel} makes use of other approximations that are worth presenting.
+In particular, the work by~\citeonly{tukuljac2018mulan} properly discuss them in the context of the echo estimation problem.
 The paper mention three approximations, which are depicted in the following diagram.
 
 \begin{figure}[!h]
@@ -428,21 +429,18 @@ The paper mention three approximations, which are depicted in the following diag
     \end{fullwidthfig}
 \end{figure}
 
-The diagram shows a chain of operators (sampling and transforms) with provable and approximated equivalences that lead to~\cref{eq:processing:discreteModel}. In order,
+The diagram shows a chain of operators (sampling and transforms) with provable and approximated equivalences that lead to~\cref{eq:processing:discreteModel} used in practice.
+In order,
 \begin{enumerate}[label=(\roman*)]
     \item\label{it:processing:dft:approx1}
     In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\tilde{\src}(t)$ is band-limited by $\Fs$,
-    then sampling the continuous convolution is exactly equivalent to \textit{linearly} convolve the discrete signal $\hat{\src}[n]$ and the discrete and low-passed version of the filter.
-    The source signal is band-limited by nature, however, the $\tilde{h}(t)$ is not (in fact the \RIR/ is modeled as a finite summation of spikes, which has infinite spectrum).
-    Thus, the first approximation~\ref{it:processing:dft:approx1} considers $\tilde{h}[n] \approx (\lowpassfilter \convDis \tilde{h})[n]$, in words
+    then sampling the continuous convolution is exactly equivalent to \textit{linearly convolving} the infinite discrete signal $\hat{\src}[n]$ and the discrete and low-passed version of the filter.
+    While the source signal is band-limited by nature, $\tilde{h}(t)$ is not (in fact the \RIR/ is modeled as a summation of spikes, which has infinite spectrum).
+    Thus, the first approximation~\ref{it:processing:dft:approx1} considers $\hat{h}[n] \approx (\lowpassfilter \convDis \tilde{h})[n]$, in words
     we assume that the filter is band-limited by $\pm \sfrac{\Fs}{2}$.
     \\\citeauthor{tukuljac2018mulan} made an important observation here:
-    \begin{quote}
-        ``Here, it is important to note that contrary to intuition, even in the idealized case where an infinite number of samples are available, the discrete-time filters $\hat{\rir}[n]$
-        involved in the measurement model are never streams of Diracs, but non-sparse, infinite-length filters consisting of decimated combinations of sinc functions.''
-        \citeonly{tukuljac2018mulan}.
-    \end{quote}
-    In the context of this thesis, this observation tell us that even in ideal conditions, that is without noise, possibly knowing the transmitted signal, and processing infinitely
+    even if infinite number of samples are available, after the measurement process, the discrete-time filter $\hat{\rir}[n]$ consists of infinite-length decimated combinations of sinc functions.
+    \\In the context of this thesis, this observation tell us that even in ideal conditions, that is without noise, possibly knowing the transmitted signal, and processing infinitely
     many samples, the exact estimation of the echo properties of the \RIR/ is challenging task itself. This is a fundamental difference between \RIR/ estimation and estimating the
     time of arrivals of the early echoes.
     \\Note, for instance, that we wrote the echo model only in the continuous-time domain or with its closed-form form discrete frequencies.
