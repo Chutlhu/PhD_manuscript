@@ -76,11 +76,28 @@
 % signal model
 \newcommand{\noise}{\ensuremath{u}}
 \newcommand{\allNoise}{\ensuremath{u}}
+
+\newcommand{\flt}{\ensuremath{h}}
+\newcommand{\flts}{\ensuremath{\bsh}}
+\newcommand{\FLT}{\ensuremath{H}}
+\newcommand{\FLTS}{\ensuremath{\bsH}}
+\newcommand{\FLTSS}{\ensuremath{\bfH}}
+
 \newcommand{\src}{\ensuremath{s}}
+\newcommand{\srcs}{\ensuremath{\bss}}
+\newcommand{\SRC}{\ensuremath{S}}
+\newcommand{\SRCS}{\ensuremath{\bsS}}
+
 \newcommand{\mic}{\ensuremath{x}}
+\newcommand{\MIC}{\ensuremath{X}}
 \newcommand{\mics}{\ensuremath{\bsx}}
+\newcommand{\MICS}{\ensuremath{\bsX}}
+
 \newcommand{\img}{\ensuremath{c}}
+\newcommand{\IMG}{\ensuremath{C}}
 \newcommand{\imgs}{\ensuremath{\bsc}}
+\newcommand{\IMGS}{\ensuremath{\bsC}}
+
 \newcommand{\spat}{\ensuremath{\boldsymbol{\Xi}}}
 \newcommand{\master}{\ensuremath{\boldsymbol{\Upsilon}}}
 \newcommand{\contRecordedSignal}{\ensuremath{x}}
@@ -134,10 +151,15 @@
 \newcommand{\rir}{\ensuremath{h}}
 \newcommand{\rirFreq}{\ensuremath{H}}
 \newcommand{\rirs}{\ensuremath{\bsh}}
-\newcommand{\rtf}{\ensuremath{\tilde{\rir}}}
+\newcommand{\hopsize}{\ensuremath{L_\mathtt{hop}}}
+\newcommand{\winsize}{\ensuremath{L_\mathtt{win}}}
+
+\newcommand{\rtf}{\ensuremath{\tilde{g}}}
 \newcommand{\rtfs}{\ensuremath{\boldsymbol{\rtf}}}
+
 \newcommand{\ild}{\ensuremath{\mathtt{ILD}}}
 \newcommand{\ipd}{\ensuremath{\mathtt{IPD}}}
+
 
 % math vars and constant
 \newcommand{\spike}[1]{\delta_{#1}}
@@ -153,9 +175,38 @@
 \newcommand{\DRR}{\ensuremath{\mathtt{DRR}}}
 \newcommand{\DER}{\ensuremath{\mathtt{DER}}}
 \newcommand{\SNR}{\ensuremath{\mathtt{SNR}}}
+
+% variables for Blaster
 \newcommand{\dsetValid}{$\mathbf{\mathcal{D}}^{\:\text{(valid)}}$}
 \newcommand{\dsetSNR}{$\mathbf{\mathcal{D}}^{\:\SNR}$}
 \newcommand{\dsetRT}{$\mathbf{\mathcal{D}}^{\:\RT}$}
+
+% variables for dEchorate
+\newcommand{\MDS}{\ensuremath{\mathtt{MDS}}}
+\newcommand{\dMDS}{\ensuremath{\mathtt{dMDS}}}
+\newcommand{\dcMDS}{\ensuremath{\mathtt{dcMDS}}}
+\newcommand{\bIPS}{\ensuremath{\mathtt{bIPS}}}
+
+% variables for Beamforming
+\newcommand{\DS}{\ensuremath{\mathtt{DS}}}
+\newcommand{\MVDR}{\ensuremath{\mathtt{MVDR}}}
+\newcommand{\LCMV}{\ensuremath{\mathtt{LCMV}}}
+\newcommand{\rtfMVDR}{\ensuremath{\MVDR_\mathtt{rtf}}}
+\newcommand{\ecoMVDR}{\ensuremath{\MVDR_\mathtt{echo}}}
+\newcommand{\rtfLCMV}{\ensuremath{\LCMV_\mathtt{rtf}}}
+\newcommand{\ecoLCMV}{\ensuremath{\LCMV_\mathtt{echo}}}
+
+\newcommand{\dPESQ}{\ensuremath{\Delta\mathtt{PESQ}}}
+\newcommand{\SDR}{\ensuremath{\mathtt{SDR}}}
+\newcommand{\SIR}{\ensuremath{\mathtt{SIR}}}
+\newcommand{\dSDR}{\ensuremath{\Delta\mathtt{SDR}}}
+\newcommand{\dSNR}{\ensuremath{\Delta\mathtt{SNR}}}
+\newcommand{\dSIR}{\ensuremath{\Delta\mathtt{SIR}}}
+\newcommand{\SAR }{\ensuremath{\mathtt{SAR}}}
+
+\newcommand{\DSNRR}{\ensuremath{\Delta\mathtt{SNRR}}}
+\newcommand{\DSRMR}{\ensuremath{\Delta\mathtt{SRMR}}}
+\newcommand{\DPESQ}{\ensuremath{\mathtt{PESQ}}}
 
 % --- Other (constant)
 \newcommand{\const}{\ensuremath{\text{\textit{const.}}}}
@@ -164,10 +215,7 @@
 \newcommand{\disRadonMeasure}{\calM(\Theta)}
 \newcommand{\posDisRadonMeasure}{\calM_+(\Theta)}
 
-% \newcommand{\m1}{\mathbf{m}_1}
-% \newcommand{\m2}{\mathbf{m}_2}
-% \newcommand{\s}{{\mathbf s}}
-% \newcommand{\params}{\mathbf{\theta}}
+% \newcommand\ang[1]{\ensuremath{#1^\circ}}
 
 % --- Quantities names
 
@@ -243,11 +291,22 @@
 \newcommand{\diracOf}[1]{\dirac\kparen{#1}}
 \DeclareMathOperator*{\phase}{\angle}
 \newcommand{\phaseOf}[1]{\phase{#1}}
-\newcommand{\magnitudeOf}[1]{\abs{#1}}
-\newcommand{\powerOf}[1]{\abs{#1}^2}
+\newcommand{\magnitudeOf}[1]{|{#1}|}
+\newcommand{\powerOf}[1]{\magnitudeOf{#1}^2}
 
 
 % other definition
 \newcommand{\myeq}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
 \newcommand{\mathspace}{\quad}
 \newcommand{\mathspecific}[1]{\hspace{1em}\text{#1}\;}
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FOR DECHORATE
+%
+\newcommand{\dEchorate}{$\mathtt{dEchorate}$}
+\newcommand{\skyline}{$\mathtt{skyline}$}
+\newcommand{\linkDechorate}{\url{www.github.com/Chutlhu/dEchorate}}
+\newcommand{\facet}{facet}

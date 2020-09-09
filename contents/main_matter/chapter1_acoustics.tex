@@ -123,13 +123,13 @@ As consequence, the two equations become inhomogeneous as some non-zero terms ne
 In the presence of a sound source producing waves with source function $s(t, \positionMicrophone)$, the wave equation can be written
 \begin{equation}
     \label{eq:acoustics:source}
-    \knabla^2 \pressureSpaceTime - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t} = -s(t, \positionMicrophone)
-    ,
+    \knabla^2 \pressureSpaceTime - \frac{1}{\speedOfSound^2} \kpderiv[2]{\pressureSpaceTime}{t} = s(t, \positionMicrophone)
+    .
 \end{equation}
-where the negative sign is used for convention. Thus, the corresponding Helmholtz's equation writes
+Thus, the corresponding Helmholtz's equation writes
 \begin{equation}
     \label{eq:acoustics:source_freq}
-    \knabla^2 P(\positionMicrophone, f) + k^2 P(\positionMicrophone, f) = - S(\positionMicrophone, f)
+    \knabla^2 P(\positionMicrophone, f) - k^2 P(\positionMicrophone, f) = S(\positionMicrophone, f)
     .
 \end{equation}
 
@@ -139,7 +139,8 @@ At the receiver position $\positionMicrophone \neq \positionSource$, the Helmhol
 \begin{equation}
     \label{eq:acoustics:green_definition}
     \knabla^2 H(f, \positionMicrophone \mid \positionSource)
-     + k^2 H(f, \positionMicrophone \mid \positionSource) = - \delta(\positionMicrophone - \positionSource)
+        - k^2 H(f, \positionMicrophone \mid \positionSource)
+        = \delta(\positionMicrophone - \positionSource)
     ,
 \end{equation}
 The function $H(f, \positionMicrophone \mid \positionSource)$ satisfying \cref{eq:acoustics:green_definition} is called the \textit{Green's function} and is
@@ -156,23 +157,12 @@ associated to ~\cref{eq:acoustics:helmholtz}, for which it is also a solution.
     who used it during his study of the three-dimensional wave equation.
     He used this solution to derive his famous \textit{Kirchhoff’s theorem}~\citeonly{duffy2015green}.
 }
-\textsc{The Green's Functions} are mathematical tools for solving linear differential equations with specified initial- and boundary- conditions~\citeonly{duffy2015green}.
+Green's Functions are mathematical tools for solving linear differential equations with specified initial- and boundary- conditions~\citeonly{duffy2015green}.
 They have been used to solve many fundamental equations, among which \cref{eq:acoustics:helmholtz,eq:acoustics:wave} for both free and bounded propagation.
-\begin{quote}
-    \textit{
-    They can be seen as a concept analogous to
-    \\ \emph{impulse responses}\sidenote{%
-        Impulse responses in time domain, transfer functions in the frequency domain.}
-    in signal processing.\gccmt{citazione! analogo dove? in fisica? in acustica}
-    }
-\end{quote}
-Under this light, the physic so-far can be rewritten \gccor{in}{using} the vocabulary of the communication theory, namely \textit{input}, \textit{filter} and \textit{output}.
+They can be seen as a concept analogous to \emph{impulse responses}\sidenote{Impulse responses in time domain, transfer functions in the frequency domain.} in signal processing.
+Under this light, the physic so-far can be rewritten using the vocabulary of the communication theory, namely \textit{input}, \textit{filter} and \textit{output}.
 
 According to Green's method, the equations above can be solved in the frequency domain for arbitrary source as follows:
-\marginpar{%
-    \footnotesize
-    If one ignores the space integral, one can see the close relation with a transfer function. \gccmt{nel testo}
-}
 \begin{equation}
     \label{eq:acoustics:helmholz_conv}
     P(f, \positionMicrophone) = \iiint_{\volume_\contSource} H(f, \positionMicrophone \mid \positionSource) S(f, \positionSource) \kdiff\positionSource
@@ -180,6 +170,7 @@ According to Green's method, the equations above can be solved in the frequency 
 \end{equation}
 where $\volume_\contSource$ denotes the source volume,
 and  $\kdiff\positionSource =  \kdiff{x_\contSource}\,\kdiff{y_\contSource}\,\kdiff{z_\contSource}$ the  differential  volume element at position $\positionSource$.
+If one ignores the space integral, one can see the close relation with a transfer function.
 \\The requested sound pressure $\pressureSpaceTime$ can now be computed by taking the frequency-directional inverse Fourier transform of \cref{eq:acoustics:helmholz_conv}.
 
 It can be shown \citeonly{kuttruff2016room} that the Green's function for~\cref{eq:acoustics:helmholtz,eq:acoustics:green_definition} writes
@@ -485,11 +476,8 @@ where
 These three components are not only ``visible'' when plotting the \RIR/ against time,
 but they are characterized by different perceptual features, as explained~\cref{ch:acoustics:sec:perception}.
 
-IDEAL \vs/ MULTIPATH \vs/ REVERBERANT benesty
+% IDEAL \vs/ MULTIPATH \vs/ REVERBERANT benesty
 \mynewline
-
-
-
 To conclude, let $s(t)$ be the source signal. The received sound writes
 \begin{equation}
     x(t) = (\rir \convCont s)(t)
@@ -794,6 +782,12 @@ each reflection term is appropriately scaled
 \end{equation}
 where now the $\idxEch$-th damping coefficient $\absCoeff_{\idxEch}$ is frequency dependent.
 Notice that now the damping coefficients correspond to filters, requiring~\cref{eq:acoustics:ims:time} to be written as sum of convolutions.
+This have a strong implication when modeling and estimating the \RIRs/ as stream of Dirac function.
+Ideally they consists of scaled Diracs with well defined time locations.
+The probability that two or more Diracs arrive at the same time is then very small.
+However, if we now assume that each reflection has a non-flat frequency response, filters are observed in the time domain.
+Such filters have arbitrary long time-domain description and now the probability that two or more overlap is much higher.
+
 
 % When simulating the discrete version of a \RIR/ on a computer, in general this distances corresponds to delays that are not on
 % integer multiple of the sampling frequencies.
@@ -807,9 +801,10 @@ This would require an arbitrary order within the same generation, based typicall
 Notice that the resulting sorted sequences can differ substantially as show in~\cref{fig:acoustics:rir:ref_label}.
 This translates into non trivial definition of evaluation metrics for the task of estimating echoes.
 
-\questionpar{Can echoes be louder the the direct-path?} Yes, in certain cases reflections maybe carry energy comparable or stronger than the direct contribution.
+\questionpar{Can echoes be louder than the direct-path?} Yes, in certain cases reflections maybe carry energy comparable or stronger than the direct contribution.
 This happens for instance when directional sources are directed towards reflectors or when multiple reflections arrive within a very short time.
-Typical scenarios are when a person is presenting facing the slides projected on a wall giving the shoulders to the microphones; or when a person is very far from the microphones
+Typical scenarios are when a person is presenting facing the slides projected on a wall giving the shoulders to the microphones.
+When a person is very far from the microphones, the delay between each reflection is very small compare to
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%y

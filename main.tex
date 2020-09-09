@@ -30,6 +30,9 @@
 
 % --- Symbols, Units and Icons ------------------------------------------------
 \usepackage{fontawesome} % fontawesomeicons
+\usepackage{arydshln} % provide dashline
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\usepackage{gensymb} % provide \degree
 
 % --- Math --------------------------------------------------------------------
 \usepackage{kmath} % cool delimiters
@@ -37,6 +40,7 @@
 \usepackage[mathscr]{euscript}
 \usepackage{xfrac} % provide \sfrac, cool fractions
 \usepackage{siunitx}    % provide \ang and SI units
+
 
 % --- Theorem environment------------------------------------------------------
 \usepackage{amsthm}
@@ -90,6 +94,7 @@
 \usetikzlibrary{shadows.blur}
 \usetikzlibrary{shapes}
 \usepackage[abs]{overpic}
+% \usepackage[percent]{overpic} % provide \put on figures
 \graphicspath{{./figures/}{./icons/}{./logos/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
@@ -163,12 +168,12 @@
 % === MAIN BODY ===
 \mainmatter{}
 
-%% PROLOGE
-% \begin{fullwidth}
-%     \part{Prologue}
-% \end{fullwidth}
-% \parttoc[n]
-% \cleardoublepage{}
+% PROLOGE
+\begin{fullwidth}
+    \part{Prologue}
+\end{fullwidth}
+\parttoc[n]
+\cleardoublepage{}
 
 \input{contents/main_matter/chapter0_intro}
 
@@ -179,7 +184,6 @@
 \parttoc[n]
 \input{contents/main_matter/chapter1_acoustics}
 \input{contents/main_matter/chapter2_processing}
-% \input{contents/main_matter/chapter3_evaluation}
 
 %% II. Estimation
 \begin{fullwidth}
@@ -187,26 +191,27 @@
 \end{fullwidth}
 \parttoc[n]
 \input{contents/main_matter/chapter4_estimation}
+\input{contents/main_matter/chapter_dechorate}
 % \input{contents/main_matter/chapter5_lantern}
-% \input{contents/main_matter/chapter6_blaster}
+\input{contents/main_matter/chapter6_blaster}
 % \input{contents/main_matter/chapter7_blaster2}
 
-% %% III. Application
-% \begin{fullwidth}
-% \part{Echo-aware Application}\label{pt:application}
-% \end{fullwidth}
-% \parttoc[n]
-% \input{contents/main_matter/chapter9_applications}
-% \input{contents/main_matter/chapter10_separake}
-% \input{contents/main_matter/chapter11_mirage}
+%% III. Application
+\begin{fullwidth}
+\part{Echo-aware Application}\label{pt:application}
+\end{fullwidth}
+\parttoc[n]
+\input{contents/main_matter/chapter9_applications}
+\input{contents/main_matter/chapter10_separake}
+\input{contents/main_matter/chapter11_mirage}
 % \input{contents/main_matter/chapter12_brioche}
 
-% %% IV. Conclusion
-% \begin{fullwidth}
-% \part{Epilogue}
-% \end{fullwidth}
-% \parttoc[n]
-% \input{contents/main_matter/chapter20_conclusion}
+%% IV. Conclusion
+\begin{fullwidth}
+\part{Epilogue}
+\end{fullwidth}
+\parttoc[n]
+\input{contents/main_matter/chapter20_conclusion}
 
 
 % === BACK MATTER ===

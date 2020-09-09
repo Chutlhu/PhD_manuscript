@@ -1,0 +1,123 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table*}[h!]
+\label{tab:rir_db}
+\small
+\centering
+
+\begin{tabular}{l|c|c|c|ccc|c|l|l}
+\toprule
+
+\multirow{2}{*}{Database Name} &
+  \multicolumn{3}{c|}{Annotated} &
+  \multicolumn{4}{c|}{Number of} &
+  Key characteristics &
+  Purpose \\
+  &
+  Pos. &
+  Echoes &
+  Rooms &
+  \multicolumn{1}{l|}{RIRs} &
+  \multicolumn{1}{c|}{Rooms} &
+  \multicolumn{1}{c|}{Mic$\times$Pos.} &
+  Src &
+   &
+   \\
+\hline
+\begin{tabular}[c]{@{}l@{}} Dokmani\'c \textit{et al.} \cite{Dokmanic2013acoustic}\end{tabular} &
+  \cmark  &
+  $\sim$ &
+  \multicolumn{1}{c|}{$\sim$} &
+  \multicolumn{1}{l|}{15} &
+  \multicolumn{1}{c|}{3} &
+  \multicolumn{1}{c|}{5} &
+  1 &
+  Non shoebox room &
+  RooGE \\ \hline
+\begin{tabular}[c]{@{}l@{}} Crocco \textit{et al.} \cite{Crocco2017uncalibrated}\end{tabular} &
+  \cmark &
+  $\sim$ &
+  \multicolumn{1}{c|}{\cmark} &
+  \multicolumn{1}{l|}{204} &
+  \multicolumn{1}{c|}{1} &
+  \multicolumn{1}{c|}{17} &
+  12 &
+  \begin{tabular}[c]{@{}l@{}}Accurate 3D calibration\\ Many mic and src positions\end{tabular} &
+  RooGE \\
+ \hline
+ 
+ Remaggi \textit{et al.} \cite{remaggi2017acoustic} &
+  \cmark & % # noete pos?
+  $\sim$  & % # note echo?
+  \cmark & % # note room?
+  \multicolumn{1}{l|}{$\sim$1.5k} & % # rirs
+  \multicolumn{1}{c|}{4} & % # room
+  \multicolumn{1}{c|}{48$\times$2} & % # mics
+  4-24 & % # srcs
+  \begin{tabular}[c]{@{}l@{}}
+  Circural dense array
+  \\Circular placement of sources
+  \end{tabular} &
+  \begin{tabular}[c]{@{}l@{}}RooGE\\ SE$^{\dagger}$\end{tabular}
+  \\
+\hdashline
+Remaggi \textit{et al.} \cite{Remaggi2019modeling} &
+  \cmark & % # noete pos?
+  $\sim$  & % # note echo?
+  \cmark & % # note room?
+  \multicolumn{1}{l|}{$\sim$1.6k} & % # rirs
+  \multicolumn{1}{c|}{4} & % # room
+  \multicolumn{1}{c|}{
+    \begin{tabular}[c]{@{}l@{}}
+    48$\times$2
+    \\+2$\times$2
+    \end{tabular}
+} & % # mics
+  3-24 & % # srcs
+  \begin{tabular}[c]{@{}l@{}}
+    Circural dense array
+    \\Binaural Recordings 
+    \end{tabular}
+  &
+  \begin{tabular}[c]{@{}l@{}}RooGE$^{\dagger}$\\ SE\end{tabular}
+  \\
+\hline
+BUT Reverb dB \cite{Szoke2018building} &
+  \cmark &
+  \xmark&
+  $\sim$ &
+  \multicolumn{1}{l|}{$\sim$1.3k} &
+  \multicolumn{1}{c|}{8} &
+  \multicolumn{1}{c|}{(2-10)$\times$6} &
+  3-11 &
+  \begin{tabular}[c]{@{}l@{}}Accurate metadata\\ different device/arrays\\ various rooms\end{tabular} &
+  SE/ASR \\ \hline
+VoiceHome \cite{Bertin2019voice} &
+   \cmark &
+   \xmark&
+   \xmark&
+  \multicolumn{1}{l|}{188} &
+  \multicolumn{1}{c|}{12} &
+  \multicolumn{1}{c|}{8$\times$2} &
+  7-9  &
+   Various rooms, real homes &
+  SE/ASR \\ \hline
+dEchorate &
+  \textbf{\cmark} &
+  \textbf{\cmark} &
+  \multicolumn{1}{c|}{\textbf{\cmark}} &
+  \multicolumn{1}{l|}{$\sim$1.8k} &
+  \multicolumn{1}{c|}{1} &
+  \multicolumn{1}{c|}{30} &
+  6 &
+  \begin{tabular}[c]{@{}l@{}}Accurate annotation\\ Different Echo-energy\end{tabular} &
+  \begin{tabular}[c]{@{}l@{}}RooGE\\ SE/ASR\end{tabular}
+  \\
+
+\bottomrule
+\end{tabular}
+\caption{Comparison between some existing RIR databases that account for early acoustic reflections. Receiver positions are indicated in terms of number of microphones per array times number of different positions of the array ($\sim$ stands for partially available information). 
+The read is invited to refer to \cite{Szoke2018building, Genovese2019blind} for more complete list of existing RIR datasets.
+%\protect\\- indicates minimum and maximum number of variable number of objects
+\protect\\$^{\dagger}$The dataset in \cite{remaggi2017acoustic} is originally intended for RooGE and further extended for (binaural) SE in \cite{Remaggi2019modeling} with a similar setup.}
+\end{table*}

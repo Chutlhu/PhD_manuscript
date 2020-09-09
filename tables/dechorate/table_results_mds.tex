@@ -1,0 +1,25 @@
+\begin{table}[]
+\centering
+\begin{tabular}{lllll}
+\toprule
+& Metrics        & $\bIPS$               & $\dMDS$          & $\dcMDS$          \\
+\midrule
+\multicolumn{1}{c}{\multirow{2}{*}{\rotatebox{90}{\footnotesize Geom.}}} 
+&   Max.             & -            & $6.1$         & $1.07$        \\
+&   Avg.$\pm$Std.    & -            & $1.8\pm1.4$    & $0.39\pm0.2$  \\
+% \rule{0pt}{0.1em}\\
+\midrule
+\multicolumn{1}{c}{\multirow{2}{*}{\rotatebox{90}{\footnotesize Signal}}}  
+&   Max.          & $5.86$         & $1.20$         & $1.86$       \\
+&   Avg.$\pm$Std. & $1.85\pm 1.5$  & $0.16\pm0.2$   & $0.41\pm0.3$ \\
+% \rule{0pt}{0.1em}\\
+\midrule
+\multicolumn{1}{c}{\multirow{3}{*}{\rotatebox{90}{\footnotesize Mismatch}}}
+&  GoM (1.0 ms)   & $97.9 \%$      & $93.4 \%$      & $98.1 \%$ \\
+&  GoM (0.1 ms)   & $26.6 \%$      & $44.8 \%$      & $53.1 \%$ \\
+&  GoM (0.05 ms)  & $12.5 \%$      & $14.4 \%$      & $30.2 \%$ \\
+\bottomrule
+\end{tabular}
+\caption{Mismatch between geometric measurements and signal measurements in terms of maximum (Max.), average (Avg.) and standard deviation (Std) of absolute mismatch in centimeters. The \textit{goodness of match} (GoM) between the signal and geometrical measurements is reported as fraction of matching echo timing for different threshold in milliseconds.}
+\label{tab:res_mds}
+\end{table}
