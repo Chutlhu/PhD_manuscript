@@ -1,0 +1,86 @@
+\chapter{Data-driven Acoustic Echo Retrieval \& \lantern}\label{chap:lantern}
+
+\section{Learning-based echo estimation}
+
+
+\subsection{Simple Case: $\numEchs = 2$}
+
+Our approach is to train a deep neural network (DNN) on a dataset simulating the considered close-surface scenario.
+We model the problem as multi-target regression, with \textit{interaural level difference} (ILD)
+and \textit{interaural phase difference} (IPD) as input features, and $V \in \mathbb{R}^3$ as output parameters.
+ILD and IPD features are defined in the frequency domain as follows:
+\begin{equation}
+\label{eq:mirage:features}
+\begin{cases}
+ILD(f)  =& \tfrac{1}{T} \sum_{t=1}^T \log{\mid \frac{M_2(f,t)}{M_1(f,t)} \mid } \\
+IPD(f)  =& \tfrac{1}{T} \sum_{t=1}^T \frac{M_2(f,t)/ \mid M_2(f,t) \mid }{M_2(f,t) / \mid M_1(f,t)  \mid}\\
+\end{cases}
+\end{equation}
+More precisely, the input of the network is
+$\mathbf{x} = [ILD,$ $\operatorname{Re}(IPD)], \operatorname{Im}(IPD)]$, where $\operatorname{Re}$
+and $\operatorname{Im}$ denote real and imaginary part operators, respectively.
+Note that for the IPD, the frequency $f=0$ is discarded because it is constant for every observation.
+In general, the mapping between $V$ and the proposed feature is not unique.
+In particular, this happen when $\tau_2^1 = \tau_1^1$.
+In order to avoid this, we preventively pruned all the entries
+with $| \tau_2^1 - \tau_1^1 | < 10^{-6}$ from the dataset.
+
+We use a simple fully-connected DNN architecture consisting of a $D$-dimensional input layer,
+a $3$-dimensional output layer, and 3 fully connected hidden layers with respective input
+sizes $500$, $300$ and $50$. Rectified linear unit (ReLU)
+activation functions are used except at the output layer,
+and each hidden layer has a dropout probability $p_\text{do} = 0.3$.
+We use the mean square error loss function for training and the Adam optimizer \cite{kingma2014adam}.
+The normalized root mean square error (nRMSE) is taken as validation
+metric\footnote{The nRMSE takes values between $0$ (perfect fit) and $\infty$ (bad fit).
+If it is equal to $1$, then the prediction is no better than a constant.}.
+The network is manually tuned on a validation set to find the best combination of number of hidden layers, their sizes and $p_\text{do}$.
+Once time delay estimates $\hat{V}$ are returned by the DNN, they are converted to synthetic
+local angular spectra and passed to $\Psi_\text{SRP}$ (See Sec. \cref{subsec:mirage:2D-SSL})
+together with the relative positions of true and image microphones which are assumed known.
+We call this algorithm MIRAGE. The synthetic local angular spectra consist of Gaussians
+centered at $\hat{V}$ and with variances equal to the prediction errors made by
+the DNN on the validation set.
+
+\section{Robust learning for the case $\numEchs = 2$}
+
+
+The neural network follows the convolutional neural network (CNN) architecture in Figure~\ref{fig:cnn}, which is the one also used in \cite{Nguyen2018} and similar to the one used in \cite{Chakrabarty2017}. It consists in two convolutional modules made of one-dimensional convolutional layer (1DConv) followed by max-pooling along the frequencies, followed by rectified linear unit (ReLu) activation function and batch-normalization.
+The second part consists in a cascade of fully connected feed-forward (FF) layers.
+Note that dimension of the input is re-arranged so that the second dimension is considered as channel for the 1DConv. After each layer a dropout probability $p_\text{do} = 0.3$ is applied.
+
+The proposed novel loss function is the negative Student-T log-likelihood, which is implemented as follows:
+
+\begin{equation}
+\begin{split}
+\mathcal{L}(\Theta) =& \sum_{x \in B} \sum_{t \in V}\ \dfrac{1}{2} \log (\nu_t\pi_t)
+                        + \dfrac{1}{2} \log(\lambda_t^2)
+                        - \log  \Gamma \left( \dfrac{\nu_t+1}{2} \right)\\
+                    &    + \log  \Gamma \left( \dfrac{\nu_t}{2} \right)
+                        + \dfrac{\nu_t+1}{2}
+                        \log \left( 1  + \dfrac{\norm{\mu_t, x_i)}}{\nu_t \lambda_t^2} \right)\\
+\end{split}
+\end{equation}
+
+where $\Theta$ are the CNN parameters and $\Gamma$ is the Gamma function. The summation over $i$ corresponds to the sum among of all the sample $x$ of the batch $B$. and the summation over $t$ corresponds to the sum among the three quantities in V (TDOA, iTDOA, TDOE). It follows that for each each input the network will return the parameters of 3 Student-T distribution ($\mu_t, \nu_t, \lambda_t$) for each variable $t = { \text{TDOA}, \text{iTDOA}, \text{TDOE} }$. Hereafter we denote with $V_{\mathcal{ST}}$ the set of the 9 network outputs.
+
+We use the Adam optimizer ant the normalized root mean square error (nRMSE) is taken as validation metric (see Section~\ref{subsec:eval_synth_tdoa}). The network is manually tuned on a validation set to find the best combination of number of hidden layers and their sizes
+
+Once an estimate $\hat{V_\mathcal{ST}}$ of the parameters of the 3 distribution is returned by the CNN, they are converted to synthetic local angular spectra and passed to an SRP-PHAT method together with the relative positions of true and image microphones which are assumed known. We call this algorithm MIRAGE. The synthetic local angular spectra consist of Student-t distribution with parameters $\mu, \nu$ and $\lambda$.
+
+For training and validation of the CNN we generate many random shoe-box room configurations using the software presented in \cite{schimmel2009fast}. This software implements both the image-method for simulating reflections and a ray-tracing algorithm for diffusion. Room widths are uniformly drawn at random in $[3, 9]$ m, heights in $[2, 4]$ m. Random source/microphones positions and absorption coefficients for the 6 surfaces are used, respecting the close-surface scenario. In particular, the microphones are at most $30$ cm from the close-surface, placed $13$ cm from each other, the absorption coefficients of the other walls are uniformly sampled in $(0.5, 1)$ and the one of the close-surface is in $(0, 0.5)$. The same realistic diffusion profile \cite{gaultier2017vast} is used for all surfaces. Around $20,000$ audio scenes are generated this way, yielding reverberation times ($RT_{60})$ between $20$ ms and $250$ ms.
+
+For training and validation, the RIRs are convolved with 1 sec of white-noise with additional noise with SNR in $(0,20)$ dB.
+All signals and RIRs are sampled at $16$ kHz. The STFT is performed on $1024$ point with $50\%$ overlap. Finally the features are computed as in~\eqref{eq:features} yielding a vector of size $D = 1534$ for each observation.
+While we validate the CNN on a portion of the dataset in a \textit{holdout} fashion, the test is conducted on 200 new RIRs convolved with both speech utterances. This set is generated similarly to the training and validation sets. Moreover the recordings are perturbed by external white noise as in the training set. The speech signals are normalized speech utterances of various lengths (from $1$ s to $6$ s), randomly selected from the TIMIT corpus.
+A re-implement version of SRP-PHAT is used to aggregate local angular spectra obtained from the DNN's output and as a baseline. However the original MATLAB code for SRP-PHAT can be found at \url{http://bass-db.gforge.inria.fr/bss_locate/}. A sphere sampling with $1$ degree resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ degrees is used for the DOA search.
+
+
+\section{Towards the case $\numEchs > 2$}
+
+\subsection{Better features}
+
+\subsection{Better architecture}
+
+
+\section{Conclusion and perspective}

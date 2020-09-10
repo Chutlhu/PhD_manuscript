@@ -1,0 +1,193 @@
+\chapter{Acoustic Echo Retrieval}\label{chap:estimation}
+\openepigraph{Signal, a function that conveys information about a phenomenon.
+$[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
+\vspace{-2.5em}
+\newthought{Synopsis}  blabla
+
+\section{Problem Formulation}
+Giving the frequency domain model of the \RIR/ defined in the previous chapters,
+\begin{equation}
+    \hat{h}[k] = \sum_{r=0}^K
+\end{equation}
+the \AER/ problem consists in estimating the echo timings $\kbrace{\tau_r}$ and attenuations $\kbrace{\alpha_r}$.
+The term \AER/ is not typical in the audio signal processing community and it can be seen as instance of
+channel estimation problem or time delay of arrival problems.
+Both the problem can be set in active or in blind version.
+
+% \subsection{As Time Delay Estimation Problem}
+% \begin{description}
+%     \item[definition] The former aims at measuring the time delay between the transmission of a pulse sig- nal and the reception of its echo, which is often of primary interesttoanactivesystemsuchasradar andactivesonar; while the latter, as its name indicates, endeavors to deter- mine the travel time of a wavefront between two spatially separated receiving sensors, which is often of concern to a passive system such as passive sonars and microphone array systems. Although there exists intrinsic relationship between the TOA and TDOA estimation, their essential difference is literally profound. In the former case, the “clean” reference signal, that is, the transmitted signal, is known, such that the time delay estimate can be obtained based on a single sensor generally using the matched filter approach.
+%     \item[paper] \citeonly{chen2006time}
+%     \item[characteristic]  Time Delay estimation, Time of Arrival, Time Difference of Arrival.
+%     \item[environmet] ideal, multipath, reverberant
+% \end{description}
+
+% Approaches
+% \begin{itemize}
+%     \item assuming ideal propagation
+%     \begin{description}
+%         \item[M=2, Cross-correlation approaches]
+%         \item[M=2, Generalized Cross-correlation approaches]
+%         \item[M=2, LMS-type adaptive]
+%         \item[Sensor Fusion] SRP-PHAT
+%     \end{description}
+%     \item assuming reverberant path
+%     \begin{description}
+%         \item[Adaptive Eigenvalue decomposition]
+%     \end{description}
+% \end{itemize}
+
+\section{Literature review}
+
+\subsection{As a blind channel estimation problem}
+
+Is the transmitted signal known?
+\begin{description}
+    \item[Yes] Active Channel Estimation
+    \begin{itemize}
+        \item Deconvolution followed by Peak Picking methods
+        \begin{description}
+            \item[Deconvolution]
+            \begin{itemize}
+                \item Regression and Deconvolution
+                \item Informed Deconvolution (Sparsity)
+                \item RTF estimation in the special case $h_i = 1$
+                \item RIR estimation \citeonly{Farina}
+            \end{itemize}
+            \item[Peak Picking]
+            \begin{itemize}
+                \item Iterative Thresholding (Crocco)
+                \item Condat - Sinc Denoising
+                \item Defrance - Matching Pursuit
+                \item Remmagi, Naylor
+                \item Onset detection
+                \item Kurtosis
+                \item Autocorrelation
+                \item Matched filter / Direct Path compensation
+                \item Geometry-based
+                \item DTW - Kelly
+                \item Multifractals analysis
+                \item Time-Frequency representation (Wavelet) - Vesa and Lokki
+            \end{itemize}
+        \end{description}
+        \item Jesper Jensen
+        \begin{itemize}
+            \item EM and DOA
+            \item
+        \end{itemize}
+    \end{itemize}
+    \item[No]. Do we have prior Knowledge?
+    \begin{description}
+        \item[Yes] Statistics methods
+            \item 2nd order
+            \item ML
+        \item[No] Is it on grid? Does it estimate the full channel? Require peak picking?
+            \begin{description}
+                \item[Yes] On grid Blind Method
+                    \begin{itemize}
+                    \item subspace method
+                    \item cross-relation methods
+                    \end{itemize}
+                \item[No]
+                \begin{itemize}
+                    \item Audio camera
+                    \item MULAN
+                    \item Blaster
+                \end{itemize}
+            \end{description}
+    \end{description}
+\end{description}
+
+
+
+Peak picking can be further improved with peak pruning
+\begin{itemize}
+    \item Dockmanic
+    \item Crocco
+    \item Annibale
+\end{itemize}
+
+
+\subsection{Background in Active AER}
+
+\section{Data and Evaluation}
+
+\subsection{Datasets}
+
+\subsection{Metrics}
+
+% \section{as (sparse) \RIR/ estimation}
+% \begin{itemize}
+%     \item[def] estimation of the whole channel acoustic channel
+%     \item[methods] Signal know \vs/ unknown. statistical methods \vs/ blind method
+% \end{itemize}
+
+% \subsection{Other echo-related parameters estimation}
+% \newthought{\TDOA/ estimation}
+% \begin{itemize}
+%     \item[def] estimation of the the difference of the direct path
+%     \item[methods] Cross-correlation
+% \end{itemize}
+
+% \newthought{Echo Density Estimation}
+
+% \newthought{$\RT$ and $\DRR$ estimation}
+
+% \section{Acoustic Echo Estimation is}
+
+% \begin{itemize}
+%     \item Acoustic Echo Retrieval definition
+%     \item Acoustic Echo Retrieval scope and placement in the signal processing pipeline
+%     \item Acoustic Echo Retrieval characteristic
+% \end{itemize}
+
+% \section{Echoes in the Time, Frequency and Cepstral domains}
+% \begin{itemize}
+%     \item Time domain processing
+%     \item Frequency domain processing
+%     \item Correlation processing
+%     \item Cepstral processing
+% \end{itemize}
+
+
+% \section{Related Works}
+% \subsection{Active vs. Passive echoes estimation}
+
+% \subsection{Knowledge-based vs. Data-driven}
+% \begin{itemize}
+%     \item Knowledge-driven (Physic-driven)
+%     \begin{itemize}
+%         \item Channel (RIR) estimation and Echoes pruning - Crooco and Dokmanic
+%         \item TDOA estimation (multipath) - Benesty
+%         \item Spikes Retrieval - Condat
+%     \end{itemize}
+%     \item Data-driven
+%     \begin{itemize}
+%         \item GLLiM
+%         \item Deep Leaning echo estimation
+%     \end{itemize}
+% \end{itemize}
+
+% \subsection{end-2-end vs 2-steps approaches}
+
+% AER\\
+% eRTF + AER
+
+% Pruning methods
+
+% \section{Related Works}
+
+% \subsection{AER as a RIR Estimation problem}
+% \todo{summarize Crocco's presentation}
+
+% TX signal: known vs. not known
+% \\TX signal not known: statistical methods and blind methods
+
+% \subsection{AER as a Spike Estimation problem}
+
+
+% \subsection{Virtually-supervised and Data Augmentation}
+
+
+% \section{Data and Metrics}
+% \subsection{Spike-based metrics}

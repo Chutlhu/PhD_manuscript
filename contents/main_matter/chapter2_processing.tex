@@ -361,11 +361,11 @@ As a rule of thumb, here the longer the segment, the better the approximation%
 Finally, we cannot access the \DTFT/ directly because that involves an infinite number of frequencies $f \in \R$.
 Therefore, taking $F$ uniformly-spaced frequency $f_k\in\R$ as in~\cref{eq:processing:fk}, we finally obtain the \DFT/ as in~\cref{eq:processing:dft}, that is
 \begin{equation}
-    \tilde{X}_N(f) =
+    \tilde{X}_N(f_k) =
     \sum_{n=0}^{N-1}
     \hat{x}_N[n]
     \cste^{-\csti2\pi f \frac{n}{\Fs}}
-    \quad \rightarrow \quad
+    \quad \leftrightarrow \quad
     \hat{X}_F[k] =
     \sum_{n=0}^{N-1}
     \hat{x}_N[n]
@@ -377,13 +377,14 @@ By increasing $F$, we can sample more densely $\hat{X}_F[k]$ which leads to a be
 However this does not eliminates the distortion of the previous steps, due to $\tilde{W}_{\Fs}$.
 
 \mynewline
-Being rigorous, it should be noticed that the inverse \DFT/ of $\hat{X}_F[k]$ is not $\hat{x}_N[n]$, but its periodic version repeated every $N$ samples.
+Again, we sampled a domain. Thus, according to the defined sampling process, this involve using a ideal low-pass filter.
+This filter acts now on the discrete spectrum, smoothing it and limiting the support of its transformation in the dual domain.
+Therefore, the inverse \DFT/ of $\hat{X}_F[k]$ is not properly $\hat{x}_N[n]$, but its periodic version repeated every $F$ samples.
 In fact, sampling in one of the two domain is equivalent to a periodization in the other domain while truncating lead to convolving with a window function.
 Moreover, the chain of operation (sampling in time and truncation in time and sampling in frequencies) are valid in both way.
 Thus one can arbitrarily first sample and truncate frequency domain and finally sample in time.
 The only difference is in the interpretation of the windowing function, which in one case smooth the spectrum and in the other smooth the signal.
 All this relation and approximation that connects the \FT/ to the \DFT/ are well explained in explanatory material presented in~\sidenote{\url{https://krasjet.com/rnd.wlk/poisson.pdf}}.
-
 
 % Through the use of microphones and computers, our window into the continuous physical world of acoustics is narrow and discrete, both it time and in frequency.
 
@@ -401,24 +402,25 @@ Secondly, by using na\"ively the discrete convolution theorem, one could transla
     \hat{\img}_{ij}[n] = (\hat{\rir}_{ij} \convDis \hat{\src})[n]
     \mathspace\overset{\discreteFT{}}{\kto}\mathspace
     \hat{C}_{ij}[k] = \hat{H}_{ij}[k] \hat{S}[k]
+    ,
 \end{equation}
 where $\convDis$ is the finite-time linear convolution operator\sidenote{
     The finite-time linear convolution for two vectors $\hatu\in\bbR^L$ and $\hatv\in\bbR^D$ is
     \\$(\hatu \convDis \hatv)[n] = \sum_{l=0}^{L-1} \hatu[l] \hatv[L-1+n-j]$ for $n = 0, \cdots, D-L$
     .
 }.
-The filter $\hat{H}_{ij}[k]$ is the \DFT/ of the room impulse response.
+\\The filter $\hat{H}_{ij}[k]$ is the \DFT/ of the room impulse response.
 As mentioned in the~\cref{subsec:processing:ftapprox}, this just approximates the room transfer function of~\cref{eq:processing:rtf}.
 Thus we can write,
 \begin{equation}\label{eq:processing:discreteModel:rir}
     \hat{H}_{ij}[ k] \approx \sum_{\idxEch=0}^{\numEchs}
                 \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
-                \cste^{- \csti 2 \pi f_k \tau_{ij}^r}
+                \cste^{- \csti 2 \pi k \Fs \tau_{ij}^r / F}
     .
 \end{equation}
 
 \mynewline
-Although used in practice, the model~\eqref{sec:processing:discreteModel} makes use of other approximations that are worth presenting.
+Although used in practice, the model~\eqref{eq:processing:discreteModel} makes use of other approximations that are worth presenting.
 In particular, the work by~\citeonly{tukuljac2018mulan} properly discuss them in the context of the echo estimation problem.
 The paper mention three approximations, which are depicted in the following diagram.
 

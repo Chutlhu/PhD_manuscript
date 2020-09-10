@@ -231,45 +231,45 @@ $V$ could in principle be used to estimate the 2D directional of arrival of the 
 In the next section, we present a learning-based method to estimate
 $V$ using audio features obtained from only two microphones.
 
-\section{Learning-based echo estimation}
-Our approach is to train a deep neural network (DNN) on a dataset simulating the considered close-surface scenario.
-We model the problem as multi-target regression, with \textit{interaural level difference} (ILD)
-and \textit{interaural phase difference} (IPD) as input features, and $V \in \mathbb{R}^3$ as output parameters.
-ILD and IPD features are defined in the frequency domain as follows:
-\begin{equation}
-\label{eq:mirage:features}
-\begin{cases}
-ILD(f)  =& \tfrac{1}{T} \sum_{t=1}^T \log{\mid \frac{M_2(f,t)}{M_1(f,t)} \mid } \\
-IPD(f)  =& \tfrac{1}{T} \sum_{t=1}^T \frac{M_2(f,t)/ \mid M_2(f,t) \mid }{M_2(f,t) / \mid M_1(f,t)  \mid}\\
-\end{cases}
-\end{equation}
-More precisely, the input of the network is
-$\mathbf{x} = [ILD,$ $\operatorname{Re}(IPD)], \operatorname{Im}(IPD)]$, where $\operatorname{Re}$
-and $\operatorname{Im}$ denote real and imaginary part operators, respectively.
-Note that for the IPD, the frequency $f=0$ is discarded because it is constant for every observation.
-In general, the mapping between $V$ and the proposed feature is not unique.
-In particular, this happen when $\tau_2^1 = \tau_1^1$.
-In order to avoid this, we preventively pruned all the entries
-with $| \tau_2^1 - \tau_1^1 | < 10^{-6}$ from the dataset.
+% \section{Learning-based echo estimation}
+% Our approach is to train a deep neural network (DNN) on a dataset simulating the considered close-surface scenario.
+% We model the problem as multi-target regression, with \textit{interaural level difference} (ILD)
+% and \textit{interaural phase difference} (IPD) as input features, and $V \in \mathbb{R}^3$ as output parameters.
+% ILD and IPD features are defined in the frequency domain as follows:
+% \begin{equation}
+% \label{eq:mirage:features}
+% \begin{cases}
+% ILD(f)  =& \tfrac{1}{T} \sum_{t=1}^T \log{\mid \frac{M_2(f,t)}{M_1(f,t)} \mid } \\
+% IPD(f)  =& \tfrac{1}{T} \sum_{t=1}^T \frac{M_2(f,t)/ \mid M_2(f,t) \mid }{M_2(f,t) / \mid M_1(f,t)  \mid}\\
+% \end{cases}
+% \end{equation}
+% More precisely, the input of the network is
+% $\mathbf{x} = [ILD,$ $\operatorname{Re}(IPD)], \operatorname{Im}(IPD)]$, where $\operatorname{Re}$
+% and $\operatorname{Im}$ denote real and imaginary part operators, respectively.
+% Note that for the IPD, the frequency $f=0$ is discarded because it is constant for every observation.
+% In general, the mapping between $V$ and the proposed feature is not unique.
+% In particular, this happen when $\tau_2^1 = \tau_1^1$.
+% In order to avoid this, we preventively pruned all the entries
+% with $| \tau_2^1 - \tau_1^1 | < 10^{-6}$ from the dataset.
 
-%The performances of cross-correlation methods (e.g. GCC-PHAT) depends on the extraction on local maxima. However in an reverberant scenario many local extrema at periodic intervals can be observed due to the reflections. So which peaks corresponds to the desired TDOA, iTDOA and TDOE? To avid this ambiguity advance methods can actually retrieve TDOAs and iTDOAs however it is challenging for them to estimate TDOE, which is an essential variable for defining an MIRAGE setup~\cref{fig:correlation}.
-%The network is a simple multi-layers neural network (DNN). It has $D$ inputs corresponding to the dimension of the input feature vector $\mathbf{x}$ and $L = 3$ output nodes corresponding to the three target variables of $V$.
-We use a simple fully-connected DNN architecture consisting of a $D$-dimensional input layer,
-a $3$-dimensional output layer, and 3 fully connected hidden layers with respective input
-sizes $500$, $300$ and $50$. Rectified linear unit (ReLU)
-activation functions are used except at the output layer,
-and each hidden layer has a dropout probability $p_\text{do} = 0.3$.
-We use the mean square error loss function for training and the Adam optimizer \cite{kingma2014adam}.
-The normalized root mean square error (nRMSE) is taken as validation
-metric\footnote{The nRMSE takes values between $0$ (perfect fit) and $\infty$ (bad fit).
-If it is equal to $1$, then the prediction is no better than a constant.}.
-The network is manually tuned on a validation set to find the best combination of number of hidden layers, their sizes and $p_\text{do}$.
-Once time delay estimates $\hat{V}$ are returned by the DNN, they are converted to synthetic
-local angular spectra and passed to $\Psi_\text{SRP}$ (See Sec. \cref{subsec:mirage:2D-SSL})
-together with the relative positions of true and image microphones which are assumed known.
-We call this algorithm MIRAGE. The synthetic local angular spectra consist of Gaussians
-centered at $\hat{V}$ and with variances equal to the prediction errors made by
-the DNN on the validation set.
+% %The performances of cross-correlation methods (e.g. GCC-PHAT) depends on the extraction on local maxima. However in an reverberant scenario many local extrema at periodic intervals can be observed due to the reflections. So which peaks corresponds to the desired TDOA, iTDOA and TDOE? To avid this ambiguity advance methods can actually retrieve TDOAs and iTDOAs however it is challenging for them to estimate TDOE, which is an essential variable for defining an MIRAGE setup~\cref{fig:correlation}.
+% %The network is a simple multi-layers neural network (DNN). It has $D$ inputs corresponding to the dimension of the input feature vector $\mathbf{x}$ and $L = 3$ output nodes corresponding to the three target variables of $V$.
+% We use a simple fully-connected DNN architecture consisting of a $D$-dimensional input layer,
+% a $3$-dimensional output layer, and 3 fully connected hidden layers with respective input
+% sizes $500$, $300$ and $50$. Rectified linear unit (ReLU)
+% activation functions are used except at the output layer,
+% and each hidden layer has a dropout probability $p_\text{do} = 0.3$.
+% We use the mean square error loss function for training and the Adam optimizer \cite{kingma2014adam}.
+% The normalized root mean square error (nRMSE) is taken as validation
+% metric\footnote{The nRMSE takes values between $0$ (perfect fit) and $\infty$ (bad fit).
+% If it is equal to $1$, then the prediction is no better than a constant.}.
+% The network is manually tuned on a validation set to find the best combination of number of hidden layers, their sizes and $p_\text{do}$.
+% Once time delay estimates $\hat{V}$ are returned by the DNN, they are converted to synthetic
+% local angular spectra and passed to $\Psi_\text{SRP}$ (See Sec. \cref{subsec:mirage:2D-SSL})
+% together with the relative positions of true and image microphones which are assumed known.
+% We call this algorithm MIRAGE. The synthetic local angular spectra consist of Gaussians
+% centered at $\hat{V}$ and with variances equal to the prediction errors made by
+% the DNN on the validation set.
 
 \section{Implementation and Results}\label{sec:mirage:exp}
 To the best of the authors' knowledge, no reference implementation of algorithms

@@ -1,4 +1,4 @@
-\chapter{Datasets for Acoustic Echo Estimation}\label{chap:estimation}
+\chapter{Datasets for Acoustic Echo Estimation \& \dechorate}\label{chap:estimation}
 \openepigraph{Signal, a function that conveys information about a phenomenon.
 $[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
 \vspace{-2.5em}
@@ -168,8 +168,6 @@ Use BSN, Crocco and BLASTER for echo acoustic echo retrieval.
     Comparison of echo-aware beamforming for the room configuration $\mathtt{011111}$ ($\RT \approx 600 $ ms) on measured and synthetic data  for all combinations of source-array positions in the \dEchorate{} dataset.}
     \label{fig:pesq}
 \end{figure}
-
-\newcommand{\corrG}[2]{\sout{#1} {\textcolor{red}{#2}}}
 
 As mentioned, the knowledge of early echoes should boost spatial filtering performances. However the perfect knowledge of such elements are of difficult estimation. To investigate this, we compare two types of spatial filters on both synthetic and measured data: echo-agnostic and echo-aware beamformers.
 \\The formers do not need any echo-estimation step: they either ignore their contributions, such in the direct-path delay-and-sum beamformer ($\DS$)~\cite{VanTrees2004Optimum}, or they consider coupling filters between pairs of microphones, called Relative Transfer Functions (RTFs)~\cite{Gannot2001signal}\footnote{Note that, as opposed to AER, estimating the RTF is a non-blind problem.}.
