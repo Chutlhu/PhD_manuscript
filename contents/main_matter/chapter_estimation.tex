@@ -5,22 +5,144 @@ $[\dots]$ Consider an acoustic wave, which can convey acoustic or music informat
 \newthought{Synopsis}  blabla
 
 \section{Problem Formulation}
-Giving the frequency domain model of the \RIR/ defined in the previous chapters,
+The \AERdef/ problem consists in estimating the echoes' timings (or delays) $\kbrace{\tau_r}$ and attenuations (or gains) $\kbrace{\alpha_r}$.
+In this context the echoes are considered the early reflections component of the \RIR/, modeled as
 \begin{equation}
-    \hat{h}[k] = \sum_{r=0}^K
+    \echoModelFreq
+    .
 \end{equation}
-the \AER/ problem consists in estimating the echo timings $\kbrace{\tau_r}$ and attenuations $\kbrace{\alpha_r}$.
-The term \AER/ is not typical in the audio signal processing community and it can be seen as instance of
-channel estimation problem or time delay of arrival problems.
-Both the problem can be set in active or in blind version.
+The term \AER/ is not an established name for such problem and depending on the field of research and the prior knowledge available, it can be referred to with different name.
+In fact \AER/ can be seen as general case of Time of Arrivals Estimation or a instance of Acoustic Channel Estimation and Shaping, and Spike Retrieval and Onset Detection.
+As opposed to \AER/, the task of Time of Arrivals Estimation, is only focused in estimating the echos' timings $\kbrace{\tau_r}$.
+The only knowledge $\kbrace{\tau_r}$ is sufficient for typical application of related to Sound Source Localization and Room Geometry Reconstruction.
+Moreover knowing $\kbrace{\tau_r}$, the attenuations $\kbrace{\alpha_r}$ can be estimated in a subsequent phase using closed-from equations~\citeonly{condat2015cadzow}.
+Time of Arrivals Estimation is sometimes called Time Delays Estimation, when the origin of time is taken \wrt/ the first \TOA/ and not when sound emission.
+\AER/ may be confused with Time Delay Estimation.
+\AER/ may be confused with Acoustic Echo Cancellation which refers to the problem of estimating and removing...
 
-% \subsection{As Time Delay Estimation Problem}
-% \begin{description}
-%     \item[definition] The former aims at measuring the time delay between the transmission of a pulse sig- nal and the reception of its echo, which is often of primary interesttoanactivesystemsuchasradar andactivesonar; while the latter, as its name indicates, endeavors to deter- mine the travel time of a wavefront between two spatially separated receiving sensors, which is often of concern to a passive system such as passive sonars and microphone array systems. Although there exists intrinsic relationship between the TOA and TDOA estimation, their essential difference is literally profound. In the former case, the “clean” reference signal, that is, the transmitted signal, is known, such that the time delay estimate can be obtained based on a single sensor generally using the matched filter approach.
-%     \item[paper] \citeonly{chen2006time}
-%     \item[characteristic]  Time Delay estimation, Time of Arrival, Time Difference of Arrival.
-%     \item[environmet] ideal, multipath, reverberant
-% \end{description}
+\section{Taxonomy on \AER/ methods}
+
+In general, we can identify four main categories which differ on whether the transmitted signal is know or not and on whether the estimation of the \RIR/.
+
+\dichotomy{Active vs. passive approaches}.
+When the input/transmitted source signal is known, then the scenario is said \textit{active}.
+This type of approaches uses one or more loudspeaker to probe the environment and one or more microphones to record the propagated probe sound.
+This type of methods falls into the big categories of \textit{deconvolution problem} since a ``clean'' reference signal is used to deconvolve the observed one.
+Two are the main advantages of these approaches. First, this methods can be used in single-microphone scenario.
+Second, with proper probe signal, a good estimation of the \RIR/ can be achieved.
+Instead, passive or blind approaches are source agnostic.
+To decouple environment from source signal, they leverage either on prior knowledge on the source signal or by comparing the signals received at two (or more) spatially-separated microphones.
+
+\dichotomy{RIR-agnostic vs. RIR-based approches}.
+As opposed to \textit{direct}, \textit{2-step} methods estimate the echoes' properties after estimating the (full or partial) \RIR/(s).
+By modeling the early part of the \RIR/ as collection of Dirac, solving the \AER/ problem can be seen as solving two subsequent tasks:
+\RIR/ estimation followed by echoes extraction.
+The former can be seen as an instance of Channel Estimation problems, while the latter as a spike retrieval, pick picking or onset detection.
+
+The latter is more challenging since, in general settings, theoretical ambiguities make this problem unsolvable~\citeonly{xu1995least, subramaniam1996cepstrum, tong1998multichannel}.
+\\Instead of estimating the full acoustic impulse response, other methods estimate it partially using assumptions derived by the application.
+It is the case of Impulse Response Shaping or Shortening.
+In context of room acoustics, they aim to reduce the late reverberations allowing some early reflections which are perceptually useful~\citeonly{betlehem2012efficient}.
+\\Direct methods instead try to surpass the challenging task of estimating the full \RIR/ and tuning peak-picking methods, and set-up an end-to-end framework.
+May extract other information.
+
+
+
+\newthought{Channel Equalization or Inverse Filtering}, is a particular case of channel estimation.
+Here the goal is to estimate an equalization filter, which is the inverse of the channel impulse response, rather than the estimation of the channel impulse response itself.
+This equalization filter is then applied to the received signal in order to extract the transmitted one\sidenote{\textit{Beamforming} or \textit{Spatial Filtering} can be seen as in this sense}.
+In general estimating the equalization filter can be easier or more difficult than estimate the direct filter~\sidenote{If the channel impulse response is assumed to be minimum phase, the problem becomes trivial.}.
+\citeonly{neely1979invertibility}, shows that even if the \RIR/ is perfectly known, its direct inversion is not straightforward.
+Several techniques were investigated to alleviate an exhaustive review of Room Response Equalization can be found in~\citeonly{cecchi2018room}.
+
+\newthought{Channel Shaping} is another approach similar to the one of channel equalization \citeonly{krishnan2015robust, vairetti2017scalable}.
+
+Given the above definition, we can now review so \AER/ methods presented in the literature.
+
+\section{Literature Review}
+
+The literature on \AER/ can be now presented asking our self the following question:
+
+
+\subsection{Active and RIR-based method}
+In this categories falls all the method that rely an ``good'' estimation of \RIRs/ as a preprocessing step for which the transmitted signal is known.
+Peak extraction.
+
+\newthoughtpar{RIR Estimation}
+The quality of \RIR/ estimation depends on the deconvolution methods.
+
+Acoustic measurement.
+State of the art \RIR/ estimation uses the chirp~\citeonly{farina2007advancements}.
+Other methods exists such the Minimum Length Sequence or Impulse.
+see \citeonly{szoke2019building} for a review.
+Here the property of the sine sweep is exploited.
+
+In general the deconvolution problem can be design as an inverse problem and solved with optimization~\citeonly{lin2006bayesian}
+Regression and Deconvolution
+
+In case of narrowband signal (\eg/ speech) or low SNR, the deconvolution problem becomes ill-conditioned.
+Here prior on \RIR/ may improve the problem conditioning.
+Informed Deconvolution (Sparsity)
+
+RTF estimation in the special case $h_i = 1$
+In particular scenarios, when microphone is close to one source, the RIR at another microphone RTF estimation methods can be used~\citeonly{koldovsky2015spatial}.
+
+Cross-correlation and then peak picking\citeonly{al2019early}
+
+This methods leads to a clean estimate of \RIR/.
+
+\newthoughtpar{Echo Retrieval from \RIR/}
+The peaks in the early part of the \RIR/ includes the acoustic echoes.
+However it is not straightforward~\citeonly{defrance2008finding, tukuljac2018mulan}
+
+Iterative and Adaptive Thresholding~\citeonly{kuster2008reliability, crocco2017uncalibrated}
+Condat - Sinc Denoising~\citeonly{condat2013robust}
+Defrance - Matching Pursuit~\citeonly{defrance2008detecting}
+Remmagi, Naylor~\citeonly{remaggi2016acoustic} used in \citeonly{naylor2006estimation}
+(Music) Onset detection~\citeonly{bello2005tutorial, cheng2016attack}
+Kurtosis~\citeonly{usher2010improved}
+DTW - Kelly~\citeonly{kelly2014detecting}
+Matched filter / Direct Path compensation~\citeonly{defrance2008detecting, antonacci}
+Multifractals analysis~\citeonly{ristic2013detection,pavlovic2016multifractal}
+Time-Frequency representation (Wavelet) - Vesa and Lokki \citeonly{vesa2010segmentation, guillemain1996characterization}
+
+
+\newthought{Peak Disambiguation}
+It is crucial to note that, for every TOA estimator, a practical trade off exists between the
+number of missed TOAs and the number of spurious TOAs wrongly selected.
+This trade-off is only partially dependent by the SNR since, also for clean received signals, many factors can provide spurious peaks.
+For instance, side lobes due to finite signal bandwidth, echo distortions due to frequency dependent attenuations and coalescing peaks due to close TOAs can affect peak estimation.
+This fact is often a source of unavoidable outliers that make the robustness of subsequent steps in room estimation a delicate and very important issue.
+
+Echo labeling
+
+Room Geometry Reconstruction:
+\begin{itemize}
+    \item \citeonly{el2017time} root paper
+    \begin{itemize}
+        \item \citeonly{dokmanic2013acoustic}
+        \item \citeonly{antonacci2012inference, filos2011robust}
+        \item \citeonly{jager2016room} using graph
+        \item For SSL as described in el2017time \citeonly{scheuing2006disambiguation, zannini2010improved}
+    \end{itemize}
+    \item \citeonly{crocco2014towards} root paper
+\end{itemize}
+
+
+\subsection{Active and RIR-agnostic method}
+EM and DOA estimation \citeonly{jensen2019method, saqib2020estimation}
+
+using autocorrelation / acoustic cameras
+\citeonly{crocco2014towards}
+\citeonly{o2010automatic} and used later in \citeonly{o2008imaging}
+autocorrelation \citeonly{al2019early}
+
+
+\subsection{Passive and RIR-based method}
+
+
+
+\subsection{Passive and RIR-agnostic method}
 
 % Approaches
 % \begin{itemize}
@@ -37,10 +159,6 @@ Both the problem can be set in active or in blind version.
 %     \end{description}
 % \end{itemize}
 
-\section{Literature review}
-
-\subsection{As a blind channel estimation problem}
-
 Is the transmitted signal known?
 \begin{description}
     \item[Yes] Active Channel Estimation
@@ -53,6 +171,7 @@ Is the transmitted signal known?
                 \item Informed Deconvolution (Sparsity)
                 \item RTF estimation in the special case $h_i = 1$
                 \item RIR estimation \citeonly{Farina}
+                \item cross correlation
             \end{itemize}
             \item[Peak Picking]
             \begin{itemize}
@@ -73,7 +192,9 @@ Is the transmitted signal known?
         \item Jesper Jensen
         \begin{itemize}
             \item EM and DOA
-            \item
+            \item \cite{crocco2014towards}
+            \item Active Acoustic Cameras
+            \item autocorrelation \citeonly{al2019early}
         \end{itemize}
     \end{itemize}
     \item[No]. Do we have prior Knowledge?
@@ -81,6 +202,7 @@ Is the transmitted signal known?
         \item[Yes] Statistics methods
             \item 2nd order
             \item ML
+            \item leglaive
         \item[No] Is it on grid? Does it estimate the full channel? Require peak picking?
             \begin{description}
                 \item[Yes] On grid Blind Method
@@ -90,9 +212,9 @@ Is the transmitted signal known?
                     \end{itemize}
                 \item[No]
                 \begin{itemize}
-                    \item Audio camera
                     \item MULAN
                     \item Blaster
+                    \item Audio camera
                 \end{itemize}
             \end{description}
     \end{description}

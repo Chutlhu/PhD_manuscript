@@ -21,3 +21,9 @@
 % --- my abbreviation ---------------------------------------------------------
 \newcommand{\imgsrc}[1]{Image courtesy of #1}
 \newcommand{\cfr}[1]{\Cf/ #1}
+
+% --- math models -------------------------------------------------------------
+\newcommand{\echoModelFreq}{\ensuremath{
+    H_{ij}(f_k) = \sum_{\idxEch=0}^{\numEchs}
+        \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
+        \cste^{- \csti 2 \pi k \Fs \tau_{ij}^r / F}}}
