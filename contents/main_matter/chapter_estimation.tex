@@ -46,8 +46,6 @@ In context of room acoustics, they aim to reduce the late reverberations allowin
 \\Direct methods instead try to surpass the challenging task of estimating the full \RIR/ and tuning peak-picking methods, and set-up an end-to-end framework.
 May extract other information.
 
-
-
 \newthought{Channel Equalization or Inverse Filtering}, is a particular case of channel estimation.
 Here the goal is to estimate an equalization filter, which is the inverse of the channel impulse response, rather than the estimation of the channel impulse response itself.
 This equalization filter is then applied to the received signal in order to extract the transmitted one\sidenote{\textit{Beamforming} or \textit{Spatial Filtering} can be seen as in this sense}.
@@ -62,7 +60,6 @@ Given the above definition, we can now review so \AER/ methods presented in the 
 \section{Literature Review}
 
 The literature on \AER/ can be now presented asking our self the following question:
-
 
 \subsection{Active and RIR-based method}
 In this categories falls all the method that rely an ``good'' estimation of \RIRs/ as a preprocessing step for which the transmitted signal is known.
@@ -126,23 +123,62 @@ Room Geometry Reconstruction:
         \item For SSL as described in el2017time \citeonly{scheuing2006disambiguation, zannini2010improved}
     \end{itemize}
     \item \citeonly{crocco2014towards} root paper
+    \item \citeonly{antonacci2012inference}
 \end{itemize}
 
 
 \subsection{Active and RIR-agnostic method}
-EM and DOA estimation \citeonly{jensen2019method, saqib2020estimation}
+EM and DOA estimation \citeonly{jensen2019method, saqib2020estimation} root paper
 
 using autocorrelation / acoustic cameras
+\citeonly{chen2006time} for review Typically the time-difference-of-arrival (TDOA) of the direct path is estimated with the aim to localize a speaker or an interfering sound source.
 \citeonly{crocco2014towards}
 \citeonly{o2010automatic} and used later in \citeonly{o2008imaging}
 autocorrelation \citeonly{al2019early}
 
 
 \subsection{Passive and RIR-based method}
+root papers \citeonly{tukuljac2018mulan}
+here multiple passive sensors.
+To the best of the authors’ knowledge, all existing methods in blind channel identification rely on the discrete-time model
+Blind Channel Estimation~\citeonly{xu1995least, tong1998multichannel}
+\begin{itemize}
+    \item subspace methods
+    \item Cross Relation methods
+    \item Sparsity based cross-relation
+\end{itemize}
 
+BCE for RIR estimation. root paper \citeonly{crocco2016estimation}
+\begin{itemize}
+    \item introduction of the cross relation~\citeonly{tong1994blind}. SIMO can be formulated as a eigenvalue problem - least square minimization
+    \item Penalty
+    \item Kalman \citeonly{qi2019broadband}
+\end{itemize}
 
+BCE for RIR estimation, root paper \citeonly{kowalczyk2013blind}
+\begin{itemize}
+    \item SIMO-BSI which exploits spatial differences between multiple microphone signals, has received significant attention as it does not require any assumption about the source signal and can be formulated as an adaptive algorithm~\citeonly{huang2003class}
+    \item in \citeonly{chen2006time} to outperform crosscorrelation-based techniques, such as generalized crosscorrelation (GCC), for source localization in noisy and reverberant environments. At the cost of complexity.
+\end{itemize}
+
+limitation of this methods:
+
+Although they rely on sparsity-enforcing regularizers, the filters are strictly-speaking non- sparse in practice, due to the sinc kernel (Fig. 1). This general bottle-neck in compressed sensing has been referred to as basis mismatch and was notably studied in [28]. In particular, the true peaks of the filters do not correspond to the true echoes (Fig. 1), even for N to inf. Though, most existing methods rely on peak-picking [18, 5].
+\begin{itemize}
+    \item For the same reason, these methods are fundamentally on-grid, namely, they can only output echo locations which are integer multiple of the sampling period 1/Fs. This pre- vents subsample resolution, which may be important in applications such as room shape reconstruction from audio signals [3].
+    \item These methods strongly rely on the knowledge of the length L of the filters. However, due to the sinc kernel (Sec. 2.1.1), the true filters are always infinite.
+    \item The dimension of the search space isML-1, which is much larger in practice than the actual number 2MK of unknown variables. This makes the methods computationally demanding and sometimes intractable for large filter lengths (typically in the tens of thousands for acoustic
+\end{itemize}
+
+After it, peak picking
 
 \subsection{Passive and RIR-agnostic method}
+This are also off-grid methods
+\begin{itemize}
+    \item MULAN \citeonly{tukuljac2018mulan}
+    \item Blaster \citeonly{di2020blaster}
+    \item Audio cameras - beamforming~\citeonly{sun2011joint}
+\end{itemize}
 
 % Approaches
 % \begin{itemize}
@@ -159,84 +195,80 @@ autocorrelation \citeonly{al2019early}
 %     \end{description}
 % \end{itemize}
 
-Is the transmitted signal known?
-\begin{description}
-    \item[Yes] Active Channel Estimation
-    \begin{itemize}
-        \item Deconvolution followed by Peak Picking methods
-        \begin{description}
-            \item[Deconvolution]
-            \begin{itemize}
-                \item Regression and Deconvolution
-                \item Informed Deconvolution (Sparsity)
-                \item RTF estimation in the special case $h_i = 1$
-                \item RIR estimation \citeonly{Farina}
-                \item cross correlation
-            \end{itemize}
-            \item[Peak Picking]
-            \begin{itemize}
-                \item Iterative Thresholding (Crocco)
-                \item Condat - Sinc Denoising
-                \item Defrance - Matching Pursuit
-                \item Remmagi, Naylor
-                \item Onset detection
-                \item Kurtosis
-                \item Autocorrelation
-                \item Matched filter / Direct Path compensation
-                \item Geometry-based
-                \item DTW - Kelly
-                \item Multifractals analysis
-                \item Time-Frequency representation (Wavelet) - Vesa and Lokki
-            \end{itemize}
-        \end{description}
-        \item Jesper Jensen
-        \begin{itemize}
-            \item EM and DOA
-            \item \cite{crocco2014towards}
-            \item Active Acoustic Cameras
-            \item autocorrelation \citeonly{al2019early}
-        \end{itemize}
-    \end{itemize}
-    \item[No]. Do we have prior Knowledge?
-    \begin{description}
-        \item[Yes] Statistics methods
-            \item 2nd order
-            \item ML
-            \item leglaive
-        \item[No] Is it on grid? Does it estimate the full channel? Require peak picking?
-            \begin{description}
-                \item[Yes] On grid Blind Method
-                    \begin{itemize}
-                    \item subspace method
-                    \item cross-relation methods
-                    \end{itemize}
-                \item[No]
-                \begin{itemize}
-                    \item MULAN
-                    \item Blaster
-                    \item Audio camera
-                \end{itemize}
-            \end{description}
-    \end{description}
-\end{description}
-
-
-
-Peak picking can be further improved with peak pruning
-\begin{itemize}
-    \item Dockmanic
-    \item Crocco
-    \item Annibale
-\end{itemize}
-
-
-\subsection{Background in Active AER}
+% Is the transmitted signal known?
+% \begin{description}
+%     \item[Yes] Active Channel Estimation
+%     \begin{itemize}
+%         \item Deconvolution followed by Peak Picking methods
+%         \begin{description}
+%             \item[Deconvolution]
+%             \begin{itemize}
+%                 \item Regression and Deconvolution
+%                 \item Informed Deconvolution (Sparsity)
+%                 \item RTF estimation in the special case $h_i = 1$
+%                 \item RIR estimation \citeonly{Farina}
+%                 \item cross correlation
+%             \end{itemize}
+%             \item[Peak Picking]
+%             \begin{itemize}
+%                 \item Iterative Thresholding (Crocco)
+%                 \item Condat - Sinc Denoising
+%                 \item Defrance - Matching Pursuit
+%                 \item Remmagi, Naylor
+%                 \item Onset detection
+%                 \item Kurtosis
+%                 \item Autocorrelation
+%                 \item Matched filter / Direct Path compensation
+%                 \item Geometry-based
+%                 \item DTW - Kelly
+%                 \item Multifractals analysis
+%                 \item Time-Frequency representation (Wavelet) - Vesa and Lokki
+%             \end{itemize}
+%         \end{description}
+%         \item Jesper Jensen
+%         \begin{itemize}
+%             \item EM and DOA
+%             \item \cite{crocco2014towards}
+%             \item Active Acoustic Cameras
+%             \item autocorrelation \citeonly{al2019early}
+%         \end{itemize}
+%     \end{itemize}
+%     \item[No]. Do we have prior Knowledge?
+%     \begin{description}
+%         \item[Yes] Statistics methods
+%             \item 2nd order
+%             \item ML
+%             \item leglaive
+%         \item[No] Is it on grid? Does it estimate the full channel? Require peak picking?
+%             \begin{description}
+%                 \item[Yes] On grid Blind Method
+%                     \begin{itemize}
+%                     \item subspace method
+%                     \item cross-relation methods
+%                     \end{itemize}
+%                 \item[No]
+%                 \begin{itemize}
+%                     \item MULAN
+%                     \item Blaster
+%                     \item Audio camera
+%                 \end{itemize}
+%             \end{description}
+%     \end{description}
+% \end{description}
 
 \section{Data and Evaluation}
 
 \subsection{Datasets}
+Syntethic RIRs
+
+Real RIRs
 
 \subsection{Metrics}
+
+\newthoughtpar{BCE metrics}
+
+\newthoughtpar{Information Retrival Metrics}
+
 
 % \section{as (sparse) \RIR/ estimation}
 % \begin{itemize}
