@@ -133,38 +133,54 @@ For instance, side lobes due to finite signal bandwidth, echo distortions due to
 This fact is often a source of unavoidable outliers that make the robustness of subsequent steps in room estimation a delicate and very important issue.
 A way to overcome this issues is to overestimate the echoes in the \RIR/ by including some false-positive observation and further prune them.
 
-\newthought{Peak Disambiguation}
+\newthought{Peak Disambiguation} to be intregrated with croccos.
 \textit{Echo labeling} or \textit{\TOA/ Disambiguation} is the task of assign acoustic echoes to different image source or reflectors.
 Many methods are been proposed in the context of \SSL/~\citeonly{scheuing2006disambiguation, zannini2010improved}, microphone calibration~\cite{parhizkar2014single,salvati2016sound}
-and \RooGE/~\citeonly{filos2011robust, antonacci2012inference, dokmanic2013acoustic, crocco2014towards, jager2016room, el2017time}.
-In the context of \SSL/, the disambiguation is typically performed in the \TDOAs/ which are makes them more prone to error since higher precision is required\sidenote{%
-For instance, at $\SI{48}{kHz}$ a \TDOA/ from the same wavefront between a sensor pair $\SI{40}{cm}$ apart and a source $\SI{2.6}{m}$ away, takes a very small value of $\SI{4.46}{\samples}}.
+and \RooGE/~\citeonly{antonacci2010geometric, filos2011robust, venkateswaran2012localizing, antonacci2012inference, dokmanic2013acoustic, crocco2014towards, jager2016room, el2017time}.
+A brief review of these methods is provided in~\citeonly{crocco2017uncalibrated}.
+\\In the context of \SSL/, the disambiguation is typically performed in the \TDOAs/ space~\citeonly{scheuing2006disambiguation, zannini2010improved} which are makes them more prone to error since higher precision is required\sidenote{%
+For instance, at $\SI{48}{kHz}$ a \TDOA/ from the same wavefront between a sensor pair $\SI{40}{cm}$ apart and a source $\SI{2.6}{m}$ away, takes a very small value of $4.46$ samples}.
+Moreover this works focuses on actively localizing multiple sources while discarding reflection, rather than localizing the image source.
+The other schemes disambiguation \TOAs/ directly and are typically used in \RooGE/.
+In \citeonly{venkateswaran2012localizing} the pruning of the combinatorial candidate-source search is done through Bayesian inference.
+A similar approach can be found in~\citeonly{dokmanic2013acoustic, parhizkar2014single} where the validity check is based on structured matrix called Euclidean Distance Matrix and further improved using compatibility graphs in~\citeonly{jager2016room}.
+These methods rely on a combinatorial search with potentially high number of candidates, which leads to intractable computational complexity.
+Moreover these methods require that all the distance between each microphone needs to known with precision, which may be available in practice.
+\\In the works~\citeonly{antonacci2010geometric, filos2011robust, antonacci2012inference} where reflectors are modelled as planes tangent to the ellipsoids with foci given by each pair of microphone/source.
+In general these methods requires a very specific acquisition setup and use non-linear optimization in order to provide a robust solution.
+All the above methods do not have specific strategies to cope with missing or spurious estimate of echoes given by malfunctioning of the peak finder or by selection of peaks corresponding to high order reflections
+and is some specific case manual annotation is used.
+\\Another interest approach is used in the work by~\citeonly{el2017time} which exploits the geometrical properties of linear array of loudspeakers.
+By stacking side-by-side the estimated \RIRs/ in an image, the wavefront of each reflection can be easily identified and labeled.
+This approach avoid the combinatorial search but still require specific setup.
+\\In the work~\citeonly{crocco2014towards} an iterative strategy is used. First the direct path arrivals are used to estimate a first guess of microphone and source positions.
+Then the whole set of extracted peaks and used to estimate the planar reflectors positions which are then used refine the microphone and source localization.
+Iterating between geometrical space where microphone and source coordinates are defined and the signal space where the \TOAs/ are defined, the ambiguous peaks are discarded during the optimization.
 
-
-
-\begin{itemize}
-    \item \citeonly{el2017time} root paper
-    \begin{itemize}
-        \item \citeonly{dokmanic2013acoustic}
-        \item \citeonly{antonacci2012inference, filos2011robust}
-        \item \citeonly{jager2016room} using graph
-        \item For SSL as described in el2017time \citeonly{scheuing2006disambiguation, zannini2010improved}
-    \end{itemize}
-    \item \citeonly{crocco2014towards} root paper
-    \item \citeonly{antonacci2012inference}
-    \item \citeonly{salvati2016sound,parhizkar2014single}
-\end{itemize}
+\mynewline
+In general this methods rely on the peak estimation pre-processing. In case of missing data, outliers
 
 
 \subsection{Active and RIR-agnostic method}
-EM and DOA estimation \citeonly{jensen2019method, saqib2020estimation} root paper
-
-using autocorrelation / acoustic cameras
-\citeonly{chen2006time} for review Typically the time-difference-of-arrival (TDOA) of the direct path is estimated with the aim to localize a speaker or an interfering sound source.
-\citeonly{crocco2014towards}
-\citeonly{o2010automatic} and used later in \citeonly{o2008imaging}
-autocorrelation \citeonly{al2019early}
-
+This class of methods uses the signal at the microphones to directly estimate the echoes reflection thus avoiding the rir estimation and peak detection steps.
+Here two approach can be identified: \ML/-based approaches~\citeonly{jensen2019method, saqib2020estimation} and auto-correlation-based approaches~\citeonly{crocco2014towards, al2019early}, which are related to the audio cameras~\citeonly{o2008imaging, o2010automatic}.
+The former approach exploits the strong relation between the \TOA/ of a echo with its \DOA/.
+When multiple microphone are used and their relative position is known, the relation between the two quantities can be express in closed-form.
+The \DOA/ can be used to reduces the ambiguity of the estimated echoes.
+This method extends a class of existing methods used in multipath communication system, denoted as \JADE/~\citeonly{vanderveen1997joint,verhaevert2004direction}.
+\\Alternatively, the echoes contribution can be extracted by using the correlation function.
+The correlation analysis is a mathematical tool for the identification of repeated patterns, such as the presence of a periodic or repeated signal, as function of a certain time lag.
+The received signal at the microphones consists in repeated copies of the emitted signal, which is known in case of active scenario.
+Therefore, the received signal correlates perfectly with the emitted one and and peaks in the correlation function can be observed.
+By the extraction of these peaks, echoes timing and amplitudes can be identified.
+This approach is used in \citeonly{crocco2014towards, al2019early}.
+\\When the array geometry is known, the time lag axis of the correlation function can be mapped to possible angle of arrivals, namely from \TOAs/ to \DOAs/.
+Therefore the identification of strong reflection can be conducted the so-called angular spectrum domain, which consider sound energy as function possible angle of arrival.
+With proper clustering approach, the reflections can be identified and disambiguated.
+In \citeonly{o2008imaging, o2010automatic}, after linear transform from polar to cartesian coordinates, the angular spectrum is superimposed to a panoramic picture of the audio scene taken by the barycenter of the recording arrays.
+This is way this approach is called acoustic camera.
+For detailed review of autocorrelation methods \citeonly{chen2006time}.
+\\The main drawbacks of this method is  ...
 
 \subsection{Passive and RIR-based method}
 FIR BSI SIMO
