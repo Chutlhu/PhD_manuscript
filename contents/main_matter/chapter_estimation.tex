@@ -20,7 +20,7 @@ Time of Arrivals Estimation is sometimes called Time Delays Estimation, when the
 \AER/ may be confused with Time Delay Estimation.
 \AER/ may be confused with Acoustic Echo Cancellation which refers to the problem of estimating and removing...
 
-\section{Taxonomy on \AER/ methods}
+\section{Taxonomy on of Acoustic Echo Retrieval methods}
 
 In general, we can identify four main categories which differ on whether the transmitted signal is know or not and on whether the estimation of the \RIR/.
 
@@ -78,7 +78,7 @@ The probe signal is the \ESS/ signal, \aka/ \textit{chirp signal}, which benefit
 the signal span a certain frequency range; it is self-orthogonal, namely it compress into Dirac's impulse during autocorrelation; and its Fourier inverse is known in closed form.
 The last property allows the user not to record and invert the probe signal.
 The reader can find a review of the presented techniques in~\citeonly{szoke2019building}
-\sidenote{This technique has many other propreties. On can refer to the Farina's tutorial~\cite{farina2007advancements} and this Python tutorial} %\href{https://medium.com/@baranov.mv/how-i-was-listening-to-a-sine-sweep-all-day-long-294c374995f6}}.
+\sidenote{This technique has many other propreties. On can refer to the Farina's tutorial~\citeonly{farina2007advancements} and this Python tutorial} %\href{https://medium.com/@baranov.mv/how-i-was-listening-to-a-sine-sweep-all-day-long-294c374995f6}}.
 
 \mynewline
 Sometimes the transmitted signal is known, but one of the above technique cannot be used.
@@ -96,7 +96,7 @@ As showed in \citeonly{tukuljac2018mulan}, since the arrival time of each reflec
 Moreover the harmonic distortion due to the non-ideal source-receiver coupling can creates spurious spikes as well.
 This issue which is referred to as \textit{basis mismatch} in the \textit{compressed sensing} community reveals the strong limitation of simple \RIR/ peak-pinking.
 Although it can be alleviated by increasing the sampling frequency, it is bound to occurs in practice.
-And small errors of echoes timing estimation yield to significant differences in echo-based application~\cite{defrance2008finding}.
+And small errors of echoes timing estimation yield to significant differences in echo-based application~\citeonly{defrance2008finding}.
 \\The existing methods can be dichotomized into three broad categories: on-gird and off-grid approaches.
 The methods belonging to the former group are the most used in practice but advance technique are used to coupe with the above mentioned issue.
 ~\citeonly{kuster2008reliability, crocco2017uncalibrated, remaggi2016acoustic, defrance2008detecting, bello2005tutorial, cheng2016attack, defrance2008detecting, annibale2012geometric, kelly2014detecting, usher2010improved}.
@@ -135,7 +135,7 @@ A way to overcome this issues is to overestimate the echoes in the \RIR/ by incl
 
 \newthought{Peak Disambiguation} to be intregrated with croccos.
 \textit{Echo labeling} or \textit{\TOA/ Disambiguation} is the task of assign acoustic echoes to different image source or reflectors.
-Many methods are been proposed in the context of \SSL/~\citeonly{scheuing2006disambiguation, zannini2010improved}, microphone calibration~\cite{parhizkar2014single,salvati2016sound}
+Many methods are been proposed in the context of \SSL/~\citeonly{scheuing2006disambiguation, zannini2010improved}, microphone calibration~\citeonly{parhizkar2014single,salvati2016sound}
 and \RooGE/~\citeonly{antonacci2010geometric, filos2011robust, venkateswaran2012localizing, antonacci2012inference, dokmanic2013acoustic, crocco2014towards, jager2016room, el2017time}.
 A brief review of these methods is provided in~\citeonly{crocco2017uncalibrated}.
 \\In the context of \SSL/, the disambiguation is typically performed in the \TDOAs/ space~\citeonly{scheuing2006disambiguation, zannini2010improved} which are makes them more prone to error since higher precision is required\sidenote{%
@@ -180,86 +180,95 @@ With proper clustering approach, the reflections can be identified and disambigu
 In \citeonly{o2008imaging, o2010automatic}, after linear transform from polar to cartesian coordinates, the angular spectrum is superimposed to a panoramic picture of the audio scene taken by the barycenter of the recording arrays.
 This is way this approach is called acoustic camera.
 For detailed review of autocorrelation methods \citeonly{chen2006time}.
-\\The main drawbacks of this method is  ...
+cross-correlation among acquired signals are poorly performing, especially with noisy environments, transmitted signals of limited bandwidth and low energy reflections with respect to the direct path\citeonly{chen2006time}.
+The main drawbacks...
+% in \citeonly{chen2006time} to outperform crosscorrelation-based techniques, such as generalized crosscorrelation (GCC), for source localization in noisy and reverberant environments. At the cost of complexity.
 
 \subsection{Passive and RIR-based method}
-FIR BSI SIMO
+The passive approach relies on using external sound sources in the environment to conduct the estimation.
+One obvious advantage of such approaches is that they are non-intrusive since only already existing sounds are used in the estimation.
+In the literature this problem belongs to the broad and deeply studied category of \BCE/ or \BSI/.
+Since such explicit reference signal is available, and the delay estimate is often acquired by comparing the signals received at two (or more) spatially separated sensors.
+This approach results is \SIMO/ \BSI/ and is a long-standing and still active research topic in signal processing, notably due to its fundamental ill-posedness.
+In the context of \RIR/ estimation, a number of methods have been developed~\citeonly{}.
+Common to all this method is the assumption that \RIR/ are discrete \FIR/ filters define on the sampling grid, namely a vector.
+In the general setting of arbitrary signals and filters, rigorous theoretical ambiguities under which the problem is unsolvable have been identified~\citeonly{xu1995least}.
+Some well-known limitations of these approaches are their sensitivity to the chosen length of filters, and their intractability when the filters are too large.
+\\The innovative idea of passive \BCE/ can be traced back to~\citeonly{sato1975method}~\sidenote{a review of the the evolution of \SIMO/ \BCE/ can be found in~\citeonly{huang2003class}}.
+Since then, many algorithms have been proposed.
+They can be broadly dichotomized into the class of statistical method and the class of (completely) blind method.
 
-The root in blind channel identification can be found is~\citeonly{sato1975method}
-Since then, many algorithms have been proposed
-Since it was recognized that the problem can be solved in the light of only SOS[2], the focus ofthe blind channel identification research has shifted to SOS methods, behind which, the motiva- tion is the potential for fast convergence. There is a rich literature on SOS blind channel identification. Many batch methods have had good success to some extent, such as the subspace (SS) algorithm [3], the cross relation (CR) algorithm [4], [5], the least squares component normalization (LSCN) algorithm [6], the linear prediction based subspace (LP-SS) algorithm [7], and the two-step maximum likelihood (TSML) algorithm
-see ~\citeonly{tong1998multichannel} for a review.
-\begin{itemize}
-    \item subspace method: The key idea is that the channel (or part of the channel) vector is in a one- dimensional subspace of either the observation statistics or a block of noiseless observations.
-    These methods, which are often referred to as subspace algorithms, have the attractive property that the channel estimates can often be obtained in a closed form from optimizing a quadratic cost function
-    Pro: closed-from identification.
-    Cons: as they rely on the property that the channel lies in a unique direction (subspace), they may not be robust against modeling errors.
-    especially when the channel matrix is close to being singular.
-    The second disadvantage is that they are often more computationally expensive.
-    \item maximum likelihood method y, unlike subspace based approaches, the ML methods usually cannot be obtained in closed form.
-\end{itemize}
+\mynewline
+Since the nature of the source signal is by definition not deterministic, their statistic can known based on the signal category, \eg/ speech or music.
+Based on this, statistical approaches exploits such knowledge and, as described in ~\citeonly{tong1998multichannel}, two main approaches can be identified:
+\begin{description}
+    \item[The second order moments] approaches derives closed-form solution for which the knowledge of the source autocorrelation function is required.
+    \item[Maximum Likelihood] requires instead source probability function.
+    Even though the are optimal in \ML/ sense, they does not produce closed-form solution, but rather non-convex cost function which are solved via \EM/.
+    In this categories one may include the methods developed for informed multichannel blind source separation~\citeonly{ozerov2009multichannel,duong2010under,leglaive2016multichannel,leglaive2018student,scheibler2018separake}.
+    Here the source signals are typically modeled as Gaussian distribution centred in zero and unknown variances.
+    Using pre-trained dictionaries for modeling the variances of the source, the are able to estimated both the acoustic channels and the source contribution.
+    In particular the work~\citeonly{duong2010under} extends this framework for reverberant recordings using physic-bases models for the late reverberations, while~\citeonly{leglaive2016multichannel} consider explicitly the contribution of early echoes, further improved in~\citeonly{leglaive2018student}.
+\end{description}
+However, in general, statistical methods play a minor role in \RIR/ estimation due to the difficulty in achieving reliable statistics of the emitted signal or good initialization point required by the \EM/.
+While for the source separation approaches, even if the the final estimated \RIRs/ may match the real one in the statistical sense, they lacks of accuracy, indispensable for \AER/.
 
-root papers \citeonly{tukuljac2018mulan}
-here multiple passive sensors.
-To the best of the authors’ knowledge, all existing methods in blind channel identification rely on the discrete-time model
-Blind Channel Estimation~\citeonly{xu1995least, tong1998multichannel}
-\begin{itemize}
-    \item Subspace methods
-    \item Cross Relation methods
-    \item Sparsity based cross-relation
-    \item Maximum likelihood
-\end{itemize}
+\newthought{Blind methods comprises two main groups:} \textit{subspace} methods~\citeonly{abed1997subspace} and \textit{cross-relation methods}~\citeonly{tong1994blind,xu1995least,lin2007blind,lin2008blind,kowalczyk2013blind,crocco2015room,crocco2016estimation}.
 
-BCE for RIR estimation. root paper \citeonly{crocco2016estimation}
-\citeonly{tong1994blind,lin2007blind,lin2008blind,kowalczyk2013blind,crocco2015room,crocco2016estimation}
-\begin{itemize}
-    \item introduction of the cross relation~\citeonly{tong1994blind}. SIMO can be formulated as a eigenvalue problem - least square minimization
-    \item anchor constrain and non negative~\citeonly{lin2007blind}
-    \item bayesian learning for lambda~\citeonly{lin2008blind}
-    \item spit Bergam methods~\citeonly{kowalczyk2013blind}. which is known to be robust to back- ground noise.
-    \item iterative weighted l1 constrain~\citeonly{crocco2015room} and improved in~\citeonly{crocco2016estimation}.
-    to better balance sparsity penalty and sparsity constraints.
-    \item Kalman \citeonly{qi2019broadband}
-\end{itemize}
+The former is based on the key idea that the channel (or part of it ) vector spans a one-dimensional subspace of (block of of) noiseless observations.
+This methods have the attractive property that the channel estimates can often be obtained in a closed form from optimizing a quadratic cost function
+However they relay on the they may not be robust, especially when the channel covariance matrix is close to being singular.
+The second disadvantage is that they are typically computationally expensive.
+\\The second family of methods rely on the clever observation that in noiseless case, for every pair of microphone $(i, i')$, it holds
+\begin{equation}
+    (c_{i'} \convDis h_i)[n] = (c_{i} \convDis h_{i'})[n] =  ((h_{i'} \convDis h_i) \convDis s)[n]
+    ,
+\end{equation}
+by the commutativity of the convolution operator.
+This principle is called the \textit{cross-relation} and it was firstly introduced by~\citeonly{tong1994blind}.
+In this work, the \RIR/ are estimated by solving a Least Square minimization of the square cross relation errors.
+In \citeonly{xu1995least,tong1998multichannel} sufficient and necessary condition for channel identification are discussed.
+This approach has received significant attention as it does not require any assumption about the source signal.
+Later, the accuracy of estimated \RIRs/ has been subsequently improved using a priori knowledge of the filters:
+in particular, the authors of~\citeonly{lin2007blind} have proposed to use sparsity penalty and non-negativity constraints to increase robustness to noise as well as Bayesian-learning methods to automatically infer the value of the hyper-parameters in~\citeonly{lin2008blind}.
+On a similar scheme, in~\citeonly{kowalczyk2013blind},~\eqref{eq:xrel_toepl} is solved using an adaptive time-frequency-domain approach while~\citeonly{aissa2008blind} proposes to use the $\ell_p$-norm instead of the $\ell_1$-norm.
+A successful approach has been presented recently by Crocco \textit{et al.} in \citeonly{crocco2015room,crocco2016estimation}, where the anchor constraint is replaced by an \textit{iterative weighted} $\ell_1$ equality constraint.
+to better balance sparsity penalty and sparsity constraints.
+Finally \citeonly{qi2019broadband} uses a Kalman filter to...
+Even if sparsity and non-negativity could be seen as a strong assumption, works in speech enhancement~\citeonly{Ribeiro2010,Dokmanic2015a} and room geometry~\citeonly{Antonacci2012,Crocco2017} estimation have proven the effectiveness of this approach.
 
-BSI for RIR, root paper ~\citeonly{qi2019broadband}
-\begin{itemize}
-    \item Subspace mathods
-    \item Linear Prediction Coding
-    \item Cross Relation
-    \item RTF with oversampling~\citeonly{koldovsky2015sparse}
-\end{itemize}
+\mynewline
+An alternative approach is used in~\citeonly{vcmejla2019mirage}, where the \RIR/ estimation problem is treated as special case of \RTF/ estimation problem~\citeonly{gannot2001signal,koldovsky2015spatial,koldovsky2015sparse,kodrasi2017evd}.
+As mentioned in~\cref{subsec:processing:rtf}, the \RTF/ can be estimated when the reference microphone is placed very close to the source.
+RTF estimation found its root in the field of speech enhancement~\citeonly{gannot2001signal} and many techniques have been proposed since then.
+RTF with oversampling~\citeonly{koldovsky2015sparse}
+The main limitation of this approach is that it is possible in measurement scenario.
 
-BCE for RIR estimation, root paper \citeonly{kowalczyk2013blind}
-\begin{itemize}
-    \item SIMO-BSI which exploits spatial differences between multiple microphone signals, has received significant attention as it does not require any assumption about the source signal and can be formulated as an adaptive algorithm~\citeonly{huang2003class}
-    \item in \citeonly{chen2006time} to outperform crosscorrelation-based techniques, such as generalized crosscorrelation (GCC), for source localization in noisy and reverberant environments. At the cost of complexity.
-\end{itemize}
-
-Under this perspective, \RTF/ estimation techniques can be used.
-As mentioned in~\cref{subsec:processing:rtf}, the \RTF/ can be
-RTF estimation in the special case $h_i = 1$
-In particular scenarios, when microphone is close to one source, the RIR at another microphone RTF estimation methods can be used~\citeonly{koldovsky2015spatial}.
-
-limitation of this methods:
-
-% Although they rely on sparsity-enforcing regularizers, the filters are strictly-speaking non- sparse in practice, due to the sinc kernel (Fig. 1). This general bottle-neck in compressed sensing has been referred to as basis mismatch and was notably studied in [28]. In particular, the true peaks of the filters do not correspond to the true echoes (Fig. 1), even for N to inf. Though, most existing methods rely on peak-picking [18, 5].
+Although they rely on sparsity-enforcing regularizers, the filters are strictly-speaking non- sparse in practice, due to the sinc kernel (Fig. 1).
+This general bottle-neck in compressed sensing has been referred to as basis mismatch and was notably studied in [28]. In particular, the true peaks of the filters do not correspond to the true echoes (Fig. 1), even for N to inf. Though, most existing methods rely on peak-picking [18, 5].
 \begin{itemize}
     \item For the same reason, these methods are fundamentally on-grid, namely, they can only output echo locations which are integer multiple of the sampling period 1/Fs. This pre- vents subsample resolution, which may be important in applications such as room shape reconstruction from audio signals [3].
     \item These methods strongly rely on the knowledge of the length L of the filters. However, due to the sinc kernel (Sec. 2.1.1), the true filters are always infinite.
     \item The dimension of the search space isML-1, which is much larger in practice than the actual number 2MK of unknown variables. This makes the methods computationally demanding and sometimes intractable for large filter lengths (typically in the tens of thousands for acoustic
 \end{itemize}
 
-After it, peak picking
+% Note that the real channel is not perfectly non-negative since the Dirac pulses, corresponding to the walls reflections, typically fall off the grid of samples resulting in sinc functions.
+% Despite this slight mismatch between theoretical assumptions and real data, the position of the estimated peaks reproduces the positions of the ground truth peaks with remarkable precision.
 
 \subsection{Passive and RIR-agnostic method}
-Note that the real channel is not perfectly non-negative since the Dirac pulses, corresponding to the walls reflections, typically fall off the grid of samples resulting in sinc functions. Despite this slight mismatch between theoretical assumptions and real data, the position of the estimated peaks reproduces the positions of the ground truth peaks with remarkable precision.
-This are also off-grid methods
-\begin{itemize}
-    \item MULAN \citeonly{tukuljac2018mulan}
-    \item Blaster \citeonly{di2020blaster}
-    \item Audio cameras - beamforming~\citeonly{sun2011joint}
-\end{itemize}
+
+The approach operates directly in the parameter-space of echo locations and weights, and enables near-exact blind and off-grid echo retrieval from discrete-time measurements. It is shown to outperform conventional methods by several orders of magnitude in precision
+
+% This are also off-grid methods
+% \begin{itemize}
+%     \item MULAN \citeonly{tukuljac2018mulan}
+%     \item Blaster \citeonly{di2020blaster}
+%     \item Audio cameras - beamforming~\citeonly{sun2011joint}
+% \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Approaches
 % \begin{itemize}
@@ -309,7 +318,7 @@ This are also off-grid methods
 %         \item Jesper Jensen
 %         \begin{itemize}
 %             \item EM and DOA
-%             \item \cite{crocco2014towards}
+%             \item \citeonly{crocco2014towards}
 %             \item Active Acoustic Cameras
 %             \item autocorrelation \citeonly{al2019early}
 %         \end{itemize}
@@ -337,7 +346,7 @@ This are also off-grid methods
 %     \end{description}
 % \end{description}
 
-\section{Data and Evaluation}
+% \section{Data and Evaluation}
 
 \subsection{Datasets}
 Syntethic RIRs
@@ -353,6 +362,10 @@ For application related to channel estimation, \eg/ speech enhancement, typicall
 
 \newthoughtpar{Information Retrival Metrics}
 aoeu
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \section{as (sparse) \RIR/ estimation}
 % \begin{itemize}
