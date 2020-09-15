@@ -1,0 +1,52 @@
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,202); %set diagram left start at 0, and has height of 202
+
+%Shape: Arc [id:dp7127026881921041]
+\draw  [draw opacity=0][line width=3]  (349.17,175.15) .. controls (350.97,179.45) and (352.93,181.83) .. (355,181.83) .. controls (363.28,181.83) and (370,143.57) .. (370,96.37) .. controls (370,49.18) and (363.28,10.92) .. (355,10.92) .. controls (351.7,10.92) and (348.66,16.97) .. (346.18,27.24) -- (355,96.37) -- cycle ; \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.37 ][line width=3]  (349.17,175.15) .. controls (350.97,179.45) and (352.93,181.83) .. (355,181.83) .. controls (363.28,181.83) and (370,143.57) .. (370,96.37) .. controls (370,49.18) and (363.28,10.92) .. (355,10.92) .. controls (351.7,10.92) and (348.66,16.97) .. (346.18,27.24) ;
+%Image [id:dp13657949080812826]
+\draw (255,95) node  {\includegraphics[width=22.5pt,height=22.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+%Flowchart: Connector [id:dp8362847386569738]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (220,95) .. controls (220,75.67) and (235.67,60) .. (255,60) .. controls (274.33,60) and (290,75.67) .. (290,95) .. controls (290,114.33) and (274.33,130) .. (255,130) .. controls (235.67,130) and (220,114.33) .. (220,95) -- cycle ;
+%Flowchart: Connector [id:dp6408102848516746]
+\draw   (230,95) .. controls (230,81.19) and (241.19,70) .. (255,70) .. controls (268.81,70) and (280,81.19) .. (280,95) .. controls (280,108.81) and (268.81,120) .. (255,120) .. controls (241.19,120) and (230,108.81) .. (230,95) -- cycle ;
+%Flowchart: Connector [id:dp1642769645797424]
+\draw   (210,95) .. controls (210,70.15) and (230.15,50) .. (255,50) .. controls (279.85,50) and (300,70.15) .. (300,95) .. controls (300,119.85) and (279.85,140) .. (255,140) .. controls (230.15,140) and (210,119.85) .. (210,95) -- cycle ;
+%Flowchart: Connector [id:dp17069990789842715]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (200,95) .. controls (200,64.62) and (224.62,40) .. (255,40) .. controls (285.38,40) and (310,64.62) .. (310,95) .. controls (310,125.38) and (285.38,150) .. (255,150) .. controls (224.62,150) and (200,125.38) .. (200,95) -- cycle ;
+%Image [id:dp834210224429095]
+\draw (395,95) node  {\includegraphics[width=7.5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Flowchart: Connector [id:dp9677481519010852]
+\draw   (190,95) .. controls (190,59.1) and (219.1,30) .. (255,30) .. controls (290.9,30) and (320,59.1) .. (320,95) .. controls (320,130.9) and (290.9,160) .. (255,160) .. controls (219.1,160) and (190,130.9) .. (190,95) -- cycle ;
+%Flowchart: Connector [id:dp38617879039723235]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (180,95) .. controls (180,53.58) and (213.58,20) .. (255,20) .. controls (296.42,20) and (330,53.58) .. (330,95) .. controls (330,136.42) and (296.42,170) .. (255,170) .. controls (213.58,170) and (180,136.42) .. (180,95) -- cycle ;
+%Shape: Arc [id:dp7933276220420377]
+\draw  [draw opacity=0] (291.14,176.05) .. controls (319.47,165.17) and (340,133) .. (340,95) .. controls (340,57.19) and (319.67,25.15) .. (291.57,14.11) -- (270,95) -- cycle ; \draw   (291.14,176.05) .. controls (319.47,165.17) and (340,133) .. (340,95) .. controls (340,57.19) and (319.67,25.15) .. (291.57,14.11) ;
+%Shape: Arc [id:dp5438546984470792]
+\draw  [draw opacity=0] (322.96,177.78) .. controls (338.45,168.99) and (350,135.06) .. (350,94.54) .. controls (350,47.34) and (334.33,9.08) .. (315,9.08) .. controls (309.35,9.08) and (304.01,12.36) .. (299.28,18.17) -- (315,94.54) -- cycle ; \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (322.96,177.78) .. controls (338.45,168.99) and (350,135.06) .. (350,94.54) .. controls (350,47.34) and (334.33,9.08) .. (315,9.08) .. controls (309.35,9.08) and (304.01,12.36) .. (299.28,18.17) ;
+%Shape: Arc [id:dp6449330826915101]
+\draw  [draw opacity=0] (321.35,178.23) .. controls (324.09,180.57) and (326.99,181.83) .. (330,181.83) .. controls (346.57,181.83) and (360,143.57) .. (360,96.37) .. controls (360,49.18) and (346.57,10.92) .. (330,10.92) .. controls (324.75,10.92) and (319.82,14.76) .. (315.53,21.5) -- (330,96.37) -- cycle ; \draw   (321.35,178.23) .. controls (324.09,180.57) and (326.99,181.83) .. (330,181.83) .. controls (346.57,181.83) and (360,143.57) .. (360,96.37) .. controls (360,49.18) and (346.57,10.92) .. (330,10.92) .. controls (324.75,10.92) and (319.82,14.76) .. (315.53,21.5) ;
+%Shape: Arc [id:dp9588788273801365]
+\draw  [draw opacity=0] (349.68,176.3) .. controls (351.33,179.87) and (353.13,181.83) .. (355,181.83) .. controls (363.28,181.83) and (370,143.57) .. (370,96.37) .. controls (370,49.18) and (363.28,10.92) .. (355,10.92) .. controls (351.7,10.92) and (348.66,16.97) .. (346.18,27.24) -- (355,96.37) -- cycle ; \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (349.68,176.3) .. controls (351.33,179.87) and (353.13,181.83) .. (355,181.83) .. controls (363.28,181.83) and (370,143.57) .. (370,96.37) .. controls (370,49.18) and (363.28,10.92) .. (355,10.92) .. controls (351.7,10.92) and (348.66,16.97) .. (346.18,27.24) ;
+%Shape: Arc [id:dp1235428290934597]
+\draw  [draw opacity=0] (374.08,170.61) .. controls (377.68,153.26) and (380,125.84) .. (380,95) .. controls (380,63.04) and (377.51,34.77) .. (373.69,17.55) -- (365,95) -- cycle ; \draw   (374.08,170.61) .. controls (377.68,153.26) and (380,125.84) .. (380,95) .. controls (380,63.04) and (377.51,34.77) .. (373.69,17.55) ;
+%Flowchart: Connector [id:dp5659928222555982]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.37 ][line width=3]  (220,95) .. controls (220,75.67) and (235.67,60) .. (255,60) .. controls (274.33,60) and (290,75.67) .. (290,95) .. controls (290,114.33) and (274.33,130) .. (255,130) .. controls (235.67,130) and (220,114.33) .. (220,95) -- cycle ;
+%Flowchart: Connector [id:dp0009760572292366598]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.37 ][line width=3]  (200,95) .. controls (200,64.62) and (224.62,40) .. (255,40) .. controls (285.38,40) and (310,64.62) .. (310,95) .. controls (310,125.38) and (285.38,150) .. (255,150) .. controls (224.62,150) and (200,125.38) .. (200,95) -- cycle ;
+%Flowchart: Connector [id:dp5183257635099459]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.37 ][line width=3]  (180,95) .. controls (180,53.58) and (213.58,20) .. (255,20) .. controls (296.42,20) and (330,53.58) .. (330,95) .. controls (330,136.42) and (296.42,170) .. (255,170) .. controls (213.58,170) and (180,136.42) .. (180,95) -- cycle ;
+%Shape: Arc [id:dp7542678816368681]
+\draw  [draw opacity=0][line width=3]  (322.96,177.78) .. controls (338.45,168.99) and (350,135.06) .. (350,94.54) .. controls (350,47.34) and (334.33,9.08) .. (315,9.08) .. controls (309.35,9.08) and (304.01,12.36) .. (299.28,18.17) -- (315,94.54) -- cycle ; \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.37 ][line width=3]  (322.96,177.78) .. controls (338.45,168.99) and (350,135.06) .. (350,94.54) .. controls (350,47.34) and (334.33,9.08) .. (315,9.08) .. controls (309.35,9.08) and (304.01,12.36) .. (299.28,18.17) ;
+%Flowchart: Process [id:dp21873220192305998]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (180,150) -- (400,150) -- (400,190) -- (180,190) -- cycle ;
+%Flowchart: Process [id:dp5798236551484898]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (190,0) -- (410,0) -- (410,40) -- (190,40) -- cycle ;
+%Straight Lines [id:da32340332624957]
+\draw    (390,40) -- (390,150) ;
+
+
+
+
+\end{tikzpicture}

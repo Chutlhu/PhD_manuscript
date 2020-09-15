@@ -1,0 +1,102 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Shape: Rectangle [id:dp31455416182251295]
+\draw   (20,100) -- (120,100) -- (120,180) -- (20,180) -- cycle ;
+%Image [id:dp03010052309299993]
+\draw (95,145) node  {\includegraphics[width=7.5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Straight Lines [id:da6512495784353802]
+\draw [line width=1.5]    (50,130) -- (86.12,139.03) ;
+\draw [shift={(90,140)}, rotate = 194.04] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (6.97,-3.35) -- (0,0) -- (6.97,3.35) -- cycle    ;
+%Shape: Rectangle [id:dp9199791984272783]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (40,120) -- (60,120) -- (60,140) -- (40,140) -- cycle ;
+%Image [id:dp9382635670741474]
+\draw (50,130) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Image [id:dp23988346705657715]
+\draw (485,155) node  {\includegraphics[width=7.5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Shape: Rectangle [id:dp09890192273370679]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (500,20) -- (400,20) -- (400,100) -- (500,100) -- cycle ;
+%Shape: Rectangle [id:dp5758913869352843]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.48 ] (500,20) -- (600,20) -- (600,100) -- (500,100) -- cycle ;
+%Shape: Rectangle [id:dp36575812211034564]
+\draw   (500,100) -- (400,100) -- (400,180) -- (500,180) -- cycle ;
+%Straight Lines [id:da9007777031660069]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (420,70) -- (453.2,99.6) ;
+%Straight Lines [id:da7228826340850831]
+\draw    (590,70) -- (492.34,148.13) ;
+\draw [shift={(490,150)}, rotate = 321.34000000000003] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (3.57,-1.72) -- (0,0) -- (3.57,1.72) -- cycle    ;
+%Straight Lines [id:da13718684877005716]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (420,70) -- (500,70) ;
+\draw [shift={(460,70)}, rotate = 0] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (-2.24,0) -- (2.24,0)(0,2.24) -- (0,-2.24)   ;
+%Straight Lines [id:da11942660907997515]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (420,100) -- (420,70) ;
+\draw [shift={(420,85)}, rotate = 450] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
+%Straight Lines [id:da9953211949911355]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (500,70) -- (580,70) ;
+\draw [shift={(540,70)}, rotate = 0] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (-2.24,0) -- (2.24,0)(0,2.24) -- (0,-2.24)   ;
+%Straight Lines [id:da09288144420791755]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (420,130) -- (420,100) ;
+\draw [shift={(420,115)}, rotate = 450] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
+%Shape: Rectangle [id:dp5435985002539163]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (410,120) -- (430,120) -- (430,140) -- (410,140) -- cycle ;
+%Image [id:dp8329607854011444]
+\draw (420,130) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Shape: Rectangle [id:dp2899204006163879]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (410,60) -- (430,60) -- (430,80) -- (410,80) -- cycle ;
+%Image [id:dp030797596335411237]
+\draw (420,70) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Shape: Rectangle [id:dp3976587598330922]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (570,60) -- (590,60) -- (590,80) -- (570,80) -- cycle ;
+%Image [id:dp805049778916773]
+\draw (580,70) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Straight Lines [id:da09773438787795463]
+\draw    (500.2,142.2) -- (453.2,99.6) -- (420,130) ;
+%Straight Lines [id:da2758706210567978]
+\draw    (140,140) -- (188,140) ;
+\draw [shift={(190,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da4084065693525769]
+\draw    (330,140) -- (378,140) ;
+\draw [shift={(380,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Image [id:dp5009284152840767]
+\draw (295,155) node  {\includegraphics[width=7.5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Shape: Rectangle [id:dp6889731970930373]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (310,20) -- (210,20) -- (210,100) -- (310,100) -- cycle ;
+%Shape: Rectangle [id:dp07628000190213247]
+\draw   (310,100) -- (210,100) -- (210,180) -- (310,180) -- cycle ;
+%Straight Lines [id:da562975498398881]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (230,100) -- (230,70) ;
+\draw [shift={(230,85)}, rotate = 450] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
+%Straight Lines [id:da2137164095953319]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (230,130) -- (230,100) ;
+\draw [shift={(230,115)}, rotate = 450] [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][line width=0.75]    (4.37,-1.32) .. controls (2.78,-0.56) and (1.32,-0.12) .. (0,0) .. controls (1.32,0.12) and (2.78,0.56) .. (4.37,1.32)   ;
+%Shape: Rectangle [id:dp8501467465600117]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (220,120) -- (240,120) -- (240,140) -- (220,140) -- cycle ;
+%Image [id:dp3660415368360713]
+\draw (230,130) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Straight Lines [id:da09560890970546765]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (252.78,100.33) -- (230,70) ;
+%Straight Lines [id:da6782442590098177]
+\draw    (140,140) -- (188,140) ;
+\draw [shift={(190,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Shape: Rectangle [id:dp9342217861108253]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (220,60) -- (240,60) -- (240,80) -- (220,80) -- cycle ;
+%Image [id:dp8377461584366458]
+\draw (230,70) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Straight Lines [id:da8702525111698924]
+\draw    (230,130) -- (252.78,100.33) -- (288.2,147.6) ;
+\draw [shift={(290,150)}, rotate = 233.15] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (3.57,-1.72) -- (0,0) -- (3.57,1.72) -- cycle    ;
+
+
+
+
+\end{tikzpicture}

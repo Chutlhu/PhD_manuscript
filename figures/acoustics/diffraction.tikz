@@ -1,0 +1,95 @@
+
+
+% Pattern Info
+
+\tikzset{
+pattern size/.store in=\mcSize,
+pattern size = 5pt,
+pattern thickness/.store in=\mcThickness,
+pattern thickness = 0.3pt,
+pattern radius/.store in=\mcRadius,
+pattern radius = 1pt}
+\makeatletter
+\pgfutil@ifundefined{pgf@pattern@name@_qtylij4my}{
+\pgfdeclarepatternformonly[\mcThickness,\mcSize]{_qtylij4my}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+{\pgfpoint{\mcSize}{\mcSize}}
+{
+\pgfsetcolor{\tikz@pattern@color}
+\pgfsetlinewidth{\mcThickness}
+\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+\pgfpathlineto{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+\pgfusepath{stroke}
+}}
+\makeatother
+
+% Pattern Info
+
+\tikzset{
+pattern size/.store in=\mcSize,
+pattern size = 5pt,
+pattern thickness/.store in=\mcThickness,
+pattern thickness = 0.3pt,
+pattern radius/.store in=\mcRadius,
+pattern radius = 1pt}
+\makeatletter
+\pgfutil@ifundefined{pgf@pattern@name@_nor2npyfc}{
+\pgfdeclarepatternformonly[\mcThickness,\mcSize]{_nor2npyfc}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+{\pgfpoint{\mcSize}{\mcSize}}
+{
+\pgfsetcolor{\tikz@pattern@color}
+\pgfsetlinewidth{\mcThickness}
+\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+\pgfpathlineto{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+\pgfusepath{stroke}
+}}
+\makeatother
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,180); %set diagram left start at 0, and has height of 180
+
+%Image [id:dp354465457376284]
+\draw (255,75) node  {\includegraphics[width=22.5pt,height=22.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+%Flowchart: Connector [id:dp97238226292204]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (220,75) .. controls (220,55.67) and (235.67,40) .. (255,40) .. controls (274.33,40) and (290,55.67) .. (290,75) .. controls (290,94.33) and (274.33,110) .. (255,110) .. controls (235.67,110) and (220,94.33) .. (220,75) -- cycle ;
+%Flowchart: Connector [id:dp939917340632112]
+\draw   (230,75) .. controls (230,61.19) and (241.19,50) .. (255,50) .. controls (268.81,50) and (280,61.19) .. (280,75) .. controls (280,88.81) and (268.81,100) .. (255,100) .. controls (241.19,100) and (230,88.81) .. (230,75) -- cycle ;
+%Flowchart: Connector [id:dp29637049172777796]
+\draw   (210,75) .. controls (210,50.15) and (230.15,30) .. (255,30) .. controls (279.85,30) and (300,50.15) .. (300,75) .. controls (300,99.85) and (279.85,120) .. (255,120) .. controls (230.15,120) and (210,99.85) .. (210,75) -- cycle ;
+%Flowchart: Connector [id:dp8923599905790284]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (200,75) .. controls (200,44.62) and (224.62,20) .. (255,20) .. controls (285.38,20) and (310,44.62) .. (310,75) .. controls (310,105.38) and (285.38,130) .. (255,130) .. controls (224.62,130) and (200,105.38) .. (200,75) -- cycle ;
+%Shape: Arc [id:dp8362345285557463]
+\draw  [draw opacity=0] (310.2,109.33) .. controls (298.73,127.75) and (278.29,140) .. (255,140) .. controls (219.1,140) and (190,110.9) .. (190,75) .. controls (190,39.1) and (219.1,10) .. (255,10) .. controls (278.17,10) and (298.51,22.13) .. (310.02,40.38) -- (255,75) -- cycle ; \draw   (310.2,109.33) .. controls (298.73,127.75) and (278.29,140) .. (255,140) .. controls (219.1,140) and (190,110.9) .. (190,75) .. controls (190,39.1) and (219.1,10) .. (255,10) .. controls (278.17,10) and (298.51,22.13) .. (310.02,40.38) ;
+%Shape: Arc [id:dp651607639447818]
+\draw  [draw opacity=0] (319.69,81.38) .. controls (319.11,87.3) and (317.74,92.99) .. (315.69,98.33) -- (255,75) -- cycle ; \draw   (319.69,81.38) .. controls (319.11,87.3) and (317.74,92.99) .. (315.69,98.33) ;
+%Shape: Arc [id:dp5022290377228268]
+\draw  [draw opacity=0] (333.48,60.2) .. controls (348.41,61.93) and (360,74.61) .. (360,90) .. controls (360,105.81) and (347.78,118.76) .. (332.27,119.92) -- (330,90) -- cycle ; \draw   (333.48,60.2) .. controls (348.41,61.93) and (360,74.61) .. (360,90) .. controls (360,105.81) and (347.78,118.76) .. (332.27,119.92) ;
+%Shape: Arc [id:dp8532456502003757]
+\draw  [draw opacity=0] (333.62,70.33) .. controls (342.94,72.03) and (350,80.19) .. (350,90) .. controls (350,100.18) and (342.4,108.58) .. (332.56,109.84) -- (330,90) -- cycle ; \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (333.62,70.33) .. controls (342.94,72.03) and (350,80.19) .. (350,90) .. controls (350,100.18) and (342.4,108.58) .. (332.56,109.84) ;
+%Shape: Arc [id:dp5242060840344928]
+\draw  [draw opacity=0] (332.51,80.32) .. controls (336.82,81.43) and (340,85.34) .. (340,90) .. controls (340,94.06) and (337.58,97.55) .. (334.11,99.12) -- (330,90) -- cycle ; \draw   (332.51,80.32) .. controls (336.82,81.43) and (340,85.34) .. (340,90) .. controls (340,94.06) and (337.58,97.55) .. (334.11,99.12) ;
+%Shape: Arc [id:dp3136734190302003]
+\draw  [draw opacity=0] (332.64,50.09) .. controls (353.5,51.45) and (370,68.8) .. (370,90) .. controls (370,111.3) and (353.36,128.71) .. (332.37,129.93) -- (330,90) -- cycle ; \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (332.64,50.09) .. controls (353.5,51.45) and (370,68.8) .. (370,90) .. controls (370,111.3) and (353.36,128.71) .. (332.37,129.93) ;
+%Shape: Arc [id:dp6193949087562944]
+\draw  [draw opacity=0] (329.61,82.95) .. controls (329.04,88.35) and (327.9,93.58) .. (326.25,98.58) -- (255,75) -- cycle ; \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (329.61,82.95) .. controls (329.04,88.35) and (327.9,93.58) .. (326.25,98.58) ;
+%Image [id:dp47112095202245996]
+\draw (285,125) node  {\includegraphics[width=7.5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Image [id:dp4818037759792593]
+\draw (355,125) node  {\includegraphics[width=7.5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Shape: Rectangle [id:dp07509689769487204]
+\draw  [draw opacity=0][pattern=_qtylij4my,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (310.68,160.05) -- (310.39,100.05) -- (329.66,99.95) -- (329.95,159.95) -- cycle ;
+%Shape: Rectangle [id:dp033923448515136956]
+\draw  [draw opacity=0][pattern=_nor2npyfc,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (310.34,80.07) -- (310,10.05) -- (329.85,9.95) -- (330.2,79.98) -- cycle ;
+%Straight Lines [id:da5284518397630854]
+\draw    (310,160) -- (310.39,100.05) -- (330,100) -- (329.95,159.95) ;
+%Straight Lines [id:da9348028376054076]
+\draw    (330.05,10) -- (330.2,79.98) -- (310.05,80) -- (310.05,10) ;
+
+
+
+
+\end{tikzpicture}

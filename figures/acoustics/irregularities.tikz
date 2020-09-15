@@ -1,0 +1,205 @@
+
+
+% Pattern Info
+
+\tikzset{
+pattern size/.store in=\mcSize,
+pattern size = 5pt,
+pattern thickness/.store in=\mcThickness,
+pattern thickness = 0.3pt,
+pattern radius/.store in=\mcRadius,
+pattern radius = 1pt}
+\makeatletter
+\pgfutil@ifundefined{pgf@pattern@name@_cz54qun6q}{
+\pgfdeclarepatternformonly[\mcThickness,\mcSize]{_cz54qun6q}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+{\pgfpoint{\mcSize}{\mcSize}}
+{
+\pgfsetcolor{\tikz@pattern@color}
+\pgfsetlinewidth{\mcThickness}
+\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+\pgfpathlineto{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+\pgfusepath{stroke}
+}}
+\makeatother
+
+% Pattern Info
+
+\tikzset{
+pattern size/.store in=\mcSize,
+pattern size = 5pt,
+pattern thickness/.store in=\mcThickness,
+pattern thickness = 0.3pt,
+pattern radius/.store in=\mcRadius,
+pattern radius = 1pt}
+\makeatletter
+\pgfutil@ifundefined{pgf@pattern@name@_06mk3p3kt}{
+\pgfdeclarepatternformonly[\mcThickness,\mcSize]{_06mk3p3kt}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+{\pgfpoint{\mcSize}{\mcSize}}
+{
+\pgfsetcolor{\tikz@pattern@color}
+\pgfsetlinewidth{\mcThickness}
+\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+\pgfpathlineto{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+\pgfusepath{stroke}
+}}
+\makeatother
+
+% Pattern Info
+
+\tikzset{
+pattern size/.store in=\mcSize,
+pattern size = 5pt,
+pattern thickness/.store in=\mcThickness,
+pattern thickness = 0.3pt,
+pattern radius/.store in=\mcRadius,
+pattern radius = 1pt}
+\makeatletter
+\pgfutil@ifundefined{pgf@pattern@name@_37zul1s21}{
+\pgfdeclarepatternformonly[\mcThickness,\mcSize]{_37zul1s21}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+{\pgfpoint{\mcSize}{\mcSize}}
+{
+\pgfsetcolor{\tikz@pattern@color}
+\pgfsetlinewidth{\mcThickness}
+\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+\pgfpathlineto{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+\pgfusepath{stroke}
+}}
+\makeatother
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,166); %set diagram left start at 0, and has height of 166
+
+%Shape: Polygon [id:ds4020278145287458]
+\draw  [pattern=_cz54qun6q,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (110,130) -- (230,130) -- (230,100) -- (190,110) -- (190,100) -- (150,110) -- (150,100) -- (110,110) -- (110,130) -- cycle ;
+%Straight Lines [id:da8103418128039557]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (190,150) -- (190,110) ;
+%Straight Lines [id:da16697531300835322]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (150,150) -- (150,110) ;
+%Straight Lines [id:da1735131419266832]
+\draw    (130,140) -- (147,140) ;
+\draw [shift={(150,140)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da4894685754364706]
+\draw    (210,140) -- (193,140) ;
+\draw [shift={(190,140)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da5027173891876147]
+\draw    (170,90) -- (170,63) ;
+\draw [shift={(170,60)}, rotate = 450] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da9711558226767745]
+\draw    (210,90) -- (210,63) ;
+\draw [shift={(210,60)}, rotate = 450] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da05485383657803733]
+\draw    (130,90) -- (130,63) ;
+\draw [shift={(130,60)}, rotate = 450] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Shape: Polygon [id:ds1155584031962037]
+\draw  [pattern=_06mk3p3kt,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (290,130) -- (410,130) -- (410,100) -- (370,110) -- (370,100) -- (330,110) -- (330,100) -- (290,110) -- (290,130) -- cycle ;
+%Straight Lines [id:da3830497679885314]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (370,150) -- (370,110) ;
+%Straight Lines [id:da38206593262696564]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (330,150) -- (330,110) ;
+%Straight Lines [id:da40948311153381856]
+\draw    (310,140) -- (327,140) ;
+\draw [shift={(330,140)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da376060115940131]
+\draw    (390,140) -- (373,140) ;
+\draw [shift={(370,140)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Shape: Polygon [id:ds44015161810619274]
+\draw  [pattern=_37zul1s21,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (470,130) -- (590,130) -- (590,100) -- (550,110) -- (550,100) -- (510,110) -- (510,100) -- (470,110) -- (470,130) -- cycle ;
+%Straight Lines [id:da25698943434339694]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (550,150) -- (550,110) ;
+%Straight Lines [id:da9650994413243729]
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ]   (510,150) -- (510,110) ;
+%Straight Lines [id:da07616659679191251]
+\draw    (490,140) -- (507,140) ;
+\draw [shift={(510,140)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da057249927917186416]
+\draw    (570,140) -- (553,140) ;
+\draw [shift={(550,140)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da780859519867983]
+\draw    (490,100) -- (480.95,72.85) ;
+\draw [shift={(480,70)}, rotate = 431.57] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da7441970820687291]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (320,90) -- (327.88,82.12) ;
+\draw [shift={(330,80)}, rotate = 495] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da5068961533143937]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (300,90) -- (292.12,82.12) ;
+\draw [shift={(290,80)}, rotate = 405] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da3884278730397017]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (310,100) -- (319.05,72.85) ;
+\draw [shift={(320,70)}, rotate = 468.43] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da508258525766417]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (310,100) -- (300.95,72.85) ;
+\draw [shift={(300,70)}, rotate = 431.57] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da013049695073021672]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (360,90) -- (367.88,82.12) ;
+\draw [shift={(370,80)}, rotate = 495] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da017406068617244697]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (340,90) -- (332.12,82.12) ;
+\draw [shift={(330,80)}, rotate = 405] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da21394728376343275]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (350,100) -- (359.05,72.85) ;
+\draw [shift={(360,70)}, rotate = 468.43] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da37800374955222105]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (350,100) -- (340.95,72.85) ;
+\draw [shift={(340,70)}, rotate = 431.57] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da74432846411304]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (400,90) -- (407.88,82.12) ;
+\draw [shift={(410,80)}, rotate = 495] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da7273342550672428]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (380,90) -- (372.12,82.12) ;
+\draw [shift={(370,80)}, rotate = 405] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da7163396891893257]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (390,100) -- (399.05,72.85) ;
+\draw [shift={(400,70)}, rotate = 468.43] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da9806369263849741]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (390,100) -- (380.95,72.85) ;
+\draw [shift={(380,70)}, rotate = 431.57] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da9605485683730833]
+\draw    (530,100) -- (520.95,72.85) ;
+\draw [shift={(520,70)}, rotate = 431.57] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da9279467125063064]
+\draw    (570,100) -- (560.95,72.85) ;
+\draw [shift={(560,70)}, rotate = 431.57] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da7518979067998368]
+\draw [line width=1.5]    (170,10) -- (170,36) ;
+\draw [shift={(170,40)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+%Straight Lines [id:da6488537268776229]
+\draw [line width=1.5]    (130,10) -- (130,36) ;
+\draw [shift={(130,40)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+%Straight Lines [id:da7911961911581938]
+\draw [line width=1.5]    (210,10) -- (210,36) ;
+\draw [shift={(210,40)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+%Straight Lines [id:da22403263472365986]
+\draw [line width=1.5]    (350,10) -- (350,36) ;
+\draw [shift={(350,40)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+%Straight Lines [id:da6090485105017018]
+\draw [line width=1.5]    (310,10) -- (310,36) ;
+\draw [shift={(310,40)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+%Straight Lines [id:da5884036680783925]
+\draw [line width=1.5]    (390,10) -- (390,36) ;
+\draw [shift={(390,40)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+%Straight Lines [id:da11739071868473172]
+\draw [line width=1.5]    (530,10) -- (530,36) ;
+\draw [shift={(530,40)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+%Straight Lines [id:da4522641529212945]
+\draw [line width=1.5]    (490,10) -- (490,36) ;
+\draw [shift={(490,40)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+%Straight Lines [id:da5612003674102748]
+\draw [line width=1.5]    (570,10) -- (570,36) ;
+\draw [shift={(570,40)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+
+% Text Node
+\draw (170,140) node    {$d$};
+% Text Node
+\draw (350,140) node    {$d$};
+% Text Node
+\draw (530,140) node    {$d$};
+
+
+\end{tikzpicture}

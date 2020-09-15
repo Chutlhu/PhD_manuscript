@@ -89,10 +89,7 @@
 \pgfplotsset{compat=1.8}
 \usepgfplotslibrary{fillbetween} %for fill under curve
 \usepackage{tikz}
-\usetikzlibrary{fadings}
-\usetikzlibrary{patterns}
-\usetikzlibrary{shadows.blur}
-\usetikzlibrary{shapes}
+\usetikzlibrary{calc,patterns,arrows,shapes.arrows,intersections,fadings,shadows.blur}
 \usepackage[abs]{overpic}
 % \usepackage[percent]{overpic} % provide \put on figures
 \graphicspath{{./figures/}{./icons/}{./logos/}}
@@ -178,15 +175,15 @@
 \parttoc[n]
 \cleardoublepage{}
 
-\input{contents/main_matter/chapter0_intro}
+% \input{contents/main_matter/chapter0_intro}
 
-%% I. Room Acoustic
-\begin{fullwidth}
-    \part{Room Acoustic meets Signal Processing}\label{pt:background}
-\end{fullwidth}
-\parttoc[n]
+% %% I. Room Acoustic
+% \begin{fullwidth}
+%     \part{Room Acoustic meets Signal Processing}\label{pt:background}
+% \end{fullwidth}
+% \parttoc[n]
 \input{contents/main_matter/chapter1_acoustics}
-\input{contents/main_matter/chapter2_processing}
+% \input{contents/main_matter/chapter2_processing}
 
 %% II. Estimation
 \begin{fullwidth}
@@ -194,39 +191,41 @@
 \end{fullwidth}
 \parttoc[n]
 \input{contents/main_matter/chapter_estimation}
-\input{contents/main_matter/chapter_lantern}
-\input{contents/main_matter/chapter_blaster}
-\input{contents/main_matter/chapter_dechorate}
+% \input{contents/main_matter/chapter_lantern}
+% \input{contents/main_matter/chapter_blaster}
+% \input{contents/main_matter/chapter_dechorate}
 % \input{contents/main_matter/chapter7_blaster2}
 
-%% III. Application
-\begin{fullwidth}
-\part{Echo-aware Application}\label{pt:application}
-\end{fullwidth}
-\parttoc[n]
-\input{contents/main_matter/chapter9_applications}
-\input{contents/main_matter/chapter10_separake}
-\input{contents/main_matter/chapter11_mirage}
-\input{contents/main_matter/chapter12_brioche}
+% %% III. Application
+% \begin{fullwidth}
+% \part{Echo-aware Application}\label{pt:application}
+% \end{fullwidth}
+% \parttoc[n]
+% \input{contents/main_matter/chapter9_applications}
+% \input{contents/main_matter/chapter10_separake}
+% \input{contents/main_matter/chapter11_mirage}
+% \input{contents/main_matter/chapter12_brioche}
 
-%% IV. Conclusion
-\begin{fullwidth}
-\part{Epilogue}
-\end{fullwidth}
-\parttoc[n]
-\input{contents/main_matter/chapter20_conclusion}
+% %% IV. Conclusion
+% \begin{fullwidth}
+% \part{Epilogue}
+% \end{fullwidth}
+% \parttoc[n]
+% \input{contents/main_matter/chapter20_conclusion}
 
 
 % === BACK MATTER ===
 \backmatter{}
 
 \begin{appendices}[toc]
-    \input{contents/back_matter/appendix_ims}
-    \input{contents/back_matter/appendix_measurements}
-    \input{contents/back_matter/appendix_supblaster}
+    % \input{contents/back_matter/appendix_ims}
+    % \input{contents/back_matter/appendix_measurements}
+    % \input{contents/back_matter/appendix_supblaster}
+    % \input{contents/back_matter/appendix_curriculum}
+
+
     % \input{contents/back_matter/appendix_mindmaps}
     % \input{contents/back_matter/appendix_phdlife}
-    \input{contents/back_matter/appendix_curriculum}
     % \input{contents/back_matter/appendix_latex.tex}
     % \input{contents/back_matter/appendix_coding}
     % \input{contents/back_matter/appendix_music}

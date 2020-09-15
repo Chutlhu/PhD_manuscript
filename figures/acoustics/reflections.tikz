@@ -1,0 +1,94 @@
+
+
+% Pattern Info
+
+\tikzset{
+pattern size/.store in=\mcSize,
+pattern size = 5pt,
+pattern thickness/.store in=\mcThickness,
+pattern thickness = 0.3pt,
+pattern radius/.store in=\mcRadius,
+pattern radius = 1pt}
+\makeatletter
+\pgfutil@ifundefined{pgf@pattern@name@_gf0ylz9wh}{
+\pgfdeclarepatternformonly[\mcThickness,\mcSize]{_gf0ylz9wh}
+{\pgfqpoint{0pt}{0pt}}
+{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+{\pgfpoint{\mcSize}{\mcSize}}
+{
+\pgfsetcolor{\tikz@pattern@color}
+\pgfsetlinewidth{\mcThickness}
+\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+\pgfpathlineto{\pgfpoint{\mcSize+\mcThickness}{\mcSize+\mcThickness}}
+\pgfusepath{stroke}
+}}
+\makeatother
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Shape: Rectangle [id:dp922019509313626]
+\draw  [draw opacity=100][pattern=_gf0ylz9wh,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (160,204.9) -- (430,204.9) -- (430,240) -- (160,240) -- cycle ;
+%Straight Lines [id:da373070181004334]
+\draw    (160,204.9) .. controls (161.67,203.23) and (163.33,203.23) .. (165,204.9) .. controls (166.67,206.57) and (168.33,206.57) .. (170,204.9) .. controls (171.67,203.23) and (173.33,203.23) .. (175,204.9) .. controls (176.67,206.57) and (178.33,206.57) .. (180,204.9) .. controls (181.67,203.23) and (183.33,203.23) .. (185,204.9) .. controls (186.67,206.57) and (188.33,206.57) .. (190,204.9) .. controls (191.67,203.23) and (193.33,203.23) .. (195,204.9) .. controls (196.67,206.57) and (198.33,206.57) .. (200,204.9) .. controls (201.67,203.23) and (203.33,203.23) .. (205,204.9) .. controls (206.67,206.57) and (208.33,206.57) .. (210,204.9) .. controls (211.67,203.23) and (213.33,203.23) .. (215,204.9) .. controls (216.67,206.57) and (218.33,206.57) .. (220,204.9) .. controls (221.67,203.23) and (223.33,203.23) .. (225,204.9) .. controls (226.67,206.57) and (228.33,206.57) .. (230,204.9) .. controls (231.67,203.23) and (233.33,203.23) .. (235,204.9) .. controls (236.67,206.57) and (238.33,206.57) .. (240,204.9) .. controls (241.67,203.23) and (243.33,203.23) .. (245,204.9) .. controls (246.67,206.57) and (248.33,206.57) .. (250,204.9) .. controls (251.67,203.23) and (253.33,203.23) .. (255,204.9) .. controls (256.67,206.57) and (258.33,206.57) .. (260,204.9) .. controls (261.67,203.23) and (263.33,203.23) .. (265,204.9) .. controls (266.67,206.57) and (268.33,206.57) .. (270,204.9) .. controls (271.67,203.23) and (273.33,203.23) .. (275,204.9) .. controls (276.67,206.57) and (278.33,206.57) .. (280,204.9) .. controls (281.67,203.23) and (283.33,203.23) .. (285,204.9) .. controls (286.67,206.57) and (288.33,206.57) .. (290,204.9) .. controls (291.67,203.23) and (293.33,203.23) .. (295,204.9) .. controls (296.67,206.57) and (298.33,206.57) .. (300,204.9) .. controls (301.67,203.23) and (303.33,203.23) .. (305,204.9) .. controls (306.67,206.57) and (308.33,206.57) .. (310,204.9) .. controls (311.67,203.23) and (313.33,203.23) .. (315,204.9) .. controls (316.67,206.57) and (318.33,206.57) .. (320,204.9) .. controls (321.67,203.23) and (323.33,203.23) .. (325,204.9) .. controls (326.67,206.57) and (328.33,206.57) .. (330,204.9) .. controls (331.67,203.23) and (333.33,203.23) .. (335,204.9) .. controls (336.67,206.57) and (338.33,206.57) .. (340,204.9) .. controls (341.67,203.23) and (343.33,203.23) .. (345,204.9) .. controls (346.67,206.57) and (348.33,206.57) .. (350,204.9) .. controls (351.67,203.23) and (353.33,203.23) .. (355,204.9) .. controls (356.67,206.57) and (358.33,206.57) .. (360,204.9) .. controls (361.67,203.23) and (363.33,203.23) .. (365,204.9) .. controls (366.67,206.57) and (368.33,206.57) .. (370,204.9) .. controls (371.67,203.23) and (373.33,203.23) .. (375,204.9) .. controls (376.67,206.57) and (378.33,206.57) .. (380,204.9) .. controls (381.67,203.23) and (383.33,203.23) .. (385,204.9) .. controls (386.67,206.57) and (388.33,206.57) .. (390,204.9) .. controls (391.67,203.23) and (393.33,203.23) .. (395,204.9) .. controls (396.67,206.57) and (398.33,206.57) .. (400,204.9) .. controls (401.67,203.23) and (403.33,203.23) .. (405,204.9) .. controls (406.67,206.57) and (408.33,206.57) .. (410,204.9) .. controls (411.67,203.23) and (413.33,203.23) .. (415,204.9) .. controls (416.67,206.57) and (418.33,206.57) .. (420,204.9) .. controls (421.67,203.23) and (423.33,203.23) .. (425,204.9) .. controls (426.67,206.57) and (428.33,206.57) .. (430,204.9) -- (430,204.9) ;
+%Straight Lines [id:da06545576390238039]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (330.28,191.21) ;
+\draw [shift={(333.1,190.17)}, rotate = 519.5699999999999] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da4489390865418844]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (347.87,163.21) ;
+\draw [shift={(350.25,161.39)}, rotate = 502.5] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da977680605968049]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (348.81,132.84) ;
+\draw [shift={(350.64,130.46)}, rotate = 487.49] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da6080458554677255]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (336.93,108.71) ;
+\draw [shift={(338.16,105.98)}, rotate = 474.28] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da21177921082364015]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (293.54,87.63) ;
+\draw [shift={(293.54,84.63)}, rotate = 450] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da46337112628373167]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (319.16,94.29) ;
+\draw [shift={(319.84,91.37)}, rotate = 463.04] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da39808114875491196]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (258.53,191.25) ;
+\draw [shift={(255.73,190.17)}, rotate = 381.28999999999996] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da6413525472527989]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (239.15,161.96) ;
+\draw [shift={(236.79,160.1)}, rotate = 398.28999999999996] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da013163452857077207]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (238.96,130.73) ;
+\draw [shift={(237.18,128.31)}, rotate = 413.65] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da29387677951497115]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (253.89,104.9) ;
+\draw [shift={(252.78,102.11)}, rotate = 428.37] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da3232057192020066]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (293.54,204.9) -- (271.3,93.03) ;
+\draw [shift={(270.71,90.08)}, rotate = 438.76] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da9251399712012042]
+\draw [line width=1.5]    (170.73,69.59) -- (290.85,201.94) ;
+\draw [shift={(293.54,204.9)}, rotate = 227.77] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
+%Straight Lines [id:da9874682358889847]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][line width=0.75]    (293.54,204.9) -- (387.05,101.88) ;
+\draw [shift={(389.06,99.66)}, rotate = 492.23] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da227444858609828]
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (294,204.9) .. controls (296.25,205.59) and (297.03,207.07) .. (296.33,209.32) .. controls (295.63,211.57) and (296.41,213.05) .. (298.66,213.75) .. controls (300.91,214.44) and (301.69,215.92) .. (300.99,218.17) .. controls (300.29,220.42) and (301.07,221.9) .. (303.32,222.59) .. controls (305.57,223.29) and (306.35,224.77) .. (305.66,227.02) -- (307.23,230) -- (307.23,230) ;
+\draw [shift={(307.23,230)}, rotate = 62.21] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.75]      (0, 0) circle [x radius= 3.35, y radius= 3.35]   ;
+%Shape: Pie [id:dp35387004388422194]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.33 ] (293.88,169.95) .. controls (293.92,169.95) and (293.96,169.95) .. (294,169.95) .. controls (302.57,169.95) and (310.38,173.36) .. (316.28,178.96) -- (294,204.9) -- cycle ;
+%Shape: Pie [id:dp40472692227974594]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.33 ] (270.93,179.74) .. controls (276.91,173.68) and (285.04,169.95) .. (294,169.95) .. controls (302.87,169.95) and (310.92,173.6) .. (316.88,179.56) -- (294,204.9) -- cycle ;
+
+% Text Node
+\draw (121,51) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Incident wave};
+% Text Node
+\draw (391,85) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ] [align=left] {Specular Reflection};
+% Text Node
+\draw (311,242) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ] [align=left] {\textcolor[rgb]{0.82,0.01,0.11}{Absorbed wave}};
+% Text Node
+\draw (251,65) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ] [align=left] {Diffuse Reflection};
+% Text Node
+\draw (162,190) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Room Surface};
+
+
+\end{tikzpicture}

@@ -1,0 +1,82 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Straight Lines [id:da9327732376811009]
+\draw    (750,140) -- (640,140) ;
+%Image [id:dp7509865486580333]
+\draw (768.3,131) node  {\includegraphics[width=28.5pt,height=28.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+%Shape: Rectangle [id:dp39336611163803625]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=0.75 ] (640,100) -- (810,100) -- (810,150) -- (640,150) -- cycle ;
+%Shape: Polygon [id:ds23946877069995742]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (399.3,190) -- (659.8,190) -- (609.3,120.8) -- (449.3,121) -- cycle ;
+%Straight Lines [id:da18899588303602943]
+\draw    (499.3,90) -- (541.16,112.77) ;
+%Image [id:dp5930916123954717]
+\draw (490.3,91) node  {\includegraphics[width=28.5pt,height=28.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+%Shape: Rectangle [id:dp3973043175477682]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=0.75 ] (469.3,70) -- (549.3,70) -- (549.3,120) -- (469.3,120) -- cycle ;
+%Straight Lines [id:da9178586684386467]
+\draw    (479.3,130) -- (529.75,174.8) -- (581.59,146.57) ;
+\draw [shift={(584.22,145.13)}, rotate = 511.43] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (3.57,-1.72) -- (0,0) -- (3.57,1.72) -- cycle    ;
+%Shape: Rectangle [id:dp09367218949776157]
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.75 ][line width=0.75]  (449.5,100) -- (609.5,100) -- (609.5,120.8) -- (449.5,120.8) -- cycle ;
+%Straight Lines [id:da756587332776912]
+\draw    (479.3,130) -- (541.16,112.77) -- (580.38,134.1) ;
+\draw [shift={(583.02,135.53)}, rotate = 208.54] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (3.57,-1.72) -- (0,0) -- (3.57,1.72) -- cycle    ;
+%Image [id:dp38262601183003997]
+\draw (468.3,131) node  {\includegraphics[width=28.5pt,height=28.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+%Image [id:dp6033841010313861]
+\draw (599.3,140) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Straight Lines [id:da039822268177343134]
+\draw [line width=1.5]    (479.3,130) -- (585.32,139.64) ;
+\draw [shift={(589.3,140)}, rotate = 185.19] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (6.97,-3.35) -- (0,0) -- (6.97,3.35) -- cycle    ;
+%Shape: Polygon [id:ds6017928799252188]
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.75 ] (609.3,120.8) -- (609.3,100) -- (659.8,160) -- (659.8,190) -- cycle ;
+%Image [id:dp3388807350979104]
+\draw (440.3,221) node  {\includegraphics[width=28.5pt,height=28.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+%Straight Lines [id:da9489804978512663]
+\draw    (449.3,220) -- (529.75,174.8) ;
+%Shape: Rectangle [id:dp8827621816241213]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=0.75 ] (419.3,190) -- (509.3,190) -- (509.3,240) -- (419.3,240) -- cycle ;
+%Shape: Polygon [id:ds7865672769715969]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (40,190) -- (300.5,190) -- (250,120.8) -- (90,121) -- cycle ;
+%Straight Lines [id:da18289201235896868]
+\draw    (120,130) -- (170.45,174.8) -- (222.29,146.57) ;
+\draw [shift={(224.92,145.13)}, rotate = 511.43] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (3.57,-1.72) -- (0,0) -- (3.57,1.72) -- cycle    ;
+%Shape: Rectangle [id:dp016143535763857297]
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.75 ][line width=0.75]  (90.2,100) -- (250.2,100) -- (250.2,120.8) -- (90.2,120.8) -- cycle ;
+%Shape: Polygon [id:ds47585629173389243]
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.75 ][line width=0.75]  (40.2,159.8) -- (90,100) -- (90.2,120.8) -- (40.2,189.8) -- cycle ;
+%Straight Lines [id:da6184863215984951]
+\draw    (120,130) -- (181.86,112.77) -- (221.08,134.1) ;
+\draw [shift={(223.72,135.53)}, rotate = 208.54] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (3.57,-1.72) -- (0,0) -- (3.57,1.72) -- cycle    ;
+%Image [id:dp8572959640578157]
+\draw (240,140) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Straight Lines [id:da43323036508293555]
+\draw [line width=1.5]    (120,130) -- (226.02,139.64) ;
+\draw [shift={(230,140)}, rotate = 185.19] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (6.97,-3.35) -- (0,0) -- (6.97,3.35) -- cycle    ;
+%Shape: Polygon [id:ds7984933072600666]
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.75 ] (250,120.8) -- (250,100) -- (300.5,160) -- (300.5,190) -- cycle ;
+%Image [id:dp15923312833873038]
+\draw (109,131) node  {\includegraphics[width=28.5pt,height=28.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+%Shape: Polygon [id:ds2960064057786064]
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.75 ][line width=0.75]  (399.5,159.8) -- (449.3,100) -- (449.5,120.8) -- (399.5,189.8) -- cycle ;
+%Straight Lines [id:da38241388263510256]
+\draw    (529.75,174.8) -- (640,140) -- (613,140) ;
+\draw [shift={(610,140)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (3.57,-1.72) -- (0,0) -- (3.57,1.72) -- cycle    ;
+%Straight Lines [id:da6815848805793788]
+\draw    (169.75,174.8) -- (280,140) -- (253,140) ;
+\draw [shift={(250,140)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (3.57,-1.72) -- (0,0) -- (3.57,1.72) -- cycle    ;
+%Shape: Rectangle [id:dp45896390102994233]
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.75 ] (399.5,159.8) -- (660,159.8) -- (660,189.8) -- (399.5,189.8) -- cycle ;
+%Shape: Rectangle [id:dp34472469557868457]
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.75 ] (40.2,159.8) -- (300.7,159.8) -- (300.7,189.8) -- (40.2,189.8) -- cycle ;
+
+
+
+
+\end{tikzpicture}

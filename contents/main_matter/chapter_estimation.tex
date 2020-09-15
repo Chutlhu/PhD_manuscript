@@ -307,36 +307,45 @@ These setups are not exactly suitable for \SE/ methods, which typically involve 
 
 \subsection{Metrics}
 Again, the metrics used in \AER/ depend on the application and the methods used to estimate the echoes.
-The following types of metrics can be identified:
-
-\newthoughtpar{\FIR/ \SIMO/ \BCE/ metrics}
 As described above \AER/ can be seen as instance of \FIR/ \SIMO/ \BCE/ problems.
-The related method models the ground-truth acoustic channels as a discrete vector $\hath \in \bbR^L$.
-Similarly their estimate is in the same way, namely, $\hath^{*}[n] \in \bbR^L$.
+The related method models the ground-truth acoustic channels as a discrete vector $h \in \bbR^L$.
+Similarly their estimate is in the same way, namely, $\hath \in \bbR^L$.
 To assert the quality of the estimated discrete filters the following metrics have been proposed in the literature:
 \begin{description}
     \item[The \RMSEtxt/] is a well know metrics that measure the mean distance between two vector as points in the Euclidean space.
     \begin{equation}
-        \RMSE(\hath^{*}, \hath) = \sqrt{\sum_{n=0}^{L-1} \kparen{\hath^{*}[n] - \hath[n]}^2}
-        .
+        \RMSE(\hath, h) \eqdef \sqrt{\sum_{n=0}^{L-1} \abs{\hath[n] - h}^2}
+        ,
     \end{equation}
+    where $\abs{\cdot}$ denotes the absolute values.
     This metrics is known to be highly sensible to the scaling, and little mismatch between a few echoes.
     For instance, if the $\hath^{*}$ is a just a shifted and scaled version of the $\hath$
-    \item[projection misalignment] By projecting onto and defining a projection error, we take into account only the intrinsic misalignment of the channel estimate, disregarding an arbitrary gain facto
-    \item[Cross-ralation error]
-    \item[Blocking ability]
-    \citeonly{huang2003class}
+    \item[The \NPMtxt/] was originally proposed in~\citeonly{morgan1998evaluation} to solve the limitation of the \RMSEtxt/.
+    In the formulation provided in~\citeonly{huang2003class,ahmad2006proportionate}, it writes as
+    \begin{equation}
+        \NPM(\hath,h) \eqdef 20 \log_{10} \kparen{ \norm{h - \frac{\ktranspose{h}\hath}{\ktranspose{\hath} \hath}}_2 / \norm{h}_2} \quad \text{[dB]}
+        ,
+    \end{equation}
+    where $\norm{\cdot}_2$ denotes the Euclidean norm.
+    By projecting $\hath$ onto $h$ and defining a projection error, only the intrinsic misalignment of the channel estimate is considered, disregarding an arbitrary gain factor and the length difference of both vectors.
 
-    normalized projection misalignment~\citeonly{morgan1998evaluation, ahmad2006proportionate}
+    \item[The Hermitian angle] is similar to \NPMtxt/ and was used in the context of RTF estimation in~\citeonly{varzandeh2017iterative,tammen2018iterative}
+    \begin{equation}
+        \Delta\Theta(\hath,h) = \arccos\kparen{\frac{\khermitian{h}\hath}{\norm{h}_2\|\hath\|_2}}
+        .
+    \end{equation}
+    As the \NPMtxt/, this metrics is invariant to possible scaling factors and length difference between the ground-truth and the estimated vectors.
 \end{description}
+This metrics offers a objective way to evaluate the estimation accuracy of discrete vectors.
 
-\newthoughtpar{\RooGE/ metrics}
-\begin{description}
-    \item[Position \RMSEtxt/]
-    \item[]
-\end{description}
+\mynewline
+In the context of \RooGE/, \SSL/ and microphone calibration, echoes are typically mapped to reflectors or image source positions, either in cartesian or polar coordinates.
+Therefore, the models for \AER/ are evaluated in the geometrical space, rather than in the space of echoes timings and amplitudes.
+For instance, for the task of reflectors localization, one can measure the accuracy in terms of distance between planes and inclination error.
+In the case of \SSL/ and microphone calibration, the Euclidean distance between the 3D coordinates is typically computed.
 
-\newthoughtpar{Information Retrival Metrics}
+\mynewline
+To the best knowledge of the author, the literature lacks of metrics properly defined for \AER/.
 \begin{description}
     \item[\TOAs/ \RMSEtxt/]
     \item[Precision, Recall, and F-measure]

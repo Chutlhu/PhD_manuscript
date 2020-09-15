@@ -57,10 +57,14 @@ where $\temperature$ is the air temperature $[\si{\celsius}]$ and $\rhumidity$ i
 
 The air pressure variations at one point in space can be represented by a \textit{waveform}, which is a graphical representation of a sound
 ~\cref{fig:acoustics:acoustics_wave}.
+
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{acoustics/acoustic_wave.png}
-    \caption{snapshot of a longitudinal wave in air}
+    \includegraphics[trim={0 0 9cm 0},clip,width=\linewidth]{acoustics/wave_and_waveform.pdf}
+    % \resizebox{\linewidth}{!}{
+    %     \input{figures/acoustics/wave_and_waveform.tikz}
+    % }
+    \captionof{figure}{snapshot of a longitudinal wave in air}
     \label{fig:acoustics:acoustics_wave}
 \end{figure}
 
@@ -202,7 +206,9 @@ This scenario depicted in \cref{fig:acoustics:planewaves} is known as \textit{fa
 \marginpar{%
     \centering
     \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/planewaves.png}
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/acoustic_propagation.tikz}
+    }
     \captionof{figure}{%
     Visualization of the sound propagation. Since the sensor (i.e. a microphone)
     is drawn in the far field, the incoming waves can be approximated as plane waves.
@@ -228,15 +234,19 @@ Rather, a sound wave will undergo certain behaviors depending on the obstacles' 
         \item \textit{dissipation} of the energy.
     \end{itemize}
 \end{itemize}
-\marginpar{%
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/wavelength.jpg}
-    \captionof{figure}{%
-        wavelength
+
+\begin{figure}
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/sound_interaction.tikz}
     }
-    \label{fig:acoustics:wavelength}
-}
+    \captionof{figure}{%
+        \footnotesize
+        A reflector having reflections on its surface with width $d$ much smaller than the sound wavelength $\wavelength$.
+        Image inspired from \citeonly{kuttruff2016room}.
+    }
+    \label{fig:acoustics:sound_interaction}
+\end{figure}
+
 
 \newthought{Reflections typically arise} when a sound wave hits a large surface, like a room wall.
 When the sound meets a wall edge or a slit, the wave diffracts, namely it bends around the corners of an obstacle.
@@ -252,9 +262,11 @@ When sound reflects on an solid surface, two types of acoustic reflections can o
 \marginpar{%
     \centering
     \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/reflection.png}
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/reflections.tikz}
+    }
     \captionof{figure}{%
-        Specular vs diffuse reflection
+        Specular \vs/ diffuse reflection
     }
     \label{fig:acoustics:reflection}
 }
@@ -299,13 +311,17 @@ As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spati
 \\Using this quantity we can identify the following three responses of objects (irregularities) of size $d$ to a plane-wave, as depicted in~\cref{fig:acoustics:irregularities}
 \begin{figure}
     \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/irregularities.png}
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/irregularities.tikz}
+    }
     \captionof{figure}{%
         A reflector having irregularities on its surface with width $d$ much smaller than the sound wavelength $\wavelength$.
         Image courtesy of \citeonly{kuttruff2016room}.
     }
     \label{fig:acoustics:irregularities}
 \end{figure}
+
+
 \begin{itemize}
     \item $\wavelength \gg d$, the irregularities are negligible and the sound wave reflection is of specular type;
     \item $\wavelength \approx d$, the irregularities break the sound wave which is reflected towards every direction;
@@ -327,15 +343,6 @@ As mentioned above, this assumption is valid as long as the surface has dimensio
 Here the acoustic ray is reflected according to the \textit{law of reflection}, stating that
 (i) the reflected ray remains in the plane identified by the incident ray and the normal to the surface,
 and (ii) the angles of the incident and reflected rays with the normal are equal.
-\marginpar{%
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/reflection_law.png}
-    \captionof{figure}{%
-        Schematic representation of specular reflection.
-    }
-    \label{fig:acoustics:reflection_law}
-}
 
 If the surface $\surface$ is not perfectly rigid or impenetrable, its behavior is described by the \textit{acoustic impedance}, $\impedence_\surface(f) \in \bbC$.
 %\sidenote{\textbf{acoustic impendence} measures the opposition that an acoustic system presents to the acoustic pressure}.
@@ -405,7 +412,9 @@ This effect is shown in~\cref{fig:acoustics:diffraction}
 \marginpar{%
     \centering
     \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/sound_diffraction.jpg}
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/diffraction.tikz}
+        }
     \captionof{figure}{%
         Schematic representation of sound diffraction.
         This effect allows to hear ``behind walls''.
@@ -642,18 +651,19 @@ Even if the basic idea is rather simple, the model is able to produce the exact 
 It models only specular reflections, ignoring diffuse and diffracted components.
 it only approximates arbitrary enclosures and the late diffuse reflections.
 
+% \marginpar{
+    %     \centering
+    %     \footnotesize
+    %     \includegraphics[width=\linewidth]{acoustics/simulator_ism2.png}
+    %     \captionof{figure}{%
+    %         Virtual image sources correspond to multiple sound propagation paths in the \ISM/.
+    %         \imgsrc{\citeonly{schimmel2009fast}}
+    %     }
+    %     \label{fig:acoustics:simulator_ism}
+    % }
+
 \mynewline
 The implementation reflects the sound source against all surfaces in the scene, resulting in a set of \textit{image} sources.
-\marginpar{
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/simulator_ism2.png}
-    \captionof{figure}{%
-        Virtual image sources correspond to multiple sound propagation paths in the \ISM/.
-        \imgsrc{\citeonly{schimmel2009fast}}
-    }
-    \label{fig:acoustics:simulator_ism}
-}
 Then, each of these image sources is itself reflected against all surfaces.
 There are two main limitations of this method.
 First, in a shoebox the complexity of the algorithm is cubic in the order of reflections. Therefore when an high order is required, the algorithm becomes impractical.
@@ -668,24 +678,38 @@ The waveguide method models physical phenomena better than geometric methods, bu
 All these limitations correspond to three regions in the \TFdef/ representation of the \RIR/.
 As depicted in~\cref{fig:acoustics:rir_regions},
 
-\marginpar{%
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/rir_regions_stochastic.png}
-    \captionof{figure}{%
-    Schematic of Time-Frequency \RIR/. \imgsrc{\citeonly{badeau2019common}}.
-    }
-    \label{fig:acoustics:rir_regions}
-}
-\marginpar{%
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/rir_regions.pdf}
-    \captionof{figure}{%
-    Time-Frequency regions of \RIR/ associated to the method that better simulate them. \imgsrc{\citeonly{thomas2017wayverb}}.
-    }
-    \label{fig:acoustics:rir_regions}
-}
+% \marginpar{%
+%     \centering
+%     \footnotesize
+%     \includegraphics[width=\linewidth]{acoustics/rir_regions_stochastic.png}
+%     \captionof{figure}{%
+%     Schematic of Time-Frequency \RIR/. \imgsrc{\citeonly{badeau2019common}}.
+%     }
+%     \label{fig:acoustics:rir_regions}
+% }
+% \marginpar{%
+%     \centering
+%     \footnotesize
+%     \includegraphics[width=\linewidth]{acoustics/rir_regions.pdf}
+%     \captionof{figure}{%
+%     }
+%     \label{fig:acoustics:rir_regions}
+%     }
+
+\begin{figure}
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/rir_regions.tikz}
+        }
+        \captionof{figure}{%
+        \footnotesize
+        Time-Frequency regions of \RIR/ associated to the method that better simulate them. \imgsrc{\citeonly{thomas2017wayverb}}.
+        }
+    \label{fig:acoustics:3D_ims}
+\end{figure}
+
+
+
+
 \begin{itemize}
     \item in the time domain, a transition can be identified between the early \vs/ late reflection, corresponding to the validity of the deterministic \vs/ stochastic models; and
     \item in the frequency domain, between geometric \vs/ wave-based modeling.
@@ -706,6 +730,18 @@ This point define the cross-fade between the geometrical and wave-based model.
 Each simulator available has its own way to compute and implement this crossover points as well as mixing the results of the three methods.
 
 \subsection{The method of images and the image source model}\label{subsec:acoustics:ism}
+
+\begin{figure}
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/3D_ims.tikz}
+    }
+    \captionof{figure}{%
+        \footnotesize
+        asdf
+    }
+    \label{fig:acoustics:3D_ims}
+\end{figure}
+
 The \textit{Method of Images} is a mathematical tool for solving a certain class of differential equations subjected to boundary conditions.
 By assuming the presence of a ``mirrored'' source, certain boundary conditions are verified facilitating the solution of the original problem.
 This methods is widely used in many fields of physics, and interestingly with specific applications to Green's functions.
@@ -734,17 +770,16 @@ In this way, each wavefront that arrives to the receiver from each reflection of
 % an additional sound source, called the \textit{image source}, placed symmetrically to the main source on the far side of the wall.
 % Moreover, as discussed in~\cref{ch:acoustics:sec:reflection}, such a surface generates specular reflection.
 
-\marginpar{%
-    \centering
-    \footnotesize
-    \includegraphics[width=\linewidth]{acoustics/ism_1.png}
-    \includegraphics[width=\linewidth]{acoustics/ism_2.png}
+\begin{figure}
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/2D_ims_steps.tikz}
+    }
     \captionof{figure}{%
     Path involving one reflection obtained using first-order image (top) and two reflections obtained using two images.
     It. \imgsrc{\citeonly{habets2006room}}.
     }
     \label{fig:acoustics:image_model}
-}
+\end{figure}
 
 % A sound source is located in $\positionSource$ near a reflecting wall.
 % At the receiver position $\positionMicrophone$ two signals arrives: the one coming directly from $\positionSource$

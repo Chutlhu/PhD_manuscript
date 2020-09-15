@@ -1,0 +1,76 @@
+% \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+% \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+% %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+% %Image [id:dp5606671616814918]
+% \draw (75,95) node  {\includegraphics[width=52.5pt,height=52.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+% %Image [id:dp3135853480315317]
+% \draw (295,95) node  {\includegraphics[width=247.5pt,height=52.5pt]{figures/acoustics/sound_field.png}};
+% %Image [id:dp1767347027314513]
+% \draw (500,100) node  {\includegraphics[width=25pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+% % Plotting does not support converting to Tikz
+% %Shape: Brace [id:dp6769595715874734]
+% \draw   (191,132.5) .. controls (191,137.17) and (193.33,139.5) .. (198,139.5) -- (209.23,139.5) .. controls (215.9,139.5) and (219.23,141.83) .. (219.23,146.5) .. controls (219.23,141.83) and (222.56,139.5) .. (229.23,139.5)(226.23,139.5) -- (240.46,139.5) .. controls (245.13,139.5) and (247.46,137.17) .. (247.46,132.5) ;
+% %Shape: Brace [id:dp3595002169703262]
+% \draw   (326,132.5) .. controls (326,137.17) and (328.33,139.5) .. (333,139.5) -- (344.23,139.5) .. controls (350.9,139.5) and (354.23,141.83) .. (354.23,146.5) .. controls (354.23,141.83) and (357.56,139.5) .. (364.23,139.5)(361.23,139.5) -- (375.46,139.5) .. controls (380.13,139.5) and (382.46,137.17) .. (382.46,132.5) ;
+% %Straight Lines [id:da5532382126574396]
+% \draw    (310,240) -- (390,240) ;
+% \draw [shift={(390,240)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (0,5.59) -- (0,-5.59)(10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+% \draw [shift={(310,240)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (0,5.59) -- (0,-5.59)(10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+% %Straight Lines [id:da14431576109990707]
+% \draw    (252,96) -- (330,96) ;
+% \draw [shift={(332,96)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+% %Straight Lines [id:da5875015842645427]
+% \draw    (300,170) -- (300,203) ;
+% \draw [shift={(300,205)}, rotate = 270] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+% % Text Node
+% \draw (261,22) node [anchor=north west][inner sep=0.75pt]   [align=left] {medium};
+% % Text Node
+% \draw (51,22) node [anchor=north west][inner sep=0.75pt]   [align=left] {source};
+% % Text Node
+% \draw (471,22) node [anchor=north west][inner sep=0.75pt]   [align=left] {receiver};
+% % Text Node
+% \draw (219,155.5) node  [font=\tiny] [align=left] {$\displaystyle \rightarrow \ $compression$\displaystyle \leftarrow $};
+% % Text Node
+% \draw (354,155.5) node  [font=\tiny] [align=left] {$\displaystyle \leftarrow $rarefaction$\displaystyle \rightarrow $};
+% % Text Node
+% \draw (145.5,185.5) node  [font=\tiny] [align=left] {Air Pressure, $\displaystyle p(\mathbf{x} ,t)$};
+% % Text Node
+% \draw (434,275) node  [font=\tiny] [align=left] {time [second]};
+% % Text Node
+% \draw (347,232.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$\lambda $};
+% % Text Node
+% \draw (227,235) node  [font=\tiny] [align=left] {\textit{compression}};
+% % Text Node
+% \draw (269.5,275.5) node  [font=\tiny] [align=left] {\textit{rarefaction}};
+% % Text Node
+% \draw (130,205) node  [font=\tiny] [align=left] {high};
+% % Text Node
+% \draw (128,285) node  [font=\tiny] [align=left] {low};
+
+% % \begin{axis}[
+% %     xmin = 0, xmax = 9,
+% %     ymin = -2, ymax = 2.0,
+% %     xtick distance = 1,
+% %     ytick distance = 0.5,
+% %     grid = both,
+% %     minor tick num = 1,
+% %     major grid style = {lightgray},
+% %     minor grid style = {lightgray!25},
+% %     width = \textwidth,
+% %     height = 0.5\textwidth,
+% %     xlabel=Time,
+% %     ylabel=Amplitude
+% %     ]
+% %     \addplot[
+% %     domain = 0:9,
+% %     samples = 200,
+% %     smooth,
+% %     thick,
+% %     orange,
+% %     ] {1.2*sin(2*deg(x)};
+% % \end{axis}
+
+% \end{tikzpicture}
