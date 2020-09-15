@@ -97,6 +97,8 @@
 % \usepackage[percent]{overpic} % provide \put on figures
 \graphicspath{{./figures/}{./icons/}{./logos/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
+% add pdf pages
+\usepackage{pdfpages} % \includepdf[pages=-]{myfile.pdf}
 
 % \pgfplotsset{%
 %     table/search path={./figures/plots/},
@@ -126,7 +128,8 @@
 \begin{document}
 \frontmatter{}
 
-\input{contents/front_matter/title_page}
+% \input{contents/front_matter/title_page}
+\includepdf[pages=-]{contents/front_matter/mathstic_title_page.pdf}
 
 \input{contents/front_matter/abstract}
 \blankpage{}
@@ -191,9 +194,9 @@
 \end{fullwidth}
 \parttoc[n]
 \input{contents/main_matter/chapter_estimation}
-% \input{contents/main_matter/chapter_lantern}
-% \input{contents/main_matter/chapter_blaster}
-% \input{contents/main_matter/chapter_dechorate}
+\input{contents/main_matter/chapter_lantern}
+\input{contents/main_matter/chapter_blaster}
+\input{contents/main_matter/chapter_dechorate}
 % \input{contents/main_matter/chapter7_blaster2}
 
 %% III. Application
@@ -201,10 +204,10 @@
 \part{Echo-aware Application}\label{pt:application}
 \end{fullwidth}
 \parttoc[n]
-% \input{contents/main_matter/chapter9_applications}
-% \input{contents/main_matter/chapter10_separake}
-% \input{contents/main_matter/chapter11_mirage}
-% \input{contents/main_matter/chapter12_brioche}
+\input{contents/main_matter/chapter9_applications}
+\input{contents/main_matter/chapter10_separake}
+\input{contents/main_matter/chapter11_mirage}
+\input{contents/main_matter/chapter12_brioche}
 
 %% IV. Conclusion
 \begin{fullwidth}
@@ -217,7 +220,17 @@
 % === BACK MATTER ===
 \backmatter{}
 
-% \input{contents/back_matter/appendices}
+\begin{appendices}[toc]
+    \input{contents/back_matter/appendix_ims}
+    \input{contents/back_matter/appendix_measurements}
+    \input{contents/back_matter/appendix_supblaster}
+    % \input{contents/back_matter/appendix_mindmaps}
+    % \input{contents/back_matter/appendix_phdlife}
+    \input{contents/back_matter/appendix_curriculum}
+    % \input{contents/back_matter/appendix_latex.tex}
+    % \input{contents/back_matter/appendix_coding}
+    % \input{contents/back_matter/appendix_music}
+\end{appendices}
 \input{contents/back_matter/bibliography}
 % \input{back_matter/index}
 
