@@ -27,3 +27,8 @@
     H_{ij}(f_k) = \sum_{\idxEch=0}^{\numEchs}
         \frac{\absCoeff_{ij}^r}{4 \pi \speedOfSound \tau_{ij}^r}
         \cste^{- \csti 2 \pi k \Fs \tau_{ij}^r / F}}}
+
+\newcommand{\sumEcho}{\ensuremath{\sum_{\idxEch=0}^{\numEchs}}}
+\newcommand{\echoModelTimeSimple}[1]{\ensuremath{\sumEcho \alpha_{#1}^{(r)} \delta(t - \tau_{#1}^{(r)})}}
+\newcommand{\alltaus}[1]{\ensuremath{\{\tau_{#1}^{(r)}\}_{#1,r}}}
+\newcommand{\allalphas}[1]{\ensuremath{\{\alpha_{#1}^{(r)}\}_{#1,r}}}

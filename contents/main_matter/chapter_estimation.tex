@@ -2,45 +2,54 @@
 \openepigraph{Signal, a function that conveys information about a phenomenon.
 $[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
 \vspace{-2.5em}
-\newthought{Synopsis}  blabla
+\newthought{Synopsis}  This chapter amis to provide the reader with knowledge of the state-of-the-art of \AERdef/.
+After presenting the \AER/ problem in~\cref{sec:estimation:problem}, it is divided into three main sections:
+\cref{sec:estimation:taxonomy} defines the categories of methods thank to which the literature can be clustered and analyzed in detail later in~\cref{sec:estimation:sota}.
+Finally, in~\cref{datametrics} some datasets and evaluation metrics are presented which are used for \AER/.
 
-\section{Problem Formulation}
-The \AERdef/ problem consists in estimating the echoes' timings (or delays) $\kbrace{\tau_r}$ and attenuations (or gains) $\kbrace{\alpha_r}$.
-In this context the echoes are considered the early reflections component of the \RIR/, modeled as
-\begin{equation}
-    \echoModelFreq
-    .
+\section{Problem Formulation}\label{sec:estimation:problem}
+The continuos-time multi-channel signal model for a signal source and $I$ channels writes
+\begin{equation}\label{eq:estimation:signalmodel}
+    \begin{aligned}
+        \tildex_i(t) &= (\tildeh_i \convCont \tildes)(t) \\
+        \tildeh_i(t) &= \echoModelTimeSimple{i} + \tilde{\varepsilon}_i(t),
+    \end{aligned}
 \end{equation}
-The term \AER/ is not an established name for such problem and depending on the field of research and the prior knowledge available, it can be referred to with different name.
-In fact \AER/ can be seen as general case of Time of Arrivals Estimation or a instance of Acoustic Channel Estimation and Shaping, and Spike Retrieval and Onset Detection.
-As opposed to \AER/, the task of Time of Arrivals Estimation, is only focused in estimating the echos' timings $\kbrace{\tau_r}$.
-The only knowledge $\kbrace{\tau_r}$ is sufficient for typical application of related to Sound Source Localization and Room Geometry Reconstruction.
-Moreover knowing $\kbrace{\tau_r}$, the attenuations $\kbrace{\alpha_r}$ can be estimated in a subsequent phase using closed-from equations~\citeonly{condat2015cadzow}.
-Time of Arrivals Estimation is sometimes called Time Delays Estimation, when the origin of time is taken \wrt/ the first \TOA/ and not when sound emission.
-\AER/ may be confused with Time Delay Estimation.
-\AER/ may be confused with Acoustic Echo Cancellation which refers to the problem of estimating and removing...
+where $\tildeh_i(t)$ is the echo model for the \RIR/ between the $i$-th channel and the source.
+The sum comprises the line-of-sight propagation and the earliest $\numEchs$ echoes we want to account for, while the error term $\varepsilon_i(t)$ collects later echoes and the reverberation tail.
 
-\section{Taxonomy on of Acoustic Echo Retrieval methods}
+\mynewline
+\textsc{The \AERdef/ problem consists} in estimating the echoes' timings (\aka/ delays or \TOAdef/) $\alltaus{i}$ and attenuations (or gains) $\allalphas{i}$ of~\cref{eq:estimation:signalmodel}.
+\\The term \AER/ is not an established name for such problem and, depending on the field of research and the prior knowledge available, it can be referred to with different name.
+In fact \AER/ can be seen as general case of \textit{\TOAs/ estimation}, or a instance of \textit{acoustic channel estimation} and \textit{shaping}, and \textit{spike retrieval} and \textit{onset detection}.
+As opposed to \AER/, the task of \TOAs/ Estimation, is only focused in estimating the echos' timings $\alltaus{i}$.
+The only knowledge of \TOAs/ is sufficient for typical application related to \SSL/ and \RooGE/.
+Moreover knowing $\alltaus{i}$, the attenuations $\allalphas{i}$ can be estimated in closed-from~\citeonly{condat2015cadzow}.
+\TOAs/ estimation is sometimes called \textit{time delays estimation}, when the origin of time is taken \wrt/ the first \TOA/ and not when sound emission.
+Hereafter we will make distinction between the two.
+\AER/ may be confused with Acoustic Echo Cancellation in communication and telephony which refers to the problem of estimating and suppressing feedbacks due to close speaker to microphone proximity.
 
-In general, we can identify four main categories which differ on whether the transmitted signal is know or not and on whether the estimation of the \RIR/.
+\section{Taxonomy on of Acoustic Echo Retrieval methods}\label{sec:estimation:taxonomy}
+
+In general, we can identify four main categories which differ on whether the source signal is known and on whether the estimation of the \RIR/ is performed.
 
 \dichotomy{Active vs. passive approaches}.
-When the input/transmitted source signal is known, then the scenario is said \textit{active}.
+When the source signal is known, then the scenario is said \textit{active}.
 This type of approaches uses one or more loudspeaker to probe the environment and one or more microphones to record the propagated probe sound.
-This type of methods falls into the big categories of \textit{deconvolution problem} since a ``clean'' reference signal is used to deconvolve the observed one.
-Two are the main advantages of these approaches. First, this methods can be used in single-microphone scenario.
-Second, with proper probe signal, a good estimation of the \RIR/ can be achieved.
-Instead, passive or blind approaches are source agnostic.
-To decouple environment from source signal, they leverage either on prior knowledge on the source signal or by comparing the signals received at two (or more) spatially-separated microphones.
+They falls into the big categories of \textit{deconvolution problem} since a ``clean'' reference signal is known and used to \textit{deconvolve} the observed one.
+Two are the main advantages of these approaches.
+First, with proper probe signal, a good estimation of the \RIR/ can be achieved.
+Second, this methods can be used on single-channel recordings.
+Instead, \textit{passive}, or \textit{blind}, approaches are source agnostic.
+To decouple environment from source signal, they rely either on prior knowledge on the source signal (semi-blind methods) or by comparing the signals received at two (or more) spatially-separated microphones.
 
-\dichotomy{RIR-agnostic vs. RIR-based approches}.
-As opposed to \textit{direct}, \textit{2-step} methods estimate the echoes' properties after estimating the (full or partial) \RIR/(s).
-By modeling the early part of the \RIR/ as collection of Dirac, solving the \AER/ problem can be seen as solving two subsequent tasks:
-\RIR/ estimation followed by echoes extraction.
-The former can be seen as an instance of Channel Estimation problems, while the latter as a spike retrieval, pick picking or onset detection.
-
+\dichotomy{RIR-based vs. RIR-agnostic approches}.
+As opposed to \textit{RIR-agnostic}, \textit{RIR-based} methods estimate the echoes' properties after estimating the (full or partial) \RIR/(s).
+By modeling the early part of the \RIR/ as in~\cref{eq:estimation:signalmodel}, solving the \AER/ problem can be seen as solving two subsequent tasks:
+\RIR/ estimation followed and echoes extraction.
+The former can be seen as an instance of \textit{channel estimation} (\aka/ \textit{system identificaty})  problems, while the latter as a \textit{spike retrieval}, \textit{pick picking} or \textit{onset detection}.
 The latter is more challenging since, in general settings, theoretical ambiguities make this problem unsolvable~\citeonly{xu1995least, subramaniam1996cepstrum, tong1998multichannel}.
-\\Instead of estimating the full acoustic impulse response, other methods estimate it partially using assumptions derived by the application.
+Instead of estimating the full acoustic impulse response, other methods estimate it partially using assumptions derived by the application.
 It is the case of Impulse Response Shaping or Shortening.
 In context of room acoustics, they aim to reduce the late reverberations allowing some early reflections which are perceptually useful~\citeonly{betlehem2012efficient}.
 \\Direct methods instead try to surpass the challenging task of estimating the full \RIR/ and tuning peak-picking methods, and set-up an end-to-end framework.
@@ -57,7 +66,7 @@ Several techniques were investigated to alleviate an exhaustive review of Room R
 
 Given the above definition, we can now review so \AER/ methods presented in the literature.
 
-\section{Literature Review}
+\section{Literature Review}\label{sec:estimation:sota}
 
 \subsection{Active and RIR-based method}
 In this categories falls all the methods that first attempt for a ``good'' estimation of \RIRs/ for which the transmitted signal is known.
@@ -281,7 +290,7 @@ This method is show to outperform conventional methods by several orders of magn
 However its effectiveness is not being tested on challenging real scenario featuring external noise and partial knowledge on the number of echo.
 
 
-\section{Data and Evaluation}
+\section{Data and Evaluation}\label{sec:estimation:datametrics}
 \AER/ is relatively recent problem which is typically addressed in the context of much broader application, \eg/ \SE/, \RooGE/, \SSL/.
 Therefore the literature lacks of standard datasets as well as standard evaluation framework.
 
@@ -339,14 +348,58 @@ To assert the quality of the estimated discrete filters the following metrics ha
 This metrics offers a objective way to evaluate the estimation accuracy of discrete vectors.
 
 \mynewline
-In the context of \RooGE/, \SSL/ and microphone calibration, echoes are typically mapped to reflectors or image source positions, either in cartesian or polar coordinates.
-Therefore, the models for \AER/ are evaluated in the geometrical space, rather than in the space of echoes timings and amplitudes.
-For instance, for the task of reflectors localization, one can measure the accuracy in terms of distance between planes and inclination error.
-In the case of \SSL/ and microphone calibration, the Euclidean distance between the 3D coordinates is typically computed.
+In the context of \RooGE/, \SSL/ and microphone calibration, echoes' timings are typically mapped to reflectors or image source positions, either in cartesian or polar coordinates.
+Therefore, the models for \AER/ are evaluated in the geometrical space, rather than in the space of echoes' parameters.
+For instance, for the task of reflectors localization, the accuracy is measured in terms of \textit{plane-to-plane distance} between estimated and ground-truth surfaces and the \textit{angular error} between their normals.
+In the case of \SSL/ and microphone calibration, the \textit{Euclidean distance} between the 3D coordinates is typically computed or \RMSE/ between ground-truth and estimated \DOAs/.
+This metrics considers only echoes' \TOA/, ignoring their amplitudes which interest a previous peak peaking and echo labeling steps
 
 \mynewline
 To the best knowledge of the author, the literature lacks of metrics properly defined for \AER/.
+As for the application mentioned above, echoes' amplitudes in a single \RIR/ or between them, are typically considered for disambiguation only.
+More attention is paid on the echoes' timing which are evaluate typically using regression/classification metrics of Information Retrieval.
+Unfortunately the usage of this metrics is not straightforward.
+In fact, in order to compare echoes, first both estimated and reference one needs to be labeled, pruned and matched.
+This matching process introduces strong biases in evaluation process which is currently unsolved without using echo labeling.
+As discussed at the end of~\cref{subsec:acoustics:ism}, echoes can be sorted differently according they amplitudes, their \TOAs/ or the generation of image-source in the \ISM/ model.
+\AER/ tends to return echoes' parameter sorted by the echoes' amplitudes which can be distorted by the measurement process and modelling errors (\cfr{~\cref{aoeu}}).
+
+Let be $\hat{\boldsymbol{\tau}} = \kbrace{\hat{\tau}_\idxEch}_{\idxEch=0}^{\numEchs}$ and $\boldsymbol{\tau} = \kbrace{\tau_\idxEch}_{\idxEch=0}^{\numEchs}$ the sets of estimated and reference echoes' \TOAs/.
+The following metrics are used:
+
 \begin{description}
-    \item[\TOAs/ \RMSEtxt/]
-    \item[Precision, Recall, and F-measure]
+    \item[the \TOAs/ \RMSEtxt/] is defined as
+    \begin{equation}
+        \RMSE(\hat{\boldsymbol{\tau}}, \boldsymbol{\tau}) \eqdef \sqrt{\sum_{\idxEch=0}^{\numEchs} \abs{\hat{\tau}_\idxEch - \tau_\idxEch}^2} \quad \text{second/samples}
+        ,
+    \end{equation}
+    This metric describe the mean error between estimated and reference of echoes' \TOAs/ and the value of $0$ would indicate perfect fit.
+    Unfortunately the \RMSEtxt/ is proportional to the size of squared error, thus is sensitive to outliers.
+    In the context of \AER/, the \RMSEtxt/ is computed only on the matched \TOAs/.
+
+    % \item[the \TOAs/ \NRMSEtxt/] is defined as
+    % \begin{equation}
+    %     \RMSE(\hat{\boldsymbol{\tau}}, \boldsymbol{\tau}) \eqdef \frac{\RMSE(\hat{\boldsymbol{\tau}}, \boldsymbol{\tau})}{\norm{\boldsymbol{\tau}}- \boldsymbol{\tau}_\text{min}}
+    %   'NRMSE': FIT(i) = 1 - (norm(XREF(:,i)-X(:,i)))/(norm(XREF(:,i)-mean(XREF(:,i))))
+    % \end{equation}
+    % This metrics was proposed for comparing multi-class regression models with different scales.
+    % The nRMSE takes values between 0 (perfect fit) and ∞ (bad fit). If it is equal to 1, then the prediction is no better than a constant.
+    \item[the \TOAs/ Precision, Recall, and F-measure] are standard metrics used in information retrieval for classification problem, \eg/ in onset detection~\citeonly{bock2012evaluating}.
+    Here the real valued estimates and ground-truth need to be converted into binary values indicating \textit{match}.
+    Typically, hard thresholding with a given threshold in samples is used to assess whether an estimated \TOAs/ match the reference one.
+    In the context of \AER/, \textit{precision} express the fraction of matching \TOAs/ among all the estimated ones, while \textit{recall} measure the fraction of matching \TOAs/ that are correctly estimated.
+    Then, the \textit{F-measure} is the harmonic mean of precision and recall and it is used to summarizes the two values with one value.
+    Depending on the application, precision and recall can have different impact.
+    % In math,
+    % \begin{equation}
+    %     \begin{aligned}
+    %         \Precision &= \text{number of }\\
+    %         \Recall &= \\
+    %         \Fmeasure &= 2 \frac{\Precision \cdot \Recall}{\Precision + \Recall}
+    %     \end{aligned}
+    % \end{equation}
+    \RooGE/ methods are more sensible to missing \TOAs/ than their misalignment, which can be redefined with geometrical reasoning.
+    This are incline to prefer recall to precision and sometimes allows for some false positive which can be prune using the echo labelling methods.
+    Instead, echo-aware \SE/ methods prefer to accurately select the relevant echoes, thus they favorite high precision.
 \end{description}
+

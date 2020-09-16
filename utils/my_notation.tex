@@ -24,6 +24,8 @@
   \expandafter\xdef\csname scr\x \endcsname{\noexpand\ensuremath{\noexpand\mathscr{\x}}}
   % short for \hat{}
   \expandafter\xdef\csname hat\x \endcsname{\noexpand\ensuremath{\noexpand\hat{\x}}}
+  % short for \tilde{}
+  \expandafter\xdef\csname tilde\x \endcsname{\noexpand\ensuremath{\noexpand\tilde{\x}}}
 }
 
 \foreach \x in {A,...,Z}{
@@ -172,11 +174,16 @@
 % variable
 \newcommand{\RT}{\ensuremath{\mathtt{RT}_{60}}}
 \newcommand{\Tmix}{\ensuremath{\mathtt{T}_\text{mix}}}
+% metrics
 \newcommand{\DRR}{\ensuremath{\mathtt{DRR}}}
 \newcommand{\DER}{\ensuremath{\mathtt{DER}}}
 \newcommand{\SNR}{\ensuremath{\mathtt{SNR}}}
 \newcommand{\RMSE}{\ensuremath{\mathtt{RMSE}}}
 \newcommand{\NPM}{\ensuremath{\mathtt{NPM}}}
+\newcommand{\Precision}{\ensuremath{\mathtt{Precision}}}
+\newcommand{\Recall}{\ensuremath{\mathtt{Recall}}}
+\newcommand{\Fmeasure}{\ensuremath{\mathtt{F-measure}}}
+
 
 
 % variables for Blaster
