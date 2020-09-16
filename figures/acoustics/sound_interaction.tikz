@@ -125,7 +125,7 @@ pattern radius = 1pt}
 %uncomment if require: \path (0,188); %set diagram left start at 0, and has height of 188
 
 %Shape: Rectangle [id:dp42159238561682344]
-\draw  [draw opacity=0][pattern=_9baiqkd8y,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (540,100) -- (680,100) -- (680,140) -- (540,140) -- cycle ;
+\draw  [draw opacity=100][pattern=_9baiqkd8y,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (540,100) -- (680,100) -- (680,140) -- (540,140) -- cycle ;
 %Straight Lines [id:da19176219263568672]
 \draw    (200,100) .. controls (201.67,98.33) and (203.33,98.33) .. (205,100) .. controls (206.67,101.67) and (208.33,101.67) .. (210,100) .. controls (211.67,98.33) and (213.33,98.33) .. (215,100) .. controls (216.67,101.67) and (218.33,101.67) .. (220,100) .. controls (221.67,98.33) and (223.33,98.33) .. (225,100) .. controls (226.67,101.67) and (228.33,101.67) .. (230,100) .. controls (231.67,98.33) and (233.33,98.33) .. (235,100) .. controls (236.67,101.67) and (238.33,101.67) .. (240,100) .. controls (241.67,98.33) and (243.33,98.33) .. (245,100) .. controls (246.67,101.67) and (248.33,101.67) .. (250,100) .. controls (251.67,98.33) and (253.33,98.33) .. (255,100) .. controls (256.67,101.67) and (258.33,101.67) .. (260,100) .. controls (261.67,98.33) and (263.33,98.33) .. (265,100) .. controls (266.67,101.67) and (268.33,101.67) .. (270,100) .. controls (271.67,98.33) and (273.33,98.33) .. (275,100) .. controls (276.67,101.67) and (278.33,101.67) .. (280,100) .. controls (281.67,98.33) and (283.33,98.33) .. (285,100) .. controls (286.67,101.67) and (288.33,101.67) .. (290,100) .. controls (291.67,98.33) and (293.33,98.33) .. (295,100) .. controls (296.67,101.67) and (298.33,101.67) .. (300,100) .. controls (301.67,98.33) and (303.33,98.33) .. (305,100) .. controls (306.67,101.67) and (308.33,101.67) .. (310,100) .. controls (311.67,98.33) and (313.33,98.33) .. (315,100) .. controls (316.67,101.67) and (318.33,101.67) .. (320,100) .. controls (321.67,98.33) and (323.33,98.33) .. (325,100) .. controls (326.67,101.67) and (328.33,101.67) .. (330,100) .. controls (331.67,98.33) and (333.33,98.33) .. (335,100) .. controls (336.67,101.67) and (338.33,101.67) .. (340,100) -- (340,100) ;
 %Straight Lines [id:da6109252875897675]
@@ -172,7 +172,7 @@ pattern radius = 1pt}
 \draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (610,100) .. controls (611.67,101.67) and (611.67,103.33) .. (610,105) .. controls (608.33,106.67) and (608.33,108.33) .. (610,110) .. controls (611.67,111.67) and (611.67,113.33) .. (610,115) .. controls (608.33,116.67) and (608.33,118.33) .. (610,120) .. controls (611.67,121.67) and (611.67,123.33) .. (610,125) .. controls (608.33,126.67) and (608.33,128.33) .. (610,130) -- (610,130) ;
 \draw [shift={(610,130)}, rotate = 90] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.75]      (0, 0) circle [x radius= 3.35, y radius= 3.35]   ;
 %Shape: Rectangle [id:dp9039569939980199]
-\draw  [draw opacity=0][pattern=_g1k947mmx,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (30,100) -- (170,100) -- (170,140) -- (30,140) -- cycle ;
+\draw  [draw opacity=100][pattern=_g1k947mmx,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (30,100) -- (170,100) -- (170,140) -- (30,140) -- cycle ;
 %Straight Lines [id:da42478971400847687]
 \draw [line width=1.5]    (56.46,50.1) -- (97.37,96.99) ;
 \draw [shift={(100,100)}, rotate = 228.89] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
@@ -182,14 +182,14 @@ pattern radius = 1pt}
 %Straight Lines [id:da836235226930662]
 \draw    (30,100) -- (170,100) ;
 %Shape: Rectangle [id:dp6067689554973361]
-\draw  [draw opacity=0][pattern=_eisyw4tas,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (200,100) -- (340,100) -- (340,140) -- (200,140) -- cycle ;
+\draw  [draw opacity=100][pattern=_eisyw4tas,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (200,100) -- (340,100) -- (340,140) -- (200,140) -- cycle ;
 %Straight Lines [id:da7957563512813288]
 \draw [line width=1.5]    (226.46,50.1) -- (267.37,96.99) ;
 \draw [shift={(270,100)}, rotate = 228.89] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (11.61,-5.58) -- (0,0) -- (11.61,5.58) -- cycle    ;
 %Shape: Rectangle [id:dp8714502685448396]
-\draw  [draw opacity=0][pattern=_ichnqnw2e,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (370,100) -- (430,100) -- (430,110) -- (370,110) -- cycle ;
+\draw  [draw opacity=100][pattern=_ichnqnw2e,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (370,100) -- (430,100) -- (430,110) -- (370,110) -- cycle ;
 %Shape: Rectangle [id:dp6938897641518881]
-\draw  [draw opacity=0][pattern=_l8t3sl8wu,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (450,100) -- (510,100) -- (510,110) -- (450,110) -- cycle ;
+\draw  [draw opacity=100][pattern=_l8t3sl8wu,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 0; green, 0; blue, 0}] (450,100) -- (510,100) -- (510,110) -- (450,110) -- cycle ;
 %Straight Lines [id:da481574031010644]
 \draw    (370,100) -- (430,100) -- (430,110) ;
 %Straight Lines [id:da8819570720651788]
@@ -216,13 +216,13 @@ pattern radius = 1pt}
 \draw    (540,100) -- (680,100) ;
 
 % Text Node
-\draw (219,145) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ] [align=left] {Diffuse Reflection};
+\draw (219,145) node [anchor=north west][inner sep=0.75pt]  [font=\large,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ] [align=left] {Diffuse Reflection};
 % Text Node
-\draw (548,147) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\textcolor[rgb]{0.5,0.5,0.5}{Refraction} and \textcolor[rgb]{0.55,0.34,0.16}{Absorption}};
+\draw (548,147) node [anchor=north west][inner sep=0.75pt]  [font=\large] [align=left] {\textcolor[rgb]{0.5,0.5,0.5}{Refraction} and \textcolor[rgb]{0.55,0.34,0.16}{Absorption}};
 % Text Node
-\draw (52,147) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {Specular Reflection};
+\draw (52,147) node [anchor=north west][inner sep=0.75pt]  [font=\large] [align=left] {Specular Reflection};
 % Text Node
-\draw (411,145) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ] [align=left] {Diffraction};
+\draw (411,145) node [anchor=north west][inner sep=0.75pt]  [font=\large,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ] [align=left] {Diffraction};
 
 
 \end{tikzpicture}

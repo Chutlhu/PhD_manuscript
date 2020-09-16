@@ -8,7 +8,7 @@
 \LoadClass[%
     a4paper,
     10pt,
-    twoside,
+    oneside, %twoside
 ]{memoir}
 \renewcommand{\footnotesize}{\fontsize{8pt}{9pt}\selectfont}
 \renewcommand{\normalsize}{\fontsize{10pt}{14pt}\selectfont}
@@ -147,9 +147,9 @@
 \renewcommand*{\aftertoctitle}{\par\nobreak\vspace*{-10pt}\hrulefill\vskip\aftertocskip}
 
 %%% Section and Subsection Style %%%
-\setsecheadstyle{\scshape}
-\setsubsecheadstyle{\itshape}
-\setsecnumformat{\llap{\scriptsize\upshape\csname #1secnumformat\endcsname}}
+\setsecheadstyle{\normalfont\large\scshape}
+\setsubsecheadstyle{\normalfont\large\itshape}
+\setsecnumformat{\llap{\small\upshape\csname #1secnumformat\endcsname}}
 \newcommand\sectionsecnumformat{\thesection\quad}
 \newcommand\subsectionsecnumformat{\thesubsection\quad}
 \setaftersecskip{\baselineskip}

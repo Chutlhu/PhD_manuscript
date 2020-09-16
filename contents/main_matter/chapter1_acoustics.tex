@@ -239,12 +239,15 @@ Rather, a sound wave will undergo certain behaviors depending on the obstacles' 
     \resizebox{\linewidth}{!}{
         \input{figures/acoustics/sound_interaction.tikz}
     }
-    \captionof{figure}{%
-        \footnotesize
-        A reflector having reflections on its surface with width $d$ much smaller than the sound wavelength $\wavelength$.
-        Image inspired from \citeonly{kuttruff2016room}.
+    \sideparmargin{outer}
+    \sidepar{\vspace{-4\baselineskip}
+        \captionof{figure}{%
+            \footnotesize
+            Different types of sound interact with a surface
+        }
+        \label{fig:acoustics:sound_interaction}
     }
-    \label{fig:acoustics:sound_interaction}
+    \vspace{-\baselineskip}\vspace{-\baselineskip}
 \end{figure}
 
 
@@ -309,16 +312,22 @@ As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spati
     \label{fig:acoustics:reflection}
 }
 \\Using this quantity we can identify the following three responses of objects (irregularities) of size $d$ to a plane-wave, as depicted in~\cref{fig:acoustics:irregularities}
-\begin{figure}
+
+\begin{figure}[h]
     \footnotesize
     \resizebox{\linewidth}{!}{
         \input{figures/acoustics/irregularities.tikz}
     }
-    \captionof{figure}{%
-        A reflector having irregularities on its surface with width $d$ much smaller than the sound wavelength $\wavelength$.
-        Image courtesy of \citeonly{kuttruff2016room}.
+    \sideparmargin{outer}
+    \sidepar{\vspace{-4\baselineskip}
+        \captionof{figure}{%
+            \footnotesize
+            A reflector having irregularities on its surface with width $d$ much smaller than the sound wavelength $\wavelength$.
+            Image courtesy of \citeonly{kuttruff2016room}.
+            }
+        \label{fig:acoustics:irregularities}
     }
-    \label{fig:acoustics:irregularities}
+    \vspace{-\baselineskip}\vspace{-\baselineskip}
 \end{figure}
 
 
@@ -531,7 +540,7 @@ The space is divided into a regular grid, where the changes of a quantity (air p
 }
 
 \begin{figure}[t]
-    \begin{fullwidthfig}
+    \begin{fullwidth}
         \centering
         \includegraphics[width=\linewidth]{acoustics/simulator_dwg.jpg}
 
@@ -543,23 +552,26 @@ The space is divided into a regular grid, where the changes of a quantity (air p
         A short while after the initial event, the sound energy has spread out in a much more random and complex fashion.
         }
         \label{fig:acoustics:dwm}
-    \end{fullwidthfig}
+    \end{fullwidth}
 
 \end{figure}
 
 \begin{figure}[t]
-    \begin{fullwidthfig}
+
+    \begin{fullwidth}
         \label{fig:acoustics:fdtd}
         \centering
         \includegraphics[width=\linewidth]{acoustics/wave-simulation_fdtd.png}
-    \end{fullwidthfig}
 
-    \vspace{-\baselineskip}\vspace{-\baselineskip}
-    \sideparmargin{outer}
-    \sidepar{\vspace{\baselineskip}
         \caption{Sound propagation at three consecutive timestamps using the \FDTD/-based \textit{Triton} simulator from Microsoft}
         \label{fig:acoustics:fdtd}
-    }
+
+    \end{fullwidth}
+    % \vspace{-\baselineskip}\vspace{-\baselineskip}
+    % \sideparmargin{outer}
+    % \sidepar{\vspace{\baselineskip}
+    %
+    % }
 
 \end{figure}
 
