@@ -80,15 +80,15 @@ pattern radius = 1pt}
 \draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.33 ] (270.93,179.74) .. controls (276.91,173.68) and (285.04,169.95) .. (294,169.95) .. controls (302.87,169.95) and (310.92,173.6) .. (316.88,179.56) -- (294,204.9) -- cycle ;
 
 % Text Node
-\draw (121,51) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Incident wave};
+\draw (121,51) node [anchor=north west][inner sep=0.75pt]  [font=\Large] [align=left] {Incident wave};
 % Text Node
-\draw (391,85) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ] [align=left] {Specular Reflection};
+\draw (391,85) node [anchor=north west][inner sep=0.75pt]  [font=\Large,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ] [align=left] {Specular Reflection};
 % Text Node
-\draw (311,242) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ] [align=left] {\textcolor[rgb]{0.82,0.01,0.11}{Absorbed wave}};
+\draw (311,242) node [anchor=north west][inner sep=0.75pt]  [font=\Large,color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ] [align=left] {\textcolor[rgb]{0.82,0.01,0.11}{Absorbed wave}};
 % Text Node
-\draw (251,65) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ] [align=left] {Diffuse Reflection};
+\draw (251,65) node [anchor=north west][inner sep=0.75pt]  [font=\Large,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ] [align=left] {Diffuse Reflection};
 % Text Node
-\draw (162,190) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Room Surface};
+\draw (162,190) node [anchor=north west][inner sep=0.75pt]  [font=\Large] [align=left] {Room Surface};
 
 
 \end{tikzpicture}

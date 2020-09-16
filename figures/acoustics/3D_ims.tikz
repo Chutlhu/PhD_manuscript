@@ -30,7 +30,7 @@
 %Image [id:dp38262601183003997]
 \draw (468.3,131) node  {\includegraphics[width=28.5pt,height=28.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
 %Image [id:dp6033841010313861]
-\draw (599.3,140) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+\draw (599.3,140) node  {\includegraphics[width=11pt,height=15pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
 %Straight Lines [id:da039822268177343134]
 \draw [line width=1.5]    (479.3,130) -- (585.32,139.64) ;
 \draw [shift={(589.3,140)}, rotate = 185.19] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (6.97,-3.35) -- (0,0) -- (6.97,3.35) -- cycle    ;
@@ -55,7 +55,7 @@
 \draw    (120,130) -- (181.86,112.77) -- (221.08,134.1) ;
 \draw [shift={(223.72,135.53)}, rotate = 208.54] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (3.57,-1.72) -- (0,0) -- (3.57,1.72) -- cycle    ;
 %Image [id:dp8572959640578157]
-\draw (240,140) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+\draw (240,140) node  {\includegraphics[width=11pt,height=15pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
 %Straight Lines [id:da43323036508293555]
 \draw [line width=1.5]    (120,130) -- (226.02,139.64) ;
 \draw [shift={(230,140)}, rotate = 185.19] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (6.97,-3.35) -- (0,0) -- (6.97,3.35) -- cycle    ;

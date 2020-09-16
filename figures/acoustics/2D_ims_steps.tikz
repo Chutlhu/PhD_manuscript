@@ -8,7 +8,7 @@
 %Shape: Rectangle [id:dp31455416182251295]
 \draw   (20,100) -- (120,100) -- (120,180) -- (20,180) -- cycle ;
 %Image [id:dp03010052309299993]
-\draw (95,145) node  {\includegraphics[width=7.5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+\draw (95,145) node  {\includegraphics[width=5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
 %Straight Lines [id:da6512495784353802]
 \draw [line width=1.5]    (50,130) -- (86.12,139.03) ;
 \draw [shift={(90,140)}, rotate = 194.04] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (6.97,-3.35) -- (0,0) -- (6.97,3.35) -- cycle    ;
@@ -18,7 +18,7 @@
 \draw (50,130) node  {\includegraphics[width=15pt,height=15pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
 
 %Image [id:dp23988346705657715]
-\draw (485,155) node  {\includegraphics[width=7.5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+\draw (485,155) node  {\includegraphics[width=5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
 %Shape: Rectangle [id:dp09890192273370679]
 \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (500,20) -- (400,20) -- (400,100) -- (500,100) -- cycle ;
 %Shape: Rectangle [id:dp5758913869352843]
@@ -66,7 +66,7 @@
 \draw    (330,140) -- (378,140) ;
 \draw [shift={(380,140)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
 %Image [id:dp5009284152840767]
-\draw (295,155) node  {\includegraphics[width=7.5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+\draw (295,155) node  {\includegraphics[width=5pt,height=7.5pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
 %Shape: Rectangle [id:dp6889731970930373]
 \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] (310,20) -- (210,20) -- (210,100) -- (310,100) -- cycle ;
 %Shape: Rectangle [id:dp07628000190213247]

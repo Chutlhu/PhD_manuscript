@@ -162,6 +162,7 @@
 
 % --- ITEMIZE and ENUMERATE STYLE ---------------------------------------------
 % \RequirePackage{enumitem}
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}
 
 %%% ToC Styling %%%
 \RequirePackage{ragged2e}

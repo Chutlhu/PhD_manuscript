@@ -12,11 +12,10 @@ This chapter will build a first important bridge: from acoustics to audio signal
 It first defines sound and how it propagates in the environment~\cref{ch:acoustics:sec:wave}, teasing out the fundamental concepts of this thesis: the echoes.~\cref{ch:acoustics:sec:reflection} and the \RIRdef/~\cref{ch:acoustics:sec:rir}.
 By assuming some approximations, the \RIR/ will be described in all its parts in relation with methods to compute them.
 Finally, in~\cref{ch:acoustics:sec:perception}, how the human auditory system perceives reverberation will be reported.
-\\The material on waves and acoustic reflection is digested from classic texts on room acoustics and PDEs:
-Kuttruff’s \textit{Room Acoustics}, Pierce's \textit{Acoustics: an introduction to its physical principles and applications}, Duffy’s \textit{Green’s Functions with Applications}.
-Notions on acoustic simulators are extracted from the Habet's tutorial paper \textit{Room impulse response generator},
-the \citeauthor{savioja2015overview}'s paper of geometrical acoustics, and the documentation of the acoustic simulator \textit{Wayverb} in~\citeonly{thomas2017wayverb}.
-More technical details are reported in Appendix~\ref{ap:roomAcoustics}.
+\\The material on waves and acoustic reflection is digested from classic texts on room acoustics~\citeonly{kuttruff2016room,pierce2019acoustics} and on partial differential equations~\citeonly{duffy2015green}.
+% Notions on acoustic simulators are extracted from the Habet's tutorial paper \textit{Room impulse response generator},
+% the \citeauthor{savioja2015overview}'s paper of geometrical acoustics, and the documentation of the acoustic simulator \textit{Wayverb} in~\citeonly{thomas2017wayverb}.
+% More technical details are reported in Appendix~\ref{ap:roomAcoustics}.
 
 \section{Sound wave propagation}\label{ch:acoustics:sec:wave}%\marginpar{\footnotesize Namely, there is no sound in outer space.}
 \marginpar{%
@@ -59,13 +58,16 @@ The air pressure variations at one point in space can be represented by a \texti
 ~\cref{fig:acoustics:acoustics_wave}.
 
 \begin{figure}[h]
-    \centering
     \includegraphics[trim={0 0 9cm 0},clip,width=\linewidth]{acoustics/wave_and_waveform.pdf}
-    % \resizebox{\linewidth}{!}{
     %     \input{figures/acoustics/wave_and_waveform.tikz}
-    % }
-    \captionof{figure}{snapshot of a longitudinal wave in air}
-    \label{fig:acoustics:acoustics_wave}
+    \sideparmargin{outer}
+    \sidepar{\vspace{-10\baselineskip}
+        \captionof{figure}{%
+            \footnotesize
+            Illustration of the molecules under sound compression and rarefaction due to longitudinal sound wave and its waveform representation.
+        }
+        \label{fig:acoustics:acoustics_wave}
+    }
 \end{figure}
 
 We can think of this process in the light of the classic \textit{source-medium-receiver} model of communication theory:
@@ -235,31 +237,30 @@ Rather, a sound wave will undergo certain behaviors depending on the obstacles' 
     \end{itemize}
 \end{itemize}
 
-\begin{figure}
-    \resizebox{\linewidth}{!}{
-        \input{figures/acoustics/sound_interaction.tikz}
-    }
-    \sideparmargin{outer}
-    \sidepar{\vspace{-4\baselineskip}
+\begin{figure}[h!]
+    \begin{fullwidth}
+        \resizebox{\linewidth}{!}{
+            \input{figures/acoustics/sound_interaction.tikz}
+            }
         \captionof{figure}{%
             \footnotesize
-            Different types of sound interact with a surface
+            Different types of sound interact with a surface.
         }
         \label{fig:acoustics:sound_interaction}
-    }
-    \vspace{-\baselineskip}\vspace{-\baselineskip}
+    \end{fullwidth}
 \end{figure}
 
 
-\newthought{Reflections typically arise} when a sound wave hits a large surface, like a room wall.
+Reflections typically arise when a sound wave hits a large surface, like a room wall.
 When the sound meets a wall edge or a slit, the wave diffracts, namely it bends around the corners of an obstacle.
 The point of diffraction effectively becomes a secondary source which may interact with the first one.
 \\The part of energy transmitted to the object may be absorbed and refracted.
 Objects are characterized by a proper acoustic resistance, called \textit{acoustic impedance}, which
 describes their acoustic inertia as well as the energy dissipation.
-The remaining contribution may continue to propagate resulting in the refraction phenomenon\sidenote{%
-    This is more commonly observed when light passes thought different medium, like a prism.
-}.
+The remaining contribution may continue to propagate resulting in the refraction phenomenon.
+% \sidenote{%
+%     This is more commonly observed when light passes thought different medium, like a prism.
+% }.
 
 When sound reflects on an solid surface, two types of acoustic reflections can occur: part of the sound energy
 \marginpar{%
@@ -269,7 +270,7 @@ When sound reflects on an solid surface, two types of acoustic reflections can o
         \input{figures/acoustics/reflections.tikz}
     }
     \captionof{figure}{%
-        Specular \vs/ diffuse reflection
+        Specular and diffuse reflection.
     }
     \label{fig:acoustics:reflection}
 }
@@ -279,7 +280,7 @@ When sound reflects on an solid surface, two types of acoustic reflections can o
 \end{itemize}
 
 All the phenomena occur with different proportions depending on the acoustics and geometrical properties of surfaces and the frequency content of the wave.
-In acoustics, it is common to define the \textit{operating points} and different \textit{regimes}\sidenote{for instance near- \vs/ far-field}
+In acoustics, it is common to define the \textit{operating points} and different \textit{regimes}, \eg/ for instance near- \vs/ far-field,
 according to the sound frequencies or the corresponding \textit{wavelength},
 \begin{equation}
     \wavelength = \frac{2 \pi}{k} = \frac{\speedOfSound}{f} \mathspace [\si{\metre}]
@@ -293,25 +294,19 @@ where $f$ is the frequency of the sound wave.
     Their impressive visualizations show wavefronts that are augmented
     with rays that are perpendicular to the wavefronts.}{\citeonly{savioja2015overview}}
 
-As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spatial distance between two points around which the medium has the same value of pressure.
+As depicted in~\cref{fig:acoustics:acoustics_wave}, $\wavelength$ measures the spatial distance between two points around which the medium has the same value of pressure.
 % \marginpar{%
 %     \footnotesize
 %     a frequency of $\SI{1}{\kHz}$ corresponds to a wavelength of approximately $\SI{34}{\cm}$ ,
 %     which is one or two orders of magnitude smaller than typical linear dimensions of rooms,
 %     as well as typical distances traveled by sound waves in a room
 % }.
-\marginpar{
-    \centering
-    \footnotesize
-    \includegraphics[trim={0 205 0 0},clip,width=\linewidth]{acoustics/sound_pulse1926.png}
-    \captionsetup{labelformat=empty}
-    \captionof{figure}{%
-        Photographs showing successive stages in the progress of a sound pulse in a section of a Debating Chamber.
-        \imgsrc{\citeonly{davis1926sound}}
-    }
-    \label{fig:acoustics:reflection}
-}
 \\Using this quantity we can identify the following three responses of objects (irregularities) of size $d$ to a plane-wave, as depicted in~\cref{fig:acoustics:irregularities}
+\begin{itemize}
+    \item $\wavelength \gg d$, the irregularities are negligible and the sound wave reflection is of specular type;
+    \item $\wavelength \approx d$, the irregularities break the sound wave which is reflected towards every direction;
+    \item $\wavelength \ll d$, each irregularities is a surface reflecting specularly the sound waves.
+\end{itemize}
 
 \begin{figure}[h]
     \footnotesize
@@ -330,19 +325,23 @@ As depicted in~\cref{fig:acoustics:wavelength}, $\wavelength$ measures the spati
     \vspace{-\baselineskip}\vspace{-\baselineskip}
 \end{figure}
 
-
-\begin{itemize}
-    \item $\wavelength \gg d$, the irregularities are negligible and the sound wave reflection is of specular type;
-    \item $\wavelength \approx d$, the irregularities break the sound wave which is reflected towards every direction;
-    \item $\wavelength \ll d$, each irregularities is a surface reflecting specularly the sound waves.
-\end{itemize}
-
 \mynewline
 This presented behavior can be described with the wave equation by imposing adequate boundary conditions.
 % However working with this formula might results complicated and difficult.
 A simplified yet effective approach - just as in optics - is to model incoming sound waves as \textit{acoustic rays}~\citeonly{davis1926sound, krokstad1968calculating}.
 A ray has well-defined direction and velocity of propagation, and conveys a total wave energy which remains constant.
 This simplified description undergoes with the name of \GAdef/~\citeonly{savioja2015overview}, and share many fundamentals with geometrical optics.
+\marginpar{
+    \centering
+    \footnotesize
+    \includegraphics[trim={0 205 0 0},clip,width=\linewidth]{acoustics/sound_pulse1926.png}
+    \captionsetup{labelformat=empty}
+    \captionof{figure}{%
+        Photographs showing successive stages in the progress of a sound pulse in a section of a Debating Chamber.
+        \imgsrc{\citeonly{davis1926sound}}
+    }
+    \label{fig:acoustics:reflection}
+}
 This model will be convenient to describe and visualize the reflection behavior hereafter.
 
 \subsection{Large smooth surfaces, absorption and echoes}
@@ -453,6 +452,21 @@ the geometric relation between reflections and the geometry of the scene.
 In this thesis the two terms will be used indistinctly.
 
 \subsection{The room impulse response}\label{ch:acoustics:subsec:rir}
+\begin{figure}[t]
+    \begin{fullwidth}
+
+        \begin{minipage}[b]{.5\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{acoustics/rir_schematic.png}
+        \end{minipage}%
+        \begin{minipage}[b]{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{acoustics/rir_measured.png}
+    \end{minipage}
+    \caption{Schematic illustration of the shape of an \RIR/ and the first 100 ms of a measured one.}
+    \label{fig:acoustics:rir}
+    \end{fullwidth}
+\end{figure}
 The \RIRdef/ is where physical room acoustic and indoor audio signal processing meets and from now on, we will adopt a signal processing perspective.
 Therefore
 \begin{center}
@@ -460,37 +474,27 @@ Therefore
 from a source to a receiver}
 \end{center}
 \cref{fig:acoustics:rir} provides a schematic illustration of the shape of a \RIR/ compared to a measured one.
-\begin{figure}[h]
-    \centering
-    \begin{minipage}[b]{.5\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{acoustics/rir_schematic.png}
-    \end{minipage}%
-    \begin{minipage}[b]{.5\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{acoustics/rir_measured.png}
-    \end{minipage}
-    \caption{Schematic illustration of the shape of an \RIR/ and the first 100 ms of a measured one.}
-    \label{fig:acoustics:rir}
-\end{figure}
-
 The \RIRs/ usually exhibit common structures.
 Based on the consideration of~\cref{ch:acoustics:sec:reflection}, they are commonly divided into three partially overlapped components:
 \begin{equation}\label{eq:acoustics:rir_full}
 \rir(t) = h^d(t) + h^e(t) + h^l(t)
 ,
 \end{equation}
-
 where
-\begin{description}
-    \item[the direct path] $h^d(t)$ is the line-of-sight contribution of the sound wave.
+
+\begin{itemize}
+    \item \textit{the direct path} $h^d(t)$ is the line-of-sight contribution of the sound wave.
     This term coincides with the ``pure delay'' modeled by the free-field propagation model~\eqref{eq:acoustics:greenFreeTime}.
-    \item[the acoustics echoes or early refelctions] are included in $h^e(t)$ comprising few disjoint reflections coming typically from room surfaces.
+
+    \item \textit{the acoustics echoes or early refelctions} are included in $h^e(t)$ comprising few disjoint reflections coming typically from room surfaces.
     They are usually characterized by sparsity in the time domain and greater prominence in amplitude.
     These first reflections are typically specular and are well modeled in general by the \ISMdef/ explained in \cref{subsec:acoustics:ism}.
-    \item[the late reverberation], or simply \textit{reverberation}, $h^l(t)$ collects many reflections occurring simultaneously.
+
+    \item \textit{the late reverberation}, or simply \textit{reverberation}, $h^l(t)$ collects many reflections occurring simultaneously.
     This part is characterized by a diffuse sound filed with exponentially decreasing energy.
-\end{description}
+\end{itemize}
+
+\mynewline
 These three components are not only ``visible'' when plotting the \RIR/ against time,
 but they are characterized by different perceptual features, as explained~\cref{ch:acoustics:sec:perception}.
 
@@ -513,12 +517,12 @@ Therefore numerical solvers or approximate models are used instead.
     acoustic simulator offers a complete overview of
     the \SOTA/ in acoustic simulator methods~\citeonly{thomas2017wayverb}.}
 Most of the simulators available falls in three main categories:
-\begin{description}
-    \item[the wave-based simulators] aims at solving the wave equation numerically;
-    \item[geometric simulators] make some simplifying assumption about the wave propagation.
+\begin{itemize}
+    \item \textit{Wave-based simulators} aims at solving the wave equation numerically;
+    \item \textit{Geometric simulators} make some simplifying assumption about the wave propagation.
     They typically ignore the wave physic, instead they adopt much lighter models such as \textit{ray}s or \textit{particle}s;
-    \item[the hybrid simulators] combining both approaches.
-\end{description}
+    \item \textit{Hybrid simulators} combining both approaches.
+\end{itemize}
 
 \newthought{Wave-based Methods} are iterative methods that divide the 3D bounded enclosure into a grid of interconnected nodes
 \sidenote{\ie/ mechanical unit with simple degrees of freedoms, like mass-spring system or one-sample-delay unit}.
@@ -690,42 +694,26 @@ The waveguide method models physical phenomena better than geometric methods, bu
 All these limitations correspond to three regions in the \TFdef/ representation of the \RIR/.
 As depicted in~\cref{fig:acoustics:rir_regions},
 
-% \marginpar{%
-%     \centering
-%     \footnotesize
-%     \includegraphics[width=\linewidth]{acoustics/rir_regions_stochastic.png}
-%     \captionof{figure}{%
-%     Schematic of Time-Frequency \RIR/. \imgsrc{\citeonly{badeau2019common}}.
-%     }
-%     \label{fig:acoustics:rir_regions}
-% }
-% \marginpar{%
-%     \centering
-%     \footnotesize
-%     \includegraphics[width=\linewidth]{acoustics/rir_regions.pdf}
-%     \captionof{figure}{%
-%     }
-%     \label{fig:acoustics:rir_regions}
-%     }
+\begin{figure}[t]
+    \begin{fullwidth}
 
-\begin{figure}
-    \resizebox{\linewidth}{!}{
-        \input{figures/acoustics/rir_regions.tikz}
-        }
-        \captionof{figure}{%
-        \footnotesize
-        Time-Frequency regions of \RIR/ associated to the method that better simulate them. \imgsrc{\citeonly{thomas2017wayverb}}.
-        }
-    \label{fig:acoustics:3D_ims}
+        \resizebox{\linewidth}{!}{
+            \input{figures/acoustics/rir_regions.tikz}
+            }
+            \captionof{figure}{%
+            \footnotesize
+            Time-Frequency regions of the \RIR/ associated to the method that better simulate them.
+            Image adapted from~\citeonly{thomas2017wayverb,badeau2019common}.
+            }
+            \label{fig:acoustics:rir_regions}
+    \end{fullwidth}
 \end{figure}
-
-
-
 
 \begin{itemize}
     \item in the time domain, a transition can be identified between the early \vs/ late reflection, corresponding to the validity of the deterministic \vs/ stochastic models; and
     \item in the frequency domain, between geometric \vs/ wave-based modeling.
 \end{itemize}
+
 By combining three methods, accurate broadband impulse responses can be synthesized.
 However, this is possible provided that the time- and frequency-domain
 \textit{crossover points} are respected and the level of each component is scaled accordingly~\citeonly{badeau2019common}.
@@ -742,18 +730,6 @@ This point define the cross-fade between the geometrical and wave-based model.
 Each simulator available has its own way to compute and implement this crossover points as well as mixing the results of the three methods.
 
 \subsection{The method of images and the image source model}\label{subsec:acoustics:ism}
-
-\begin{figure}
-    \resizebox{\linewidth}{!}{
-        \input{figures/acoustics/3D_ims.tikz}
-    }
-    \captionof{figure}{%
-        \footnotesize
-        asdf
-    }
-    \label{fig:acoustics:3D_ims}
-\end{figure}
-
 The \textit{Method of Images} is a mathematical tool for solving a certain class of differential equations subjected to boundary conditions.
 By assuming the presence of a ``mirrored'' source, certain boundary conditions are verified facilitating the solution of the original problem.
 This methods is widely used in many fields of physics, and interestingly with specific applications to Green's functions.
@@ -764,10 +740,39 @@ The \ISM/ is based on purely specular reflection and it assumes that the sound e
 In the appendix of \citeonly{allen1979image}, the authors also proved that this method produces a solution the Helmholtz's equation
 for cuboid enclosures with rigid boundaries.
 
-\mynewline
+\begin{figure}[h]
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/3D_ims.tikz}
+    }
+    \sideparmargin{outer}
+    \sidepar{\vspace{-5\baselineskip}
+    \captionof{figure}{%
+        \footnotesize
+        3-D representation of the \ISMdef/ and its propagation paths for selected echoes.
+        }
+        \label{fig:acoustics:3D_ims}
+    }
+\end{figure}
+
 The image source defines the interaction of the propagating sound and the surface.
 It is based on the observation that when a ray is reflected, it spawns a secondary source ``behind'' the boundary surface.
-As show in~\cref{fig:acoustics:image_model}, this additional source is located on a line perpendicular to the wall, at the same distance from it as the original source, as if the original source had been “mirrored” in the surface.
+
+\begin{figure}[h]
+    \resizebox{\linewidth}{!}{
+        \input{figures/acoustics/2D_ims_steps.tikz}
+    }
+    \sideparmargin{outer}
+    \sidepar{\vspace{-5\baselineskip}
+    \captionof{figure}{%
+        \footnotesize
+        From left to right, path involving the direct path, one reflection obtained using first-order image, and two reflections obtained using two images.
+        Image inspired from~\citeonly{habets2006room}.
+        }
+        \label{fig:acoustics:2D_ims}
+    }
+\end{figure}
+
+As show in~\cref{fig:acoustics:2D_ims}, this additional source is located on a line perpendicular to the wall, at the same distance from it as the original source, as if the original source had been “mirrored” in the surface.
 In this way, each wavefront that arrives to the receiver from each reflection off the walls corresponds to the direct path received from an equivalent (or image) source.
 \\The \ISM/ makes use of the following assumptions:
 \begin{itemize}
@@ -782,17 +787,6 @@ In this way, each wavefront that arrives to the receiver from each reflection of
 % an additional sound source, called the \textit{image source}, placed symmetrically to the main source on the far side of the wall.
 % Moreover, as discussed in~\cref{ch:acoustics:sec:reflection}, such a surface generates specular reflection.
 
-\begin{figure}
-    \resizebox{\linewidth}{!}{
-        \input{figures/acoustics/2D_ims_steps.tikz}
-    }
-    \captionof{figure}{%
-    Path involving one reflection obtained using first-order image (top) and two reflections obtained using two images.
-    It. \imgsrc{\citeonly{habets2006room}}.
-    }
-    \label{fig:acoustics:image_model}
-\end{figure}
-
 % A sound source is located in $\positionSource$ near a reflecting wall.
 % At the receiver position $\positionMicrophone$ two signals arrives: the one coming directly from $\positionSource$
 
@@ -800,7 +794,8 @@ In this way, each wavefront that arrives to the receiver from each reflection of
 % which has been mirrored in each of those boundaries\citeonly{Kuttruff}. In this way, the
 
 % All sources, original and image, emit the same impulsive source signal at the same time.
-\textsc{Finally} the \RIR/ is found by summing the contribution from each (image) source, delayed and attenuated appropriately depending on their distance from the receiver.
+\mynewline
+Finally the \RIR/ is found by summing the contribution from each (image) source, delayed and attenuated appropriately depending on their distance from the receiver.
 Therefore, in the time domain, the \RIR/ associated to the source at position $\positionSource$ and the receiver at $\positionMicrophone$ reads
 \begin{equation}\label{eq:acoustics:ims:time}
     \rir_{\mathtt{ISM}}(t, \positionMicrophone \mid \positionSource) =
@@ -820,8 +815,7 @@ For the subsequent orders of images, the product of all the coefficient of the s
 % Although, the latter issues may be solved by using fractional delays~\citeonly{peterson1986simulating},
 In order to easily incorporate frequency-dependent damping effects, the Fourier transform of~\cref{eq:acoustics:ims:time} is considered instead, where
 each reflection term is appropriately scaled
-\begin{equation}
-    \label{eq:acoustics:ims:freq}
+\begin{equation}\label{eq:acoustics:ims:freq}
     \rirFreq_{\mathtt{ISM}}(f, \positionMicrophone \mid \positionSource) =
         \sum_{\idxEch=0}^{\numEchs} \frac{\absCoeff_{\idxEch}(f)}{4 \pi \norm{\positionMicrophone - \positionSource_\idxEch}}
         \exp\kparen{- \csti 2 \pi f \frac{\norm{\positionMicrophone - \positionSource_\idxEch}}{\speedOfSound}}
@@ -840,7 +834,7 @@ Such filters have arbitrary long time-domain description and now the probability
 % integer multiple of the sampling frequencies.
 
 \mynewline
-Moreover the reader should notice that the models~\eqref{eq:acoustics:ims:time, eq:acoustics:ims:freq} induce an ``order'' among reflections indexed by $\idxEch$.
+Moreover the reader should notice that the summation in the echo models of~\cref{eq:acoustics:ims:time, eq:acoustics:ims:freq} induce an ``order'' among reflections indexed by $\idxEch$.
 Reflections are usually sorted for increasing \TOA/, $\tau_r = \norm{\positionMicrophone - \positionSource_\idxEch}/\speedOfSound$,
 or decreasing amplitudes, $\bar{\absCoeff}_{\idxEch}/(4 \pi \norm{\positionMicrophone - \positionSource_\idxEch})$.
 Alternatively, one can sort them according to their ``image'' generation, \eg/ direct path, first-, second-order images \etc/.
@@ -871,23 +865,23 @@ It coincides with the free-field sound propagation and, as we will see in~\cref{
 
 \newthought{The early reflections and echoes} are reflections which are by nature highly correlated with to the direct sound.
 They convey a sense of geometry which modifies the general perception of the sound:
-\begin{description}
-    \item[The precedence effect] occurs when two correlated sounds are perceived as a single auditory event~\citeonly{wallach1973precedence}.
+\begin{itemize}
+    \item \textit{The precedence effect} occurs when two correlated sounds are perceived as a single auditory event~\citeonly{wallach1973precedence}.
     This happens usually when they reach the listener with a delay within $\SI{5}{\ms}$ to $\SI{40}{\ms}$.
     However, the perceived spatial location carried by the first-arriving sound suppressing the perceived location of the lagging sound.
     This allows human to accurately localize the direction of the main source, even in presence of its strong reflections.
-    \item[The comb filter effect] indicates the change in timbre of the perceived sound, named \textit{coloration}.
+    \item \textit{The comb filter effect} indicates the change in timbre of the perceived sound, named \textit{coloration}.
     This happens when multiples reflections arrive with periodic patterns and some constructive or destructive interferes may arise.
     Such phenomena can be well modeled with a comb filter \citeonly{barron1971subjective}.
-    \item[Apparent source width] is the audible impression of a spatially extended sound source~\citeonly{griesinger1997psychoacoustics}.
+    \item \textit{Apparent source width} is the audible impression of a spatially extended sound source~\citeonly{griesinger1997psychoacoustics}.
     By the presence of early reflection, the perceived energy increases, providing the impression that a source sounds larger than its true size.
-    \item[Distance and depth perception] provides to the listener cues about the source location.
+    \item \textit{Distance and depth perception} provides to the listener cues about the source location.
     While the former refers to the spatial range, the latter relates the source to the auditory scene as a whole~\citeonly{kearney2012distance}.
     A fundamental cue for distance perception is the \textit{direct-to-reverberant ratio} ($\DRR$),
     \ie/ the ratio between the direct path ratio and the remaining portion of the \RIR/.
     Regarding the depth perception, early reflections are the main responsible.
     In the context of virtual reality, correctly modeling of these quantities is essentials in order to maintain a coherent depth impression~\citeonly{kearney2012distance}.
-\end{description}
+\end{itemize}
 
 \newthought{The late reverberation} in room acoustics is indicative of the size the environment and the materials within~\citeonly{valimaki2016more}.
 It provides the \textit{listener envelopment}, \ie/ the degree of immersion in the sound field~\citeonly{griesinger1997psychoacoustics}.
@@ -895,10 +889,7 @@ This portion of the \RIR/ is mainly characterized by the sound diffusion, which 
 
 \subsection{Mixing time}
 Perceptually, it define the instant when the reverberation cannot be distinguished from that of any other position of the listener in the room.
-Analytically,  the
-\begin{center}
-    \textit{the mixing time is the instant that divides the early reflections from the late reverberation in a RIR},
-\end{center}
+Analytically,  the the mixing time is the instant that divides the early reflections from the late reverberation in a RIR.
 % and it is represented in Equation 2.47 by $\Tmix\;[\si{\second}]$ .
 Due to this, it is an important parameter also in the context of \RIRs/ synthesis as it defines cross-over point for room acoustics simulator using hybrid methods~\citeonly{savioja2015overview}\sidenote{\cfr~\cref{sec:acoustics:simulators}}.
 
@@ -915,15 +906,13 @@ Due to this, it is an important parameter also in the context of \RIRs/ synthesi
 }
 The \textit{reverberation time} measures the time that takes the sound to ``fade away'' after it ceases.
 In order to quantify it, acoustics and in audio signal processing use the \textit{Reverberation Time at 60 dB}, \ie/
-\begin{center}
-    \textit{the $\RT$, the time after which the sound energy relatively dropped by 60 dB.}
-\end{center}
+the $\RT$, the time after which the sound energy relatively dropped by 60 dB.
 It depends on the size and absorption level of the room (including obstacles), but not on the position of specific position of the source and the receiver.
 Real measurements of \RIRs/ are affected by noise.
 As a consequence, it is not always possible to consider a dynamic range of 60 dB,
 \ie/ the energy gap between the direct path and the ground noise level.
 In this case, the $\RT$ value must be approximated with other methods.
-A practical approach is presented in~\cref{ap:rir:sec:rt60}.
+% A practical approach is presented in~\cref{ap:rir:sec:rt60}.
 
 By knowing the room geometry and the surfaces acoustics profiles,
 it is possible to use the empirical \textit{Sabine's equation}:
@@ -936,9 +925,7 @@ where $V_{\text{TOT}}$ is the total volume of the room $[\si{\metre^3}]$ and $\a
 absorption coefficient and the area $[\si{\metre^2}]$  of the $l$-th surface.
 
 \subsection{Direct-to-Reverberant ratio and the critical distance}\label{ch:acoustics:subsec:drr}
-\begin{center}
-    \textit{The direct-to-reverberant ratio ($\DRR$) quantifies the power of direct against indirect sound~\citeonly{zahorik2002direct}.}
-\end{center}
+The direct-to-reverberant ratio ($\DRR$) quantifies the power of direct against indirect sound~\citeonly{zahorik2002direct}.
 It varies with the size and the absorption of the room, but also with the distance between the source and the receiver according to the curves
 depicted in~\cref{fig:acoustics:drr}
 \marginpar{%
