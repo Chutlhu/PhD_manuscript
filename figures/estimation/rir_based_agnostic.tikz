@@ -1,0 +1,23 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Image [id:dp0665167525876672]
+\draw (308.58,138.3) node  {\includegraphics[width=302.12pt,height=122.55pt]{estimation/ch4_estimation_rirbased_agnostic.png}};
+
+% Text Node
+\draw (294,89.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\tilde{h}_{i}( t)$};
+% Text Node
+\draw (111,90.9) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\tilde{x}_{i}( t)$};
+% Text Node
+\draw (111,179.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\tilde{x}_{i}( t)$};
+% Text Node
+\draw (504,92.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\left\{\tau ^{( r)}_{i} ,\alpha ^{( r)}_{i}\right\}_{r}$};
+% Text Node
+\draw (504,182.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\left\{\tau ^{( r)}_{i} ,\alpha ^{( r)}_{i}\right\}_{r}$};
+
+
+\end{tikzpicture}

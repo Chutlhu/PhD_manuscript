@@ -162,6 +162,8 @@
 % \clearpage{}
 
 \input{contents/front_matter/notation}
+\input{contents/synopsis}
+
 \cleardoublepage{}
 
 \setcounter{mtc}{9}
@@ -176,32 +178,32 @@
 \parttoc[n]
 \cleardoublepage{}
 
-% \input{contents/main_matter/chapter0_intro}
+\input{contents/main_matter/chapter0_intro}
 
-% %% I. Room Acoustic
-% \begin{fullwidth}
-%     \part{Room Acoustic meets Signal Processing}\label{pt:background}
-% \end{fullwidth}
-% \parttoc[n]
-\input{contents/main_matter/chapter1_acoustics}
-% \input{contents/main_matter/chapter2_processing}
+%% I. Room Acoustic
+\begin{fullwidth}
+    \part{Room Acoustic meets Signal Processing}\label{pt:background}
+\end{fullwidth}
+\parttoc[n]
+% \input{contents/main_matter/chapter1_acoustics}
+\input{contents/main_matter/chapter2_processing}
 
 %% II. Estimation
 \begin{fullwidth}
 \part{Acoustic Echo Retrieval}\label{pt:estimation}
 \end{fullwidth}
 \parttoc[n]
-\input{contents/main_matter/chapter_estimation}
+% \input{contents/main_matter/chapter_estimation}
 % \input{contents/main_matter/chapter_lantern}
 % \input{contents/main_matter/chapter_blaster}
 % \input{contents/main_matter/chapter_dechorate}
 % \input{contents/main_matter/chapter7_blaster2}
 
-% %% III. Application
-% \begin{fullwidth}
-% \part{Echo-aware Application}\label{pt:application}
-% \end{fullwidth}
-% \parttoc[n]
+%% III. Application
+\begin{fullwidth}
+\part{Echo-aware Application}\label{pt:application}
+\end{fullwidth}
+\parttoc[n]
 % \input{contents/main_matter/chapter9_applications}
 % \input{contents/main_matter/chapter10_separake}
 % \input{contents/main_matter/chapter11_mirage}

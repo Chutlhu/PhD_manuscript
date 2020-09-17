@@ -50,55 +50,89 @@
 % }
 
 % Definitions of: In this thesis, an \textit{auditory scene} consists in \textit{sound sources}, \textit{microphones} deployed in a room.
-\newthought{ASD}\lipsum[1]
-
-\section{The Problem}\label{sec:intro:problem}
-In the context of audio signal processing, algorithms can be grouped according to how they deal with sound propagation.
-
-\section{My Thesis}
-The goal of this dissertation is to improve the above state of affairs along two axes:
-First, by deepening our understanding of sophisticated scalable algorithms, isolating their essence and thus reducing the barrier to building new ones. Second, by developing new ways ofexpressing scalable algorithms that are abstract, declarative, and user-extensible.
-To that end, the dissertation demonstrates two claims:
-\begin{itemize}
-    \item
-    Scalable algorithms can be understood through linked protocols govern- ing each part of their state, which enables verification that is local in space, time, and thread execution.
-    \item
-    Scalable algorithms can be expressed through a mixture of shared-state and message-passing combinators, which enables extension by clients without imposing prohibitive overhead.
-\end{itemize}
-We elaborate on each claim in turn.
-
-\subsection{Audio Signal Processing}
-\begin{itemize}
-    \item Motivation
-    \item Definitions, Function, Characteristics
-    \item Current challenges
-\end{itemize}
-\newthought{Inverse Problem}
-Starting with the effects to discover the causes has concerned physicists for centuries.
-
-While in many ways, mixtures are not different to any other audio signal, two research questions stand out prominently: • Can we obtain the sources sj from the mixture x? • Can we find the number of sources J from x? These two questions are addressed in the scientific fields of sound
-source separation and source count estimation
-
-
-Inverse problems appear when we want to see or examine something that we cannot access directly. What we have is an indirect measurement that contains hidden information.
-
-An inverse problem is always a counterpart of a direct problem, as shown in the schematic diagram below. The direct problem is going from object to data, and the inverse problem is about finding the object back from the data.
-
-The assumed few thousand taps. This model was very popular in the early stages of research [48]–[55]. Recently, interest has revived with sparse penalties which account for prior knowledge about the physical properties of AIRs, namely the facts that power concentrates in the direct path and the first early echoes [56]– [60] and that the time envelope decays exponentially [61], but these penalties have not yet been used in a BSS context.
-
-\subsection{Echo-aware Processing}
+\newthought{We are surrounded by Acoustic Echoes} \lipsum[1]
 In the everyday context, when a sound reflection is perceived distinctly is referred to as \textit{echo}.
-While phenomenon can be observed clearly in outdoors environment, such in the mountains or within huge buildings,
-in closed rooms it is less noticeable. In fact, echoes are usually masked by a general reverberation of the room.
+While phenomenon can be observed clearly in outdoors environment, such in the mountains or within huge buildings, in closed rooms it is less noticeable.
+In fact, echoes are usually masked by a general reverberation of the room.
 
-\begin{itemize}
-    \item Motivation
-    \item Definitions, Function, Characteristics
-    \item Current challenges
-\end{itemize}
+\section{The Problems}\label{sec:intro:problem}
+The problems addressed in this thesis are indicated in the thesis title: \textit{Echo-aware signal processing for audio scene analysis}.
+There are two parts in the sentence that deserve an explanation: \textit{echo-aware signal processing} and \textit{audio scene analysis}.
 
-Auralization is the process of rendering audible, by physical or mathematical modelling, the sound field
-of a source in a space, in such a way as to simulate the binaural listening experience at a given position in the modelled space
+\subsection{Echo-aware signal processing}
+\textit{Signal processing} is the process of analyzing and modifying a \textit{signals}, which are mathematical representation of quantities carrying information about a phenomenon.
+When this signals represents sound, such as music or speech, then we speak about \textit{sound} or \textit{audio signal processing}.
+\marginpar{
+    \footnotesize
+    \textit{Audio is a more technical term, referring to sound coming from a recording, transmission or electronic device.
+    Sound is a more generic word and can be caused by any source.}
+}
+\textit{Audio signal processing} involves applying various mathematical and computational techniques to analog and digital signals.
+There are multiple reasons to do this, such as produce new signals with higher quality than the original signal and extract high-level information the signal carries.
+In order to achieve this, complex system are built which can be represented as collection of simpler subsystems, with well-defined tasks, interacting with each other.
+In (audio) signal processing, these subsystems roughly fall into four categories: \textit{representation}, \textit{enhancement}, \textit{estimation}, and \textit{adaptive processing}.
+Many related problems can be then decomposed into blocks that belong to one of more of these categories.
+
+\begin{description}
+    \item[Representation] Signal can be represented and described in many different way.
+    Through different representations, the \textit{information} contained in the signals becomes more relevant and suitable for certain tasks than other.
+    \\Representation can be lossy or lossless, and are generally implemented through change of \textit{domain} or \textit{feature}.
+    The most famous representation in case of audio is the Fourier basis which change the signal domain from from time to frequencies.
+    The process of changing representation is often called: \textit{analysis} and \textit{synthesis}.
+    
+
+    \item[Enhancement] Measurement are affected by noise and interferences which corrupt and hide relevant information, making its retrieval harder and sometimes impossible.
+    Therefore, signal enhancement, that is removing noise, is typically a necessary step.
+    \\Enhancement constitute a huge dome of methods:
+    form simple denoising by averaging of repeated measurement to huge system based on neural network.
+
+    \item[Estimation] Often we wish to estimate some key properties of the target signal which may be used as inputs to a different algorithm.
+
+    \item[Adaptive processing] deals with adaptive algorithms and filters controlled by variable parameters.
+    A common means to adjust those parameters according to an optimization algorithm which rely on statistical properties of the signal of interest.
+    They often implement a kind of online optimization where an objective function is being minimized.
+    When new data is observed, its discrepancy with the current estimate is used to produce a new estimate in a way that reduces the objective.
+\end{description}
+
+\subsection{Audio scene analysis}
+
+
+
+That is being said, the goal of this thesis is to improve the above state of in indoor audio signal processing along two axes:
+First, by deepening our understanding of acoustic echoes, provide new methodologies to estimate them surpassing the limits of current approaches.
+Second, by extending previous echo-aware methods, show how typical audio application can benefits of prior knowledge of these elements of acoustic propagation.
+\mynewline
+To that end, the dissertation demonstrates two claims:
+\begin{enumerate}
+    \item Acoustic echoes can be estimated blindly from microphone recordings;
+    \item Typical audio scene analysis and audio processing methods can take advantage of acoustic echoes, by easily integrating their knowledge in standard algorithms.
+\end{enumerate}
+
+
+
+
+
+
+% \newthought{Audio Signal Processing}
+% \begin{itemize}
+%     \item Motivation
+%     \item Definitions, Function, Characteristics
+%     \item Current challenges
+% \end{itemize}
+
+% \newthought{Inverse Problem}
+% Starting with the effects to discover the causes has concerned physicists for centuries.
+
+% While in many ways, mixtures are not different to any other audio signal, two research questions stand out prominently: • Can we obtain the sources sj from the mixture x? • Can we find the number of sources J from x? These two questions are addressed in the scientific fields of sound
+% source separation and source count estimation
+
+
+% Inverse problems appear when we want to see or examine something that we cannot access directly. What we have is an indirect measurement that contains hidden information.
+
+% An inverse problem is always a counterpart of a direct problem, as shown in the schematic diagram below. The direct problem is going from object to data, and the inverse problem is about finding the object back from the data.
+
+% The assumed few thousand taps. This model was very popular in the early stages of research [48]–[55]. Recently, interest has revived with sparse penalties which account for prior knowledge about the physical properties of AIRs, namely the facts that power concentrates in the direct path and the first early echoes [56]– [60] and that the time envelope decays exponentially [61], but these penalties have not yet been used in a BSS context.
+
 
 \section{Audio Inverse Problems}\label{sec:processing:inverse}
 \cite{kitic2015cosparse}
@@ -191,34 +225,6 @@ which ``promotes'' solution of a certain shape (\eg/ \textit{sparse}
 } or \textit{smoothness});
 and casting the problem in a \textit{bayesian framework} which versatilely incorporate prior and posterior density function describing the data.
 
-\subsection{General Processing Scheme}
-Digital signal processing (DSP) is the process of analyzing and modifying a signal to optimize or improve its efficiency or performance. It involves applying various mathematical and computational algorithms to analog and digital signals to produce a signal that's of higher quality than the original signal.
-It is traditional in engineering to represent complex systems as a collection of simpler subsystems, with well-defined tasks, interacting with each other.
-In signal processing, these subsystems roughly fall into four categories: \textit{representation}, \textit{enhancement}, \textit{estimation}, and \textit{adaptive processing}.
-Many problems can be decomposed into blocks that belong to one of these categories.
-
-\begin{description}
-    \item[Representation] Objects can be represent (described) in many different way.
-    Through different representations, some object \textit{information} becomes more relevant and suitable for certain tasks
-    than other.
-    \\Representation can be lossy or lossless, and are generally implemented through (non)linear mapping, such as change of basis or feature.
-    The most famous representation is the Fourier basis.
-    \\Depending on the task the representation may be invertible.
-    The process of changing representation is often called: Analysis and Synthesis
-
-    \item[Enhancement] Measurement are affected by noise and interferences which corrupt and hide relevant information, making inverse problems ill-posed and ill-conditioned.
-    Therefore, signal enhancement, that is removing noise, is a necessary step.
-    \\Enhancement constitute a huge dome of methods: form simple denoising by averaging of repeated measurement to
-    spectral subtraction to source separation with neural network.
-
-    \item[Estimation] Often we wish to estimate some key properties of the target signal which may be used as inputs to a different algorithm.
-
-    \item[Adaptive processing] deals with adaptive algorithms and filters controlled by variable parameters.
-    A common means to adjust those parameters according to an optimization algorithm which rely on statistical properties of the signal of interest.
-    They often implement a kind of online optimization where an objective function is being minimized.
-    When new data is observed, its discrepancy with the current estimate is used to produce a new estimate in a way that reduces the objective.
-\end{description}
-
 Let us give two example of practical systems that will be recurrent thought out the entire thesis.
 
 \subsection{Selected Audio Inverse Problems}
@@ -249,42 +255,64 @@ for instance, many spatial filtering techniques used for \SE/ rely on \SSL/ bloc
 and in order to achieves \RooGE/, \AER/ must be done.
 
 
-\section{My Thesis}
-\subsection{Hunting Acoustic Echoes}
-\subsection{Echo-aware Auditory Scene Analysis}
+
+\section{Thesis Organization and Related Contribution}
+
+The dissertation is broken into three largely parts which are largely interconnect, as show in the~\cref{fig:intro:thesis_mindmap}:
+
+\begin{figure}[t]
+    \begin{sidecaption}[Thesis Organization]{%
+        Schematic rganization of the thesis, dependecies between chapters linked to author contributions.
+    }[fig:intro:thesis_mindmap]
+    \centering
+    \includegraphics[width=\linewidth]{intro/thesis_mindmap.pdf}
+    \end{sidecaption}
+\end{figure}
 
 
-\section{Organization and Contributions}
 \newthoughtpar{Room Acoustic meets Signal Processing}
-\subparagraph{\cref{ch:acoustics}}
-\subparagraph{\cref{ch:processing}}
-\subparagraph{\cref{ch:evaluation}}
+\begin{description}
+    \item[\cref{ch:acoustics}]\synopsisChAcoustics
+    \item[\cref{ch:processing}]\synopsisChProcessing
+\end{description}
 
-\newthought{Hunting Acoustic Echoes}
-\subparagraph{\cref{ch:estimation}}
-\subparagraph{\cref{ch:lantern}}
-\subparagraph{\cref{ch:blaster}}
-\subparagraph{\cref{ch:blasterr}}
-
-
-\newthought{Echo-aware Auditory Scene Analysis}
-\subparagraph{\cref{ch:application}}
-\subparagraph{\cref{ch:separake}}
-\subparagraph{\cref{ch:mirage}}
-\subparagraph{\cref{ch:brioche}}
+\newthoughtpar{Acoustic Echoes Estimation}
+\begin{description}
+    \item[\cref{ch:estimation}]\synopsisChEstimation
+    \item[\cref{ch:lantern}]\blindtext[1]
+    \item[\cref{ch:blaster}]\blindtext[1]
+    \item[\cref{ch:blasterr}]\blindtext[1]
+\end{description}
 
 
-Finally, the dissertation concludes with Chapter X, which summarizes
-the contributions and raises several additional research questions
+\newthoughtpar{Echo-aware Audio Scene Analysis}
+\begin{description}
+\item[\cref{ch:application}]\blindtext[1]
+\item[\cref{ch:separake}]\blindtext[1]
+\item[\cref{ch:mirage}]\blindtext[1]
+\item[\cref{ch:brioche}]\blindtext[1]
+\end{description}
+
+\section{List of Contribution}
+This dissertation draws heavily on the earlier work and writing in the following papers, written jointly with several collaborators:
+
+\begin{itemize}
+    \item \fullcite{di2021dechorate}
+    \item \fullcite{di2020blaster}
+    \item \fullcite{di2019mirage}
+    \item \fullcite{deleforge2019audio}
+    \item \fullcite{lebarbenchon2018evaluation}
+    \item \fullcite{scheibler2018separake}
+\end{itemize}
 
 
-\section{This Thesis: Don't Panic!}
+\section{Don't Panic!}
 The reader will have already noticed that a large margin is left free on the right side of each page of the manuscript.
 We will use it to insert comments, historical notes as well as figures and tables to complete the subject.
 This graphic charter is inspired by the work of Tufte (2001) and produced using the latex tufte-latex class.
 We emphasize that the presence of the clickable GitHub logo in the margin indicates the online availability of the codes.
 
-\newthought{Quick vademecum} for the readers:
+\subsection{Quick vademecum} for the readers:
 \begin{itemize}
     \item Bibliographic references are denoted as \cite{kuttruff2016room}.
     \item Figures, Tables and other floating objects as well as equations are numbered within the chapter number.
@@ -295,7 +323,7 @@ We emphasize that the presence of the clickable GitHub logo in the margin indica
     \item The end of the chapter is shown by the following sign between horizontal rules.
 \end{itemize}
 
-\newthought{The golden ratio of the thesis}
+\subsection{The golden ratio of the thesis}
 \begin{itemize}
     \item at most 3 level of sub-headings: section, subsection and new-thought
     \item usage of dichotomies are preferred

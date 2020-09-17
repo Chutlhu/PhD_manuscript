@@ -45,6 +45,8 @@
   \expandafter\xdef\csname cal\x \endcsname{\noexpand\ensuremath{\noexpand\mathcal{\x}}}
 %   short for \hat{}
   \expandafter\xdef\csname hat\x \endcsname{\noexpand\ensuremath{\noexpand\hat{\x}}}
+  % short for \tilde{}
+  \expandafter\xdef\csname tilde\x \endcsname{\noexpand\ensuremath{\noexpand\tilde{\x}}}
 }
 
 % --- Math Notation
@@ -260,6 +262,7 @@
 
 % --- Math operators
 \DeclareMathOperator*{\fourierTrans}{\scrF}
+\DeclareMathOperator*{\dtft}{{\scrF}_{\Fs}}
 \DeclareMathOperator*{\discreteFT}{\bfF}
 \DeclareMathOperator*{\divergence}{\nabla\cdot}
 \DeclareMathOperator*{\dirac}{\delta}

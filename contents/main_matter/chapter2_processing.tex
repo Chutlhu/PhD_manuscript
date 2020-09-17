@@ -2,19 +2,19 @@
 \openepigraph{Signal, a function that conveys information about a phenomenon.
 $[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
 \vspace{-2.5em}
-\newthought{Synopsis} Let us now move from the physics to digital signal processing.
-At first this chapter formalized fundamental concepts of audio signal processing such as signal, mixtures and noise~\cref{sec:processing:model} in the time domain.
-In~\cref{sec:processing:domains} we will presents the signal representation that we will use throughout the entire thesis: the STFT domain.
-Finally, after assuming the narrowband approximation, in~\cref{sec:processing:rirmodels} some important models for the \RIR/ are described.
-\\The notation and the material presented in this chapter are inspired and extracted from~\citeauthor{vincent2018audio}'s book \textit{Audio source separation and speech enhancement}.
+\newthought{Synopsis}\synopsisChProcessing
+\\Unless specified, the notation and definitions presented in this chapter for the audio signal model are excerpted from~\citeauthor{vincent2018audio}'s book \textit{Audio source separation and speech enhancement}.
+The material used for illustrating concepts of digital signal processing are taken from standard book on the topics.
 
 \section{Signal model in the time domain}\label{sec:processing:model}
-In the previous chapter we formalized the physics that rule the sound propagation from the source 'till the microphone.
+In the previous chapter we formalized the physics that rule the sound propagation from the source to the microphone.
 A raw \textit{audio signal} encodes the variation of pressure over time on the microphone membrane.
 Mathematically it is denoted as the function
 \begin{equation}
-    \contTime[\idxTime]{\mic} \in \R
-    ,
+    \begin{aligned}
+        \tildex : \bbR &\kto \bbR\\
+                     t &\kmapsto \tilde{x}(t),
+    \end{aligned}
 \end{equation}
 continuous both in time $t \in \R$ and amplitudes.
 \marginpar{
@@ -25,64 +25,75 @@ continuous both in time $t \in \R$ and amplitudes.
     \label{fig:processing:sampling}
 }
 
+\mynewline
 Today signals are typically processed, stored and analyzed by computers as \textit{digital audio signal}.
-This corresponds to finite and discrete-time signal $\hat{x}_\idxSample$ obtained by periodically sampling the continuous-time signal $\tilde{x}$ at rate $\Fs\;[\si{\Hz}]$ and truncate it to $\idxSample$ samples.
+This corresponds to finite and discrete-time signal $x_\idxSample$ obtained by periodically sampling the continuous-time signal $\tilde{x}$ at rate $\Fs\;[\si{\Hz}]$, truncate it to $\idxSample$ samples.
+\marginpar{
+    \footnotesize
+    Strickly speaking, the digital representation of a continuos signal involves sampling and quantization.
+    In this thesis we assume the sampled signals are real-valued, ignoring the \textit{quantization} process.}
 As common to most measurement models, we assume that the sampling process involves two steps:
-first, the impinging signal undergoes an ideal low-pass filter $\lowpassfilter$\sidenote{The ideal low-pass filter is\\$\lowpassfilter(t) = \sinc(t) = \sin(\pi t) / (\pi t)$} with frequency support in $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$;
-then it time-support is regularly discretized, $t = n/\Fs$ for $n \in \Z$. This is expressed by
+first, the impinging signal undergoes an ideal low-pass filter $\lowpassfilter$ with frequency support in $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$\sidenote{
+    The ideal low-pass filter is\\$\lowpassfilter(t) = \sinc(t) = \sin(\pi \Fs t) / (\pi \Fs t)$.
+    \\The term sinc stands for \textit{sinus cardinal} and was introduced by Philip M. Woodward in 1952 in~\citeonly{woodward1952information},
+    in which he said that the function "\textit{occurs so often in Fourier analysis and its applications that it does seem to merit some notation of its own}"
+}; then it time-support is regularly discretized, $t = n/\Fs$ for $n \in \Z$.
+This is expressed by
 \begin{equation}
     \discTime[\idxSample]{\mic} = \kparen{\lowpassfilter \convCont \tilde{x}}\kparen{\frac{n}{\Fs}} \in \R
     ,
 \end{equation}
 where $\convCont$ is the continuous-time convolution operator.
-This will restrict the frequency support of signal to satisfy the Nyquist–Shannon sampling theorem and avoid aliasing effect.
-In this thesis we assume discrete signals are real-valued, ignoring the \textit{quantization} process.
-\\Finally, at the end of the discretisation process, the $\tilde{x}(t)$ is represented as the finite time series or a vector,
+This will restrict the frequency support of signal to satisfy the \textit{Nyquist–Shannon sampling theorem} and avoid aliasing effect.
+
+\mynewline
+Finally, at the end of the discretisation process, the $\tilde{x}(t)$ is represented as the finite time series or a vector,
 \begin{equation}
     \hat{\mic}_{\numSample} \in \R^{\numSample}
     ,
 \end{equation}
 with entries $\hat{\mic}_{\numSample}[\idxSample]$ for $n = 0, \ldots, \numSample-1$.
-\\The choice of $\Fs$ depends on the application since it is a trade-off between computational power, processing and rendering quality.
+
+\mynewline
+The choice of $\Fs$ depends on the application since it is a trade-off between computational power, processing and rendering quality.
 Historically the two iconic values are $\SI{44.1}{\kHz}$ for music distribution on CDs and $\SI{8}{\kHz}$ for first-generation speech communication.
-Now multiple of $\SI{8}{\kHz}$ are typical used in audio processing: ($16, 48, 96, \SI{128}{\kHz}$).
+Now multiples of $\SI{8}{\kHz}$ are typically used in audio processing: ($16, 48, 96, \SI{128}{\kHz}$).
 
 \mynewline
 Audio signals are emitted by sources and are observed, received or recorded by microphones.
 A set of microphones is called a microphone \textit{array}, whose signals are sometime referred to as \textit{channels}.
 In this thesis, these objects are assumed to have been deployed in a indoor environment, called generically \textit{room}.
-% \begin{center}
-%     \textit{All of these make our indoor \emph{auditory scene}.}
-% \end{center}
 Let us provide some taxonomy, through some dichotomies, useful for describe the mixing process later:
 
 \dichotomy{Sources \vs/ Mixtures:}
 Sound sources emits sounds.
-When multiple sources are active at the same time, the sound that reaches our ears or is recorded using a microphone is superimposed or \textit{mixed} to a single sound.
+When multiple sources are active at the same time, the sounds that reach our ears or are recorded by microphones are superimposed or \textit{mixed} into a single sound.
 This resulting signal is denoted as \textit{mixture}.
 
 \dichotomy{Single-Channel \vs/ Multichannel:}
-The term \textit{channel}\sidenote{%
-    Please note, the term \textit{channel} has also different meaning:
-    it indicates the medium in communication (\eg/ Channel Estimation)
-    and sometimes one of the dimension of the input in machine learning (\eg/ image's channel).
-} is used here to indicate the output of one microphones or one source.
-A \textit{single-channel} signal ($\numMics = 1$) is represented by the scalar $\contTime[t]{\mic} \in \R$,
-while a \textit{multichannel} ($\numMics >   1$) is represented by the vector $\contTime[t]{\mics} = \ktranspose{\klist{\contTime[t]{\mic_1}, \dots, \contTime[t]{\mic_{\numMics}}}} \in \R^{\numMics}$.
+The term \textit{channel}
+% \sidenote{%
+%     Please note, the term \textit{channel} has also different meaning:
+%     it indicates the medium in communication (\eg/ Channel Estimation)
+%     and sometimes one of the dimension of the input in machine learning (\eg/ image's channel).
+% }
+is used here to indicate the output of one microphones or one source.
+A \textit{single-channel} signal ($\numMics = 1$) is represented by the scalar $\tilde{\mic}(t) \in \R$,
+while a \textit{multichannel} ($\numMics >   1$) is represented by the vector $\tilde{\mics}(t) = \ktranspose{\klist{\tilde{\mic}_1, \dots, \tilde{\mic}_{\numMics}}} \in \R^{\numMics}$.
 
 \dichotomy{Point \vs/ Diffuse Sources:}
-\textit{Point sources} are emitted by a single and well-defined point in the space and their signal is single-channel.
-Point sources are for instance human speakers or the sound emitted by a loudspeaker.
+\textit{Point sources} are single and well-defined points in the space emitting single-channel signal.
+In certain application, human speakers or the sound emitted by a loudspeaker can be reasonably modeled as in this way.
 \\\textit{Diffuse sources} refers for instance to wind, traffic noise, or large musical instruments, which emit sound in a large region of space.
 Their sound cannot be associate to a punctual source, but rather a distributed collection of them.
 
 \dichotomy{Directional \vs/ Onmidirectional:}
-An \textit{omnidirectional} source (\resp/ receiver) will in principle emit (\resp/ pick up) sound equally from all directions,
+An \textit{omnidirectional} source (\resp/ receiver) will in principle emit (\resp/ record) sound equally from all directions,
 both in time and in frequency.
-Although this simplify greatly processing models and frameworks, this is not true in real scenario.
+Although this greatly simplifies processing models and frameworks, this is not true in real scenario.
 The physical properties of real sources (\resp/ receivers) leads to \textit{directivity patterns}, \aka/ \textit{polarity}, which may
 be different at different frequencies.
-In this thesis we will assume always omnidirectional sources and receivers.
+In this thesis we will assume omnidirectional sources and receivers.
 
 \subsection{The mixing process}
 Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$.
@@ -90,11 +101,9 @@ Let us assume that there are $\numSrcs$ sources indexed by $\idxSrc \in \kbrace{
 Each microphone $\idxMic$ and each source $\idxSrc$ have a well defined position in the space, $\positionMicrophone_\idxMic$, $\positionSource_\idxSrc$, respectively.
 
 The mixing process describes then the nature of the mixtures.
-In order to better formalized it, \citeauthor{sturmel2012linear} introduced the intermediate representation called \emph{source spatial images}:
-\begin{quote}
-    \textit{$\contTime[t]{\img_{\idxMic\idxSrc}}$ describes the contribution of the source $\idxSrc$ to the microphone $\idxMic$}.
-\end{quote}
-Consequently, the \textit{mixture} $\contTime[t]{\mic_{\idxSrc}}$ is the possibly non-linear combination of images associated to the source $j$.
+In order to better formalized it, the authors of \citeonly{sturmel2012linear} introduced the intermediate representation called \emph{source spatial images}:
+$\tilde{\img}_{\idxMic\idxSrc}(t)$ describes the contribution of the source $\idxSrc$ to the microphone $\idxMic$.
+Consequently, the \textit{mixture} $\tilde{\mic}_{\idxSrc}$ is the combination of images associated to the source $j$.
 Depending on the ``contribution'' the image describes, the following type of mixture can be defined:
 
 \dichotomy{Natural \vs/ Artificial Mixtures:}
@@ -124,17 +133,14 @@ In between are the \textit{anechoic} mixtures involving the sum of scaled and de
 Natural mixtures are convolutive by nature and ideal free-far-field natural recording are well approximated by anechoic mixtures.
 
 \begin{figure}[t]
-    \begin{fullwidthfig}
+    \begin{fullwidth}
         \includegraphics[width=\linewidth+\marginparsep]{processing/mixing_process.png}
-    \end{fullwidthfig}
 
-    \vspace{-\baselineskip}\vspace{-\baselineskip}
-    \sideparmargin{outer}
-    \sidepar{\vspace{\baselineskip}
-    \caption{General mixing process, illustrated in the case of $\numSrcs = 3$ sources,
-      including three point sources and one diffuse source, and $\numMics = 2$ channels.}
-    }
-    \label{fig:processing:mixing}
+        \caption{General mixing process, illustrated in the case of $\numSrcs = 3$ sources,
+        including three point sources and one diffuse source, and $\numMics = 2$ channels.}
+
+        \label{fig:processing:mixing}
+    \end{fullwidth}
 \end{figure}
 
 \newthought{In this thesis}, we will particularly focus on natural mixture:
@@ -277,7 +283,22 @@ Every signal or spectrum the microphones capture are represented by finite- and 
 % That gives rise to the field of digital signal processing.
 
 \subsection{Discrete time and frequency domains}
-% Since microphones and acquisition systems operate with finite and discrete number of samples, continuous signals cannot be observed, only approximated.
+The spectral representation of a discrete-time signal, $x[n]$ with $n \in \bbZ$, is given by the (forward) \DTFTdef/, $\dtft$:
+\begin{equation}\label{eq:processing:dtft}
+    \tildeX_{\Fs}(f) = (\dtft{x})(f) =
+    \sum_{n = -\infty}^{+\infty}
+    x[ n]
+    \cste^{-\csti 2 \pi f n / Fs}
+    ,
+\end{equation}
+which is a continuos function of $f$ with period $\Fs$.
+Notice that the term \underline{discrete-time} refers to the fact that the transform operates on discrete signal.
+When this samples are uniformly spaced at rate $\Fs$, it produces a function of continuous frequency that is a periodic summation of the continuous Fourier transform of the original continuous function.
+Under certain theoretical conditions, described by the \textit{sampling theorem}, both the original continuous signal $\tildex$ and its sampled version $\hatx$ can be recovered perfectly from the \DTFT/.
+The \DTFT/ itself is a continuous function of frequency which require infinite discrete value to be computed.
+For these two reason, it is not accessible in practice or computed in the digital domain.
+Therefore the following representation is used instead.
+
 The spectral representation of a discrete- and finite-time signal $\hat{x}_N$ is given by its (forward) \DFTdef/
 \sidenote{
     This can be intrepreded as the projection onto the space spanned by a finite number of complex exponentials.
@@ -287,7 +308,8 @@ $\discreteFT{}:\bbR^N\kmapsto\bbC$:
     \hat{X}_F[ k] = (\discreteFT{\hat{x}_N})[k] =
     \sum_{n = 0}^{N - 1}
     \hat{x}_N[ n]
-    \cste^{-\csti2\pi k n / F}.
+    \cste^{-\csti2\pi k n / F}
+    .
 \end{equation}
 where $k \in \kintervcc{0}{F - 1}$ is the discrete \textit{frequency bin} and $F$ is the total number of bins.
 Again we use the subscript $F$ and the brackets $[k]$ to stress the finite and discrete frequency support of the $\DFT/$.
@@ -425,10 +447,10 @@ In particular, the work by~\citeonly{tukuljac2018mulan} properly discuss them in
 The paper mention three approximations, which are depicted in the following diagram.
 
 \begin{figure}[!h]
-    \begin{fullwidthfig}
+    \begin{fullwidth}
     \centering
     \input{figures/processing/approx_diagram.tikz}
-    \end{fullwidthfig}
+    \end{fullwidth}
 \end{figure}
 
 The diagram shows a chain of operators (sampling and transforms) with provable and approximated equivalences that lead to~\cref{eq:processing:discreteModel} used in practice.
@@ -503,6 +525,12 @@ Throughout this works both estimation and processing will be typically conducted
 This is a common approach in the audio signal processing community, but it is not the only one:
 many algorithm are designed directly in the time domain or in alternatives \TF/ representation, \eg/ Mel-Scale, Filter-Banks, or the quadratic STFT transform used in~\cref{ch:brioche}.
 
+\marginpar{%
+    \vspace{-4cm}
+    \footnotesize
+    For more mathematical detailed description on \DFT/ and \STFT/ can be found in \citeonly{oppenheim1987signals}.
+    For a audio-processing-oriented and music-processing-oriented explanation please refer to Chapter 2 of \citeonly{vincent2018audio} (Chapter2) and Chapter 2 of \citeonly{muller2015fundamentals}, respectively.
+}
 As discussed~\citeonly{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
 \begin{itemize}
     \item the frequencies $f_k$ is a linear function of the frequency bin $k$;
@@ -511,18 +539,12 @@ As discussed~\citeonly{vincent2018audio}, the \STFT/ has the following useful pr
     \item the \STFT/ is simple to invert;
     \item the \STFT/ inherits the linearity and convolution property of the \DFT/ under some condition about the length of the signals.
 \end{itemize}
-\marginpar{%
-    \vspace{-4cm}
-    \footnotesize
-    For more mathematical detailed description on \DFT/ and \STFT/ can be found in \citeonly{oppenheim1987signals}.
-    For a audio-processing-oriented and music-processing-oriented explanation please refer to Chapter 2 of \citeonly{vincent2018audio} (Chapter2) and Chapter 2 of \citeonly{muller2015fundamentals}, respectively.
-}
 
 \begin{figure}[t]
-    \begin{fullwidthfig}
+    \begin{fullwidth}
     \centering
         \input{figures/processing/diagram_stft.tikz}
-    \end{fullwidthfig}
+    \end{fullwidth}
 \end{figure}
 
 
@@ -653,17 +675,13 @@ As shown in~\cref{fig:processing:ildipd}, the \ILD/ and the \IPD/ cluster around
 However early echoes and reverberation make them significantly diverge.
 
 \begin{figure}[b]
-    \begin{fullwidthfig}
+    \begin{fullwidth}
         \includegraphics[width=\linewidth+\marginparsep]{processing/py-rtf.pdf}
         \caption{
             \RIR/, \ILD/ and \IPD/ corresponding to the pair of synthetic impulse responses of~\cref{fig:acoustics:rir} for different absorption conditions.
             Orange lines denote the theoretical far- and free- field \ILD/ and \IPD/ as defined by the relative steering vectors of~\cref{eq:processing:relativesteering}
         }\label{fig:processing:ildipd}
-    \end{fullwidthfig}
-
-    % \vspace{-\baselineskip}\vspace{-\baselineskip}
-    % \sideparmargin{outer}
-    % \sidepar{\vspace{\baselineskip}
+    \end{fullwidth}
 \end{figure}
 
 

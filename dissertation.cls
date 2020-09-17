@@ -319,7 +319,7 @@
     backref,
 ]{biblatex}
 
-\renewcommand*{\bibfont}{\small}
+\renewcommand*{\bibfont}{\normalfont}
 
 \DeclareBibliographyCategory{publications}
 \DeclareBibliographyCategory{paper-slp}
@@ -431,6 +431,15 @@
   {}
   {\usebibmacro{textcite:postnote}}
 
+% full cite with all the names
+\DeclareCiteCommand{\fullcite}
+  {\usebibmacro{prenote}}
+  {\usedriver
+     {\defcounter{minnames}{6}%
+      \defcounter{maxnames}{6}}
+     {\thefield{entrytype}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
 
 \RequirePackage{microtype}
 \RequirePackage{abbrv, delimiters}
