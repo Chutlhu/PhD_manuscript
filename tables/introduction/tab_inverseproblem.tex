@@ -1,33 +1,15 @@
-\begin{table}[!h]
+\begin{tabular}{p{0.33\linewidth}|p{0.66\linewidth}}
+    \toprule
+    Inverse Problem & \textit{Can we estimate the...} \\
+    \hline
+    Audio Source Separation  & the signal of the sources $s_{j}$ from the mixture $\boldsymbol{x}$? \\
 
-    \begin{fullwidthfig}
-    \centering
-    \small
+    Sound Source Localization & the position $\mathbf{s}_{j} \ =\ [ x_{s_{j}} ,\ y_{s_{j}} ,\ z_{s_{j}}]$  of the source $s_{j}$ from the mixture $\boldsymbol{x}$$ $? \\
 
-    \begin{tabular}{p{0.33\linewidth}|p{0.66\linewidth}}
-        \toprule
-        Inverse Problem & \textit{Can we estimate the...} \\
-        \hline
-        Audio Source Separation  & the signal of the sources $s_{j}$ from the mixture $\boldsymbol{x}$? \\
+    Microphone (Array) Calibration & the position of the microphone (array) position $\mathbf{x}$ from the mixture $\boldsymbol{x}$? \\
 
-        Sound Source Localization & the position $\mathbf{s}_{j} \ =\ [ x_{s_{j}} ,\ y_{s_{j}} ,\ z_{s_{j}}]$  of the source $s_{j}$ from the mixture $\boldsymbol{x}$$ $? \\
+    \RIR/ Estimation & the filter between the sources $\boldsymbol{s}_{j}$ and the mixture $\boldsymbol{x}$ from $\boldsymbol{x}$? \\
 
-        Microphone (Array) Calibration & the position of the microphone (array) position $\mathbf{x}$ from the mixture $\boldsymbol{x}$? \\
-
-        \RIR/ Estimation & the filter between the sources $\boldsymbol{s}_{j}$ and the mixture $\boldsymbol{x}$ from $\boldsymbol{x}$? \\
-
-        Room Geometry Estimation & the shape of the room in which the mixture $\boldsymbol{x}$ recoding source $s_{j}$? \\
-        \bottomrule
-    \end{tabular}
-
-    \end{fullwidthfig}
-
-    \vspace{-\baselineskip}\vspace{-\baselineskip}
-    \sideparmargin{outer}
-    \sidepar{\vspace{\baselineskip}
-        \caption{Selected audio inverse problems}
-    }
-    \label{tab:processing:problems}
-
-
-\end{table}
+    Room Geometry Estimation & the shape of the room in which the mixture $\boldsymbol{x}$ recoding source $s_{j}$? \\
+    \bottomrule
+\end{tabular}

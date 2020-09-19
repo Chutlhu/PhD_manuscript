@@ -55,7 +55,7 @@ In the everyday context, when a sound reflection is perceived distinctly is refe
 While phenomenon can be observed clearly in outdoors environment, such in the mountains or within huge buildings, in closed rooms it is less noticeable.
 In fact, echoes are usually masked by a general reverberation of the room.
 
-\section{The Problems}\label{sec:intro:problem}
+\section{Echo-aware Signal Processing for Audio Scene Analysis}\label{sec:intro:problem}
 The problems addressed in this thesis are indicated in the thesis title: \textit{Echo-aware signal processing for audio scene analysis}.
 There are two parts in the sentence that deserve an explanation: \textit{echo-aware signal processing} and \textit{audio scene analysis}.
 
@@ -79,7 +79,6 @@ Many related problems can be then decomposed into blocks that belong to one of m
     \\Representation can be lossy or lossless, and are generally implemented through change of \textit{domain} or \textit{feature}.
     The most famous representation in case of audio is the Fourier basis which change the signal domain from from time to frequencies.
     The process of changing representation is often called: \textit{analysis} and \textit{synthesis}.
-    
 
     \item[Enhancement] Measurement are affected by noise and interferences which corrupt and hide relevant information, making its retrieval harder and sometimes impossible.
     Therefore, signal enhancement, that is removing noise, is typically a necessary step.
@@ -244,7 +243,20 @@ Given the mixing process defined in~\cref{sec:processing:model},
 %     \item[automatich speech recognition]
 % \end{description}
 
-\input{tables/introduction/tab_inverseproblem.tex}
+\begin{table}[!h]
+
+    \begin{fullwidth}
+    \centering
+    \small
+
+    \input{tables/introduction/tab_inverseproblem.tex}
+    \caption{Selected audio inverse problems}
+    \label{tab:processing:problems}
+
+    \end{fullwidth}
+
+
+\end{table}
 
 \openepigraph{Everything is connected}{Douglas Adams, \textit{Dirk Gently's Holistic Detective Agency}}
 \newthought{Depending on the scenario}, all these problems exhibits strong inter-connections,
@@ -256,7 +268,7 @@ and in order to achieves \RooGE/, \AER/ must be done.
 
 
 
-\section{Thesis Organization and Related Contribution}
+\section{Thesis Outline and Main Contributions}
 
 The dissertation is broken into three largely parts which are largely interconnect, as show in the~\cref{fig:intro:thesis_mindmap}:
 
