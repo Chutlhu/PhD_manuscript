@@ -125,8 +125,8 @@ However, in the case of a narrowband signal (\eg/ speech or music) or low SNR, i
 
 \newthought{Echo Retrieval from RIR.}
 As discussed in~\cref{pt:background}, acoustic echoes can be identified as peaks in the early part of the \RIR/.
-In general, due to the measurement process, such peaks are not necessarily positive, thus, to better visualize them, the \textit{echogram}~\citeonly{kuttruff2016room}, $\magnitudeOf{\tilde{\rir}(t)}$, or the energy envelop~\citeonly{schroeder1979integrated} are used instead\sidenote{
-    The energy envelope of a signal is computed as the magnitude of its analytic representation computed with the Hilbert transform.}.
+In general, due to the measurement process, such peaks are not necessarily positive, thus, to better visualize them, the \textit{echogram}~\citeonly{kuttruff2016room}, $\magnitudeOf{\tilde{\rir}(t)}$, or the energy envelop\sidenote{
+    The energy envelope of a signal is computed as the magnitude of its analytic representation computed with the Hilbert transform.}~\citeonly{schroeder1979integrated} are used instead.
 \\Provided a good estimation of the \RIR/, the echoes' location and amplitudes could be extracted manually by experts.
 However, even in ideal scenario, the automation of this process and the correct identification of such quantities are not straightforward tasks.
 As showed in \citeonly{tukuljac2018mulan}, since the \TOAs/ are not necessarily multiple of the sampling grid, their true locations (and amplitudes) are blurred by spurious side peaks.
@@ -215,8 +215,8 @@ Here two different approaches can be identified: optimization-based approaches~\
 \mynewline
 The former approaches exploit the strong relation between the \TOA/ of a echo with its \DOA/.
 When multiple microphones are used and their geometry is known, the relation between these two quantities can be express in closed-form and used in a \ML/-based frameworks.
-By modeling the \DOAs/, such approaches are able to implicitly reduces the ambiguity of the estimated echoes.
-This idea is rooted in existing methods used in multipath communication system, denoted as \JADE/~\citeonly{vanderveen1997joint,verhaevert2004direction}.
+By modeling the \DOAs/, such approaches are able to implicitly reduce the ambiguity of the estimated echoes.
+This idea is rooted in existing methods used in multipath communication systems, denoted as \JADE/~\citeonly{vanderveen1997joint,verhaevert2004direction}.
 
 \mynewline
 Alternatively,\marginpar{%
@@ -229,17 +229,31 @@ Due to indoor sound propagation, the received signal consists in repeated copies
 Therefore, the received signal may correlate with the emitted one for certain time lags.
 Therefore, peaks in the cross-correlation function can be observed.
 By the extraction of these peaks, echoes' \TOAs/ and relative amplitudes can be identified.
-This approach is used in \citeonly{crocco2014towards, al2019early}.
+This approach was used in \citeonly{tervo2011estimation, crocco2014towards, al2019early}.
 
-When the array geometry is known, the time lag axes of the cross-correlation function for all the microphones can be mapped to possible 2D direct of arrivals (elevation and azimuth), namely from \TOAs/ to 2D-\DOAs/.
-The identification of strong reflection can be then conducted the so-called angular spectrum domain, which consider sound energy as function possible \DOAs/~\citeonly{dibiase2001robust}.
-With proper clustering approach, the reflections can be identified, disambiguated and their \TOAs/ computed.
-This approach is used in~\citeonly{o2008imaging, o2010automatic} and \SSL/~\citeonly{dibiase2001robust} and it is called \textit{audio camera}.
-The 2D-polar coordinates can mapped into cartesian ones and the angular spectrum can be superimposed to a panoramic picture of the audio scene taken by the barycenter of the recording arrays.
-For detailed review for robust cross-correlation methods \citeonly{chen2006time}.
-% \\However, cross-correlation among acquired signals are poorly performing, especially with noisy environments, transmitted signals of limited bandwidth and low energy reflections with respect to the direct path\citeonly{chen2006time}.
+When the array geometry is known, the time lag axes of cross-correlation functions between channels can be mapped to possible 2D directions of arrivals (elevation and azimuth), namely from \TOAs/ to 2D-\DOAs/.
+The identification of strong reflections can be then performed in the so-called \textit{angular spectrum} domain \DOAs/~\citeonly{dibiase2001robust}.
+With a proper clustering approach, the reflections can be inspected, disambiguated and their \TOAs/ deduced.
+This approach is used in~\citeonly{o2008imaging, o2010automatic, tervo2015direction} and can be generalized by spatial filtering methods, such as beamforming.
+In~\citeonly{o2008imaging}, it was referred to as \textit{acoustic camera} since it benefits of the following visual interpretation:
+As shown in~\cref{fig:estimation:audiocamera}, the 2D-polar coordinates can be mapped into cartesian ones so that the angular spectrum can be superimposed to a panoramic picture of the audio scene taken by the barycenter of the recording arrays.
+\marginpar{
+    \centering
+    \includegraphics[width=\linewidth]{estimation/audio_camera1.png}
+    \includegraphics[width=\linewidth]{estimation/audio_camera2.png}
+    \includegraphics[width=\linewidth]{estimation/audio_camera3.png}
+    \includegraphics[width=\linewidth]{estimation/audio_camera4.png}
+    \captionof{figure}{
+        \footnotesize
+        Visualization using the \textit{audio camera}.
+        The steered responses are calculated using PL-TDOA. Also shown are the impulse responses for 6 microphones.
+        The numbered boxes indicate events shown in the audio camera.}
+    \label{fig:estimation:audiocamera}
+}
+
+% The main limitation on cross-correlation methods is their , especially with noisy environments, transmitted signals of limited bandwidth and low energy reflections with respect to the direct path\citeonly{chen2006time}.
 % The main drawbacks...
-% % in \citeonly{chen2006time} to outperform crosscorrelation-based techniques, such as generalized crosscorrelation (GCC), for source localization in noisy and reverberant environments. At the cost of complexity.
+% In \citeonly{chen2006time} to outperform crosscorrelation-based techniques, such as generalized crosscorrelation (GCC), for source localization in noisy and reverberant environments. At the cost of complexity.
 
 \subsection{Passive and RIR-based method}
 Passive approaches
