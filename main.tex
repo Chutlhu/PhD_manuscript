@@ -16,6 +16,8 @@
 % --- Font stuff --------------------------------------------------------------
 \usepackage{stackengine} % for overlapping text
 
+% --- Appendices --------------------------------------------------------------
+
 % --- Blind text --------------------------------------------------------------
 \usepackage{blindtext} % provide \blindtext, \Blindtext
 \usepackage{lipsum}
@@ -220,19 +222,18 @@
 % === BACK MATTER ===
 \backmatter{}
 
-\begin{appendices}[toc]
-    % \input{contents/back_matter/appendix_ims}
-    % \input{contents/back_matter/appendix_measurements}
-    % \input{contents/back_matter/appendix_supblaster}
-    % \input{contents/back_matter/appendix_curriculum}
+\clearpage
+\addappheadtotoc
+% \input{contents/back_matter/appendix_ims}
+\appendix\input{contents/back_matter/appendix_measurements}
+\appendix\input{contents/back_matter/appendix_supblaster}
+% \input{contents/back_matter/appendix_curriculum}
+% \input{contents/back_matter/appendix_mindmaps}
+% \input{contents/back_matter/appendix_phdlife}
+% \input{contents/back_matter/appendix_latex.tex}
+% \input{contents/back_matter/appendix_coding}
+% \input{contents/back_matter/appendix_music}
 
-
-    % \input{contents/back_matter/appendix_mindmaps}
-    % \input{contents/back_matter/appendix_phdlife}
-    % \input{contents/back_matter/appendix_latex.tex}
-    % \input{contents/back_matter/appendix_coding}
-    % \input{contents/back_matter/appendix_music}
-\end{appendices}
 \input{contents/back_matter/bibliography}
 % \input{back_matter/index}
 

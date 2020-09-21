@@ -1,4 +1,60 @@
-\chapter{Sliding Frank-Wolfe algorithm \& Non-negative Blasso}
+\chapter{Sliding Frank-Wolfe algorithm \& Non-negative Blasso}\label{ap:blaster}
+\section{From Cross-Relation to BLASSO}\label{ap:blaster:lasso}
+
+\subsection{From Cross-Relation to LASSO}
+The \LASSO/-like problem~\cref{eq:blaster:xrel_toepl} extended with anchor and nonnegative constraints writes as follows:
+\begin{equation}
+    \disFilterHat_1, \disFilterHat_2
+    =
+    \kargmin_{\disFilter_1, \disFilter_2}
+    \;
+    \kvvbar{
+        \calT(\disRecordedSignal_1) \disFilter_2
+        -
+        \calT(\disRecordedSignal_2) \disFilter_1
+    }_2^2
+    +
+    \lambda
+    \kvvbar{
+        \mathbf{\disFilter}
+    }_1
+    \; \text{s.t.} \;
+    \begin{cases}
+        \disFilter_1, \disFilter_2 \geq 0 \\
+        \disFilter_1[0] = 1\\
+    \end{cases}
+    .
+\end{equation}
+By defining $\ttX_i = \calT(\disRecordedSignal_i)$, this problem can be rewritten as
+\begin{equation}
+    \disFilterHat_1, \disFilterHat_2
+    =
+    \kargmin_{\disFilter_1, \disFilter_2}
+    \;
+    \kvvbar{
+        \ttX_1 \disFilter_2
+        -
+        \ttX_2 \disFilter_1
+    }_2^2
+    +
+    \lambda
+    \kvvbar{
+        \mathbf{\disFilter}
+    }_1
+    \; \text{s.t.} \;
+    \begin{cases}
+        \disFilter_1, \disFilter_2 \geq 0 \\
+        \disFilter_1[0] = 1\\
+    \end{cases}
+    ,
+\end{equation}
+
+\subsection{From LASSO to BLASSO}
+Due to its heavy formalism, the \CD/ framework may not be of easy interpretation for the readers in the audio signal processing community.
+We will now try to present the framework describe in this section in light of more standard convex optimization.
+
+figure Lasso to Blasso.
+
 
 \section{Sliding Frank-Wolfe algorithm} \label{sec:suppblaster:SFW}
 
