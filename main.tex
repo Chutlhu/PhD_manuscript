@@ -40,7 +40,7 @@
 \usepackage[mathscr]{euscript}
 \usepackage{xfrac} % provide \sfrac, cool fractions
 \usepackage{siunitx}    % provide \ang and SI units
-
+\usepackage{epsdice} % provide \epsdice
 
 % --- Theorem environment------------------------------------------------------
 \usepackage{amsthm}
@@ -178,24 +178,24 @@
 \parttoc[n]
 \cleardoublepage{}
 
-\input{contents/main_matter/chapter0_intro}
+% \input{contents/main_matter/chapter0_intro}
 
-%% I. Room Acoustic
+% %% I. Room Acoustic
 \begin{fullwidth}
     \part{Room Acoustic meets Signal Processing}\label{pt:background}
 \end{fullwidth}
-\parttoc[n]
-\input{contents/main_matter/chapter1_acoustics}
-\input{contents/main_matter/chapter2_processing}
+% \parttoc[n]
+% \input{contents/main_matter/chapter1_acoustics}
+% \input{contents/main_matter/chapter2_processing}
 
-%% II. Estimation
+% II. Estimation
 \begin{fullwidth}
 \part{Acoustic Echo Retrieval}\label{pt:estimation}
 \end{fullwidth}
 \parttoc[n]
-\input{contents/main_matter/chapter_estimation}
+% \input{contents/main_matter/chapter_estimation}
+\input{contents/main_matter/chapter_blaster}
 % \input{contents/main_matter/chapter_lantern}
-% \input{contents/main_matter/chapter_blaster}
 % \input{contents/main_matter/chapter_dechorate}
 % \input{contents/main_matter/chapter7_blaster2}
 

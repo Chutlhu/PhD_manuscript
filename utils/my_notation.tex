@@ -1,16 +1,9 @@
 % --- correct bad hyphenation
 \hyphenation{op-tical net-works semi-conduc-tor}
-
-% --- Algos and Methods names:
-\newcommand{\mirage}{\textsc{Mirage}}
-\newcommand{\separake}{\textsc{Separake}}
-\newcommand{\brioche}{\textsc{Brioche}}
-\newcommand{\blaster}{\textsc{Blaster}}
-\newcommand{\blasterr}{\textsc{Blaster2}}
-\newcommand{\lantern}{\textsc{Lantern}}
-\newcommand{\dechorate}{\textsc{dEchorate}}
-
 %----------------
+\providecommand{\vect}[1]{\ensuremath{\mathbf{#1}}}
+\providecommand{\matx}[1]{\ensuremath{\mathbf{#1}}}
+
 \usepackage{pgffor}
 % for math stuff
 \foreach \x in {a,...,z}{
@@ -26,6 +19,8 @@
   \expandafter\xdef\csname hat\x \endcsname{\noexpand\ensuremath{\noexpand\hat{\x}}}
   % short for \tilde{}
   \expandafter\xdef\csname tilde\x \endcsname{\noexpand\ensuremath{\noexpand\tilde{\x}}}
+  % short for vector of
+  \expandafter\xdef\csname vec\x \endcsname{\noexpand\ensuremath{\noexpand\vect{\x}}}
 }
 
 \foreach \x in {A,...,Z}{
@@ -47,6 +42,8 @@
   \expandafter\xdef\csname hat\x \endcsname{\noexpand\ensuremath{\noexpand\hat{\x}}}
   % short for \tilde{}
   \expandafter\xdef\csname tilde\x \endcsname{\noexpand\ensuremath{\noexpand\tilde{\x}}}
+  % short for matrix of
+  \expandafter\xdef\csname mat\x \endcsname{\noexpand\ensuremath{\noexpand\matx{\x}}}
 }
 
 % --- Math Notation
@@ -78,6 +75,7 @@
 \newcommand{\distMicSrc}{\ensuremath{q}}
 \newcommand{\distMicMic}{\ensuremath{d}}
 % signal model
+
 \newcommand{\noise}{\ensuremath{u}}
 \newcommand{\allNoise}{\ensuremath{u}}
 
@@ -97,6 +95,11 @@
 \newcommand{\mics}{\ensuremath{\bsx}}
 \newcommand{\MICS}{\ensuremath{\bsX}}
 
+\newcommand{\nse}{\ensuremath{n}}
+\newcommand{\NSE}{\ensuremath{n}}
+\newcommand{\nses}{\ensuremath{\bsn}}
+\newcommand{\NSES}{\ensuremath{\bsn}}
+
 \newcommand{\img}{\ensuremath{c}}
 \newcommand{\IMG}{\ensuremath{C}}
 \newcommand{\imgs}{\ensuremath{\bsc}}
@@ -104,17 +107,19 @@
 
 \newcommand{\spat}{\ensuremath{\boldsymbol{\Xi}}}
 \newcommand{\master}{\ensuremath{\boldsymbol{\Upsilon}}}
-\newcommand{\contRecordedSignal}{\ensuremath{x}}
+
+% command from ICASSP blaster to CHAPTER blaster
+\newcommand{\contRecordedSignal}{\ensuremath{\tilde{x}}}
 \newcommand{\contMicrophoneSignal}{\contRecordedSignal}
-\newcommand{\contSource}{\ensuremath{s}}
-\newcommand{\contFilter}{\ensuremath{h}}
+\newcommand{\contSource}{\ensuremath{\tilde{s}}}
+\newcommand{\contFilter}{\ensuremath{\tilde{h}}}
 \newcommand{\contFilterHat}{\widehat{\contFilter}}
 \newcommand{\contRIR}{\contFilter}
-\newcommand{\contNoise}{\ensuremath{n}}
-\newcommand{\disRecordedSignal}{\bfx}
-\newcommand{\disFilter}{\bfh}
+\newcommand{\contNoise}{\ensuremath{\tilde{u}}}
+\newcommand{\disRecordedSignal}{x}
+\newcommand{\disFilter}{h}
 \newcommand{\disFilterHat}{\widehat{\disFilter}}
-\newcommand{\RecordedSignalDFT}{\bfX}
+\newcommand{\RecordedSignalDFT}{X}
 \newcommand{\deltaTaus}{\ensuremath{\Delta}}
 \newcommand{\cov}{\ensuremath{\mathbf{\Sigma}}}
 \newcommand{\lowpassfilter}{\ensuremath{\contTime{\phi}_\mathtt{LP}}}
@@ -223,7 +228,7 @@
 % --- Other (constant)
 \newcommand{\const}{\ensuremath{\text{\textit{const.}}}}
 
-\newcommand{\idealLowPassFilter}{\phi}
+\newcommand{\idealLowPassFilter}{\lowpassfilter}
 \newcommand{\disRadonMeasure}{\calM(\Theta)}
 \newcommand{\posDisRadonMeasure}{\calM_+(\Theta)}
 
@@ -271,6 +276,8 @@
 
 % --- Mathematical operators and function
 % \newcommand{\contTime}[1]{\ensuremath{\tilde{#1}(\idxTime)}}
+\newcommand{\wh}[1]{\ensuremath{\widehat{#1}}}
+\newcommand{\wt}[1]{\ensuremath{\widetilde{#1}}}
 \newcommand*{\toFreq}[1]{\expandafter\MakeUppercase\expandafter{#1}}
 \newcommand*{\contTime}[2][]{%
   \ifx &#1&%
@@ -315,6 +322,7 @@
 
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% FOR DECHORATE

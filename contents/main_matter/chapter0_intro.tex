@@ -1,37 +1,26 @@
 \chapter{Overture}\label{chap:intro}
-\openepigraph{Only echoes answer me.}{Anton Chekhov, Swan Song}%
-\openepigraph{\textsc{Écho.} Citer ceux du Panthéon et du pont de Neuilly. }{Gustave Flaubert, Dictionnaire des idées reçues}
-\openepigraph{\textsc{``Echoes''} shows the direction that we’re moving in. }{David Gilmour, about the making of ``The Dark Side Of The Moon''}
+% \openepigraph{Only echoes answer me.}{Anton Chekhov, Swan Song}%
+\openepigraph{Écho. Citer ceux du Panthéon et du pont de Neuilly. }{Gustave Flaubert, Dictionnaire des idées reçues}
+\openepigraph{Echoes shows the direction that we’re moving in. }{David Gilmour, about the making of ``The Dark Side Of The Moon''}
 
 \vspace{-2.5em}
 
-\def\MyText{\textsc{Echooooooooooes}}
-% \newcommand\shadetext[2][]{%
-%   \setbox0=\hbox{{\special{pdf:literal 7 Tr }#2}}%
-%   \tikz[baseline=0]\path [#1] \pgfextra{\rlap{\copy0}} (0,-\dp0) rectangle (\wd0,\ht0);%
-% }
+\def\MyText{\textsc{Echoooes}}
 \newcommand\mytext[2][black]{\scalebox{#2}{\textcolor{#1}{\MyText}}}
 
-% \newthought{Picture yourself} standing in room you've never been before, blindfold.
-% Clap your hands and listen. Can you tell the size of the room?
-
-
 % This thesis is about taking inspiration from people, bats, Daredevil and Pink Floyd.
-
-% \stackinset{c}{4ex}{c}{ 1.4ex}{\mytext[black!70]{.8}}{%
-% \stackinset{c}{2ex}{c}{ 3.2ex}{\mytext[black!25]{.7}}{%
-% \stackinset{c}{3ex}{c}{-1.3ex}{\mytext[black!35]{.9}}{%
-% \mytext{1}%
-% }}} and how these properties can be exploited for analyzing auditory scenes.
+\newthought{This \PhD/ thesis} is about acoustic
+\stackinset{c}{4ex}{c}{ 1.4ex}{\mytext[black!70]{.8}}{%
+\stackinset{c}{2ex}{c}{ 3.2ex}{\mytext[black!25]{.7}}{%
+\stackinset{c}{3ex}{c}{-1.3ex}{\mytext[black!35]{.9}}{%
+\mytext{1}%
+}}}
+\\We are surrounded by Acoustic Echoes
 
 
 % % \\We live immersed in a complex acoustical world, where every concrete thing sounds and resounds.
 % % Sounds are produced by sources and interacts with the surrounding space while reaching our hears or being recorded by microphones.
 % % \\\textsc{sounds convey and contain information}: the semantics
-
-
-
-% Acoustic echoes are a natural phenomena created by a particular interaction of the sound with the environment.
 
 % Animals and humans have a remarkable ability to listen to the acoustic response of their environment.
 % Also known as \emph{echolocation} or \emph{bio-sonar}, it is used consciously and unconsciously to retrieve
@@ -50,14 +39,28 @@
 % }
 
 % Definitions of: In this thesis, an \textit{auditory scene} consists in \textit{sound sources}, \textit{microphones} deployed in a room.
-\newthought{We are surrounded by Acoustic Echoes} \lipsum[1]
+\lipsum[1]
 In the everyday context, when a sound reflection is perceived distinctly is referred to as \textit{echo}.
 While phenomenon can be observed clearly in outdoors environment, such in the mountains or within huge buildings, in closed rooms it is less noticeable.
 In fact, echoes are usually masked by a general reverberation of the room.
 
+Sound, every sound, propagate in air and in the space before reaching our hears.
+It travels
+
 \section{Echo-aware Signal Processing for Audio Scene Analysis}\label{sec:intro:problem}
 The problems addressed in this thesis are indicated in the thesis title: \textit{Echo-aware signal processing for audio scene analysis}.
 There are two parts in the sentence that deserve an explanation: \textit{echo-aware signal processing} and \textit{audio scene analysis}.
+Let us start from the second one which provide the general context.
+
+\subsection{Audio scene analysis}
+Sounds carry information about sound sources.
+
+Information about the \textit{content} and the \textit{nature} of the sound.
+But other information as well.
+
+\newthought{Audio Scene Analysis}
+\newthought{Audio Scene Synthesis}
+
 
 \subsection{Echo-aware signal processing}
 \textit{Signal processing} is the process of analyzing and modifying a \textit{signals}, which are mathematical representation of quantities carrying information about a phenomenon.
@@ -92,9 +95,6 @@ Many related problems can be then decomposed into blocks that belong to one of m
     They often implement a kind of online optimization where an objective function is being minimized.
     When new data is observed, its discrepancy with the current estimate is used to produce a new estimate in a way that reduces the objective.
 \end{description}
-
-\subsection{Audio scene analysis}
-
 
 
 That is being said, the goal of this thesis is to improve the above state of in indoor audio signal processing along two axes:

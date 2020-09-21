@@ -1,7 +1,40 @@
-\chapter{Data-driven Acoustic Echo Retrieval \& lantern}\label{chap:lantern}
+\chapter{Data-driven Acoustic Echo Retrieval \& \acs{LANTERN}}\label{chap:lantern}
+
+\marginpar{%
+    \footnotesize
+    \textbf{Keywords:} Acoustic Echo Retrieval, TDOA Estimation, Supervised Learning, Deep Learning, Regression.
+    \\\textbf{Resources:}
+    \begin{itemize}
+        \item \href{aoeu}{Paper}
+        \item \href{aoeu}{Code}
+        \item \href{aoeu}{Poster}
+    \end{itemize}
+}
+\newthought{Synopsis} \synopsisChLantern
+
+\mynewline
+The material presented in this chapter is part of the previously published work~\cite{di2019mirage} and of a technical report for HONDA\textregistered~\citeonly{di2019honda}.
+
+\section{Introduction}
+The following sections gives a review of machine learning theory knowledge required by the reader in order to understand the implementations related to machine learning in this chapter.
+The review includes basic theory behind neural networks and deep learning including layer-types, optimization and loss functions, as well as aspects related to training on \RIRdef/.
+This section also gives a brief review of why and how to use autoencoders.
+
+\subsection{Supervised Learning}
+
+\newthought{End-to-end learning}
+\newthought{2-stage learning}
+
+\newthought{Virtually Supervised Learning}
+
+\subsection{Neural Networks}
+
+\newthought{Convolutional Neural Networks and Deep Learning}
+
+\subsection{For the \RIR/ and the \AER/?}
 
 
-\section{Learning-based echo estimation}
+\section{Proposed Learning-based \AER/}
 
 \subsection{Simple Case: $\numEchs = 2$}
 
@@ -78,9 +111,8 @@ A re-implement version of SRP-PHAT is used to aggregate local angular spectra ob
 
 \section{Towards the case $\numEchs > 2$}
 
-\subsection{Better features}
+\subsection{Better features: \RTF/}
 
-\subsection{Better architecture}
-
+\subsection{Better architecture: Physical-based learning and unfolding}
 
 \section{Conclusion and perspective}
