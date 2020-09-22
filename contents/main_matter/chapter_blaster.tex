@@ -74,10 +74,10 @@ In \AER/, we are interested in \RIRs/ that are streams of Diracs, \ie/,
     \label{eq:blaster:def_filter_star}
     \tilde{\flt}^\star(t) = \sum_{\idxEch=0}^{\numEchs_i} \alpha_i^{(r)} \delta(t - \tau_i^{(r)})
 \end{equation}
-where $\numEchs_i$ is the (unknown) number of echoes, $\kfamily{\tau_{i}^{(r)}}{\idxEch=0}^{\numEchs_i}$ models the echoes' delays, and $\kfamily{\alpha_{i}^{\idxEch}}{\idxEch=0}^{\numEchs_i}$ are the corresponding non-negative attenuations.
+where $\numEchs_i$ is the (unknown) number of echoes, $\kfamily{\tau_{i}^{(r)}}{\idxEch=0}^{\numEchs_i}$ models the echoes' delays, and $\kfamily{\alpha_{i}^{(\idxEch}}{\idxEch=0}^{\numEchs_i}$ are the corresponding non-negative attenuations.
 Note that $\idxEch=0$ defines the ideal propagation path, also referred to as direct path.
 %
-In the noiseless case, that is when $\tilde{u} = 0$ for $i\in\{1,2\}$, we have the identity
+In the noiseless case, that is when $\tilde{u}_i = 0$ for $i\in\{1,2\}$, we have the identity
 \begin{equation} \label{eq:blaster:cross-relation}
     \tilde{\mic}_1 \convCont \tilde{\flt}_2^\star = \tilde{\mic}_2 \convCont \tilde{\flt}_1^\star
 \end{equation}
@@ -133,10 +133,17 @@ Starting from the identity \cref{eq:blaster:cross-relation}, the common \SIMO/-\
     }_1
 \end{equation}
 where $\disRecordedSignal_i$ and $\disFilter_i$ are the discrete, sampled version of $\contRecordedSignal_i, \contFilter_i$ respectively.
-\\$\scrT(\disRecordedSignal_i)$ is the $(2N+L-1) \times L$ Toeplitz matrix\sidenote{
-    The first row and column of $\scrT(\disRecordedSignal_i)$ are respectively $[\disRecordedSignal_i[2N-n], 0,\dotsc,0]$ and $[\disRecordedSignal_i[2N-n], \disRecordedSignal_i[2N-n+1],\dotsc,\disRecordedSignal_i[n], 0,\dotsc, 0]^\intercal$.}
+\\$\scrT(\disRecordedSignal_i)$ is the $(2N+L-1) \times L$ Toeplitz matrix (build as shown is~\cref{fig:blaster:toeplitz})
+\marginpar{
+    \centering
+    \resizebox{\linewidth}{!}{
+        \input{figures/blaster/toeplitz.tikz}
+    }
+    \captionof{figure}{Graphical representation of the construction of $\scrT(x_i)$ form $x_i$}
+    \label{fig:blaster:toeplitz}
+}
 associated to convolution where $2N$ and $L$ respectively denote  microphone and filter signal length.
-In~\cref{ap:blaster:lasso}, it is shown how to express~\cref{eq:blaster:xrel_toepl} as a standard \LASSO/ problem.
+In~\cref{ap:blaster}, we show how to express~\cref{eq:blaster:xrel_toepl} as a standard \LASSO/ problem.
 
 \mynewline
 The accuracy of estimated \RIRs/ has been subsequently improved using a priori knowledge of the filters.
@@ -160,6 +167,7 @@ Thank to this formulation, current state of the art approaches can be summarized
 
     \begin{fullwidth}
         \centering
+        \small
         \input{tables/blaster/sota.tex}
 
         \caption{Some state of the art penalties and constraint used in model~\cref{eq:blaster:sota}.}
@@ -167,7 +175,7 @@ Thank to this formulation, current state of the art approaches can be summarized
     \end{fullwidth}
 \end{table}
 
-The constraint $\disFilter_i[0]=1$ is called an \textit{anchor constraint} and it is used to replace the $\ell_2$-norm while keeping the problem convex.
+\noindent The constraint $\disFilter_i[0]=1$ is called an \textit{anchor constraint} and it is used to replace the $\ell_2$-norm while keeping the problem convex.
 The non-negativity $\bfh \geq 0$ constraint may not be satisfied due to effects such as measurement process, the filtering in the propagation media or the imperfect frequency response of a microphone.
 However, when those effects are common to both channels, they can be viewed as distortions to a common source.
 Therefore, the non-negativity assumption is seems reasonable for real acoustic environments.
@@ -175,8 +183,9 @@ Secondly, the sparsity assumption does not hold for the ``tail'' of the \RIR/.
 Nevertheless, applications concerning \RooGE/ require just the recovery of lower order reflections, i.e. the sparse portion of the \RIR/.
 Likewise works in speech enhancement have proven to work under such assumption, thus proving the effectiveness of this approach.
 
+\mynewline
 On a similar scheme, in~\citeonly{kowalczyk2013blind},~\cref{eq:blaster:xrel_toepl} is solved using an adaptive time-frequency-domain approach while~\citeonly{aissa2008blind} proposes to use the $\ell_p$-norm instead of the $\ell_1$-norm.
-A successful approach has been presented recently by the authors of~\citeonly{crocco2016estimation}, where the anchor constraint is replaced by an \textit{iterative weighted} $\ell_1$ equality constraint, \ie/, such that at each iteration $z$, $\ktranspose{\bsp^{(z)}}\bfh^{(z)} = 1$~\sidenote{
+A successful approach has been presented recently by the authors of~\citeonly{crocco2016estimation}, where the anchor constraint is replaced by an \textit{iterative weighted} $\ell_1$ equality constraint, \ie/, such that at each iteration $z$, $\ktranspose{\bfp^{(z)}}\bfh^{(z)} = 1$~\sidenote{
     Note that when $\bfp^{(z)} = 1$, the constraint returns to the $\ell_1$ penalty.}.
 In particular, the method is initialized using the solution of \citeonly{lin2007blind} and iterated enforcing sparsity using the solution of the previous problem, that is $\bfp^{(z)} = \hat{\bfh}^{(z-1)}$.
 The reader can can found a review for these methods in~\citeonly{crocco2015room,crocco2016estimation}.
@@ -374,13 +383,14 @@ The problem is formulated as estimating the time location of the first $\numEchs
 The robustness of the methods is tested against different level of noise (SNR) and reverberation time (\RT{}).
 
 \mynewline
-The quality of the AER estimation is assessed in terms of precision\sidenote{Since only $K$ time locations are considered in both the ground truth and the estimation, precision and recall are equal.} in percentage as in the literature of onset detection~\citeonly{bock2012evaluating} and the \RMSEtxt/ in samples.
-Both metrics evaluate only the \textit{matched} peaks, where a \textit{match} is defined as being within a small window $\thr$ of a reference delay. These two metrics are similar to the ones used in~\citeonly{Crocco2015}.
-For this purpose we created three synthetic datasets of $1000$ observations each:
-As summarized in Table~\cref{tab:blaster:datasets},
-\dsetValid{} is used for tuning the hyperparameter $\lambda$ and the peak-picking parameters for \algoCrocco{} and \algoBsn{} using \RT{} and SNR randomly drawn from $\mathcal{U}[0, 1]$ (sec) and $\mathcal{U}[0, 20]$ (dB) respectively; \dsetSNR{} features SNR value uniformly sampled in $[0, 6, 14, 20, \infty]$ while the \RT{} is kept fixed to $400$ ms; akin the \dsetRT{} is built sampling \RT{} value uniformly in $[200, 400, 600, 800, 1000]$ ms keeping SNR fix to 20 dB.
-Moreover, while for \dsetValid{} broadband signals (white noise) are used as the source, for \dsetSNR{} and \dsetRT{} speech utterances from the TIMIT dataset are also included.
-The signal duration is kept fixed to 1 s with sampling frequency $\Fs = 16$ kHz.
+The quality of the AER estimation is assessed in terms of precision\sidenote{
+    Since only $K$ time locations are considered in both the ground truth and the estimation, precision and recall are equal.}
+in percentage as in the literature of onset detection~\citeonly{bock2012evaluating} and the \RMSEtxt/ in samples.
+Both metrics evaluate only the \textit{matched} peaks, where a \textit{match} is defined as being within a small window $\thr$ of a reference delay.
+These two metrics are similar to the ones used in~\citeonly{crocco2015room}.
+
+\mynewline
+For this purpose we created three synthetic datasets of $1000$ observations each, which are summarized in Table~\cref{tab:blaster:datasets}.
 \begin{table}[ht]
     \begin{sidecaption}[]{
         Summary of the dataset used for evaluation. \epsdice[black]{3} and \epsdice{5} stands for randomly sampled from a continuous and discrete set of values respectively
@@ -390,12 +400,13 @@ The signal duration is kept fixed to 1 s with sampling frequency $\Fs = 16$ kHz.
     \input{tables/blaster/datasets.tex}
     \end{sidecaption}
 \end{table}
+\\\dsetValid{} is used for tuning the hyperparameter $\lambda$ and the peak-picking parameters for \algoCrocco{} and \algoBsn{} using \RT{} and SNR randomly drawn from $\mathcal{U}[0, 1]$ (sec) and $\mathcal{U}[0, 20]$ (dB) respectively; \dsetSNR{} features SNR value uniformly sampled in $[0, 6, 14, 20, \infty]$ while the \RT{} is kept fixed to $400$ ms; akin the \dsetRT{} is built sampling \RT{} value uniformly in $[200, 400, 600, 800, 1000]$ ms keeping SNR fix to 20 dB.
+Moreover, while for \dsetValid{} broadband signals (white noise) are used as the source, for \dsetSNR{} and \dsetRT{} speech utterances from the TIMIT dataset are also included.
+The signal duration is kept fixed to 1 s with sampling frequency $\Fs = 16$ kHz.
 For a given \RT{} value and room with random dimensions, a unique absorption coefficient is assigned to all surfaces based on the Sabine's formula.
 Then, the two microphones and the source are randomly positioned inside the room.
 The parameters of such audio scene are then passed as input to the \pyroomacoustics{} simulator~\citeonly{scheibler2018pyroomacoustics}, which returns the corresponding \RIRs/ as well as the \textit{off-grid} echo delays and attenuation coefficients computed with the \ISMdef/~\citeonly{allen1979image}.
 Note that when generating the data, no samples have been pruned to match any minimal separation condition.
-
-\mynewline
 To generate the microphone signals, an over-sampled version of the source signal is convolved with ideal \RIRs/ at high frequency ($\Fs=1024$ kHz) made up of on-grid Dirac\textit{s}. The results are later resampled to meet the original $\Fs$ and Gaussian white noise is added to meet the given SNR value.
 
 \begin{figure}[ht]
@@ -416,7 +427,7 @@ To generate the microphone signals, an over-sampled version of the source signal
         Precision for different threshold $\thr$ in samples for the recovery of $R = 2$ and $7$ echoes, \RT{} = $200$ ms and SNR = 20 dB.
     }[tab:error_precision_thr]
     \centering
-    \small
+    \footnotesize
     \input{tables/blaster/different_thr.tex}
     \end{sidecaption}
 \end{table}
