@@ -255,7 +255,7 @@ As shown in~\cref{fig:estimation:audiocamera}, the 2D-polar coordinates can be m
     \label{fig:estimation:audiocamera}
 }
 
-\subsection{Passive and RIR-based method}
+\subsection{Passive and RIR-based method}\label{subsec:estimation:bce}
 Passive approaches
 \marginpar{
     \footnotesize
@@ -337,8 +337,24 @@ Nevertheless, in this context, this particular setup is found to be useful not o
 \mynewline
 In general, the main drawbacks of \FIR/ \SIMO/ \BCE/ works is that they rely on on-grid estimation, sparsity-enforcing regularizers and peak-picking which need to be tuned manually.
 As described in~\cref{sec:processing:fouriermodel}, due to the sampling process involving a $\sinc$ function, the filters are non-sparse and non-negative.
-This general bottle-neck has been referred to as \textit{basis mismatch} and was notably studied in the c\textit{ompressed sensing} community~\citeonly{chi2011sensitivity}.
-In particular, the true peaks in the \RIR/ do not necessarily correspond to the true echoes.
+This general bottle-neck has been referred to as \textit{basis mismatch} and was notably studied in the \textit{compressed sensing} community~\citeonly{chi2011sensitivity}.
+In particular, the true peaks in the \RIR/ do not necessarily correspond to the true echoes as shown in~\cref{fig:estimation:basismismatch}
+\begin{figure}[h]
+    \begin{fullwidth}
+        \centering
+        \includegraphics[width=\linewidth]{estimation/basismismatch.png}
+        \caption{%
+        (a) Continuos-time stream of Diracs $\tilde{h}(t)$,
+        (b) sinc kernel $\lowpassfilter(t)$,
+        (c) smoothed stream of Diracs,
+        (d) original stream of Dirac $\tilde{h}(t)$ (red) and its sampled (\ie/, smoothed and discrete) version (blue).
+        Image courtesy of~\citeonly{tukuljac2018mulan}
+        }
+        \label{fig:estimation:mismatch}
+    \end{fullwidth}
+\end{figure}
+
+
 Since these methods are fundamentally on-grid, the estimated echo locations are integer multiples of the sampling period $1/\Fs$.
 This prevents subsample resolution, which may be important in applications such as \RooGE/~\citeonly{crocco2017uncalibrated} or acoustic parameter estimation~\citeonly{defrance2008finding}.
 Moreover, these methods strongly rely on the knowledge of the length of the filters.

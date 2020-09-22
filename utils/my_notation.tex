@@ -19,8 +19,6 @@
   \expandafter\xdef\csname hat\x \endcsname{\noexpand\ensuremath{\noexpand\hat{\x}}}
   % short for \tilde{}
   \expandafter\xdef\csname tilde\x \endcsname{\noexpand\ensuremath{\noexpand\tilde{\x}}}
-  % short for vector of
-  \expandafter\xdef\csname vec\x \endcsname{\noexpand\ensuremath{\noexpand\vect{\x}}}
 }
 
 \foreach \x in {A,...,Z}{
@@ -44,8 +42,6 @@
   \expandafter\xdef\csname hat\x \endcsname{\noexpand\ensuremath{\noexpand\hat{\x}}}
   % short for \tilde{}
   \expandafter\xdef\csname tilde\x \endcsname{\noexpand\ensuremath{\noexpand\tilde{\x}}}
-  % short for matrix of
-  \expandafter\xdef\csname mat\x \endcsname{\noexpand\ensuremath{\noexpand\matx{\x}}}
 }
 
 % --- Math Notation
@@ -63,6 +59,7 @@
 \newcommand{\idxFrame}{\ensuremath{l}}
 \newcommand{\idxSrc}{\ensuremath{j}}
 \newcommand{\idxMic}{\ensuremath{i}}
+\newcommand{\idxMicSrc}{\ensuremath{\idxMic\idxSrc}}
 \newcommand{\idxEch}{\ensuremath{r}}
 \newcommand{\numSrcs}{\ensuremath{J}}
 \newcommand{\numMics}{\ensuremath{I}}
@@ -98,9 +95,9 @@
 \newcommand{\MICS}{\ensuremath{\bsX}}
 
 \newcommand{\nse}{\ensuremath{n}}
-\newcommand{\NSE}{\ensuremath{n}}
+\newcommand{\NSE}{\ensuremath{N}}
 \newcommand{\nses}{\ensuremath{\bsn}}
-\newcommand{\NSES}{\ensuremath{\bsn}}
+\newcommand{\NSES}{\ensuremath{\bsN}}
 
 \newcommand{\img}{\ensuremath{c}}
 \newcommand{\IMG}{\ensuremath{C}}
@@ -125,6 +122,17 @@
 \newcommand{\deltaTaus}{\ensuremath{\Delta}}
 \newcommand{\cov}{\ensuremath{\mathbf{\Sigma}}}
 \newcommand{\lowpassfilter}{\ensuremath{\contTime{\phi}_\mathtt{LP}}}
+
+% command from ICASSP separake to CHAPTER separake
+\newcommand{\mP}{\ensuremath{\bfP}}
+\newcommand{\mD}{\ensuremath{\bfD}}
+\newcommand{\mZ}{\ensuremath{\bfZ}}
+\newcommand{\mV}{\ensuremath{\bfV}}
+\newcommand{\vQ}{\ensuremath{\bfQ}}
+\newcommand{\diag}{\mathop{\mathrm{diag}}}
+\newcommand{\rank}{\mathop{\mathrm{rank}}}
+\newcommand{\trace}{\mathop{\mathrm{trace}}}
+\newcommand{\mSigma}{\ensuremath{\boldsymbol{\Sigma}}}
 
 % (room) acoustics
 \newcommand{\speedOfSound}{\ensuremath{c}}

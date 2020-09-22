@@ -15,7 +15,9 @@
 \newthought{Synopsis} \synopsisChBlaster
 
 \mynewline
-The material presented in this chapter was previously published in~\cite{di2020blaster}.
+The material presented in this chapter was previously published in~\cite{di2020blaster} and results from a collaboration with a colleague whose
+domain of expertise is in the \CDdef/ framework.
+This chapter recall the main findings of the paper bringing additional insight in the existing and proposed models for \AER/.
 
 \section{Introduction}
 \label{sec:blaster:intro}
@@ -188,7 +190,37 @@ On a similar scheme, in~\citeonly{kowalczyk2013blind},~\cref{eq:blaster:xrel_toe
 A successful approach has been presented recently by the authors of~\citeonly{crocco2016estimation}, where the anchor constraint is replaced by an \textit{iterative weighted} $\ell_1$ equality constraint, \ie/, such that at each iteration $z$, $\ktranspose{\bfp^{(z)}}\bfh^{(z)} = 1$~\sidenote{
     Note that when $\bfp^{(z)} = 1$, the constraint returns to the $\ell_1$ penalty.}.
 In particular, the method is initialized using the solution of \citeonly{lin2007blind} and iterated enforcing sparsity using the solution of the previous problem, that is $\bfp^{(z)} = \hat{\bfh}^{(z-1)}$.
-The reader can can found a review for these methods in~\citeonly{crocco2015room,crocco2016estimation}.
+The reader can can found a comprehensive review of these methods in~\citeonly{crocco2015room,crocco2016estimation}.
+
+\newthought{The limitation of the discrete-time methods} described above are the followings:
+\marginpar{
+    \centering
+    \footnotesize
+    \includegraphics[trim={0 0 0 0},clip,width=\linewidth]{blaster/bodyguard.png}
+    \captionof{figure}{%
+        Schematics of the \textit{bodyguard effect} affecting on-grid approaches.
+    }
+    \label{fig:blaster:bodyguard}
+}
+\begin{itemize}
+    \item \textit{Basis mismatch}:
+    As explained in~\cref{subsec:estimation:bce}, the filter are not sparse in practice due to the \textit{basis mismatch}.
+    This implies that the true peaks of the filter do not necessarily correspond to the true echoes and lead to followings drawbacks.
+    \item \textit{The estimation is on-grid}:
+    These methods operates fundamentally \textit{on-grid} and return echoes' timings which are integer multiples of the $\Fs$.
+    \textit{Bodyguard effect}.
+    In addition to affecting the \AER/ performance, on-grid methods may converge slowly to suboptimal solutions.
+    In fact, as show in~\cref{fig:blaster:bodyguard}, instead of estimating the peak at its true location, two smaller ``bodyguard'' peaks are estimated around it instead.
+    The estimation procedure may stop at this point returning two wrong peaks.
+    Having smaller coefficients, this peaks may not be selected by the subsequent peak pickings technique.
+    Alternatively, the optimization procedure may continue, alternating tuning the weights of the two ``bodyguards'', without converging to a solution.
+    \item \textit{Computational bottleneck}.
+    A way to cope with the above limitations is to increase the $\Fs$.
+    However this results into a memory and computational bottleneck as several huge (Toeplitz) matrices needs to be built, one for each pair of microphones.
+    In addition, this leads the risk that the optimization problem becomes ill-conditioned.
+\end{itemize}
+
+\subsection{From cross-relation to LASSO}
 
 \section{Proposed Approach}
 \subsection{Cross-relation in the Fourier domain}
@@ -363,11 +395,23 @@ In that case, the first equality constraint in~\eqref{eq:blaster:TV-BP} is relax
 \end{equation}
 We emphasize that although continuous Radon measures may potentially be admissible, the minimizers of~\cref{eq:blaster:TV-BLASSO} are \emph{guaranteed} to be streams of Dirac\textit{s}~\citeonly[Theorem~4.2]{bredies2020sparsity}.
 In addition, although problem~\cref{eq:blaster:TV-BLASSO} seems to depend on some regularization parameter $\lambda$, we describe in~\cref{sec:blaster:lambda} a procedure to automatically tune it to recover a desired number of spikes.
-
-\mynewline
 Finally, note that problem~\cref{eq:blaster:TV-BLASSO} is convex with linear constraints.
-In this work, we particularize the sliding Frank-Wolfe algorithm proposed in~\citeonly{denoyelle2019sliding} to solve~\cref{eq:blaster:TV-BLASSO}.
+
+\newthought{The resulting algorithm} used to solve~\cref{eq:blaster:TV-BLASSO} is an instance the sliding Frank-Wolfe algorithm proposed in~\citeonly{denoyelle2019sliding} to solve~\cref{eq:blaster:TV-BLASSO}.
 Detailed descriptions of the steps of the algorithm are given in~\cref{ap:blaster}.
+In a nutshell the algorithm iterative over the following steps until a condition on the cost function is met.
+\begin{itemize}
+    \item \textit{Anchor or previously found peaks}
+    \item \textit{\textit{Local} cost based on Cross-relation}
+    \item \textit{Find the maximizer}
+    \item \textit{Update the amplitudes (Lasso-like)}
+    \item \textit{Joint refinement}
+\end{itemize}
+\begin{figure}
+    \begin{fullwidth}
+        a
+    \end{fullwidth}
+\end{figure}
 
 \subsection{Homotopic path for $\lambda$ estimation}\label{sec:blaster:lambda}
 We propose to compute a \textit{path of solutions} to automatically estimate the regularization parameter $\lambda$  in~\cref{eq:blaster:TV-BLASSO}.
@@ -376,6 +420,8 @@ More precisely, let $\lambda_{\max}$ be the smallest value of $\lambda$ such tha
 It can be shown that $\lambda_{\max}$ is upper bounded by $\max_{\theta\in\Theta} \kvbar{y^\intercal\opObs\delta_\theta}$ (See~\cref{ap:blaster}).
 Starting from $z=1$ and the empty filter, we consider a sequential implementation where the solution of~\cref{eq:blaster:TV-BLASSO} is computed for $\lambda^(z)= 10^{-0.05z}\lambda_{\max}$ until the desired number of spikes is found in each channel when incrementing $z$.
 For each $\lambda^(z)$, we search for a solution of~\cref{eq:blaster:TV-BLASSO} with the solution obtained for $\lambda^{(z-1)}$ as a warm start.
+
+\subsection{From LASSO to BLASSO}
 
 \section{Experiments}\label{sec:blaster:exp}
 The proposed method (\BLASTER/) is compared against the non-negative $\ell_1$-norm method (\algoBsn) of~\citeonly{lin2007blind} and the iterative $\ell_1$-norm approach (\algoCrocco) described in~\citeonly{crocco2016estimation}.

@@ -15,6 +15,9 @@
 \fontsize{10pt}{14pt}\selectfont
 
 \RequirePackage{geometry}
+% --- Figures -----------------------------------------------------------------
+\RequirePackage{subfig}
+% \RequirePackage{subcaption}
 
 % --- Fonts -------------------------------------------------------------------
 \RequirePackage{libertine}
@@ -30,8 +33,9 @@
 % see https://tex.stackexchange.com/a/496198/37762
 \SetMathAlphabet{\mathcal}{normal}{OMS}{zplm}{m}{n}
 
-
-%\RequirePackage{beramono}
+% font for \mathtt
+\RequirePackage[scaled=.8]{beramono}
+% \RequirePackage[scaled]{luximono}
 
 %%% Layout the Page %%%
 \setlrmarginsandblock{26mm}{211pt}{*}

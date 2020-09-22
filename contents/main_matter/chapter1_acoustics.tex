@@ -168,11 +168,11 @@ Under this light, the physic so-far can be rewritten using the vocabulary of the
 According to Green's method, the equations above can be solved in the frequency domain for arbitrary source as follows:
 \begin{equation}
     \label{eq:acoustics:helmholz_conv}
-    P(f, \positionMicrophone) = \iiint_{\volume_\contSource} H(f, \positionMicrophone \mid \positionSource) S(f, \positionSource) \kdiff\positionSource
+    P(f, \positionMicrophone) = \iiint_{\volume_{\contSource}} H(f, \positionMicrophone \mid \positionSource) S(f, \positionSource) \kdiff\positionSource
     ,
 \end{equation}
-where $\volume_\contSource$ denotes the source volume,
-and  $\kdiff\positionSource =  \kdiff{x_\contSource}\,\kdiff{y_\contSource}\,\kdiff{z_\contSource}$ the  differential  volume element at position $\positionSource$.
+where $\volume_{\contSource}$ denotes the source volume,
+and  $\kdiff\positionSource =  \kdiff{x_{\contSource}}\,\kdiff{y_{\contSource}}\,\kdiff{z_{\contSource}}$ the  differential  volume element at position $\positionSource$.
 If one ignores the space integral, one can see the close relation with a transfer function.
 \\The requested sound pressure $\pressureSpaceTime$ can now be computed by taking the frequency-directional inverse Fourier transform of \cref{eq:acoustics:helmholz_conv}.
 
@@ -216,7 +216,7 @@ This scenario depicted in \cref{fig:acoustics:planewaves} is known as \textit{fa
 }
 In contrast, when the distance between the source and the receiver is small, the scenario is called \textit{near field}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acoustic reflections}\label{ch:acoustics:sec:reflection}
 The equations derived so far assumed unbounded medium, \ie/ free space: a rare scenario in everyday applications.
 Real mediums are typically bounded, at least partially.

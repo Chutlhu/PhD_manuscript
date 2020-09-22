@@ -99,13 +99,14 @@
 % add pdf pages
 \usepackage{pdfpages} % \includepdf[pages=-]{myfile.pdf}
 \usepackage{rotating} % provide sidewaystable env
-
+% 2 sub figures
+% \usepackage{subcaption}
 % \pgfplotsset{%
 %     table/search path={./figures/plots/},
 % }
 
 % --- Bibliopgraphy -----------------------------------------------------------
-\bibliography{contents/back_matter/references.bib}
+\bibliography{contents/back_matter/references.bib, contents/back_matter/references_separake.bib}
 
 
 % --- Include only ------------------------------------------------------------
@@ -186,7 +187,7 @@
 \begin{fullwidth}
     \part{Room Acoustic meets Signal Processing}\label{pt:background}
 \end{fullwidth}
-% \parttoc[n]
+\parttoc[n]
 % \input{contents/main_matter/chapter1_acoustics}
 % \input{contents/main_matter/chapter2_processing}
 
@@ -196,7 +197,7 @@
 \end{fullwidth}
 \parttoc[n]
 % \input{contents/main_matter/chapter_estimation}
-\input{contents/main_matter/chapter_blaster}
+% \input{contents/main_matter/chapter_blaster}
 % \input{contents/main_matter/chapter_lantern}
 % \input{contents/main_matter/chapter_dechorate}
 % \input{contents/main_matter/chapter7_blaster2}
@@ -207,16 +208,16 @@
 \end{fullwidth}
 \parttoc[n]
 % \input{contents/main_matter/chapter9_applications}
-% \input{contents/main_matter/chapter10_separake}
+\input{contents/main_matter/chapter_separake}
 % \input{contents/main_matter/chapter11_mirage}
 % \input{contents/main_matter/chapter12_brioche}
 
-% %% IV. Conclusion
-% \begin{fullwidth}
-% \part{Epilogue}
-% \end{fullwidth}
-% \parttoc[n]
-% \input{contents/main_matter/chapter20_conclusion}
+%% IV. Conclusion
+\begin{fullwidth}
+\part{Epilogue}
+\end{fullwidth}
+\parttoc[n]
+\input{contents/main_matter/chapter20_conclusion}
 
 
 % === BACK MATTER ===
