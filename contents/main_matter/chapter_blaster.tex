@@ -17,7 +17,8 @@
 \mynewline
 The material presented in this chapter was previously published in~\cite{di2020blaster} and results from a collaboration with a colleague whose
 domain of expertise is in the \CDdef/ framework.
-This chapter recall the main findings of the paper bringing additional insight in the existing and proposed models for \AER/.
+The \CD/ framework applied for \AER/ is extracted from the related publication and briefly commented, while more attention is paid in grasping the motivation behind it.
+Finally, this chapter recall the main findings of the paper bringing additional insight in the existing models for \AER/.
 
 \section{Introduction}
 \label{sec:blaster:intro}
@@ -62,30 +63,27 @@ The method is compared to state-of-the art on-grid approaches under various nois
 \section{Background in Acoustic Echo Estimation}\label{sec:blaster:background}
 
 \subsection{Signal and measurement model}
-Consider the common setup where a band-limited and square-integrable source signal $\tilde{\src}$ is emitted.
-Due to the geometry of the room, the latter signal is both reflected (several times) and attenuated before reaching a set of two microphones.
-The recorded signal at microphone $\idxMic\in\{1,2\}$ reads
+We consider here the common setup of stereophonic mixtures, that is 2-channel microphone recordings.
+% Consider the common setup where a band-limited and square-integrable source signal $\tilde{\src}$ is emitted.
+% Due to the geometry of the room, the latter signal is both reflected (several times) and attenuated before reaching a set of two microphones.
+Using the notation presented~\cref{ch:processing}, recorded signal at microphone $\idxMic\in\{1,2\}$ reads
 \begin{equation}
     \label{eq:blaster:recordedSignal}
     \tilde{\mic}_i = \tilde{\src} \convCont \tilde{\flt}_i^\star + \tilde{u}_i
 \end{equation}
 where $\convCont$ denotes the (continuous) convolution operator, $\tilde{n}_i$ models some additive noise in the measurement process and $\tilde{\flt}_i^\star$ denotes the \RIRdef/.
 In the remainder of this chapter, the superscript $\star$ refers to the ground truth.
-In \AER/, we are interested in \RIRs/ that are streams of Diracs, \ie/,
+Assuming the echo model, the \RIRs/ read
 \begin{equation}
     \label{eq:blaster:def_filter_star}
     \tilde{\flt}^\star(t) = \sum_{\idxEch=0}^{\numEchs_i} \alpha_i^{(r)} \delta(t - \tau_i^{(r)})
 \end{equation}
-where $\numEchs_i$ is the (unknown) number of echoes, $\kfamily{\tau_{i}^{(r)}}{\idxEch=0}^{\numEchs_i}$ models the echoes' delays, and $\kfamily{\alpha_{i}^{(\idxEch}}{\idxEch=0}^{\numEchs_i}$ are the corresponding non-negative attenuations.
-Note that $\idxEch=0$ defines the ideal propagation path, also referred to as direct path.
-%
-In the noiseless case, that is when $\tilde{u}_i = 0$ for $i\in\{1,2\}$, we have the identity
+where $\numEchs_i$ is the (unknown) number of echoes.
+\\In the noiseless case, that is when $\tilde{u}_i = 0$ for $i\in\{1,2\}$, we have the cross-relation identity
 \begin{equation} \label{eq:blaster:cross-relation}
     \tilde{\mic}_1 \convCont \tilde{\flt}_2^\star = \tilde{\mic}_2 \convCont \tilde{\flt}_1^\star
 \end{equation}
 by commutativity of the convolution operator.
-This result is dubbed cross-relation identity in the channel identification literature \citeonly{xu1995least}.
-Hence, one can expect to recover the two filters by solving an optimization problem involving the difference between the two terms in~\cref{eq:blaster:cross-relation}.
 
 However, in practice, only sampled versions of the two recorded signals are available.
 More precisely, we consider the measurement model introduced in~\cref{ch:processing}:
@@ -110,19 +108,14 @@ We denote $\disRecordedSignal_1,\disRecordedSignal_2\in\bbR^{2N}$ the two vector
 
 
 \subsection{Existing works}\label{subsec:blaster:sota}
-Starting from the identity \cref{eq:blaster:cross-relation}, the common \SIMO/-\BCE/ cross-relation framework aims to compute $\contFilter_1, \contFilter_2$ solving the following \LASSO/-like problem\sidenote{
-    \LASSO/ problems~\citeonly{tibshirani1996regression} are convex optimization problems in the form of
-    \begin{equation*}
-        \kargmin_{x} \frac{1}{2} \kvvbar{b - Ax}_2^2 + \lambda\kvvbar{x}_1.
-    \end{equation*}
-    Despite the non-differentiability of the $\ell_1$-norm, they can be easily tackled by standard optimization tool.
-} in the discrete-time domain~\citeonly{lin2008blind}:
+Starting from the identity \cref{eq:blaster:cross-relation}, the common \SIMO/-\BCE/ cross-relation framework aims to compute $\contFilter_1, \contFilter_2$ solving the following problem in the discrete-time domain~\citeonly{lin2008blind}:
 \begin{equation}
     \label{eq:blaster:xrel_toepl}
     \disFilterHat_1, \disFilterHat_2
     =
     \kargmin_{\disFilter_1, \disFilter_2}
     \;
+    \tfrac{1}{2}
     \kvvbar{
         \scrT(\disRecordedSignal_1) \disFilter_2
         -
@@ -145,7 +138,13 @@ where $\disRecordedSignal_i$ and $\disFilter_i$ are the discrete, sampled versio
     \label{fig:blaster:toeplitz}
 }
 associated to convolution where $2N$ and $L$ respectively denote  microphone and filter signal length.
-In~\cref{ap:blaster}, we show how to express~\cref{eq:blaster:xrel_toepl} as a standard \LASSO/ problem.
+\\This type of problem can be seen as an instance of \LASSO/ problem~\citeonly{tibshirani1996regression}, written in the form:
+\begin{equation}\label{eq:blaster:lasso}
+    \kargmin_{\bfu} \tfrac{1}{2} \kvvbar{\bfv - \bfA\bfu}_2^2 + \lambda\kvvbar{\bfu}_1
+    .
+\end{equation}
+This type of well-known optimization problem are convex and, despite the non-differentiability of the $\ell_1$-norm, they can be easily tackled by standard optimization tool.
+Later, in~\cref{subsec:blaster:xrel_lasso}, we show how to express~\cref{eq:blaster:xrel_toepl} as a standard \LASSO/ problem.
 
 \mynewline
 The accuracy of estimated \RIRs/ has been subsequently improved using a priori knowledge of the filters.
@@ -160,7 +159,7 @@ Therefore, let us define a more general formulation for~\cref{eq:blaster:xrel_to
     \;\text{s.t.}\;
     \scrC(\disFilter_1, \disFilter_2)
 \end{equation}
-where $\scrJ = \kvvbar{\scrT(\disRecordedSignal_1) \disFilter_2 - \scrT(\disRecordedSignal_2) \disFilter_1}_2^2$ is the cost function to optimize.
+where $\scrJ = \tfrac{1}{2} \kvvbar{\scrT(\disRecordedSignal_1) \disFilter_2 - \scrT(\disRecordedSignal_2) \disFilter_1}_2^2$ is the cost function to optimize.
 $\scrP(\disFilter_1, \disFilter_2)$ and $\scrC(\disFilter_1, \disFilter_2)$ are respectively a regularization term used to promote sparse solution and a constrained set.
 Let us define $\bfh = \klist{h_1^\intercal, h_2^\intercal}$ as the concatenation of the two vectorized discrete filter.
 Thank to this formulation, current state of the art approaches can be summarized as in the Table~\cref{tab:blaster:sota}.
@@ -220,14 +219,64 @@ The reader can can found a comprehensive review of these methods in~\citeonly{cr
     In addition, this leads the risk that the optimization problem becomes ill-conditioned.
 \end{itemize}
 
-\subsection{From cross-relation to LASSO}
+\subsection{From cross-relation to LASSO}\label{subsec:blaster:xrel_lasso}
+Integrating the sparse penalty and the constraints proposed by~\citeonly{lin2008blind} (See \cref{tab:blaster:sota}) in \cref{eq:blaster:sota},
+the \BSNdef/ problem proposed reads
+\begin{equation}\label{eq:blaster:bsn}
+    \disFilterHat_1, \disFilterHat_2
+    =
+    \kargmin_{\disFilter_1, \disFilter_2}
+    \;
+    \tfrac{1}{2}
+    \kvvbar{
+        \scrT(\disRecordedSignal_1) \disFilter_2
+        -
+        \scrT(\disRecordedSignal_2) \disFilter_1
+    }_2^2
+    + \lambda\kvvbar{\bfh}_1
+    \;\text{s.t.}\;
+    \begin{cases}
+        \bfh \geq 0\\
+        h_1[0] = 1
+    \end{cases}
+    .
+\end{equation}
+This cross-relation based optimization problem can rewritten in the \LASSO/ formulation of~\cref{eq:blaster:lasso} as
+\begin{equation*}
+    \bfu
+    =
+    \kargmin_{\bfu}
+    \;
+    \tfrac{1}{2}
+    \kvvbar{ \bfv - \bfB \bfu }_2^2
+    + \lambda\kvvbar{\bfu}_1
+    \quad\text{s.t.}\quad
+    \bfu \geq 0
+    ,
+\end{equation*}
+where
+\begin{equation*}
+    \bfv = \ttX_2\bfe_1,
+    \quad
+    \bfu =
+    \begin{pmatrix}
+        h_1[1:] \\
+        h_2
+    \end{pmatrix},
+    \quad
+    \bfA =
+    \begin{pmatrix}
+        -\ttX_2[:, 1:] & \ttX_1
+    \end{pmatrix},
+    \quad
+    \ttX_i = \scrT(x_i)
+    .
+\end{equation*}
+Here we used the light, yet common, Python notation for indexing the matrices and vectors.
 
 \section{Proposed Approach}
 \subsection{Cross-relation in the Fourier domain}
-
-\newcommand{\paramVec}[1]{\Delta_{#1}}
-
-We first remark that the cross-relation identity~\cref{eq:blaster:cross-relation} ensures that the relation
+The cross-relation identity~\cref{eq:blaster:cross-relation} ensures that the relation
 \begin{equation}
     \idealLowPassFilter
     \ast \contRecordedSignal_1
@@ -237,7 +286,7 @@ We first remark that the cross-relation identity~\cref{eq:blaster:cross-relation
     \ast \contRecordedSignal_2
     \ast  \contFilter_1^\star
 \end{equation}
-holds, hence
+holds even during the introducted measurement process, hence
 \begin{equation}
     \label{eq:blaster:cross-relation-identity-fourier}
     \fourierTrans(\idealLowPassFilter\ast\contRecordedSignal_1) \cdot \fourierTrans \contFilter_2^\star
@@ -245,10 +294,10 @@ holds, hence
     \fourierTrans(\idealLowPassFilter\ast\contRecordedSignal_2) \cdot \fourierTrans \contFilter_1^\star
 \end{equation}
 where $\fourierTrans$ denotes the \FTdef/ described in~\cref{sec:processing:ft}
-\\We thus propose to use~\cref{eq:blaster:cross-relation-identity-fourier} in a penalized least-square problem akin to~\cref{eq:blaster:xrel_toepl}.
+\\In contrast with \SIMO/-\BCE/ methods that operates in the time domain, here we propose to use~\cref{eq:blaster:cross-relation-identity-fourier} in a penalized least-square problem.
 Such a formulation in the Fourier domain may even be considered as more convenient since the convolution operator is no longer involved.
 While the \FT/ of $\contFilter_i^\star$ can be expressed in closed-form (see~\cref{eq:blaster:closed-form-TF-dirac-N} below), the \FT/ of $\idealLowPassFilter\ast\contRecordedSignal_i$ is not available due to the measurement process.
-To circumvent this issue, we propose the following approximation to approximate it by the \DFTdef/ of the $\contRecordedSignal_i$:
+To circumvent this issue, following approximation detailed in~\cref{subsec:processing:ftapprox}, we consider the \DFTdef/ of the $\contRecordedSignal_i$:
 \begin{equation}
     \label{eq:blaster:approx-TF}
     \fourierTrans(\idealLowPassFilter\ast\contRecordedSignal_i)
@@ -280,9 +329,9 @@ reads
 
 \begin{equation}
     \label{eq:blaster:cross-relation-approx}
-    \sum_{r=0}^{R_2}\RecordedSignalDFT_1 \odot \paramVec{\tau_{2,r}}
+    \sum_{r=0}^{R_2-1} \alpha_2^{(r)} \RecordedSignalDFT_1 \odot \paramVec{\tau_{2}^{(r)}}
     =
-    \sum_{r=0}^{R_1}\RecordedSignalDFT_2 \odot \paramVec{\tau_{1,r}}
+    \sum_{r=0}^{R_1-1} \alpha_1^{(r)} \RecordedSignalDFT_2 \odot \paramVec{\tau_{1}^{(r)}}
 \end{equation}
 where $\odot$ denotes the component-wise Hadamard product.
 
@@ -301,7 +350,10 @@ Then, the two desired filters  $\contFilter_1^\star,\contFilter_2^\star$ given b
     \label{eq:blaster:representation_filter_measure}
     \mu^\star = \sum_{i=1}^{2} \sum_{r=0}^{R_{i}-1} \alpha_{i}^{(r)} \delta_{(\tau_{i}^{(r)}, i)}.
 \end{equation}
-The rationale behind~\cref{eq:blaster:parameter-set}  and~\cref{eq:blaster:representation_filter_measure} is as follows.
+where $\delta_{(\tau_{i}^{(r)}, i)}$ denotes the Dirac measure which is different from the Dirac function used when modeling the \RIRs/.
+The need of defining a measure over the parameter set $\Theta$ makes easier the parametrization of the problem in the context of \CD/.
+For instance, it is possible to define standard operation over measure used in algorithms to solve the such problems.
+\\Moreover, the rationale behind~\cref{eq:blaster:parameter-set} and~\cref{eq:blaster:representation_filter_measure} is as follows.
 A couple of filters is now represented by a single stream of Diracs, where we have considered an augmented variable $i$ indicating to which filter the spike belongs.
 For instance, a Dirac at $(\tau, 1)$ indicates that the first filter contains a Dirac at $\tau$.
 
@@ -363,7 +415,7 @@ Now, following~\citeonly{de2012exact,candes2014towards}, one can expect to recov
     \end{cases}
 \end{equation}
 Note that~\eqref{eq:blaster:TV-BP} has to be interpreted as a natural extension of the well-known \emph{basis pursuit} problem to the continuous setting.
-Indeed, for \emph{any} finite discrete measure $\mu = \sum_{r=0}^{R-1} c_r\delta_{(\tau_r, i_r)}$, the TV-norm of $\mu$ returns to the $\ell_1$-norm of the coefficients, \ie/, $\kvvbar{\mu}_{TV} = \sum_{r=0}^{R-1} \kvbar{c_r}$.
+Indeed, for \emph{any} finite discrete measure $\mu = \sum_{r=0}^{R-1} \alpha^{(r)}\delta_{(\tau^{(r)}, i^{(r)})}$, the TV-norm of $\mu$ returns to the $\ell_1$-norm of the coefficients, \ie/, $\kvvbar{\mu}_{TV} = \sum_{\idxEch=0}^{\numEchs-1} \kvbar{\alpha^{(r)}}$.
 
 \mynewline
 Finally,~\cref{eq:blaster:cross-relation-measure-and-obs} can be exploited to take into account noise during the measurement process (\ie/,  $n_i\neq0$ in~\cref{eq:blaster:recordedSignal}), as well as approximation errors  (see~\cref{eq:blaster:approx-TF}-\cref{eq:blaster:cross-relation-approx}).
@@ -384,8 +436,6 @@ In that case, the first equality constraint in~\eqref{eq:blaster:TV-BP} is relax
     \lambda\normTV{
         \mu
     }
-    \\
-    %
     \quad
     \text{s.t.}
     \quad
@@ -395,33 +445,128 @@ In that case, the first equality constraint in~\eqref{eq:blaster:TV-BP} is relax
 \end{equation}
 We emphasize that although continuous Radon measures may potentially be admissible, the minimizers of~\cref{eq:blaster:TV-BLASSO} are \emph{guaranteed} to be streams of Dirac\textit{s}~\citeonly[Theorem~4.2]{bredies2020sparsity}.
 In addition, although problem~\cref{eq:blaster:TV-BLASSO} seems to depend on some regularization parameter $\lambda$, we describe in~\cref{sec:blaster:lambda} a procedure to automatically tune it to recover a desired number of spikes.
-Finally, note that problem~\cref{eq:blaster:TV-BLASSO} is convex with linear constraints.
+Finally, note that problem~\cref{eq:blaster:TV-BLASSO} is convex with linear constraints over the parameter set $\Theta$.
+Therefore, theoretically, the problem can be solved exactly.
+However, in practice, optimization over space of measures, still complicated because many steps can only be done up to a prescribed precision.
+% 1) you define atome function (14) without the dirac measure
+% ex: a: tau -> a(tau)
+% 2) you define the desired filter as \sum_{c_{i, r}} a(\tau_{i, r})
+% 3) The How?
+% 4) existing work of antoine and Helena
+% fix the number of echoes
+% say c_1... \tau_1... = \argmin someting
+% frawback complicated, non convex and so
+% 5) idea: rephrease is a convex formulation
+% -> convenient framework is set of measurexs of theta
+% Convex in the measure
+% theoretically, we have algorithm to solve the  problkem exactly
+% But in practice, optimization over space of measures, still complicated
+% because many steps can only be done up to a prescribedf precision
+% (unkike classical convex optimization)
+% step 7 and 15
 
-\newthought{The resulting algorithm} used to solve~\cref{eq:blaster:TV-BLASSO} is an instance the sliding Frank-Wolfe algorithm proposed in~\citeonly{denoyelle2019sliding} to solve~\cref{eq:blaster:TV-BLASSO}.
-Detailed descriptions of the steps of the algorithm are given in~\cref{ap:blaster}.
-In a nutshell the algorithm iterative over the following steps until a condition on the cost function is met.
+\subsection{From LASSO to BLASSO}
+In order to better understand the proposed approach based on the \BLASSO/ algorithm, we can present it in light of the \LASSO/ formulation.
+\begin{gather*}
+    \kargmin_\bfu \tfrac{1}{2} \kvvbar{\bfv - \bfA \bfu}_2^2 + \lambda \kvvbar{\bfu}_1 \;\text{s.t.}\; \bfu \geq 0\\
+    \downarrow\\
+    \kargmin_\bfu \tfrac{1}{2} \kvvbar{y - \opObs\mu}_2^2 + \lambda \normTV{\mu} \;\text{s.t.}\; \mu \in\posDisRadonMeasure\\
+\end{gather*}
+Now, some parallelism can be envisioned:
 \begin{itemize}
-    \item \textit{Anchor or previously found peaks}
-    \item \textit{\textit{Local} cost based on Cross-relation}
-    \item \textit{Find the maximizer}
-    \item \textit{Update the amplitudes (Lasso-like)}
-    \item \textit{Joint refinement}
+    \item\textit{From dictionary to operator}:
+    The matrix $\bfA$ is typically referred to as \textit{dictionaries}.
+    Then selecting the $l$-th column of the dictionaries, \ie/ $\bfA\bfe_l$, means selecting an echo at location $l$-th \wrt/ the vector $\bfu = \bfh[1:]$.
+    In the context of \CD/, the dictionary is translated into the operator $\opObs$ thanks to the closed-from of the atom based on the Fourier theory.
+    Therefore, $\opObs(\delta_\tau)$ can be seen as the selection of an echo at location $\tau \in [0, T]$~ms.
+    \item\textit{Solution}:
+    The \LASSO/-like approach promotes a solution $\bfu = \bfh[1:]$ which is sparse and non-negative vector. The last one, ensured by the non-negativity constraint.
+    In the \BLASSO/, this is translated assuming the spike measure assumed for the channels, namely, $\mu = \sum_r \alpha^{(r) \delta(t - \tau^{(r)})}$.
+    \item\textit{Sparsity}: while in the initial case, the sparsity is enforced by the $\ell_1$-norm, in the second case it is pursued with the TV-norm.
+    \item\textit{Solver}: the former optimization problem can be solved with standard \LASSO/ solvers, while for the latter a gradient-descent algorithm is used.
 \end{itemize}
-\begin{figure}
-    \begin{fullwidth}
-        a
-    \end{fullwidth}
-\end{figure}
+
+\marginpar{
+    \vspace{-15\baselineskip}
+    \centering
+    \includegraphics[width=0.5\linewidth]{blaster/echo0.png}\\
+    $\downarrow$\\
+    \includegraphics[width=0.5\linewidth]{blaster/echo1.png}\\
+    $\downarrow$\\
+    \includegraphics[width=0.5\linewidth]{blaster/echo2.png}\\
+    $\downarrow$\\
+    \includegraphics[width=0.5\linewidth]{blaster/echo3.png}\\
+    $\downarrow$\\
+    \includegraphics[width=0.5\linewidth]{blaster/echo4.png}\\
+    $\downarrow$\\
+    \includegraphics[width=0.5\linewidth]{blaster/echo5.png}
+    \captionof{figure}{
+        Illustration of the sliding Frank-Wolfe algorithm proposed in~\citeonly{denoyelle2019sliding} in \BLASTER/.
+    }
+    \label{fig:blaster:sfw}
+
+}
+
+\subsection{The resulting algorithm}
+The algorithm used to solve~\cref{eq:blaster:TV-BLASSO} is an instance the sliding Frank-Wolfe algorithm proposed in~\citeonly{denoyelle2019sliding} to solve~\cref{eq:blaster:TV-BLASSO}.
+Detailed descriptions of the steps of the algorithm are given in~\cref{ap:blaster}.
+In a nutshell, the algorithm iterative over the following steps until a condition on the cost function is met.
+\begin{enumerate}
+    \item \textit{Anchor constrain.}
+    At first the anchor constraint in added arbitrarily on one of the two filters. This is used to initialize the two filters;
+    \item \textit{\textit{Local} cost based on Cross-relation}
+    For both the filters, a local cost-function derived from the cross-relation for both the filters is computed;
+    At this step either the initialization or previously found solution are used;
+    \item \textit{Find the maximizer}
+    a new candidate echo's location is found as maximizer among the two local cost functions of the previous step;
+    \item \textit{Update the amplitudes}
+    By solving a non-negative \LASSO/ problem, all the echo's amplitude coefficients estimated until this point are updated;
+    \item \textit{Joint refinement}
+    The position and the coefficient of the current solution are jointly refined to ease numeric resolution using the original cost function.
+    \item \textit{Current solution and repeat}
+    The algorithm stops as soon as an iterate satisfies the first order optimality condition associated to the convex problem;
+    if not, the algorithm iterates from step 2. using the current solution as input.
+\end{enumerate}
+These steps are illustrated in~\cref{fig:blaster:sfw}.
+% \begin{figure}[h]
+%     \begin{fullwidth}
+%     \centering
+%     \subfloat[echo0][Anchor]{
+%         \includegraphics[width=0.13\linewidth]{blaster/echo0.png}
+%         \label{fig:blaster:echo0}}
+%     \hfill
+%     \subfloat[echo1][Local evaluation]{
+%         \includegraphics[width=0.13\linewidth]{blaster/echo1.png}
+%         \label{fig:blaster:echo1}}
+%     \hfill
+%     \subfloat[echo2][Maximizer]{
+%         \includegraphics[width=0.13\linewidth]{blaster/echo2.png}
+%         \label{fig:blaster:echo2}}
+%     \\
+%     \subfloat[echo3][Update echoes' amplitudes]{
+%         \includegraphics[width=0.13\linewidth]{blaster/echo3.png}
+%         \label{fig:blaster:echo3}}
+%     \hfill
+%     \subfloat[echo4][Joint refinement]{
+%         \includegraphics[width=0.13\linewidth]{blaster/echo4.png}
+%         \label{fig:blaster:echo4}}
+%     \hfill
+%     \subfloat[echo5][Current solution]{
+%         \includegraphics[width=0.13\linewidth]{blaster/echo5.png}
+%         \label{fig:blaster:echo5}}
+%     \hfill
+%     \end{fullwidth}
+% \end{figure}
 
 \subsection{Homotopic path for $\lambda$ estimation}\label{sec:blaster:lambda}
-We propose to compute a \textit{path of solutions} to automatically estimate the regularization parameter $\lambda$  in~\cref{eq:blaster:TV-BLASSO}.
-In the context of sparse analysis this technique is also referred to as \textit{homotopic path}.
+Existing works, as well as the proposed one, relies of the regularization $\lambda$ parameter to weight the sparsity penalty.
+However, this becomes an hyperparameter that needs to be carefully tuned according to the input data.
+Instead, we propose to compute a \textit{path of solutions} to automatically estimate it in~\cref{eq:blaster:TV-BLASSO}.
+In the context of sparse optimization this technique is also referred to as \textit{homotopic path}.
 More precisely, let $\lambda_{\max}$ be the smallest value of $\lambda$ such that the null measure is the solution to~\cref{eq:blaster:TV-BLASSO}.
 It can be shown that $\lambda_{\max}$ is upper bounded by $\max_{\theta\in\Theta} \kvbar{y^\intercal\opObs\delta_\theta}$ (See~\cref{ap:blaster}).
 Starting from $z=1$ and the empty filter, we consider a sequential implementation where the solution of~\cref{eq:blaster:TV-BLASSO} is computed for $\lambda^(z)= 10^{-0.05z}\lambda_{\max}$ until the desired number of spikes is found in each channel when incrementing $z$.
 For each $\lambda^(z)$, we search for a solution of~\cref{eq:blaster:TV-BLASSO} with the solution obtained for $\lambda^{(z-1)}$ as a warm start.
-
-\subsection{From LASSO to BLASSO}
 
 \section{Experiments}\label{sec:blaster:exp}
 The proposed method (\BLASTER/) is compared against the non-negative $\ell_1$-norm method (\algoBsn) of~\citeonly{lin2007blind} and the iterative $\ell_1$-norm approach (\algoCrocco) described in~\citeonly{crocco2016estimation}.
