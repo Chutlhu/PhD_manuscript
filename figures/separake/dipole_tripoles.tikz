@@ -1,0 +1,56 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Image [id:dp3129430507137261]
+\draw (100,148) node  {\includegraphics[width=12pt]{acoustics/iconfinder_microphone_1608550.pdf}};
+%Shape: Rectangle [id:dp30560892412693785]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (30,40) -- (90,40) -- (90,100) -- (30,100) -- cycle ;
+%Image [id:dp7096994311262355]
+\draw (60,70) node  {\includegraphics[width=45pt,height=45pt]{acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Shape: Rectangle [id:dp4697494152917967]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (120,20) -- (130,20) -- (130,180) -- (120,180) -- cycle ;
+%Shape: Rectangle [id:dp004047242901594306]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (30,170) -- (130,170) -- (130,180) -- (30,180) -- cycle ;
+%Straight Lines [id:da07895276576528787]
+\draw    (30,170) -- (120,170) -- (120,20) ;
+%Image [id:dp41187969901424026]
+\draw (150,148) node  {\includegraphics[width=12pt]{acoustics/iconfinder_microphone_1608550.pdf}};
+%Image [id:dp5789764730979481]
+\draw (460,148) node  {\includegraphics[width=12pt]{acoustics/iconfinder_microphone_1608550.pdf}};
+%Shape: Rectangle [id:dp9000181446128821]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (390,40) -- (450,40) -- (450,100) -- (390,100) -- cycle ;
+%Image [id:dp2435207414441274]
+\draw (420,70) node  {\includegraphics[width=45pt,height=45pt]{acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Shape: Rectangle [id:dp9398764926641255]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (480,20) -- (490,20) -- (490,180) -- (480,180) -- cycle ;
+%Shape: Rectangle [id:dp778971808734305]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (390,170) -- (490,170) -- (490,180) -- (390,180) -- cycle ;
+%Straight Lines [id:da3135305596380903]
+\draw    (390,170) -- (480,170) -- (480,20) ;
+%Image [id:dp7510496534085151]
+\draw (510,148) node  {\includegraphics[width=12pt]{acoustics/iconfinder_microphone_1608550.pdf}};
+%Image [id:dp46570823643682746]
+\draw (460,198) node  {\includegraphics[width=12pt]{acoustics/iconfinder_microphone_1608550.pdf}};
+%Shape: Rectangle [id:dp7037413163827391]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=0.69 ] (140,130) -- (160,130) -- (160,160) -- (140,160) -- cycle ;
+%Shape: Rectangle [id:dp9860539015068507]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=0.69 ] (500,130) -- (520,130) -- (520,160) -- (500,160) -- cycle ;
+%Shape: Rectangle [id:dp6314384514574135]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=0.69 ] (450,180) -- (470,180) -- (470,210) -- (450,210) -- cycle ;
+%Image [id:dp35657556948669544]
+\draw (250,100) node  {\includegraphics[width=120pt,height=120pt]{separake/rir_dipoles.pdf}};
+%Image [id:dp09548352613616551]
+\draw (610,100) node  {\includegraphics[width=120pt,height=120pt]{separake/rir_tripoles.pdf}};
+
+% Text Node
+\draw (105,212.5) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Virtual Dipoles};
+% Text Node
+\draw (472,212.5) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Virtual Tripoles};
+
+\end{tikzpicture}

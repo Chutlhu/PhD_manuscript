@@ -1,4 +1,4 @@
-\chapter{Datasets for Acoustic Echo Estimation \& \DECHORATE/}\label{ch:dechorate}
+\chapter{Datasets for Acoustic Echo Estimation \& \library{dEchorate}}\label{ch:dechorate}
 
 \openepigraph{Signal, a function that conveys information about a phenomenon.
 $[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
@@ -16,141 +16,249 @@ $[\dots]$ Consider an acoustic wave, which can convey acoustic or music informat
     \end{itemize}
 }
 
-The material presented in the chapter are results of a work done while visiting the acoustic lab of Bar'Ilan University, collaborating with prof. Sharon Gannot and ing. Pinchas Tandeitnik.
-The work described here, and it continuation described in~\cref{ch:dechorate2} will be submitted as a journal article to the EURASIP special edition \textit{Data-driven ASP: Methods and Apps}.
+\mynewline
+The material presented in the chapter are results of a work done while visiting prof. Sharon Gannot and ing. Pinchas Tandeitnik at the Bar'Ilan University, Israel.
+The work described here, together with its continuation described in~\cref{ch:dechorate2} will be submitted as a journal article to the EURASIP special edition \textit{Data-driven ASP: Methods and Apps}.
 
 \section{Introduction}\label{sec:dechorate:intro}
 
-When sound travels from a source to a microphone in a indoor environment, it interacts with it by being delayed and attenuated due to the distance; reflected, absorbed and diffracted due to the surfaces. The room impulse response (RIR) translates this phenomenon as a linear and causal time-domain filter.
-As depicted in Fig.~\ref{fig:rir}, RIRs are commonly subdivided into 3 parts:
-the \textit{direct-path}, corresponding to the line-of-sight; the \textit{early echoes}, stemming from few disjoint reflections on the closest reflectors; and the \textit{reverberation tail} comprising the dense accumulation of late reflections and  \textit{scattering} effects. While the reverberation perceptually corresponds to the ``liveliness'' and naturalness of sounds \citeonly{geldard1953human}, the times of arrival (TOAs) of the direct path and early echoes carry precise information on the scene's geometry \citeonly{Kuttruff2009room}. Such relation is well explained by the image source model (ISM) \citeonly{Allen1979image}, where the echoes are associated with the contribution of virtual sound sources lying outside the real room.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{dechorate/rir_model_empty.png}
-    \caption{Depiction of the different components of a room impulse response as they relate to sound propagation.}
-    \label{fig:rir}
+As discussed~\cref{sec:estimation:datasets}, many \RIRs/ datasets are available online.
+However, most of them are specifically designed for application either for \SEdef/W or for \RooGEdef/.
+The main common drawback of these datasets in that they can not be easily used for other tasks than the one which they were designed for.
+In particular, \SE/-oriented dataset lack of of proper annotation of echoes in the \RIRs/ or the absolute position of object inside the rooms.
+Alternatively, the dataset for \RooGE/ focuses typically scenarios which are not suitable for \SE/ application.
+The \dEchorate{} was designed to fill this gap: a fully calibrated multichannel \RIR/ database with accurate annotation of the geometry and echoes in different configurations of a cuboid rooms with varying wall acoustic profiles.
+The database currently features 1800 annotated \RIRs/ obtained from 6 arrays of 5 microphones each, 6 sound sources in 10 different acoustic conditions.
+All the measurements were realized in the acoustic lab at Bar-Ilan university following a consolidated protocol previously established for the realization of two other multichannel \RIRs/ databases:
+the \href{http://www.eng.biu.ac.il/~gannot/RIR_DATABASE/}{BIU's Impulse Response Database} \citeonly{Hadad2014multichannel} gathering \RIRs/ of different reverberation levels sensed by uniform linear arrays (ULAs);
+and \href{https://asap.ite.tul.cz/downloads/MIRaGe/}{\library{MIRaGE}}~\citeonly{cmejla2019mirage} providing a set of measurements for a source position that can be place in in dense position grid.
+\dEchorate{} is designed for AER with linear arrays, and is more generally aimed at analyzing and benchmarking RooGE and echo-aware signal processing methods on real data.
+In particular, it can be used to assess robustness against the number of reflectors, the reverberation time, additive spatially-diffuse noise and non-ideal frequency and directive characteristics of microphone-source pairs and surfaces in a controlled way.
+Due to the amount of data and recording conditions, it could also be used to train machine learning models or as a reference to improve \RIR/ simulators.
+The database is accompanied with a Python toolbox that can be used to process and visualize the data, perform analysis or to annotate new datasets.
+
+\begin{figure}[t]
+    \begin{fullwidth}
+        \centering
+        \includegraphics[trim={0 0 0 10em},clip,width=\linewidth]{dechorate/fornitures.jpg}
+        \caption{Broad-view picture of acoustic lab at Bar-Ilan university.}
+        \label{fig:dechorate:room}
+    \end{fullwidth}
 \end{figure}
 
-A good echo-oriented RIR dataset should include a variety of environments (rooms geometries and surface materials), of microphone placings (close to or away from reflectors, scattered or forming ad-hoc arrays) and, most importantly, precise annotations of the scene's geometry and echo timings in the RIRs.
-Moreover, in order to be versatile and used in both SE and RooGE applications, the provided annotations should match the ISM, \textit{i.e.}, TOAs should be expressed in terms of image sources and vice-versa. Such data are difficult to collect since they require precise measurements of the positions and orientations of all the acoustic emitters, receivers and reflective surfaces inside the environment with dedicated planimetric equipment. We identified two main classes of related RIR datasets in the literature: SE/ASR-oriented datasets, e.g. \citeonly{Szoke2018building, Bertin2019voice, Cmejla2019mirage}, and RooGE-oriented datasets, e.g. \citeonly{Dokmanic2013acoustic, Crocco2017uncalibrated, remaggi2017acoustic}. The formers include acoustic echoes as highly correlated interfering source coming from close reflectors, such as desk in meeting rooms or the close wall, however their proper annotations are not provided.
-The latter group deals with sets of distributed, synchronized microphones and loudspeakers in a room.
-These setups are not exactly suitable for SE methods, which typically involve compact or ad hoc arrays.
 
-To fill this gap, we present \dEchorate{}: a fully calibrated multichannel RIR database with accurate annotation of the geometry and echoes in different configurations of a cuboid rooms with varying wall acoustic profiles.
-The database currently features 1800 annotated RIRs obtained from 6 arrays of 5 microphones each, 6 sound sources in 10 different acoustic conditions. All the measurements were realized in the acoustic lab at Bar-Ilan university following a consolidated protocol previously established for the realization of two other multichannel RIRs databases: the BIU's Impulse Response Database \citeonly{Hadad2014multichannel} gathering RIRs of different reverberation levels sensed by uniform linear arrays (ULAs); and \texttt{MIRaGE} \citeonly{Cmejla2019mirage} providing a set of measurements for a source position that can be place in in dense position grid. \dEchorate{} is designed for AER with linear arrays, and is more generally aimed at analysing and benchmarking RooGE and echo-aware signal processing methods on real data. In particular, it can be used to assess robustness against the number of reflectors, the reverberation time, additive spatially-diffuse noise and non-ideal frequency and directive characteristics of microphone-source pairs and surfaces in a controlled way. Due to the amount of data and recording conditions, it could also be used to train machine learning models or as a reference to improve RIR simulators.
-The database is accompanied with a Python toolbox that can be used to process and visualize the data,  perform analysis or to annotate new datasets.
-
-\input{tables/dechorate/table_room_equip}
-
-\subsection{Database realization}
+\section{Database realization}
 \subsection{Recording setup}
-The recording setup is situated in a cuboid room with dimension 6 m $\times$ 6 m $\times$ 2.4 m. The 6 facets of the room (walls, ceiling, floor) are covered by acoustic panels allowing controllable reverberation time ($\RT$). We placed $4$ directional loudspeakers (direct sources) facing the center of the room and $30$ microphones mounted on $6$ non-uniform linear arrays (nULA) of $5$ sensors each. An additional channel is used for the loop-back signal, which serves to compute the time of emission and detect errors. Each loudspeaker and each array was positioned close to one of the walls in such a way that the nature of the strongest echo can is easily identifiable. Moreover, their positioning was chosen to cover a wide distribution of source-to-receiver distances, hence, a wide range of direct-to-reverberant ratio (DRR). Further, $2$ more loudspeakers were positioned pointing towards the walls (indirect sources). This was done to study the case of early reflections being stronger than the direct-path.
+The recording setup is situated in a cuboid room with dimension 6 m $\times$ 6 m $\times$ 2.4 m.
+The 6 facets of the room (walls, ceiling, floor) are covered by acoustic panels allowing controllable reverberation time ($\RT$).
+We placed $4$ directional loudspeakers (direct sources) facing the center of the room and $30$ microphones mounted on 6 non-uniform linear arrays (nULA) of 5 sensors each.
+An additional channel is used for the loop-back signal, which serves to compute the time of emission and detect errors.
+Each loudspeaker and each array was positioned close to one of the walls in such a way that the nature of the strongest echo can is easily identifiable.
+Moreover, their positioning was chosen to cover a wide distribution of source-to-receiver distances, hence, a wide range of direct-to-reverberant ratio (\DRR).
+Further, $2$ more loudspeakers were positioned pointing towards the walls (indirect sources).
+This was done to study the case of early reflections being stronger than the direct-path.
+Each linear microphone arrays consists in $5$ microphones with non-uniform inter-microphone spacings of $[4, 5, 7.5, 10]$~cm\sidenote{
+    \ie/, $[-12.25, -8.25, -3.25, 3.25, 13.25]$ cm w.r.t the barycenter}.
+Each array is steered towards a different vertical edge of the room for calibration and reproducibility purposes.
 
-Each linear microphone arrays consists in $5$ microphones with non-unifor inter-microphone spacings of $[4, 5, 7.5, 10]$ cm\sidenote{\textit{i.e.} $[-12.25, -8.25, -3.25, 3.25, 13.25]$ cm w.r.t the barycenter}. Each array is steered towards a different vertical edge of the room for calibration and reproducibility purposes.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{figures/dechorate/positioning2D_xy.pdf}
-    \caption{Illustration of the recording setup - top view.}
-    \label{fig:2D}
+\begin{table}[h]
+    \begin{sidecaption}[]{
+        Technical specification of the measurements equipment used in the recordings.
+        }[tab:dechorate:room_equipment]
+        \centering
+        \small
+        \input{tables/dechorate/table_room_equip}
+    \end{sidecaption}
+\end{table}
+
+\begin{figure}[b]
+    \begin{sidecaption}[]{
+        Illustration of the recording setup - top view.
+        }[fig:dechorate:2D]
+        \centering
+        \includegraphics[width=0.8\linewidth]{figures/dechorate/positioning2D_xy.pdf}
+    \end{sidecaption}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[t]
     \begin{fullwidth}
     \centering
-    \subfloat[mu_spkr][]{
+    \subfloat[mu_spkr][Overall setup]{
         \includegraphics[width=0.325\textwidth]{figures/dechorate/recording_setup}}
     %
-    \subfloat[mu_spkr][]{
+    \subfloat[mu_spkr][Microphone array]{
         \includegraphics[width=0.325\textwidth]{figures/dechorate/mic}}
     %
-    \subfloat[mu_univ][]{
+    \subfloat[mu_univ][Revolving panels]{
             \includegraphics[width=0.325\textwidth]{figures/dechorate/panels}}
-    \label{fig:dechorate:seput}
+    \label{fig:dechorate:setup}
     \caption{Picture of the acoustic lab. From left to right: the overall setup, one microphone array, the setup with revolved panels.}
     \end{fullwidth}
 \end{figure}
 
-\subsection{Realization}
-The main feature of this room is the capability to change the acoustic profile of the each of its facet by flipping double-sided panels with one reflective and one absorbing face. This allows to achieve precise values of $\RT$ that ranges from $0.1$ to almost $1$ second. In this dataset the panels of the floor were kept always absorbent.
+\subsection{Measurements}
+The main feature of this room is the capability to change the acoustic profile of the each of its facet by flipping double-sided panels with one reflective and one absorbing face.
+This allows to achieve precise values of $\RT$ that ranges from 0.1 to almost 1 second.
+In this dataset the panels of the floor were kept always absorbent.
 
-Two types of sessions were considered, namely, \textit{one-hot} and \textit{incremental}. For the first type, a single facet was placed in reflective mode while all the others were kept absorbent. For the second type, starting from fully-absorbent mode, facets were progressively switched to reflective one after the other until all but the floor are reflective, as shown in Table \ref{tab:wallcoding}.
+\mynewline
+Two types of sessions were considered, namely, \textit{one-hot} and \textit{incremental}.
+For the first type, a single facet was placed in reflective mode while all the others were kept absorbent.
+For the second type, starting from fully-absorbent mode, facets were progressively switched to reflective one after the other until all but the floor are reflective, as shown in Table \ref{tab:dechorate:wallcoding}.
 
-\input{tables/dechorate/table_room_conf}
+\mynewline
+The dataset features an extra recording session.
+For this session, office fornitures where positioned in the room to simulate the a typical meeting room with chairs, tables (See~\cref{fig:dechorate:room}).
+This recordings will be used in future works for asserting the robustness of echo-aware methods in case of real-world scenario.
 
-% \\One recording session with random fornitures inside, to simulate the a typical meeting room with chairs, tables. The $\RT$ is around .
+\begin{table}[h]
+    \begin{sidecaption}[]{
+        Surface coding in the dataset: each binary digit indicates if the surface is absrobent ($\mathtt{0}$, \xmark ) or reflective ($\mathtt{1}$, \cmark).
+        }[tab:dechorate:wallcoding]
+        \centering
+        \small
+        \input{tables/dechorate/table_room_conf}
+    \end{sidecaption}
+\end{table}
 
-For each room configuration and loudspeaker, three different excitation signals were played and recorded in sequence: chirps, white noise and speech utterances. The former consists in a repetition of 3 exponentially swept-frequency sine (ESS) signals of duration 10 seconds and frequency range from 100 Hz to 14 KHz interspersed with 2 seconds of silence. Such frequency range was chosen to match the characteristics of the loudspeakers. To prevent rapid phase changes and ``popping'' effects, the signals were linearly faded in and out over 0.2 seconds with a Tuckey taper window\sidenote{\url{https://github.com/maj4e/pyrirtool}}.
-Secondly, 10 seconds bursts of white noise and 3 anechoic speech utterances from the Wall Street Journal dataset \citeonly{Paul1992design} were reproduced in the room. Through all the recordings, at least 40 dB of sound dynamic range was asserted and room temperature of $\ang{24} \pm \ang{0.5}$ and humidity of $80\%$ were registered. Moreover 1 minute of \textit{room tone} (silence) and 4 minutes of diffuse babble noise were recorded for each session. The latter was simulated by transmitting different chunks of the same single-channel babble noise recording from additional loudspeakers facing the four corners of the room.
 
-All the microphone signals were synchronously acquired and digitally converted to 48 kHz with 32 bits/sample using the equipment listed in Table~\ref{tab:room_equipment}. The polarity of each microphone was registered by clapping a book in the middle of the room.
+\mynewline
+For each room configuration and loudspeaker, three different excitation signals were played and recorded in sequence: chirps, white noise and speech utterances.
+The former consists in a repetition of 3 \ESS/ signals of duration 10 seconds and frequency range from 100 Hz to 14~kHz interspersed with 2 seconds of silence.
+Such frequency range was chosen to match the characteristics of the loudspeakers.
+To prevent rapid phase changes and ``popping'' effects, the signals were linearly faded in and out over 0.2 seconds with a Tuckey taper window\sidenote{
+    The code to generate the reference signal and to process them is available at the Database pepository.
+    Such code is based on \href{https://github.com/maj4e/pyrirtool}{\library{pyrirtool}} Python library.
+}
+Secondly, 10 seconds bursts of white noise and 3 anechoic speech utterances from the \WSJ/ dataset \citeonly{Paul1992design} were reproduced in the room. Through all the recordings, at least 40 dB of sound dynamic range was asserted and room temperature of $\ang{24} \pm \ang{0.5}$ and humidity of $80\%$ were registered. Moreover 1 minute of \textit{room tone} (silence) and 4 minutes of diffuse babble noise were recorded for each session. The latter was simulated by transmitting different chunks of the same single-channel babble noise recording from additional loudspeakers facing the four corners of the room.
 
-\section{RIRs estimation and annotation}\label{sec:annotation}
-RIRs are estimated with the ESS technique \citeonly{Farina2007advancements}: the signal of a microphone recording an ESS source is deconvolved by division in the frequency domain. Notice that the Fourier transform of the ESS signal used at the denominator is available in closed form.
+\mynewline
+All the microphone signals were synchronously acquired and digitally converted to 48 kHz with 32 bits/sample using the equipment listed in Table~\ref{tab:dechorate:room_equipment}. The polarity of each microphone was registered by clapping a book in the middle of the room.
 
-The objective of this database is to feature annotations in the ``geometrical space'', namely the microphone and source positions, \textit{fully consistent} with annotations in the ``signal space'', namely the echo timings within the RIRs. This results is achieved as follows:
+\section{Dataset annotation}\label{sec:annotation}
+\RIRs/ are estimated with the ESS technique \citeonly{farina2007advancements}: the signal of a microphone recording an \ESS/ source is deconvolved by division in the frequency domain.
+Notice that the Fourier transform of the \ESS/ signal used at the denominator is available in closed form.
+
+\subsection{RIRs annotation}
+The objective of this database is to feature annotations in the ``geometrical space'', namely the microphone and source positions, \textit{fully consistent} with annotations in the ``signal space'', namely the echo timings within the \RIRs/.
+This results is achieved as follows:
 \begin{enumerate}[label=(\roman*)]
-\item \label{it:ips} First, a the ground truth positions of array and source centres are acquired via a Beacon indoor positioning system ($\bIPS$). This system consists in 4 stationary bases positioned at the corners of the ceiling and a moving probe used for measurements which can be located within errors of $\pm2$~cm.
+    \item \label{it:ips} First, a the ground truth positions of array and source centres are acquired via a Beacon indoor positioning system ($\bIPS$).
+    This system consists in 4 stationary bases positioned at the corners of the ceiling and a moving probe used for measurements which can be located within errors of $\pm2$~cm.
+    The elements of this system are shown in~\cref{fig:dechorate:bips}.
+    \marginpar{
+        \centering
+        \includegraphics[width=\linewidth]{dechorate/IPSbeacon.jpg}
+        \captionof{figure}{
+            Picture of the Beacon indoor positioning system used for measuring array and loudspeaker 3D position.
+        }
+        \label{fig:dechorate:bips}
+    }
+    \item \label{it:not} The estimated \RIRs/ are superimposed on synthetic \RIRs/ computed with the \ISM/ from the geometry obtained in the previous step.
+    A Python GUI\sidenote{This GUI is available in the dataset package.} (showed in~\cref{fig:dechorate:labelling_tools}), was used to manually tune a peak finder and \textit{label} there echoes, that is annotate their positions and their correspondent wall.
 
-\item \label{it:not}  The estimated RIRs are superimposed on synthetic RIRs computed with the ISM from the geometry obtained in the previous step. A Python GUI, available in the database package, was used to manually tune a peak finder and \textit{label} there echoes, that is annotate their positions and their correspondent wall.
+    \item \label{it:mds} By solving a ``simple'' multi-dimensional scaling (\MDS) problem \citeonly{dokmanic2015relax, Crocco2016, Plinge2016acoustic}, refined microphone and source positions were computed.
+    The non-convexity of the problem was alleviated by using a good initialization (obtained at the previous step), by the high SNR of the measurements and, later, by including the additional image sources in the formulation.
+    The prior information about the arrays' structures reduced the number of variables of the problem, corresponding to the 3D positions of the sources and of the arrays' barycenters in addition to the the arrays' tilt on the azimuthal plane.
 
-\item \label{it:mds} By solving a ``simple'' multi-dimensional scaling (\MDS) problem \citeonly{dokmanic2015relax, Crocco2016, Plinge2016acoustic}, refined microphone and source positions were computed. The non-convexity of the problem was alleviated by using a good initialization (obtained at the previous step), by the high SNR of the measurements and, later, by including the additional image sources in the formulation. The prior information about the arrays' structures reduced the number of variables of the problem, corresponding to the 3D positions of the sources and of the arrays' barycenters in addition to the the arrays' tilt on the azimuthal plane.
-
-\item \label{it:lat} By employing a multilateration algorithm  \citeonly{Beck2008ExactProblems}, where the position of one microphone per array served as anchors and the TOAs are converted into distances, it was possible to localize the image sources along side with the real one as depicted in Figure~\ref{fig:wall_rec}.
+    \item \label{it:lat} By employing a multilateration algorithm \citeonly{Beck2008ExactProblems}, where the position of one microphone per array served as anchors and the \TOAs/ are converted into distances, it was possible to localize the image sources along side with the real.
+    This step will be further discussed in~\cref{ch:dechorate2}.
 \end{enumerate}
-
 Knowing the geometry of the recording room, we were able to manually label the echoes by iterating through steps \ref{it:not}, \ref{it:mds} and \ref{it:lat}.
-The final geometrical and signal annotation was chosen as a compromise between the $\bIPS$ measurements and the $\MDS$ output. While the formers are noisy but consistent with the scene's geometry, the latters match the TOAs but not necessarily the physical world. In particular, the geometrical ambiguities such as global rotation, translation and up-down ambiguities were observed. Instead of manually correcting this error, we modified the original problem from using only the direct distances ($\dMDS$) to considering the  image sources' TOA of the ceiling in the cost function ($\dcMDS$). Table~\ref{tab:res_mds} shows numerically the \textit{mismatch} (in cm) between the geometric space (defined by the $\bIPS$ measurements) and the signal space (the one defined by the echo timings, converted in cm).  To better quantify it, we introduce here the \textit{goodness of match} (GoM): it measures the fraction of (first-order) echo timings annotated on the RIRs matching the annotation produced by the geometry within a threshold. Including the ceiling information, $\MDS$ produces a geometrical configuration which has a small mismatch (0.41 cm in average) in both the signal \textit{and} geometric spaces with $98.1\%$ of matching first order echoes within 1 ms window. Nevertheless, it is interesting to see that already the $\bIPS$ measurements produces a good but less precise annotation.
 
-\input{tables/dechorate/table_results_mds}
+\newthought{The final geometrical and signal annotation} was chosen as a compromise between the $\bIPS$ measurements and the $\MDS$ output.
+While the formers are noisy but consistent with the scene's geometry, the latters match the \TOAs/ but not necessarily the physical world.
+In particular, the geometrical ambiguities such as global rotation, translation and up-down ambiguities were observed.
+Instead of manually correcting this error, we modified the original problem from using only the direct distances ($\dMDS$) to considering the  image sources' \TOA/ of the ceiling in the cost function ($\dcMDS$).
+Table~\ref{tab:dechorate:res_mds} shows numerically the \textit{mismatch} (in cm) between the geometric space (defined by the $\bIPS$ measurements) and the signal space (the one defined by the echo timings, converted in cm).
+To better quantify it, we introduce here the \textit{goodness of match} (GoM): it measures the fraction of (first-order) echo timings annotated on the \RIRs/ matching the annotation produced by the geometry within a threshold.
+Including the ceiling information, $\MDS$ produces a geometrical configuration which has a small mismatch (0.41 cm in average) in both the signal \textit{and} geometric spaces with $98.1\%$ of matching first order echoes within 1 ms window.
+Nevertheless, it is interesting to see that already the $\bIPS$ measurements produces a good but less precise annotation.
 
+\begin{table}[]
+    \begin{sidecaption}[]{
+        Mismatch between geometric measurements and signal measurements in terms of maximum (Max.), average (Avg.) and standard deviation (Std) of absolute mismatch in centimeters. The \textit{goodness of match} (GoM) between the signal and geometrical measurements is reported as fraction of matching echo timing for different threshold in milliseconds.
+        }[tab:dechorate:res_mds]
+        \centering
+        \small
+        \input{tables/dechorate/table_results_mds}
+    \end{sidecaption}
+\end{table}
+
+\subsection{Other tools for RIRs annotation}
 Finally, we want to mention that the following tools and techniques were found helpful in annotating the echoes:
 
-\newthought{The \texttt{skyline} visualization} consists in presenting multiple RIRs as an image, such that the wavefronts corresponding to echoes can be highlighted \citeonly{Baba2018b}. More precisely, it is the visualization of the $L \times N$ matrix $\mathbf{H}$ created by stacking column-wise $N$ normalized echograms\sidenote{The echogram is defined either as the absolute value or as the squared value of the RIRs.}, that is $\mathbf{H}_{l, n} =\bar{\eta}_{n}(l) = \kvbar{h_{n}(l)}/\max{\kvbar{h_{n}(l)}}$, where $l = 0, \dots, L-1$ is  the sample index and $n$ is an arbitrary indexing of the all microphones for a fix room configuration. 4 RIR $\mathtt{skyline}$s for 4 directional sources for the full reflective scenario are shown in Figure~\ref{fig:skyline}, stacked horizontally, preserving the order of microphones within the arrays. Thus, the reader can notice several clusters of 5 adjacent points of similar color (intensity) corresponding to the arrivals at the array's sensors. Thanks to the usage of linear arrays, this visualization allowed us to identify both TOAs and their labeling.
+\newthought{The \texttt{skyline} visualization} consists in presenting multiple \RIRs/ as an image, such that the wavefronts corresponding to echoes can be highlighted \citeonly{Baba2018b}.
+More precisely, it is the visualization of the $L \times N$ matrix $\mathbf{H}$ created by stacking column-wise $N$ normalized echograms\sidenote{
+    The echogram is defined either as the absolute value or as the squared value of the RIRs.
+}, that is $\mathbf{H}_{l, n} =\bar{\eta}_{n}(l) = \kvbar{h_{n}(l)}/\max{\kvbar{h_{n}(l)}}$, where $l = 0, \dots, L-1$ is  the sample index and $n$ is an arbitrary indexing of the all microphones for a fix room configuration.
+4 \RIR/ \texttt{skyline}s for 4 directional sources for the full reflective scenario are shown in Figure~\ref{fig:dechorate:skyline}, stacked horizontally, preserving the order of microphones within the arrays. Thus, the reader can notice several clusters of 5 adjacent points of similar color (intensity) corresponding to the arrivals at the array's sensors.
+Thanks to the usage of linear arrays, this visualization allowed us to identify both \TOAs/ and their labeling.
 
 \begin{figure}[h]
+    \begin{sidecaption}[]{
+        Detail of the GUI used to manually annotate the \RIRs/.
+        For a given source and microphone,
+        a) and b) shows 2 \RIR/ for 2 different room walls configuration (blue and orange) before and after the direct path deconvolution respectively.
+        c) shows the results of the peak finder of the equalized RIR and d) is a zoom on the \RIR/ \texttt{skyline} (See \cref{fig:dechorate:skyline}).
+        }[fig:dechorate:labelling_tools]
     \centering
+    \small
     \begin{overpic}[width=\linewidth]{figures/dechorate/labeling_tool.pdf}
-    \put (2,62) {\footnotesize a)}
-    \put (52,62) {\footnotesize b)}
-    \put (2,31) {\footnotesize c)}
-    \put (52,31) {\footnotesize d)}
+        \put (2,   195) {\footnotesize a)}
+        \put (160, 195) {\footnotesize b)}
+        \put (2,   95)  {\footnotesize c)}
+        \put (160, 95)  {\footnotesize d)}
     \end{overpic}
-
-    \caption{Detail of the GUI used to manually annotate the RIRs. For a given source and microphone, a) and b) shows 2 RIR for 2 different room walls configuration (blue and orange) before and after the direct path deconvolution respectively. c) shows the results of the peak finder of the equalized RIR and d) is a zoom on the RIR Skyline (see Fig.~\ref{fig:skyline}).}
-    \label{fig:labelling_tools}
+    \end{sidecaption}
+    \label{}
 \end{figure}
 
 
 \begin{figure}
+    \begin{sidecaption}[]{
+        \RIR/ \texttt{Skyline} annotated with observed peaks ($\times$) together with their geometrically-expected position ($\circ{}$) computed with \library{Pyroomacoustic} simulator.
+        As specified in the legend, different colors are used to indicate the room facets responsible for the reflection: direct path ($\mathtt{d}$), ceiling ($\mathtt{c}$), floor ($\mathtt{f}$), west wall ($\mathtt{w}$), $\dots$, north wall ($\mathtt{n}$).
+    }[fig:dechorate:skyline]
     \centering
-    \includegraphics[width=\linewidth]{figures/dechorate/rir_skyline_final_mod4paper.pdf}
-    \caption{RIR $\mathtt{Skyline}$ annotated with observed peaks ($\times$) together with their geometrically-expected position ($\circ{}$) computed with Pyroomacoustic simulator. As specified in the legend, different colors are used to indicate the room facets responsible for the reflection: direct path ($\mathtt{d}$), ceiling ($\mathtt{c}$), floor ($\mathtt{f}$), west wall ($\mathtt{w}$), $\dots$, north wall ($\mathtt{n}$).}
-    \label{fig:skyline}
+    \includegraphics[trim={15em 15em 2em 0},clip,width=\linewidth]{figures/dechorate/rir_skyline_final_mod4paper.pdf}
+    \end{sidecaption}
 \end{figure}
 
-\newthought{Direct Path Deconvolution} (or equalization) was used for compensating the frequency response of the source loudspeaker and microphone \citeonly{antonacci2012inference, Eaton2016estimation}. In particular, the direct path of the RIR was manually isolated and used as an equalization filter for enhancing early reflections from their superimposition and from background noise before proceed with peak picking. Each RIR was equalized with its relative direct path. As depicted in Figure~\ref{fig:labelling_tools}, in some situation this process was necessary for correctly identifying the underlying TOAs' peaks.
+\newthought{Direct Path Deconvolution} was used for compensating the frequency response of the source loudspeaker and microphone \citeonly{antonacci2012inference, Eaton2016estimation}. In particular, the direct path of the RIR was manually isolated and used as an equalization filter for enhancing early reflections from their superimposition and from background noise before proceed with peak picking. Each RIR was equalized with its relative direct path. As depicted in Figure~\ref{fig:dechorate:labelling_tools}, in some situation this process was necessary for correctly identifying the underlying \TOAs/' peaks.
 
-\newthought{Different Wall Combinations} for the same geometry influenced the peaks' predominance in the RIR, hence hence facilitating its echo annotation. An example of RIRs corresponding to 2 different surface configurations is shown in Figure~\ref{fig:labelling_tools}: the reader can notice how the peak prominence change for the different configurations.
+\newthought{Different Wall Combinations} for the same geometry influenced the peaks' predominance in the \RIR/, hence hence facilitating its echo annotation.
+An example of \RIRs/ corresponding to 2 different surface configurations is shown in~\cref{fig:dechorate:labelling_tools}: the reader can notice how the peak prominence change for the different configurations.
 
-\newthought{The Interpolation-based Peak Finder\sidenote{\url{https://bitbucket.org/lucashnegri/peakutils/}}} was used on the normalized echograms $\bar{\eta}_{n}(l)$ to sightly compensate the sampling process. In~\citeonly{remaggi2017acoustic} a method that automatically extract peaks in RIRs is proposed. However, in practice, the manual peak finding was found easier and more robust.
+\newthought{The Interpolation-based Peak Finder}\sidenote{
+    In this work, peaks are found using the Python \href{https://bitbucket.org/lucashnegri/peakutils/}{\library{peakutils} library.}
+} was used on the normalized echograms $\bar{\eta}_{n}(l)$ to sightly compensate the sampling process. In~\citeonly{remaggi2016acoustic} a method that automatically extract peaks in \RIRs/ is proposed.
+However, in practice, the manual peak finding was found easier and more robust.
 
 \subsection{Limitations of current annotation}
-As stated in \citeonly{Defrance2008finding}, we want to emphasize that annotating the correct TOAs of echoes and even the direct path in ``clean'' real RIRs is far from straightforward. The peaks can be blurred out by the loudspeaker characteristics or the concurrency of multiple reflections. However as showed in Figure~\ref{fig:skyline}, the proposed annotation was found to be sufficiently consistent both in the geometric and the echo in the echo space. Thus, no further refinement was done. This database can be used as a first basis to develop better AER methods which could be used to iteratively improve the annotation, for instance including  2$^\text{nd}$ order reflections.
+As stated in \citeonly{defrance2008finding}, we want to emphasize that annotating the correct \TOAs/ of echoes and even the direct path in ``clean'' real \RIRs/ is far from straightforward.
+The peaks can be blurred out by the loudspeaker characteristics or the concurrency of multiple reflections.
+However as showed in~\cref{fig:dechorate:skyline}, the proposed annotation was found to be sufficiently consistent both in the geometric and the echo in the echo space.
+Thus, no further refinement was done.
+This database can be used as a first basis to develop better \AER/ methods which could be used to iteratively improve the annotation, for instance including  2$^\text{nd}$ order reflections.
 
-\section{The dEchorate package}
-The dataset comes with both data and code to parse and process them. The data are presented in 2 modalities: the $\mathtt{raw}$ data, that is, the collection of recorded wave files, are organized in folders and can be retrieved by querying a simple database table; the $\mathtt{processed}$ data, which comprise the estimated RIRs and the geometrical and signal annotations, are organized in tensors directly importable in Matlab or Python (\textit{e.g.} all the RIRs are stored in a tensor of dimension $L \times I \times J \times D$, respectively corresponding to the RIR length in samples, the number of microphones, of sources and of room configurations).
+\section{The \library{dEchorate} package}
+The dataset comes with both data and code to parse and process them. The data are presented in 2 modalities: the \texttt{raw} data, that is, the collection of recorded wave files, are organized in folders and can be retrieved by querying a simple database table; the \texttt{processed} data, which comprise the estimated \RIRs/ and the geometrical and signal annotations, are organized in tensors directly importable in Matlab or Python (\textit{e.g.} all the \RIRs/ are stored in a tensor of dimension $L \times I \times J \times D$, respectively corresponding to the RIR length in samples, the number of microphones, of sources and of room configurations).
 \\Together with the data a Python package is available at the same website. This includes wrappers, GUI, examples as well as the code to reproduce this paper.
-In particular, all the scripts used for estimating the RIRs and annotating them are available and can be used to further improve and enrich the annotation or as baselines for future works.
+In particular, all the scripts used for estimating the \RIRs/ and annotating them are available and can be used to further improve and enrich the annotation or as baselines for future works.
 
 \begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{figures/dechorate/database.png}
-    \caption{Sample view of the database table to retrieve the raw wave file and its attributes.}
-    \label{fig:dataset}
+    \begin{sidecaption}[]{
+            Sample view of the database table to retrieve the raw wave file and its attributes.
+        }[fig:dechorate:dataset]
+        \centering
+        \includegraphics[width=\linewidth]{figures/dechorate/database.png}
+    \end{sidecaption}
 \end{figure}
 
-\section{Conclusions and Perspectives}
-
-This paper introduced a new database of room impulse responses featuring accurate annotation of early echoes and microphone positions. These data can be used to test methods in the room geometry estimation pipeline and in echo-aware audio signal processing. In particular, robustness of these methods can be validated against different levels of $\RT$, SNR or even early echo density.
+\section{Conclusions}
+This work introduced a new database of \RIRdef/ featuring accurate annotation of early echoes and microphone positions.
+These data can be used to test methods in the room geometry estimation pipeline and in echo-aware audio signal processing.
+We will show some application in \SE/ and \RooGE/ in~\cref{ch:dechorate2}.

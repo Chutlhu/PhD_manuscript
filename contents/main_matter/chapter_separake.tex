@@ -1,4 +1,4 @@
-\chapter{Sound Source Separation \& \SEPARAKEdef/}\label{chap:separake}
+\chapter{Sound Source Separation \& \library{Separake}}\label{chap:separake}
 
 \marginpar{%
     \footnotesize
@@ -17,40 +17,49 @@
 \newthought{Synopsis} \synopsisChSeparake
 
 \mynewline
-The material presented in the chapter results from a collaboration with Robin Scheibler and Ivan Dokmani\`{c} and wes previously published in~\cite{scheibler2018separake}.
+The material presented in the chapter results from a collaboration with Robin Scheibler and Ivan Dokmani\'{c} and wes previously published in~\cite{scheibler2018separake}.
 This chapter recall the main findings of the paper bringing additional insight in the literature and in the proposed model, written according to the used notation.
-In particular, the personal contribution to this collaboration, done in the early months of the \PhD/, included extending the \EMdef/-\NMF/ method for accounting the echoes and its implementation in Python.
+The personal contribution to this collaboration, done in the early months of the \PhD/, was implementations the \EMdef/-\NMF/ method accounting the echoes and pre-trained dictionary in Python.
 
 \section{Literature review in Echo-aware Audio Source Separation}
-Audio Source separation algorithms can be grouped according to how they model with sound propagation:
-those that ignore it \citeonly{le2015deep},
-those that assume a single anechoic path \citeonly{rickard2007duet},
-those that model the \RTFs/, entirely \citeonly{ozerov2010multichannel, duong2010under, nugraha2016multichannel},
-and those that attempt to separately estimate the contribution of the early echoes and the contribution of the late tail \citeonly{leglaive2015multichannel}.
-
-\mynewline
-Currently, in the literature, few works can be found that incorporate early reflection into sound source separation.
+The are many approaches in audio source separation.
+In this chapter we will consider only the one based on time-frequency masking and we do not consider the one based on spatial filtering.
+The latters will be reviewed in a dedicated section in~\cref{ch:dechorate2}.
+\\According to the definition given in~\cref{ch:processing}, audio source separation algorithms can be grouped according to how they model with sound propagation in the mixing process:
 \begin{itemize}
-    \item In [Huang et al., 2005], the authors pro- posed a decomposition of the source separation problem into different procedures. The interference was separated from the target source via deconvolving the estimated di- rect sound RIR segment, then, the same deconvolution approach was applied to each singular echo. However, this method had a high computational cost, thus, in [Rotili et al., 2010] a real-time implementation was presented, where they replaced the inverse filtering, for the deconvolution, with an efficient iterative algorithm. Nevertheless, this method was not robust to low SNR conditions.
-    \item a
-    \item a
+    \item those that ignore it \citeonly{le2015deep} (instantaneous mixing process);
+    \item those that assume a single anechoic path \citeonly{rickard2007duet, nesta2012convolutive} (anechoic mixing process);
+    \item those that model the \RTFs/ entirely \citeonly{ozerov2010multichannel, duong2010under, nugraha2016multichannel, li2019expectation} (convolutive mixing process);
+    \item and those that attempt to separately estimate the contribution of the early echoes and the contribution of the late tail \citeonly{leglaive2015multichannel}.
 \end{itemize}
-The echoes information have rarely been analyzed in the context of source separation with non-negative source models.
+Currently, in the literature, only few works can be found that incorporate the knowledge of echoes into sound source separation.
+In the work \citeonly{huang2005blind}, the authors proposed a decomposition of the source separation problem into different procedures.
+First they estimate the \RIRs/ by extending the \SIMO/-\BCE/ framework form \MIMO/ systems.
+Here the \RIR/ are modeled as \FIR/ filter following the multipath echo model.
+Secondly, the estimated filters are used to build the demixing matrix, thus, used to separate the sources with an inverse-filtering approach.
+However, this method exhibits an high computational cost, which was addressed later in~\citeonly{rotili2010joint}.
+Nevertheless these approaches were found not robust of low SNR condition.
+\\Alternatively, in~\citeonly{asaei2014structured}, proposed an geometry-based approach embedded in a sparse optimization framework:
+first, by localizing the image sources and estimating the room geometry, the supports of the \RIRs/' early contributions are estimated;
+then, after computing the coefficient of the \RIRs/ element in a convex optimization framework, the individual speech signals are separated with either inverse-filtering or sparse recovery.
+The performance of this approach rely on the \RIR/ and geometry estimation steps, which is very sensitive to the challenging acoustic condition, \eg/ low SNR or high \RT.
+\\Instead, the work \citeonly{leglaive2015multichannel} proposes to tackle the convolutive model by imposing a probabilistic prior on the early part of the \RIRs/, namely, modeled as an autoregressive process in the frequency domain.
+Later, the same authors extended this work in~\citeonly{leglaive2016multichannel} accounting for both early and late part of the mixing filters.
 
-Our emphasis here is different than that in \citeonly{leglaive2015multichannel}.
-Rather than fitting the echo model, we aim to show that separation in the presence of echoes is in fact better than separation without echoes.
-
-In this work we propose to solve the problem from another point of view:
-we assume knowing the locations of a few walls relative to the microphone array, which enables us to exploit the associated \textit{image microphones}.
-The image microphone model is equivalent of the \ISMdef/~\citeonly{allen1979image}, where virtual receiver are placed outside of the room.
+\newthought{The propose of this work} is yet different than that presented above.
+First, rather than fitting the echo model as in~\citeonly{leglaive2015multichannel,leglaive2016multichannel}, nor estimating the mixing filters as in~\citeonly{huang2005blind,asaei2014structured},
+we aim to show that separation in the presence of known echoes is better than separation without echoes .
+\\Second, we conduct this investigation in the context of source separation with non-negative source models.
+\\Third, we propose to solve the problem from the point of view of \textit{image microphones}.
+The image microphone model is equivalent of the \ISMdef/~\citeonly{allen1979image}, where virtual receiver are placed outside of the room (See~\cref{fig:separake:setup}).
 Even if the \ISM/ is more common and implemented in practice in acoustic simulators, the two models are strictly equivalent.
-Therefore, the assumption behind these models are easy to satisfy in living rooms and conference rooms, but the corresponding model incurs a significant mismatch with respect to the complete reverberation (See~\cref{ch:acoustics})
-The approach proposed is based on the acoustic rake receivers proposed in~\citeonly{Dokmanic:2015dr} and thus dubbed as \SEPARAKEdef/.
+Therefore, the assumption behind these models are easy to satisfy in living rooms and conference rooms, but the corresponding model incurs a significant mismatch with respect to the complete reverberation (See~\cref{ch:acoustics}).
+This approach is based on the acoustic rake receivers previously proposed in~\citeonly{Dokmanic:2015dr} and thus dubbed as \SEPARAKEdef/.
 
 \mynewline
-The considered setup is illustrated in Figure \ref{fig:separake:separake:setup}.
-In particular, we consider $\idxSrc$ sources emitting from $\idxSrc$ distinct \DOAdef/ $\set{\theta_\idxSrc}_{\idxSrc=1}^{\numSrcs}$, and an array of $\idxMic$ microphones.
-The array is placed close to a wall or a corner. This is useful for the following reasons:
+The considered setup is illustrated in~\cref{fig:separake:setup}.
+% We consider $\idxSrc$ sources emitting from $\idxSrc$ distinct \DOAdef/ $\set{\theta_\idxSrc}_{\idxSrc=1}^{\numSrcs}$, and an array of $\idxMic$ microphones.
+We assume that the array is placed close to a wall or a corner. This is useful for the following reasons:
 first, it makes echoes from the nearby walls significantly stronger than all other echoes;
 second, it ensures that the resulting image array (real and image microphones) is compact, allowing to assume the far field regime.
 
@@ -58,47 +67,33 @@ second, it ensures that the resulting image array (real and image microphones) i
     \begin{sidecaption}[Separake setup]{%
         Typical setup with two speakers recorded by two microphones.
         The illustration shows the virtual microphone model (grey microphones) with direct sound path (dotted lines) and resulting first-order echoes (colored lines).
-        }[fig:separake:separake:setup]
+        }[fig:separake:setup]
     \centering
-    \includegraphics[width=.7\linewidth]{separake/separake.pdf}
+    \includegraphics[width=.6\linewidth]{separake/separake.pdf}
     \end{sidecaption}
 \end{figure}
 
-\newthought{Traslating echoes into image arrays} provides a interesting geometrical interpretation in light of beamforming theory.
+\newthought{Traslating echoes into image arrays} provides an interesting geometrical interpretation in light of beamforming theory.
 Real and virtual microphones form dipoles with diverse frequency-dependent directivity patterns.
-By integrating more and more virtual microphones the directivity pattern, \aka/ beampatterns, changed and higher spatial selectivity can be achieved~\citeonly{dokmanic2015raking}.
+By integrating more and more virtual microphones, the directivity patterns change and higher spatial selectivity can be achieved~\citeonly{dokmanic2015raking}.
 This effect is shown in~\cref{fig:separake:directivity}.
-\begin{figure}[h]
+Therefore, the goal of this work is to design audio source separation algorithms which benefit from this known spatial diversity.
+\begin{figure}[b]
     \begin{fullwidth}
     \centering
-    \subfloat[mu_spkr][Dipole]{
-        \includegraphics[width=0.20\linewidth]{separake/microphones_dipoles_tripoles_2.pdf}
-        \label{fig:separake:dipole}
-    }%
-    \subfloat[mu_spkr][Dipole Beampattern]{
-        \includegraphics[width=0.48\linewidth]{separake/rir_dipoles.pdf}
-        \label{fig:separake:dipole}}
-    \\
-    \subfloat[mu_univ][Tetrapole]{
-            \includegraphics[width=0.20\linewidth]{separake/microphones_dipoles_tripoles_3.pdf}
-            \label{fig:separake:tetra}
-    }%
-    \subfloat[mu_univ][Tetrapole]{
-        \includegraphics[width=0.48\linewidth]{separake/rir_tripoles.pdf}
-        \label{fig:separake:tetra}}
+    \input{figures/separake/dipole_tripoles.tikz}
     \label{fig:separake:directivity}
     \caption{Frequency-dependent directivity pattern }
     \end{fullwidth}
 \end{figure}
-Therefore, the goal of this work is to design audio source separation algorithms which benefit from this known spatial diversity.
 
 \section{Modeling}
-Assuming $\numEchs$ echoes per source are known, we can form an approximate \RTF/ from source $\idxSrc$ to microphone $\idxMic$,
+Recalling the echo model for the \RIRs/, and assuming $\numEchs$ echoes per source are known, the approximate \RTFdef/ from source $\idxSrc$ to microphone $\idxMic$ writes
 \begin{equation}
     \label{eq:separake:approx_tf}
     \tilde{H}_{\idxMicSrc}(f) = \sum_{\idxEch=0}^{\numEchs} \alpha_{\idxMicSrc}^{(\idxEch)} \cste^{-\csti 2 \pi f \tau_{\idxMicSrc}^{(\idxEch)}}.
 \end{equation}
-The far field assumption implies that only the relative arrival times are known so we can arbitrarily fix the delay of the direct path to zero.
+The far field assumption implies that only the relative arrival times are known, so we can arbitrarily fix the delay of the direct path to zero.
 In addition, we assume all walls to be spectrally flat in the frequency range of interest and that $\alpha_{\idxMicSrc}^{(\idxEch)}$ are known up to a scaling (i.e. $\alpha_{\idxMicSrc}^{(0)} = 1$).
 In this work the echoes properties are assumed to be known.
 
@@ -112,11 +107,12 @@ Therefore, the \STFTdef/ of the $\idxMic$-th microphone signal reads
 with $k\in\klist{0,\ldots,F}$ and $l\in\klist{0,\ldots,T}$ being the frequency and frame index,
 $H_{\idxMicSrc}[k]$ is the \DFT/ approximating the \RTF/ of~\eqref{eq:separake:approx_tf},
 $\MIC_{\idxSrc}[k,l]$ the \STFT/ of the $\idxSrc$-th source signal, and $\NSE_\idxMic[k,l]$ a term including noise and model mismatch.
-It is convenient to group the microphone observations in matrix form (See~\cref{subsec:processing:model:stft}),
+It is convenient to group the microphone observations in vector-matrix form,
 \begin{equation}
     \MICS[k,l] = \FLTSS[k]\SRCS[k,l] + \NSES[k,l]
-    .
+    ,
 \end{equation}
+where $\MICS[k,l],  \NSES[k,l] \in \bbC^{\numMics \times 1}$, $\SRCS[k,l] \in \bbC^{\numSrcs \times 1}$ and $\FLTSS[k,l] \in \bbC^{\numMics \times \numSrcs}$.
 
 \mynewline
 Let the squared magnitude of the spectrogram of the $\idxSrc$-th source be $\mP_\idxSrc = \klist{\powerOf{\SRC_\idxSrc}}_{kl} \in \bbR^{F\times T}$.
@@ -135,20 +131,21 @@ As depicted in~\cref{fig:separake:nmf_source}, the spectrogram can be modeled as
 where $\mD_\idxSrc$ is the non-negative \textit{dictionary} whose contains the spectral can be interpreted as spectral templates of the source,
 and the latent variables $\mZ_\idxSrc$, called \textit{activations}, indicates when and how this templates are activated.
 
-\newthought{The Audio Source separation} can then be cast as an inference problem in which we maximize the likelihood of the observed $\MICS$ over all possible non-negative factorizations \eqref{eq:separake:nmf}.
+\newthought{The NMF-based Audio Source Separation} can then be cast as an inference problem in which we maximize the likelihood of the observed $\MICS$ over all possible non-negative factorizations \eqref{eq:separake:nmf}.
 This normally involves learning the channels, namely the frequency-domain mixing matrices $\FLTSS$.
 Instead of learning them, we build the channels based on the prior knowledge of the earliest few echoes.
 
 \section{Source Separation by NMF}
-In this work, two standard, well-understood multi-channel source separation algorithms which by default estimate the channels (the \RTFs/).
-\\The first algorithm is the \NMFdef/ via \MUdef/ and consider only the magnitudes of the transfer functions.
-The second one is the multichannel \NMF/ via \EMdef/, which instead explicitly model the phases of the mixing matrix.
-In this work, we considered only the (over)determined case ($J \leq M$).
-In the following we briefly describe the two algorithms used.
+In this work we consider the two standard, well-understood multi-channel source separation algorithms which, by default, estimate the channels together with sources' dictionaries and activations.
+The first algorithm is the \NMFdef/ via \MUdef/ and consider only the magnitudes of the transfer functions.
+The second one is the multichannel \NMF/ via \EMdef/, which instead explicitly model the phases of the mixing filters.
+In this work, we considered only the (over)determined case ($\numSrcs \leq \numMics$).
+In the following we briefly describe the idea behind the two algorithms.
+We reminds to the work of~\citeonly{ozerov2010multichannel} for further details.
 
 \subsection{NMF using Multiplicative Updates (MU-NMF)}\label{sec:separake:mu}
-\MUdef/ for \NMF/ only involve the magnitudes only and the updates rules are guaranteed non-negative as long as the initialization is.
-This model have been originally proposed by in \citeonly{Lee:2001ti}, however we will consider its formulation as it appear in~\citeonly{ozerov2010multichannel}:
+\MU/ for \NMF/ only involve the magnitudes only and the updates rules are guaranteed non-negative as long as the initialization is.
+This model have been originally proposed by in \citeonly{Lee:2001ti}, however we will consider its formulation as it appear in~\citeonly{ozerov2010multichannel}.
 The observed multi-channel squared magnitude spectra $\mV_\idxMic = \klist{\powerOf{\MIC_\idxMic[k,l]}}_{kl}$ and their non-negative factorizations,
 \begin{equation}
     \label{eq:mu_nmf}
@@ -161,17 +158,23 @@ The observed multi-channel squared magnitude spectra $\mV_\idxMic = \klist{\powe
         Schematics of the signal model used for \MU/-\NMF/.
     }\label{fig:separake:nmf_mu}
 }
-where $\vQ_{\idxMicSrc} = \klist{\powerOf{FLT_{\idxMicSrc}[k]}}_k$ is the vector of squared magnitudes of the approximate \RTF/ between microphone $\idxMic$ and source $\idxSrc$.
+where $\vQ_{\idxMicSrc} = \klist{\powerOf{\FLT_{\idxMicSrc}[k]}}_k$ is the vector of squared magnitudes of the approximate \RTF/ between microphone $\idxMic$ and source $\idxSrc$.
 
-\newthought{The MU cost function} is minimize the \textit{Itakura-Saito divergence} \citeonly{Fevotte:2011af} between the observed spectrogram $(V_{\idxMic}[k,l]$ and the model $\wh{V}_{\idxMic}[k,l]$, that is,
+\newthought{The MU cost function} is minimize the \textit{Itakura-Saito divergence} \citeonly{Fevotte:2011af} between the observed spectrogram $(\mV_{\idxMic}[k,l]$ and the model $\wh{\mV}_{\idxMic}[k,l]$, that is,
 \begin{equation}
-    \scrC_{\mathtt{MU}}(\mZ_\idxSrc) = \sum_{\idxSrc k l} \calD_{\mathtt{IS}}(V_{\idxMic}[k,l] | \wh{V}_{\idxMic}[k,l])
+    \scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}}) = \sum_{\idxSrc k l} \calD_{\mathtt{IS}}(\mV_{\idxMic}[k,l] | \wh{\mV}_{\idxMic}[k,l])
     + \gamma \sum_\idxSrc \kvvbar{\mZ_\idxSrc}_1,
 \end{equation}
-where $\calD_{\mathtt{IS}}( v | \hat{v} ) = \frac{v}{\hat{v}} - \log \frac{v}{\hat{v}} - 1$.
+where $\calD_{\mathtt{IS}}( v | \hat{v} ) = \frac{v}{\hat{v}} - \log \frac{v}{\hat{v}} - 1$ and $\Theta_{\mathtt{MU}} = \{\vQ_{\idxMicSrc}, \set{\mD_\idxSrc, \mZ_\idxSrc}_\idxSrc\}_{\idxMicSrc}$ is the set of parameters.
 We add an $\ell_1$-penalty term to promote sparsity in the activations due to the potentially large size of the dictionary~\citeonly{Sun:2013co}.
 
-\newthought{The MU updating rule} are obtain by adapting the original \MU/ rule derivations from \citeauthor{ozerov2010multichannel}:
+\newthought{The MU updating rules} for each scalar parameter of interest $\theta$ are obtained by multiplying its value at previous iteration by the ratio of the negative and positive parts of the derivative of the criterion \wrt/ this parameter, namely,
+\begin{equation*}
+    \theta \gets \theta \frac{\kbracket{\knabla_\theta \scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}})}_{-}}
+                             {\kbracket{\knabla_\theta \scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}})}_{+}}
+\end{equation*}
+where $\scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}}) = {\kbracket{\knabla_\theta \scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}})}_{+}} - {\kbracket{\knabla_\theta \scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}})}_{-}}$ and the summands are both nonnegative.
+By adapting the original \MU/ rule derivations from \citeauthor{ozerov2010multichannel}, we obtain:
 \begin{align}
     \vQ_{\idxMicSrc} &\gets\vQ_{\idxMicSrc} \odot \frac{\kbracket{\wh{\mV}_\idxSrc^{-2} \odot \mV_\idxSrc \odot \kparen{\mZ_\idxSrc \mD_\idxSrc}}\onesVect_{1\times T}}{
                                             \kbracket{\wh{\mV}_\idxSrc^{-1} \odot \kparen{\mZ_\idxSrc \mD_\idxSrc}}\onesVect_{1\times T}}\\
@@ -183,9 +186,9 @@ We add an $\ell_1$-penalty term to promote sparsity in the activations due to th
 where multiplication $\odot$, power, and division are element-wise and $\onesVect_{1\times T}$ is a $N$-vector of ones,.
 
 \subsection{NMF using Expectation Maximization (EM-NMF)}\label{sec:separake:em}
-Unlike the \MU/ algorithm that independently maximizes the log-likelihood of \RTF/ magnitudes, the \EM/-\NMF/ maximizes the joint log-likelihood over all complex-valued channels~\citeonly{ozerov2010multichannel}.
-Hence, the model takes into account observed phases.
-Each source $\idxSrc$ is modeled as complex Gaussian in the form of
+Unlike the \MU/ algorithm that independently maximizes the log-likelihood of spectral magnitudes, the \EM/-\NMF/ maximizes the joint log-likelihood over all complex-valued channels~\citeonly{ozerov2010multichannel}.
+Hence, the model takes explicitly into account observed phases.
+In this approach, each source $\idxSrc$ is modeled as complex Gaussian in the form of
 \begin{equation}
     \SRC_\idxSrc[k,l] \sim \mathcal{N}_c \kparen{0, (\mD_\idxSrc\mZ_\idxSrc)_{kl}},
 \end{equation}
@@ -197,25 +200,59 @@ and the magnitude spectrum $\mP_\idxSrc$ of \eqref{eq:separake:nmf} can be under
 \end{equation}
 where $\mSigma_{\SRCS}$ and $\mSigma_{\NSES}$ are the covariance matrix of the sources and noise, respectively.
 
-\newthought{The \EM/ cost function} correspond to the negative log-likelihood of the observed signal, that is,
+\newthought{The EM cost function} correspond to the negative log-likelihood of the observed signal, that is,
 \begin{equation}\label{eq:separake:loglike}
-    \scrC_{\mathtt{EM}}(\mZ_\idxSrc) = \sum\limits_{kl} \trace\kparen{\MICS[k,l] \khermitian{\MICS[k,l]} \mSigma_{\MICS}^{-1}[k,l]} \\
+    \scrC_{\mathtt{EM}}(\Theta_{\mathtt{EM}}) = \sum\limits_{kl} \trace\kparen{\MICS[k,l] \khermitian{\MICS[k,l]} \mSigma_{\MICS}^{-1}[k,l]} \\
     + \log\det\mSigma_{\MICS}[k,l].
 \end{equation}
+where the $\Theta_{\mathtt{EM}} = \set{\FLTSS, \set{\mD_\idxSrc, \mZ_\idxSrc}_\idxSrc, \mSigma_{\NSES}}$ is the set of parameters.
+
+\newthought{The EM algorithm} estimates all the parameters $\Theta$ by alternating between the so-called E-step and M-step.
+In a nutshell, one iteration the E-step consists of computing the \textit{conditional expectation} of the the log likelihood of $\scrC_{\mathtt{EM}}$ with respect to the current parameter estimates,
+and the M-step re-estimating the parameters by maximizing the conditional expectation of the log-likelihood of $\scrC_{\mathtt{EM}}$.
 This quantity can be efficiently minimized using the \EM/ algorithm proposed in~\citeonly{ozerov2010multichannel}.
-Since adding sparsity priors is not straightforward in the \EM/ framework, it was left for future work.
+Moreover, since adding sparsity priors is not straightforward in the \EM/ framework, it was left for future work.
+% \begin{description}
+%     \item[E-step:] Conditional expectation \wrt/ the current parameters
+%     \begin{align}
+%         a &= a\\
+%         a &= a\\
+%     \end{align}
+%     \item[M-step:] Updates of the parameters
+%     \begin{align}
+%         \mD = \frac{1}{N} \sum_N
+%     \end{align}
+% \end{description}
 
-
-\newthought{The \EM/ algorithm} alternate between the estimation of the parameter (E-step) and the maximization of expectation of the log-likelihood given in~\cref{eq:separake:loglike}.
-The resulting algorithm is:
+% \subsection{Reconstruction of the sources}
+% The reconstruction of the image sources is achieved by Wiener filtering, namely
+% \begin{equation}
+%     \IMG_\idxMicSrc[k,l] = \FLT_{\idxMicSrc}[k] \SRC_\idxSrc[k,l] =
+% \end{equation}
 
 \section{Echo-aware Source Separation}
-The knowledge of the echoes in embedded in the above the multi-channel \NMF/ frameworks by approximating the \RTF/ using the early-echo channel model of \eqref{eq:approx_tf}.
-Moreover, instead of estimating
-Therefore, we modify the original algorithms by fixing the source dictionaries $\mD_\idxSrc$ and the early-echo channel model $\FLTSS[k]$ throughout the iterations.
+To evaluate the usefulness of echoes in source separation, we modified the the multi-channel \NMF/ framework of \citeauthor{ozerov2010multichannel}~\citeonly{ozerov2010multichannel}.
+The knowledge of the echoes in embedded in the embedded in the model by approximating the entries of mixing matrix with~\eqref{eq:approx_tf}, that is,
+\begin{equation}
+    \begin{aligned}
+        \FLT_{\idxMicSrc}[k] &= \sum_{\idxEch=0}^{\numEchs} \alpha_{\idxMicSrc}^{(\idxEch)} \cste^{-\csti 2 \pi f_k \tau_{\idxMicSrc}^{(\idxEch)}},\\
+        \FLTSS[k] &= \kbracket{\FLT_{\idxMicSrc}[k]}_{\idxMicSrc},
+    \end{aligned}
+\end{equation}
+where $f_k = k\Fs/F$ are the discretized frequencies in Hz corresponding to the $k$-th bin in the \DFT/.
+\\Futhermore, the early-echo channel model is kept fixed throughout the iterations.
+Moreover, instead of updating both sources' dictionaries and activations, we adapted pre-trained dictionaries to better guide the source separation.
+
+\newthought{Pre-trained Dictionaries} are a typical way to inform the \NMF/ algorithm, and sometimes referred to as \textit{supervised \NMF/}.
+The idea is run \NMF/-based source separation on a set of training and collect the atoms of the estimated non-negative matrices\citeonly{schmidt2006single}.
+At the test phase, this atoms are used as basis vectors for the dictionary matrix (\ie/, $\mD$) and can be used as a good initialization point or kept fixed in the algorithm\sidenote{
+    In the context of \NMF/-based music transcription applied to piano music, the dictionary can be the collection of spectral templates, each of which is associated to a piano notes~\citeonly{muller2015fundamentals}}.
+This can be seen as an instance of the problem of \textit{dictionary learning} which exist also in many other research field.
+For audio source separation, this ideas has been studied extensively since promising results were obtained, even in single channel scenarios ~\citeonly{smaragdis2009sparse}.
+Ad discussed later in~\cref{subsec:separake:dictionary}, in this work we will use two different dictionaries: one \textit{universal}, and the other \textit{speaker-specific}.
 
 \newthought{Neglecting the reverberation} (or working in the anechoic regime) leads to a constant $\vQ_{\idxMicSrc}$ for all $\idxSrc$ and $\idxMic$.
-A consequence is that the \MU/-\NMF/ framework breaks down with a universal dictionary.
+A consequence is that the \MU/-\NMF/ framework breaks down with a universal dictionary, namely, $\mD = \mD_j\;\forall j$.
 Indeed, \eqref{eq:mu_nmf} becomes the same for all $\idxMic$,
 \begin{equation*}
     \wh{\mV}_\idxMic = \sum_{\idxSrc} \mD \mZ_\idxSrc = \mD \sum_\idxSrc \mZ_\idxSrc,
@@ -223,9 +260,8 @@ Indeed, \eqref{eq:mu_nmf} becomes the same for all $\idxMic$,
 so even with the correct atoms identified, we can assign them to any source without changing the value of the cost function.
 Therefore, anechoic multi-channel separation with a universal dictionary cannot work well.
 This intuitive reasoning is corroborated by numerical experiments in Section \ref{sec:results}.
-The problem is overcome by the EM-NMF algorithm which keeps the channel phase and is thus able to exploit the phase diversity across the array.
+The problem is overcome by the \EM/-\NMF/ algorithm which keeps the channel phase and is thus able to exploit the phase diversity across the array.
 Of course, as showed in this work, it is also overcome by using echoes.
-
 
 \section{Numerical Experiments}
 
@@ -248,16 +284,15 @@ The scenario is repeated for every two active sources out of the 780 possible pa
 
 \mynewline
 The sound propagation between sources and microphones is simulated using the
-image source model implemented in \textit{pyroomacoustics} Python package~\citeonly{scheibler2017pyroomacoustics}.
+image source model implemented in \library{pyroomacoustics} Python package~\citeonly{scheibler2017pyroomacoustics}.
 The wall absorption factor is set to $0.4$, leading to a $\RT$ of approximately $\SI{100}{\ms}$.
-An example RIR is shown in Figure~\ref{fig:separake:rir_room}.
 The sampling frequency is set to $\SI{16}{\kHz}$, \STFT/ frame size to $2048$ samples with $50\%$ overlap between frames, and we use a cosine window for analysis and synthesis.
 Partial \RTFs/ are then built from the $\numEchs$ nearest image microphones.
 The global delay is discarded, and only the relative amplitudes between echoes are kept.
 
 \mynewline
 With this setup, we perform three different experiments.
-In the first one, we evaluate MU-NMF with a universal dictionary.
+In the first one, we evaluate \MU/-\NMF/ with a universal dictionary.
 In the other two, we evaluate the performance of \MU/-\NMF/ and \EM/-\NMF/ with speaker-specific dictionaries.
 We vary $\numEchs$ from 1 to 6 and use three baseline scenarios:
 \begin{enumerate}
@@ -266,7 +301,7 @@ We vary $\numEchs$ from 1 to 6 and use three baseline scenarios:
 \item \textit{no echoes}: Reverberation is present but ignored (i.e. $\numEchs=0$).
 \end{enumerate}
 With the universal dictionary, the large number of latent variables warrants the introduction of sparsity-inducing regularization.
-The value of the regularization parameter $\gamma$ was chosen by a grid search on a holdout set with the signal-to-distortion ratio ($\SDR$) as the figure of merit \citeonly{vincent2007first} (Table~\cref{tab:separake:gamma}).
+The value of the regularization parameter $\gamma$ was chosen by a grid search on a holdout set with the signal-to-distortion ratio ($\SDR$) as the figure of merit \citeonly{vincent2007first} (See ~\cref{tab:separake:gamma}).
 
 \begin{table}
     \begin{sidecaption}[]{
@@ -279,8 +314,7 @@ The value of the regularization parameter $\gamma$ was chosen by a grid search o
 \end{table}
 
 
-\subsection{Dictionary Training, Test Set, and Implementation}
-To evaluate the usefulness of echoes in source separation, the multi-channel \NMF/ framework of \citeauthor{ozerov2010multichannel}~\citeonly{ozerov2010multichannel}.
+\subsection{Dictionary Training, Test Set}\label{subsec:separake:dictionary}
 First, we introduce a dictionary learned from available training data.
 We explore both speaker-specific and universal dictionaries \citeonly{Sun:2013co}.
 Speaker-specific dictionaries can be beneficial when speakers are known in advance.
@@ -289,13 +323,13 @@ Universal dictionary is more versatile but gives a weaker regularization prior.
 \begin{figure}[h]
     \begin{fullwidth}
     \centering
-    \subfloat[mu_spkr][Speaker-specific dictionary]{
-        \includegraphics[width=0.48\linewidth]{separake/dict_speaker_dep.pdf}
-        \label{fig:separake:dict_spk}}
-        \hfill
     \subfloat[mu_univ][Universal dictionary]{
         \includegraphics[width=0.48\linewidth]{separake/dict_universal.pdf}
         \label{fig:separake:dict_univ}}
+    \hfill
+    \subfloat[mu_spkr][Speaker-specific dictionary]{
+        \includegraphics[width=0.48\linewidth]{separake/dict_speaker_dep.pdf}
+        \label{fig:separake:dict_spk}}
     \label{fig:separake:results}
     \end{fullwidth}
 \end{figure}
@@ -317,7 +351,8 @@ The number of latent variables per speaker was set to $20$.
 \mynewline
 All dictionaries were trained on samples from the TIMIT corpus \citeonly{garofolo1993timit} using the \NMF/ solver in \library{scikit-learn} Python package~\citeonly{pedregosa2011scikit}.
 
-\newthought{Implementation:} Authors of \citeonly{ozerov2010multichannel} provide a Matlab implementation\sidenote{
+\subsection{Implementation:}
+Authors of \citeonly{ozerov2010multichannel} provide a Matlab implementation\sidenote{
     \href{http://www.irisa.fr/metiss/ozerov/Software/multi_nmf_toolbox.zip}{Multichannel nonnegative matrix factorization toolbox (in Matlab)}
 } of \MU/-\NMF/ and \EM/-\NMF/ methods for stereo separation.
 We ported their code to Python and extended it to arbitrary number of input channels\sidenote{
@@ -342,6 +377,16 @@ In the experiments, the number of iterations for \MU/-\NMF/ (\EM/-\NMF/) was set
 We evaluate the performance in terms of signal-to-distortion ratio (\SDR) and source-to-interference ratio (\SIR) as defined in \citeonly{vincent2007first}.
 We compute these metrics using the \library{mir\_eval} toolbox~\citeonly{raffel2014mir_eval}.
 
+\mynewline
+The distributions of \SDR{} and \SIR{} for separation using \MU/-\NMF/ and a universal dictionary are shown in \cref{fig:separake:mu_univ}, with a summary in \cref{fig:separake:median}.
+We use the median performance to compare the results from different algorithms.
+First, we confirm that separation fails for flat \RTFs/ (\textit{anechoic} and $\numEchs=0$) with \SIR{} at around 0~dB.
+Learning the \RTFs/ performs somewhat better in terms of \SIR{} than in terms of \SDR{}, though both are low.
+Introducing approximate \RTFs/ dramatically improves performance: the proposed approach outperforms the learned approach even with a single echo.
+With up to six echoes, gains are +2~dB \SDR{} and +5~dB \SIR{}.
+Interestingly, with more than one echo, non-negativity and echo priors already sufficient for achieving good separation, overlooking the $\ell_1$ regularization.
+
+
 \begin{figure}[t]
     \begin{fullwidth}
     \centering
@@ -362,7 +407,7 @@ We compute these metrics using the \library{mir\_eval} toolbox~\citeonly{raffel2
 \end{figure}
 
 
-\begin{figure}[th]
+\begin{figure}[b]
     \begin{sidecaption}[]{
             Summary of the median SDR and SIR for the different algorithms evaluated.
             \label{fig:separake:median}
@@ -373,21 +418,12 @@ We compute these metrics using the \library{mir\_eval} toolbox~\citeonly{raffel2
     \end{sidecaption}
 \end{figure}
 
-\mynewline
-The distributions of \SDR and \SIR for separation using \MU/-\NMF/ and a universal dictionary are shown in \cref{fig:separake:mu_univ}, with a summary in \cref{fig:separake:median}.
-We use the median performance to compare the results from different algorithms.
-First, we confirm that separation fails for flat \RTFs/ (\textit{anechoic} and $\numEchs=0$) with \SIR at around 0~dB.
-Learning the \RTFs/ performs somewhat better in terms of \SIR than in terms of \SDR, though both are low.
-Introducing approximate \RTFs/ dramatically improves performance: the proposed approach outperforms the learned approach even with a single echo.
-With up to six echoes, gains are +2~dB \SDR and +5~dB \SIR.
-Interestingly, with more than one echo, $\ell_1$ regularization becomes unnecessary; non-negativity and echo priors are sufficient for separation.
 
 \mynewline
 Separation with speaker-dependent dictionaries is less challenging since we have a stronger prior.
 Accordingly, as shown in ~\cref{fig:separake:mu_spkr,fig:separake:median}, \MU/-\NMF/ now achieves a certain degree of separation even without the channel information.
 The gains from using echoes are smaller, though one echo is still sufficient to match the median performance of learned \RTFs/.
-Using an echo, however, results in a smaller variance.
-Adding more echoes further improves \SDR{} (\SIR) by up to +2~dB (+3~dB).
+Using an echo, however, results in a smaller variance, while adding more echoes further improves \SDR{} (\SIR) by up to +2~dB (+3~dB).
 
 \mynewline
 In the same scenario, \EM/-\NMF/ (\cref{fig:separake:em_spkr}) has near-perfect performance on anechoic signals which is expected as the problem is overdetermined.
@@ -396,10 +432,11 @@ Moreover, echoes significantly improve separation quality as illustrated by up t
 It is interesting to note that in all experiments the first three echoes near-saturate the metrics.
 This is good news since higher order echoes are hard to estimate.
 
-%\begin{itemize}
+% \begin{itemize}
 %    \item Universal dictionary scenario: Here, the speakers are unknown.
 %    \begin{itemize}
-%        \item Because the MU method does not use phase and hence no time delay information across channels, source separation in the anechoic scenario is impossible. Here, we see that using reverberated signals instead with knowledge of only a few echoes significantly improve source separation performance: up to +2dB SDR and +5 dB SIR.
+%        \item Because the MU method does not use phase and hence no time delay information across channels, source separation in the anechoic scenario is impossible.
+%              Here, we see that using reverberated signals instead with knowledge of only a few echoes significantly improve source separation performance: up to +2dB SDR and +5 dB SIR.
 %        \item Using a fixed echo model for channels also outperform learning the channels, even with a single echo.
 %        \item Note that EM could not be used for the universal dictionary scenario, because the corresponding model is not designed to handle dictionaries with hundreds of atoms. A sparsity-enforcing Bayesian prior on the estimated activation Z would need to be included, which is not straightforward.
 %        \item Increasing the number of known echoes beyond 3 does not bring significant improvement.
@@ -412,36 +449,25 @@ This is good news since higher order echoes are hard to estimate.
 %        \item In this scenario, knowledge of the echoes starts significantly outperforming the baseline (the learned model) when 3 echoes are known (+3dB SIR).
 %        \item Again, increasing the number of known echoes beyond 3 does not bring significant improvement.
 %    \end{itemize}
-%\end{itemize}
+% \end{itemize}
 
 \section{Conclusion}
-With the proposed approach, rather than updating the channel estimates according, they are fixed to the \RTFs/ of real and a few virtual microphones.
-\begin{description}
-    \item[\MU/] With magnitudes only, multi-channel anechoic separation is hardly any better than single-channel separation:
-    as the magnitude of the transfer functions is the same at all microphones, channel modeling offers no diversity.
-    The situation is different in rooms where the direction-dependent magnitude of \RTFs/ varies significantly from microphone to microphone.
-    We show that replacing the transfer functions with a few echoes (even just one) gives significant performance gains compared to not modeling the \RTFs/ at all,
-    but also that it does better than learning the \RTFs/ through multiplicative updates.
-    \item[\EM/] With both phases and magnitudes, anechoic separation will be near-perfect since it corresponds to a determined linear system.
-    Therefore, any uncertainty from imperfections in channel modeling will make things worse.
-    Surprisingly, approximating the \RTFs/ with one echo matches learning them through EM updates and using more outperforms it.
-\end{description}
+In this work, we investigated the role of early echoes for the problem of sound source separation.
+Unlike earlier work, instead of fitting echo model or trying to estimate the blindly the acoustic channels,
+we investigate the potential of including the properties of known echoes in well established \NMF/-based source separation algorithms.
+In particulars, we modified the \MU/ approach --- which consider only spectral magnitudes--- and the \EM/ --- which accounts for complex spectra ---
+by integrating a simple echo model.
+Despite its simplicity, such echo model lend itself to a interesting interpretation by revising the \ISM/ model:
+to each echo corresponds an image microphones (instead of image source as in \ISM/).
+It follows that real and image microphone can be considered as microphones arrays with specific directivity pattern.
+\\Numerical results shows that echoes seem to play an essential role in magnitude-only algorithms, like the \MU/-\NMF/.
+In general, the showed that using knowledge of a few echoes significantly improve results with respect to an anechoic model.
+This improvement is measured by the standard metrics even when compared to approaches that learn the transfer functions.
+To conclude with, does echoes helps sound source separation? The answer is \textit{yes}.
 
-
-In this paper we began studying the role of early echoes in sound source separation---a challenging task in computational auditory scene analysis.
-We found that a simple echo model not only improves performance, but it also enables separation in conditions where it is otherwise not possible.
-One such example is separation with non-negative speaker-independent models.
-Echoes seem to play an essential role in magnitude-only algorithms like non-negative matrix factorization via multiplicative updates.
-They improve separation as measured by the standard metrics even when compared to approaches that learn the transfer functions.
-We believe these results are only a first step in understanding the potential of echoes in computational auditory scene analysis.
-They suggest that simple models used in this paper could be used as regularizers in other common audio processing tasks.
-Ongoing work includes running real experiments, studying the underdetermined case, and blindly estimating the wall parameters.
-
-%Future work:
-%\begin{itemize}
-%    \item Update the late-reverberation part of mixing matrices in EM
-%    \item Adding sparsity priors to activations to use larger dictonary with EM
-%    \item Experiments with more microphone/room configurations, more sources
-%    \item Use a DOA estimation algorithm to infer the early echo models.
-%    \item Estimate the absorption factors of nearby surfaces.
-%\end{itemize}
+\newthought{Future work} on echo-aware source separation includes:
+\begin{itemize}
+    \item integrating the blind estimation of the echoes properties, \eg/ using the proposed algorithm \blaster{}.
+    \item including the late reverberation part in the mixing matrices;
+    \item experiments with more microphone, room configurations, more source on real data, \eg/ using the one offered by the \dEchorate{} dataset.
+\end{itemize}

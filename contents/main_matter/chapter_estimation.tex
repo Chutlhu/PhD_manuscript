@@ -384,7 +384,7 @@ However its effectiveness was not tested on challenging real scenarios featuring
 \AER/ is a relatively recent problem which is typically addressed in the context of much broader applications, \eg/ \SE/, \RooGE/, \SSL/.
 Therefore the literature lacks of standard datasets as well as standard evaluation frameworks.
 
-\subsection{Datasets}
+\subsection{Datasets}\label{sec:estimation:datasets}
 As listed in \citeonly{szoke2019building} and in \citeonly{genovese2019blind}, a number of recorded \RIRs/ corpora are freely available online, each of them meeting the demands of certain applications, usually \SE/ and \ASR/.
 However, even if these datasets feature reverberation and strong early reflections, they lack of proper annotations, making them difficult to use for testing \AER/ methods.
 For this reason, to bypass the complexity of recording real annotated RIR datasets, simulators based on the \ISM/ are extensively used instead.
@@ -525,13 +525,12 @@ In general, the advantages and the disadvantages of these approach depends on th
 
 \newthoughtpar{Data-driven methods}, instead, are based on machine learning algorithm where information is automatically ``learned'' in \textit{supervised} ways.
 Providing comprehensive and exhaustive annotated training datasets, such methods can learn function that maps an input to an output based on example input-output pairs.
-Due to its recent success, machine learning, and in particular \textit{deep learning}, has been applied in many signal processing (sub-)task\sidenote{The reader can refer to~\cref{sec:lantern:introduction} for few examples.}.
-Along side with the huge benefits of having black-box model that are able to learn by their own, this paradigm hides a few limitations.
-First these models rely on the information expressed by the training data which are sometimes is insufficient to build accurate models.
-The main reason is typically the lack of annotated data.
-In order to solve this issues, many strategies have been proposed, \eg/ using data augmentations techniques or knowledge-driven generating models, such as simulators.
-This leads to the second limitation of this approach, that is \textit{overfitting} to the data obeying the generating model and do not generalize to the real-world data.
+Due to its recent success, machine learning, and in particular \textit{deep learning}, has been applied in many signal processing (sub-)task.
+Along side with the huge benefits of having black-box models that are able to learn by their own, this paradigm hides a few limitations.
+\\First these models rely on the information encoded in training data which is sometimes insufficient represent the real-world data.
+In order to solve this issues, many strategies have been proposed, \eg/ using data augmentations techniques or knowledge-driven generating models, based on simulators.
+This leads to the second limitation of these approaches, that is \textit{overfitting} to the data obeying the generating model and able to generalize.
 Finally, machine learning models learn black-box functions.
 Although they can reach incredible performance, it is difficult to predict their behavior when facing new type of data.
 Despite this issues, data-driven methods are currently intensively studied and interlaced with knowledge-driven approaches.
-\\Regarding our contribution, the~\cref{ch:lantern} proposes a new data-driven method for solving \AER/ based on virtually supervised learning.
+In this direction, we propose our contribution in~\cref{ch:lantern}, as a new data-driven method for solving \AER/ based on virtually supervised learning.

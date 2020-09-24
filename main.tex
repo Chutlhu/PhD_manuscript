@@ -110,7 +110,7 @@
 \SetCommentSty{mycommfont}
 
 % --- Bibliopgraphy -----------------------------------------------------------
-\bibliography{contents/back_matter/references.bib, contents/back_matter/references_separake.bib}
+\bibliography{contents/back_matter/references.bib, contents/back_matter/references_separake.bib, contents/back_matter/references_dechorate.bib}
 
 
 % --- Include only ------------------------------------------------------------
@@ -185,43 +185,43 @@
 \parttoc[n]
 \cleardoublepage{}
 
-% \input{contents/main_matter/chapter0_intro}
+\input{contents/main_matter/chapter0_intro}
 
 % %% I. Room Acoustic
 \begin{fullwidth}
     \part{Room Acoustic meets Signal Processing}\label{pt:background}
 \end{fullwidth}
 \parttoc[n]
-% \input{contents/main_matter/chapter1_acoustics}
-% \input{contents/main_matter/chapter2_processing}
+\input{contents/main_matter/chapter1_acoustics}
+\input{contents/main_matter/chapter2_processing}
 
 % II. Estimation
 \begin{fullwidth}
 \part{Acoustic Echo Retrieval}\label{pt:estimation}
 \end{fullwidth}
 \parttoc[n]
-% \input{contents/main_matter/chapter_estimation}
-% \input{contents/main_matter/chapter_blaster}
-% \input{contents/main_matter/chapter_lantern}
+\input{contents/main_matter/chapter_estimation}
+\input{contents/main_matter/chapter_blaster}
+\input{contents/main_matter/chapter_lantern}
 \input{contents/main_matter/chapter_dechorate}
 % \input{contents/main_matter/chapter7_blaster2}
 
 %% III. Application
 \begin{fullwidth}
-\part{Echo-aware Application}\label{pt:application}
+    \part{Echo-aware Application}\label{pt:application}
 \end{fullwidth}
 \parttoc[n]
-% \input{contents/main_matter/chapter9_applications}
-% \input{contents/main_matter/chapter_separake}
-% \input{contents/main_matter/chapter11_mirage}
-% \input{contents/main_matter/chapter12_brioche}
+\input{contents/main_matter/chapter9_applications}
+\input{contents/main_matter/chapter_separake}
+\input{contents/main_matter/chapter11_mirage}
+\input{contents/main_matter/chapter_dechorate2}
 
 %% IV. Conclusion
 \begin{fullwidth}
 \part{Epilogue}
 \end{fullwidth}
 \parttoc[n]
-\input{contents/main_matter/chapter20_conclusion}
+% \input{contents/main_matter/chapter20_conclusion}
 
 
 % === BACK MATTER ===
@@ -229,9 +229,10 @@
 
 \clearpage
 \addappheadtotoc
+% \appendix\input{contents/back_matter/appendix_supblaster}
 % \input{contents/back_matter/appendix_ims}
 % \appendix\input{contents/back_matter/appendix_measurements}
-% \appendix\input{contents/back_matter/appendix_supblaster}
+
 % \input{contents/back_matter/appendix_curriculum}
 % \input{contents/back_matter/appendix_mindmaps}
 % \input{contents/back_matter/appendix_phdlife}
