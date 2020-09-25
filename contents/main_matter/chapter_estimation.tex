@@ -96,7 +96,7 @@ Given the above categories, we can now review the \AER/ methods presented in the
 
 \section{Literature Review}\label{sec:estimation:sota}
 
-\subsection{Active and RIR-based method}
+\subsection{Active and RIR-based method}\label{subsec:estimation:active_rir}
 In this categories fall all the methods that first attempt for a ``good'' estimation of \RIRs/ for which the reference signal is known.
 % The echoes are identified and peaks in the estimated \RIRs/ and ad-hoc techniques are used to identify them.
 
@@ -151,6 +151,7 @@ Nevertheless, the idea of exploiting the direct path component to isolate the so
 This technique is also referred to as \textit{matching filter} or \textit{direct-path compensation}.
 \\Alternatives approaches, detect the echo timings in other signal domain.
 In \citeonly{vesa2010segmentation} the echoes are localized in the \TFdef/ domain using the cross-wavelet transform based on previous works~\citeonly{guillemain1996characterization, loutridis2005decomposition}.
+In \citeonly{peled2013linearly}, the authors propose to identify the direction of arrival of the reflections in the spherical harmonic domain using plane wave decomposition.
 Curiously, the works~\citeonly{ristic2013detection,pavlovic2016multifractal} use (multi-)fractal analysis to detect echoes in the \TFdef/ domain.
 Alternatively, the authors of~\citeonly{ferguson2019improved,jia2017extraction} propose to identify echoes properties in the cepstral domain.
 The \textit{cepstrum} is the spectrum of a logarithmic spectrum and is used to detect periodicity in the spectral domain, typically in hydraulic and mechanic application.

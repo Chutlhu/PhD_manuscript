@@ -2,7 +2,7 @@
 
 \newthought{Synopsis} \blindtext
 
-\section{Overview}
+\section{Auditory Scene Analysis}
 
 
 \subsection{Literature review: an acoustic perspective}
@@ -38,7 +38,25 @@ end2end: from data to (feature to) target
 \newthoughtpar{Machine Learning \vs/ Deep Learning}
 
 
-\section{Audio Source Separation}
+\section{Problem Formulation}
+Given the narrowband \STFT/ signal model presented is~\cref{subsec:processing:model:stft}, the signals captured by $\numMics$ microphone listening to a single sound source ($\numSrcs=1$) in a noisy reverberant room, reads:
+\begin{equation}
+    \MICS[k,l] = \FLTS[k] \SRC[k, l]+ \NSES[k,l]
+    ,
+\end{equation}
+
+
+\newthought{Sound Source Separation}
+
+\newthought{Spatial Filtering}
+
+\newthought{Localization}
+
+
+
+\section{Separation, Spatial Filtering and Localization}
+
+\subsection{Speech Source Separation}
 Audio source separation refers to the process of extracting acoustic signals from mixtures featuring target and interfering sounds.
 The ability of focusing on a selected source only, while filtering out the rest, is known as \textit{the cocktail party effect}~\citeonly{cherry1953cocktail, bee2008cocktail}
 The scenario where no prior knowledge is available about both the sources and the mixing process, is usually referred to as \textit{blind sound separation}.
@@ -55,10 +73,11 @@ It was shown that they improve indoor beamforming \citeonly{Dokmanic:2015dr, Sch
 aid in sound source localization \citeonly{Ribeiro:2010uj},
 and enable low-resource microphone array self-localization \citeonly{Dokmanic:2016gu}.
 
-\subsection{Speech Source Separation}
 [Remaggi thesis]
 During the last twenty years, speech separation has gained quite of attention. Some of the proposed methods achieved source separation exploiting the availability of a single microphone [Jang and Lee, 2003, Radfar and Dansereau, 2007, Schmidt and Olsson, 2006]. However, they were limited by the amount of information utilised. Therefore, other methods attempted the separation process by employing multichannel microphone arrays. These methods are classically categorised into three main groups, depending on the type of approach undertaken [Vincent et al., 2012]: the beamformers [Araki et al., 2003, Coleman et al., 2015a, VanVeen and Buckley, 1988]; the independent component analysis (ICA) based [Bell and Sejnowski, 1995, Cardoso, 1998, Makino et al., 2007]; the time-frequency (TF) mask based [Alinaghi et al., 2014, Deleforge et al., 2015, Mandel et al., 2010, Sawada et al., 2011, Yilmaz and Rickard, 2004]. A visualisation of these three
 
 \subsection{Speech Source Localization}
 \subsection{Spatial Filtering}
+Beamformers combines the channels of multiple microphones in order to achieve spatial selectivity, suppressing noise, interferences and reverberation~\citeonly{VanTrees2004Optimum}.
+
 \subsection{Room Geometry Estimation}
