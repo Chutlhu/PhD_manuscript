@@ -142,7 +142,7 @@ In blind setting, this would require the usage of a voice activity detector.
 Alternatively, the noise component can be modeled as a random process whose spatial covariance matrix can be estimated with advance techniques.
 
 
-\subsection{Beamforming designs}
+\subsection{Elements of Beamforming}
 In the \STFT/ domain, a beamformer forms a linear combination of the microphone channels to yield the desired output $U[k,l]$.
 That is,
 \begin{equation*}
@@ -152,12 +152,6 @@ where the vector $\ktranspose{\bfW} \in \bbC^{\numMics}$ contains the beamformer
 \\This weights can be computed in order to optimize design criterions.
 Common examples of beamformers are the \DStxt/, the \MVDRtxt/, the \MaxSNRtxt/, the \MaxSINRtxt/, and the \LCMVtxt/.
 
-% In the context of a consolidated spatial filtering framework~\citeonly{gannot2017consolidated}, we can identified following levels of complexity in beamformer design:
-% \begin{enumerate}
-%     \item \DStxt/ only the steering vectors towards a defined direct is considered.
-%     \item \MVDRtxt/
-%     \item \LCMVtxt/
-% \end{enumerate}
 
 \newthought{The Delay-and-Sum} is the simplest and ofter quite effective beamformer.
 In its vanilla version, the \DS/ is designed to only compensate the propagation delay from the source to the microphones assuming ideal propagation path.
@@ -225,8 +219,6 @@ Given the \RTF/ of the $\idxMic$-th channel $\bfh_\idxMic$, its \ReTF/ with resp
 In a reverberant environment, it contains both direct-path information and information representing early and late reverberations.
 More details are given in~\cref{subsec:processing:rtf}.
 
-
-
 \newthought{The noise contribution} is taken into account through the \xPSD/ matrix $\xpsd_u$.
 This term can include every source of ``noise'', such as interfering sources, measurement noise as well as background diffuse noise.
 As long as the power spectral density of the modelled noise source is available, its suppression can be simply achieved by including it in $\xpsd_u$ and use it in~\cref{eq:dechorateapp:mvdr}\sidenote{
@@ -248,18 +240,35 @@ The main drawback of this approach is that the control is lost on decoupling the
 Alternatively, other beamformer design need to be used. For instance, in the \LCMVtxt/ design, interference reduction is achieved knowing the filter of the interfering source instead of its \xPSD/.
 
 \newthought{The Late Reverberation} contribution $\xpsd_{\src}^{\mathtt{lr}}$ is not directly available in isolated audio segments as it is ``glued'' to the target source signal.
-Therefore, it must be estimated. Then dereverberation can be achieved by adding this quan
-Given the diffuse model of \cref{eq:dechorateapp:gamma}
+Therefore, it must be estimated.
+A common way to achieve dereverberation in a beamformer design~\citeonly{schwartz2014multi,thiergart2014informed,Kowalczyk2019raking} is by adding
+the \xPSD/ of the late diffuse part of \cref{eq:dechorateapp:gamma} to the noise covariance matrix, that is,
 \begin{equation}
-    + \xpsd_{\src}^{\mathtt{lr}}
+    \xpsd_{u,\mathtt{lr}} =  \xpsd_{u} + \xpsd_\src^{\mathtt{lr}} =  \xpsd_{u} + \sigma_{\mathtt{lr}}^2\mathbf{\Gamma}
+    .
 \end{equation}
+In this work, the stationary \xPSD/ matrix is estimated using an idea voice activity detector.
+The \ReTF/ are estimated using the generalized eigenvector decomposition (GEVD) method was used for the RTFs estimation described in~\citeonly{doclo2003robust}.
+Finally, the late reverberation reverberation \xPSD/, $\sigma_{\mathtt{lr}}^2$, is estimated as suggested in~\citeonly{schwartz2016joint}.
+Recently, the works of~\citeonly{tammen2018iterative} proposed iterative Least-Square approach to estimated the late \xPSD/ together with the \acfp{ReETF}.
+This work is based on~\citeonly{kodrasi2017evd}, where it has been shown the effectiveness of such approach.
 
-\newthought{RTF-MVDR}
-In this work, generalized eigenvector decomposition (GEVD) was used for the RTFs estimation~\citeonly{doclo2003robust}.
+\subsection{Considered beamformers}
+In this work we evaluate the performance of the following beamformer design, summarized in the table~\cref{tab:dechoratepp:design}
 
-\newthought{Rake-MVDR}
+\begin{table}[!h]
+    \begin{fullwidth}
 
-\newthought{MVDR with late reveberation}
+        \centering
+        \small
+        \input{tables/dechorateapp/table_design.tex}
+        \caption{Summary of the considered beamformers}
+        \label{tab:dechorateapp:design}
+
+    \end{fullwidth}
+\end{table}
+
+
 
 \subsection{Experimental evaluation}
 The performances of the different designs are compared for enhancing a target speech in 5-channel mixture (that is, one linear array used in the \dEchorate{} dataset).
