@@ -586,7 +586,7 @@ where $\bsU[l,k] = \bsN[l,k] + \boldsymbol{\varepsilon}(l,k)$ includes the contr
 The representations of the \RIR/ discussed so far explicitly models early echoes and reverberation deterministically.
 Furthermore, alternative models are common in the audio processing literature.
 
-\subsection{Steering vector model}
+\subsection{Steering vector model}\label{subsec:processing:steering}
 In the absence of echoes and reverberation, namely assuming free-field propagation,
 the \RIRs/ simplify to \textit{steering vectors}, namely the DFT of~\cref{eq:acoustics:greenFreeTime}:
 \begin{equation}\label{eq:processing:steering}
@@ -660,6 +660,12 @@ for the $j$-th source is defined as
 \end{equation}
 where $(\distMicSrc_{ij}-\distMicSrc_{1j}) / \speedOfSound$ is the \TDOA/ between the $i$-th and the reference microphones.
 The \TDOAs/ will be the protagonists of~\cref{chap:mirage} as they are fundamental quantities for sound source localization.
+
+\newthough{\ReTF/ estimate}
+Since~\citeonly{gannot2001signal}, many methods have been proposed to estimated it.
+A na\:ive way to estimated the \ReTF/ is perform the ratio between the \DTF/.
+Despite its simplicity, this methods yield estimated
+
 
 \newthought{In the context of spatial auditory perception} and \CASA/, the \ReTF/ is related to the \textit{interchannel cues}\sidenote{%
 sometimes refers to as \textit{interaural cues} when a stress is put on the fact that the two ears are considered as receivers}.

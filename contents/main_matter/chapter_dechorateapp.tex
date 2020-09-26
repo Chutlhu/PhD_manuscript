@@ -81,7 +81,7 @@ Note than, since only one sound source is considered ($\numSrcs=1$), the mixing 
 \end{equation}
 where the summands correspond to the direct-path ($\mathtt{dp}$), early echoes ($\mathtt{ee}$) and late reverberation ($\mathtt{lr}$), respectively.
 The early part of the \RIR/ associated to the $i$-th channel follows the echo model, that is,
-\begin{equation}
+\begin{equation}\label{eq:dechorateapp:echomodel}
     \FLT^{\mathtt{dp}}_{\idxMic}[k]+ \FLT^{\mathtt{ee}}_{\idxMic}[k] = \sum_{\idxEch=0}^{\numEchs} \alpha_{\idxMic}^{(r)} \cste^{-\csti 2 \pi f_k \tau_i^{(r)}}
     ,
 \end{equation}
@@ -122,7 +122,7 @@ Since we assume that all the spatial information is expressed by the filters $\F
 where $\bfI$ is the identity matrix of dimension $\numMics \times \numMics$ and $\sigma_\src^2 = \bbE\kbrace{\powerOf{\SRC}}$.
 
 \newthought{The late reverberation} \xPSD/ matrix can be estimated using the time-invariant spatial coherent matrix model proposed in~\citeonly{kuster2012objective}, based a diffuse sound field model~\citeonly{kuttruff2009room}.
-\begin{equation}
+\begin{equation}\label{eq:dechorateapp:gamma}
     \xpsd^{\mathtt{lr}}_{\mic} = \sigma_{lr}^2\mathbf{\Gamma}
     ,
 \end{equation}
@@ -135,7 +135,7 @@ where $\sigma_{lr}^2$ denotes the power of the late reverberation and $\mathbf{\
     \end{equation*}
     Then, the matrix $\mathbf{\Gamma}$ is built by computing the $\tilde{\gamma}$ for all the pairs of channel on a discrete set of frequencies.
 }.
-This approach have been found successful in many dereverberation application~\citeonly{dereverberation2010pa, cauchi2014joint, tammen2018iterative}
+This approach have been found successful in many dereverberation application~\citeonly{dereverberation2010pa, cauchi2014joint, tammen2018iterative}.
 
 \newthought{The additive noise} \xPSD/ matrix can be easily estimated from the microphone recording using non-speech segment.
 In blind setting, this would require the usage of a voice activity detector.
@@ -152,19 +152,18 @@ where the vector $\ktranspose{\bfW} \in \bbC^{\numMics}$ contains the beamformer
 \\This weights can be computed in order to optimize design criterions.
 Common examples of beamformers are the \DStxt/, the \MVDRtxt/, the \MaxSNRtxt/, the \MaxSINRtxt/, and the \LCMVtxt/.
 
-In the context of a consolidated spatial filtering framework~\citeonly{gannot2017consolidated}, we can identified following levels of complexity in beamformer design:
-\begin{enumerate}
-    \item \DStxt/ only the steering vectors towards a defined direct is considered.
-    \item \MVDRtxt/
-    \item \LCMVtxt/
-\end{enumerate}
-
+% In the context of a consolidated spatial filtering framework~\citeonly{gannot2017consolidated}, we can identified following levels of complexity in beamformer design:
+% \begin{enumerate}
+%     \item \DStxt/ only the steering vectors towards a defined direct is considered.
+%     \item \MVDRtxt/
+%     \item \LCMVtxt/
+% \end{enumerate}
 
 \newthought{The Delay-and-Sum} is the simplest and ofter quite effective beamformer.
 In its vanilla version, the \DS/ is designed to only compensate the propagation delay from the source to the microphones assuming ideal propagation path.
 Assuming the far field scenario and $i=0$ being the reference microphone, this is typically achieved using the direct-path steering vector $\bfD$ defined in~\cref{eq:processing:relativesteering}, that is,
 \begin{equation}
-    \hat{\bsD}_{j}[k] = \klist{
+    \bsd'_{j}[k] = \klist{
                          1,
                          \cste^{-\csti 2 \pi f_k \tau_{i+1}^{(r)} / \speedOfSound},
                          \ldots,
@@ -173,14 +172,86 @@ Assuming the far field scenario and $i=0$ being the reference microphone, this i
 \end{equation}
 
 Therefore,
-
 \begin{equation}
-    \bsW_{\mathtt{dp}} = \frac{\bsD}{\kvvbar{\bsD}}
+    \bsw_{\mathtt{dp}} = \frac{\bsd'}{\kvvbar{\bsd'}},
 \end{equation}
+where $\kvvbar{\cdot}$ denotes the Euclidean norm.
 
-\newthought{MVDR}  design optimize the following criterion
+\newthought{The \MVDRtxt/} beamformer optimizes the following criterion
 \begin{equation}
-    \bsW_{\MVDR} = \kargmin_{\bsW} \kbrace{ \khermitian{\bsW} \xpsd_{\NSES} \bsW\;\text{s.t.}\;\khermitian{\bsW} \bsD}
+    \bsw_{\MVDR} = \kargmin_{\bsw} \kbrace{ \khermitian{\bsw} \xpsd_{\bfu} \bsw\;\text{s.t.}\;\khermitian{\bsw} \bfa_{\src} = 1}
+    .
+\end{equation}
+This criterion aims at minimizing the total output energy while simultaneously keeping the unit gain of the array on the desired signal fixed (\ie/ distortionless response).
+Therefore, any reduction of the output energy (\ie/, minimum variance) consequently suppresses interference and noise.
+\\The Least-Square minimization (with Lagrangian Multipliers) yields to the following closed-form optimal solutions:
+\begin{equation}\label{eq:dechorateapp:mvdr}
+    \bsw_{\MVDR} = \frac{\kinv{\xpsd}_{u} \bfa_{\src}}
+                                {\khermitian{\bfa_\src} \kinv{\xpsd}_{u} \bfa_\src}
+    .
+\end{equation}
+Note that this techniques does not require any reference signal, only the knowledge of the source's filter $\bfa_\src$.
+This criterion design can be easily extended to work with different type of noise, steering vectors and acoustic transfer function, both in their direct and relative formulation.
+
+\subsection{Noise, steering vectors, rake filters, and relative transfer functions}
+
+The Acoustic Transfer Function vectors $\bfa$ between the source and the $\numMics$ generalize the \RTFs/.
+To overcome the complexity of estimating them, two main direction have been mainly exploited: steering vectors, rake receivers and relative transfer functions.
+
+\newthought{Steering vectors} are the \RTFs/ of the ideal propagation path component, namely, the two are equivalent in anechoic scenario.
+They can be easily build on the knowledge of the \TOA/ of the source signal and their integration in the \MVDR/ criterion is straightforward: the $\bfa$ simply identify with the corresponding relative steering vector $\bfd$, that is,
+\begin{equation}
+    \bfa_{\mathtt{DP}}[k] = \bfd[k] = \kbracket{ \cste^{-\csti 2 \pi f_k \tau_i^{(r)}} }_i
+\end{equation}
+In passive and distant-talking scenario, relative time delays, or \TDOAs/, with respect to a reference microphone are used.
+Here, the \TDOAs/ identifies with the source's \DOA/\sidenote{
+    The mapping between \TDOAs/ and \DOAs/ is not always unique, it depends on the microphone array geometry, such as its compactness and its shape.
+}. Therefore, the steering vectors can be computed as function of the source's \DOA/.
+
+\newthought{The rake filters} are beamformer that explicitly deals with the multipath propagation model in~\cref{eq:dechorateapp:echomodel}.
+To this end, the \MVDR/ design is modified by integrating the spatial information of $\numEchs$ reflections into the distortionless constraint.
+This turns out to be equivalent in extending the definition of (relative) steering vector as follows
+\begin{equation}
+    \bfa_{\mathtt{RAKE}}[k] = \kbracket{ \sum_{\idxEch=0}^{\numEchs} \alpha_{\idxMic}^{(r)} \cste^{-\csti 2 \pi f_k \tau_i^{(r)}} }_i
+    .
+\end{equation}
+As before, both the echoes' delays and amplitudes are considered relatively to the reference microphone.
+
+\newthought{The \ReTFdef/} was proposed by the work of~\citeonly{gannot2001signal} to overcome the limitation of accessing the full \RTFs/ for each channel.
+Given the \RTF/ of the $\idxMic$-th channel $\bfh_\idxMic$, its \ReTF/ with respect to the reference channel (\eg/ the first one) is given by
+\begin{equation}
+    \bfa_{\mathtt{RTF}}[k] = \frac{\bfa[k]}{a_1[k]}
+\end{equation}
+In a reverberant environment, it contains both direct-path information and information representing early and late reverberations.
+More details are given in~\cref{subsec:processing:rtf}.
+
+
+
+\newthought{The noise contribution} is taken into account through the \xPSD/ matrix $\xpsd_u$.
+This term can include every source of ``noise'', such as interfering sources, measurement noise as well as background diffuse noise.
+As long as the power spectral density of the modelled noise source is available, its suppression can be simply achieved by including it in $\xpsd_u$ and use it in~\cref{eq:dechorateapp:mvdr}\sidenote{
+    This type of criterion design is more properly known as \MaxSINRtxt/ or \MaxSNRtxt/ beamformers.
+    In general, they aim at optimizing directly the \SNRtxt/ or the \SINRtxt/ metrics.
+    Nevertheless, it can be shown that the any \MaxSINRtxt/ (or \MaxSNRtxt/) can be identified with an \MVDRtxt/ if the distortionless contraint is satisfied~\citeonly{gannot2017consolidated}.
+}.
+For instance,
+\begin{equation}
+    \xpsd_u = \xpsd_{\src_q} + \xpsd_{\nse}
+    ,
+\end{equation}
+where the summands are the \xPSD/ of a interfering source $q$, of the background noise.
+\\This approach is of simple implementation, especially when voice activity detector or speaker diarization\sidenote{
+    Speaker diarization is the problem of partitioning an audio signal into segments according to the source identity. In other words, address the problem of ``who is speaking when''.
+} tools are used to identity audio segments featuring noise and interfer.
+If these excerpts are long enough to provide an exhaustive statistics for both the noise and the interfer, the estimation of $\xpsd_u$ becomes trivial.
+The main drawback of this approach is that the control is lost on decoupling the two tasks.
+Alternatively, other beamformer design need to be used. For instance, in the \LCMVtxt/ design, interference reduction is achieved knowing the filter of the interfering source instead of its \xPSD/.
+
+\newthought{The Late Reverberation} contribution $\xpsd_{\src}^{\mathtt{lr}}$ is not directly available in isolated audio segments as it is ``glued'' to the target source signal.
+Therefore, it must be estimated. Then dereverberation can be achieved by adding this quan
+Given the diffuse model of \cref{eq:dechorateapp:gamma}
+\begin{equation}
+    + \xpsd_{\src}^{\mathtt{lr}}
 \end{equation}
 
 \newthought{RTF-MVDR}
