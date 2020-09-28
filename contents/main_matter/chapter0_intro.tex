@@ -20,56 +20,88 @@
 \newcommand\mytext[2][black]{\scalebox{#2}{\textcolor{#1}{\MyText}}}
 
 % This thesis is about taking inspiration from people, bats, Daredevil and Pink Floyd.
-\newthought{In a nutshell} This \PhD/ thesis is about acoustic
+\newthought{In a nutshell,} this \PhD/ thesis is about acoustic
 \stackinset{c}{4ex}{c}{ 1.4ex}{\mytext[black!70]{.8}}{%
 \stackinset{c}{2ex}{c}{ 3.2ex}{\mytext[black!25]{.7}}{%
 \stackinset{c}{3ex}{c}{-1.3ex}{\mytext[black!35]{.9}}{%
 \mytext{1}%
 }}}.
-\\We live immersed in a complex acoustical world, where every concrete thing can sounds, resounds and echoes.
-For humans it is difficult to imaging sound, its constituents and its creation.
-In fact, it is processed by our auditory systems and by our brain so efficiently that our attention is detached from the physical laws governing it.
-Therefore, when listening to something, we typically and unconsciously focus on its \textit{content}.
-When we listen to music, typically we focus on the melody in the music; when listen to speech, we focus on the words;
-when something is smashed to the ground, we may be able to guess what ``was'' it.
-\\However not only \textit{semantic information} about the source is carried by the sound.
-There are many other type of information that we retrieve and infer from sound, such as \textit{temporal} and \textit{spatial} information.
-For instance, we are able to localize its source:
-if someone is calling us, we unconsciously know towards where to turn.
-We can guess if an noisy motorbike is approaching or moving away.
-Even, with a bit of math, we can estimated how far the storm is, simply counting the time between a view a lightning a listening to thunder.
-We can even guess the size and the type of the room we are currently sitting in.
-\\Evolution lead us to conduct this process without any efforts, despite the presence of lot of background noise (such as in a during a concert),
-or in huge empty spaces with lot of reverberation (such as in empty churches).
-This outstanding ability is not limited to humans and, to some extends, is shared across all the creatures we are sharing the physical world with.
+\\We live immersed in a complex acoustical world, where every concrete thing can sound, resound and echo.
+For humans it is difficult to imaging sound, its constituents and its generation.
+In fact, it is processed by our auditory systems and brain so efficiently that our attention is detached from the physical laws governing it.
+Therefore, when listening to something, we unconsciously focus on its \textit{content}.
+% When we listen to music, we focus on the melody in the music; when listen to speech, we focus on the words;
+% when something is smashed to the ground, we may be able to guess what ``was'' it.
+% \\However not only \textit{semantic information} about the source is carried by the sound.
+% There are many other types of information that we retrieve and infer from it, such as \textit{temporal} and \textit{spatial} information.
+% For instance, we are able to localize its source:
+% if someone is calling us, we unconsciously know towards where to turn.
+% We can guess if an noisy motorbike is approaching or moving away.
+% Another striking example, which involves simple math, is estimating of how far the storm is, simply counting the time between a view a lightning a listening to thunder.
+% We can even guess the size and the type of the room we are currently sitting in.
+\\Evolution lead us to conduct this process without any efforts, despite the presence of huge level of background noise, for instance in a during a concert.
+This outstanding capability is not limited to humans and is common to all the creatures we are sharing the physical world with.
 
 \mynewline
-We process all the information of the complex \textit{acoustic scene} surrounding us, conveyed to our ears by sound.
-While reaching the ears, sound propagates in all direction and some of its energy arrives to us directly, other indirectly after being reflected around.
-This process leads to the creation of \textit{echoes} and, later, to \textit{reverberation}.
-It is thanks to them that we are able to retrieve so many aspects of the acoustic scene.
-Typical examples are the echoes produced by the bottom of a well, by huge rocky wall in the mountain or by huge walls in monumental buildings, such as the Panthéon in Rome or the pont de Neuilly in Paris.
-Reverberation instead occurs when multiple echoes are produced and their effect persist for a considerable time, such empty churches or empty rooms.
+We process all the information of the complex \textit{acoustic scene} surrounding us.
+While reaching the ears, sound propagates in all direction and portion of its energy arrives to us directly, other indirectly after being reflected around.
+This process leads to the creation of \textit{echoes} and \textit{reverberation}.
+Typical examples are the echoes produced by huge rocky mountains or by huge walls in monumental buildings, such as the Panthéon in Rome or the pont de Neuilly in Paris.
+Echoes refers to that particular reflected sound which can be hear distinctly, thus, characterized by specific time of arrival and attenuation.
+In smaller environments, echoes are still present but are typically less perceived as they arrive more quickly and densely.
+What is then perceived here is the so called reverberation, which happen in empty rooms or churches.
 
 \mynewline
 Some animals are evolved to ``see'' through echoes.
-For instance, the two (of the most) striking example are bats and whales which use it as navigation and foraging mechanisms.
-This techniques is learned and mastered also by blind people.
-By tapping their canes or clicking their tongues, they are able to amazing avoiding obstacle when walking, judging the distance of objects and even ride bikes.
-In these examples, echoes are voluntarily produced and it is referred to as \textit{active} echolocation.
+For instance, the two (of the most) striking examples are bats and whales which use them as navigation and foraging mechanism.
+By emitting sound patterns and listening the echoes that return form the environmental, these animals scan the surrounding space, identify and locate objects.
+Just like an active sonar, here the echoes are voluntarily produced and this is referred to as \textit{active echo-location}.
+As opposed to, in \textit{passive echo-location} the source sound is not emitted, but rather only received.
 \marginpar{
     \footnotesize
-    French philosopher Denis Diderot in 1749  (other sources say it was in 1789) recorded the amazing ability of blind people to not only perceived objects but to accurately judge distance as well.
-    Since Diderot’s first account, numerous cases have been reported, until the scientist Donald Griffin coined the name ``[...] \textit{echo location}, not only for the abilities of bats and blind men, but for several other analogous cases''.
+    This technique is developed instinctively by some blind people as well.
+    By tapping their canes or clicking their tongues, they are able to avoid obstacles when walking.
+    French philosopher Denis Diderot in 18th century recorded the this incredible ability, which was labeled as ``echo-location'' only 300 years later by Donald Griffin.
 }.
-As opposed to, in \textit{passive} echo location, the sound reflection are due to an external and uncontrollable source.
-Even there are less clear example in nature to explain it, passive echo location is used by our mind instinctively in order to process the acoustic scene.
-For instace, wher
-\\This thesis is focuses on this: it shows both how to estimate passively acoustic echoes and why they helps audio processing.
+``Locating it'' means estimating its delay with respect to the direct sound.
+These delay can be converted into distances, in the same as our grandparent taught us to localize storm by counting the time between a lightning and its thunder.
+That is how bats and whales find preys, see obstacles and orientated in dark caves.
+However, the term ``echo-location'' here could be misleading as it may refer to the only problem of locating objects.
+As we will discuss later, the application goes beyond to simply localization.
+Therefore, in this thesis it will change it in favor of \textit{echo estimation}.
 
 \mynewline
-Therefore, in the context of computer science, it is natural to ask ourself how we can build machine listen as we do?
-In order to process sounds, machines and computer uses algorithmic tools which fall in the research field of \textit{audio signal processing}.
+Remarkable examples of passive echo estimation in nature are not very known.
+Sand scorpions uses the propagation of vibration in sand to localize their prays at night.
+By deploying their 8 legs in particular configurations, they perform passive (seismic) echo-location.
+This technique is common to spiders who sense to the reverberation in their complex web\sidenote{
+    According to some recent reseach studies, spiders appear to offload cognitive tasks to their webs.
+    The web may acts then as a complex system processing and filtering the information, which are then returned to their owner.
+    \citeonly{sokol2017thoughts}
+}.
+They are not only able to localize the preys fast, but also identify them, and disambiguate from simple objects move by the wind.
+For some species, this task is performed by sensing the web with only one leg.
+In this case, instead of emitting sound, evolution taught them to uses complex structures (for scorpions legs configuration, for spiders webs shapes)
+in order to procure food.
+
+\mynewline
+Echoes do not only serve for computing distances or localizing preys.
+For instance, they make speech more intelligible and provide music with ``dimensionality''\citeonly{sacks2014musicofilia}.
+This phenomenon is material of studied in \textit{room acoustics} and it is applied for designing theatres, auditoriums and meeting rooms, whose actual propose is listen well.
+In the same context, echoes may be used as tool for acoustic measurement, to study the acoustic quality of an environment, sometimes referred to as its \textit{coloration}.
+
+\mynewline
+To conclude with, this thesis is focused on both how to estimate passively acoustic echoes and why they helps audio analysis.
+It does not cover echo-aware audio synthesis, that is or provide dimensionality to produced music
+
+\mynewline
+One may ask, what does it mean, to estimate echoes and use them?
+Therefore with echo estimation we will refer to the estimation of them both.
+Even there are less clear example in nature to explain it, passive echo location is used by our mind instinctively in order to process the acoustic scene.
+
+\mynewline
+Therefore, in the context of computer science, it is natural to ask ourself how we can build machine that can listen as we do?
+In order to process sounds, machines and computer use algorithmic tools which fall in the research field of \textit{audio signal processing}.
 How is it implemented? it will be outlined in the next section.
 How echoes can help such processing? it will be explained immediately after.
 
