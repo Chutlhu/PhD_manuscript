@@ -259,7 +259,7 @@ the \xPSD/ of the late diffuse part of \cref{eq:dechorateapp:gamma} to the noise
 
 \subsection{Considered beamformers}
 In this work we evaluate the performances of the echo-agnostic and echo-aware beamformers for noise and late reverberation suppression.
-\cref{tab:dechoratepp:design} summarizes the considered beamformers criterions.
+\cref{tab:dechorateapp:design} summarizes the considered beamformers designs.
 
 \begin{table}[!h]
     \begin{fullwidth}
@@ -295,9 +295,9 @@ The synthetic \RIRs/ are computed with \href{https://github.com/LCAV/pyroomacous
 The evaluation is conducted similarly to the one in~\citeonly{Kowalczyk2019raking}.
 Here we consider the first microphone as the reference one and the target clean signal as the clean signal convolved with the early part of the \RIR/ (up to the $R$-th echo),
 namely, $\MICS_s$ in~\cref{eq:dechorateapp:target}.
-Therefore, we considered the following metrics:
+For evaluating the performances we consider the following metrics:
 
-\newthought{The Signal-to-Noise-plus-Reverberation Improvement} (\DSNRR) in [dB] computed as difference between the input ($\mathtt{SNRR}_\mathtt{i}$) at the reference microphone and the $\mathtt{SNRR}_\mathtt{o}$ at the filter output.
+\newthought{The Signal-to-Noise-plus-Reverberation Improvement} (\DSNRR) in [dB] is the difference between the input ($\mathtt{SNRR}_\mathtt{i}$) at the reference microphone and the $\mathtt{SNRR}_\mathtt{o}$ at the filter output:
 \newcommand{\hbsW}{\khermitian{\bsW}}
     \begin{equation}
         \begin{aligned}
@@ -308,9 +308,9 @@ Therefore, we considered the following metrics:
     \end{equation}
 
 \newthought{The \acf{SRMR} Improvement} (\DSRMR) is an adimensional and absolute (\ie/, it does not require the reference signal) measure of dereverberation and was initially proposed in \citeonly{falk2010non}.
-Later it has been applied in several studies for dereverberation as well as some challenges, such as \citeonly{eaton2015ace}.
+Later it has been applied in several works addressing dereverberation as well as in some challenges on speech processing, such as the ACE challenge\citeonly{eaton2015ace}.
 It is computed as follows. First, the Hilbert transform captures the envelope of the input signal filter to extract the temporal dynamics information.
-Then, the a \textit{modulation spectrum} is computed by the 8-bands \STFT/ on a selected frequency range.
+Then, the the \textit{modulation spectrum} is computed by the 8-bands \STFT/ on a selected frequency range.
 Finally, the \ac{SRMR} is then obtained by comparing the energy in the different bands of the modulation spectrum.
 More in details, the output value is computed as the ratio of the average modulation energy content available in the first four modulation bands,
 to the average modulation energy content available in the higher frequency modulation bands.
@@ -350,14 +350,15 @@ In general, it looks like the $\MVDR_\texttt{Rake+Late}$ has more variance than 
 This is probably due to the tiny annotation mismatch and the complexity of the \RIRs/ and future work will be devoted in a deeper understanding of the underling factors.
 
 \section{Room Geometry Estimation}\label{sec:dechorateapp:rooge}
-In this section we show another application of the \DECHORATE/ dataset: \RooGEdef/, namely, the task of estimate the shape of a room knowing the positions of first-order image sources.
+In this section we shortly present another application of the \DECHORATE/ dataset: \RooGEdef/, namely, the task of estimate the shape of a room knowing the positions of first-order image sources.
 This problem is typically addressed by solving multiple instances of \textit{reflector localization}, aiming at estimating the position of a single surface (\eg/ wall, room facet).
-\\Several methods have been proposed which take into account different levels of prior information and noise and they were briefly discussed in the context of echo labeling in~\cref{subsec:estimation:active_rir}
-In general, these methods can decomposed in three subsequent steps:
+\\Several methods have been proposed which take into account different levels of prior information and noise.
+They were briefly discussed in the context of echo labeling in~\cref{subsec:estimation:active_rir}
+In general, these methods can be decomposed in three subsequent steps:
 \begin{enumerate}
-    \item echo labeling is performed to associate the echoes in the \RIRs/ to the image sources using one of the methods mentioned in~\cref{subsec:estimation:active_rir};
-    \item then the estimation of the image source position though either multilateration\citeonly{Dokmanic2013acoustic}, \MLdef/\citeonly{tervo2011localization} or convex optimization~\citeonly{crocco2012closed}
-    \item and finally, the \textit{image-source-reversion} localizes the reflector based on the geometrical assumption of the \ISMdef/.
+    \item echo labeling, in order to associate the echoes to the image sources using one of the methods mentioned in~\cref{subsec:estimation:active_rir};
+    \item then, the estimation of the image source position though either multilateration\citeonly{Dokmanic2013acoustic}, \MLdef/\citeonly{tervo2011localization} or convex optimization~\citeonly{crocco2012closed};
+    \item and finally, the \textit{image-source-reversion}, in order to localize the reflector, based on the geometrical assumption of the \ISMdef/.
 \end{enumerate}
 More advance techniques have been proposed in the literature of reflector localization for different setups and scenarios.
 A comprehensive review can be found in \citeonly{remaggi2016acoustic, crocco2017uncalibrated}.
@@ -368,9 +369,9 @@ Multilateration is the problem of recovering the position of a point in the spac
 It is the 3D extension of the \textit{trilateration} problem, namely, determining an unknown position based on the distance to other two known vertices of a triangle.
 In the context of \RooGE/, the distances from the source to the microphones can be simply obtained by converting the \TOAs/ [seconds] into distances [metres].
 Then, the 3D coordinates of each image source can be retrieved solving a convex problem as described in \citeonly{Beck2008ExactProblems}.
-Ideally this problem can be solved in closed-form, however due measurement error (\eg/ errors in estimating the image's \TOAs/), the problem may be ill-conditioned.
-Therefore robust iterative algorithms are used.
-Finally, the position and orientation of each wall can be easily derived from the \ISM/ equations as the plane bisecting the line joining the real source position and the position of its corresponding image (see Figure~\ref{fig:dechorateapp:wall_rec}).
+Ideally this problem can be solved in closed-form, however, due measurement error (\eg/ errors in estimating the image's \TOAs/), it may be ill-conditioned.
+To overcome this, the algorithm proposed in \citeonly{Beck2008ExactProblems} rely on robust iterative approach yielding to accurate solution.
+Finally, the position and orientation of each wall can be easily derived from the \ISM/ as the plane bisecting the line joining the real source position and the position of its corresponding image (see Figure~\ref{fig:dechorateapp:wall_rec}).
 
 \begin{figure}[t]
     \begin{fullwidth}
@@ -390,11 +391,12 @@ Finally, the position and orientation of each wall can be easily derived from th
 \end{figure}
 
 \subsection{Using the \dEchorate{} dataset for \acs{RooGE}}
-In \dEchorate{} the annotation of all the first order images for all the sound sources is available.
-We used the \citeauthor{Beck2008ExactProblems}'s multilateration method (available in the Python library \dEchorate) to estimate the image source position of each of the direct source using 6 microphones (on for each of the 6 arrays).
+In \dEchorate{} the annotation of all the first order images for the sound sources is available.
+We used the \citeauthor{Beck2008ExactProblems}'s multilateration method (available in the Python library \dEchorate) to estimate the image source position of each of the direct source using 6 non-coplanar microphones (on for each of the 6 arrays).
 Then room facets are estimated using each of the source as a probe.
 \cref{tab:res_rooge} shows the results of the estimation of the wall positions in terms of distance error (in centimeters) and surface orientation error (in degrees).
-\cref{fig:dechorateapp:reflector} depicts an example of reflector estimation.
+This metrics were previously used in the literature of reflector estimation, such as in~\citeonly{annibale2012geometric,crocco2017uncalibrated}.
+\cref{fig:dechorateapp:reflector} depicts an example of reflector estimation using the \DECHORATE/ data.
 
 \begin{table}[h!]
     \begin{sidecaption}[]{
@@ -407,35 +409,37 @@ Then room facets are estimated using each of the source as a probe.
 \end{table}
 
 \mynewline
-Despite of few outliers, the majority of the facets are estimated correctly in terms of their placement and orientation with respect to the coordinate system computed in Section~\ref{sec:annotation}:
-for instance, for the source $\#4$, all 6 surfaces were localized with less than $6$ cm and $\ang{2.5}$ errors.
-Small errors are due to concurrency of multiple factors, such as tiny offsets in the annotation and the ideal shoebox approximation.
-In the real recording room, some gaps were present between revolving panels in the walls.
+Despite of few outliers, the majority of the facets are estimated correctly in terms of their placement and orientation with respect to the coordinate system.
+For instance, for the source $\#4$, all 6 surfaces were localized with less than $6$ cm and $\ang{2.5}$ errors.
+Small errors are due to concurrency of multiple factors, such as tiny offsets in the annotation and the ideal shoebox approximation\sidenote{
+    In the real recording room, some gaps were present between revolving panels in the walls}.
 In addition it is possible that for some source-receiver pairs the far-field assumption is not verified, causing the inaccuracy of \textit{reverting} the \ISM/.
 Finally, the 2 outliers for the source \#3 are due to a wrong annotation caused by source directivity and mis-classification.
-When a wall is ``behind'' the source, the energy of the related $1^\text{st}$ reflection is very small and might not appear in the \RIRs/.
+In particular, when a wall is ``behind'' the source, the energy of the related reflection is very small and might not appear in the \RIRs/.
 This happened for the eastern wall and a second order image was taken instead.
-Secondly, the contribution of multiple reflections arriving at the same time can results in large late spikes in estimated \RIRs/.
+Secondly, the contribution of multiple reflections arriving at the same time can be merged in to signal spikes in estimated \RIRs/.
 This effect is particularly amplified when the microphone and loudspeakers exhibit long impulse responses.
-As a consequence, some spikes can be miss-classified.
-This happened for the southern-wall were again a second-order image was taken instead.
+As a consequence, some spikes have been probably miss-classified.
+This can be noticed for the southern-wall were again a second-order image was taken instead.
 Nevertheless, this second type of errors can be manually corrected and the annotations updated.
 
 \section{Conclusions and Perspectives}\label{sec:dechorateapp:conclusion}
-In this chapter, I presented two application of the \DECHORATE/ dataset, proposed in~\cref{ch:dechorate}: echo-aware spatial filtering and room geometry estimation.
+In this chapter, we presented two application of the \DECHORATE/ dataset, described in~\cref{ch:dechorate}: echo-aware spatial filtering and room geometry estimation.
 \\The first one deals with the possibility of using early echoes to enhance a target speech signal corrupted by diffuse noise and high level of reverberation.
 To this end, two types of state-of-the-art spatial filtering criterions are considered: echo-agnostic and echo-aware beamformers.
 Experimental results on real and synthetic data, both available in the proposed dataset, leaded to the followings findings:
-On synthetic data computed using \ISM/-based simulator whose the early parts of \RIRs/ match the early echo model, replacing the acoustic vectors with few know echoes gives significant enhancement performance gains compared with baseline methods considering only the direct ideal propagation.
-Here both echo-aware and state-of-the-art \ReTF/-based echo-agnostic perform similarly, suggesting the effectiveness of echo-aware approaches.
+The synthetic data where computed using \ISM/-based simulator, thus, the early parts of \RIRs/ match the early echo model.
+Therefore, replacing the acoustic vectors with few know echoes gives significant enhancement performance gains compared with baseline methods which consider only the direct ideal propagation.
+In this scenario, both echo-aware and state-of-the-art \ReTF/-based echo-agnostic perform similarly, suggesting the effectiveness of echo-aware approaches.
 However, when using the corresponding real data available in the dataset, the performances drops in term of perceptual quality as predicted by the \acs{PESQ} score.
-This is due to the tiny mismatch between real and annotated echoes and the richness of the acoustic field, which impact the echo-aware methods.
-Here, the outperforming methods are the echo-agnostic one, based on \ReTF/, which do not suffer of any echo mismatch and are able to include other information about the acoustic propagation.
-\\Nonetheless, despite the poor performance on rake-based filters on real scenarios, the discrepancies \wrt/ the simulated data suggest the importance of \AER/ and encourage the study of these echo-aware methods.
+This may be due to the tiny mismatches between real and annotated echoes and the richness of the acoustic field, which impact the echo-aware methods.
+The outperforming methods are the echo-agnostic one, based on \ReTF/, which do not suffer of any echo mismatch and are able to include other information about the acoustic propagation.
+\\Nonetheless, despite the poor performance on rake-based filters on real scenarios, the discrepancies \wrt/ the simulated data suggest the importance of having good \AER/ algorithms and encourage the study of these echo-aware methods.
 Moreover, the knowledge of the very same echoes is not only limited to spatial filtering, but can be used to retrieve the geometry of the entire room as demonstrated in the second section of this chapter.
-\\Thus, an example of Room Geometry Estimation from echoes is then discussed.
+\\The problem of \RooGEdef/ from echoes was then discussed.
 By using standard approaches based of geometric reasoning and robust multilateration algorithms, it is possible revert the \ISM/ and to map echoes' \TOAs/ to source and image source position.
-In particular, we showed this using the \DECHORATE/ data both as an application as a way to validate the dataset.
+Here, we showed this on the \DECHORATE/ data both as an application as a way to validate the dataset.
+Although, the results highlights that some echoes \TOAs/ have not been correctly classified, the overall annotation is consistent with the actual room planimetry.
 
 \mynewline
 \\Future works will explore several directions.
