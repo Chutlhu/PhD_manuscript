@@ -251,7 +251,7 @@
     %\justifying{%
     \enquote{\textit{#1}}%
     %}%
-
+    \vspace{1em}
     {\raggedleft{\hfill{}---{#2}}}% author
   }
 }

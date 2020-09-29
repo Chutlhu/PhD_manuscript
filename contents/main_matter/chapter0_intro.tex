@@ -149,12 +149,17 @@ Many related problems can be then decomposed into blocks one or more of the foll
 \section{Audio Scene Analysis}\label{sec:intro:scene}
 Pay attention to what are you listening now:
 there might be music, someone talking to you, footsteps echoing in a other room, background noise due to cars, heating system, maybe rain or wind, the sound of your own movement and many other.
-Everything you are hearing now, is what is called the \textit{audio scene}\sidenote{
-    The more correct terminology for it is \textit{auditory scene analysis}, which relates to the human perception.
+Everything you are hearing now as well as its location in space, is what is called the \textit{audio scene}\sidenote{
+    The more correct terminology for it is \textit{auditory scene}, which relates to the human perception.
     It was coined by psychologist Albert Bregman in~\citeonly{bregman1990auditory}.
-    However, as we extend this concept to audio signal processing and as it is commonly used in the literature, we will use this terminology.
+    However we will use this terminology since we extend this concept to audio signal processing and as it is commonly accepted in the literature.
 }.
-Therefore, the \textit{audio scene analysis} is trivially the analysis of it.
+Therefore, the \textit{audio scene analysis} is trivially the analysis of it\marginpar{
+    \footnotesize\itshape
+    From the anacient greek, \emph{analysis} literally means dismantling into constituent elements.
+    It allows then to reach information otherwise obfuscated by the big picture.
+    It is opposed to \emph{synthesis} which instead combines parts into a whole.
+}.
 More specifically, the extraction and organization of all the information contained by the sound associated to an audio scene.
 
 \mynewline
@@ -163,7 +168,7 @@ In the context of audio signal processing, this process involves using algorithm
 After recording the audio scene with microphones, complex systems, as described above, are used to access the information.
 Accessing different types of information at different levels of complexity lead to the definition of different \textit{problems}.
 These problems focuses on well defined tasks in the general audio scene analysis and some of them are referred to with established names.
-\cref{tab:processing:problem} lists some selected audio scene analysis problems that will be considered later in this thesis.
+\cref{tab:processing:problems} lists some selected audio scene analysis problems that will be considered later in this thesis.
 
 \begin{table}[!h]
 
@@ -178,13 +183,16 @@ These problems focuses on well defined tasks in the general audio scene analysis
     \end{fullwidth}
 
 \end{table}
+
+\mynewline
 Without going to philosophically, it is possible to re-cast these problems to some (simple) human interrogations that :
 \begin{itemize}
-    \item  \textit{What?} Answered by Audio Source Separation, Speech2Text and Source Identification, by operating on the semantic content of the source signals.
+    \item  \textit{What?} Answered by Audio Source Separation and Enhancement, Speech2Text and Source Identification, by operating on the semantic content of the source signals.
     \item  \textit{Where?} Answered by Sound Source Localization, Microphone Calibration and Room Geometry Estimation, by elaborating the spatial information of the sound propagation.
     \item  \textit{When?} Answered by Speech Diarization, by leveraging on the sound temporal information.
 \end{itemize}
 
+\mynewline\openepigraph{Everything is connected}{Douglas Adams, \textit{Dirk Gently's Holistic Detective Agency}}
 Our brain and auditory system is able to solve this problems instantly and effortlessly, such that they may sounds trivial tasks.
 However, they hide many difficult challenges when it comes to design efficient and robust algorithms.
 Moreover, most of the all these problems may exhibits strong inter-connections, and the solution of one depends on the solution of another.
@@ -192,26 +200,34 @@ For instant, by knowing knowing when someone is speaking and its location in the
 It should not surprise and have strong parallelism with the our every day experience.
 
 \mynewline
-And it is in this perspective that echoes help.
+And this is why echoes may help audio signal processing.
 
 
 \section{Echo-aware approach}
-As is proven by animal behaviors, acoustic echoes are important proxy for understanding the audio scene analysis.
+As proven by natural behaviors, acoustic echoes are essential for human and animals for analyzing the audio scene:
+As repetition of a sound, they convey information about that sound.
+As characterized by temporal instant and attenuation related to distances, they convey spatial information about the audio scene.
+As modified by the frequency description of the object which generate them, they convey acoustic information about the such object.
+\\This observation motivated many researcher to include echoes in signal processing applications, not only limited to audio\sidenote{
+    The idea of integrating reflection in models studied also in other field of engineering.
+    In telecomunication and in networking for instance, where this phenomena are referred to as \textit{multipath propagation}.
+}.
+However it was not always the case.
+In order to derive efficient algorithms, many audio scene analysis methods make strong assumptions of the sound propagation.
+One of the most common one is the so-called anechoic or free-field scenario, namely, assuming neither echoes or reverberation are present in the audio scene.
+Even if this assumption can be reasonable in some scenario, it is then easy to understand the limitations when dealing with real world recordings.
+In some cases, they are considered as source of noise and interference and then to be removed.
 
 
-That is being said, the goal of this thesis is to improve the above state of in indoor audio signal processing along two axes:
-First, by deepening our understanding of acoustic echoes, provide new methodologies to estimate them surpassing the limits of current approaches.
-Second, by extending previous echo-aware methods, show how typical audio application can benefits of prior knowledge of these elements of acoustic propagation.
 \mynewline
-To that end, the dissertation demonstrates two claims:
-\begin{enumerate}
-    \item Acoustic echoes can be estimated blindly from microphone recordings;
-    \item Typical audio scene analysis and audio processing methods can take advantage of acoustic echoes, by easily integrating their knowledge in standard algorithms.
-\end{enumerate}
+Instead, some researchers proposed to explicitly include acoustic echoes in their models, which we will refer to as \textit{echo-aware methods}.
+One of the earliest examples in this direction are the work of Flanagan et al\citeonly{flanagan1993spatially, jan1995matched, jan1996sound} for in source enhancement.
+However, only recently these methods have regained interested for audio processing as manifested by the European project SCENIC~\citeonly{Annibale2011scenic} and the UK research \href{http://www.s3a-spatialaudio.org/}{S$^3$A project}.
+In some recent studies, echoes are used boosts performances of typical audio scene analysis problems, \eg/, speech enhancement \citeonly{Dockmanic2015raking, Kowalczyk2019raking}, sound source localization \citeonly{ribeiro2010turning}, and separation \citeonly{scheibler2017separake, leglaive2016multichannel, Remaggi2019modeling}, and room geometry estimation from sound \citeonly{remaggi2016acoustic, dokmanic2013acoustic, crocco2017uncalibrated},
 
-
-Based on this idea, so-called \textit{echo-aware} methods have been introduced few decades ago, where matched filters (or rake receivers) are used to constructively sum the sound reflections \citeonly{Jan1995matched, Affes1997signal} and build beamformers achieving much better sound qualities \citeonly{gannot2001signal}. This methods have recently regained interested as manifested by the European project SCENIC~\citeonly{Annibale2011scenic} and the UK research \href{http://www.s3a-spatialaudio.org/}{S$^3$A project}. They show that knowing the properties of a few early echoes can boosts performances of typical indoor audio inverse problems such as speech enhancement (SE) \citeonly{Dockmanic2015raking, Kowalczyk2019raking}, sound source localization \citeonly{ribeiro2010turning, DiCarlo2019mirage}, and separation \citeonly{scheibler2017separake, leglaive2016multichannel}.
-Another fervent area of research spanning transversely the audio and acoustic signal processing fields is estimating the room geometry blindly from acoustic signals. As presented by Crocco \textit{et al.} in \citeonly{crocco2017uncalibrated}, the end-to-end room geometry estimation (RooGE) involves many subsequent subtasks: RIR estimation, peak picking, microphones calibration, echo labeling, reflectors estimation. Acoustic echo retrieval (AER) is common to many of these topics. It consists in estimating the properties of echoes such as their TOAs and energies. The former problem is referred to as TOA estimation, or time-delay estimation when the direct-path is taken as reference. Furthermore, as interesting applications, these methods have been recently used in active scenarios, namely knowing the transmitted signals, using unmanned aerial vehicle (UAV, a.k.a. drones) \citeonly{jensen2019method, Boutin2020drone} and mobile-phones \citeonly{Shih2019phone}.
+\mynewline
+All this methods show the importance and the benefits of modeling acoustic reflection, however prior to all them is the \AERdef/.
+This step, which is typically given for granted in the above application, is extremely challenging as shown throughout this entire work.
 
 
 % \newthought{Audio Signal Processing}
@@ -347,7 +363,7 @@ Another fervent area of research spanning transversely the audio and acoustic si
 
 
 
-% \openepigraph{Everything is connected}{Douglas Adams, \textit{Dirk Gently's Holistic Detective Agency}}
+%
 % \newthought{Depending on the scenario}, all these problems exhibits strong inter-connections,
 % namely the solution of one may be (dependent on) the solution of another.
 % Therefore, exploiting expertise and knowledge,
@@ -357,9 +373,16 @@ Another fervent area of research spanning transversely the audio and acoustic si
 
 
 
-\section{Thesis Outline and Main Contributions}
+\section{Thesis Outline and Main Contributions}\openepigraph{Sometimes a scream is better than a thesis.}{Ralph Waldo Emerson}
+The goal of this thesis is to improve the current state-of-the-art in indoor audio signal processing along two axes:
+\begin{enumerate}
+    \item Provide new methodologies and data to process acoustic echoes and surpassing the limits of current approaches.
+    \item Extend previous classical methods for audio scene analysis by incorporating the knowledge of these elements of the sound propagation.
+\end{enumerate}
 
-The dissertation is broken into three largely parts which are largely interconnect, as show in the~\cref{fig:intro:thesis_mindmap}:
+\mynewline
+These two claims are elaborated in the two main part of the thesis which follow after an introductory one, as summarized below.
+However the parts are largely interconnected, as show in the~\cref{fig:intro:thesis_mindmap}:
 
 \begin{figure}[t]
     \begin{sidecaption}[Thesis Organization]{%
@@ -380,19 +403,21 @@ The dissertation is broken into three largely parts which are largely interconne
 \newthoughtpar{Acoustic Echoes Estimation}
 \begin{description}
     \item[\cref{ch:estimation}]\synopsisChEstimation
-    \item[\cref{ch:lantern}]\blindtext[1]
-    \item[\cref{ch:blaster}]\blindtext[1]
-    \item[\cref{ch:blasterr}]\blindtext[1]
+    \item[\cref{ch:lantern}]\synopsisChLantern
+    \item[\cref{ch:blaster}]\synopsisChBlaster
 \end{description}
 
 
 \newthoughtpar{Echo-aware Audio Scene Analysis}
 \begin{description}
-\item[\cref{ch:application}]\blindtext[1]
-\item[\cref{ch:separake}]\blindtext[1]
-\item[\cref{ch:mirage}]\blindtext[1]
-\item[\cref{ch:brioche}]\blindtext[1]
+\item[\cref{ch:application}]\synopsisChApplication
+\item[\cref{ch:separake}]\synopsisChSeparake
+\item[\cref{ch:mirage}]\synopsisChMirage
+\item[\cref{ch:brioche}]\synopsisChDecharateApp
 \end{description}
+
+\newthought{Finally,} the dissertation concludes with Chapter 13, which summarizes the contributions and raises several additional research questions.
+
 
 \section{List of Contribution}
 This dissertation draws heavily on the earlier work and writing in the following papers, written jointly with several collaborators:
@@ -408,27 +433,34 @@ This dissertation draws heavily on the earlier work and writing in the following
 
 
 \section{Don't Panic!}
-The reader will have already noticed that a large margin is left free on the right side of each page of the manuscript.
-We will use it to insert comments, historical notes as well as figures and tables to complete the subject.
-This graphic charter is inspired by the work of Tufte (2001) and produced using the latex tufte-latex class.
-We emphasize that the presence of the clickable GitHub logo in the margin indicates the online availability of the codes.
+The reader will have already noticed that a large margin is left free on each page of the manuscript.
+We will use it to insert personal comments, historical notes, additional insights as well as figures and tables to complete the each chapter subject.
+This graphic template is inspired by the work of \citeauthor{tufte1983visual}\citeonly{tufte1983visual}\sidenote{
+    Information on the template is described in the colophon of the thesis.}
+.
+We emphasize that the presence of the clickable link by the \ExternalLink logo as well as code library which are written in typewrite font, \eg/ \library{dEchorate}.
+\\A list of design choice follows:
 
 \subsection{Quick vademecum} for the readers:
 \begin{itemize}
-    \item Bibliographic references are denoted as \cite{kuttruff2016room}.
+    \item Bibliographic references are denoted as \citeonly{kuttruff2016room}.
     \item Figures, Tables and other floating objects as well as equations are numbered within the chapter number.
     \item Equations are referred as~\cref{eq:acoustics:green_definition}
-    \item The main matter of the Thesis’s manuscript starts at page 1, until page 103.
-    \item The back matter covers the list of the candidate’s publications and the bibiographic references cited along the text.
-    \item Small notes on the margin might be used to easily navigate through the Example of margin note manuscript. They are meant to summarize paragraphs/blocks of text.
-    \item The end of the chapter is shown by the following sign between horizontal rules.
+    \item \ExternalLink denotes clickable external link
+    \item \textcolor{myorange}{orange} is used for clickable internal link, such as~\cref{sec:intro:processing} and acronyms \acs{FFT}.
+    \item \textcolor{mygray}{grey} is used for clickable internal link, such as \href{www.diegodicarlo.com}{my website\ExternalLink}
+    \item Reference sidenotes on the margin are used as footnotes, providing additional insights.
+    \item Italic sidenotes and figures without proper reference number on the margin are meant to provide optional information and can be read in a second moment.
+    \item \textcolor{black!30}{\scriptsize\raisebox{1pt}{$\blacktriangleright$}} should capture reader attention towards the important points.
+    \item \textcolor{black!30}{\scriptsize\raisebox{1pt}{$\rightleftarrows$}} indicate the presence of definition by dichotomy.
+    \item The end of the chapter is shown with a logo signature.
 \end{itemize}
 
 \subsection{The golden ratio of the thesis}
+This thesis has been written following personal stylistic rules:
 \begin{itemize}
-    \item at most 3 level of sub-headings: section, subsection and new-thought
-    \item usage of dichotomies are preferred
-    \item each paragraph is introduced briefly at the end of the previous one
-    \item definition are provided with stacco
-    \item Not important figures: without numbering
+    \item At most 3 level of sub-headings: section, subsection and Tufte's \textit{new-thought}.
+    \item The usage of dichotomies is emphasized.
+    \item Each paragraph is introduced briefly at the end of the previous one.
+    \item no indentation, but well separated text blocks.
 \end{itemize}
