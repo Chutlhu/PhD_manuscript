@@ -52,32 +52,7 @@ elevation as well from 2 microphones only, an impossible task in anechoic settin
         The illustration shows direct sound path (blue lines) and resulting first-order echoes (orange lines).}
     \label{fig:mirage:scene}
 }
-Sound source localization (SSL) consists in determining the position of a sound source from microphone signals in 3D space.
-In polar coordinates, most existing methods focus on estimating the directional of arrival, namely, azimuth and elevation angles.
-Though this task is performed routinely by humans, it still challenges today's computational methods,
-in particular in the presence of reverberation or interfering sources (see \cite{rascon2017localization} and \cite{Argentieri2015} for a review).
-Computational approaches consist in two components. First, extracting features from audio data that are as independent
-as possible from the source's content while preserving spatial information. Second, mapping these features to the source position.
-Two lines of research have been investigated to obtain such mappings: physics-based and learning-based approaches.
 
-\newthought{Physics-based approaches} rely on a simplified sound propagation model
-\cite{rascon2017localization,Knapp1976,DiBiase2001,Lebarbenchon2018}.
-The free-field model is by far the most widely used one and assumes
-a single direct sound path from the source to each microphone.
-When the source is placed far enough, this yields a closed-form mapping from the
-sound's time-difference-of-arrival (TDOA) in a microphone pair and the source's azimuth angle in this pair.
-If multiple microphone pairs are available and form a non-linear array,
-their TDOAs can be aggregated to obtain 2D directions of arrival \cite{DiBiase2001}.
-These methods strongly suffer in environments where the free-field assumption is violated,
-\textit{e.g.}, in the presence of strong acoustic echoes and reverberation \cite{Scheuing2006}.
-
-\newthought{Learning-based approaches} use an annotated training dataset to implicitly
-learn a mapping from audio features to source positions
-\cite{deleforge2015acoustic, Vesperini2016, Adavanne2017,  Perotin2018, gaultier2017vast}.
-Such data can be obtained from real recordings \cite{deleforge2015acoustic} or
-using physics-based simulators \cite{Vesperini2016, Adavanne2017,  Perotin2018, gaultier2017vast}.
-These methods were showed to overcome some limitations of the free-field model,
-but are usually trained for specific microphone arrays and fail whenever test conditions strongly mismatch training conditions.
 
 Most sound source localization methods, including the above listed,
 regard reverberation and in particular acoustic echoes as a nuisance.
