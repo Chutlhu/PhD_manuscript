@@ -130,18 +130,25 @@ According to the definition given in~\cref{ch:processing}, audio source separati
 \subsection{on Spatial Filtering}
 Beamformers combines the channels of multiple microphones in order to achieve spatial selectivity, suppressing noise, interferences and reverberation~\citeonly{VanTrees2004Optimum}.
 
+\newthought{Current Challenges}
 
 \subsection{on Sound Source Localization}
-\SSLdef/ consists in determining the position of a sound source from microphone recordings in the 3D space.
-However, most existing methods focus on estimating the 2-dimensional \DOAdef/ instead, namely, azimuth and elevation angles, of the corresponding polar coordinate system.
-There are two main reasons for this:
-First estimating the distance is know to be a much more challenging task, than estimating the \DOAs/~\citeonly{vesa2009binaural}.
-Second, many spatial filtering methods assuming ideal propagation and distant talking scenario requires \DOAs/ as only knowledge.
-Though this task is performed routinely by humans, it still challenges today's computational methods,
-in particular in the presence of reverberation or interfering sources (see \cite{rascon2017localization} and \cite{Argentieri2015} for a review).
+\SSLdef/ consists in determining the position of sources from microphone recordings in the 3D space.
+The sources' and microphones' positions in the room are encoded the \RIRs/.
+Therefore, assuming the uniqueness of the mapping between locations to a \RIR/, it is theoretically possible to retrieve the absolute position of microphones and sources.
+However, as deeply discussed in~\cref{ch:estimation} and shown in the work~\citeonly{crocco2017uncalibrated}, this is already a very challenging task, which may involves the solution of many several sub-problems.
+Therefore, it is more common to relax the \SSL/ problem as follows:
+First, rather the sources 3D coordinates, most of existing methods aim at estimating the 2-dimensional \DOAdef/, namely, \textit{azimuth} and \textit{elevation} angles with respect to a reference point in the microphone array\sidenote{typically the baricenter.}.
+Second, they assume far-field scenarios.
+The main reason for adopting such simplifications is two-fold:
+on one side, estimating the distance is know to be a much more challenging task, than estimating the \DOAs/~\citeonly{vesa2009binaural}.
+on the other side, many far-field speech enhancement methods require only the sources' \DOAs/ as only knowledge.
 
 \mynewline
-Computational approaches consist in two components.
+Despite these approximation, the \SSL/ problem still challenges today's computational methods, in particular in the presence of reverberation or interfering sources (see \cite{rascon2017localization} and \cite{Argentieri2015} for a review).
+
+
+In We can iden two components.
 First, extracting features from audio data that are as independent as possible from the source's content while preserving spatial information.
 Second, mapping these features to the source position.
 Two lines of research have been investigated to obtain such mappings: physics-based and learning-based approaches.
@@ -163,6 +170,8 @@ Such data can be obtained from real recordings \cite{deleforge2015acoustic} or
 using physics-based simulators \cite{Vesperini2016, Adavanne2017,  Perotin2018, gaultier2017vast}.
 These methods were showed to overcome some limitations of the free-field model,
 but are usually trained for specific microphone arrays and fail whenever test conditions strongly mismatch training conditions.
+
+\newthought{Current Challenges}
 
 % \subsection{An acoustic perspective}\cite{subsec:application:sota_propagation}
 % Bibliography with respect to sound propagation
