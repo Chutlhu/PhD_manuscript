@@ -1,11 +1,71 @@
-\chapter{Application of Acoustic Echoes}\label{chap:application}
+\chapter{Application of Acoustic Echoes}\label{ch:application}
 
-\newthought{Synopsis} \blindtext
+\newthought{Synopsis} \synopsisChApplication
 
-\section{Auditory Scene Analysis}
+The material presented here results from the personal elaboration of concepts and references available in the literature.
+However, since this literature is vast and spans diverse decades of scientific research, we do not aim to cover it entirely. We instead illustrate the relation between indoor sound propagation and how this information is accounted for in classical methods.
+Furthermore, some definitions are digested from classical textbooks already used for this thesis, such as~\citeonly{vincent2018audio}, and audio signal processing lecture notes.
+
+\section{Audio Scene Analysis Problems}
+As mentioned in the first chapter, the audio scene analysis aims to parcel all the relevant information in the indoor audio scene.
+Different types of information are estimated or inferred by different audio signal processing algorithms solving specific problems.
+Despite their diversity, most of these problems can be defined on a common model for the microphone observations.
+
+\mynewline
+Let there be a meeting room with well-defined geometry.
+In it, $\numSrcs$ sound sources are located at determined positions, such as some speakers chatting while standing in the room.
+As it is a indoor scenario, all the elements of reverberation (in particular echoes) are presents.
+Diffuse background noise is present as well, for instance, due to the air conditioner or car traffic outside.
+This whole audio scene is recorded by a device featuring a microphone array of $\numMics$ sensors.
+Furthermore we assume a static far field scenario and we model each $\idxSrc$ sources and $\idxMic$ microphone as well-defined points with coordinate $\positionSource$ and $\positionMicrophone$, respectively.
+This is a reasonable assumption in the context of table-top devices, such as smart home devices.
+
+\begin{figure}
+    aoeu
+\end{figure}
+
+Recalling the (discrete) time-domain signal model~\cref{ch:processing:blabal} already discussed the relative chapter, the signal recorded at the $\idxMic$-th microphones reads
+\begin{equation}
+    \label{eq:application:stft}
+    \mic_\idxMic[n] = \sum_{\idxSrc = 1}^{\numSrcs}
+        \kparen{\flt_{\idxMicSrc}( \positionMicrophone_{\idxMic}  | \positionSource_{\idxSrc}) \convDis \src_{\idxSrc}} [n] + \nse_\idxMic[n]
+    .
+\end{equation}
+Note that the filter $\flt_{\idxMicSrc}(\positionMicrophone_{\idxMic} | \positionSource_{\idxSrc})$ denotes the \RIR/ where we intentionally highlight the dependencies on geometry,
+namely, accounting for the whole sound propagation for the source position $\positionSource_{\idxSrc}$ to the microphone position $\positionMicrophone_{\idxMic}$.
+In fact, as discussed throughout~\cref{ch:acoustics,ch:processing}, we can decouple the information of indoor microphone natural recordings into two orthogonal contributions:
+the \RIRs/ (thus the mixing matrix) accounting for only the sound propagation, and the source signals that depend only on the sound content.
+
+\newcommand{\setMicSignals}{\ensuremath{\set{\mic_{\idxMic}}_\idxMic}}
+\newcommand{\setSrcSignals}{\ensuremath{\set{\src_{\idxSrc}}_\idxSrc}}
+\newcommand{\setSrcPositions}{\ensuremath{\set{\positionSource_{\idxSrc}}_\idxSrc}}
+\newcommand{\setFltSignals}{\ensuremath{\set{\flt_{\idxMicSrc}(\positionMicrophone_{\idxMic} | \positionSource_{\idxSrc})}_{\idxMicSrc}}}
 
 
-\subsection{Literature review: an acoustic perspective}
+\newthought{The Audio Scene Analysis Problems} presented already in the introductory chapter (See~\cref{sec:intro:scene}) can be now extended and rewritten in terms of the above notation.
+Furthermore, we will consider here the only ones directly addressed in this thesis, namely, room impulse response estimation, audio source separation, spatial filtering, sound source localization, and room geometry estimation.
+
+\begin{table}[!h]
+
+    \begin{fullwidth}
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+
+    \input{tables/application/tab_inverseproblem.tex}
+    \caption{List of audio scene analysis problems considered in this thesis accompanied with their mathematical description.}
+    \label{tab:processing:problems}
+
+    \end{fullwidth}
+
+\end{table}
+
+%% blind-informed, active-passive
+As introduced in~\cref{sec:estimation:problem}, this problems exist in their active and passive as well as informed and blind scenario.
+
+
+
+\section{Literature review: an acoustic perspective}
 Bibliography with respect to sound propagation
 \begin{itemize}
     \item Ignored
@@ -26,6 +86,9 @@ As presented by Crocco \textit{et al.} in \citeonly{crocco2017uncalibrated}, the
 RIR estimation, peak picking, microphones calibration, echo labeling, reflectors estimation. Acoustic echo retrieval (AER) is common to many of these topics. It consists in estimating the properties of echoes such as their TOAs and energies. The former problem is referred to as TOA estimation, or time-delay estimation when the direct-path is taken as reference. Furthermore, as interesting applications, these methods have been recently used in active scenarios, namely knowing the transmitted signals, using unmanned aerial vehicle (UAV, a.k.a. drones) \citeonly{jensen2019method, Boutin2020drone} and mobile-phones \citeonly{Shih2019phone}.
 
 
+\cref{sec:application:scenario}
+\cref{sec:application:sota}
+\cref{sec:application:echosota}
 
 %% problems %%
 \newthoughtpar{Separation \vs/ Enhancement}

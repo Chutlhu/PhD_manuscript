@@ -488,7 +488,7 @@ While the raw audio signal encodes the amplitude of a sound as a function of tim
 its spectrum represents it as a function of frequency.
 In order to jointly account for both temporal and spectral characteristic, joint time-frequency representations are used.
 
-\subsection{Time-Frequency domain representation}
+\subsection{Time-Frequency domain representation}\label{subsec:processing:stft}
 \TFdef/ representations aim to jointly describe the signal in the time and frequency domains.
 Instead of considering the entire signal, the main idea is to consider only a small section of the signal.
 To this end, one fixes a so-called \textit{window} function, $\hatw_N[n]$, which is nonzero for only a period of time $\winsize$ shorter than the entire signal length, $\winsize \ll N$.

@@ -1,0 +1,170 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,882); %set diagram left start at 0, and has height of 882
+
+%Shape: Rectangle [id:dp9742024871915521]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ] (10,670) -- (650,670) -- (650,830) -- (10,830) -- cycle ;
+%Shape: Rectangle [id:dp13645051408036035]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ] (110,100) -- (510,100) -- (510,190) -- (110,190) -- cycle ;
+%Shape: Rectangle [id:dp6467751933265007]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (130,130) -- (260,130) -- (260,180) -- (130,180) -- cycle ;
+%Shape: Rectangle [id:dp9856652483565835]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (350,130) -- (480,130) -- (480,180) -- (350,180) -- cycle ;
+%Shape: Rectangle [id:dp39767779828651684]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (30,20) -- (160,20) -- (160,70) -- (30,70) -- cycle ;
+%Shape: Rectangle [id:dp6576906549484594]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ] (10,230) -- (260,230) -- (260,620) -- (10,620) -- cycle ;
+%Shape: Rectangle [id:dp5972493725268107]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (80,260) -- (210,260) -- (210,310) -- (80,310) -- cycle ;
+
+%Shape: Rectangle [id:dp2849987913804324]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (60,354.5) -- (190,354.5) -- (190,414.5) -- (60,414.5) -- cycle ;
+
+%Shape: Rectangle [id:dp6532975381702275]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (60,440) -- (190,440) -- (190,500) -- (60,500) -- cycle ;
+
+%Shape: Rectangle [id:dp1625330750216898]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (60,520) -- (190,520) -- (190,580) -- (60,580) -- cycle ;
+
+%Shape: Rectangle [id:dp01880251807979072]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ] (340,230) -- (590,230) -- (590,620) -- (340,620) -- cycle ;
+%Shape: Rectangle [id:dp8108717837627989]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (400,260) -- (530,260) -- (530,310) -- (400,310) -- cycle ;
+
+%Shape: Rectangle [id:dp4954293501290161]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (390,354.5) -- (530,354.5) -- (530,414.5) -- (390,414.5) -- cycle ;
+
+%Shape: Rectangle [id:dp17452312583288243]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (390,440) -- (530,440) -- (530,500) -- (390,500) -- cycle ;
+
+%Shape: Rectangle [id:dp7443078604916719]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (390,520) -- (530,520) -- (530,610) -- (390,610) -- cycle ;
+
+%Straight Lines [id:da33338714273795855]
+\draw    (90,70) -- (90,150) -- (127,150) ;
+\draw [shift={(130,150)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da9473037741481815]
+\draw    (260,150) -- (347,150) ;
+\draw [shift={(350,150)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da4322532563185848]
+\draw    (300,190) -- (300,210) -- (130,210) -- (130,257) ;
+\draw [shift={(130,260)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da5086092824269788]
+\draw    (300,210) -- (470,210) -- (470,257) ;
+\draw [shift={(470,260)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da9680367374851362]
+\draw    (80,280) -- (40,280) -- (40,370) -- (57,370) ;
+\draw [shift={(60,370)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da5759624560829548]
+\draw    (40,370) -- (40,460) -- (57,460) ;
+\draw [shift={(60,460)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da32312900571469794]
+\draw    (40,460) -- (40,540) -- (57,540) ;
+\draw [shift={(60,540)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da3783426411998889]
+\draw    (530,280) -- (550,280) -- (550,380) -- (533,380) ;
+\draw [shift={(530,380)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da6128278335977541]
+\draw    (550,380) -- (550,460) -- (533,460) ;
+\draw [shift={(530,460)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da12511380589790577]
+\draw    (550,460) -- (550,540) -- (533,540) ;
+\draw [shift={(530,540)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+
+%Shape: Rectangle [id:dp9293239853651779]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (200,700) -- (330,700) -- (330,810) -- (200,810) -- cycle ;
+
+%Shape: Rectangle [id:dp8404157960697695]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (380,700) -- (440,700) -- (440,810) -- (380,810) -- cycle ;
+
+%Shape: Rectangle [id:dp37328520211348604]
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (490,700) -- (620,700) -- (620,810) -- (490,810) -- cycle ;
+
+%Straight Lines [id:da5983074814442375]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (190,370) -- (387,370) ;
+\draw [shift={(390,370)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da6379956413016018]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (190,460) -- (387,460) ;
+\draw [shift={(390,460)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da5059612349211031]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (190,540) -- (387,540) ;
+\draw [shift={(390,540)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Straight Lines [id:da9310498465324369]
+\draw [color={rgb, 255:red, 139; green, 87; blue, 42 }  ,draw opacity=1 ][line width=0.75]    (273,780) -- (370,780) -- (370,490) -- (390,490) ;
+\draw [shift={(270,780)}, rotate = 0] [fill={rgb, 255:red, 139; green, 87; blue, 42 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+%Straight Lines [id:da606951624611267]
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ][line width=0.75]    (293,740) -- (350,740) -- (350,400) -- (390,400) ;
+\draw [shift={(290,740)}, rotate = 0] [fill={rgb, 255:red, 65; green, 117; blue, 5 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+%Straight Lines [id:da6221303506730637]
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (350,480) -- (390,480) ;
+%Straight Lines [id:da9239265835452208]
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (350,600) -- (390,600) ;
+%Straight Lines [id:da9216779098162926]
+\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ][line width=0.75]    (253,760) -- (360,760) -- (360,410) -- (390,410) ;
+\draw [shift={(250,760)}, rotate = 0] [fill={rgb, 255:red, 128; green, 128; blue, 128 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+%Straight Lines [id:da9837801488402287]
+\draw [color={rgb, 255:red, 139; green, 87; blue, 42 }  ,draw opacity=1 ][line width=0.75]    (423,740) -- (460,740) -- (460,650) -- (550,650) -- (550,580) -- (530,580) ;
+\draw [shift={(420,740)}, rotate = 0] [fill={rgb, 255:red, 139; green, 87; blue, 42 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+%Straight Lines [id:da3740107544821344]
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (433,760) -- (460,760) -- (460,740) ;
+\draw [shift={(430,760)}, rotate = 0] [fill={rgb, 255:red, 65; green, 117; blue, 5 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+%Straight Lines [id:da9317666917137187]
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (443,780) -- (460,780) -- (460,760) ;
+\draw [shift={(440,780)}, rotate = 0] [fill={rgb, 255:red, 65; green, 117; blue, 5 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+%Straight Lines [id:da9377544046908711]
+\draw [color={rgb, 255:red, 139; green, 87; blue, 42 }  ,draw opacity=1 ][line width=0.75]    (423,800) -- (450,800) -- (450,650) -- (310,650) -- (310,400) -- (190,400) ;
+\draw [shift={(420,800)}, rotate = 0] [fill={rgb, 255:red, 139; green, 87; blue, 42 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+%Straight Lines [id:da18249673220624685]
+\draw [color={rgb, 255:red, 139; green, 87; blue, 42 }  ,draw opacity=1 ][line width=0.75]    (423,730) -- (440,730) -- (440,660) -- (280,660) -- (280,480) -- (190,480) ;
+\draw [shift={(420,730)}, rotate = 0] [fill={rgb, 255:red, 139; green, 87; blue, 42 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+%Straight Lines [id:da3136600005526753]
+\draw [color={rgb, 255:red, 139; green, 87; blue, 42 }  ,draw opacity=1 ][line width=0.75]    (460,650) -- (460,640) -- (270,640) -- (270,560) -- (190,560) ;
+%Straight Lines [id:da7530602305735319]
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (197,740) -- (140,740) -- (140,640) -- (270,640) ;
+\draw [shift={(200,740)}, rotate = 180] [fill={rgb, 255:red, 65; green, 117; blue, 5 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+%Straight Lines [id:da7672895561772414]
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (197,780) -- (130,780) -- (130,660) -- (280,660) ;
+\draw [shift={(200,780)}, rotate = 180] [fill={rgb, 255:red, 65; green, 117; blue, 5 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (6.25,-3) -- (0,0) -- (6.25,3) -- cycle    ;
+
+% Text Node
+\draw (132,133) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt1 Ch2}}\\{\scriptsize Room Acoustics}};
+% Text Node
+\draw (352,133) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt1 Ch3}}\\{\scriptsize Audio Signal Processing}};
+% Text Node
+\draw (32,23) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Ch1}}\\{\scriptsize Introduction}};
+% Text Node
+\draw (404.5,263) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt3 Ch8}}\\{\scriptsize Echo-aware Applications}};
+% Text Node
+\draw (392,357.5) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt2 Ch9}}\\{\scriptsize Sound Source Separation}\\{\scriptsize Separake}};
+% Text Node
+\draw (62,357.5) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt2 Ch5}}\\{\scriptsize Knowlege-driven \textbackslash AER/}\\{\scriptsize BLASTER}};
+% Text Node
+\draw (392,443) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt2 Ch10}}\\{\scriptsize Sound Source Localization}\\{\scriptsize Mirage}};
+% Text Node
+\draw (62,443) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt2 Ch6}}\\{\scriptsize Data-driven \textbackslash AER/}\\{\scriptsize Lantern}};
+% Text Node
+\draw (392,523) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt2 Ch10}}\\{\scriptsize Speech Enhancement}\\{\scriptsize Room Geomtry Estimation}\\{\scriptsize Brioche and Dechorate}};
+% Text Node
+\draw (62,523) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt2 Ch7}}\\{\scriptsize Dataset for \textbackslash AER/}\\{\scriptsize Dechorate}};
+% Text Node
+\draw (12,233) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\scriptsize \textit{Estimation}}};
+% Text Node
+\draw (342,233) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\scriptsize \textit{Application}}};
+% Text Node
+\draw (112,103) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\scriptsize \textit{Background}}};
+% Text Node
+\draw (82,263) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt2 Ch4}}\\{\scriptsize Acoustic Echo Retrieval}};
+% Text Node
+\draw (12,673) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\scriptsize \textit{Appendices}}};
+% Text Node
+\draw (202,703) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Code contributions}}\\{\scriptsize Pyroomacoustics}\\{\scriptsize Separake}\\{\scriptsize MBSSLocate}\\{\scriptsize SPCUP}};
+% Text Node
+\draw (382,703) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Assets}}\\{\scriptsize Risotto}\\{\scriptsize Brioche}\\{\scriptsize dEchorate}\\{\scriptsize Blaster}};
+% Text Node
+\draw (492,703) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Measurement}}\\{\scriptsize RT60 measurment}\\{\scriptsize RIR estimation}\\{\scriptsize ReTF estimation}};
+
+
+\end{tikzpicture}

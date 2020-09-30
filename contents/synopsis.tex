@@ -1,28 +1,28 @@
 \newcommand{\synopsisChAcoustics}{
     This chapter will build a first important bridge: from acoustics to audio signal processing.
     It first defines sound and how it propagates in the environment~\cref{ch:acoustics:sec:wave}, teasing out the fundamental concepts of this thesis: the echoes.~\cref{ch:acoustics:sec:reflection} and the \RIRdef/~\cref{ch:acoustics:sec:rir}.
-    By assuming some approximations, the \RIR/ will be described in all its parts in relation with methods to compute them.
+    By assuming some approximations, the \RIR/ will be described in all its parts related to methods to compute them.
     Finally, in~\cref{ch:acoustics:sec:perception}, how the human auditory system perceives reverberation will be reported.
 }
 \newcommand{\synopsisChProcessing}{
-    Let us now move from the physics to digital signal processing.
-    At first in~\cref{sec:processing:model}, this chapter formalizes fundamental concepts of audio signal processing such as signal, mixtures and noise in the time domain.
+    Let us now move from physics to digital signal processing.
+    At first in~\cref{sec:processing:model}, this chapter formalizes fundamental concepts of audio signal processing such as signal, mixtures, and noise in the time domain.
     In~\cref{sec:processing:domains}, we will present the signal representation that we will use throughout the entire thesis: the \STFTdef/.
-    Finally, after assuming the narrowband approximation, in~\cref{sec:processing:rirmodels} some important models for the \RIRdef/ are described.
+    Finally, after assuming the narrowband approximation, in~\cref{sec:processing:rirmodels}, some essential models for the \RIRdef/ are described.
 }
 \newcommand{\synopsisChEstimation}{
-This chapter amis to provide the reader with knowledge of the state-of-the-art of \AERdef/.
-After presenting the \AER/ problem in~\cref{sec:estimation:problem}, the chapter is divided into three main sections:
-\cref{sec:estimation:taxonomy} defines the categories of methods thank to which the literature can be clustered and analyzed in detail later in~\cref{sec:estimation:sota}.
-Finally, in~\cref{sec:estimation:datametrics} some datasets and evaluation metrics for \AER/ are presented.
+    This chapter aims to provide the reader with knowledge of the state-of-the-art of \AERdef/.
+    After presenting the \AER/ problem in~\cref{sec:estimation:problem}, the chapter is divided into three main sections:
+    \cref{sec:estimation:taxonomy} defines the categories of methods thank to which the literature can be clustered and analyzed in detail later in~\cref{sec:estimation:sota}.
+    Finally, in~\cref{sec:estimation:datametrics} some datasets and evaluation metrics for \AER/ are presented.
 }
 
 \newcommand{\synopsisChBlaster}{
-This chapter proposes a novel approach for \textit{off-grid} \AER/ from a stereophonic recording of an unknown sound source such as speech.
-In contrast with existing methods, the proposed approach, named \BLASTERdef/.
-It is built on the recent framework of \CDdef/ and it does not rely on parameter tuning nor peak picking techniques by working directly in the parameter space of interest.
-The accuracy and robustness of the method are assessed on challenging simulated setups with varying noise and reverberation levels and are compared to two state-of-the-art methods.
-While comparable or slightly worse recovery rates are observed for the task of recovering 7 echoes or more, better results are obtained for fewer echoes and the off-grid nature of the approach yields generally smaller estimation errors.
+    This chapter proposes a novel approach for \textit{off-grid} \AER/ from a stereophonic recording of an unknown sound source such as speech.
+    In contrast with existing methods, the proposed approach, named \BLASTERdef/.
+    It is built on the recent framework of \CDdef/, and it does not rely on parameter tuning nor peak picking techniques by working directly in the parameter space of interest.
+    The method's accuracy and robustness are assessed on challenging simulated setups with varying noise and reverberation levels and are compared to two state-of-the-art methods.
+    While comparable or slightly worse recovery rates are observed for recovering seven echoes or more, better results are obtained for fewer echoes, and the off-grid nature of the approach yields generally smaller estimation errors.
 }
 
 \newcommand{\synopsisChLantern}{
@@ -31,21 +31,23 @@ While comparable or slightly worse recovery rates are observed for the task of r
 
 \newcommand{\synopsisChDechorate}{
     This chapter presents \dEchorate{}: a new database of measured multichannel room impulse response (RIRs) including annotations of early echoes and 3D positions of microphones, real and image sources under different wall configurations in a cuboid room.
-    These data provide a tool for benchmarking recent methods in \textit{echo-aware} speech enhancement, room geometry estimation, RIR estimation, acoustic echo retrieval, microphone calibration, echo labeling and reflectors estimation.
-    The database is accompanied with software utilities to easily access, manipulate and visualize the data as well as baseline methods for echo-related tasks.
+    These data provide a tool for benchmarking recent methods in \textit{echo-aware} speech enhancement, room geometry estimation, RIR estimation, acoustic echo retrieval, microphone calibration, echo labeling, and reflectors estimation.
+    The database is accompanied by software utilities to easily access, manipulate, and visualize the data and baseline methods for echo-related tasks.
 }
 
 \newcommand{\synopsisChApplication}{
-    This chapter
+    In this chapter, we will present algorithms and methodologies for audio scene analysis in the context of signal processing.
+    At first, in section~\cref{sec:application:scenario}, we present a typical scenario for defining some cardinal problems.
+    Therefore in section~\cref{sec:application:sota}, state-of-the-art approaches to address these problems are listed and commented, highlighting the relationship with some acoustic propagation models.
+    Finally, section~\cref{sec:application:echosota} will summarize the main concepts in light of echo-aware approaches.
 }
 
 \newcommand{\synopsisChSeparake}{
-    In this chapter echoes are used for boosting the performance of classical Audio Source Separation methods.
-    At first, we describe existing methods, which typically either ignore the acoustic propagation, or attempt to estimate it fully.
-    % Instead, thanks to the geometric interpretation of early echoes, we show how this gives us enough spatial diversity to get a performance boost over the anechoic case.
-    Instead, this works investigate whether sound separation can benefit from the knowledge of early acoustic echoes derived from the known locations of a few \textit{image microphones}.
-    The improvements are show for two variants of a method based on non-negative matrix factorization: one that uses only magnitudes of the transfer functions, and one that also uses the phases.
-    The experimental part shows that the proposed approach beats its vanilla variant by using only a few echoes, and that with magnitude information only, echoes enable separation where it was previously impossible.
+    In this chapter, echoes are used for boosting the performance of classical Audio Source Separation methods.
+    At first, we describe existing methods that either ignore the acoustic propagation or attempt to estimate it fully.
+    Instead, these works investigate whether sound separation can benefit from the knowledge of early acoustic echoes derived from the known locations of a few \textit{image microphones}.
+    The improvements are shown for two variants of a method based on non-negative matrix factorization: one that uses only magnitudes of the transfer functions and uses the phases.
+    The experimental part shows that the proposed approach beats its vanilla variant by using only a few echoes and that with magnitude information only, echoes enable separation where it was previously impossible.
 }
 
 \newcommand{\synopsisChMirage}{
@@ -56,6 +58,6 @@ While comparable or slightly worse recovery rates are observed for the task of r
 \newcommand{\synopsisChDecharateApp}{
     This chapter presents two echo-aware applications that can benefit from the dataset \dEchorate.
     In particular, we exemplify the utilization of these data considering two possible use-cases: echo-aware speech enhancement (\cref{sec:dechorateapp:se}) and room geometry estimation (\cref{sec:dechorateapp:rooge}).
-    This investigation is conducted by using state-of-the-art algorithms described and contextualized in the corresponding sections.
-    In the final section, (\cref{sec:dechorateapp:conclusion}) the main results are summarized and future perspective will be presented.
+    This investigation is conducted using state-of-the-art algorithms described and contextualized in the corresponding sections.
+    In the final section (\cref{sec:dechorateapp:conclusion}), the main results are summarized, and future perspectives will be presented.
 }
