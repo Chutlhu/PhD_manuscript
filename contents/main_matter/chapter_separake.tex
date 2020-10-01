@@ -31,22 +31,6 @@ Instead, we will focus on multichannel source separation based on \acf{NMF}.
 Modeling sound structure is beneficial for source separation, since it make separation possible in many challenging scenario.
 Moreover, this approach allows to easily incorporate side information on both the sources and the acoustic propagation as will be shown later in the chapter.
 
-\mynewline
-\textcolor{red}{
-I think you need to reorient this section to include other, more state-of-the art methods in multichannel source separation, and provide a justification why multichannel NMF (a 10 years old approach) is used here.
-I think a good point to make is that the specific goal of this work is to show the benefit of adding a multichannel early echo model on top of a coarse source spectral model (provided here by NMF). This could not be done using end-to-end multichannel deep-learning based methods (you should nevertheless cite some of them).
-The proposed approach could also be easily applied to the work of [Nugraha et al. 2016] which builds on EM-NMF. But we chose NMF for its simplicity, its small training-data requirements, and its ability to include speaker-specific dictionaries [which Nugraha et al. 2016 can't do].
-You should also at least include references to other multichannel NMF methods, i.e., the ones proposed by Sawada et al.
-}
-\textcolor{mygray}{
-According to the definition given in~\cref{ch:processing}, audio source separation algorithms can be grouped according to how they model with sound propagation in the mixing process:
-\begin{itemize}
-    \item those that ignore it \citeonly{le2015deep} (instantaneous mixing process);
-    \item those that assume a single anechoic path \citeonly{rickard2007duet, nesta2012convolutive} (anechoic mixing process);
-    \item those that model the \RTFs/ entirely \citeonly{ozerov2010multichannel, duong2010under, nugraha2016multichannel, li2019expectation} (convolutive mixing process);
-    \item and those that attempt to separately estimate the contribution of the early echoes and the contribution of the late tail \citeonly{leglaive2015multichannel}.
-\end{itemize}}
-\mynewline
 Currently, in the literature, only few works can be found that incorporate the knowledge of echoes into sound source separation.
 In the work \citeonly{huang2005blind}, the authors proposes a decomposition of the source separation problem into different steps.
 First they estimate the \RIRs/ by extending the \SIMO/-\BCE/ framework form \MIMO/ systems.
@@ -61,8 +45,6 @@ The performance of this approach relies on the \RIR/ and geometry estimation ste
 \\Instead, the work in \citeonly{leglaive2015multichannel} proposes to tackle the convolutive model by imposing a probabilistic prior on the early part of the \RIRs/, namely, modeled as an autoregressive process in the frequency domain.
 Later, the same authors extended this work in~\citeonly{leglaive2016multichannel} accounting for both early and late part of the mixing filters.
 
-
-%%%% rewrite it ######################### #TODO: rewrite this section according to Antoine's comments
 
 \newthought{The proposed approach} is yet different from those presented above.
 First, rather than fitting the echo model as in~\citeonly{leglaive2015multichannel,leglaive2016multichannel}, or estimating the mixing filters as in~\citeonly{huang2005blind,asaei2014structured},

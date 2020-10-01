@@ -28,7 +28,7 @@ In addition, they are  gathered and implemented in the following Python library 
 \library{dEchorate} related to the \ac{DECHORATE} dataset, \library{Risotto} for \acs{RIR} estimation and \library{Brioche} for echo-aware beamforming.
 A description of these libraries in reported in the~\cref{ap:code}.
 
-\section{Echo-aware speech enhancement}\label{sec:dechorateapp:se}
+\section{Echo-aware Spatial Filtering}\label{sec:dechorateapp:se}
 In the previous chapters, we showed how to integrate echoes for sound source separation (\cref{ch:separake}) and sound source localization (\cref{ch:mirage}).
 However, as discussed in details in~\cref{pt:estimation}, the perfect knowledge of such elements are of difficult estimation.
 In this section, we investigate this in the context of spatial filtering.
@@ -38,14 +38,7 @@ As for all the methods presented in this part of the thesis, we assume that echo
 In particular we used the annotation that comes with the considered dataset.
 
 \subsection{Literature review}
-Spatial filtering is a huge and very research field that interested the audio signal processing community since several decades.
-It produces an enormous literature as well as well-affirmed book, which will not be covered in this thesis.
-For more details in this direction, the reader can refers to the book~\citeonly{VanTrees2004Optimum}.
-This topic has been recently review in the context of speech enhancement and source separation in recent publication~\citeonly{gannot2017consolidated}\sidenote{
-    \citeonly{gannot2017consolidated} have been extended in a book~\citeonly{vincent2018audio}.
-}.
-Spatial filtering can be achieved in many variant, one of those is through \textit{beamforming}.
-In light of the echo-aware processing, the literature of beamforming is can be dichotomized in the following two classes: echo-agnostic and echo-aware approaches.
+In light of the echo-aware processing, the literature of beamforming-based spatial filtering can be dichotomized in the following two classes: echo-agnostic and echo-aware approaches.
 
 \newthought{Echo-agnostic beamformers} do not need any echo-estimation step:
 they either ignore their contributions, such in the direct-path beamformers~\citeonly{VanTrees2004Optimum}, nor they consider coupling filters between pairs of microphones, called \ReIRdef/~\citeonly{gannot2001signal}.
@@ -150,14 +143,13 @@ Therefore its \xPSD/ matrix can be easily estimated from the observation using n
 In blind setting, this would require the usage of a voice activity detector.
 Alternatively, the noise component can be modeled as a stationary random process whose spatial covariance matrix can be estimated with advance techniques.
 
-\subsection{Elements of Beamforming}
+\subsection{Elements of Beamforming}\label{subsec:dechorateapp:beamformers}
 In the \STFT/ domain, a beamformer forms a linear combination of the microphone channels to yield the desired output $Y \in \bbC$:
 \begin{equation*}
     Y = \khermitian{\bsW} \MICS = \khermitian{\bsW} \FLTS \SRC + \khermitian{\bsW} \NSES,
 \end{equation*}
 where the vector $\bsW \in \bbC^{\numMics}$ contains the beamformer weights.
 This weights can be computed by optimizing different design criterions which will be described below.
-Common examples of such beamformers are the \DStxt/, the \MVDRtxt/, the \MaxSNRtxt/, the \MaxSINRtxt/, and the \LCMVtxt/.
 
 \newthought{The Delay-and-Sum} is the simplest and often quite effective beamformer.
 In its vanilla version, the \DS/ is designed to only compensate the propagation delay from the source to the microphones towards to the ideal propagation path.
