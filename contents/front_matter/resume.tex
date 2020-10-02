@@ -1,1 +1,80 @@
 \chapter*{Résumé en français}\addcontentsline{toc}{chapter}{Résumé en français}
+
+This summary presents in French an overview of the work addressed in this thesis.
+
+The audio scene analysis topic covers many different tasks that aim to retrieve useful information from microphone recordings.
+Examples of these problems are sound source separation and sound source localization, where we are interested in estimating a speaker's content and position.
+As humans, we perform these tasks without effort: imagine someone calling us from the other side of the room. Your typical reaction would probably turn your attention towards or even go to him/her.
+However, for computers and robots, using audio signal processing techniques, are still open challenges.
+Sounds convey semantic information (what your friends said), temporal and spatial (when he said it, where he said it).
+Many available technologies solve audio scene analysis problems considering
+
+\mynewline
+The central theme of this theses are acoustic echoes. These elements of sound propagation create a bridge between semantic and spatial information of sound sources. As they are repetitions and copies of the source sound, we can weigh more the target sound by integrating their contribution than other noise sources.
+As these reflections are originated by the interaction of the source sound with the environment, thanks to their arrival time, we can retrace back their paths and, thus, reconstruct the geometry of the audio scene's geometry.
+Based on these observations, audio signal processing methods started to account for these sound propagation elements to solve the audio scene analysis problem.
+Two are the main questions that arise:
+how we estimated acoustic echoes, and how we use their knowledge?
+
+\mynewline
+This thesis work aims at improving the current state-of-the-art for indoor audio signal processing along these two axes.
+In particular, it provides new methodologies and data to process acoustic echoes and surpass current approaches' limits.
+Second, it extends previous classical methods for audio scene analysis in their echo-aware form.
+These two claims are elaborated in the two main parts of the thesis, which follow after an introductory one, as summarized below.
+
+\mynewline
+\newthought{Acousti Echo Estimation}
+First, we provide some preliminary definitions of the role of audio signal processing and list some fundamental problems which will be considered throughout the thesis, namely, acoustic echo retrieval, audio source separation, sound source localization, room geometry estimation.
+
+
+
+
+
+The~\cref{ch:acoustics} will build a first important bridge: from acoustics to audio signal processing. It first defines sound, how it propagates in the environment, and how this origins echoes.
+
+In~\cref{ch:processing},  we move from physic to digital signal processing where the echoes are modeled as elements of filters, called Room Impulse Responses (RIRs), operating on the source signal.
+Because processing in the native time domain is complicated, we present the Fourier representation, which facilitates both the exposure of the methods and the implementation of the algorithms.
+This chapter closes the first introductory part.
+
+In this second part of the thesis, we are interested in estimating early acoustic echoes from microphone recordings. Based on the models and the definition described in the first part, this part includes first a general overview about echo retrieval methods followed by the presentation of two works publised at international conferences and a dataset which is about to be released.
+
+First, in chapter~\cref{ch:estimation}, we provide the reader with knowledge of the state-of-the-art about Acoustic Echo Retreival, namely, on how estimate acoustic echoes properties. After presenting the problem and the litterature is review according to typical taxonomy used in signal processing. In order to provide a more complete look on Acoustic Echo Retrival , some datasets and evaluation metrics recurring in the literature and used in the following chapter are presented.
+
+This following three chaper presentes three works we conducted on Acoustic Echo Estimation.
+In~\cref{ch:blaster}, we present a novel approach for estimating echoes from a stereophonic recording of an unknown sound source such as speech. In contrast with existing methods, it is built on the recent continuous dictionaryframework and does not rely on parameter tuning or peak picking techniques.
+The method's accuracy and robustness are assessed on challenging simulated setups with varying noise and reverberation levels and are compared to two state-of-the-art methods. Experimental evaluation on synthetic data shows that comparable or slightly worse recovery rates are observed for recovering seven echoes or more. Instead, better results are obtained for fewer number of echoes, and the off-grid nature of the approach yields generally smaller estimation errors.
+Nevertheless, this is promising since the practical advantage of knowing the timing few echoes per channel will be demonstrate in the last part of the thesis.
+
+In~\cref{ch:lantern} we deploy deep learning techniques to extimate acoustic echoes properties. To the best of our knowledge, this is one of the first example in these directions. The proposed method share some common grounds with deep learning techiniques already applied in sound source localization. We will present three different architecture which addresses the acoustic echo estimation problem with increasing order of complexity: estimating the time of arrival of the direct path and the first prominent echos; perform this estiamtion in a more robust way; and, finally extend it to an increasing number of echoes.
+
+Finally, as conclusion of the second part, in~\cref{ch:dechorate}, we a dataset we collected for acoustic echo estimation: a new database of measured multichannel room impulse response (RIRs) including annotations of early echoes and 3D positions of microphones, real and image sources under different wall configurations in a cuboid room.
+    These data provide a tool for benchmarking recent methods in \textit{echo-aware} speech enhancement, room geometry estimation, RIR estimation, acoustic echo retrieval, microphone calibration, echo labeling, and reflectors estimation.
+    The database is accompanied by software utilities to easily access, manipulate, and visualize the data and baseline methods for echo-related tasks.
+}
+
+\newcommand{\synopsisChApplication}{
+    In this chapter, we will present algorithms and methodologies for audio scene analysis in the context of signal processing.
+    At first, in section~\cref{sec:application:scenario}, we present a typical scenario for defining some cardinal problems.
+    Therefore in section~\cref{sec:application:sota}, state-of-the-art approaches to address these problems are listed and commented, highlighting the relationship with some acoustic propagation models.
+    The content presented here serves as a basis for a deeper investigation conducted in each of the following chapters.
+}
+
+\newcommand{\synopsisChSeparake}{
+    In this chapter, echoes are used for boosting the performance of classical Audio Source Separation methods.
+    At first, we describe existing methods that either ignore the acoustic propagation or attempt to estimate it fully.
+    Instead, these works investigate whether sound separation can benefit from the knowledge of early acoustic echoes derived from the known locations of a few \textit{image microphones}.
+    The improvements are shown for two variants of a method based on non-negative matrix factorization: one that uses only magnitudes of the transfer functions and uses the phases.
+    The experimental part shows that the proposed approach beats its vanilla variant by using only a few echoes and that with magnitude information only, echoes enable separation where it was previously impossible.
+}
+
+\newcommand{\synopsisChMirage}{
+    This chapter
+}
+
+
+\newcommand{\synopsisChDecharateApp}{
+    This chapter presents two echo-aware applications that can benefit from the dataset \dEchorate.
+    In particular, we exemplify the utilization of these data considering two possible use-cases: echo-aware speech enhancement (\cref{sec:dechorateapp:se}) and room geometry estimation (\cref{sec:dechorateapp:rooge}).
+    This investigation is conducted using state-of-the-art algorithms described and contextualized in the corresponding sections.
+    In the final section (\cref{sec:dechorateapp:conclusion}), the main results are summarized, and future perspectives will be presented.
+}
