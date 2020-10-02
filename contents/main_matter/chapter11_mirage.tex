@@ -1,17 +1,17 @@
 \chapter{Sound Source Localization \& \library{Mirage}}\label{chap:mirage}
 
 \marginpar{%
-\footnotesize
-Sound Source Localization, Image Microphones, TDOA Estimation, Supervised Learning.
+    \footnotesize
+    \textbf{Keywords:} Sound Source Localization, Image Microphones, Acoustic Echoes, TDOA Estimation.
+    \\\textbf{Resources:}
+    \begin{itemize}
+        \item \href{aoeu}{Paper}
+        \item \href{aoeu}{Code}
+        \item \href{aoeu}{Poster}
+    \end{itemize}
 }
-\newthought{Synopsis} It is commonly observed that acoustic echoes hurt performance of sound source localization (SSL) methods.
-We introduce the concept of microphone array augmentation with echoes (MIRAGE) and
-show how estimation of early-echo characteristics can in fact benefit SSL.
-We propose a learning-based scheme for echo estimation combined with a physics-based scheme for echo aggregation.
-In a simple scenario involving 2 microphones close to a reflective surface and one source,
-we show using simulated data that the proposed approach performs similarly
-to a correlation-based method in azimuth estimation while retrieving
-elevation as well from 2 microphones only, an impossible task in anechoic settings.
+
+\newthought{Synopsis} \synopsisChMirage
 
 \section{Introduction}
 
@@ -58,11 +58,11 @@ Most sound source localization methods, including the above listed,
 regard reverberation and in particular acoustic echoes as a nuisance.
 In contrast, some recent work that we refer to as \textit{echo-aware}
 methods have showed that the knowledge of early acoustic echoes could
-be used to reconstruct the geometry of an audio scene \cite{Nakashima2010,dokmanic2013acoustic,An2018}
-or to improve performance of signal enhancement methods \cite{flanagan1993spatially, dokmanic2015raking,Scheibler2017}.
-In \cite{Nakashima2010}, some ad-hoc reflectors are used as artificial \textit{pinnae}
+be used to reconstruct the geometry of an audio scene \citeonly{Nakashima2010,dokmanic2013acoustic,An2018}
+or to improve performance of signal enhancement methods \citeonly{flanagan1993spatially, dokmanic2015raking,Scheibler2017}.
+In \citeonly{Nakashima2010}, some ad-hoc reflectors are used as artificial \textit{pinnae}
 to estimate elevation based on a simple reflection model.
-In \cite{An2018}, cameras, depth sensors and laser sensors are used to
+In \citeonly{An2018}, cameras, depth sensors and laser sensors are used to
 identify reflectors and build a corresponding acoustic model that helps SSL.
 
 \newthought{In this work,} we combine ideas from physics-based, learning-based and echo-aware approaches
@@ -122,7 +122,7 @@ $\tau \triangleq \tau_2 - \tau_1$, as a proxy for the estimation of the angle of
 where $c$ is the speed of sound and $d$ the inter-microphone distance.
 SSL then reduces to estimating the TDOA, which can be done by cross-correlation-based methods such as
 the widely used and well performing generalized cross-correlation
-with phase transform (GCC-PHAT) method \cite{Knapp1976,Blandin2012}.
+with phase transform (GCC-PHAT) method \citeonly{Knapp1976,Blandin2012}.
 Given short-time Fourier transforms $M_1$ and $M_2$ of the two microphones signals,
 the GCC-PHAT \textit{angular spectrum} is defined as:
 \begin{equation}\label{eq:mirage:gccphatcontrast}
@@ -131,12 +131,12 @@ the GCC-PHAT \textit{angular spectrum} is defined as:
 Then, the TDOA estimate is given by $\hat{\tau} = \arg \underset{\tau}{\max} \; \Psi_\text{GCC}(\tau)$.
 Note that $\Psi_\text{GCC}$ can also be expressed directly as a function of the
 AOA using \eqref{eq:mirage:aoa}, hence the term \textit{angular spectrum}.
-This method was showed to be state-of-the-art in a large benchmark \cite{Blandin2012}.
+This method was showed to be state-of-the-art in a large benchmark \citeonly{Blandin2012}.
 
 \subsection{Multichannel 2D-SSL}\label{subsec:mirage:2D-SSL}
 When more microphones are available and the array is not linear, 2D-SSL can be envisioned.
 A possible approach is to use 1D-SSL on all pairs and combine their results,
-a principle which was successfully applied in the steered response power with phase transform (SRP-PHAT) method \cite{DiBiase2001}.
+a principle which was successfully applied in the steered response power with phase transform (SRP-PHAT) method \citeonly{DiBiase2001}.
 SRP-PHAT exploits the geometry of the microphone array and the estimated TDOAs from microphone pairs to return the DOA.
 In a nutshell, this algorithm aims to estimate a global angular spectrum $\Psi_{\text{SRP}}(\theta,\phi)$
 which will exhibit a local maximum in the direction of the active source.
@@ -234,7 +234,7 @@ $V$ using audio features obtained from only two microphones.
 % sizes $500$, $300$ and $50$. Rectified linear unit (ReLU)
 % activation functions are used except at the output layer,
 % and each hidden layer has a dropout probability $p_\text{do} = 0.3$.
-% We use the mean square error loss function for training and the Adam optimizer \cite{kingma2014adam}.
+% We use the mean square error loss function for training and the Adam optimizer \citeonly{kingma2014adam}.
 % The normalized root mean square error (nRMSE) is taken as validation
 % metric\footnote{The nRMSE takes values between $0$ (perfect fit) and $\infty$ (bad fit).
 % If it is equal to $1$, then the prediction is no better than a constant.}.
@@ -252,7 +252,7 @@ for 2D-SSL using only 2 microphones is available to date.
 To check the validity of TDOA estimation, it is compared to GCC-PHAT using
 the true microphones (see Sec. \cref{subsec:mirage:1D-SSL}).
 For training and validation of the DNN we generate many random
-shoe-box room configurations using the software presented in \cite{Schimmel2009}.
+shoe-box room configurations using the software presented in \citeonly{Schimmel2009}.
 This software implements both the image-method for simulating reflections and
 a ray-tracing algorithm for diffusion.
 Room widths are uniformly drawn at random in $[3, 9]$ m, heights in $[2, 4]$ m.
@@ -260,7 +260,7 @@ Random source/microphones positions and absorption coefficients for the 6 surfac
 respecting the close-surface scenario. In particular, the microphones are at most $30$ cm from the close-surface,
 placed $10$ cm from each other, the absorption coefficients of the other walls are
 uniformly sampled in $(0.5, 1)$ and the one of the close-surface is in $(0, 0.5)$.
-The same realistic diffusion profile \cite{gaultier2017vast} is used for all surfaces.
+The same realistic diffusion profile \citeonly{gaultier2017vast} is used for all surfaces.
 Around $90,000$ audio scenes are generated this way, yielding reverberation times ($RT_{60})$ between $20$ ms and $250$ ms.
 
 For training and validation, the RIRs are convolved with 1 sec of white-noise (wn) with no additional noise.
