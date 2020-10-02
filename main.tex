@@ -5,7 +5,9 @@
 \usepackage[T1]{fontenc}
 
 % --- English stuff -----------------------------------------------------------
-\usepackage[english]{babel}
+\usepackage[french,english]{babel}
+% \usepackage[english]{babel}
+\selectlanguage{english}
 
 \usepackage{xspace}
 \usepackage{csquotes}
@@ -114,13 +116,29 @@
 
 
 % --- Include only ------------------------------------------------------------
-% \includeonly{   % Of course this list allows many more file
-% %  intro,       % should also work with files in different paths
-%     chapter1_acoustics,
-%     chapter2_processing,
-%     chapter3_evaluation,
-% %  chapter3
-% }
+\input{contents/synopsis}
+
+\includeonly{   % Of course this list allows many more file
+%  intro,       % should also work with files in different paths
+    % contents/front_matter/abstract,
+    % contents/front_matter/resume,
+    % contents/front_matter/resume_etendu_fr,
+    % contents/front_matter/acknowledgments,
+    % contents/front_matter/glossary
+    % contents/front_matter/notation,
+    % contents/main_matter/chapter0_intro,
+    % contents/main_matter/chapter1_acoustics,
+    % contents/main_matter/chapter2_processing
+    % contents/main_matter/chapter_estimation,
+    % contents/main_matter/chapter_blaster,
+    % contents/main_matter/chapter_lantern,
+    % contents/main_matter/chapter_dechorate,
+    % contents/main_matter/chapter9_applications,
+    % contents/main_matter/chapter_separake,
+    contents/main_matter/chapter11_mirage,
+    % contents/main_matter/chapter_dechorateapp,
+    % contents/main_matter/chapter20_conclusion,
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%DOCUMENT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,12 +154,16 @@
 % \input{contents/front_matter/title_page}
 \includepdf[pages=-]{contents/front_matter/mathstic_title_page.pdf}
 
-\input{contents/front_matter/abstract}
+\include{contents/front_matter/abstract}
 \blankpage{}
-\input{contents/front_matter/resume}
+\include{contents/front_matter/resume}
 \blankpage{}
 
-\input{contents/front_matter/acknowledgments}
+\begin{otherlanguage}{french}
+\include{contents/front_matter/resume_etendu_fr}
+\end{otherlanguage}
+
+\include{contents/front_matter/acknowledgments}
 \cleardoublepage{}
 
 %*******************************************************
@@ -151,7 +173,7 @@
 \tableofcontents*\addcontentsline{toc}{chapter}{Contents}
 \clearpage{}
 
-\input{contents/front_matter/glossary}
+\include{contents/front_matter/glossary}
 \cleardoublepage{}
 \clearpage{}
 
@@ -168,8 +190,7 @@
 % \listoftables*\addcontentsline{toc}{chapter}{List of Tables}
 % \clearpage{}
 
-\input{contents/front_matter/notation}
-\input{contents/synopsis}
+\include{contents/front_matter/notation}
 
 \cleardoublepage{}
 
@@ -185,42 +206,42 @@ PROLOGE
 \parttoc[n]
 \cleardoublepage{}
 
-\input{contents/main_matter/chapter0_intro}
+\include{contents/main_matter/chapter0_intro}
 
-% % %% I. Room Acoustic
-% \begin{fullwidth}
-%     \part{Room Acoustic meets Signal Processing}\label{pt:background}
-% \end{fullwidth}
-% \parttoc[n]
-% \input{contents/main_matter/chapter1_acoustics}
-% \input{contents/main_matter/chapter2_processing}
+% I. Room Acoustic
+\begin{fullwidth}
+    \part{Room Acoustic meets Signal Processing}\label{pt:background}
+\end{fullwidth}
+\parttoc[n]
+\include{contents/main_matter/chapter1_acoustics}
+\include{contents/main_matter/chapter2_processing}
 
-% % II. Estimation
-% \begin{fullwidth}
-% \part{Acoustic Echo Retrieval}\label{pt:estimation}
-% \end{fullwidth}
-% \parttoc[n]
-% \input{contents/main_matter/chapter_estimation}
-% \input{contents/main_matter/chapter_blaster}
-% \input{contents/main_matter/chapter_lantern}
-% \input{contents/main_matter/chapter_dechorate}
+% II. Estimation
+\begin{fullwidth}
+\part{Acoustic Echo Retrieval}\label{pt:estimation}
+\end{fullwidth}
+\parttoc[n]
+\include{contents/main_matter/chapter_estimation}
+\include{contents/main_matter/chapter_blaster}
+\include{contents/main_matter/chapter_lantern}
+\include{contents/main_matter/chapter_dechorate}
 
 %% III. Application
 \begin{fullwidth}
     \part{Echo-aware Application}\label{pt:application}
 \end{fullwidth}
 \parttoc[n]
-% \input{contents/main_matter/chapter9_applications}
-% \input{contents/main_matter/chapter_separake}
-% \input{contents/main_matter/chapter11_mirage}
-% \input{contents/main_matter/chapter_dechorateapp}
+\include{contents/main_matter/chapter9_applications}
+\include{contents/main_matter/chapter_separake}
+\include{contents/main_matter/chapter11_mirage}
+\include{contents/main_matter/chapter_dechorateapp}
 
 % %% IV. Conclusion
-% \begin{fullwidth}
-% \part{Epilogue}
-% \end{fullwidth}
-% \parttoc[n]
-% \input{contents/main_matter/chapter20_conclusion}
+\begin{fullwidth}
+    \part{Epilogue}\label{pt:epilogue}
+\end{fullwidth}
+\parttoc[n]
+\include{contents/main_matter/chapter20_conclusion}
 
 
 % === BACK MATTER ===

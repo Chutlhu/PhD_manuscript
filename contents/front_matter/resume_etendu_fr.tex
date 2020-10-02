@@ -1,0 +1,100 @@
+\chapter*{Résumé étendu en français}\addcontentsline{toc}{chapter}{Résumé étendu français}
+
+\newthought{Ce résumé} présente en français un aperçu des travaux abordés dans cette thèse.
+Le thème de l'analyse de la scène audio couvre de nombreuses tâches différentes qui visent à récupérer des informations utiles à partir d'enregistrements microphoniques.
+Des exemples de ces problèmes sont la séparation des sources sonores et la localisation des sources sonores, où nous nous intéressons à l'estimation du contenu et de la position d'un orateur.
+En tant qu'humains, nous effectuons ces tâches sans effort : imaginez que quelqu'un nous appelle de l'autre côté de la pièce. Votre réaction typique serait probablement de tourner votre attention vers lui ou même d'aller vers lui.
+Cependant, pour les ordinateurs et les robots, l'utilisation de techniques de traitement des signaux audio reste un défi à relever.
+
+\mynewline
+Les sons transmettent des informations sémantiques (ce que vos amis ont dit), temporelles et spatiales (quand il l'a dit, où il l'a dit).
+Nous pouvons modéliser ces contributions à l'aide de signaux décrivant le contenu du son et la réponse impulsionnelle de la pièce, en tenant compte de sa propagation dans l'espace. Certaines méthodes de traitement audio se concentrent sur le premier, ignorant ou décrivant grossièrement le second en raison de la difficulté de l'estimer.
+Les réponses impulsionnelles de la pièce intègrent tous les éléments de la propagation du son, tels que les échos, la réflexion diffuse et la réverbération.
+
+\mynewline
+Le thème central de ces thèses est l'écho acoustique. Ces éléments de propagation du son créent un pont entre les informations sémantiques et spatiales des sources sonores. Comme ce sont des répétitions et des copies du son source, nous pouvons peser davantage le son cible en intégrant leur contribution que les autres sources de bruit.
+Comme ces réflexions sont issues de l'interaction du son source avec l'environnement, grâce à leur temps d'arrivée, nous pouvons remonter leur parcours et ainsi reconstruire la géométrie de la scène sonore.
+Sur la base de ces observations, les méthodes de traitement du signal audio ont commencé à prendre en compte ces éléments de propagation du son pour résoudre le problème de l'analyse de la scène audio.
+Deux sont les principales questions qui se posent :
+comment nous avons estimé les échos acoustiques, et comment nous utilisons leurs connaissances ?
+
+\mynewline
+Ce travail de thèse vise à améliorer l'état actuel de la technique pour le traitement des signaux audio à l'intérieur des bâtiments selon ces deux axes.
+En particulier, il fournit de nouvelles méthodologies et données pour traiter les échos acoustiques et dépasser les limites des approches actuelles.
+Deuxièmement, il prolonge les méthodes classiques d'analyse de scènes audio dans leur forme adaptée à l'écho.
+Ces deux revendications sont développées dans les deux parties principales de la thèse, qui suivent après une introduction, comme résumé ci-dessous.
+
+% \newthoughtpar{Parte I, L'acoustique des salles rencontre le traitement numérique des signaux}
+\newthoughtpar{Partie~\ref{pt:background}, L'acoustique des salles rencontre le traitement numérique des signaux}
+Tout d'abord, nous donnons quelques définitions préliminaires du rôle du traitement du signal audio et énumérons quelques problèmes fondamentaux qui seront abordés tout au long de la thèse, à savoir la récupération de l'écho acoustique, la séparation des sources audio, la localisation des sources sonores, l'estimation de la géométrie de la pièce.
+\begin{itemize}
+    \item
+    Le chapitre~\ref{ch:acoustics} construira un premier pont important : de l'acoustique au traitement des signaux audio.
+    Il définit d'abord le son, sa propagation dans l'environnement et l'écho de ses origines.
+    \item
+    Dans~\ref{ch:processing}, nous passons de la physique au traitement numérique du signal où les échos sont modélisés comme des éléments de filtres, appelés Réponses Impulsionnelles de la Chambre (RIR), opérant sur le signal source.
+    Comme le traitement dans le domaine temporel natif est compliqué, nous présentons la représentation de Fourier, qui facilite à la fois l'exposition des méthodes et la mise en œuvre des algorithmes.
+\end{itemize}
+Ce chapitre clôt la première partie introductive.
+
+
+\newthoughtpar{Partie~\ref{pt:estimation} - Acustic Echo Estimation}
+Dans cette deuxième partie de la thèse, nous nous intéressons à l'estimation des premiers échos acoustiques à partir d'enregistrements microphoniques.
+Basée sur les modèles et la définition décrits dans la première partie, cette partie comprend d'abord un aperçu général des méthodes de récupération des échos, suivi de la présentation de deux travaux publiés lors de conférences internationales et d'un ensemble de données sur le point d'être publié.
+\begin{itemize}
+    \item
+    Tout d'abord, dans le chapitre~\ref{ch:estimation}, nous fournissons au lecteur des connaissances sur l'état de l'art de la récupération des échos acoustiques, à savoir comment estimer les propriétés des échos acoustiques. Après avoir présenté le problème, nous passons en revue la littérature selon la taxonomie typique utilisée dans le traitement du signal. Afin de fournir un aperçu complet de la récupération des échos acoustiques, certains ensembles de données et mesures d'évaluation récurrents dans la littérature et utilisés dans le chapitre suivant sont présentés.
+    Les trois chapitres suivants présentent trois travaux que nous avons menés sur l'estimation de l'écho acoustique.
+    \item
+    Le chapitre~\ref{ch:blaster} présente une nouvelle approche pour estimer les échos d'un enregistrement stéréophonique d'une source sonore inconnue telle que la parole.  Contrairement aux méthodes existantes, elle s'appuie sur le récent cadre du dictionnaire continu et ne repose pas sur des techniques de réglage des paramètres ou de picorage.
+    La précision et la robustesse de la méthode sont évaluées sur des configurations simulées difficiles avec des niveaux de bruit et de réverbération variables et sont comparées à deux méthodes de pointe. L'évaluation expérimentale sur des données synthétiques montre que des taux de récupération comparables ou légèrement inférieurs sont observés pour la récupération de sept échos ou plus. En revanche, de meilleurs résultats sont obtenus pour un nombre d'échos inférieur, et la nature hors réseau de l'approche donne généralement des erreurs d'estimation plus faibles.
+    Néanmoins, cela est prometteur puisque l'avantage pratique de connaître le moment où quelques échos par canal sont récupérés sera démontré dans la dernière partie de la thèse.
+    \item
+    Dans le chapitre~\ref{ch:lantern}, nous déployons des techniques d'apprentissage approfondi pour estimer les propriétés des échos acoustiques.
+    À notre connaissance, il s'agit d'un des premiers exemples dans ces directions.
+    La méthode proposée présente des points communs avec les techniques d'apprentissage approfondi déjà appliquées dans la localisation de sources sonores.
+    Nous présenterons trois architectures différentes qui abordent le problème de l'estimation des échos acoustiques avec un ordre de complexité croissant:
+    l'estimation du temps d'arrivée de la voie directe et des premiers échos proéminents;
+    l'exécution de cette estimation de manière plus robuste;
+    et enfin, l'extension à un nombre croissant d'échos.
+    \item
+    Enfin, pour conclure cette deuxième partie, dans~\ref{ch:dechorate}, nous décrivons un ensemble de données que nous avons recueillies, spécifiquement conçu pour l'estimation de l'écho acoustique.
+    Cet ensemble de données comprend des mesures de la réponse impulsionnelle multicanaux de la pièce (RIR), y compris des annotations des premiers échos et des positions 3D des microphones et des sources réelles et d'images sous différentes configurations de murs dans une pièce cubique.
+    Ces données fournissent un nouvel outil pour l'évaluation comparative des méthodes récentes de traitement des signaux audio \textit{echo-aware} et des utilitaires logiciels permettant d'accéder, de manipuler et de visualiser facilement les données.
+\end{itemize}
+
+\newthoughtpar{Partie \ref{pt:application} - Echo-aware Application}
+La troisième et dernière partie de la thèse concerne les applications de traitement audio où la connaissance des premiers échos peut améliorer les performances par rapport aux méthodes standard.
+Pour l'occasion, nous supposons que les propriétés des échos sont disponibles a priori et nous construisons nos connaissances préalables.
+La structure de cette partie suit le format de la précédente.
+
+\begin{itemize}
+    \item
+    Un chapitre d'introduction (chapitre~\ref{ch:application}) rassemble les définitions standard et présente les approches actuelles de pointe pour le traitement audio en intérieur sous une même enseigne.
+    Nous considérons trois problèmes fondamentaux : la séparation des sources audio, la localisation des sources sonores, le filtrage spatial et l'estimation de la géométrie de la pièce.
+    Ces problèmes sont présentés tour à tour avec la revue de la littérature correspondante, en mettant en évidence les défis actuels.
+    Ces problèmes particuliers seront les protagonistes des trois chapitres suivants, présentés sous leur forme échos.
+    \item
+    En chapitre~\ref{ch:separake}, les échos sont utilisés pour améliorer les performances des méthodes classiques de séparation des sources audio et sont le résultat d'une collaboration avec d'autres collègues, publiée lors d'une conférence internationale.
+    Nous proposons notamment une interprétation physique des échos, à savoir des microphones d'image, qui permet de mieux comprendre comment les algorithmes tirent parti de leurs connaissances.
+    Notre étude porte sur deux variantes du cadre de séparation des sources par factorisation matricielle non négative multicanaux : l'une qui utilise uniquement les amplitudes des fonctions de transfert et l'autre qui utilise les phases.
+    Les résultats montrent que l'approche proposée bat sa variante vanille en n'utilisant que quelques échos et que les échos permettent la séparation là où elle était jugée inabordable.
+    \item
+    Le chapitre~\ref{ch:mirage} aborde le problème de la localisation des sources audio dans le contexte de forts échos acoustiques. En utilisant le modèle de microphones image présenté dans le chapitre précédent, nous montrons que ces contributions parasites peuvent être utilisées pour modifier la manière classique dont la localisation de la source est effectuée.
+    En particulier, nous montrons que dans un scénario simple impliquant deux microphones proches d'une surface réfléchissante et d'une source, l'approche proposée est capable d'estimer les angles d'azimut et d'élévation, tâche impossible en supposant une propagation idéale, comme le font les approches classiques.
+    Ces résultats ont été fusionnés dans une publication, publiée lors d'une conférence internationale.
+    En outre, l'étude est ensuite étendue aux réseaux de microphones à capteurs multiples et aux données du monde réel, fournies par une collaboration avec l'équipe de recherche de Honda.
+    \item
+    Le chapitre~\ref{ch:dechorateapp} présente deux applications sensibles à l'écho qui peuvent bénéficier de l'ensemble de données \dEchorate, présenté dans~\ref{ch:dechorate}. Nous illustrons l'utilisation de ces données en considérant deux problèmes possibles d'analyse de scènes audio : le filtrage spatial conscient de l'écho et l'estimation de la géométrie de la pièce.
+    Afin de valider les données et de montrer leur potentiel, des algorithmes de pointe bien connus sont utilisés. Par conséquent, pour chacune des applications, les méthodes envisagées sont contextualisées et résumées.
+    Les résultats numériques confirment la valeur de cet ensemble de données pour la communauté du traitement des signaux audio. L'ensemble de données et ces méthodes seront rendus publics afin que les contributeurs externes soient invités à les utiliser pour développer des méthodes de traitement audio plus robustes.
+\end{itemize}
+
+\newthought{La dernière partie}\ref{ch:epilogue} comprend le dernier chapitre (Chapitre \ref{ch:conclusing}), qui récapitule les principaux résultats présentés dans ce manuscrit et les perspectives liées à ce travail.
+Parmi ceux-ci, nous montrons comment peu d'échos acoustiques peuvent être estimés à partir de la seule observation d'enregistrements microphoniques comportant de la parole réverbérante en utilisant l'un ou l'autre modèle dérivé de la physique de la propagation du son et des modèles d'apprentissage profond formés sur des simulateurs acoustiques.
+De plus, nous démontrons les avantages d'inclure la connaissance des échos acoustiques dans les méthodes de traitement du son.
+Pour l'aspect lié à l'évaluation des méthodes tenant compte des échos dans un scénario réel, nous préconisons que les ensembles de données de référence disponibles gratuitement manquent actuellement dans la littérature. Par conséquent, dans l'esprit de la recherche ouverte, nous construisons un nouvel ensemble de données qui sera bientôt publié. Ces données sont accompagnées d'annotations précises et d'outils algorithmiques pour une recherche consciente de l'écho, couvrant une grande partie des applications pour l'analyse des scènes audio.
+
+\mynewline
+Enfin, nous voulons souligner la difficulté liée à la tâche d'estimation et d'exploitation des échos acoustiques pour améliorer le traitement audio à l'intérieur. Cette thèse ne consiste donc qu'en une première tentative de travail qui pose des bases analytiques sur la façon de modéliser de tels problèmes.
+Comme toutes les premières investigations, beaucoup de choses peuvent être améliorées, et nous espérons qu'elle pourra servir de point de départ à de nouvelles recherches intéressantes et stimulantes.
