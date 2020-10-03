@@ -5,16 +5,16 @@
     \textbf{Keywords:} Sound Source Localization, Image Microphones, Acoustic Echoes, TDOA Estimation.
     \\\textbf{Resources:}
     \begin{itemize}
-        \item \href{aoeu}{Paper}
-        \item \href{aoeu}{Code}
-        \item \href{aoeu}{Poster}
+        \item \href{https://ieeexplore.ieee.org/document/8683534}{Paper}
+        \item \href{https://github.com/Chutlhu/mirage}{Code}
+        \item \href{https://sigport.org/documents/mirage-2d-sound-source-localization-using-microphone-pair-augmentation-echoes}{Poster}
     \end{itemize}
 }
 
 \newthought{Synopsis} \synopsisChMirage
 
 \mynewline
-Together with~\cref{ch:lantern}, this chapter describes methods and results published in~\citeonly{di2019mirage}, which considers only stereophonic recordings.
+Together with~\cref{ch:lantern}, this chapter describes methods and results published in~\cite{di2019mirage}, which considers only stereophonic recordings.
 In this sense, this chapter provides an application of the~\cref{ch:lantern}.
 Subsequently, the proposed approach was to multi-microphone recordings in collaboration with Randy Gomez from Honda Research Institute.
 
@@ -68,37 +68,19 @@ for echo-aware \ac{SSL}.
 Finally, in a very recent work, the well-known \ac{MUSIC} framework for localizing multiple sources is modified for accounting an echo model for the spherical harmonic representation~\citeonly{birnie2020reflection}
 
 \mynewline
-All the above mention echo-aware methods are explicitly knowledge-driven methods.
-As explained in the previous chapter, data-driven methods, and especially deep learning, have been successfully applied to address \SSL/.
-However, they are typically trained for specific microphone arrays and fail whenever test conditions strongly mismatch training conditions.
+All the above mentioned echo-aware methods are explicitly knowledge-driven, namely, using closed-form solutions based on physics, acoustics, and signal processing models.
+As explained in the previous chapter, data-driven methods, especially \ac{DNN}, have been successfully applied to address \SSL/.
+The main benefit is in their ability to learn complex mapping functions based on simple input-output pairs.
+However, they are typically trained for specific applications and use-cases (\eg/, arrays geometry, acoustic conditions, \etc/) and fail whenever test conditions strongly mismatch training conditions.
 
-\newthought{In the work} \cite{di2019mirage} we proposed to combine the best of the two worlds:
-from echo-aware knowledge-driven and data-driven approaches.
-To the end we ...
+\section{Proposed Approach}
+In the work \cite{di2019mirage} we proposed to combine the best of the two worlds:
+using a deep learning model to estimate challenging acoustic parameters and a physically-motivated model to map such parameters to source's \DOAs/.
+To this end, we introduce the framework of \MIRAGEdef/ for \SSL/, based on the \textit{image microphones} model~\citeonly{bergamo2004collaborative,korhonen2008acoustic} (See~\cref{sec:separake:sota}).
 
-to introduce the framework of \underline{mi}crophone a\underline{r}ray
-\underline{a}u\underline{g}mentation with \underline{e}choes (MIRAGE) for SSL.
-We consider a simple yet common scenario to illustrate this idea:
-two microphones, one source and a nearby reflective surface, as illustrated in Fig. \cref{fig:scene}.
-\citeonly{bergamo2004collaborative,korhonen2008acoustic}
-
-This may occur, for instance, when the sensors are placed on a table such as in
-voice-based assistant devices or next to a wall.
-The reflective surface is assumed to be the most reflective and closest one to the microphones in the environment,
-hence generating the strongest and earliest echo in each microphone.
-Under this \textit{close-surface} model, we ask the following questions:
-\begin{enumerate}
-\setlength\itemsep{-1mm}
-\item Can early echoes be estimated from two-microphone recordings of an unknown source?
-\item Can they be used to estimate both the azimuth and elevation angles of the source, an \textit{impossible} task in free field conditions?
-\end{enumerate}
-We propose to use a deep neural network (DNN) trained on a simulated close-surface dataset to estimate early echoes properties from audio features.
-The MIRAGE framework then exploits these estimated properties by expressing them as TDOAs in the \textit{virtual 4-microphone array}
-formed by the true microphone pair and its image with respect to the reflective surface.
-We show that the proposed framework approximately estimates echo properties,
-perform similarly to a correlation-based method in azimuth estimation for the considered
-scenario and estimates \textit{impossible} elevation angles with good accuracy in noiseless settings using two microphones only.
-
+\mynewline
+Let us consider a simple yet common scenario to illustrate this idea:
+two microphones, one source, and a nearby reflective surface, as illustrated in Fig. \cref{fig:mirage:scene}.
 \marginpar{%
     \centering
     \footnotesize
@@ -108,80 +90,134 @@ scenario and estimates \textit{impossible} elevation angles with good accuracy i
         The illustration shows direct sound path (blue lines) and resulting first-order echoes (orange lines).}
     \label{fig:mirage:scene}
 }
+This may occur when the sensors are placed on a table or next to a wall. Striking examples of these scenarios are the smart table-top devices, such as Amazon Echo, Google Home, \etc/.
+The reflective surface is assumed to be the most reflective and closest one to the microphones in the environment, generating the strongest and earliest echo in each microphone.
+Under this \textit{close-surface} model, we ask the following question:
+\begin{enumerate}
+    \item Can early echoes be estimated from two-microphone recordings of an unknown source?
+    \item Can early echoes be used to estimate both the azimuth and elevation angles of the source, an \textit{impossible} task in free field conditions?
+\end{enumerate}
 
+\newthought{The First Question} was already addressed in~\Cref{ch:lantern}.
+In particular, we proposed to use a \ac{DNN} trained on a simulated close-surface dataset to estimate early echoes properties from audio features.
 
+\newthought{To answer the Second Question}, we propose the \ac{MIRAGE} framework.
+It exploits echoes' time of arrival by expressing them as \acp{TDOA} in the \textit{virtual 4-microphone array} formed by the true microphone pair and its image with respect to the reflective surface.
+We show that this framework approximately estimates echo properties, perform similarly to a correlation-based method in azimuth estimation for the considered
+scenario and estimates \textit{impossible} elevation angles with good accuracy in noiseless settings using two microphones only.
 
 
 \section{Background in microphone array SSL}\label{sec:background}
-In this section, we briefly review some necessary background in microphone array SSL. Let us assume a microphone array of $I$ sensors is placed inside a room and records the sound emitted by one static point sound source. In all generality, the relationship between the signal $m_i(t)$ recorded by the sensor placed at fixed position $\mathbf{m}_i$ and the signal $s(t)$ emitted by the source at fixed position $\mathbf{s}$ is defined by:
+In this section, we briefly review some necessary background in microphone array \ac{SSL}.
+Let us assume a microphone array of $\idxMic$ sensors is placed inside a room and records the sound emitted by one static point sound source ($\numSrcs=1$).
+In all generality, the relationship between the signal $\mic_\idxMic$ recorded by the $\idxMic$-th sensor placed at fixed position $\positionMicrophone_\idxMic$ and the signal $\src$ emitted by the source at fixed position $\positionSource$ is defined by:
 \begin{equation}\label{eq:mirage:anymic_time}
-m_i(t) = (h_i * s)(t)  \; + \; n_i(t),
+\mic_i[n] = (\flt_\idxMic \convDis \src)[n]  \; + \; \nse_\idxMic[n],
 \end{equation}
-where the convolution with room impulse response (RIR) $h_i(t)$ embodies the fact that sensor $i$ receives a so-called spatial image of the source and $n_i$ denotes possible measurement noise. The RIR depends on the spatial parameters of the scene: microphone positions, source position w.r.t the room, as well as the room acoustic properties (size, absorption and diffuseness of the wall materials.)
+where the convolution with \RIR/ $\flt_\idxMic[n]$ embodies the fact that sensor $\idxMic$ receives a spatial image of the source and $\nse_\idxMic$ denotes possible measurement noise.
+As fully described in~\cref{ch:acoustic}, the \RIR/ depends on the spatial parameters of the scene: microphone positions, source position \wrt/ the room, as well as the room acoustic properties (size, absorption, and diffuseness of the wall materials).
 
-RIRs can be typically modelled as the sum of the direct path and multiple reflections of the sound. This can boil down to modelling $h_i$ as a Dirac impulse at time $\tau_i$ accounting for the time delay from the source to microphone $i$, plus an error term. In the frequency domain, this leads to:
+\mynewline
+Let us assume that \RIRs/ follows the echo model under the narrowband approximation presented in~\cref{subsec:processing:stft}.
+Therefore, in the discrete-frequency domain, this leads to
 \begin{equation}\label{eq:mirage:rir}
-H_i(f) = \alpha_i(f) \; e^{- 2 \pi f \tau_i} \; + \; \varepsilon_i(f),
+    \FLT_\idxMic[k] = \sum_{\idxEch=0}^{\numEchs}  \; \alpha_\idxMic^{(\idxEch)}[k] \; \cste^{- \csti 2 \pi f_k \tau_\idxMic^{(\idxEch)}} \; + \; \varepsilon_\idxMic[k],
 \end{equation}
-where the error term $\varepsilon_i(t)$ collects echoes, the reverberation tail, diffusion, and noise. The term $\alpha_i(f)$ captures the air attenuation phenomenon. A time-domain example of RIR is shown in Fig.~\cref{fig:rirs} (left).
+where $f_k$ is the $k$-th frequency bin and the error term $\varepsilon_i[k]$ collects later echoes, the reverberation tail, diffusion, and noise.
+A time-domain example of \RIR/ is shown in Fig.~\cref{fig:mirage:rirs} (left).
+In this work, we will consider only the first strongest echo, therefore $R = 1$.
+Note that $r=0$ denotes the ideal propagation path.
 
-
-
-% --- In text figure with caption on the margin (side)
 \begin{figure}[t]
     \begin{sidecaption}[RIRs within the MIRAGE framework]{%
-        Left, a typical simulated RIR with annotated components. Right, superposition of two RIRs and visualization of time difference
-        of arrival between direct paths (TDOA), first echoes (iTDOA) and direct path and first echo (TDOE).
+        (Left) A typical simulated \RIR/ with annotated components.
+        (Right) Superposition of two RIRs and visualization of time difference
+        of arrival between direct paths (\ac{TDOA}), first echoes (\ac{iTDOA}) and direct path and first echo (\ac{TDOE}).
     }[fig:mirage:rirs]
     \centering
-    \includegraphics[trim={0 5 0 0},clip,width=\linewidth, height=0.6\linewidth]{mirage/rirs.pdf}
+    \includegraphics[trim={0 0 0 0},clip,width=\linewidth]{mirage/rirs.pdf}
     \end{sidecaption}
 \end{figure}
 
 
 \subsection{2-channel 1D-SSL}\label{subsec:mirage:1D-SSL}
-Let us first consider the stereo case ($I=2$). Under the far-field assumption,
-traditional SSL methods use the time difference of arrival (TDOA),
-$\tau \triangleq \tau_2 - \tau_1$, as a proxy for the estimation of the angle of arrival (AOA), since:
+\newcommand{\tdoa}{\ensuremath{\tau_\mathtt{TDOA}}}
+\newcommand{\aoa}{\ensuremath{\vartheta}}
+Let us first consider the case of stereophonic recordings ($\numMics=2$).
+Under the far-field assumption, traditional \SSL/ methods use the \acf{TDOA},
+\begin{equation*}
+    \tdoa \eqdef \tau^{(0)}_2 - \tau^{(0)}_1\quad\text{[second]}
+    ,
+\end{equation*}
+as a proxy for the estimation of the \ac{AOA}, $\aoa$, since:
 \begin{equation}\label{eq:mirage:aoa}
-\text{AOA} = \text{arccos} \left(c \: \tau \: / \:d \right),
+    \vartheta = \arccos \kparen{\speedOfSound \: \tdoa \: / \: \distMicMic }\quad\text{[rad]},
 \end{equation}
-where $c$ is the speed of sound and $d$ the inter-microphone distance.
-SSL then reduces to estimating the TDOA, which can be done by cross-correlation-based methods such as
-the widely used and well performing generalized cross-correlation
-with phase transform (GCC-PHAT) method \citeonly{Knapp1976,Blandin2012}.
-Given short-time Fourier transforms $M_1$ and $M_2$ of the two microphones signals,
-the GCC-PHAT \textit{angular spectrum} is defined as:
+where $\speedOfSound$ is the speed of sound and $\distMicMic$ the inter-microphone distance.
+
+\mynewline
+Then, \SSL/ reduces to estimating the \ac{TDOA}, which can be done by cross-correlation-based methods such as the widely used and well performing \ac{GCC-PHAT} method \citeonly{knapp1976generalized, blandin2012multi}.
+Given \STFT/ $\MIC_1$ and $\MIC_2$ of the two microphones signals, the \ac{GCC-PHAT} \textit{angular spectrum} is defined as:
 \begin{equation}\label{eq:mirage:gccphatcontrast}
-\Psi_\text{GCC}(\tau) = \sum_{f,n}\frac{M_1(f,n) M_2^*(f,n)}{\mid M_1(f,n) M_2^*(f,n) \mid} e^{-2\pi f \tau}.
+\Psi_\mathtt{GCC}(\tau) = \sum_{k,l}\frac{\MIC_1[k,l] \khermitian{\MIC}_2[k,l]}{\kvbar{ \MIC_1[k,l] \khermitian{\MIC}_2[k,l] }} \cste^{-\csti 2  \pi f_k \tau}
+,
 \end{equation}
-Then, the TDOA estimate is given by $\hat{\tau} = \arg \underset{\tau}{\max} \; \Psi_\text{GCC}(\tau)$.
-Note that $\Psi_\text{GCC}$ can also be expressed directly as a function of the
-AOA using \eqref{eq:mirage:aoa}, hence the term \textit{angular spectrum}.
-This method was showed to be state-of-the-art in a large benchmark \citeonly{Blandin2012}.
+where $\kvbar{\cdot}$ denotes the absolute value.
+
+\mynewline
+Then, the \ac{TDOA} estimate is given by
+\begin{equation*}
+    \hat{\tau}_\mathtt{TDOA} = \arg \underset{\tau}{\max} \; \Psi_\mathtt{GCC}(\tau)
+    .
+\end{equation*}
+Note that $\Psi_\mathtt{GCC}$ can also be expressed directly as a function of the \ac{AOA} using \eqref{eq:mirage:aoa}, hence the term \textit{angular spectrum}.
+Despite the theoretical limits of this method, discussed in~\citeonly{chen2006time}, this method is known to work well in practice.
+Moreover, it was showed to be state-of-the-art for \ac{SSL} in a large benchmark study~\citeonly{blandin2012multi}.
 
 \subsection{Multichannel 2D-SSL}\label{subsec:mirage:2D-SSL}
-When more microphones are available and the array is not linear, 2D-SSL can be envisioned.
-A possible approach is to use 1D-SSL on all pairs and combine their results,
-a principle which was successfully applied in the steered response power with phase transform (SRP-PHAT) method \citeonly{DiBiase2001}.
-SRP-PHAT exploits the geometry of the microphone array and the estimated TDOAs from microphone pairs to return the DOA.
-In a nutshell, this algorithm aims to estimate a global angular spectrum $\Psi_{\text{SRP}}(\theta,\phi)$
-which will exhibit a local maximum in the direction of the active source.
-First, a global grid of possible DOAs is defined according to a desired resolution and computational load.
-Second, for each pair of microphones, a local set of AOAs is defined and a TDOA-based algorithm (e.g. GCC-PHAT)
-is used to compute the associated local angular spectrum.
-Finally all the local contributions (a collection of local $\Psi_\text{GCC}(\tau)$) are geometrical
-aggregated and interpolated back to the global DOA grid to form $\Psi_{\text{SRP}}(\theta,\phi)$,
-and the DOA maximizing $\Psi$ is used as estimate.
-\marginpar{%
-\centering
-\footnotesize
-    \includegraphics[trim={90 75 40 50},clip,width=\linewidth]{mirage/mirage.pdf}
-    \captionof{figure}{%
-        Illustration of the images $\tilde{m}_1$ and $\tilde{m}_2$ of microphones $m_1$ and $m_2$ in the presence of a reflective surface and a source.
-        Blue lines correspond to direct paths, orange lines correspond to echo paths.}
-    \label{fig:mirage:mirage}
+When more microphones are available and the microphones array is compact and not linear\sidenote{
+    In case of complanarity, the angle can be estimated up to ``up-down'' umbigity.
+}, 2D-\ac{SSL} can be envisioned
+A possible approach is to use 1D-\ac{SSL} on all pairs and combine their results, a principle which was successfully applied in the \acf{SRP-PHAT} method \citeonly{dibiase2001robust}.
+
+\begin{figure}
+    \begin{sidecaption}[]{
+        Illustration of the relation between \ac{DOA} and \ac{TDOA} with ones source and two microphone.
+        Knowing the distance $\distMicMic$ between the two microphones, simple trigonometry yields the \ac{AOA} $\vartheta$ according to~\cref{eq:mirage:aoa}.
+    }[fig:mirage:gcc]
+        \includegraphics[width=\linewidth]{mirage/tdoa_microphone.pdf}
+    \end{sidecaption}
+\end{figure}
+
+\mynewline
+The \ac{SRP-PHAT} methods returns the source's \ac{DOA}, namely the pair azimuth and elevation $(\theta, \phi)$, by estimating \acp{TDOA} from each microphone pairs.
+In order to achieve this, it requires the geometry of the microphone array to be known.
+In a nutshell, this algorithm aims to estimate a \textit{global angular spectrum} $\Psi_{\mathtt{SRP}}(\theta,\phi)$ in the polar coordinates system with respect to reference point in the array, typically its barycenter.
+This function will exhibit a local maximum in the direction of the active source.
+\\The algorithmic can be exemplified in the following steps:\marginpar{
+    \footnotesize\itshape
+    See \href{http://bass-db.gforge.inria.fr/bss_locate/}{\library{MBSSLocate}\ExternalLink} for a free MATLAB implementation and comprehensive documentation of this algorithm.
 }
+\begin{enumerate}
+    \item a global grid of \acp{DOA} candidates is defined according to a desired resolution and computational load;
+    \item for each pair of microphones, a local set of \ac{AOA} (hence, \acp{TDOA}) is defined based on the above chosen \acp{DOA} and the input geometry;
+    \item a TDOA-based algorithm (\eg/ \ac{GCC-PHAT}) is used to compute the associated local angular spectrum;
+    \item all the local contributions (a collection of local $\Psi_\mathtt{GCC}(\tau)$) are geometrical aggregated and interpolated back to the global \ac{DOA} grid to form $\Psi_{\mathtt{SRP}}(\theta,\phi)$;
+    \item the \acs{DOA}(s) maximizing $\Psi_\mathtt{SRP}$ is (are) used as estimate (in case of multiple sources).
+\end{enumerate}
+This algorithm can be seen as an application of the divide-and-conquer paradigm to \ac{TDOA}-based methods:
+``at the leaves'', the \ac{GCC-PHAT} method provide \ac{TDOA} for each microphone pair;
+the ``merge'' operation consists in aggregating \ac{TDOA} defined on a different axis based on the knowledge of the array geometry.
+Finally, we stress that this algorithm is independent of the method used to estimate the \ac{TDOA}.
+
+\begin{figure}
+    \begin{sidecaption}[]{
+        Illustration of the different \acp{DOA} at each microphone pairs listening one sound source.
+        Knowing the position of the microphone, the angle with respect to a reference point can be deduced in closed-form.
+    }[fig:mirage:gcc]
+        \includegraphics[width=\linewidth]{mirage/srp-phat_aggregation.pdf}
+    \end{sidecaption}
+\end{figure}
 
 
 \section{MIRAGE: Microphone Array Augmentation with Echoes}\label{sec:mirage:mirage}
@@ -199,6 +235,15 @@ In the remainder of this paper, we make the approximation of frequency-independe
 Eq.~\cref{eq:mirage:echo_h} then corresponds to the well known image-source (IS) model,
 where reflections are treated as mirror images of the true source with respect to reflective surfaces,
 emitting the same signal.
+\marginpar{%
+\centering
+\footnotesize
+    \includegraphics[trim={90 75 40 50},clip,width=\linewidth]{mirage/mirage.pdf}
+    \captionof{figure}{%
+        Illustration of the images $\tilde{m}_1$ and $\tilde{m}_2$ of microphones $m_1$ and $m_2$ in the presence of a reflective surface and a source.
+        Blue lines correspond to direct paths, orange lines correspond to echo paths.}
+    \label{fig:mirage:mirage}
+}
 We will employ here a less common but equivalent interpretation of IS,
 namely, the image-microphone (IM) model. As illustrated in Fig.~\cref{fig:mirage:mirage},
 virtual microphones are mirror images of the true microphones with respect to reflective surfaces.
@@ -213,20 +258,14 @@ the first microphone and its image as time difference of echoes (TDOE).
 We have:
 
 \begin{align}
-\text{TDOA} &= (\norm{\mathbf{m}_2 - \mathbf{s}}
-                - \norm{\mathbf{m}_1 - \mathbf{s}})/c
-                = \tau_2^0 - \tau_1^0,\\
-\text{iTDOA}&= (\norm{\tilde{\mathbf{m}}_2 - \mathbf{s}}
-                - \norm{\tilde{\mathbf{m}}_1 - \mathbf{s}})/c
-                = \tau_2^1 - \tau_1^1,\\
-\text{TDOE} &= (\norm{\tilde{\mathbf{m}}_1 - \mathbf{s}}
-                - \norm{\mathbf{m}_1 - \mathbf{s}})/c
-                = \tau_1^1 - \tau_1^0,
+\tau_\mathtt{TDOA}  &= \tfrac{1}{c} \norm{\positionMicrophone_2 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_2^0 - \tau_1^0,\\
+\tau_\mathtt{iTDOA} &= \tfrac{1}{c} \norm{\tilde{\positionMicrophone}_2 - \positionSource} - \tfrac{1}{c} \norm{\tilde{\positionMicrophone}_1 - \positionSource} = \tau_2^1 - \tau_1^1,\\
+\tau_\mathtt{TDOE}  &= \tfrac{1}{c} \norm{\tilde{\positionMicrophone}_1 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_1^1 - \tau_1^0,
 \end{align}
+where $\tilde{\positionMicrophone}_i$ denotes the position of the image of $\positionMicrophone_i$ with respect to the reflector.
+These three quantities are directly connected to \RIRs/, as illustrated in Fig.~\cref{fig:mirage:rirs}(right).
 
-where $\tilde{\mathbf{m}}_i$ denotes the image of position $\mathbf{m}_i$.
-These three quantities are directly connected to RIRs, as illustrated in Fig.~\cref{fig:mirage:rirs}(right).
-Let $V = \{ \text{TDOA}, \text{iTDOA}, \text{TDOE}\}\in\mathbb{R}^3$.
+Let $V = \{ \mathtt{TDOA}, \mathtt{iTDOA}, \mathtt{TDOE}\}\in\mathbb{R}^3$.
 Following the 2D-SSL scheme described in Sec. \cref{subsec:mirage:2D-SSL} and
 given the virtual microphone-array geometry (which depends on the relative position of microphones to the surface),
 $V$ could in principle be used to estimate the 2D directional of arrival of the source.
