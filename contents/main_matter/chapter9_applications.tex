@@ -107,9 +107,9 @@ Based on this, we will now review some classical works for solving the above pro
 Here we present the general overview of the literature related to the problems considered in this thesis: multichannel audio source separation, and spatial filtering, and sound source localization.
 We will limit the discussion to the most relevant techniques adopted nowadays with respect to the acoustic propagation modeling.
 Later in the thesis, dedicated sections on echo-aware method to address these problems will be provided in each of the related chapters .
-Since \RooGE/ is manly based on echo estimation and labeling, its discussion is reported in~\cref{subsec:estimation:active_rir, subsec:dechorateapp:rooge}.
 
-\subsection{on Multichannel Sound Source Separation}
+
+\subsection{on Multichannel Sound Source Separation}\label{subsec:application:separation}
 Multichannel audio source separation refers to the process of extracting acoustic signals from multichannel mixtures featuring targets, interfering, and noisy sounds.
 In psychoacoustics, this problem is known as \textit{the cocktail party problem}~\citeonly{cherry1953cocktail}, referring to the human ability to focus on a particular stimulus in the audio scene.
 This problem has interested mainly in two research fields in the audio signal processing community: speech and music processing.
@@ -177,7 +177,7 @@ In the second case, the algorithm need to estimated more parameters with consequ
 \newthought{echo-aware Source Separation methods} have been introduced as a possible solution to overcome some of these limitations,.
 More details will be given in~\cref{ch:sepakare}, where a new method for speech source separation based on the Multichannel \NMF/ framework and echoes is described.
 
-\subsection{on Spatial Filtering}\marginpar{
+\subsection{on Spatial Filtering}\label{subsec:application:filtering}\marginpar{
     \footnotesize\itshape
     For a comprehensive review on spatial filtering methods, the reader can refers to the book~\citeonly{VanTrees2004Optimum}.
 }
@@ -241,7 +241,7 @@ Moreover, \ac{DNN} has been used to estimate some of parameters, such as the \DO
 This direction is taken by the echo-aware methods accounting specifically for the multipath propagation.
 We will discuss these methods in more detail in chapter~\cref{ch:dechorateapp} together with their implementation.
 
-\subsection{on Sound Source Localization}
+\subsection{on Sound Source Localization}\label{subsec:application:localization}
 \marginpar{
     \footnotesize\itshape
     The reader can find more details is \SSL/ in the recent review articles
@@ -276,11 +276,13 @@ These models rely on closed-form mapping from the sound's direct path \acl{TDOAs
 If multiple microphone pairs are available and form a non-linear array, their TDOAs can be aggregated to obtain 2D directions of arrival \citeonly{dibiase2001robust}.
 Furthermore, the main difference between these approaches lies in their ability to localize either single sources or multiple ones, their robustness to noise and reverberation, and the particular methods they used.
 We can identify the following approaches based on:
-subspace~\citeonly{dmochowski2007broadband},
-generalized-cross-correlation~\citeonly{knapp1976generalized, dibiase2001robust, lebarbenchon2018evaluation},
-blind system identification~\citeonly{chen2006time},
-maximum likelihood~\citeonly{stoica1990maximum, laufer2013relative},
-direct-path \ReTF/~\citeonly{li2016estimation}.
+\begin{itemize}
+    \item subspace methods, such as \MUSIC/~\citeonly{dmochowski2007broadband};
+    \item \TDOA/-based techniques, which uses \ac{GCC} functions~\citeonly{knapp1976generalized, lebarbenchon2018evaluation} to estimate \TDOA/ and then compute the most reliable \DOA/ from them;
+    These methods are related to beamforming-based techniques, such as SRP-PHAT\ac{dibiase2001robust}, which search the direction that maximizes the power of the output of a beamformer.
+    \item methods based of \RIRs/ estimation and blind system identification ~\citeonly{chen2006time},
+    \item methods based on probabilistic framework solved with Maximum Likelihood optimization~\citeonly{stoica1990maximum, laufer2013relative, li2016estimation}.
+\end{itemize}
 The main limitations of these approaches result in the approximation considered in the models.
 In particular, common to all of them is to assumption sound propagation being free-field.
 Thus, they intensely suffer in environments it is violated, \eg/, in the presence of strong acoustic echoes and reverberation as discussed as shown in~\citeonly{chen2006time}.
@@ -310,19 +312,8 @@ Based on these limitations, we propose to combines the best of the two worlds:
 using \ac{DNN} to estimate echoes~\cref{ch:lantern} and use well-understood knowledge-based method to map echoes to source \DOAs/~\cref{ch:mirage}.
 
 
-
-% \subsection{An acoustic perspective}\citeonly{subsec:application:sota_propagation}
-% Bibliography with respect to sound propagation
-% \begin{itemize}
-%     \item Ignored
-%     \item Anechoic Phat
-%     \item Fully modeled
-%     \item Early echoes
-% \end{itemize}
-
-
-% \subsection{An algorithmic perspective}\citeonly{subsec:application:sota_estimation}
-% Bibliography with respect to learning and knowledge approaches
+\subsection{Room Geometry Estimation}
+Since \RooGE/ is manly based on echo estimation and labeling, its discussion is reported in~\cref{subsec:estimation:active_rir, subsec:dechorateapp:rooge}.
 
 
 \section{Conclusion}\label{sec:application:conclusion}

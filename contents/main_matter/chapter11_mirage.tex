@@ -13,7 +13,11 @@
 
 \newthought{Synopsis} \synopsisChMirage
 
-\section{Introduction}
+\mynewline
+Together with~\cref{ch:lantern}, this chapter describes methods and results published in~\citeonly{di2019mirage}, which considers only stereophonic recordings.
+In this sense, this chapter provides an application of the~\cref{ch:lantern}.
+Subsequently, the proposed approach was to multi-microphone recordings in collaboration with Randy Gomez from Honda Research Institute.
+
 
 % \subsection{Literature review: an acoustic perspective}
 % Bibliography with respect to sound propagation
@@ -43,33 +47,41 @@
 % \section{Experimental evaluation}
 
 % --- Margin Figure
-\marginpar{%
-    \centering
-    \footnotesize
-    \includegraphics[trim={50 70 50 150},clip,width=\linewidth]{mirage/scene.pdf}
-    \captionof{figure}{%
-        Typical setup with one source source recorded by two microphones.
-        The illustration shows direct sound path (blue lines) and resulting first-order echoes (orange lines).}
-    \label{fig:mirage:scene}
-}
+\section{Literature review in Echo-aware Sound Source Localization}
+Common to most sound source localization approaches reviewed in ~\cref{subsec:application:localization} is the challenge posed by environment reverberation.
+It is typical to observe that \ac{DOAs} estimation degrades with increasing acoustic reflection~\citeonly{chen2006time}.
+For these reasons, most sound source localization methods regard reverberation and, in particular, acoustic echoes as a nuisance.
+Room reverberation is considered in the works~\citeonly{rui2004time, chen2006time, zhang2007maximum} while the authors of~\citeonly{weinstein1994iterative, taghizadeh2015spatial, salvati2016sound} attempt to solve \SSL/ by estimating the full \RIRs/.
+However, both the cases have drawbacks: in the former, the generic model for reverberation does not reduce strong early echoes, and in the latter, \RIRs/ estimation is a difficult task.
 
+\mynewline
+The echo-aware sound source localization methods take another direction: they exploit the closed-form relation between echoes timings and audio scene geometry expressed by the \ISMdef/.
+Early works such as~\citeonly{korhonen2008acoustic, ribeiro2010turning, ribeiro2010using, svaizer2011use} uses knowledge form the room geometry to estimated the position of the sound source with respect to the arrays.
+This idea was subsequently extended in later works, reducing the amount of prior knowledge required or addressing different applications.
+The authors of \citeonly{nakashima2010localization}  study the \SSL/ problem in binaural recordings.
+To improve localization, they propose to used ad-hoc reflectors as artificial \textit{pinnae} and a simple reflection model.
+In the work~\citeonly{krekovic2016echoslam}, the author addresses the problem \ac{SLAM}\sidenote{
+    \ac{SLAM} enables the estimation of a moving robot’s position in relation to a number of external acoustic sources.
+} using echoes.
+The authors of~\citeonly{an2018reflection} propose to use cameras, depth sensors, and laser sensors to identify reflectors and build a corresponding acoustic model that is used
+for echo-aware \ac{SSL}.
+Finally, in a very recent work, the well-known \ac{MUSIC} framework for localizing multiple sources is modified for accounting an echo model for the spherical harmonic representation~\citeonly{birnie2020reflection}
 
-Most sound source localization methods, including the above listed,
-regard reverberation and in particular acoustic echoes as a nuisance.
-In contrast, some recent work that we refer to as \textit{echo-aware}
-methods have showed that the knowledge of early acoustic echoes could
-be used to reconstruct the geometry of an audio scene \citeonly{Nakashima2010,dokmanic2013acoustic,An2018}
-or to improve performance of signal enhancement methods \citeonly{flanagan1993spatially, dokmanic2015raking,Scheibler2017}.
-In \citeonly{Nakashima2010}, some ad-hoc reflectors are used as artificial \textit{pinnae}
-to estimate elevation based on a simple reflection model.
-In \citeonly{An2018}, cameras, depth sensors and laser sensors are used to
-identify reflectors and build a corresponding acoustic model that helps SSL.
+\mynewline
+All the above mention echo-aware methods are explicitly knowledge-driven methods.
+As explained in the previous chapter, data-driven methods, and especially deep learning, have been successfully applied to address \SSL/.
+However, they are typically trained for specific microphone arrays and fail whenever test conditions strongly mismatch training conditions.
 
-\newthought{In this work,} we combine ideas from physics-based, learning-based and echo-aware approaches
+\newthought{In the work} \cite{di2019mirage} we proposed to combine the best of the two worlds:
+from echo-aware knowledge-driven and data-driven approaches.
+To the end we ...
+
 to introduce the framework of \underline{mi}crophone a\underline{r}ray
 \underline{a}u\underline{g}mentation with \underline{e}choes (MIRAGE) for SSL.
 We consider a simple yet common scenario to illustrate this idea:
 two microphones, one source and a nearby reflective surface, as illustrated in Fig. \cref{fig:scene}.
+\citeonly{bergamo2004collaborative,korhonen2008acoustic}
+
 This may occur, for instance, when the sensors are placed on a table such as in
 voice-based assistant devices or next to a wall.
 The reflective surface is assumed to be the most reflective and closest one to the microphones in the environment,
@@ -87,6 +99,19 @@ We show that the proposed framework approximately estimates echo properties,
 perform similarly to a correlation-based method in azimuth estimation for the considered
 scenario and estimates \textit{impossible} elevation angles with good accuracy in noiseless settings using two microphones only.
 
+\marginpar{%
+    \centering
+    \footnotesize
+    \includegraphics[trim={50 70 50 150},clip,width=\linewidth]{mirage/scene.pdf}
+    \captionof{figure}{%
+        Typical setup with one source source recorded by two microphones.
+        The illustration shows direct sound path (blue lines) and resulting first-order echoes (orange lines).}
+    \label{fig:mirage:scene}
+}
+
+
+
+
 \section{Background in microphone array SSL}\label{sec:background}
 In this section, we briefly review some necessary background in microphone array SSL. Let us assume a microphone array of $I$ sensors is placed inside a room and records the sound emitted by one static point sound source. In all generality, the relationship between the signal $m_i(t)$ recorded by the sensor placed at fixed position $\mathbf{m}_i$ and the signal $s(t)$ emitted by the source at fixed position $\mathbf{s}$ is defined by:
 \begin{equation}\label{eq:mirage:anymic_time}
@@ -99,6 +124,8 @@ RIRs can be typically modelled as the sum of the direct path and multiple reflec
 H_i(f) = \alpha_i(f) \; e^{- 2 \pi f \tau_i} \; + \; \varepsilon_i(f),
 \end{equation}
 where the error term $\varepsilon_i(t)$ collects echoes, the reverberation tail, diffusion, and noise. The term $\alpha_i(f)$ captures the air attenuation phenomenon. A time-domain example of RIR is shown in Fig.~\cref{fig:rirs} (left).
+
+
 
 % --- In text figure with caption on the margin (side)
 \begin{figure}[t]
