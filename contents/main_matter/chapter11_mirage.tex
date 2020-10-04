@@ -160,10 +160,11 @@ aiming at reducing the source's autocorrelation component from the angular spect
 \mynewline
 Then, the \ac{TDOA} estimate is given by
 \begin{equation*}
-    \hat{\tau}_\mathtt{TDOA} = \arg \underset{\tau}{\max} \; \Psi_\mathtt{PHAT}(\tau) \qquad [\text{\resp/}\; \Psi_\mathtt{CC}(\tau)]
-    .
+    \hat{\tau}_\mathtt{TDOA} = \arg \underset{\tau}{\max} \; \Psi(\tau)
+    ,
 \end{equation*}
-Note that $\Psi_\mathtt{PHAT}$ [\resp/ $\Psi_\mathtt{CC}$] can also be expressed directly as a function of the \ac{AOA} using \eqref{eq:mirage:aoa}, hence the term \textit{angular spectrum}.
+with $\Psi$ begin either $\Psi_\mathtt{CC}(\tau)$ or $\Psi_\mathtt{PHAT}(\tau)$.
+Note that these functions can also be expressed directly as a function of the \ac{AOA} using \eqref{eq:mirage:aoa}, hence the term \textit{angular spectrum}.
 Despite the theoretical limits of this method, discussed in~\citeonly{chen2006time}, this method is known to work well in practice.
 Moreover, it was showed to be state-of-the-art for \ac{SSL} in a large benchmark study~\citeonly{blandin2012multi}.
 
@@ -189,7 +190,7 @@ In a nutshell, this algorithm aims to estimate a \textit{global angular spectrum
 This function will exhibit a local maximum in the direction of the active source.
 \\The algorithmic can be exemplified in the following steps:\marginpar{
     \footnotesize\itshape
-    See \href{http://bass-db.gforge.inria.fr/bss_locate/}{\library{MBSSLocate}\ExternalLink} for a free MATLAB implementation and comprehensive documentation of this algorithm.
+    See \href{http://bass-db.gforge.inria.fr/bss_locate/}{\library{MBSSLocate} \ExternalLink} for a free MATLAB implementation and comprehensive documentation of this algorithm.
 }
 \begin{enumerate}
     \item a global grid of \acp{DOA} candidates is defined according to a desired resolution and computational load;
@@ -203,11 +204,9 @@ This algorithm can be seen as an application of the divide-and-conquer paradigm 
 the ``merge'' operation consists in aggregating \ac{TDOA} defined on a different axis based on the knowledge of the array geometry.
 Finally, we stress that this algorithm is independent of the method used to estimate the \ac{TDOA}.
 
-\section{MIRAGE: Microphone Array Augmentation with Echoes}\label{sec:mirage:mirage}
+\section{Microphone Array Augmentation with Echoes}\label{sec:mirage:mirage}
 We now introduce the proposed concept of \MIRAGEdef/.
-Eq.~\cref{eq:mirage:echo_h} then corresponds to the well known image-source (IS) model,
-where reflections are treated as mirror images of the true source with respect to reflective surfaces,
-emitting the same signal.
+Eq.~\cref{eq:mirage:echo_h} then corresponds to the well known \acf{ISM}, where reflections are treated as mirror images of the true source with respect to reflective surfaces, emitting the same signal.
 \marginpar{%
 \centering
 \footnotesize
@@ -217,14 +216,9 @@ emitting the same signal.
         Blue lines correspond to direct paths, orange lines correspond to echo paths.}
     \label{fig:mirage:mirage}
 }
-We will employ here a less common but equivalent interpretation of IS,
-namely, the image-microphone (IM) model. As illustrated in Fig.~\cref{fig:mirage:mirage},
-virtual microphones are mirror images of the true microphones with respect to reflective surfaces.
-In this view, the echoic signal received at a true microphone
-is the sum of the anechoic signals received at this microphone and its images.
-If we consider the virtual array consisting of both true and image microphones,
-multiple microphone pairs are now available. For each of them,
-it is then possible to define a corresponding time difference of arrival.
+We will employ here a less common but equivalent interpretation of \ISM/, namely, the image-microphone (IM) model. As illustrated in Fig.~\cref{fig:mirage:mirage}, virtual microphones are mirror images of the true microphones with respect to reflective surfaces.
+In this view, the echoic signal received at a true microphone is the sum of the anechoic signals received at this microphone and its images.
+If we consider the virtual array consisting of both true and image microphones, multiple microphone pairs are now available. For each of them, it is then possible to define a corresponding time difference of arrival.
 Among them, we will refer to the one between the two real microphones as \ac{TDOA}, the one between the two image microphones as \ac{iTDOA} and the one between the first microphone and its image as \ac{TDOE}.
 Therefore, we have:
 \begin{align}
@@ -284,38 +278,141 @@ We model the problem as multi-target regression, with \acf{ILD} and \acf{IPD} as
 As discussed in~\cref{subsec:processing:steering}, the \ac{ILD} and \ac{IPD} can be estimated from the \STFT/ of the microphone signals, such as,
 \begin{equation} \label{eq:mirage:features}
 \begin{cases}
-\ild[k]  =& \tfrac{1}{T} \sum_{l=1}^T \log{\abs{\frac{\MIC_2[k,l]}{\MIC_1[k,l]}}} \\
-\ipd[k]  =& \tfrac{1}{T} \sum_{l=1}^T \frac{\MIC_2k,l]/ \abs{\MIC_2[k,l]}}{ \MIC_2k,l] / \abs{\MIC_1[k,l]}}\\
+    \ild[k]  =& \tfrac{1}{T} \sum_{l=1}^T \log{\abs{\frac{\MIC_2[k,l]}{\MIC_1[k,l]}}} \\
+    \ipd[k]  =& \tfrac{1}{T} \sum_{l=1}^T \frac{\MIC_2k,l]/ \abs{\MIC_2[k,l]}}{ \MIC_2k,l] / \abs{\MIC_1[k,l]}}\\
 \end{cases}
 \end{equation}
-More precisely, the input of the network is $\klist{ \ild, \kRe\set{\ipd}, \kIm\set{\ipd}}$, where $\kRe\set{\cdot}$ and $\kIm\set{\cdot}$ denote real and imaginary part operators, respectively.
+More precisely, the input of the network is
+\begin{equation*}
+    \xi = \klist{ \ild, \kRe\set{\ipd}, \kIm\set{\ipd}}
+    ,
+\end{equation*}
+namely the concatenation of the above features for all the frequencies.
+Here $\kRe\set{\cdot}$ and $\kIm\set{\cdot}$ denote real and imaginary part operators, respectively.
 Note that for the \ac{IPD}, the frequency $k=0$ is discarded because it is constant for every observation.
+In general, the mapping between $V$ and the proposed feature is not unique.
+In particular, this happen when $\tau_2^{(1)} = \tau_1^{(1)}$.
+In order to avoid this, we preventively pruned all the entries with $| \tau_2^{(1)} - \tau_1^{(1)} | < 10^{-6}$ from the dataset.
 
-% \mynewline
-% In general, the mapping between $V$ and the proposed feature is not unique.
-% In particular, this happen when $\tau_2^1 = \tau_1^1$.
-% In order to avoid this, we preventively pruned all the entries with $| \tau_2^1 - \tau_1^1 | < 10^{-6}$ from the dataset.
-
-\subsection{TDOA estimation with simple neural networks}
-As first investigation, we used the simple \ac{MLP} architecture consisting described in~\cref{sec:lantern:mlp}.
-For the paper~\citeonly{di2019mirage} we used the following implementation:
-a $D$-dimensional input layer, a 3-dimensional output layer, and 3 fully connected hidden layers with respective input sizes $500$, $300$ and $50$.
+\subsection{Simple learning-based TDOA estimation}
+As first investigation, we used a simple \ac{MLP} architecture described in~\cref{sec:lantern:mlp}.
+This model consists of a $D$-dimensional input layer, a 3-dimensional output layer, and 3 fully connected hidden layers with respective input sizes $500$, $300$ and $50$.
 Rectified linear unit (ReLU) activation functions are used except at the output layer, and each hidden layer has a dropout probability $p_\text{do} = 0.3$.
+\\We use the mean square error loss function for training, that is,
+\begin{equation}\label{eq:mirage:mlploss}
+    \calL_\theta(V, \hat{V)} = \frac{1}{3} \sum_{b}  \powerOf{\tau_{\mathtt{TDOA}, b} - \hat{\tau}_{\mathtt{TDOA}, b}}
+                                            + \powerOf{\tau_{\mathtt{iTDOA}, b} - \hat{\tau}_{\mathtt{iTDOA}, b}}
+                                            + \powerOf{\tau_{\mathtt{TDOE}, b} - \hat{\tau}_{\mathtt{TDOE}, b}}
+\end{equation}
+where $b$ denote the index of an observation in the batch size and $\theta$ are the model parameters.
 
 \mynewline
-We use the mean square error loss function for training and the Adam optimizer \citeonly{kingma2014adam}.
-The \acf{nRMSE}  is taken as validation metric\sidenote{
+The \acf{nRMSE} is taken as validation metric\sidenote{
     The ac{nRMSE} takes values between $0$ (perfect fit) and $\infty$ (bad fit).
     If it is equal to $1$, then the prediction is no better than a constant.
-}.
+    It is typically chosen because it is more robust to outliers than \ac{RMSE}.
+} for assessing the quality of the estimation $\hat{V}$.
 The network is manually tuned on a validation set to find the best combination of number of hidden layers, their sizes and $p_\text{do}$.
 
 \mynewline
-Once time delay estimates $\hat{V}$ are returned by the \ac{MLP}, they are converted to \textit{synthetic local angular spectra} and passed to $\Psi_\text{SRP}$ (See~  \cref{subsec:mirage:2D-SSL})
-together with the relative positions of true and image microphones which are assumed known.
+Once time delay estimates $\hat{V}$ are returned by the \ac{MLP}, they are converted to \textit{synthetic local angular spectra}.
 The synthetic local angular spectra consist of Gaussian functions centered at $\hat{V}$ and with variances equal to the prediction errors made by the \ac{MLP} on the validation set.
+Therefore, they passed to $\Psi_\text{SRP}$ (See~\cref{subsec:mirage:2D-SSL}) together with the relative positions of true and image microphones which are assumed known.
+Notice that this is equivalent to knowing the distance between the two microphones and the table.
 
-\subsection{Robust TDOA estimation with convolutional neural network}
+\subsection{Robust learning-based TDOA estimation}
+The above model was proposed in the our published work~\citeonly{di2019mirage}.
+Later, more recent \ac{DNN} models were investigated, such as the \ac{CNN} proposed in \citeonly{nguyen2018autonomous} and similar to the one used in \citeonly{chakrabarty2017broadband}.
+
+\begin{figure}[h]
+    \begin{sidecaption}[DNN]{
+        Architecture of the proposed deep neural network. Input and output dimensions for each stage are reported. The first dimension is the batch size $B = 200$.
+    }[fig:mirage:cnn]
+    \centering
+    \includegraphics[width=\linewidth]{mirage/cnn.pdf}
+    \end{sidecaption}
+\end{figure}
+
+\mynewline
+As shown in~\cref{fig:mirage:cnn}, it consists of two convolutional modules made of a one-dimensional convolutional layer (1DConv) followed by max-pooling along the frequencies, followed by rectified linear unit (ReLu) activation function and batch-normalization.
+The second part consists of a cascade of fully connected feed-forward (FF) layers.
+Note that the input dimension is re-arranged so that the second dimension is considered a channel for the 1DConv.
+After each layer a dropout probability $p_\text{do} = 0.3$ is applied.
+
+\mynewline
+In the \ac{DNN} model presented above, the output consisted only in the time delay $V$.
+However, to build a local angular spectrum,
+suitable for the \ac{SRP-PHAT}-like algorithm, both means and variances are needed.
+Rather than identify these variances with the prediction errors, we explicitly modify the \ac{DNN} model to estimated them\sidenote{
+    This idea is similar to the one proposed by Bishop in \ac{MDN} in \citeonly{bishop1994mixture}
+    where the output of a neural network parametrizes a Gaussian mixture model.
+}.
+The main idea behind this design choice is that the learning model can assess its prediction quality.
+This approach can be related to existing (Bayesian) data-fusion frameworks, but this direction wav not considered in this work.
+\newcommand{\setTDOA}{\ensuremath{\set{\mathtt{TDOA}, \mathtt{iTDOA}, \mathtt{TDOE}}}}
+\\To this end, we modify the output of the network to output mean and variances, namely
+$V_{\calN} = \set{\mu_{\tau_t}, \sigma^2_{\tau_t}}$
+for $t = \setTDOA$.
+Moreover, we assume that conditional probability of observing the one of the \ac{TDOA} $\tau_t$ for $t \in \setTDOA$ given the observation $\xi$ in the batch $\Xi$, follows a Gaussian distribution, namely
+\begin{equation}
+    p(\tau_t \mid  \Xi ; \theta) \sim \calN\kparen{\mu_{\tau_t}(\xi_b;\theta), \sigma^2_{\tau_t}(\xi_b;\theta)}
+\end{equation}
+where the variance
+and the the training loss function
+ of~\cref{eq:mirage:mlploss}
+\begin{equation}\label{subsec:mirage:mlpcost}
+    \calL(V, \hat{V)} = \frac{1}{3} \sum_{b}  \powerOf{\tau_{\mathtt{TDOA}, b} - \hat{\tau}_{\mathtt{TDOA}, b}}
+                                            + \powerOf{\tau_{\mathtt{iTDOA}, b} - \hat{\tau}_{\mathtt{iTDOA}, b}}
+                                            + \powerOf{\tau_{\mathtt{TDOE}, b} - \hat{\tau}_{\mathtt{TDOE}, b}}
+\end{equation}
+
+
+
+
+\newthought{The proposed novel loss function} is the negative Student-T log-likelihood, which is implemented as follows:
+
+\begin{equation}
+\begin{split}
+\mathcal{L}(\Theta) =& \sum_{x \in B} \sum_{t \in V}\ \dfrac{1}{2} \log (\nu_t\pi_t)
+                        + \dfrac{1}{2} \log(\lambda_t^2)
+                        - \log  \Gamma \left( \dfrac{\nu_t+1}{2} \right)\\
+                    &    + \log  \Gamma \left( \dfrac{\nu_t}{2} \right)
+                        + \dfrac{\nu_t+1}{2}
+                        \log \left( 1  + \dfrac{\norm{\mu_t, x_i)}}{\nu_t \lambda_t^2} \right)\\
+\end{split}
+\end{equation}
+
+where $\Theta$ are the CNN parameters and $\Gamma$ is the Gamma function. The summation over $i$ corresponds to the sum among of all the sample $x$ of the batch $B$. and the summation over $t$ corresponds to the sum among the three quantities in V (TDOA, iTDOA, TDOE). It follows that for each each input the network will return the parameters of 3 Student-T distribution ($\mu_t, \nu_t, \lambda_t$) for each variable $t = { \text{TDOA}, \text{iTDOA}, \text{TDOE} }$. Hereafter we denote with $V_{\mathcal{ST}}$ the set of the 9 network outputs.
+
+We use the Adam optimizer ant the normalized root mean square error (nRMSE) is taken as validation metric (see Section~\ref{subsec:eval_synth_tdoa}). The network is manually tuned on a validation set to find the best combination of number of hidden layers and their sizes
+
+Once an estimate $\hat{V_\mathcal{ST}}$ of the parameters of the 3 distribution is returned by the CNN, they are converted to synthetic local angular spectra and passed to an SRP-PHAT method together with the relative positions of true and image microphones which are assumed known. We call this algorithm MIRAGE. The synthetic local angular spectra consist of Student-t distribution with parameters $\mu, \nu$ and $\lambda$.
+
+\begin{table}[ht!]
+    \begin{sidecaption}[Echo estimation with MIRAGE results]{%
+        \ac{nRMSE} for TDOA estimation and mean angular error in ${}^\circ$ (with accuracies ($\%$))
+        for AOA estimation with $\ang{10}$ and $\ang{20}$ angular tolerance.
+    }[tab:mirage:tdoas-aoa]
+    \centering
+    \small
+    %\scriptsize
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}cl|ccc|cc@{}}
+    \toprule
+                &         &          & nRMSE        &                   &\multicolumn{2}{c}{ACCURACY}  \\
+                & Input   &    \scriptsize{TDOA}  	&   \scriptsize{iTDOA} 		 &     \scriptsize{TDOE} 		 & $\theta<\ang{10}$ &  $\theta<\ang{20}$ \\
+    \midrule
+    MIRAGE      &   wn    & 0.18    & 0.28  & 0.25 	& 4.10 (77)	& 5.97 (97) \\
+    MIRAGE      &   wn+n  & 0.68    & 0.69  & 0.89 	& 5.00 (26)	& 9.89 (54) \\
+    MIRAGE      &   sp    & 0.31    & 0.34  & 0.56  & 4.83 (63)	& 7.26 (82) \\
+    MIRAGE      &   sp+n  & 0.99    & 0.98  & 1.48 	& 4.60 (16)	& 9.88 (35) \\
+    GCC-PHAT    &   wn    & 0.21    & -     & -		& 4.22 (81) & 6.19 (97) \\
+    GCC-PHAT    &   wn+n  & 0.68    & -     & -		& 4.03 (65) & 5.34 (83) \\
+    GCC-PHAT    &   sp 	  & 0.32    & -     & -		& 4.08 (82) & 5.34 (97) \\
+    GCC-PHAT    &   sp+n  & 1.38    & -     & -		& 4.70 (19) & 8.38 (32) \\
+    \bottomrule
+    \end{tabular*}
+    \end{sidecaption}
+\end{table}
 
 \section{Experimental Results}\label{sec:mirage:exp}
 
@@ -342,46 +439,21 @@ Finally, the features are computed as in~\eqref{eq:mirage:features} yielding a v
 While we validate the MLP on a portion of the dataset in a \textit{holdout} fashion, the test is conducted on 200 new \acp{RIR} convolved with both wn and speech (sp) utterances.
 This set is generated similarly to the training and validation sets. Moreover the recordings are perturbed by external white noise at 10 dB SNR (wn+n, sp+n).
 The speech signals are normalized speech utterances of various lengths (from $1$ s to $6$ s), randomly selected from the TIMIT corpus.
-A free and open-source Matlab implementation of \ac{SRP-PHAT}\sidenote{\href{http://bass-db.gforge.inria.fr/bss_locate/}{MBSSLocate\ExternalLink}} is used to aggregate local angular spectra obtained from the \ac{DNN}'s output.
+A free and open-source Matlab implementation of \ac{SRP-PHAT}\sidenote{\href{http://bass-db.gforge.inria.fr/bss_locate/}{MBSSLocate \ExternalLink}} is used to aggregate local angular spectra obtained from the \ac{DNN}'s output.
 The same toolbox is used for the implementation of \ac{SRP-PHAT} with \ac{GCC-PHAT}.
 For the latter method only real pairs are used.
 A sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ is used for the \c{DOA} search.
 
-\begin{table}[ht!]
-    \begin{sidecaption}[Echo estimation with MIRAGE results]{%
-        Normalize root mean squared error for TDOA estimation and mean angular error in ${}^\circ$ (with accuracies ($\%$))
-        for AOA estimation with $\ang{10}$ and $\ang{20}$ angular tolerance.
-    }[tab:mirage:tdoas-aoa]
-    \centering
-    \footnotesize
-    %\scriptsize
-    \begin{tabular}{cl|ccc|cc}
-    \toprule
-                &         &          & nRMSE        &                   &\multicolumn{2}{c}{ACCURACY}  \\
-                & Input   &    \scriptsize{TDOA}  	&   \scriptsize{iTDOA} 		 &     \scriptsize{TDOE} 		 & $\theta<\ang{10}$ &  $\theta<\ang{20}$ \\
-    \midrule
-    MIRAGE      &   wn    & 0.18    & 0.28  & 0.25 	& 4.10 (77)	& 5.97 (97) \\
-    MIRAGE      &   wn+n  & 0.68    & 0.69  & 0.89 	& 5.00 (26)	& 9.89 (54) \\
-    MIRAGE      &   sp    & 0.31    & 0.34  & 0.56  & 4.83 (63)	& 7.26 (82) \\
-    MIRAGE      &   sp+n  & 0.99    & 0.98  & 1.48 	& 4.60 (16)	& 9.88 (35) \\
-    GCC-PHAT    &   wn    & 0.21    & -     & -		& 4.22 (81) & 6.19 (97) \\
-    GCC-PHAT    &   wn+n  & 0.68    & -     & -		& 4.03 (65) & 5.34 (83) \\
-    GCC-PHAT    &   sp 	  & 0.32    & -     & -		& 4.08 (82) & 5.34 (97) \\
-    GCC-PHAT    &   sp+n  & 1.38    & -     & -		& 4.70 (19) & 8.38 (32) \\
-    \bottomrule
-    \end{tabular}
-    \end{sidecaption}
-\end{table}
 
 \begin{table}[ht]
 \begin{sidecaption}[DoA estimation]{%
     Mean angular error in degree (with accuracies ($\%$)) for 2D SSL (azimuth and elevation)
     with $\ang{10}$ and $\ang{20}$ tolerance.}[tab:mirage:doa]
-    \footnotesize
+    \small
     \centering
-    \begin{tabular}{cl|cc|cc}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}cl|cc|cc@{}}
     \toprule
-    \textbf{DoA}    &            &  \multicolumn{2}{c|}{ACCURACY}    &   \multicolumn{2}{c}{ACCURACY} \\
+    \ac{DOA}        &            &  \multicolumn{2}{c|}{ACCURACY}    &   \multicolumn{2}{c}{ACCURACY} \\
                     &            &  \multicolumn{2}{c|}{$<\ang{10}$} &   \multicolumn{2}{c}{$<\ang{20}$} \\
                     &    Input   &  $\theta$ &  $\phi$ &  $\theta$ &  $\phi$ \\
     \midrule
@@ -390,10 +462,11 @@ A sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179,
     MIRAGE &  sp    &   4.6 (45) &  4.8 (59) &   8.1 (71) &   7.2 (83) \\
     MIRAGE &  sp+n  &   5.2 (17) &  5.9 (12) &  10.7 (38) &  12.3 (43) \\
     \bottomrule
-    \end{tabular}
+    \end{tabular*}
 \end{sidecaption}
 \end{table}
 
+\mynewline
 \ac{TDOA} estimation errors using the proposed approach and \ac{GCC-PHAT} are presented in Table~\cref{tab:mirage:tdoas-aoa}.
 Training a \ac{DNN} to estimate \acp{TDOA} brings similar performances as \ac{GCC-PHAT} in terms of \ac{nRMSE}.
 Estimation of \acp{iTDOA} and \ac{TDOE} seems to be a harder task for the simple \ac{DNN} we used.
@@ -422,12 +495,291 @@ Extensions of the method to better handle various types of noise and emitted sig
 Finally, applications of the MIRAGE framework to larger microphone arrays, higher order echoes and a variety of tasks beyond SSL will be explored.
 
 
-\subsection{Multi-channel scenario}
+\subsection{Synthetic-data Multi-channel scenario}
+In this section, we will compare the \ac{SRP-PHAT} algorithm (using GCC-PHAT for TDOA estimation) with the proposed approach, \MIRAGE/, on multichannel synthetic data generated with the Python library \href{https://github.com/LCAV/pyroomacoustics}\library{pyroomacoustics \ExternalLink}.
+The data are created to match the design of the Haru's microphone array placed on top of a table:
+the microphones are at most 30~cm from the close-surface, placed $13$ cm from each other; the absorption coefficients of the other walls are uniformly sampled in $(0.5, 1)$ and the one of the close-surface is in $(0, 0.5)$.
+In the next paragraph, the two methods are compared for \ac{TDOA} estimation task, while in the following discussion, the performances for 2D-\ac{SSL}.
 
+\newthoughtpar{TDOA estimation on synthetic data}\label{subsec:eval_synth_tdoa}
+For this comparison, 200 different audio scenes have been generated, as explained in section~\cref{sec:mirage:exp}.
+The following metrics have been used: \ac{nRMSE}, \ac{RMSE} and \ac{STD}.
+In~\cref{tab:mirage:tdoa_synth} TDOA estimation errors are presented.
+From these results, the proposed approach outperforms the baseline for both speech and noise data.
+Even if the \ac{RMSE} of \ac{GCC-PHAT} is lower than \MIRAGE/'s one, the former method produces many more outliers as depicted in~\cref{fig:mirage:tdoa_synth_signals}.
+For better understanding, all the error for \ac{TDOA} estimation are computed in samples, that is they are all multiplied by the constant sampling frequency of the signals ($16$~kHz).
+As an additional metric, the empirical computational time of the proposed approach is more than 10 times smaller than the baseline.
+
+\mynewline
+In~\cref{fig:mirage:tdoa_synth_snr} the \TDOA/ estimation error is illustrated against the \SNR/ level of the recordings.
+When the source signal is noise, both methods yield similar mean error independently of the noise level.
+However, \ac{GCC-PHAT} seems to produce more outliers lower \SNR/.
+On the other hand, when data is speech, for both the approach, the performance decrease as the SNR reduces; however, \MIRAGE/ gives statistically better results in term of standard deviation and outliers.
+
+\begin{table}[h]
+    \begin{sidecaption}[]{
+        Evaluation metrics (nRMSE, RMSE, STD) for TDOA estimation and empirical computational time for different source signals. In bold the best records.
+    }[tab:mirage:tdoa_synth]
+        \small
+        \centering
+        \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllrrrr@{}}
+        \toprule
+        &           &  signal &     nRMSE &       RMSE &       STD &      time \\
+        \midrule
+        & MIRAGE      &   noise &  \textbf{0.09} &  0.29 &  \textbf{0.26} &  \textbf{0.19} \\
+        & GCC-PHAT    &   noise &  0.26 &  \textbf{0.26} &  1.04 &  2.40 \\
+        \midrule
+        & MIRAGE      &  speech &  \textbf{0.37} &  \textbf{1.03} &  \textbf{1.09} &  \textbf{0.20} \\
+        & GCC-PHAT    &  speech &  0.88 &  2.08 &  2.86 &  2.51 \\
+        \bottomrule
+    \end{tabular*}
+    \end{sidecaption}
+\end{table}
+
+\begin{figure}[h]
+    \begin{fullwidth}
+    \centering
+    \subfloat[sinth_data][Synthetic data]{
+        \includegraphics[width=0.48\linewidth]{mirage/box_plot_tdoa_vs_signal.pdf}
+        \label{fig:mirage:tdoa_synth_signals}
+    }
+    \hfill
+    \subfloat[real_data][Real data]{
+        \includegraphics[width=0.48\linewidth]{mirage/box_plot_tdoa_vs_signal_real.pdf}
+        \label{fig:mirage:tdoa_real_signals}
+    }
+    \caption{Box-plots of TDOA estimation errors (in samples) for two different source signals on synthetic data
+            (\cref{fig:mirage:tdoa_synth_signals}) and real data (\cref{fig:mirage:tdoa_real_signals})
+    }
+    \label{fig:mirage:tdoa_signals}
+    \end{fullwidth}
+\end{figure}
+
+
+\begin{figure}[h]
+    \begin{sidecaption}[]{
+        Violin-plots of the TDOA errors (in samples) versus SNR ranges (in dB) for speech and noise source signal. Ticks in the SNR axis indicates the upper limit of the following ranges: $(0,5], (5,10], (10,20], (20,30]$ dB.
+    }[fig:mirage:tdoa_synth_snr]
+    \centering
+    \includegraphics[trim={10 0 5 5},clip,width=\linewidth]{mirage/violinplot_tdoa_vs_snr.pdf}
+    \end{sidecaption}
+\end{figure}
+
+\newthoughtpar{2D-SSL estimation on synthetic data}
+\ac{DOA} estimation errors using the proposed approach and \ac{SRP-PHAT} are presented in~\cref{tab:mirage:ssl_syth}.
+For white noise source signals, \ac{SRP-PHAT} has better performances for both elevation and azimuth but with comparable errors.
+However, the proposed approach outperforms the baseline when the emitted signal is speech.
+In~\cref{fig:mirage:synth_ssl_noise, fig:mirage:synth_ssl_speech}, the \ac{DOA} estimation results are reported as scatter-plots in a prediction-vs-ground-truth plane.
+When the test data contains noise, both the methods perform the same regardless of the \ac{SNR} level.
+When speech data are considered, \MIRAGE/ outperforms the baseline, which suffers at a low level of \ac{SNR}.
+However, the performance of both of the method drops for elevation estimation.
+Unfortunately, this seems to contradict the good performances on \ac{TDOE} estimation, and further investigation is needed to explain this observation.
+
+\begin{table}[h]
+    \begin{sidecaption}[]{
+        Mean squared errors and standard deviation in degrees for azimuth ($\theta$) and elevation ($\phi$). In bold the best records.
+    }[tab:ssl_syth]
+    \centering
+    \small
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllllll@{}}
+        \toprule
+        & &  signal &  Error $\theta$  &  Error $\phi$ \\
+        \midrule
+        & MIRAGE &   noise &  1.29 $\pm$   1.17 &   2.30 $\pm$   3.35 \\
+        & SRP-PHAT &   noise &  \textbf{0.49 $\pm$   0.6}1 &   \textbf{1.70 $\pm$   1.42} \\
+        \midrule
+        & MIRAGE &  speech & \textbf{ 9.51 $\pm$ 15.84} &  \textbf{12.26  $\pm$  12.20} \\
+        & SRP-PHAT &  speech & 35.27 $\pm$  54.57 &  15.10 $\pm$  16.67 \\
+        \bottomrule
+    \end{tabular*}
+    \end{sidecaption}
+\end{table}
+
+\begin{figure}[h]
+    \begin{sidecaption}[]{
+        Scatter-plots (predictions-vs-ground-truth) for DOA estimation (azimuth and elevation) on synthetic data when the the source signal is \textbf{noise}.
+        The color map corresponds to different SNR level [dB] in the data.
+    }[fig:mirage:synth_ssl_noise]
+    \centering
+    \subfloat[azel_srp][2D-SSL with SRP-PHAT on noise data]{
+        \centering
+        \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_SRP_noise.pdf}
+        \label{fig:mirage:synth_ssl_noise_srp}
+    }
+    \hfill
+    \subfloat[azel_mirage][2D-SSL with  MIRAGE on noise data]{
+        \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_MIRAGE_noise.pdf}
+        \label{fig:mirage:synth_ssl_noise_mirage}
+    }
+    \end{sidecaption}
+\end{figure}
+
+\begin{figure}[h]
+    \begin{sidecaption}[]{
+        Scatterplots (predictions-vs-ground-truth) for DoA estimation (azimuth and elevation) on synthetic data when the the source signal is \textbf{speech}.
+        The color map corresponds to different SNR level [dB] in the data.
+    }[fig:mirage:synth_ssl_speech]
+    \centering
+    \subfloat[azel_srp][2D-SSL with SRP-PHAT on speech data]{
+        \centering
+        \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_SRP_speech.pdf}
+        \label{fig:mirage:synth_ssl_speech_srp}
+    }
+    \hfill
+    \subfloat[azel_mirage][2D-SSL with  MIRAGE on speech data]{
+        \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_MIRAGE_speech.pdf}
+        \label{fig:mirage:synth_ssl_speech}
+    }
+    \end{sidecaption}
+\end{figure}
+
+\subsection{Real Multichannel Scenario}
+In this section, we will analyze the two methods on real recordings.
+The real multichannel data were recorded with the HONDA's HARU microphone circular array ($\numMics=7)$.
+For the sake of simplicity, hereafter, we will denote this array as HARU.
+The experiments were performed in a big office room 10~m $\times$ 15~m $\times$ 3~m with a reverberation time around 0.2 seconds.
+The HARU was placed on top of a table with a height of 0.10 m to simulate the close-reflector scenario, used to train the DNN model.
+The room setup is shown in~\cref{fig:mirage:room_exp}.
+Two loudspeakers were used the emit one anechoic and normalized utterance from the TIMIT dataset and 10 seconds of white noise.
+The dataset consists in 5 different azimuthal positions and for each of them 2 different elevations yielding 10 different locations in space.
+The geometry of the setup was annotated using metric tape measures.
+
+\begin{figure}[h]
+    \begin{fullwidth}
+    \centering
+    \subfloat[mu_spkr][Haru Array]{
+        \includegraphics[width=0.32\textwidth]{figures/mirage/1_room_exp}}
+    \hfill
+    \subfloat[mu_spkr][Reflective table]{
+        \includegraphics[width=0.32\textwidth]{figures/mirage/2_room_exp}}
+    \hfill
+    \subfloat[mu_univ][Detail]{
+            \includegraphics[width=0.32\textwidth]{figures/mirage/3_room_exp}}
+    \label{fig:mirage:room_exp}
+    \caption{Picture of the room and setup for recording real multichannel data with the HARU circular microphone array.}
+    \end{fullwidth}
+\end{figure}
+
+\newthoughtpar{TDOA estimation and 2D-SSL performances on real data}
+As reported in~\cref{tab:mirage:tdoa_real}, the two methods are comparable both for speech and noise emitted signals even if \ac{SRP-PHAT} performs slightly better.
+This can be seen also in~\cref{fig:mirage:tdoa_real_signals}.
+In~\cref{fig:mirage:tdoa_real_pairs} the error on \ac{TDOA} estimation is shown of each microphone pair of the HARU.
+It can be seen that the error and the deviation are not homogeneous among the pairs.
+This might be due to some perturbations of the array's microphone positioning: the \ac{SRP-PHAT} method is only successful if the array's geometry is perfectly known \textit{a priori}.
+However, little misplacement leads to local distortion in the input angular spectra\sidenote{
+    In\citeonly{salvati2018exploiting}, the authors address this problem integrating \ac{SRP-PHAT} with a \ac{CNN} together.
+}.
+Moreover, the proposed approach needs the height of the robot (of each pair) as additional information, and again some perturbation can affect performances.
+
+\begin{table}[h]
+    \begin{sidecaption}[]{
+        Evaluation metrics (\ac{nRMSE}, \ac{RMSE}, \ac{STD}) for TDOA estimation and empirical computational times for different source signals.
+        Boldness denotes the best records.
+    }[tab:mirage:tdoa_real]
+    \centering
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllllll@{}}
+        \toprule
+        & &     signal &     nRMSE & RMSE &  STD &      time \\
+        \midrule
+        & MIRAGE  &       noise &  0.26 &  0.94 &  0.57 &  0.26 \\
+        & SRP-PHAT &      noise &  0.20 &  0.62 &  0.57 &  6.48 \\
+        \midrule
+        & MIRAGE &       speech &  0.40 &  1.38 &  0.99 &  0.24 \\
+        & SRP-PHAT &     speech &  0.32 &  0.82 &  1.08 &  4.02 \\
+        \bottomrule
+        \end{tabular*}
+    \end{sidecaption}
+\end{table}
+
+\begin{figure}
+    \begin{sidecaption}[]{
+        Violin-plots of the TDOA estimation errors (in samples) versus the microphone pairs in HARU for two different source signals on real data
+    }[fig:mirage:tdoa_real_pairs]
+        \centering
+        \includegraphics[trim={10 0 5 5},clip,width=\linewidth]{mirage/violinplot_tdoa_vs_pair_real.pdf}
+    \end{sidecaption}
+\end{figure}
+
+\mynewline
+Finally, we evaluate the performance of the methods for the 2D-\ac{SSL} task.
+The results in terms of \ac{RMSE} and standard deviation are shown in~\cref{tab:mirage:ssl_real}.
+When the signal emitted is speech, the CNN-based method outperforms the \ac{SRP-PHAT}.
+However, the latter seems to perform better for noise signals, even if comparable error margins are observed.
+
+\begin{table}[h]
+    \begin{sidecaption}[]{
+        Mean squared errors and standard deviations in degrees for estimation of azimuth ($\theta$) and elevation ($\phi$).
+        In bold the best records.
+    }[tab:mirage:ssl_real]
+
+    \centering
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllll@{}}
+        \toprule
+        &          &  signal &  Error $\theta$  &  Error $\phi$ \\
+        \midrule
+        & MIRAGE   &   noise &   1.29 $\pm$   1.17 &     2.30 $\pm$  3.35 \\
+        & SRP-PHAT &   noise &   \textbf{0.49 $\pm$   0.61} &     \textbf{1.70 $\pm$  1.42} \\
+        \midrule
+        & MIRAGE   &  speech & \textbf{  9.51 $\pm$  15.84} &    \textbf{12.26 $\pm$ 12.20} \\
+        & SRP-PHAT &  speech &  35.27 $\pm$  54.57 &    15.10 $\pm$ 16.67 \\
+        \bottomrule
+    \end{tabular*}
+
+    \end{sidecaption}
+\end{table}
+
+\mynewline
+\Cref{fig:mirage:real_ssl_noise,fig:mirage:real_ssl_speech} illustrate the distribution of the prediction of the methods with respect to the ground-truth in the azimuth-vs-elevation planes.
+We see that the predictions do not match the ground-truth properly.
+SRP-PHAT seems to overestimate elevation while predicting well the azimuth, especially for noise signals.
+MIRAGE seems to return more reasonable azimuth-elevation pairs.
+However, the elevation prediction seems to be almost constant across the points.
+Moreover, it seems that there is a constant offset or deviation, especially for azimuth prediction, suggesting that our real-data annotation was perhaps no accurate enough.
+
+\begin{figure}[h]
+    \begin{sidecaption}[]{
+        Scatterplots (azimuth-vs-elevation) for DOA estimation on real data when the the source signal is \textbf{noise}.
+        The colors indicate reference points (blue) and predicted ones (orange).
+    }[fig:mirage:real_ssl_noise]
+    \centering
+    \subfloat[azel_srp][2D-SSL with SRP-PHAT on real noise data]{
+        \centering
+        \includegraphics[width=0.47\linewidth]{mirage/scatterplot_SRP_broadband.pdf}
+        \label{fig:mirage:real_ssl_noise_srp}
+    }
+    \hfill
+    \subfloat[azel_mirage][2D-SSL with MIRAGE on real noise data]{
+        \centering
+        \includegraphics[width=0.47\linewidth]{mirage/scatterplot_MIRAGE_broadband.pdf}
+        \label{fig:mirage:real_ssl_noise_mirage}
+    }
+    \end{sidecaption}
+\end{figure}
+
+\begin{figure}[h]
+    \begin{sidecaption}[]{
+        Scatterplots (azimuth-vs-elevation) for DoA estimation on real data when the source signal is \textbf{speech}.
+        The colors indicate reference points (blue) and predicted ones (orange).
+    }[fig:mirage:real_ssl_speech]
+    \centering
+    \subfloat[azel_srp][2D-SSL with SRP-PHAT on real noise data]{
+        \centering
+        \includegraphics[width=0.47\linewidth]{mirage/scatterplot_SRP_speech.pdf}
+        \label{fig:mirage:real_ssl_speech_srp}
+    }
+    \hfill
+    \subfloat[azel_mirage][2D-SSL with MIRAGE on real noise data]{
+        \centering
+        \includegraphics[width=0.47\linewidth]{mirage/scatterplot_MIRAGE_speech.pdf}
+        \label{fig:mirage:real_ssl_speech_mirage}
+    }
+    \end{sidecaption}
+\end{figure}
 
 
 \section{Conclusion}
-In this work, we demonstrated how a simple echo model could boost performance in 2D \ac{SSL} in strongly echoic scenarios, that is, when microphones are placed close to a reflector.
+In this chapter, we demonstrated yet anther application of acoustic echoes.
+We addressed on \ac{SSL} problem and we showed how a simple echo model could boost performance in strongly echoic scenarios, that is, when microphones are placed close to a reflector.
 Preliminary results on synthetic data for stereophonic recordings prove the effectiveness of the approach and were presented in a international conference paper.
 However, results obtained on real data reveal that the task is still very challenging, both for the proposed method and the baseline.
 New data collection must be considered in order to fully assess the proposed approach.
