@@ -1,45 +1,86 @@
 \chapter{Conclusion and Perspectives}\label{ch:conclusion}
 \openepigraph{I may not have gone where I intended to go, but I think I have ended up where I needed to be.}{Douglas Adams}
 
-
-\newthought{In this thesis}, we studied acoustic echoes for audio scene analysis and signal processing
+\vspace{-2.5em}
+\newthought{In this thesis}, we studied acoustic echoes for audio scene analysis and signal processing.
 The two main lines of work can be briefly summarized as follows:
-\begin{enumerate}[label=(\Alph*)]
-    \item Off-grid knowledge-based and deep-learning techniques for Acoustic Echo Retrieval for passive stereophonic recordings;
-    \item Echo-aware
+\begin{enumerate}[label=\Alph*.]
+    \item We investigated new methodologies for \textit{acoustic echo retrieval} (AER) in case of passive stereophonic recordings.
+    \item We re-proposed some fundamentals \textit{audio scene analysis problems} under an echo-aware perspectives.
 \end{enumerate}
-This last chapter summarizes the central contributions and presents some possible future research directions.
-
 
 \section{Looking Back}
+After reviewing some useful acoustic notions and presenting signal precessing modeling in~\cref{pt:background}, the contributions of this thesis were presented in~\cref{pt:estimation,pt:application},
+developing the two direction above. The support these two claims takes the form of the following artifacts:
 
-After reviewing some useful tools and related literature, the contributions of this thesis were presented in parts III and IVI.
+\begin{itemize}
 
+    \item A \textsc{Knowledge-driven Method for AER} dubbed \acs{BLASTER}.
+    This approach enables direct and \textit{off-grid} estimation of echoes' properties in stereophonic passive recordings.
+    Due to its off-grid natures, it should overcome some theoretical limitation of on-grid methods.
+    Although it is currently not outperforming the state-of-the-art, this investigation is motivated by theoretical guaranies.
 
-Part III
+    \item A \textsc{Data-driven Method for AER} based on deep learning, dubbed \acs{LANTERN}.
+    Thanks to the availability of powerful acoustic simulators, the properties of the first echoes are estimated using state-of-the-art architectures which are trained in virtually supervised fashion.
+    The proposed model combines results in spatial filtering and understandable deep learning using physically-motivated regularized and self-confident measures.
 
+    \item A \textsc{Echo-aware Dataset} designed for both AER and echo-aware application, dubbed \acs{DECHORATE}.
+    These annotated data should fill the gap between existing dataset and it is designed for validating future echo-aware research.
+    The dataset are accompanied by software utilities to easily access, manipulate, and visualize the data and baseline methods for echo-related tasks.
 
-Part IV
+    \item A \textsc{Echo-aware Audio Source Separation Method}, dubbed \acs{SEPARAKE}.
+    It is based on the popular Multichannel NMF framework, which allows simple yet effective integration of the echoes properties.
+    Assuming their knowledge, we can reformulate such a framework in term of image microphones and virtual arrays.
+    Therefore results show how this leads to enough spatial diversity to get a performance boost over the vanilla version of two classic NMF-based algorithm.
+
+    \item A \textsc{Echo-aware Sound Source Localization Method}, dubbed \acs{MIRAGE}.
+    By converting echoes into image microphones, this method allows for source's azimuth and elevation estimation in passive stereophonic recordings.
+    Therefore, the strong echo coming from a close reflective table, can be used to create a virtual array on which powerful array processing techniques can be applied.
+    This methods of simple extention to multi-channels recordings as long as the geometry of the array is available.
+    To this end, we conducted some preliminary studies on a real-world recordings using the microphone arrays of the Honda's Haru robots.
+
+    \item the following \textsc{Libraries} for echo-aware processing:
+    \begin{itemize}
+        \item \library{dEchorate}\sidenote{
+            \href{https://github.com/Chutlhu/dEchorate}{\library{dEchorate} \ExternalLink}
+        } --- code for \acs{DECHORATE}, Room Impulse Response estimation and annotation.
+        \item \library{Risotto}\sidenote{
+            \href{https://github.com/Chutlhu/Risotto}{\library{Risotto} \ExternalLink}
+        } --- a collection of state-of-the-art methods for estimation of Relative Impulse Response.
+        \item \library{Brioche}\sidenote{
+            \href{https://github.com/Chutlhu/Brioche}{\library{Brioche} \ExternalLink}
+        } --- a collection of state-of-the-art beamforming including, but are not limited to, echoes.
+        \item \library{Blaster}\sidenote{
+            \href{https://gitlab.inria.fr/panama-team/blaster}{\library{Blaster} \ExternalLink}
+        } --- code for \acs{BLASTER}, its results and related state-of-the-art methods.
+        \item \library{Separake}\sidenote{
+            \href{https://github.com/fakufaku/separake}{\library{Separake} \ExternalLink}
+        } --- code for \acs{SEPARAKE} including an Python implementation of the Matlab toolbox Multichannel NMF~\citeonly{ozerov2009multichannel} for audio source separation.
+        \item \library{pyMBSSLocate}\sidenote{
+            \href{https://github.com/Chutlhu/pyMBSSLocate}{\library{pyMBSSLocate} \ExternalLink}
+        } --- Python implementation of the Matlab toolbox MBSSLocate~\citeonly{lebarbenchon2018evaluation} for sound source localization.
+
+    \end{itemize}
+
+\end{itemize}
+
+\mynewline
+Taken together, these contributions make a step forward in our ability to estimate and use acoustic echoes in audio signal processing.
+But much remains to be done.
 
 \section{Looking Ahead}
 In this final section, we elaborate on some research possibilities that arise as natural follow-ups to the topics discussed in this thesis.
 
-\subsection{Acoustic Echo Estimation}
+\subsection{Estimating Echoes}
 
-\newthought{Knowledge-driven approarch}
-\begin{itemize}
-    \item improvements
-    \item for Blaster
-\end{itemize}
+\subsection{Using Echoes for Audio Scene Analysis}
 
 
-\newthought{Data-driven approarch}
-\begin{itemize}
-    \item a
-\end{itemize}
+\subsection{Crossing the directions}
+Ultimately, the two parts of this dissertation should plug together.
+So far we only showed how from audio features is possible to estimate echoes and how from echoes is possible to estimated audio scene analysis information, \eg/ source content and location.
+This problem have an innate uroboric nature: where, what, when and how are connected --- the knowledge of one helps the estimation of the others, in a vicious (or maybe virtous) circle.
+Therefore it should be possible to build iterative schemes linking echo-estimation and echo-applications.
 
-\newthought{Echo-aware Datasets}
-
-\subsection{Echo-aware application}
-
-\newthought{Echo-aware problems}
+\mynewline
+Thank you very much. I would like to be a bat, but I am a dog.

@@ -120,8 +120,8 @@
 
 \includeonly{   % Of course this list allows many more file
 %  intro,       % should also work with files in different paths
-    % contents/front_matter/abstract,
-    % contents/front_matter/resume,
+    contents/front_matter/abstract,
+    contents/front_matter/resume,
     % contents/front_matter/resume_etendu_fr,
     % contents/front_matter/acknowledgments,
     contents/front_matter/glossary,
@@ -154,10 +154,13 @@
 
 % \input{contents/front_matter/title_page}
 \includepdf[pages=-]{contents/front_matter/mathstic_title_page.pdf}
+\blankpage{}
 
 \include{contents/front_matter/abstract}
 \blankpage{}
+\begin{otherlanguage}{french}
 \include{contents/front_matter/resume}
+\end{otherlanguage}
 \blankpage{}
 
 \begin{otherlanguage}{french}
@@ -200,12 +203,11 @@
 % === MAIN BODY ===
 \mainmatter{}
 
-PROLOGE
-\begin{fullwidth}
-    \part{Prologue}
-\end{fullwidth}
-\parttoc[n]
-\cleardoublepage{}
+% \begin{fullwidth}
+%     \part{Prologue}
+% \end{fullwidth}
+% \parttoc[n]
+% \cleardoublepage{}
 
 \include{contents/main_matter/chapter0_intro}
 
