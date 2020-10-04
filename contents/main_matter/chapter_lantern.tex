@@ -163,3 +163,146 @@ A sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179,
 \subsection{Better architecture: Physical-based learning and unfolding}
 
 \section{Conclusion and perspective}
+
+\section{Learning-based echo estimation}
+We propose to use the learning-based approaches described in~\cref{ch:lantern} to estimated the quantities of interest $V$.
+Our approach is to train a \ac{DNN} on a dataset simulating the considered close-surface scenario.
+We model the problem as multi-target regression, with \acf{ILD} and \acf{IPD} as input features, and $V \in \mathbb{R}^3$ as output parameters.
+As discussed in~\cref{subsec:processing:steering}, the \ac{ILD} and \ac{IPD} can be estimated from the \STFT/ of the microphone signals, such as,
+\begin{equation} \label{eq:mirage:features}
+\begin{cases}
+    \ild[k]  =& \tfrac{1}{T} \sum_{l=1}^T \log{\abs{\frac{\MIC_2[k,l]}{\MIC_1[k,l]}}} \\
+    \ipd[k]  =& \tfrac{1}{T} \sum_{l=1}^T \frac{\MIC_2k,l]/ \abs{\MIC_2[k,l]}}{ \MIC_2k,l] / \abs{\MIC_1[k,l]}}\\
+\end{cases}
+\end{equation}
+More precisely, the input of the network is
+\begin{equation*}
+    \xi = \klist{ \ild, \kRe\set{\ipd}, \kIm\set{\ipd}}
+    ,
+\end{equation*}
+namely the concatenation of the above features for all the frequencies.
+Here $\kRe\set{\cdot}$ and $\kIm\set{\cdot}$ denote real and imaginary part operators, respectively.
+Note that for the \ac{IPD}, the frequency $k=0$ is discarded because it is constant for every observation.
+In general, the mapping between $V$ and the proposed feature is not unique.
+In particular, this happen when $\tau_2^{(1)} = \tau_1^{(1)}$.
+In order to avoid this, we preventively pruned all the entries with $| \tau_2^{(1)} - \tau_1^{(1)} | < 10^{-6}$ from the dataset.
+
+\subsection{Simple learning-based TDOA estimation}
+As first investigation, we used a simple \ac{MLP} architecture described in~\cref{sec:lantern:mlp}.
+This model consists of a $D$-dimensional input layer, a 3-dimensional output layer, and 3 fully connected hidden layers with respective input sizes $500$, $300$ and $50$.
+Rectified linear unit (ReLU) activation functions are used except at the output layer, and each hidden layer has a dropout probability $p_\text{do} = 0.3$.
+\\We use the mean square error loss function for training, that is,
+\begin{equation}\label{eq:mirage:mlploss}
+    \calL_\theta(V, \hat{V)} = \frac{1}{3} \sum_{b}  \powerOf{\tau_{\mathtt{TDOA}, b} - \hat{\tau}_{\mathtt{TDOA}, b}}
+                                            + \powerOf{\tau_{\mathtt{iTDOA}, b} - \hat{\tau}_{\mathtt{iTDOA}, b}}
+                                            + \powerOf{\tau_{\mathtt{TDOE}, b} - \hat{\tau}_{\mathtt{TDOE}, b}}
+\end{equation}
+where $b$ denote the index of an observation in the batch size and $\theta$ are the model parameters.
+
+\mynewline
+The \acf{nRMSE} is taken as validation metric\sidenote{
+    The ac{nRMSE} takes values between $0$ (perfect fit) and $\infty$ (bad fit).
+    If it is equal to $1$, then the prediction is no better than a constant.
+    It is typically chosen because it is more robust to outliers than \ac{RMSE}.
+} for assessing the quality of the estimation $\hat{V}$.
+The network is manually tuned on a validation set to find the best combination of number of hidden layers, their sizes and $p_\text{do}$.
+
+\mynewline
+Once time delay estimates $\hat{V}$ are returned by the \ac{MLP}, they are converted to \textit{synthetic local angular spectra}.
+The synthetic local angular spectra consist of Gaussian functions centered at $\hat{V}$ and with variances equal to the prediction errors made by the \ac{MLP} on the validation set.
+Therefore, they passed to $\Psi_\text{SRP}$ (See~\cref{subsec:mirage:2D-SSL}) together with the relative positions of true and image microphones which are assumed known.
+Notice that this is equivalent to knowing the distance between the two microphones and the table.
+
+\subsection{Robust learning-based TDOA estimation}
+The above model was proposed in the our published work~\citeonly{di2019mirage}.
+Later, more recent \ac{DNN} models were investigated, such as the \ac{CNN} proposed in \citeonly{nguyen2018autonomous} and similar to the one used in \citeonly{chakrabarty2017broadband}.
+
+\begin{figure}[h]
+    \begin{sidecaption}[DNN]{
+        Architecture of the proposed deep neural network. Input and output dimensions for each stage are reported. The first dimension is the batch size $B = 200$.
+    }[fig:mirage:cnn]
+    \centering
+    \includegraphics[width=\linewidth]{mirage/cnn.pdf}
+    \end{sidecaption}
+\end{figure}
+
+\mynewline
+As shown in~\cref{fig:mirage:cnn}, it consists of two convolutional modules made of a one-dimensional convolutional layer (1DConv) followed by max-pooling along the frequencies, followed by rectified linear unit (ReLu) activation function and batch-normalization.
+The second part consists of a cascade of fully connected feed-forward (FF) layers.
+Note that the input dimension is re-arranged so that the second dimension is considered a channel for the 1DConv.
+After each layer a dropout probability $p_\text{do} = 0.3$ is applied.
+
+\mynewline
+In the \ac{DNN} model presented above, the output consisted only in the time delay $V$.
+However, to build a local angular spectrum,
+suitable for the \ac{SRP-PHAT}-like algorithm, both means and variances are needed.
+Rather than identify these variances with the prediction errors, we explicitly modify the \ac{DNN} model to estimated them\sidenote{
+    This idea is similar to the one proposed by Bishop in \ac{MDN} in \citeonly{bishop1994mixture}
+    where the output of a neural network parametrizes a Gaussian mixture model.
+}.
+The main idea behind this design choice is that the learning model can assess its prediction quality.
+This approach can be related to existing (Bayesian) data-fusion frameworks, but this direction wav not considered in this work.
+\newcommand{\setTDOA}{\ensuremath{\set{\mathtt{TDOA}, \mathtt{iTDOA}, \mathtt{TDOE}}}}
+\\To this end, we modify the output of the network to output mean and variances, namely
+$V_{\calN} = \set{\mu_{\tau_t}, \sigma^2_{\tau_t}}$
+for $t = \setTDOA$.
+Moreover, we assume that conditional probability of observing the one of the \ac{TDOA} $\tau_t$ for $t \in \setTDOA$ given the observation $\xi$ in the batch $\Xi$, follows a Gaussian distribution, namely
+\begin{equation}
+    p(\tau_t \mid  \Xi ; \theta) \sim \calN\kparen{\mu_{\tau_t}(\xi_b;\theta), \sigma^2_{\tau_t}(\xi_b;\theta)}
+\end{equation}
+where the variance
+and the the training loss function
+ of~\cref{eq:mirage:mlploss}
+\begin{equation}\label{subsec:mirage:mlpcost}
+    \calL(V, \hat{V)} = \frac{1}{3} \sum_{b}  \powerOf{\tau_{\mathtt{TDOA}, b} - \hat{\tau}_{\mathtt{TDOA}, b}}
+                                            + \powerOf{\tau_{\mathtt{iTDOA}, b} - \hat{\tau}_{\mathtt{iTDOA}, b}}
+                                            + \powerOf{\tau_{\mathtt{TDOE}, b} - \hat{\tau}_{\mathtt{TDOE}, b}}
+\end{equation}
+
+
+
+
+\newthought{The proposed novel loss function} is the negative Student-T log-likelihood, which is implemented as follows:
+
+\begin{equation}
+\begin{split}
+\mathcal{L}(\Theta) =& \sum_{x \in B} \sum_{t \in V}\ \dfrac{1}{2} \log (\nu_t\pi_t)
+                        + \dfrac{1}{2} \log(\lambda_t^2)
+                        - \log  \Gamma \left( \dfrac{\nu_t+1}{2} \right)\\
+                    &    + \log  \Gamma \left( \dfrac{\nu_t}{2} \right)
+                        + \dfrac{\nu_t+1}{2}
+                        \log \left( 1  + \dfrac{\norm{\mu_t, x_i)}}{\nu_t \lambda_t^2} \right)\\
+\end{split}
+\end{equation}
+
+where $\Theta$ are the CNN parameters and $\Gamma$ is the Gamma function. The summation over $i$ corresponds to the sum among of all the sample $x$ of the batch $B$. and the summation over $t$ corresponds to the sum among the three quantities in V (TDOA, iTDOA, TDOE). It follows that for each each input the network will return the parameters of 3 Student-T distribution ($\mu_t, \nu_t, \lambda_t$) for each variable $t = { \text{TDOA}, \text{iTDOA}, \text{TDOE} }$. Hereafter we denote with $V_{\mathcal{ST}}$ the set of the 9 network outputs.
+
+We use the Adam optimizer ant the normalized root mean square error (nRMSE) is taken as validation metric (see Section~\ref{subsec:eval_synth_tdoa}). The network is manually tuned on a validation set to find the best combination of number of hidden layers and their sizes
+
+Once an estimate $\hat{V_\mathcal{ST}}$ of the parameters of the 3 distribution is returned by the CNN, they are converted to synthetic local angular spectra and passed to an SRP-PHAT method together with the relative positions of true and image microphones which are assumed known. We call this algorithm MIRAGE. The synthetic local angular spectra consist of Student-t distribution with parameters $\mu, \nu$ and $\lambda$.
+
+\begin{table}[ht!]
+    \begin{sidecaption}[Echo estimation with MIRAGE results]{%
+        \ac{nRMSE} for TDOA estimation and mean angular error in ${}^\circ$ (with accuracies ($\%$))
+        for AOA estimation with $\ang{10}$ and $\ang{20}$ angular tolerance.
+    }[tab:mirage:tdoas-aoa]
+    \centering
+    \small
+    %\scriptsize
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}cl|ccc|cc@{}}
+    \toprule
+                &         &          & nRMSE        &                   &\multicolumn{2}{c}{ACCURACY}  \\
+                & Input   &    \scriptsize{TDOA}  	&   \scriptsize{iTDOA} 		 &     \scriptsize{TDOE} 		 & $\theta<\ang{10}$ &  $\theta<\ang{20}$ \\
+    \midrule
+    MIRAGE      &   wn    & 0.18    & 0.28  & 0.25 	& 4.10 (77)	& 5.97 (97) \\
+    MIRAGE      &   wn+n  & 0.68    & 0.69  & 0.89 	& 5.00 (26)	& 9.89 (54) \\
+    MIRAGE      &   sp    & 0.31    & 0.34  & 0.56  & 4.83 (63)	& 7.26 (82) \\
+    MIRAGE      &   sp+n  & 0.99    & 0.98  & 1.48 	& 4.60 (16)	& 9.88 (35) \\
+    GCC-PHAT    &   wn    & 0.21    & -     & -		& 4.22 (81) & 6.19 (97) \\
+    GCC-PHAT    &   wn+n  & 0.68    & -     & -		& 4.03 (65) & 5.34 (83) \\
+    GCC-PHAT    &   sp 	  & 0.32    & -     & -		& 4.08 (82) & 5.34 (97) \\
+    GCC-PHAT    &   sp+n  & 1.38    & -     & -		& 4.70 (19) & 8.38 (32) \\
+    \bottomrule
+    \end{tabular*}
+    \end{sidecaption}
+\end{table}
