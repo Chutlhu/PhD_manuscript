@@ -109,6 +109,53 @@ While we validate the CNN on a portion of the dataset in a \textit{holdout} fash
 A re-implement version of SRP-PHAT is used to aggregate local angular spectra obtained from the DNN's output and as a baseline. However the original MATLAB code for SRP-PHAT can be found at \url{http://bass-db.gforge.inria.fr/bss_locate/}. A sphere sampling with $1$ degree resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ degrees is used for the DOA search.
 
 
+
+For training and validation of the DNN we generate many random, shoe-box room configurations using the software presented in \citeonly{Schimmel2009}.
+This software implements both the image-method for simulating reflections and a ray-tracing algorithm for diffusion.
+Room widths are uniformly drawn at random in $[3, 9]$ m, heights in $[2, 4]$ m.
+Random source/microphones positions and absorption coefficients for the 6 surfaces are used,
+respecting the close-surface scenario. In particular, the microphones are at most $30$ cm from the close-surface,
+placed $10$ cm from each other, the absorption coefficients of the other walls are
+uniformly sampled in $(0.5, 1)$ and the one of the close-surface is in $(0, 0.5)$.
+The same realistic diffusion profile \citeonly{gaultier2017vast} is used for all surfaces.
+Around $90,000$ audio scenes are generated this way, yielding reverberation times ($RT_{60})$ between $20$ ms and $250$ ms.
+
+For training and validation, the RIRs are convolved with 1 sec of white-noise (wn) with no additional noise.
+All signals and RIRs are sampled at $16$ kHz. The STFT is performed on $1024$ point with $50\%$ overlap.
+Finally the features are computed as in~\eqref{eq:mirage:features} yielding a vector of size $D = 1534$ for each observation.
+While we validate the DNN on a portion of the dataset in a \textit{holdout} fashion, the test is conducted on 200 new RIRs convolved with both wn and speech (sp) utterances.
+This set is generated similarly to the training and validation sets. Moreover the recordings are perturbed by external white noise at 10 dB SNR (wn+n, sp+n).
+The speech signals are normalized speech utterances of various lengths (from $1$ s to $6$ s), randomly selected from the TIMIT corpus.
+A free and open-source Matlab implementation of SRP-PHAT\footnote{\url{http://bass-db.gforge.inria.fr/bss_locate/}} is used to aggregate local angular spectra obtained from the DNN's output.
+% The same toolbox is used for the implementation of SPR-PHAT with GCC-PHAT. For the latter method only real pairs are used.
+A sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ is used for the DOA search.
+
+\begin{table}[ht!]
+    \begin{sidecaption}[Echo estimation with MIRAGE results]{%
+        Normalize root mean squared error for TDOA estimation and mean angular error in ${}^\circ$ (with accuracies ($\%$))
+        for AOA estimation with $\ang{10}$ and $\ang{20}$ angular tolerance.
+    }[tab:mirage:tdoas-aoa]
+    \centering
+    \footnotesize
+    %\scriptsize
+    \begin{tabular}{cl|ccc|cc}
+    \toprule
+                &         &          & nRMSE        &                   &\multicolumn{2}{c}{ACCURACY}  \\
+                & Input   &    \scriptsize{TDOA}  	&   \scriptsize{iTDOA} 		 &     \scriptsize{TDOE} 		 & $\theta<\ang{10}$ &  $\theta<\ang{20}$ \\
+    \midrule
+    MIRAGE      &   wn    & 0.18    & 0.28  & 0.25 	& 4.10 (77)	& 5.97 (97) \\
+    MIRAGE      &   wn+n  & 0.68    & 0.69  & 0.89 	& 5.00 (26)	& 9.89 (54) \\
+    MIRAGE      &   sp    & 0.31    & 0.34  & 0.56  & 4.83 (63)	& 7.26 (82) \\
+    MIRAGE      &   sp+n  & 0.99    & 0.98  & 1.48 	& 4.60 (16)	& 9.88 (35) \\
+    GCC-PHAT    &   wn    & 0.21    & -     & -		& 4.22 (81) & 6.19 (97) \\
+    GCC-PHAT    &   wn+n  & 0.68    & -     & -		& 4.03 (65) & 5.34 (83) \\
+    GCC-PHAT    &   sp 	  & 0.32    & -     & -		& 4.08 (82) & 5.34 (97) \\
+    GCC-PHAT    &   sp+n  & 1.38    & -     & -		& 4.70 (19) & 8.38 (32) \\
+    \bottomrule
+    \end{tabular}
+    \end{sidecaption}
+\end{table}
+
 \section{Towards the case $\numEchs > 2$}
 
 \subsection{Better features: \RTF/}
