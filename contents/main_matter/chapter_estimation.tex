@@ -28,7 +28,7 @@ Hereafter we will make distinction between the two.
 
 \section{Taxonomy of Acoustic Echo Retrieval methods}\label{sec:estimation:taxonomy}
 
-In general, we can identify four main categories which differ on whether the source signal is known and on whether the estimation of the \RIR/ is performed.
+% In general, we can identify four main categories which differ on whether the source signal is known and on whether the estimation of the \RIR/ is performed.
 
 \dichotomy{Active vs. passive approaches}.
 \textit{Active} methods assume active scenarios, namely, they use one or more loudspeakers to probe the environment and one or more microphones to record the propagated probe sound.
@@ -39,7 +39,7 @@ First, provided a proper probe signal, a good estimation of the \RIR/ can be ach
 Second, these methods can be used on single-channel recordings.
 \\Instead, \textit{passive} approaches use sets of passive sensors to record the sound field.
 To decouple the environment from the source, they rely either on prior knowledge about the source signal or by comparing the signals received at two (or more) spatially-separated microphones.
-The methods are also referred to as \textit{blind}, as the are source agnostic and are far more challenging.
+When no prior information is available, they can be seen related to \textit{blind problem} and are far more challenging.
 Passive scenarios are more common in real applications and are sometimes preferable to active ones as they are non-intrusive since only already existing sounds are used in the estimation.
 Therefore, a great deal of efforts has been devoted to these problems and research is still active in topic.
 % The latter is more challenging since, in general settings, theoretical ambiguities make this problem unsolvable~\citeonly{xu1995least, subramaniam1996cepstrum, tong1998multichannel}.
@@ -58,11 +58,11 @@ Therefore, a great deal of efforts has been devoted to these problems and resear
 \dichotomy{RIR-based vs. RIR-agnostic approches}.
 \textit{RIR-based} methods estimate the echoes' properties after estimating the (full or partial) \RIR/(s).
 By modeling the early part of the \RIR/ as in~\cref{eq:estimation:signalmodel}, solving the \AER/ problem can be seen as solving two subsequent tasks: \RIR/ estimation followed by echo extraction.
-The former can be seen as an instance of \textit{channel estimation} (\aka/ \textit{system identification}) problems, while the latter as a \textit{spike retrieval}, \textit{pick picking} or \textit{onset detection} problems.
+The former can be seen as an instance of \textit{channel estimation} (\aka/ \textit{system identification}) problems, while the latter as a \textit{spike retrieval}, \textit{peak picking} or \textit{onset detection} problem.
 Other methods estimate the \RIRs/ partially using assumptions derived by the application.
 It is the case of \textit{impulse response shaping} or \textit{shortening}.
-In the context of room acoustics, the aim is to reduce the late reverberations allowing some few early reflections which are perceptually useful~\citeonly{betlehem2012efficient}.
-\\\textit{RIR-agnostic methods}, instead, try to surpass the challenging task of estimating the acoustic channel and tuning peak-picking methods.
+In the context of room acoustics, the aim is to reduce the late reverberation allowing some few early reflections which are perceptually useful~\citeonly{betlehem2012efficient}.
+\\\textit{RIR-agnostic methods}, instead, try to overcome the challenging task of estimating the acoustic channel and tuning peak-picking methods.
 They attempt to estimated echo properties directly in the parameter space of echos' \TOAs/ and amplitudes.
 
 \begin{figure}[h]
@@ -85,7 +85,7 @@ They attempt to estimated echo properties directly in the parameter space of ech
 % \newthought{Channel Equalization or Inverse Filtering}, is a particular case of channel estimation.
 % Here the goal is to estimate an equalization filter, which is the inverse of the channel impulse response, rather than the estimation of the channel impulse response itself.
 % This equalization filter is then applied to the received signal in order to extract the transmitted one\sidenote{\textit{Beamforming} or \textit{Spatial Filtering} can be seen as in this sense}.
-% In general estimating the equalization filter can be easier or more difficult than estimate the direct filter~\sidenote{If the channel impulse response is assumed to be minimum phase, the problem becomes trivial.}.
+% In general estimating the equalization filter can be easier or more difficult than estimate the direct filter\sidenote{If the channel impulse response is assumed to be minimum phase, the problem becomes trivial.}.
 % \citeonly{neely1979invertibility}, shows that even if the \RIR/ is perfectly known, its direct inversion is not straightforward.
 % Several techniques were investigated to alleviate an exhaustive review of Room Response Equalization can be found in~\citeonly{cecchi2018room}.
 
@@ -96,136 +96,154 @@ Given the above categories, we can now review the \AER/ methods presented in the
 \section{Literature Review}\label{sec:estimation:sota}
 
 \subsection{Active and RIR-based method}\label{subsec:estimation:active_rir}
-In this categories fall all the methods that first attempt for a ``good'' estimation of \RIRs/ for which the reference signal is known.
+% In this categories fall all the methods that first attempt for a ``good'' estimation of \RIRs/ for which the reference signal is known.
 % The echoes are identified and peaks in the estimated \RIRs/ and ad-hoc techniques are used to identify them.
 
-\newthought{The \RIR/ Estimation Step} is typically modeled as a deconvolution problem whose performances depend on the type of transmitted signal.
+\newthought{The \RIR/ Estimation Step} is typically modeled as a deconvolution problem whose performance depends on the type of transmitted signal.
 When the transmitted signal is arbitrary, several methods were developed to measure real \RIRs/.
-Since the \RIR/ identifies the room response to a perfect impulse, one can measured it by producing an impulse sound, \eg/ a clap, piercing a ballon, or a gun shot.
-Even though this methods are commonly used, they show clear limitations in term of reproducibly and safety.
-Moreover a perfect impulsive and point source is difficult to reproduce in practice.
-Instead, modern computational technique are used, involving the computation of deconvolution (or \textit{correlation}) between an known emitted signal and the recorded output.
-\\The \MLSdef/ technique was first proposed by Schroeder~\citeonly{schroeder1979integrated} and it is based on the excitation of the acoustical space by a periodic pseudo-random signal, called \MLS/.
+Since the \RIR/ identifies the room response as a perfect impulse, one can measured it by producing an impulse sound, \eg/ a clap, piercing a balloon, or a gun shot.
+Even though these methods are commonly used, they show clear limitations in term of reproducibility and safety.
+% Moreover a perfect impulsive and point source is difficult to reproduce in practice.
+Instead, modern computational technique are used, involving the computation of deconvolution (or \textit{cross-correlation}\sidenote{%
+    Cross-correlation and convolution operations are very similar, an mathematically they differ just by the inversion of the reference signal.
+    While, the former measures the similarity between two signals as function of a translation, the latter measure the effect of one signal on the other signal.
+    See~\cref{subsec:estimation:active_agnostic} for further explanation.
+}) between the known emitted signal and the recorded output.
+The \MLSdef/ technique was first proposed in~\citeonly{schroeder1979integrated} and it is based on the excitation of the acoustical space by a periodic pseudo-random signal, called \MLS/.
 The RIR is then calculated by circular correlation between the measured output and the original \MLS/ signal.
 This method was further improved in order to achieve better \RIR/ estimation in~\citeonly{dunn1993distortion,aoshima1981computer}.
 Unfortunately this technique introduces several artifacts which yield to spurious peaks in the estimation.
-Moreover, it is sensible to the harmonic distortions introduced by the playback device, \eg/ the loudspeakers.
+Moreover, it is sensible to harmonic distortions generally introduced by playback devices, \eg/, the loudspeakers.
 \\To overcome these issues, the \ESSdef/ technique was introduced by Farina~\citeonly{farina2000simultaneous,farina2007advancements}.
 The probe signal is the \ESS/ signal, \aka/ \textit{chirp signal}, which benefits of the following properties:
 the signal spans a user-defined frequency range; it is \textit{self-orthogonal}, namely it compress into Dirac's impulse during autocorrelation;
 and its Fourier inverse is available in closed form, allowing the user to not record and invert the probe signal.
 The reader can find a review of the presented techniques in~\citeonly{szoke2019building} applied to \RIR/ measurements.
-
-\mynewline
-Sometimes the reference signal is known, but none of the above techniques can be used.
-In such a scenario, the \RIR/ estimation problem needs to be addressed as a more general deconvolution problem, typically solved through optimization methods~\citeonly{lin2006bayesian}.
-This approaches is well studied in literature and can be solved using standard Linear Least Squares with closed-form solution.
-However, in the case of a narrowband signal (\eg/ speech or music) or low SNR, it becomes ill-conditioned and prior knowledge about the \RIR/ is used to improve the estimation~\citeonly{needForAGoodCitationHere}.
+\\Sometimes the reference signal is known, but none of the above techniques can be used.
+For instance, when the source signal is narrowband or the acoustic condition are challenging.
+Therefore the \RIR/ estimation problem needs to be addressed as a more general deconvolution problem, typically solved through optimization methods~\citeonly{lin2006bayesian}.
+This approach is well studied in literature and can be solved using standard Linear Least Squares with closed-form solution.
+However, in the case of signal with sparse frequency content (\eg/ speech or music) or low SNR, it becomes ill-conditioned and prior knowledge about the \RIR/ is used to improve the estimation.
 
 \newthought{Echo Retrieval from RIR.}
 As discussed in~\cref{pt:background}, acoustic echoes can be identified as peaks in the early part of the \RIR/.
-In general, due to the measurement process, such peaks are not necessarily positive, thus, to better visualize them, the \textit{echogram}~\citeonly{kuttruff2016room}, $\magnitudeOf{\tilde{\rir}(t)}$, or the energy envelop\sidenote{
-    The energy envelope of a signal is computed as the magnitude of its analytic representation computed with the Hilbert transform.}~\citeonly{schroeder1979integrated} are used instead.
-\\Provided a good estimation of the \RIR/, the echoes' location and amplitudes could be extracted manually by experts.
+In general, due to the measurement process, such peaks are not necessarily positive, thus, to better visualize them, the \textit{echogram}~\citeonly{kuttruff2016room}, $\magnitudeOf{\tilde{\rir}(t)}$, or the energy envelope\sidenote{
+    The energy envelope of a signal is computed as the magnitude of its analytic representation, computed with the Hilbert transform.
+
+}~\citeonly{schroeder1979integrated} are used instead.
+\\Provided a good estimation of the \RIRs/, the echoes' location and amplitudes could be extracted manually by experts.
 However, even in ideal scenario, the automation of this process and the correct identification of such quantities are not straightforward tasks.
 As showed in \citeonly{tukuljac2018mulan}, since the \TOAs/ are not necessarily multiple of the sampling grid, their true locations (and amplitudes) are blurred by spurious side peaks.
 This issue is referred to as \textit{basis mismatch} in the \textit{compressed sensing} literature.
 Although it can be alleviated by increasing the sampling frequency, it is bound to occur in practice.
-Moreover, the harmonic distortion due to the non-ideal source-receiver coupling may introduce other spurious spikes as well.
+Moreover, the harmonic distortion due to the non-ideal source-receiver coupling may introduce other spurious peaks as well.
 % and reveals the strong limitation of simple \RIR/ peak-pinking.
-Furthermore, as noticed in~\citeonly{defrance2008finding}, even small errors of echoes timing estimation yield to significant differences in echo-based applications.
-
-\mynewline
-The existing methods for extracting echoes from \RIRs/ can be further dichotomized into two broad categories: on-gird and off-grid approaches.
-The methods belonging to the former group are the most used in practice, and advance technique are used to cope with the presence of spurious peaks~\citeonly{kuster2008reliability, crocco2017uncalibrated, remaggi2016acoustic, defrance2008detecting, bello2005tutorial, cheng2016attack, defrance2008detecting, annibale2012geometric, kelly2014detecting, usher2010improved}.
+Furthermore, as noticed in~\citeonly{defrance2008finding}, even small errors of echoes' timing estimation may yield to significant differences in echo-based applications.
+\\Existing methods for extracting echoes from \RIRs/ can be further dichotomized into two broad categories: \textit{on-grid} and \textit{off-grid} approaches.
+The methods belonging to the former group are the most used in practice, and advanced technique are used to cope with the presence of spurious peaks~\citeonly{kuster2008reliability, crocco2017uncalibrated, remaggi2016acoustic, defrance2008detecting, bello2005tutorial, cheng2016attack, defrance2008detecting, annibale2012geometric, kelly2014detecting, usher2010improved}.
 \\The most straightforward approach is to deploy iterative and adaptive thresholding algorithm on the \RIR/, followed by robust and manually tuned peak finders~\citeonly{kuster2008reliability, crocco2017uncalibrated}.
-\\To better inform the peak-picking, several strategies have been proposed.
+To better inform the peak-picking, several strategies have been proposed.
 In the work of~\citeonly{remaggi2016acoustic}, based on a algorithm presented in~\citeonly{naylor2006estimation}, peaks are clustered according to changes in the phase slope of the \RIR/ spectrum.
 Other works apply onset detection techniques used in music information retrieval and transcription based on edge-detection wavelet filters~\citeonly{bello2005tutorial}, non-negative matrix factorization~\citeonly{cheng2016attack}, or considering the \RIR/'s Kurtosis~\citeonly{usher2010improved}.
 \\By noticing that the reflection in the \RIRs/ exhibit similar shape of the direct path, the author of~\citeonly{defrance2008detecting} first proposed the use of \textit{Matching Pursuit} (and improvements) to identify such shapes.
 Here the direct sound part was used as pattern (or atom) to be retrieved across the \RIR/.
-Unfortunately, in its pure form, this approach is unsuitable for \RIRs/ because of the non-stationary nature of the reflections due to the frequency dependent characteristic of the room absorption material.
+Unfortunately, in its pure form, this approach is unsuitable for \RIRs/ because of the frequency dependent characteristic of the room absorption material.
 In order to improve the detection, \citeonly{kelly2014detecting} extents this approach employing \textit{Dynamic Time Warping} to account for the non-uniform compression, dilation and concurrency of the echoes.
 Nevertheless, the idea of exploiting the direct path component to isolate the source-receiver coupling and thus identify first prominent reflection through deconvolution was used in~\citeonly{annibale2012geometric}.
 This technique is also referred to as \textit{matching filter} or \textit{direct-path compensation}.
-\\Alternatives approaches, detect the echo timings in other signal domain.
+\\Alternatives approaches detect the echo timings in another transformed domain.
 In \citeonly{vesa2010segmentation} the echoes are localized in the \TFdef/ domain using the cross-wavelet transform based on previous works~\citeonly{guillemain1996characterization, loutridis2005decomposition}.
 In \citeonly{peled2013linearly}, the authors propose to identify the direction of arrival of the reflections in the spherical harmonic domain using plane wave decomposition.
-Curiously, the works~\citeonly{ristic2013detection,pavlovic2016multifractal} use (multi-)fractal analysis to detect echoes in the \TFdef/ domain.
+The works~\citeonly{ristic2013detection,pavlovic2016multifractal} use (multi-)fractal analysis to detect echoes in the \TFdef/ domain.
 Alternatively, the authors of~\citeonly{ferguson2019improved,jia2017extraction} propose to identify echoes properties in the cepstral domain.
-The \textit{cepstrum} is the spectrum of a logarithmic spectrum and is used to detect periodicity in the spectral domain, typically in hydraulic and mechanic application.
-This approach seems promising since time-domain spikes are mapped as complex sinusoids in frequency.
+The \textit{cepstrum} is usually defined as the inverse Fourier transform of the logarithmic magnitude spectrum\sidenote{
+    There are many concurrent definition of \textit{cepsturm}. For a given time-domain signal $\tildex$ it is usually defined as
+    $\powerOf{\fourierTrans^{-1}\kbrace{\log{\powerOf{\fourierTrans{x}}}}}$, where $\fourierTrans$ is the \FT/ operator.
+}. One interesting properties of cepstrum is to separate spectral envelop form line-spectra components in different ``quefrency'' ranges.
+Therefore, it is be used to detect periodicity in the spectrum of the observed signal, with many application in speech processing and in hydraulic and mechanic applications.
+This approach seems promising since time-domain peaks are mapped as complex sinusoids in frequency.
 However this representation is highly sensible to external and sampling noise and the accuracy is limited by the approximation of the \DFT/ operator.
 
 \mynewline
-All the above mentioned works aims at detecting echoes on the sampling grid.
+All the above mentioned active and \RIR/-based works aim at detecting echoes on the sampling grid.
 In order to face the inherent limitations of these approaches, off-grid frameworks have been proposed, \eg/~\citeonly{condat2013robust}.
 This approach can be related to classical \MLdef/ estimation approaches, which consist in selecting the model which is most likely to explain the observed noisy data.
 In this category fall classical spectral estimation techniques, \eg/ \MUSIC/~\citeonly{loutridis2005decomposition}, \ESPRIT/~\citeonly{roy1986esprit}, which are fast but statistically suboptimal.
-The method presented in \citeonly{condat2013robust} focuses on the general problem of estimating a finite stream of Dirac's pulses from uniform, noisy and lowpass-filtered samples.
-The authors showed that this particular problem can be reformulated as a \textit{matrix denoising}, from which the echoes location and amplitudes can be retrieved in closed-from.
-Although this method reach the statistical optimality in the \ML/ sense, the exact knowledge of number of Diracs needs to be known in advance.
-If this number is unknown or approximated, huge errors in the estimation are observed.
-This results in a huge drawback since the exact number of echoes is difficult to know a priori and false-positive spikes are present even in clean \RIRs/.
+The method presented in \citeonly{condat2013robust} focuses on the general problem of estimating a finite stream of Dirac's impulses from uniform, noisy and lowpass-filtered samples.
+The authors showed that this particular problem can be reformulated as \textit{matrix denoising}, from which the echoes' locations and amplitudes can be retrieved in closed-form.
+Although this method reaches the statistical optimality in the \ML/ sense, the exact knowledge of number of Diracs needs to be known in advance.
+If this number is unknown or approximated, errors in the estimation are observed.
+This results in a drawback since the exact number of echoes is difficult to know a priori and false-positive peaks are present even in clean \RIRs/ due to source's harmonic distortions or limited bandwidth.
 
 \mynewline
-That have being said, \AER/ is far from trivial and solved even when clean \RIR/ estimates are provided.
-It is important to note that, for every \TOA/ estimator, a practical trade off exists between the number of missed \TOAs/ and the number of spurious \TOAs/ wrongly selected.
-This trade-off is only partially dependent on the noise level since, many factors can provide spurious peaks.
+That being said, \AER/ is far from trivial even when clean \RIR/ estimates are provided.
+It is important to note that, for every \TOA/ estimator, a practical trade off exists between the number of missed \TOAs/ (false negative) and the number of spurious \TOAs/ (false positive).
+This trade-off is only partially dependent on the noise level since many factors can provide spurious peaks.
 For instance, side lobes due to finite signal bandwidth, echo distortions due to frequency dependent attenuations and coalescing peaks due to close \TOAs/ can affect peak estimation.
-This fact is often a source of unavoidable outliers that make the robustness of subsequent steps in echo-aware application a delicate and very important issue.
-A way to overcome to this is to overestimate the echoes in the \RIR/ by including some false-positive and prune them using echo labeling afterwards.
+This fact is often a source of unavoidable outliers that make the robustness of subsequent steps in echo-aware applications a delicate and very important issue.
+A way to overcome this trade-off is to allows spurious \TOAs/ estimates and prune them using echo labeling afterwards.
 
-\newthought{Echo Labeling or \TOAs/ Disambiguation} is the task of assigning acoustic echoes to different image sources or reflectors.
+\newthought{Echo Labeling or \TOAs/ Disambiguation} \marginpar{
+    \footnotesize
+    \centering
+    \resizebox{\linewidth}{!}{
+        \input{figures/estimation/echo_labeling.tikz}
+    }
+    \captionof{figure}{Illustration of different order of arrival of wall reflection}
+    \label{fig:estimation:labeling}
+} is the task of assigning acoustic echoes to different image sources or reflectors, as shown in~\cref{fig:estimation:labeling}.
 Many methods have been proposed in the context of \SSL/~\citeonly{scheuing2006disambiguation, zannini2010improved}, microphone calibration~\citeonly{parhizkar2014single,salvati2016sound}
 and \RooGE/~\citeonly{antonacci2010geometric, filos2011robust, venkateswaran2012localizing, antonacci2012inference, dokmanic2013acoustic, crocco2014towards, jager2016room, el2017time}.
 A brief review of these methods is provided in~\citeonly{crocco2017uncalibrated}.
-\\In the context of \SSL/, the disambiguation is typically performed in the \TDOAs/ space~\citeonly{scheuing2006disambiguation, zannini2010improved}.
-Moreover these works focus on actively localizing (the direction of arrival of) multiple sources while discarding reflection, rather than localizing the actual image sources.
-\\The other disambiguation schemes are typically used for \RooGE/.
+\\In the context of \SSL/, the disambiguation is typically performed in the \TDOA/ space~\citeonly{scheuing2006disambiguation, zannini2010improved}.
+Moreover these works focus on actively localizing (the direction of arrival of) multiple sources while discarding reflections, rather than localizing the actual image sources.
+\\Some other disambiguation schemes are typically used for \RooGE/.
 In \citeonly{venkateswaran2012localizing} the pruning of the combinatorial candidate-image-source search is done through Bayesian inference.
 A similar approach can be found in~\citeonly{dokmanic2013acoustic, parhizkar2014single} where the validity check is based on a particular structured matrix called \textit{Euclidean Distance Matrix} and further improved using compatibility graphs in~\citeonly{jager2016room}.
 These methods rely on a combinatorial search with potentially high number of candidates, which leads to intractable computational complexity when multiple reflection are considered.
 Moreover these methods require that all the distances between each microphone are known with precision, which may not be true in practice.
-\\In the works of~\citeonly{antonacci2010geometric, filos2011robust, antonacci2012inference}, the reflectors are modelled as planes tangent to the ellipsoids with foci given by each pair of microphone/source.
-By solving a non-convex optimization problem based on geometrical reasoning and the Hough transform~\sidenote{%
+\\In the works of~\citeonly{antonacci2010geometric, filos2011robust, antonacci2012inference}, the reflectors are modelled as planes tangent to the ellipsoids with foci given by each pair of microphone/source, as shown in~\cref{fig:estimation:ellips}.\marginpar{
+    \footnotesize
+    \centering
+    \resizebox{\linewidth}{!}{
+        \input{figures/estimation/ellips.tikz}
+    }
+    \captionof{figure}{Illustration of the ellipsoid method: the length of the reflected path from the image source $\mathring{\positionSource}$ to the microphone at $\positionMicrophone$ constraint the reflector line to
+    be tangent to an ellipse.}
+    \label{fig:estimation:ellips}
+}%
+By solving a non-convex optimization problem based on geometrical reasoning and the Hough transform\sidenote{%
     A mathematical operator that maps points into curves in a 2-D space.
     If a set of points belongs to the same line, the corresponding curves will intersect in a single point.
     In computer vision, this tranform is typically used as feature extractor to detect lines and edges in pictures.
-}, they are able to disambiguate \TOAs/ and reconstruct reflectors position and inclination.
-However, they all require a very specific acquisition setup and the non-convex cost function are sensible to local minima.
+}, they are able to disambiguate \TOAs/ and reconstruct reflectors position and orientation.
+However, they all require a very specific acquisition setup and the optimized non-convex cost functions are sensible to local minima.
 
 \mynewline
 In general, all the above methods do not have specific strategies to cope with missing or spurious echoes' estimates.
 This is due to malfunctioning of the peak finder or by erroneous selection of peaks corresponding to higher reflection order.
-A way to solve this issues is to exploit particular prior knowledge.
-For instance, the approach presented in~\citeonly{el2017time} exploits the shapes of linear and compact arrays of loudspeakers, which provide a natural ordering among the loudspeakers.
+A way to solve this issue is to exploit particular prior knowledge.
+For instance, the approach presented in~\citeonly{el2017time} exploits the shapes of linear and compact arrays of loudspeakers, which provides a natural ordering among the loudspeakers.
 By stacking side-by-side the measured \RIRs/ in a matrix, they can be visualized as an image.
 Here the wavefront of each reflection draw specific pattern which can be identified easily and robustly even in presence of (a few) spurious and missing peaks.
 Moreover, this approach avoids the combinatorial search, but still requires a very specific setup for recordings.
 \\In the work~\citeonly{crocco2014towards} an iterative strategy is used.
-First the direct path arrivals are used to estimate a first guess of the microphone and source positions.
-Then, the whole set of extracted peaks are used to estimate the planar reflectors positions which are then used to refine the microphone and source localization.
-Alternating between the geometrical space of microphone and source coordinates and the signal space of the echoes' \TOAs/, the ambiguous peaks are pruned during the optimization.
+First the direct path arrivals are used to estimate a first guess of the microphones and source positions.
+Then, the whole set of extracted peaks are used to estimate the planar reflectors' positions which are then used to refine the microphones and source localization.
+Alternating between the geometrical space of microphones and source coordinates and the signal space of the echoes' \TOAs/, the ambiguous peaks are pruned during the optimization.
 
-\subsection{Active and RIR-agnostic method}
+\subsection{Active and RIR-agnostic method}\label{subsec:estimation:active_agnostic}
 This class of methods uses the signal at the microphones to directly estimate the echoes reflections, rather than estimating the \RIRs/.
 Here two different approaches can be identified: optimization-based approaches~\citeonly{jensen2019method, saqib2020estimation} and cross-correlation-based approaches~\citeonly{crocco2014towards, al2019early}.
 
 \mynewline
-The former approaches exploit the strong relation between the \TOA/ of a echo with its \DOA/.
+The former approaches exploit the strong relation between the \ac{TOA} of an echo with its \ac{DOA}.
 When multiple microphones are used and their geometry is known, the relation between these two quantities can be express in closed-form and used in a \ML/-based frameworks.
-By modeling the \DOAs/, such approaches are able to implicitly reduce the ambiguity of the estimated echoes.
-This idea is rooted in existing methods used in multipath communication systems, denoted as \JADE/~\citeonly{vanderveen1997joint,verhaevert2004direction}.
+By modeling the \ac{DOA}s, such approaches are able to implicitly reduce the ambiguity of the estimated echoes.
+This idea is rooted in existing methods used in multipath communication systems, denoted as \ac{JADE}~\citeonly{vanderveen1997joint,verhaevert2004direction}.
 
 \mynewline
-Alternatively,\marginpar{%
-    \footnotesize
-    \emph{
-        Cross-correlation and convolution operations are very similar, an mathematically they differ just by the inversion of the reference signal.
-        While, the former measures the similarity between two signals as function of a translation, the latter measure the effect of one signal on the other signal.
-    }
-} the echoes contribution can be extracted from the \textit{correlation} between the observed and the reference signals.
+Alternatively, the echoes contributions can be extracted from the cross-correlation between the observed and the reference signals.
 The cross-correlation analysis is a mathematical tool for the identification of repeated patterns in a signal as function of a certain time lag.
 Due to indoor sound propagation, the received signal consists in repeated copies of the emitted signal.
 Therefore, the received signal may correlate with the emitted one for certain time lags.
@@ -234,11 +252,11 @@ By the extraction of these peaks, echoes' \TOAs/ and relative amplitudes can be 
 This approach was used in \citeonly{tervo2011estimation, crocco2014towards, al2019early}.
 
 When the array geometry is known, the time lag axes of cross-correlation functions between channels can be mapped to possible 2D directions of arrivals (elevation and azimuth), namely from \TOAs/ to 2D-\DOAs/.
-The identification of strong reflections can be then performed in the so-called \textit{angular spectrum} domain \DOAs/~\citeonly{dibiase2001robust}.
+The identification of strong reflections can be then performed in the so-called \textit{angular spectrum} domain~\citeonly{dibiase2001robust}.
 With a proper clustering approach, the reflections can be inspected, disambiguated and their \TOAs/ deduced.
 This approach is used in~\citeonly{o2008imaging, o2010automatic, tervo2015direction} and can be generalized by spatial filtering methods, such as steered-response power-based beamforming.
 In~\citeonly{o2008imaging}, it was referred to as \textit{acoustic camera} since it benefits of the following visual interpretation:
-As shown in~\cref{fig:estimation:audiocamera}, the 2D-polar coordinates can be mapped into cartesian ones so that the angular spectrum can be superimposed to a panoramic picture of the audio scene taken by the barycenter of the recording arrays.
+as shown in~\cref{fig:estimation:audiocamera}, the 2D-polar Coordinates can be mapped into cartesian ones so that the angular spectrum can be superimposed to a panoramic picture of the audio scene taken by the barycenter of the recording arrays.
 \marginpar{
     \centering
     \includegraphics[width=\linewidth]{estimation/audio_camera1.png}
@@ -264,10 +282,10 @@ Passive approaches
     A review of the the evolution of \SIMO/ \BCE/ can be found in~\citeonly{huang2003class}.
 }}
 rely on external sound sources in the environment to conduct the estimation.
-In the literature, this problem belongs to the broad and deeply studied category of \BCEdef/ (or \BSIdef/) problems.
+In the literature, this problem belongs to the broad and deeply studied category of \BCEdef/, or \BSIdef/, problems.
 In the particular case of a single source, it is referred to as \SIMO/ \BCE/.
 Common to all these methods is the assumption that \RIRs/ are discrete \FIR/ filters defined on the sampling grid, namely, vectors in the Euclidean space.
-In the general setting of arbitrary signals and filters, rigorous theoretical ambiguities under which the problem is unsolvable have been identified~\citeonly{xu1995least}.
+In the general setting of arbitrary signals and filters, rigorous theoretical ambiguities under which the problem is ill-posed have been identified~\citeonly{xu1995least}.
 Some well-known limitations of these approaches are their sensitivity to the chosen length of the filters, and their intractability when the filters are too large.
 \FIR/ \SIMO/ \BCE/ can be broadly dichotomized into the class of \textit{statistical methods} and the class of \textit{blind methods}.
 
@@ -282,20 +300,20 @@ Some well-known limitations of these approaches are their sensitivity to the cho
 }
 
 \newthought{Statistical methods} exploit knowledge about the emitted signal.
-Since the nature of the source signal is by definition not deterministic, their statistics can modeled based on the signal category, \eg/ speech or music, and modeled accordingly.
+Since the nature of the source signal is by definition not deterministic, and their statistics can be modeled base on the signal category, \eg/ speech or music, and modeled accordingly.
 Two main approaches can be identified~\citeonly{tong1998multichannel}:
 \begin{itemize}
-    \item \textit{Second Order Moments approaches} derive closed-form solution for which the knowledge of the source auto-correlation (or variance) function is required.
+    \item \textit{Second Order Moments approaches} derive closed-form solution for which the knowledge of the source auto-correlation function is required.
     \item \textit{Maximum Likelihood approaches} require instead the source probability function.
     Even though they are optimal in the \ML/ sense, they optimize non-convex cost functions, typically via \EMdef/.
     In this category one may include the methods developed for multichannel blind source separation~\citeonly{ozerov2009multichannel,duong2010under,leglaive2016multichannel,leglaive2018student,scheibler2018separake}.
     These methods are built on the well-studied framework of Multichannel \NMF/~\citeonly{ozerov2009multichannel} which lends itself to account for various type of side information.
     Here the source signals are typically modeled as Gaussian distributions centred in zero and with unknown variance.
-    Using pre-trained dictionaries for modeling the variance of the sources, they are able to estimate both the acoustic channels and the source contribution.
-    In particular, the work of~\citeonly{duong2010under} extends this framework to reverberant recordings using physic-based models for the late reverberations, while the works of~\citeonly{leglaive2016multichannel} considers explicitly the contribution of early echoes, further improved in~\citeonly{leglaive2018student}.
+    In general, they aims at estimating both the acoustic channels and the source contribution.
+    In particular, the work of~\citeonly{duong2010under} extends this framework to reverberant recordings using physics-based models for the late reverberation, while the works of~\citeonly{leglaive2016multichannel} considers explicitly the contribution of early echoes, further improved in~\citeonly{leglaive2018student}.
 \end{itemize}
-Even if statistical methods have reported a considerable success in the field of Sound Source Separation, they play a minor role in \RIR/ estimation.
-This is due to the difficulty in achieving reliable statistics of the emitted signals or a good initialization point required by the \EM/.
+Even if statistical methods have reported a considerable success in the field of sound source separation, they play a minor role in \RIR/ estimation.
+This is due to the difficulty in achieving reliable statistics of the emitted signals or a good initialization point required by the \EM/ algorithm.
 Moreover, although the final estimated \RIRs/ may match the real ones in the statistical sense, they lack of a sufficient details, indispensable for \AER/.
 
 \newthought{Blind methods} comprises two main groups: \textit{subspace} methods~\citeonly{abed1997subspace} and \textit{cross-relation methods}~\citeonly{tong1994blind,xu1995least,lin2007blind,lin2008blind,kowalczyk2013blind,crocco2015room,crocco2016estimation}.
@@ -303,41 +321,37 @@ The formers are based on the key idea that the channel (or part of it ) vector s
 These methods have the attractive property that the channel estimates can often be obtained in a closed-form by optimizing a quadratic cost function.
 However they may be not robust, especially when the channel covariance matrix is close to being singular.
 The second disadvantage is that they are typically computationally expensive.
-
-\mynewline
-The second family of methods rely on the clever observation that in noiseless case, for every pair of microphone $(i, i')$, it holds
+\\The second family of methods rely on the clever observation that in the noiseless case, for every pair of microphone $(i, i')$, it holds that
 \begin{equation}\label{eq:estimation:xrel_toepl}
     (\tildex_{i'} \convCont \tildeh_i)(t) = (\tildex_{i} \convCont \tildeh_{i'})(t) =  ((\tildeh_{i'} \convCont \tildeh_i) \convCont s)(t)
     ,
 \end{equation}
 by the commutativity of the convolution operator.
-This principle is called the \textit{cross-relation} and it was firstly introduced by~\citeonly{tong1994blind}.
-In this work, the \RIR/ are estimated by solving a Least Square minimization of the sum of square cross relation errors.
+This principle is called the \textit{cross-relation} and it was first introduced by~\citeonly{tong1994blind}.
+In this work, the \RIR/ are estimated by solving a Least Square minimization of the sum of square cross-relation errors.
 In \citeonly{xu1995least,tong1998multichannel}, sufficient and necessary conditions for channel identification are discussed.
 This approach has received significant attention as it does not require any assumption about the source signal.
 Later, the accuracy of estimated \RIRs/ has been subsequently improved using prior knowledge of the filters:
 in particular, the authors of~\citeonly{lin2007blind} have proposed to use sparsity penalty and non-negativity constraints to increase robustness to noise as well as Bayesian-learning methods to automatically infer the value of the hyper-parameters in~\citeonly{lin2008blind}.
 Even if sparsity and non-negativity could be seen as a strong assumption, works in speech enhancement~\citeonly{ribeiro2010turning,dokmanic2015raking} and room geometry estimation~\citeonly{antonacci2012inference,crocco2017uncalibrated} have proven the effectiveness of this approach.
-On a similar scheme, in~\citeonly{kowalczyk2013blind}, the~\eqref{eq:estimation:xrel_toepl} is solved using an adaptive time-frequency-domain approach while~\citeonly{aissa2008blind} proposes to use the $\ell_p$-norm instead of the $\ell_1$-norm.
-A successful approach has been presented by Crocco \textit{et al.} in \citeonly{crocco2015room,crocco2016estimation}, where the anchor constraint is replaced by an \textit{iterative weighted} $\ell_1$ equality constraint to better balance sparsity penalty and the model constraints\sidenote{
+On a similar scheme, in~\citeonly{kowalczyk2013blind}, the problem in~\cref{eq:estimation:xrel_toepl} is solved using an adaptive time-frequency-domain approach while~\citeonly{aissa2008blind} proposes to use the $\ell_p$-norm instead of the $\ell_1$-norm.
+A successful approach has been presented by Crocco \textit{et al.} in \citeonly{crocco2015room,crocco2016estimation}, where the so-called \textit{anchor constraint} is replaced by an \textit{iterative weighted} $\ell_1$ equality constraint to better balance sparsity penalty and the model constraints.\sidenote{
     These approaches will be further formalized and detailed in~\cref{ch:blaster}.
-}.
+}
 Finally, the very recent work~\citeonly{qi2019broadband} extends cross-relation approaches under the umbrella of the Kalman filter which was previously used for echo-cancellation applications.
-
-\mynewline
-An alternative approach is used in~\citeonly{cmejla2019mirage}, where the \RIR/ estimation problem is treated as special case of \RTF/ estimation.
+\\An alternative approach is used in~\citeonly{cmejla2019mirage}, where the \RIR/ estimation problem is treated as special case of \RTF/ estimation.
 As mentioned in~\cref{subsec:processing:rtf}, in the noiseless case, the \RTF/ identifies the \RIR/ when the reference microphone is placed very close to the source.
-\RTF/ estimation found its root in the field of \SEdef/~\citeonly{gannot2001signal} and many techniques have been proposed since then~\citeonly{gannot2001signal,koldovsky2015spatial,koldovsky2015sparse,kodrasi2017evd}\sidenote{
+\RTF/ estimation found its root in the field of \SEdef/~\citeonly{gannot2001signal} and many techniques have been proposed since then~\citeonly{gannot2001signal,koldovsky2015spatial,koldovsky2015sparse,kodrasi2017evd}.\sidenote{
     Methods for \RTF/ estimation will be detailed in~\cref{ch:brioche}.
-}.
-In general, by its definition, \RTF/ describes the relative filter between two observations and not directly their \RIRs/ and may differs in case of noise.
-The main limitation of this approach is that it is possible only in measurement scenarios, where the user has the possibility to place the microphone arbitrarily in the room and in presence of high SNR levels.
+}
+By its definition, in noiseless case, \RTF/ describes the relative filter between two observations and not directly their \RIRs/.
+The main limitation of this approach is that it is possible only in controlled scenarios, where the user has the possibility to place the microphone arbitrarily in the room and in presence of high \ac{SNR} levels.
 Nevertheless, in this context, this particular setup is found to be useful not only for \RTF/ estimation, but also for microphone calibration, since it allows to solve geometrical ambiguities, yielding a closed-form solution, as done in~\citeonly{crocco2012closed}.
 
 \mynewline
 In general, the main drawbacks of \FIR/ \SIMO/ \BCE/ works is that they rely on on-grid estimation, sparsity-enforcing regularizers and peak-picking which need to be tuned manually.
 As described in~\cref{sec:processing:fouriermodel}, due to the sampling process involving a $\sinc$ function, the filters are non-sparse and non-negative.
-This general bottle-neck has been referred to as \textit{basis mismatch} and was notably studied in the \textit{compressed sensing} community~\citeonly{chi2011sensitivity}.
+This general bottleneck has been referred to as \textit{basis mismatch} and was notably studied in the \textit{compressed sensing} community~\citeonly{chi2011sensitivity}.
 In particular, the true peaks in the \RIR/ do not necessarily correspond to the true echoes as shown in~\cref{fig:estimation:basismismatch}
 \begin{figure}[h]
     \begin{fullwidth}
@@ -353,26 +367,24 @@ In particular, the true peaks in the \RIR/ do not necessarily correspond to the 
         \label{fig:estimation:mismatch}
     \end{fullwidth}
 \end{figure}
-
-
 Since these methods are fundamentally on-grid, the estimated echo locations are integer multiples of the sampling period $1/\Fs$.
 This prevents subsample resolution, which may be important in applications such as \RooGE/~\citeonly{crocco2017uncalibrated} or acoustic parameter estimation~\citeonly{defrance2008finding}.
 Moreover, these methods strongly rely on the knowledge of the length of the filters.
 When this parameter is underestimated or overestimated, identifiability and computational issues may arise, affecting the estimation.
-Nevertheless, despite this slight mismatch between theoretical assumptions and real data, for some scenarios, the position of the estimated peaks by the methods~\citeonly{crocco2016estimation} reproduces the positions of the ground truth peaks with remarkable precision as demonstrated in our work~\cite{di2020blaster}.
+Nevertheless, despite this slight mismatch between theoretical assumptions and real data, for some scenarios, the position of the estimated peaks by the methods~\citeonly{crocco2016estimation} reproduces the positions of the groundtruth peaks with remarkable precision as demonstrated in our own work~\cite{di2020blaster}.
 
 \subsection{Passive and RIR-agnostic methods}
-Methods in this categories bypass the onerous task of estimating the (full or partial) acoustic channel and, to the best of our knowledge, only a few have been identified.
+Methods in this category bypass the onerous task of estimating the (full or partial) acoustic channel and, to the best of our knowledge, only a few have been identified.
 As for the active and RIR-agnostic case, the audio camera based on the cross-correlation function can be used in passive settings.
 Exploiting the geometrical knowledge of the microphone array, \TDOAs/ extracted from robust correlation function can be mapped to \DOAs/~\citeonly{dibiase2001robust,o2008imaging,o2010automatic}.
 Assuming a single source scenario, difference \DOAs/ can be disambiguated using geometrical prior knowledge and can be associated to image sources, hence reflectors.
 These methods typically ignore the echoes amplitudes and in general do consider only angles on the unit sphere, ignoring the distance from the source.
 Without proper prior knowledge, their application to \AER/ is far from trivial as \RooGE/ and \textit{reflector estimation} methods need to be used to convert \DOAs/ back to echoes timing.
 \mynewline
-Recently a fully blind, passive, off-grid and RIR-agnostic method was proposed by authors of~\citeonly{tukuljac2018mulan} for stereophonic recordings, namely using only 2 microphones.
+Recently a fully blind, passive, off-grid and RIR-agnostic method was proposed by authors of~\citeonly{tukuljac2018mulan} for stereophonic recordings (\ie/, $\numMics=2$).
 They proposed a method, called \MULAN/, based on the properties of the \textit{annihilation filter}\sidenote{
-    For a sequence of Fourier coefficients $a_N \in \bbC^N$ (describing a signal or a filter), its annihilation filter $b_L \in \bbC^L$ is such that the linear convolution between the sequence and the filter coefficients is identically zero:
-    \\$\sum_{l=0}^{L-1} b_L[l] a_N[n-l] = 0\quad\kforall n = -N + L, \ldots, N$.},
+    For a sequence of Fourier coefficients $\bfa \in \bbC^N$ (describing a signal or a filter), its annihilation filter $\bfb_L \in \bbC^L$ is such that the linear convolution between the sequence and the filter coefficients is identically zero:
+    \\$\sum_{l=0}^{L-1} \bfb[l] \bfa[n-l] = 0\quad\kforall n = -N + L, \ldots, N$.},
 ~\citeonly{condat2013robust} and the theory of \FRI/.
 If the source signal is known, starting from the cross-relation identity, the \AER/ problem translates into finding the annihilation filter for the \RIRs/, which can be recasted into an eigenvalue problem.
 In the fully blind case, the problem is solved with non-convex optimization, iterating between the estimation of the two filters and the signal until convergence.
@@ -392,14 +404,15 @@ While simulated datasets are more versatile, simple and quicker to obtain, they 
 Due to this intrinsic issues, methods trained or validated on them may fail to generalize to real conditions, as will be shown in~\cref{ch:dechorate}.
 
 \mynewline
-A good dataset for \AER/ should include a variety of environments (rooms geometries and surface materials), of microphone placings (close to or away from reflectors, scattered or forming ad-hoc arrays) and, most importantly, precise annotations of the scene's geometry and echo parameters within the \RIRs/.
+A good dataset for \AER/ should include a variety of environments (room geometries and surface materials), of microphone placement (close to or away from reflectors, scattered or forming ad-hoc arrays) and, most importantly, precise annotations of the scene's geometry and echo parameters.
 Moreover, in order to be versatile and used in echo-aware applications, the provided annotations should match the \ISM/, \textit{i.e.}, TOAs should be expressed in terms of image sources and vice-versa.
 Such data are difficult to collect since they require precise measurements of the positions and orientations of all the acoustic emitters, receivers and reflective surfaces inside the environment with dedicated planimetric equipment.
 We identified here two main classes of related RIR datasets in the literature:
 \SE//\ASR/-oriented datasets, e.g. \citeonly{szoke2019building, bertin2019voicehome, cmejla2019mirage}, and \RooGE/-oriented datasets, e.g. \citeonly{dokmanic2013acoustic, crocco2017uncalibrated, remaggi2016acoustic}.
-The formers include acoustic echoes as highly correlated interfering sources coming from close reflectors, (\eg/ a desk in meeting rooms or the close wall), however their proper annotations are not provided.
+The formers include acoustic echoes as highly correlated interfering sources coming from close reflectors, (\eg/ a desk in meeting rooms or a near wall), however annotations are not provided.
 The latter group deals with sets of distributed, synchronized microphones and loudspeakers in a room.
 These setups are not exactly suitable for \SE/ methods, which typically involve compact or ad hoc arrays.
+To bridge this gap, we recorded a new dataset, dubbed \ac{DECHORATE}, that will be described in~\cref{ch:dechorate} and used for echo-aware application in~\cref{ch:dechorateapp}.
 Table~\ref{tab:estimation:rir_db} summarizes some existing datasets that can be used in the context of \AER/.
 
 \begin{table}[t]
@@ -423,7 +436,7 @@ Table~\ref{tab:estimation:rir_db} summarizes some existing datasets that can be 
 
 \subsection{Metrics}\label{subsec:estimation:metrics}
 The metrics used in \AER/ depend on the application and the methods used to estimate the echoes.
-When addressed as a \FIR/ \SIMO/ \BCE/ problem, the ground-truth acoustic channels are considered as a discrete vector $h \in \bbR^L$, and similarly their estimates, that is, $\hath \in \bbR^L$.
+When addressed as a \FIR/ \SIMO/ \BCE/ problem, the groundtruth acoustic channels are considered as a discrete vector $h \in \bbR^L$, and similarly their estimates, that is, $\hath \in \bbR^L$.
 To assess the quality of the estimated discrete filters, the following metrics have been proposed in the literature:
 \begin{itemize}
     \item \textit{The \RMSEtxt/}  measures the distance between points in the Euclidean space, defined by vector coordinates:
@@ -432,7 +445,7 @@ To assess the quality of the estimated discrete filters, the following metrics h
         ,
     \end{equation}
     where $\abs{\cdot}$ denotes the absolute value.
-    This metrics is known to be highly sensitive to scaling and little translation.
+    This metrics is known to be highly sensitive to scaling and translations.
     % For instance, if the $\hath^{*}$ is a just a shifted and scaled version of the $\hath$, huge \RMSEtxt/ is recorded.
 
     \item \textit{The \NPMtxt/}  was originally proposed in~\citeonly{morgan1998evaluation} to solve the limitation of the \RMSEtxt/.
@@ -450,19 +463,18 @@ To assess the quality of the estimated discrete filters, the following metrics h
         \Delta\Theta(\hath,h) = \arccos\kparen{\frac{\khermitian{h}\hath}{\norm{h}_2\|\hath\|_2}}
         .
     \end{equation}
-    As for \NPMtxt/, this metrics is invariant to possible scaling factors and length differences between the ground-truth and the estimated vectors.
+    As for \NPMtxt/, this metrics is invariant to possible scaling factors and length differences between the groundtruth and the estimated vectors.
 \end{itemize}
-
 
 \mynewline
 In the context of \RooGE/, \SSL/ and microphone calibration, echoes' timings are typically mapped to reflectors or image source positions, either in cartesian or polar coordinates.
 Therefore, the models for \AER/ are evaluated in the geometrical space, rather than in the space of echoes' parameters.
-For instance, for the task of reflectors localization, the accuracy is measured in terms of \textit{plane-to-plane distance} between estimated and ground-truth surfaces and the \textit{angular error} between their normals.
-In the case of \SSL/ and microphone calibration, the \textit{Euclidean distance} between the 3D coordinates is typically computed as \RMSEtxt/ between ground-truth and estimated \DOAs/.
-This metrics considers only echoes' \TOA/, ignoring their amplitudes which interest a previous peak peaking and echo labeling steps.
+For instance, for the task of reflectors localization, the accuracy is measured in terms of \textit{plane-to-plane distance} between estimated and groundtruth surfaces and the \textit{angular error} between their normals.
+In the case of \SSL/ and microphone calibration, the \textit{Euclidean distance} between the 3D coordinates is typically computed as \RMSEtxt/ between groundtruth and estimated \DOAs/.
+This metrics considers only echoes' \TOA/, ignoring their amplitudes.
 
 \mynewline
-To the best knowledge of the author, the literature lacks of metrics properly defined for \AER/.
+To our best knowledge, the literature lacks of metrics properly defined for \AER/.
 As for the application mentioned above, echoes' amplitudes in a single \RIR/ or between them, are typically ignored or considered for peak picking only.
 More attention is paid on the echoes' timing which are evaluate using regression/classification metrics of \textit{information retrieval} and \textit{machine learning}.
 \\Let be $\hat{\boldsymbol{\tau}} = \kbrace{\hat{\tau}_\idxEch}_{\idxEch=0}^{\numEchs}$ and $\boldsymbol{\tau} = \kbrace{\tau_\idxEch}_{\idxEch=0}^{\numEchs}$ the sets of estimated and reference echoes' \TOAs/.
@@ -486,51 +498,55 @@ The following metrics are used:
     % This metrics was proposed for comparing multi-class regression models with different scales.
     % The nRMSE takes values between 0 (perfect fit) and ∞ (bad fit). If it is equal to 1, then the prediction is no better than a constant.
     \item the \textit{Precision, Recall, and F-measure} are standard metrics used in information retrieval for evaluating classification problems, \eg/ in onset detection~\citeonly{bock2012evaluating}.
-    Here the real valued estimates and ground-truth need to be converted into binary values indicating a \textit{match}.
-    Typically, hard thresholding is used to assess whether estimated \TOAs/ match the reference one.
+    Here the real valued estimates and groundtruth need to be converted into binary values indicating a \textit{match}.\marginpar{
+        \footnotesize
+        Givent the number of true positive cases in the estimation $\mathtt{TP}$, the false negative $\mathtt{FN}$ and the false positive $\mathtt{PF}$,
+        precision, recall and F-measure as:
+        \begin{equation*}
+            \begin{aligned}
+                \Precision &= \mathtt{TP} / (\mathtt{TP} + \mathtt{FP}),\\
+                \Recall &= \mathtt{TP} / (\mathtt{TP} + \mathtt{FN}),\\
+                \Fmeasure &= 2 \cdot \frac{\Precision\cdot\Recall}{\Precision + \Recall}.
+            \end{aligned}
+        \end{equation*}
+    } Typically, hard thresholding is used to assess whether estimated \TOAs/ match the reference one.
     In the context of \AER/, \textit{precision} expresses the fraction of matching \TOAs/ among all the estimated ones, while \textit{recall} measure the fraction of matching \TOAs/ that are correctly estimated.
     Finally, the \textit{F-measure}, defined as the harmonic mean of precision and recall, is used to summarize precision and recall in one value.
-    % In math,
-    % \begin{equation}
-        %     \begin{aligned}
-            %         \Precision &= \text{number of }\\
-            %         \Recall &= \\
-            %         \Fmeasure &= 2 \frac{\Precision \cdot \Recall}{\Precision + \Recall}
-            %     \end{aligned}
-            % \end{equation}
     \\Depending on the application, precision and recall can have different impact.
     \RooGE/ methods are more sensible to missing \TOAs/ than to their misalignment which can be redefined with geometrical reasoning.
     Thus they are more incline to privilege recall over precision and allow for some false-positive which can be pruned using echo labelling methods.
-    Instead, echo-aware \SE/ methods prefer to accurately select the relevant echoes, thus favoring an higher precision.
+    Instead, echo-aware \SE/ methods prefer to accurately select the relevant echoes, thus favoring higher precision.
 \end{itemize}
 
 \mynewline
 Since these metrics rely on decision thresholds, their usage is not straightforward.
 In fact, in order to compare echoes, first both estimated and reference echoes need to be labeled, pruned and matched.
 As discussed at the end of~\cref{subsec:acoustics:ism}, echoes can be sorted differently according to their amplitudes, their \TOAs/ or reflection order.
-\AER/ tends to return echoes' parameter sorted by the echoes' amplitudes which can be distorted by the measurement process and modelling errors (\cfr{~\cref{aoeu}}).
+\AER/ tends to return echoes' parameter sorted by the echoes' amplitudes which can be distorted by the measurement process and modelling errors.
 This matching and labeling process introduces strong biases in the evaluation process which is currently unsolved without a proper echo labeling step.
 
 \section{Proposed Approaches}
 So far, we presented a view of current methods for solving the \AER/ problem.
-In the following two chapters, we will explore two novel approaches which follows two paradigms which occurs in the recent years of signal processing:
+In the following two chapters, we will explore two novel approaches which follow two paradigms occurring in the recent years of signal processing:
 \textit{knowledge-driven} and \textit{data-driven} methods.
 
-\newthoughtpar{Knowledge-driven methods} take advantage of prior information which may have deterministic (\eg/ physical equation) or asymptotic behaviors (\eg/ statistical models).
-In this context, \AER/ exploits prior information about the sources, the mixing process and the physic of the acoustic propagation, along with the audio.
-This knowledge is typically used to build models which lead solution computed through closed-forms or optimization-based algorithm.
+\dichotomy{Knowledge-driven methods} take advantage of prior information which may have deterministic (\eg/ physical equation) or asymptotic behaviors (\eg/ statistical models).
+In this context, \AER/ exploits prior information about the sources, the mixing process and the physics laws of the acoustic propagation, along with the audio.
+This knowledge is typically translated into mathematical models which lead solution computed through closed-forms or optimization-based algorithm to estimate latent variables.
 All the literature presented in this chapter follows this approach.
-In general, the advantages and the disadvantages of these approach depends on the kind of knowledge is known and on the context in which is applied.
-\\Regarding our contribution, the~\cref{ch:blaster} proposes a new knowledge-driven method for solving \AER/ based on the theory of \CDdef/.
+In general, the advantages and the disadvantages of these approaches depend on the nature of available knowledge on the context which it is used.
+\\Regarding our contributions, \cref{ch:blaster} proposes a new knowledge-driven method for solving \AER/ based on the theory of \CDdef/.
 
-\newthoughtpar{Data-driven methods}, instead, are based on machine learning algorithm where information is automatically ``learned'' in \textit{supervised} ways.
+\dichotomy{Data-driven methods}, instead, are based on machine learning algorithms where information is automatically ``learned'' in \textit{supervised} ways, therefore the knowledge of the physical laws are need.
 Providing comprehensive and exhaustive annotated training datasets, such methods can learn function that maps an input to an output based on example input-output pairs.
-Due to its recent success, machine learning, and in particular \textit{deep learning}, has been applied in many signal processing (sub-)task.
+Due to its recent success, machine learning, and in particular \textit{deep learning}, has been applied in many signal processing tasks.
 Along side with the huge benefits of having black-box models that are able to learn by their own, this paradigm hides a few limitations.
-\\First these models rely on the information encoded in training data which is sometimes insufficient represent the real-world data.
-In order to solve this issues, many strategies have been proposed, \eg/ using data augmentations techniques or knowledge-driven generating models, based on simulators.
-This leads to the second limitation of these approaches, that is \textit{overfitting} to the data obeying the generating model and able to generalize.
+\\First, these models rely on the information encoded in training data which is sometimes are not representative enough of the real-world.
+In order to overcome this drawback, many strategies have been proposed, \eg/ using\textit{ data augmentations} techniques or knowledge-driven generating models, based on simulators.
+It this case, prior knowledge is used to \textit{generate} synthetic observation (\ie/, form latent variables to the observations) and
+it is left to the learning model the task of invert the mapping (\ie/, from observation to latent variables).
+This leads to a second limitation of these approaches, that is \textit{overfitting} to the data obeying the generating model.
 Finally, machine learning models learn black-box functions.
 Although they can reach incredible performance, it is difficult to predict their behavior when facing new type of data.
-Despite this issues, data-driven methods are currently intensively studied and interlaced with knowledge-driven approaches.
+Despite these issues, data-driven methods are currently intensively studied and interlaced with knowledge-driven approaches.
 In this direction, we propose our contribution in~\cref{ch:lantern}, as a new data-driven method for solving \AER/ based on virtually supervised learning.

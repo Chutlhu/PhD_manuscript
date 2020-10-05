@@ -1,0 +1,55 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Shape: Rectangle [id:dp966627560130513]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (70.8,159.6) -- (105.2,159.6) -- (105.2,193.6) -- (70.8,193.6) -- cycle ;
+%Image [id:dp3167807043537194]
+\draw (88,176.6) node  {\includegraphics[width=25.8pt,height=25.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Shape: Rectangle [id:dp36313703479455617]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (225.11,90) -- (210,90) -- (210,240) -- (225.11,240) -- cycle ;
+%Straight Lines [id:da052649281163546946]
+\draw    (210,90) -- (210,240) ;
+%Straight Lines [id:da4220394126624911]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (88,181) -- (210.26,154.35) ;
+\draw [shift={(88,181)}, rotate = 347.7] [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ][fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.75]      (0, 0) circle [x radius= 2.34, y radius= 2.34]   ;
+%Shape: Rectangle [id:dp9150839162633834]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (311.6,160) -- (346,160) -- (346,194) -- (311.6,194) -- cycle ;
+%Image [id:dp4871405033106181]
+\draw (328.8,177) node  {\includegraphics[width=25.8pt,height=25.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+
+%Shape: Rectangle [id:dp8153393136177459]
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=0.45 ] (312.9,157.09) -- (342.23,157.09) -- (342.23,194.47) -- (312.9,194.47) -- cycle ;
+%Straight Lines [id:da7529808549768326]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (208,154) -- (328.85,182.59) ;
+\draw [shift={(328.85,182.59)}, rotate = 13.31] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]      (0, 0) circle [x radius= 2.34, y radius= 2.34]   ;
+%Shape: Ellipse [id:dp26881919866041726]
+\draw  [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ][dash pattern={on 0.84pt off 2.51pt}] (63.3,192.06) .. controls (51.39,161.77) and (73.54,124.71) .. (112.77,109.28) .. controls (152,93.85) and (193.45,105.9) .. (205.37,136.19) .. controls (217.28,166.47) and (195.13,203.53) .. (155.9,218.96) .. controls (116.67,234.39) and (75.21,222.35) .. (63.3,192.06) -- cycle ;
+%Image [id:dp7990623154835439]
+\draw (168,145.5) node  {\includegraphics[width=12.9pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Straight Lines [id:da4297672152509986]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (180.05,145.79) -- (210.26,154.35) ;
+\draw [shift={(210.26,154.35)}, rotate = 15.82] [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ][fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.75]      (0, 0) circle [x radius= 2.34, y radius= 2.34]   ;
+\draw [shift={(180.05,145.79)}, rotate = 15.82] [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ][fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.75]      (0, 0) circle [x radius= 2.34, y radius= 2.34]   ;
+
+% Text Node
+\draw (188.78,91.8) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {wall $\displaystyle i$};
+% Text Node
+\draw (101.16,192.85) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$\positionSource$};
+% Text Node
+\draw (153.84,146.3) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$\positionMicrophone$};
+% Text Node
+\draw (299.56,191.65) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$\mathring{\positionSource}$};
+
+\draw   (143.8, 176.37) circle [x radius= 5, y radius= 5]   ;
+\draw   (126.6, 175.02) circle [x radius= 5, y radius= 5]   ;
+\draw   (178.2, 195) circle [x radius= 5, y radius= 5]   ;
+\draw   (147.91, 212.96) circle [x radius= 5, y radius= 5]   ;
+\draw   (178.2, 195) circle [x radius= 5, y radius= 5]   ;
+\draw   (152.02, 177.87) circle [x radius= 5, y radius= 5]   ;
+\draw   (178.2, 195) circle [x radius= 5, y radius= 5]   ;
+\end{tikzpicture}
