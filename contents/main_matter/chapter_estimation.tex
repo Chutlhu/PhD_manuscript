@@ -129,7 +129,12 @@ However, in the case of signal with sparse frequency content (\eg/ speech or mus
 As discussed in~\cref{pt:background}, acoustic echoes can be identified as peaks in the early part of the \RIR/.
 In general, due to the measurement process, such peaks are not necessarily positive, thus, to better visualize them, the \textit{echogram}~\citeonly{kuttruff2016room}, $\magnitudeOf{\tilde{\rir}(t)}$, or the energy envelope\sidenote{
     The energy envelope of a signal is computed as the magnitude of its analytic representation, computed with the Hilbert transform.
-
+    For the signal $x$, its envelope is computed as
+    \begin{equation}\label{eq:estimation:hilbert}
+        e[n] =  \sqrt{x^2[n] + \calH\kbrace{x}^2[n]}
+        ,
+    \end{equation}
+    where $\calH\kbrace{\cdot}$ denotes Hilbert transform.
 }~\citeonly{schroeder1979integrated} are used instead.
 \\Provided a good estimation of the \RIRs/, the echoes' location and amplitudes could be extracted manually by experts.
 However, even in ideal scenario, the automation of this process and the correct identification of such quantities are not straightforward tasks.

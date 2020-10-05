@@ -1,20 +1,20 @@
-\begin{tabular*}{\linewidth}{lll}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lll@{}}
 \toprule
 Acronym & Description & Beamforming weights \\
 \midrule
-DS              & Align delayed copies of signal at the microphone
+DS              & Align delayed copies of the signal at microphones
                     &  $\bsW = \FLTS_\mathtt{DP} / \kvvbar{\FLTS_\mathtt{DP}} $ \\
-MVDR-DP         & $\min\; \khermitian{\bsW} \xpsd_{u} \bsW \quad \text{s.t.} \quad \khermitian{\bsW} \FLTS_\mathtt{DP} = 1$
+MVDR-DP        & $\min\; \khermitian{\bsW} \xpsd_{u} \bsW \quad \text{s.t.} \quad \khermitian{\bsW} \FLTS_\mathtt{DP} = 1$
                     &  $\bsW = \kinv{(\khermitian{\FLTS_\mathtt{DP}} \kinv{\xpsd}_{u}  \FLTS_\mathtt{DP})} \kinv{\xpsd}_{u}  \FLTS_\mathtt{DP}$\\
 MVDR-ReTF        & $\min\; \khermitian{\bsW} \xpsd_{u} \bsW \quad \text{s.t.} \quad \khermitian{\bsW} \FLTS_\mathtt{ReTF} = 1$
                     &  $\bsW = \kinv{(\khermitian{\FLTS_\mathtt{ReTF}} \kinv{\xpsd}_{u}  \FLTS_\mathtt{ReTF})} \kinv{\xpsd}_{u}  \FLTS_\mathtt{ReTF}$\\
-MVDR-Rake       & $\min\; \khermitian{\bsW} \xpsd_{u} \bsW \quad \text{s.t.} \quad \khermitian{\bsW} \FLTS_\mathtt{RAKE} = 1$
+MVDR-Rake*       & $\min\; \khermitian{\bsW} \xpsd_{u} \bsW \quad \text{s.t.} \quad \khermitian{\bsW} \FLTS_\mathtt{RAKE} = 1$
                     &  $\bsW = \kinv{(\khermitian{\FLTS_\mathtt{RAKE}} \kinv{\xpsd}_{u}  \FLTS_\mathtt{RAKE})} \kinv{\xpsd}_{u}  \FLTS_\mathtt{RAKE}$\\
 MVDR-DP-Late    & $\min\; \khermitian{\bsW} (\xpsd_{u} + \xpsd_{\mathtt{lr}}) \bsW \quad \text{s.t.} \quad \khermitian{\bsW} \FLTS_{\mathtt{DP}} = 1$
                     &  $\bsW = \kinv{(\khermitian{\FLTS_\mathtt{DP}} \kinv{(\xpsd_{u} + \xpsd_{\mathtt{lr}})}  \FLTS_\mathtt{DP})} \kinv{(\xpsd_{u} + \xpsd_{\mathtt{lr}})}  \FLTS_\mathtt{DP}$      \\
 MVDR-ReTF-Late   & $\min\; \khermitian{\bsW} (\xpsd_{u} + \xpsd_{\mathtt{lr}}) \bsW \quad \text{s.t.} \quad \khermitian{\bsW} \FLTS_{\mathtt{ReTF}} = 1$
                     &  $\bsW = \kinv{(\khermitian{\FLTS_\mathtt{ReTF}} \kinv{(\xpsd_{u} + \xpsd_{\mathtt{lr}})}  \FLTS_\mathtt{ReTF})} \kinv{(\xpsd_{u} + \xpsd_{\mathtt{lr}})}  \FLTS_\mathtt{ReTF}$   \\
-MVDR-Rake-Late  & $\min\; \khermitian{\bsW} (\xpsd_{u} + \xpsd_{\mathtt{lr}}) \bsW \quad \text{s.t.} \quad \khermitian{\bsW} \FLTS_{\mathtt{RAKE}} = 1$
+MVDR-Rake-Late*  & $\min\; \khermitian{\bsW} (\xpsd_{u} + \xpsd_{\mathtt{lr}}) \bsW \quad \text{s.t.} \quad \khermitian{\bsW} \FLTS_{\mathtt{RAKE}} = 1$
                     &  $\bsW = \kinv{(\khermitian{\FLTS_\mathtt{RAKE}} \kinv{(\xpsd_{u} + \xpsd_{\mathtt{lr}})}  \FLTS_\mathtt{RAKE})} \kinv{(\xpsd_{u} + \xpsd_{\mathtt{lr}})}  \FLTS_\mathtt{RAKE}$\\
 \bottomrule
 \end{tabular*}
