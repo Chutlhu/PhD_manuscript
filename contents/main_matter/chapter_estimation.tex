@@ -4,7 +4,7 @@
 \newthought{Synopsis}\synopsisChEstimation
 
 \section{Problem Formulation}\label{sec:estimation:problem}
-The continuos-time multi-channel signal model for a signal source and $I$ channels writes
+The continuous-time multi-channel signal model for one source signal $\tildes(t)$ and $I$ channels writes, for each channel $\idxMic$,
 \begin{equation}\label{eq:estimation:signalmodel}
     \begin{aligned}
         \tildex_i(t) &= (\tildeh_i \convCont \tildes)(t) \\
@@ -12,21 +12,21 @@ The continuos-time multi-channel signal model for a signal source and $I$ channe
     \end{aligned}
 \end{equation}
 where $\tildeh_i(t)$ is the echo model for the \RIR/ between the $i$-th channel and the source.
-The sum comprises the line-of-sight propagation and the earliest $\numEchs$ echoes we want to account for, while the error term $\varepsilon_i(t)$ collects later echoes and the reverberation tail.
+The sum comprises the line-of-sight propagation (direct path) and the earliest $\numEchs$ echoes we want to account for, while the error term $\varepsilon_i(t)$ collects later echoes and the reverberation tail.
 
 \mynewline
 \textsc{The \AERdef/ problem consists} in estimating the echoes' timings $\alltaus{i}$ and attenuations (or gains) $\allalphas{i}$ of~\cref{eq:estimation:signalmodel}.
-Depending on the field of research, the echoes's timings are also known as time delays, \TOAdef/ or locations.
-\\The term \AER/ is not an established name for such problem and, depending on the field of research and the prior knowledge available, it can be referred to with different name.
-In fact \AER/ can be seen as general case of \textit{\TOAs/ estimation}, or an instance of \textit{acoustic channel estimation} (or \textit{shaping}), \textit{spike retrieval} and \textit{onset detection}.
-As opposed to \AER/, the task of \TOAs/ Estimation, is only focused in estimating the echos' timings $\alltaus{i}$.
-The only knowledge of \TOAs/ is sufficient for typical application related to \SSL/ and \RooGE/.
-\\Moreover knowing $\alltaus{i}$, the attenuations $\allalphas{i}$ can be estimated in closed-from as showed in~\citeonly{condat2015cadzow}.
+Depending on the field of research, the echoes' timings are also known as time delays, \TOAdef/ or locations.
+\\The term \AER/ is not an established name for such problem and, depending on the field of research and the prior knowledge available, it can be referred to with different names.
+In fact \AER/ can be seen as a generation of \textit{\TOAs/ estimation}, or an instance of \textit{acoustic channel estimation} (or \textit{shaping}), \textit{spike retrieval} and \textit{onset detection}.
+As opposed to \AER/, the task of \TOAs/ estimation is only focused in estimating the echoes' timings $\alltaus{i}$.
+The only knowledge of \TOAs/ is sufficient for typical application related to \SSL/~\citeonly{ribeiro2010turning} and \RooGE/~\citeonly{crocco2017uncalibrated}.
+\\Moreover knowing $\alltaus{i}$, the attenuations $\allalphas{i}$ can be estimated in closed-form as showed in~\citeonly{condat2015cadzow}.
 \\\TOAs/ estimation is sometimes called \textit{time delays estimation}, when the origin of time is taken \wrt/ the first \TOA/ and not to the time of emission.
 Hereafter we will make distinction between the two.
-\\The \AER/ may be confused with the \textit{acoustic echo cancellation} problem of telecommunication and telephony which refers to the problem of estimating and suppressing feedbacks due to close speaker to microphone proximity.
+\\The \AER/ may be confused with the \textit{acoustic echo cancellation} problem in telecommunication and telephony which refers to the problem of estimating and suppressing feedbacks due to loudspeakers being too close to microphone.
 
-\section{Taxonomy on of Acoustic Echo Retrieval methods}\label{sec:estimation:taxonomy}
+\section{Taxonomy of Acoustic Echo Retrieval methods}\label{sec:estimation:taxonomy}
 
 In general, we can identify four main categories which differ on whether the source signal is known and on whether the estimation of the \RIR/ is performed.
 
@@ -34,15 +34,14 @@ In general, we can identify four main categories which differ on whether the sou
 \textit{Active} methods assume active scenarios, namely, they use one or more loudspeakers to probe the environment and one or more microphones to record the propagated probe sound.
 Therefore, they assume that the source reference signal is known.
 They falls into the big categories of \textit{deconvolution problems} since a ``clean'' reference signal is used \textit{deconvolve} the observed one.
-Two are the main advantages of these approaches.
+The main advantages of these approaches are twofold.
 First, provided a proper probe signal, a good estimation of the \RIR/ can be achieved.
 Second, these methods can be used on single-channel recordings.
 \\Instead, \textit{passive} approaches use sets of passive sensors to record the sound field.
-To decouple environment from the source, they rely either on prior knowledge about the source signal or by comparing the signals received at two (or more) spatially-separated microphones.
+To decouple the environment from the source, they rely either on prior knowledge about the source signal or by comparing the signals received at two (or more) spatially-separated microphones.
 The methods are also referred to as \textit{blind}, as the are source agnostic and are far more challenging.
-Passive scenarios are more common in real applications.
-A great deal of efforts has been devoted to these problems and research is still active in topic.
-Moreover, an obvious advantage is that these approaches are non-intrusive since only already existing sounds are used in the estimation.
+Passive scenarios are more common in real applications and are sometimes preferable to active ones as they are non-intrusive since only already existing sounds are used in the estimation.
+Therefore, a great deal of efforts has been devoted to these problems and research is still active in topic.
 % The latter is more challenging since, in general settings, theoretical ambiguities make this problem unsolvable~\citeonly{xu1995least, subramaniam1996cepstrum, tong1998multichannel}.
 
 \begin{figure}[h]
