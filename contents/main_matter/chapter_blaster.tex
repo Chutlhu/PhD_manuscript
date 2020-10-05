@@ -62,7 +62,7 @@ The proposed method is coined \emph{\BLASTERdef/} and requires no parameter tuni
 The method is compared to state-of-the art on-grid approaches under various noise and reverberation levels using simulated data.
 
 
-\section{Signal and measurement model}
+\section{Signal model}
 We consider here the common setup of stereophonic mixtures, that is 2-channel microphone recordings.
 Using the notation presented~\cref{ch:processing}, recorded signal at microphone $\idxMic\in\{1,2\}$ reads
 \begin{equation}
@@ -468,7 +468,7 @@ However, in practice, optimization over space of measures, still complicated bec
 % (unkike classical convex optimization)
 % step 7 and 15
 
-\newthoughtpar{From LASSO to BLASSO}
+\subsection{From LASSO to BLASSO}
 In order to better understand the proposed approach based on the \BLASSO/ algorithm, we can present it in light of the \LASSO/ formulation.
 \begin{gather*}
     \kargmin_u \tfrac{1}{2} \kvvbar{v - A u}_2^2 + \lambda \kvvbar{u}_1 \;\text{s.t.}\; u \geq 0\\
@@ -605,8 +605,21 @@ The parameters of such audio scene are then passed as input to the \pyroomacoust
 Note that when generating the data, no samples have been pruned to match any minimal separation condition.
 To generate the microphone signals, an over-sampled version of the source signal is convolved with ideal \RIRs/ at high frequency ($\Fs=1024$ kHz) made up of on-grid Dirac\textit{s}.
 The results are later resampled to meet the original $\Fs$ and Gaussian white noise is added to meet the given SNR value.
-\\Finally, as described throughout~\cref{ch:estimation}, \algoCrocco{} and \algoBsn{} uses tuned peak picking step to identity the echoes.
+
+\mynewline
+Finally, as described throughout~\cref{ch:estimation}, \algoCrocco{} and \algoBsn{} uses tuned peak picking step to identity the echoes.
 Here the same peak picking technique provided with reference implementation of these methods was used and tuned on a small validation set.
+
+
+\newthought{Quantitative results} are reported in ~\cref{fig:error_precision_snr_rt}, ~\cref{fig:error_precision_kecho} and ~\cref{tab:error_precision_thr}.
+Here, for both RMSE and precision and for both broadband and speech signal, the metrics are displayed against the dataset parameters.
+We observe that \algoBsn{} performs worst in all tested conditions, possibly due to its strong reliance on the peak picking step.
+For $\numEchs=7$ or higher, \algoBraire{} yields similar or slightly worse performance than \algoCrocco{} for the considered noise and reverberation levels, with decreasing performance for both as these levels increase.
+Using speech rather than broadband signals also yields worse results for all methods.
+However, the echo timing RMSE is significantly smaller using \algoBraire{} due to its off-grid advantage.
+We also note that \algoBraire{} significantly outperforms \algoCrocco{} on the task of recovering $\numEchs=2$ echoes.
+As showed in Tab.~\ref{tab:error_precision_thr}, in mild conditions ($\RT = 200$~ms, $\mathtt{SNR} = 20$~dB), up to 68\% of echoes can be retrieved by \algoBraire{} with errors lower than half a sample in that case.
+This is promising since the practical advantage of knowing the timing of two echoes per channel has been demonstrated in~\citeonly{di2019mirage} (See~\cref{ch:mirage}), and in~\citeonly{scheibler2018separake} (See~\cref{ch:separake}).
 
 \begin{figure}[ht]
     \centering
@@ -641,16 +654,6 @@ Here the same peak picking technique provided with reference implementation of t
     \includegraphics[width=\linewidth]{figures/blaster/p_k-7_thr-2_bns_crocco_blaster-peak_withRechoes.pdf}
     \end{sidecaption}
 \end{figure}
-
-\newthought{Quantitative results} are reported in ~\cref{fig:error_precision_snr_rt}, ~\cref{fig:error_precision_kecho} and ~\cref{tab:error_precision_thr}.
-Here, for both RMSE and precision and for both broadband and speech signal, the metrics are displayed against the dataset parameters.
-We observe that \algoBsn{} performs worst in all tested conditions, possibly due to its strong reliance on the peak picking step.
-For $\numEchs=7$ or higher, \algoBraire{} yields similar or slightly worse performance than \algoCrocco{} for the considered noise and reverberation levels, with decreasing performance for both as these levels increase.
-Using speech rather than broadband signals also yields worse results for all methods.
-However, the echo timing RMSE is significantly smaller using \algoBraire{} due to its off-grid advantage.
-We also note that \algoBraire{} significantly outperforms \algoCrocco{} on the task of recovering $\numEchs=2$ echoes.
-As showed in Tab.~\ref{tab:error_precision_thr}, in mild conditions ($\RT = 200$~ms, $\mathtt{SNR} = 20$~dB), up to 68\% of echoes can be retrieved by \algoBraire{} with errors lower than half a sample in that case.
-This is promising since the practical advantage of knowing the timing of two echoes per channel has been demonstrated in~\citeonly{di2019mirage} (See~\cref{ch:mirage}), and in~\citeonly{scheibler2018separake} (See~\cref{ch:separake}).
 
 \section{Conclusion}
 In this chapter we presented a novel knowledge-driven blind, off-grid echo retrieval method, based on the framework of continuous dictionaries.
