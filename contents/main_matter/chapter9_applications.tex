@@ -194,25 +194,36 @@ In audio, this topic was been extensively review in the context of speech enhanc
 \mynewline
 In Spatial filtering, the \RIRs/ (and related models, \eg/, \RTFs/, steering vectors or \ReTFs/) play a central role.
 Intuitively, giving the mixing model in~\cref{eq:application:mix}, the enhancement of a target source can be achieved by merely denoising the recordings and filtering by the inverting \RIRs/.
-However, this is not always possible for the following two reasons.
-First, there is a fundamental trade-off between denoising and filtering capabilities,
-which are related to the number of degree of freedom
-given by the number of microphones available.
-Second, the inversion of the \RIRs/ is not straightforward.\sidenote{
-    The work in~\citeonly{neely1979invertibility} discusses the issues of inverting \RIRs/.
-    Several techniques were investigated to overcome this problem, which is also known as Room Response Equalization~\citeonly{cecchi2018room}
-}.
+However, this is not always possible as the inversion of the \RIRs/ is not a straightforward operation.
+The work in~\citeonly{neely1979invertibility} discuss explicitly the issues of inverting \RIRs/.
+Later, several techniques were investigated, which are sometimes referred to as Room Response \textit{Equalization}~\citeonly{cecchi2018room}.
+% First, there is a fundamental trade-off between denoising and filtering capabilities, which are related to the number of degree of freedom imposed by the number of microphones available~\citeonly{VanTrees2004Optimum}
+% They can be exhausted by imposing unit- and null-gain directions constraints
+
 
 \newthought{Beamforming} is one of the most famous techniques used in Spatial filtering.
-The intuitive idea behind it is to sum the microphone channels constructively by compensating the time delays between the sound source and the spatially separated microphones~\citeonly{frost1972algorithm, van1988beamforming}.
+One of the most famous beamformer is the \ac{DS}.
+The intuitive idea behind it is to sum the microphone channels constructively by compensating the time delays between the sound source and the spatially separated microphones.
 Thus, the target source signal is enhanced, while noise, interferences, and reverberation being suppressed.
 \cref{fig:application:beamformers} illustrate this ideas.
-This idea has been extended to Frequency and Time-Frequency processing.
+Later, this idea has been extended to Frequency and Time-Frequency processing with direct modeling of the noise sources.
 More formally, beamformers design mathematical \textit{optimization criterion}, namely objective function, defining the desired shape of the estimated signal and return a filter to be applied to the microphone recordings.
 For instance, one may want to keep a unit gain towards the desired sound source's direction while minimizing the sounds from all the other directions.
 The literature on beamformers spans in two directions: different optimization criteria and how to estimate the parameters required by their computation.
+We will now elaborate the two directions in turn.
+\begin{figure}
+    \begin{sidecaption}[]{
+        Illustration of the \ac{DS} Beamforming in the time-domain applied to a pulse source signal.
+        The delays of the recorded signals at each microphone are compensated.
+        By summing the shifted signals, the source signal is enhanced.
+        Image courtesy of Robin Scheibler, author of ~\citeonly{scheibler2015raking}.
+    }[]
+        \centering
+        \includegraphics[width=\linewidth]{application/ds.png}
+    \end{sidecaption}
+\end{figure}
 
-\newthought{Many Beamformers Criteria} have been proposed.
+\newthought{Many beamformers criteria} have been proposed.
 Among all, some of the most famous are the \DStxt/, the \MVDRtxt/~\citeonly{capon1969high}, the \MaxSNRtxt/~\citeonly{cox1987robust}, the \MaxSINRtxt/~\citeonly{van1988beamforming}, and the \LCMVtxt/~\citeonly{frost1972algorithm}.
 These criteria are designed to satisfy different constraints and model prior knowledge, as discussed in~\cref{subsec:dechorateapp:beamformers}.
 The reader can also refer to the above-suggested book for more details.
@@ -224,23 +235,25 @@ Therefore, similarly to the methods for separation, we can group existing method
 \begin{itemize}
     \item (\textit{free and far field propagation}) methods based on relative steering vectors build on \DOA/ \citeonly{takao1976adaptive,applebaum1976adaptive,cox1987robust,van1988beamforming};
     \item (\textit{multipath propagation}) methods based on rake rake receiver\citeonly{flanagan1993spatially, Jan1995matched, Dockmanic2015raking, peled2013linearly, scheibler2015raking, Kowalczyk2019raking};
-    \item (\textit{reverberant propagation}) methods based on full acoustic channel estimation (See \cref{ch:estimation});
+    \item (\textit{reverberant propagation}) methods based on full acoustic channel estimation (see \cref{ch:estimation});
     \item (\textit{reverberant propagation}) methods based on \DOAs/ and the statistical modeling of the diffuse sound field, \citeonly{thiergart2013informed, schwartz2014multi};
     \item (\textit{reverberant propagation}) methods based \ReTF/~\citeonly{gannot2001signal, doclo2002gsvd, cohen2004relative, markovich2009multichannel};
     \item (\textit{reverberant propagation}) methods based on (deep) learning~\citeonly{li2016neural, xiao2016deep, sainath2017multichannel, ernst2018speech};
-\end{itemize}%kodrasi2017evd, markovich2018performance, schwartz2016joint}.
+\end{itemize}
+%kodrasi2017evd, markovich2018performance, schwartz2016joint}.
 The \acp{DOA}-based methods exploit the closed-form mapping between \DOAs/ and the steering vectors in far-field scenarios.
-Thus, good performances are possible only upon a reliable estimation of the \DOAs/ (See next section), a challenging problem in noisy and reverberant environments.
+Thus, good performances are possible only upon a reliable estimation of the \DOAs/ (see next section), a challenging problem in noisy and reverberant environments.
 The steering vectors' computation depends on the array geometry, which is unknown in some practical cases.
 Alternatively, one can estimate the full acoustic channels, which is a cumbersome task by itself.
 \\The \ReTF/-based approaches have been introduced to overcome these two limitations.
 They automatically encode the \RIRs/, the geometrical information, and are ``easier'' to estimate than the \RIRs/.
-The main limitation of these methods is that they return \textit{spatial source image} at the reference microphone, rather than the dry source signal.
+The main limitation of these methods is that they return \textit{spatial source image} at the reference microphone, rather than the ``dry'' source signal.
 Therefore, when reverberation is detrimentally affecting the speech signal's intelligibility, post-processing is necessary~\citeonly{schwartz2016joint}.
-\\Recently, \ac{DNN} have been proposed for solving this task, either to estimate the beamformer filter~\citeonly{li2016neural directly, xiao2016deep, sainath2017multichannel} or in an end2end task~\citeonly{ernst2018speech}
+\\Recently, \ac{DNN} have been proposed for solving this task, either to estimate the beamformer filter~\citeonly{li2016neural directly, xiao2016deep, sainath2017multichannel} or in an end-to-end task~\citeonly{ernst2018speech}
 Moreover, \ac{DNN} has been used to estimate some of parameters, such as the \DOAs/~\citeonly{salvati2018exploiting, chazan2019multi}, \ReTF/ estimation~\citeonly{chazan2018dnn}.
 
-\newthought{Early echoes}, in the literature thus far, are neither considered nor modeled as noise terms.
+
+\newthought{Early echoes} are neither considered nor modeled as noise terms in the literature discussed thus far.
 This direction is taken by the echo-aware methods accounting specifically for the multipath propagation.
 We will discuss these methods in more detail in chapter~\cref{ch:dechorateapp} together with their implementation.
 
@@ -251,19 +264,19 @@ We will discuss these methods in more detail in chapter~\cref{ch:dechorateapp} t
     \citeonly{rascon2017localization,argentieri2015survey}
     as well as in~\citeonly[Chapter 4]{vincent2018audio}.
 }
-\SSLdef/ consists in determining the position of sources from microphone recordings in the 3D space, typically in a passive scenario.
+\SSLdef/ consists in determining the distant and direction (or position) of sound sources from microphone (array) in the 3D space, typically in a passive scenario.
 As discussed above, the information on the sources' and microphones' position in the room is encoded in the \RIRs/.
 Therefore, assuming the uniqueness of the mapping between locations to a \RIR/, it is theoretically possible to retrieve the absolute position of microphones and sources, as show in~\citeonly{ribeiro2010turning, crocco2016estimation}.
 However,  this is yet a very challenging task, which typically involves the solution of several sub-problems.
 Therefore, it is more common to relax the \SSL/ problem as follows:
-First, rather than operating in the  3D cartesian coordinates, most of the existing methods aim at estimating 2-dimensional \DOAdef/, namely the angles for on the unit sphere with the center in a reference point.
+First, rather than operating in the  3D cartesian coordinate system, most of the existing methods aim at estimating 2-dimensional \DOAdef/, namely the angles for on the unit sphere with the center in a reference point.
 This reference point is usually the center of the microphone array.
 This angles are called \textit{azimuth} and \textit{elevation} as shown is~\cref{fig:application:doa}.
 Second, they assume far-field scenarios.
 The main reasons for adopting such simplifications are the followings:
 First, estimating the distance is known to be a much more challenging task than estimating the \DOAs/~\citeonly{vesa2009binaural}.
-Second, the task is decoupled from the more ambitious on room geometry estimation.
-Third, the far-field scenario is a reasonable assumption when using a compact array recording distant talking speech.
+Second, the task is easier from room geometry estimation, which is more ambitious.
+Third, the far-field scenario is a reasonable assumption when using a compact array recording distant sounds.
 Finally, in far-field settings, sometimes the only \DOAs/ are sufficient to achieve reasonable speech enhancement performances~\citeonly{gannot2017consolidated}.
 
 
