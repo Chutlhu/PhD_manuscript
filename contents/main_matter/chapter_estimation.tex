@@ -40,6 +40,10 @@ Second, these methods can be used on single-channel recordings.
 \\Instead, \textit{passive} approaches use sets of passive sensors to record the sound field.
 To decouple the environment from the source, they rely either on prior knowledge about the source signal or by comparing the signals received at two (or more) spatially-separated microphones.
 When no prior information is available, they can be seen related to \textit{blind problem} and are far more challenging.
+In the literature, the term blind is used as opposed to \textit{informed}, accounting the amount of prior information available.
+With this taxonomy, the above active methods are informed by the exact knowledge of the reference signal.
+On the contrary, passive methods need to rely on other general type of information such as sparsity, nonnegativity, \etc/.
+In general the labels ``'active \vs/ passive'' apply to the scenario, while ``informed \vs/ blind'' to the problem.
 Passive scenarios are more common in real applications and are sometimes preferable to active ones as they are non-intrusive since only already existing sounds are used in the estimation.
 Therefore, a great deal of efforts has been devoted to these problems and research is still active in topic.
 % The latter is more challenging since, in general settings, theoretical ambiguities make this problem unsolvable~\citeonly{xu1995least, subramaniam1996cepstrum, tong1998multichannel}.

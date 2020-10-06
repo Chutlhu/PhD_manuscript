@@ -1,23 +1,24 @@
-\begin{tabular}{p{0.30\linewidth} p{0.60\linewidth} p{0.10\linewidth}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllll@{}}
     \toprule
     Audio scene analysis problems & \textit{from the mixtures $\setMicSignals$, can we estimate...}  & Chapter\\
     \midrule
-    % Channel (or \RIR/) Estimation            & the filters $\setFltSignals$ ?                            & \cref{pt:estimation}\\
 
-    % Acoustic Echo Retrieval     & the early echoes' timings and gain accounted in $\setFltSignals$ ?     & \cref{pt:estimation}\\
+    Audio Source Separation     & \begin{tabular}[c]{@{}l@{}}the source signals $\setSrcSignals$ and\\ \hspace{1em} the filters $\setFltSignals$?\end{tabular}   & \cref{ch:separake}\\
 
-    % \RIR/ measurement           & the filters $\setFltSignals$, knowing $\setSrcSignals$ ?               & \cref{ch:dechorate}\\
-
-    % \hline
-
-    Audio Source Separation     & the source signals $\setSrcSignals$ and the filters $\setFltSignals$? & \cref{ch:separake}\\
-
-    % Speech Enhancement          & the signal of the $\idxSrc$-th target source $\src_{\idxSrc}$?        & \cref{ch:decharateapp}\\
-
-    Spatial filtering           & the source signals $\setSrcSignals$, knowing the filters $\setFltSignals$? & \cref{ch:decharateapp}\\
+    Spatial filtering           & \begin{tabular}[c]{@{}l@{}}the source signals $\setSrcSignals$,\\ \hspace{1em} knowing the filters $\setFltSignals$?\end{tabular} & \cref{ch:decharateapp}~\cref{sec:dechorateapp:se}\\
 
     Sound Source Localization   & the source positions $\setSrcPositions$?                              & \cref{ch:mirage}\\
 
-    Room Geometry Estimation    & the shape of the room?                                                & \cref{ch:decharateapp}\\
+    Room Geometry Estimation    & the shape of the room?                                                & \cref{ch:decharateapp}~\cref{sec:dechorateapp:rooge}\\
     \bottomrule
-\end{tabular}
+\end{tabular*}
+
+
+% Channel (or \RIR/) Estimation            & the filters $\setFltSignals$ ?                            & \cref{pt:estimation}\\
+
+% Acoustic Echo Retrieval     & the early echoes' timings and gain accounted in $\setFltSignals$ ?     & \cref{pt:estimation}\\
+
+% \RIR/ measurement           & the filters $\setFltSignals$, knowing $\setSrcSignals$ ?               & \cref{ch:dechorate}\\
+% Speech Enhancement          & the signal of the $\idxSrc$-th target source $\src_{\idxSrc}$?        & \cref{ch:decharateapp}\\
+
+    % \hline

@@ -95,7 +95,7 @@ The physical properties of real sources (\resp/ receivers) leads to \textit{dire
 be different at different frequencies.
 In this thesis we will assume omnidirectional sources and receivers.
 
-\subsection{The mixing process}
+\subsection{The mixing process}\label{subsec:processing:mixing}
 Let us assume the observed signal has $\numMics$ \textit{channels} indexed by $\idxMic \in \kbrace{1,\dots,\numMics}$.
 Let us assume that there are $\numSrcs$ sources indexed by $\idxSrc \in \kbrace{1,\dots,\numSrcs}$.
 Each microphone $\idxMic$ and each source $\idxSrc$ have a well defined position in the space, $\positionMicrophone_\idxMic$, $\positionSource_\idxSrc$, respectively.
@@ -560,7 +560,7 @@ Although mathematically exact, it is computationally and memory intensive.
 
 In this thesis, we will assume that the filter length is shorter than the analysis window length.
 In the literature, this is known as the \textit{narrowband approximation}, namely the time-domain filtering can be approximated by complex-valued multiplication in each time-frequency bin $[l,k]$:
-\begin{equation}
+\begin{equation}\label{eq:processing:narrow}
     \IMGS_j[l,k] \approx \hat{\FLTS}[k] \SRC_j[l,k]
     ,
 \end{equation}
