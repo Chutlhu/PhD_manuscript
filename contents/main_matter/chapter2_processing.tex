@@ -362,7 +362,7 @@ The upper bound to the possible value $\Fs$ is the results known as the Nyquistâ
 \mynewline
 Furthermore, we consider only the finite sequence $x_N$ consisting of $N$ samples.
 This would reduce the summation ranges the right part of~\cref{eq:processing:ft2dtft}.
-Instead, we can keep the infinite summation by multiplying the sampled signal by a discrete-time window function $\hat{w}$ selecting the non-zero porting of $x$, $x_N[n] = \hat{w}[n]x[n]$.
+Instead, we can keep the infinite summation by multiplying the sampled signal by a discrete-time window function ${w}$ selecting the non-zero porting of $x$, $x_N[n] = {w}[n]x[n]$.
 By the \textit{convolution theorem}, the multiplication in the time domain translates in a convolution between the corresponding spectra.
 As a consequence, the spectrum of the truncated signal is distorted by the spectrum of the window function.
 In math,
@@ -374,17 +374,17 @@ In math,
     \quad \leftrightarrow \quad
     \tilde{X}_{\Fs}( f) =
     \sum_{n = -\infty}^{\infty}
-    x[ n] \hat{w}[ n]
+    x[ n] {w}[ n]
     \cste^{-\csti2\pi f \frac{n}{\Fs}}
     .
 \end{equation}
 By the convolution theorem, we have that
 \begin{equation}
-    x_N[n] = x[ n] \hat{w}[ n]
+    x_N[n] = x[ n] {w}[ n]
     \quad \leftrightarrow \quad
     \tilde{X}_{N}(f) = (\tilde{X}_{\Fs} \convCont \tilde{W}_{\Fs})(f)
 \end{equation}
-where $\tilde{W}_{\Fs}$ is the \DTFT/ of the sampled window function $\hat{w}[n]$.
+where $\tilde{W}_{\Fs}$ is the \DTFT/ of the sampled window function ${w}[n]$.
 \\Assuming the window function to be an ideal door function\sidenote{door function here}, its \DTFT/ is a ideal low-pass filter, which acts on the original spectrum as a smoothing function.
 As a consequence, the quality of this approximation is then based on the spectral leakage of the chosen window function, $w[n]$.
 As a rule of thumb, here the longer the segment, the better the approximation%
@@ -417,7 +417,8 @@ In fact, sampling in one of the two domain is equivalent to a periodization in t
 Moreover, the chain of operation (sampling in time and truncation in time and sampling in frequencies) are valid in both way.
 Thus one can arbitrarily first sample and truncate frequency domain and finally sample in time.
 The only difference is in the interpretation of the windowing function, which in one case smooth the spectrum and in the other smooth the signal.
-All this relation and approximation that connects the \FT/ to the \DFT/ are well explained in explanatory material presented in~\sidenote{\url{https://krasjet.com/rnd.wlk/poisson.pdf}}.
+All this relation and approximation that connects the \FT/ to the \DFT/ are well explained in explanatory material
+{\href{https://krasjet.com/rnd.wlk/poisson.pdf}{Poisson Summation Formula, Revisited \ExternalLink}}.
 
 \mynewline
 The natural frequency $f_k$ in $\si{\Hz}$ corresponding to the $k$-th frequency bin can be computed as
@@ -434,15 +435,15 @@ Conscious of the above approximations, we can now rewrite our signal model for t
 Hereafter we will always consider finite-length sequences and the index $N$ will be dropped to lighten the notation.
 \\The \DFT/ is linear, so the discrete version of \cref{eq:processing:ft:mix} becomes
 \begin{equation}\label{eq:processing:dft:mix}
-    \hat{\mics}[ n] = \sum_{\idxSrc=1}^{\numSrcs} \hat{\imgs}_\idxSrc[ n]
+    {\mics}[ n] = \sum_{\idxSrc=1}^{\numSrcs} {\imgs}_\idxSrc[ n]
     \mathspace\overset{\discreteFT}{\kto}\mathspace
-    \hat{\MICS}[ k] = \sum_{\idxSrc=1}^{\numSrcs} \hat{\IMGS}_\idxSrc[ k]
+    {\MICS}[ k] = \sum_{\idxSrc=1}^{\numSrcs} {\IMGS}_\idxSrc[ k]
 \end{equation}
 Secondly, by using na\"ively the discrete convolution theorem, one could translate \cref{eq:processing:mixing:img} as
 \begin{equation}\label{eq:processing:discreteModel}
-    \hat{\img}_{\idxMicSrc}[n] = (\hat{\rir}_{\idxMicSrc} \convDis \hat{\src})[n]
+    {\img}_{\idxMicSrc}[n] = ({\rir}_{\idxMicSrc} \convDis {\src})[n]
     \mathspace\overset{\discreteFT{}}{\kto}\mathspace
-    \hat{C}_{\idxMicSrc}[k] = \hat{H}_{\idxMicSrc}[k] \hat{S}[k]
+    {C}_{\idxMicSrc}[k] = {H}_{\idxMicSrc}[k] {S}[k]
     ,
 \end{equation}
 where $\convDis$ is the finite-time linear convolution operator\sidenote{
@@ -450,11 +451,11 @@ where $\convDis$ is the finite-time linear convolution operator\sidenote{
     \\$(\hatu \convDis \hatv)[n] = \sum_{l=0}^{L-1} \hatu[l] \hatv[L-1+n-j]$ for $n = 0, \cdots, D-L$
     .
 }.
-\\The filter $\hat{H}_{\idxMicSrc}[k]$ is the \DFT/ of the room impulse response.
+\\The filter ${H}_{\idxMicSrc}[k]$ is the \DFT/ of the room impulse response.
 As mentioned in the~\cref{subsec:processing:ftapprox}, this just approximates the \RTF/ of~\cref{eq:processing:rtf}.
 Thus we can write,
 \begin{equation}\label{eq:processing:discreteModel:rir}
-    \hat{H}_{\idxMicSrc}[ k] \approx \sum_{\idxEch=0}^{\numEchs}
+    {H}_{\idxMicSrc}[ k] \approx \sum_{\idxEch=0}^{\numEchs}
                 \frac{\absCoeff_{\idxMicSrc}^r}{4 \pi \speedOfSound \tau_{\idxMicSrc}^r}
                 \cste^{- \csti 2 \pi k \Fs \tau_{\idxMicSrc}^r / F}
     .
@@ -476,30 +477,29 @@ The diagram shows a chain of operators (sampling and transforms) with provable a
 In order,
 \begin{enumerate}[label=(\roman*)]
     \item\label{it:processing:dft:approx1}
-    In~\citeonly{van2001gaussian}, the Proposition 2 shows that if the signal $\tilde{\src}(t)$ is band-limited by $\Fs$,
-    then sampling the continuous convolution is exactly equivalent to \textit{linearly convolving} the infinite discrete signal $\hat{\src}[n]$ and the discrete and low-passed version of the filter.
+    In~\citeonly[Proposition 2]{van2001gaussian} the authors show that if the signal $\tilde{\src}(t)$ is band-limited by $\Fs$,
+    then sampling the continuous convolution is exactly equivalent to \textit{linearly convolving} the infinite discrete signal ${\src}[n]$ and the discrete and low-passed version of the filter.
     While the source signal is band-limited by nature, $\tilde{h}(t)$ is not (in fact the \RIR/ is modeled as a summation of spikes, which has infinite spectrum).
-    Thus, the first approximation~\ref{it:processing:dft:approx1} considers $\hat{h}[n] \approx (\lowpassfilter \convDis \tilde{h})[n]$, in words
+    Thus, the first approximation~\ref{it:processing:dft:approx1} considers ${h}[n] \approx (\lowpassfilter \convDis \tilde{h})[n]$, in words
     we assume that the filter is band-limited by $\pm \sfrac{\Fs}{2}$.
     \\\citeauthor{tukuljac2018mulan} made an important observation here:
-    even if infinite number of samples are available, after the measurement process, the discrete-time filter $\hat{\rir}[n]$ consists of infinite-length decimated combinations of sinc functions.
+    even if infinite number of samples are available, after the measurement process, the discrete-time filter ${\rir}[n]$ consists of infinite-length decimated combinations of sinc functions.
     \\In the context of this thesis, this observation tell us that even in ideal conditions, that is without noise, possibly knowing the transmitted signal, and processing infinitely
-    many samples, the exact estimation of the echo properties of the \RIR/ is challenging task itself. This is a fundamental difference between \RIR/ estimation and estimating the
+    many samples, the exact estimation of the echo properties of the \RIR/ is a challenging task itself. This is a fundamental difference between \RIR/ estimation and estimating the
     time of arrivals of the early echoes.
     \\Note, for instance, that we wrote the echo model only in the continuous-time domain or with its closed-form form discrete frequencies.
-    The discrete-time domain was avoided on purpose since the echoes' arrival time are naturally off the sampling grid, namely not integer multiple $\Fs$.
+    The discrete-time domain was avoided on purpose since the echoes' arrival time are naturally off the sampling grid, namely they are not integer multiples of $\Fs$.
 
     \item\label{it:processing:dft:approx2}
     The discrete-time convolution theorem applies to the \textit{circular convolution}, which can be approximated by the \textit{linear convolution}
-    that is $(\hath \circledast \hats)[n] \approx (\hath \convDis \hats)[n]$.
+    that is $(h \circledast \hats)[n] \approx (h \convDis \hats)[n]$.
     This second approximation is reasonably good when many samples are available and when one of the two signals is periodic, which
     are typical cases for audio signals.
 
     \item\label{it:processing:dft:approx3}
-    The third approximation regards the closed-form of $h_{\idxMicSrc}(f)$ of~\cref{eq:processing:discreteModel:rir} which
+    The third approximation regards the closed-form of $\tildeH_{\idxMicSrc}(f)$ of~\cref{eq:processing:rir:ft} which
     would require infinitely many samples and unlimited frequency support to be computed\sidenote{This formula would results from the \DTFTdef/ of $\tilde{\rir}_{\idxMicSrc}(t)$}.
 \end{enumerate}
-
 Nevertheless, it is important to notice that approximations \ref{it:processing:dft:approx2} and \ref{it:processing:dft:approx3} become arbitrarily precise as the number of samples $N$ grows to infinity.
 
 \mynewline
@@ -510,14 +510,15 @@ In order to jointly account for both temporal and spectral characteristic, joint
 \subsection{Time-Frequency domain representation}\label{subsec:processing:stft}
 \TFdef/ representations aim to jointly describe the signal in the time and frequency domains.
 Instead of considering the entire signal, the main idea is to consider only a small section of the signal.
-To this end, one fixes a so-called \textit{window} function, $\hatw_N[n]$, which is nonzero for only a period of time $\winsize$ shorter than the entire signal length, $\winsize \ll N$.
+To this end, one fixes a so-called \textit{window} function, $w_N[n]$, which is nonzero for only a period of time $\winsize$ shorter than the entire signal length, $\winsize \ll N$.
 This function iteratively shifts and multiplies the original signal, producing consecutive \textit{frames}.
 Finally, the frequency information are extracted independently from each frame.
 The choice of a window function $w[n]$ depends on the application since its contribution reflects in the \TF/ representation together with the
 one of the signal.
 
-\newthought{The discrete \STFT/}\marginpar{\footnotesize%
-The \STFT/ was introduced by Dennis Gabor in the 1946, the person behind Holography and Gaborlets.
+\mynewline
+The discrete \STFT/\marginpar{\footnotesize%
+The \STFT/ was introduced by Dennis Gabor in the 1946, the person behind Holography.
 }
 is the most commonly used \TF/-representation in audio signal processing.
 This representation encodes the time-varying spectra into a matrix $X[k,l] \in \bbC^{F,T}$ with frequency index $k$ and time frame index $l$.
@@ -526,11 +527,9 @@ More formally, the process to compute the complex \STFT/ coefficients is given b
     X[k, l]  = \sum_{n=0}^{\winsize-1} w[n] x[n + l \hopsize] \cste^{- \csti 2 \pi k n / F} \mathspace\in\bbC
 \end{equation}
 where $\winsize$ is the window length and $\hopsize$ is the \textit{hop size} which specifies how much the window needs to be shifted across the signal.
-Equivalently, \cref{eq:processing:stft} can be expressed as \DFT/s of windowed frames, $X[k, l] = \discreteFT{x[n,l]}$ where $x[n,l] = x[n + l \hopsize] \hatw[n]$.
-
-Since each \STFT/ coefficient $x[k, l]$ lives in the complex space $\bbC$, the squared magnitude of the \STFT/, $\powerOf{\hatX[k,l]}$ is
-commonly used for visualization and for processing
-\marginpar{
+Equivalently, \cref{eq:processing:stft} can be expressed as \DFT/s of windowed frames, $X[k, l] = \discreteFT{x[n,l]}$ where $x[n,l] = x[n + l \hopsize] w[n]$.
+\\Since each \STFT/ coefficient $x[k, l]$ lives in the complex space $\bbC$, the squared magnitude of the \STFT/, $\powerOf{X[k,l]}$ is
+commonly used for visualization and for processing.\marginpar{
     \centering
     \footnotesize
     \includegraphics[width=\linewidth]{processing/py-speech_spectrogram.pdf}
@@ -539,23 +538,21 @@ commonly used for visualization and for processing
 }%\sidenote{The phase in some application is completely ignored because of difficult interpretation or commonly considered less informative with respect to the sound magnitude}.
 The resulting two-dimensional representation is called (log) \textit{spectrogram}.
 It can be visualized by means of a two-dimensional image, whose axes represent time frames and frequency bins.
-In this image, the (log) value $\powerOf{\hatX[k,l]}$ is represented by the intensity or color in the image at the coordinate $[k,l]$.
-Throughout this works both estimation and processing will be typically conducted in the \STFT/ domain, unless specified.
+In this image, the (log) value $\powerOf{X[k,l]}$ is represented by the intensity or color in the image at the coordinate $[k,l]$.
+Throughout this work processing will be typically conducted in the \STFT/ domain, unless specified.
 This is a common approach in the audio signal processing community, but it is not the only one:
-many algorithm are designed directly in the time domain or in alternatives \TF/ representation, \eg/ Mel-Scale, Filter-Banks, or the quadratic STFT transform used in~\cref{ch:brioche}.
-
-\marginpar{%
+many algorithm are designed directly in the time domain or in alternatives \TF/ representation, \eg/, Mel-Scale, Filter-Banks.\marginpar{%
     \vspace{-4cm}
     \footnotesize
     For more mathematical detailed description on \DFT/ and \STFT/ can be found in \citeonly{oppenheim1987signals}.
     For a audio-processing-oriented and music-processing-oriented explanation please refer to Chapter 2 of \citeonly{vincent2018audio} (Chapter2) and Chapter 2 of \citeonly{muller2015fundamentals}, respectively.
-}
-As discussed~\citeonly{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
+}%
+\\As discussed~\citeonly{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
 \begin{itemize}
     \item the frequencies $f_k$ is a linear function of the frequency bin $k$;
-    \item the resulting matrix allows easy treatment of the phase $\phaseOf{\hatX[k,l]}$, the magnitude $\magnitudeOf{\hatX[k,l]}$ and the power $\powerOf{\hatX[k,l]}$ separately;
+    \item the resulting matrix allows easy treatment of the phase $\phaseOf{X[k,l]}$, the magnitude $\magnitudeOf{X[k,l]}$ and the power $\powerOf{X[k,l]}$ separately;
     \item the \DFT/ can be efficienciently computed with the \FFT/ algorithm;
-    \item the \STFT/ is simple to invert;
+    \item the \STFT/ can be ``easily'' inverted (using the inverse of the \DFT/, overlap-add method and conditions on the windows);
     \item the \STFT/ inherits the linearity and convolution property of the \DFT/ under some condition about the length of the signals.
 \end{itemize}
 
@@ -580,11 +577,11 @@ Although mathematically exact, it is computationally and memory intensive.
 In this thesis, we will assume that the filter length is shorter than the analysis window length.
 In the literature, this is known as the \textit{narrowband approximation}, namely the time-domain filtering can be approximated by complex-valued multiplication in each time-frequency bin $[l,k]$:
 \begin{equation}\label{eq:processing:narrow}
-    \IMGS_j[l,k] \approx \hat{\FLTS}[k] \SRC_j[l,k]
+    \IMGS_j[l,k] \approx {\FLTS}[k] \SRC_j[l,k]
     ,
 \end{equation}
-where the $\hat{\FLTS}_j[k] = \ktranspose{\klist{\hat{\flt}_{1j}[k], \cdots, \hat{\flt}_{Ij}[k]}}$ is the $I \times 1$ vector of the \RTF/s for source $j$.
-It is sometimes practical to concatenate all these vectors into an $I \times J$ matrix $\hat{\FLTSS}[k] = \klist{\FLTS_1(f),\cdots,\FLTS_J(f)}$ called \textit{mixing matrix}.
+where the ${\FLTS}_j[k] = \ktranspose{\klist{{\flt}_{1j}[k], \cdots, {\flt}_{Ij}[k]}}$ is the $I \times 1$ vector of the \RTF/s for source $j$.
+It is sometimes practical to concatenate all these vectors into an $I \times J$ matrix ${\FLTSS}[k] = \klist{\FLTS_1(f),\cdots,\FLTS_J(f)}$ called \textit{mixing matrix}.
 
 With the above notation and considerations, mixing process including noise terms can be written in the \STFT/ domain compactly as:
 \begin{equation}\label{eq:processing:model:stfs}
@@ -622,7 +619,7 @@ Let us consider now only two channels and only one source signal in the model~\c
 Dropping the dependency on $j$ for readability and taking the first channel as reference, the \ReTFdef/ associated to the $i$-th channel is defined as
 the element-wise ratio of the (D)FTs of the two filters~\citeonly{gannot2001signal}
 \begin{equation}\label{eq:processing:rtf}
-    \hat{G}_i[k] = \frac{\hat{\FLT}_i[k]}{\hat{\FLT}_1[k]}
+    {G}_i[k] = \frac{{\FLT}_i[k]}{{\FLT}_1[k]}
     .
 \end{equation}
 
@@ -660,17 +657,17 @@ In particular:
 \end{itemize}
 
 In the general case of multiple microphone arrays ($I>2$) and multiple sources, the vector of \ReTFs/
-$\boldsymbol{G}_j[k] = \ktranspose{\klist{\hat{G}_ {1j}[k], \cdots, \hat{G}_{Ij}[k]}}$
+$\boldsymbol{G}_j[k] = \ktranspose{\klist{{G}_ {1j}[k], \cdots, {G}_{Ij}[k]}}$
 for the $j$-th source is defined as
 \begin{equation}
-    \hat{\bsG}_j[k] = \frac{1}{\hat{G}_{1j}[k]} \hat{\bsG}_j[k]
+    {\bsG}_j[k] = \frac{1}{{G}_{1j}[k]} {\bsG}_j[k]
     .
 \end{equation}
 
 
 \newthought{The relative steering vectors} are obtained by combining~\cref{eq:processing:steering,eq:processing:rtf} as
 \begin{equation}\label{eq:processing:relativesteering}
-    \hat{\bsD}_{j}[k] = \klist{
+    {\bsD}_{j}[k] = \klist{
                          1,
                          \cste^{-\csti 2 \pi f_k (\distMicSrc_{2j}-\distMicSrc_{i'j}) / \speedOfSound},
                          \ldots,
