@@ -13,20 +13,21 @@
 \newthought{Synopsis} \synopsisChSeparake
 
 \mynewline
-The material presented in the chapter results from a collaboration with Robin Scheibler and Ivan Dokmani\'{c} and wa published in~\cite{scheibler2018separake}.
+The material presented in this chapter results from a collaboration with Robin Scheibler and Ivan Dokmani\'{c} and was published in~\cite{scheibler2018separake}.
 This chapter recalls the main findings of the paper and brings additional insights on the literature and on the proposed model, which has been re-written using this thesis' notations.
-The personal contribution to this collaboration, done in the early months of the \PhD/, was the implementation in Python of the proposed \EMdef/-\NMF/ method accounting for echoes and using a pre-trained dictionary.
+The personal contribution to this collaboration, done in the early months of the \PhD/, was adapting and implementing in Python of the proposed \EMdef/-\NMF/ method accounting for echoes and using a pre-trained dictionary.
 
 \section{Literature review in Echo-aware Audio Source Separation}\label{sec:separake:sota}
 
-%%%% rewrite it ######################### #TODO: rewrite this section accoring to Antoines comments
 The scientific literature on audio source separation is vast, still active, and spans decades.
-The problem covers a huge number of scenario and use-cases, such as number of microphones (single- \vs/ multi-channel recordings),
-number of sources with respect to the number of channels (under- \vs/ over- \vs/ determined),
-type of observed signals (speech \vs/ music), type of recordings (artificial \vs/ microphone recordings) \etc/, and, of course, combination of them.
-In this chapter we will consider only the case of multichannel microphone recordings featuring reverberant speech data in overdetermined settings.
-Even selecting this narrow case, the literature remain vast and we will not review it in the context of this thesis.
-Instead, we will focus on multichannel source separation based on \acf{NMF}.
+The problem covers a huge number of scenarios and use-cases, such as, number of microphones (single- \vs/ multi-channel recordings), the number of sources with respect to the number of channels (under- \vs/ over- \vs/ determined), the type of observed signals (speech \vs/ music), type of recordings (artificial \vs/ microphone recordings) \etc/, and, of course, combination of them.
+In this chapter we will consider only the case of multichannel convolutive recordings featuring reverberant speech data in overdetermined settings.
+Even selecting this narrow case, the literature remain vast and we will not review it in the context of this thesis.\sidenote{
+    The interested reader can refers to~\citeonly{vincent2018audio,makino2018audio}.
+}
+
+\mynewline
+Here, we will focus on multichannel source separation based on \acf{NMF}.
 \ac{NMF} refers to a set of technique to model spectra of complex sounds by a sum of basic components.
 Modeling sound structure is beneficial for source separation, since it make separation possible in many challenging scenario.
 Moreover, this approach allows to easily incorporate side information on both the sources and the acoustic propagation as will be shown later in the chapter.
@@ -39,9 +40,9 @@ Here the \RIRs/ are modeled as \FIR/ filters following the multipath echo model.
 Secondly, the estimated filters are used to build the demixing matrix, and then to separate the sources with an inverse-filtering approach.
 However, this method exhibits an high computational cost, which was addressed later in~\citeonly{rotili2010joint}.
 Nevertheless these approaches were shown to lack robustness in low SNR conditions.
-\\Alternatively, the work in~\citeonly{asaei2014structured} proposes an geometry-based approach embedded in a sparse optimization framework.
-First, by localizing the image sources and estimating the room geometry, the supports of the \RIRs/' early contributions are estimated.
-Then, after computing the coefficient of the \RIRs/ element in a convex optimization framework, the individual speech signals are separated with either inverse-filtering or sparse recovery.
+\\Alternatively, the work in~\citeonly{asaei2014structured} proposes geometry-based approach embedded in a sparse optimization framework.
+First, by localizing the image sources and estimating the room geometry, the echoes' timings are estimated.
+Then, after computing the echoes' coefficients in a convex optimization framework, the individual speech signals are separated with either inverse-filtering or sparse recovery.
 The performance of this approach relies on the \RIR/ and geometry estimation steps, which are very sensitive to the challenging acoustic condition, \eg/ low SNR or high \RT.
 \\Instead, the work in \citeonly{leglaive2015multichannel} proposes to tackle the convolutive model by imposing a probabilistic prior on the early part of the \RIRs/, namely, modeled as an autoregressive process in the frequency domain.
 Later, the same authors extended this work in~\citeonly{leglaive2016multichannel} accounting for both early and late part of the mixing filters.

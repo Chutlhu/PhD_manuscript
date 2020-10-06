@@ -1,4 +1,4 @@
-\chapter{\dEchorate{} for Echo-aware Spatial Filtering and Room Geometry Estimation }\label{ch:dechorateapp}
+\chapter{Echo-aware Applications of \dEchorate{}}\label{ch:dechorateapp}
 
 % \openepigraph{Signal, a function that conveys information about a phenomenon.
 % $[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
@@ -114,14 +114,14 @@ where $\bbE[\cdot]$ denotes the expectation operator.
 Here $\xpsd^{\mathtt{lr}}_{\mic}$ and $\xpsd_{\nse}$ denote the \PSD/ matrices of the late reverberation and noise, respectively.
 We will describe each term in turn.
 
-\newthought{The source} \PSD/ matrix $\xpsd_\src$ is assumed here to be diagonal, since we assume that all the spatial information is expressed by the filters $\FLTSS$ and the source signals are independent to each other, that is,
+\newthought{The source} covariance matrix $\xpsd_\src$ is assumed here to be diagonal, since we assume that all the spatial information is expressed by the filters $\FLTSS$ and the source signals are independent to each other, that is,
 \begin{equation}
     \xpsd_\src = \sigma_\src^2 \bfI
     ,
 \end{equation}
 where $\bfI$ is the identity matrix of dimension $\numMics \times \numMics$ and $\sigma_\src^2 = \bbE\kbrace{\powerOf{\src}}$.
 
-\newthought{The late reverberation} \PSD/ matrix can be estimated using the time-invariant spatial coherent matrix model proposed in~\citeonly{kuster2012objective}, based a diffuse sound field model~\citeonly{kuttruff2009room}.
+\newthought{The late reverberation} covariance matrix can be estimated using the time-invariant spatial coherent matrix model proposed in~\citeonly{kuster2012objective}, based a diffuse sound field model~\citeonly{kuttruff2009room}.
 \begin{equation}\label{eq:dechorateapp:gamma}
     \xpsd^{\mathtt{lr}}_{\mic} = \sigma_\mathtt{lr}^2\mathbf{\Gamma}
     ,
@@ -138,7 +138,7 @@ where $\sigma_\mathtt{lr}^2$ denotes the power of the late reverberation and $\m
 This approach has been found successful in many dereverberation application~\citeonly{naylor2010dereverberation, cauchi2014joint, tammen2018iterative}.
 
 \newthought{The additive noise} is assumed to be stationary over the recording.
-Therefore its \PSD/ matrix can be easily estimated from the observation using non-speech segments.
+Therefore its covariance matrix can be easily estimated from the observation using non-speech segments.
 In a blind setting, this would require the usage of a voice activity detector.
 Alternatively, the noise component can be modeled as a stationary random process whose spatial covariance matrix can be estimated with advanced techniques.
 
@@ -171,7 +171,7 @@ where $\kvvbar{\cdot}$ denotes the Euclidean norm.
 \newthought{The \MVDRtxt/} beamformer optimizes the following criterion\sidenote{
     The \ac{MVDR} design is equivalent to the Minimum Power Distortionless Response (MPDR) beamformer which minimize the following
     \begin{equation*}
-        \bsW_{\MVDR} = \kargmin_{\bsW} \kbrace{ \khermitian{\bsW} \xpsd_x \bsW\;\text{s.t.}\;\khermitian{\bsW} \FLTS = 1}.
+        \bsW_{\mathtt{MPDR}} = \kargmin_{\bsW} \kbrace{ \khermitian{\bsW} \xpsd_x \bsW\;\text{s.t.}\;\khermitian{\bsW} \FLTS = 1}.
     \end{equation*}
     However, it exhibit higher sensitivity to misalignment errors than the MVDR beamformer~\citeonly[Section V.A]{gannot2017consolidated}.
 }
@@ -187,7 +187,7 @@ Therefore, the reduction of the output energy suppresses any external noise mode
                                 {\khermitian{\FLTS} \kinv{\xpsd}_{u} \FLTS}
     .
 \end{equation}
-Note that these techniques do not require any reference signal, only the knowledge of the source's filter $\FLTS$  and an estimate of the observed signal's \PSD/ matrix.
+Note that these techniques do not require any reference signal, only the knowledge of the source's filter $\FLTS$  and an estimate of the observed signal's covariance matrix.
 This criterion design can be easily extended to work with any type of noise and acoustic transfer functions modeled by $\xpsd_{\bfu}$ and $\FLTS$, respectively.
 
 \subsection{Noise, steering vectors, rake filters, and relative transfer functions}
@@ -224,7 +224,7 @@ Given the \RTF/ of the $\idxMic$-th channel $\bfh_\idxMic$, its \ReTF/ with resp
 In a reverberant environment, it contains both direct-path information and information representing early and late reverberations.
 More details are given in~\cref{subsec:processing:rtf}.
 
-\newthought{The noise contribution} is taken into account through the \PSD/ matrix $\xpsd_u$.
+\newthought{The noise contribution} is taken into account through the covariance matrix $\xpsd_u$.
 This term could potentially include every source of ``noise'', such as interfering sources, measurement noise as well as diffuse background noise.
 As long as the power spectral density of the modelled noise source is available, its suppression can be achieved by including it in $\xpsd_u$ and using it in~\cref{eq:dechorateapp:mvdr}. \sidenote{
     This type of criterion design is more properly known as \MaxSINRtxt/ or \MaxSNRtxt/ beamformers.
@@ -236,12 +236,12 @@ For instance,
     \xpsd_u = \xpsd_{\src_q} + \xpsd_{\nse}
     ,
 \end{equation}
-where the summands are the \PSD/ matrix of an interfering source $q$ and of the an independent background noise $\nse$.
+where the summands are the covariance matrix of an interfering source $q$ and of the an independent background noise $\nse$.
 \\Assuming stationarity of the noise sources, a na\"ive approach to estimate their contribution is to use voice activity detection or speaker diarization\sidenote{
     Speaker diarization is the problem of partitioning an audio signal into segments according to the source identities.
     In other words, it addresses the problem of ``who is speaking when''.
 } tools.
-If these excerpts are long enough, the whole \PSD/ matrix $\xpsd_u$, including both noise and interferer, is well approximated by its sampled version whose calculation is straightforward.
+If these excerpts are long enough, the whole covariance matrix $\xpsd_u$, including both noise and interferer, is well approximated by its sampled version whose calculation is straightforward.
 Alternatively, other designs can be used, for instance, in the \LCMVtxt/ beamformer, interference reduction is achieved using steering vectors for all interfering sources of the interfering source instead of their \PSD/ matrices.
 
 \newthought{The Late Reverberation} contribution $\xpsd_{\src}^{\mathtt{lr}}$ is not directly available in isolated audio segments as it is ``glued'' to the target signal.
@@ -272,7 +272,7 @@ In this work we evaluate the performance of echo-agnostic and echo-aware beamfor
 \mynewline
 In this work, the elements used to build the beamformers are estimated as follows:
 \begin{itemize}
-    \item the noise \PSD/ matrix, $\xpsd_{u} $, is estimated from 0.5~second excerpt of diffuse noise only audio segments (this is equivalent to having access to an ideal voice activity detector);
+    \item the noise covariance matrix, $\xpsd_{u} $, is estimated from 0.5~second excerpt of diffuse noise only audio segments (this is equivalent to having access to an ideal voice activity detector);
     \item the \ReTF/, $\FLTS_{\mathtt{ReTF}}$, is estimated from the observed signal using the \acf{GEVD} method described in~\citeonly{doclo2003robust};
     \item $\FLTS_{\mathtt{DP}}$, $\FLTS_{\mathtt{RAKE}}$ are computed using known relative delays and amplitudes available in the \DECHORATE/ dataset;
     \item the late reverberation power, $\sigma_{\mathtt{lr}}^2$, is estimated in closed-form knowing the filters $\FLTS$ and the noise \PSD/, as suggested in~\citeonly{schwartz2016joint}.

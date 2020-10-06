@@ -1,0 +1,73 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Image [id:dp5116901635904636]
+\draw (285,35) node  {\includegraphics[width=52.5pt,height=52.5pt]{figures/acoustics/iconfinder_ic_speaker_48px_352138.pdf}};
+%Shape: Pie [id:dp9269281566727151]
+\draw  [draw opacity=0][fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.5 ][line width=0.75]  (217.44,144) .. controls (245.87,149.19) and (265,158.89) .. (265,170) -- (170,170) -- cycle ;
+%Image [id:dp21540617717521193]
+\draw (130,170) node  {\includegraphics[width=15pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Image [id:dp04959753879622886]
+\draw (210,170) node  {\includegraphics[width=15pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Shape: Circle [id:dp9797421162410539]
+\draw  [dash pattern={on 4.5pt off 4.5pt}] (75,170) .. controls (75,117.53) and (117.53,75) .. (170,75) .. controls (222.47,75) and (265,117.53) .. (265,170) .. controls (265,222.47) and (222.47,265) .. (170,265) .. controls (117.53,265) and (75,222.47) .. (75,170) -- cycle ;
+%Straight Lines [id:da9179307270270968]
+\draw    (130,170) -- (210,170) ;
+\draw [shift={(170,170)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]      (0, 0) circle [x radius= 3.35, y radius= 3.35]   ;
+%Shape: Ellipse [id:dp7873261135563409]
+\draw  [dash pattern={on 0.84pt off 2.51pt}] (75,170) .. controls (75,153.43) and (117.53,140) .. (170,140) .. controls (222.47,140) and (265,153.43) .. (265,170) .. controls (265,186.57) and (222.47,200) .. (170,200) .. controls (117.53,200) and (75,186.57) .. (75,170) -- cycle ;
+%Straight Lines [id:da2893562936817369]
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (170,170) -- (278.06,42.29) ;
+\draw [shift={(280,40)}, rotate = 490.24] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+\draw [shift={(225,105)}, rotate = 490.24] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+%Shape: Ellipse [id:dp4824312053652168]
+\draw  [dash pattern={on 0.84pt off 2.51pt}] (120,170) .. controls (120,117.53) and (142.39,75) .. (170,75) .. controls (197.61,75) and (220,117.53) .. (220,170) .. controls (220,222.47) and (197.61,265) .. (170,265) .. controls (142.39,265) and (120,222.47) .. (120,170) -- cycle ;
+%Shape: Pie [id:dp2320682677889918]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.65 ] (212.49,119.91) .. controls (214.92,127.32) and (216.82,135.42) .. (218.11,144.01) -- (170,170) -- cycle ;
+%Curve Lines [id:da4795576794147278]
+\draw    (212.49,119.91) .. controls (226.17,123) and (263.67,140) .. (265,170) ;
+%Straight Lines [id:da07472806707306379]
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (75,170) -- (130,170) ;
+%Straight Lines [id:da6648429647480227]
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (210,170) -- (265,170) ;
+
+% Text Node
+\draw (231,174.4) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\theta _{\idxSrc}$};
+% Text Node
+\draw (220,127.4) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 155; green, 155; blue, 155 }  ,opacity=1 ]  {$\varphi _{\idxSrc}$};
+% Text Node
+\draw (211,187) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ]  {$\positionMicrophone_{2}$};
+% Text Node
+\draw (131,187) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ]  {$\positionMicrophone_{1}$};
+% Text Node
+\draw (281,64.4) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 0; green, 0; blue, 0 }  ,opacity=1 ]  {$\positionSource_{\idxSrc}$};
+% Text Node
+\draw (271,209.4) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\theta _{\idxSrc} \quad \text{azimuth}$};
+% Text Node
+\draw (271,229.4) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 155; green, 155; blue, 155 }  ,opacity=1 ]  {$\varphi _{\idxSrc} \quad \text{elevation}$};
+% Text Node
+\draw (247,84.4) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ]  {$r_{\idxSrc}$};
+% Text Node
+\draw (271,187.4) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ]  {$r_{\idxSrc} \ \quad \text{distance}$};
+% Text Node
+\draw (241,122.4) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 155; green, 155; blue, 155 }  ,opacity=1 ]  {$\textcolor[rgb]{0,0,0}{\alpha _{\idxSrc}}$};
+% Text Node
+\draw (271,247.4) node [anchor=north west][inner sep=0.75pt]
+    [font=\scriptsize,color={rgb, 255:red, 155; green, 155; blue, 155 }  ,opacity=1 ]  {$\textcolor[rgb]{0,0,0}{\alpha }\textcolor[rgb]{0,0,0}{_{\idxSrc} \quad \text{angle of arrival}}$};
+
+
+\end{tikzpicture}
