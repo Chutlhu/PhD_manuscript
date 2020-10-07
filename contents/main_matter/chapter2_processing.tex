@@ -29,7 +29,7 @@ Today signals are typically processed, stored and analyzed by computers as \text
 This corresponds to finite and discrete-time signal $x_\numSample$ obtained by periodically sampling the continuous-time signal $\tilde{x}$ at rate $\Fs\;[\si{\Hz}]$, truncate it to $\numSample$ samples.
 \marginpar{
     \footnotesize\itshape
-    Strickly speaking, the digital representation of a continuos signal involves sampling and quantization.
+    Strickly speaking, the digital representation of a continuous signal involves sampling and quantization.
     In this thesis we assume the sampled signals are real-valued, ignoring the \textit{quantization} process.}
 As common to most measurement models, we assume that the sampling process involves two steps:
 first, the impinging signal undergoes an ideal low-pass filter $\lowpassfilter$ with frequency support in $\kintervoc{\sfrac{-\Fs}{2}}{\sfrac{\Fs}{2}}$;
@@ -40,7 +40,7 @@ first, the impinging signal undergoes an ideal low-pass filter $\lowpassfilter$ 
 }
 then it time-support is regularly discretized, $t = n/\Fs$ for $n \in \Z$.
 This is expressed by
-\begin{equation}
+\begin{equation}\label{eq:processing:sampling}
     \mic[\idxSample] = \kparen{\lowpassfilter \convCont \tilde{x}}\kparen{\frac{n}{\Fs}} \in \R
     ,
 \end{equation}
@@ -228,7 +228,7 @@ The frequency, or spectral, representation is probably the most famous signal re
 Speech and music signals naturally exhibit pseudo-periodic behaviors (on well chosen time scale).
 In this domain, they are described as combination of sinusoids as function of their frequencies.
 % https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati
-\\This operation is achieved by the \FTdef/, $\fourierTrans{}$, which projects a continuous-time-domain square-integrable signal $\tilde{x}$ onto a space spanned by continuous-frequency complex exponentials:
+\\This operation is achieved by the operator \FTdef/, $\fourierTrans{}$, which projects a continuous-time-domain square-integrable signal $\tilde{x}$ onto a space spanned by continuous-frequency complex exponentials:
 \begin{equation}\label{eq:processing:ft}
     \tilde{X}(f) = (\fourierTrans{\tilde{x}})(f) =
         \int_{-\infty}^{+\infty}
@@ -279,7 +279,7 @@ In practice, we don't have access to continuous signals, neither in time nor in 
 Every signal or spectrum the microphones capture are represented by finite- and discrete time signals for which the properties~\eqref{eq:processing:conv} are valid only with some precautions.
 % That gives rise to the field of digital signal processing.
 
-\subsection{Discrete time and frequency domains}
+\subsection{Discrete time and frequency domains}\label{subsec:processing:dtft_dft}
 In case of discrete-time signal, $x[n]$ with $n \in \bbZ$ and frequency support in $[\sfrac{-\Fs}{2}, \sfrac{-\Fs}{2}]$, its spectral representation is given by the (forward) \DTFTdef/, $\dtft$:
 \begin{equation}\label{eq:processing:dtft}
     \tildeX_{\Fs}(f) = (\dtft{x})(f) =
@@ -288,7 +288,7 @@ In case of discrete-time signal, $x[n]$ with $n \in \bbZ$ and frequency support 
     \cste^{-\csti 2 \pi f n / Fs}
     ,
 \end{equation}
-which is a continuos function of $f$ with period $\Fs$.
+which is a continuous function of $f$ with period $\Fs$.
 Notice that the term ``discrete-time'' refers to the fact that the transform operates on discrete signal.
 When this samples are uniformly spaced at rate $\Fs$, it produces a function of continuous frequency that is a periodic summation of the continuous Fourier transform of the original continuous function.
 Under certain theoretical conditions, described by the \textit{sampling theorem}, both the original continuous signal $\tildex$ and its sampled version $x$ can be recovered perfectly from the \DTFT/.
@@ -320,23 +320,34 @@ $\discreteFT{}$:
 where $k \in \kintervcc{0}{F - 1}$ is the discrete \textit{frequency bin} and $F$ is the total number of bins.
 Again we use the subscript $F$ and the brackets $[k]$ to stress the finite and discrete frequency support of the $\DFT/$.
 Note that now the sampling frequency term disappeared from the definition of the operators and, in general, operates directly on ``sequences''.
-Therefore its link with the continuos \ac{FT} for continuous-time domain signal is not trivial and it will be discussed in the following section.
-\\Similarly to the \ac{FT} and the \ac{DTFT}, the convolution theorem can be defined for the \ac{DFT}, but with the following important modification.
-Let be two finite- and discrete-time domain signals $\src_N[n]$ and $\rir_L[n]$ of length $N$, and $L$ respectively.
-Then the convolution theorem for the \ac{DFT} writes
+Therefore its link with the continuous \ac{FT} for continuous-time domain signal is not trivial and it will be discussed in the following section.
+\\Similarly to the \ac{FT} and the \ac{DTFT}, the convolution theorem can be defined for the \ac{DFT} as well.
+However, it comes with following important modification.
+Let be two finite- and discrete-time domain \textit{periodic} signals $\dddot{\src}_N$ and $\dddot{\rir}_N$ of period $N$.
+Here $\dddot{\cdot}$ is used to denote periodicity.
+Let be $\SRC_F$ and $\FLT_F$ their \ac{DFT}, respectively, then the convolution theorem for the \ac{DFT} writes
 \begin{equation}\label{eq:processing:conv_dtft}
-    \img_M[n] = \kparen{\rir_L \circledast \src_N} [ n]
+    \dddot{\img}_N[n] = \kparen{\dddot{\rir}_N \circledast \dddot{\src}_N} [ n]
     \mathspace\overset{\discreteFT}{\kto}\mathspace
     \IMG_{F}[k] =  \FLT_{F}[k] \SRC_{F}[k]
     ,
 \end{equation}
+where $\convCir$ denotes the \textit{circular convolution}\sidenote{
+    The finite-time circular convolution for two vectors $u_N,v_N\in\bbR^N$ is the
+    $\dddot{q}_N = (u_N \convCir v_N)[n] = \sum_{m=0}^{N-1} u_N[m] \dddot{v}_N[n-m]$,
+    where $\dddot{v}_N$ is the periodic version of $v_N$ and $\dddot{{q}_N}$ is periodic.
+}. Note that now the results of the convolution, $\dddot{\img}_N[n]$, is periodic with period $N$.
+
 \subsection{The DFT as approximation of the FT}\label{subsec:processing:ftapprox}
 An important application of the \DFT/ is to approximate numerically the \FT/.
 As mentioned at the beginning of the chapter, with the discretisation process the continuous signal is periodically sampled, low-passed and finally truncated.
-It can be proved that sampling in the time domain corresponds to limiting the signal bandwidth and periodizing the spectrum.
-\\By assuming sampling at rate $\Fs$, in the continuos-frequency domain the spectrum $\tilde{X}(f)$ is repeated every internals of size $\Fs\,\si{\Hz}$ .
+It can be proved that sampling in the time domain corresponds to periodizing the signal spectrum with period equal to te sampling frequency.
+In order to avoid aliasing artifact, it is common to limit the signal bandwidth before the sampling (and using the lowpass filter in~\cref{eq:processing:sampling}).
+By assuming sampling at rate $\Fs$, in the continuous-frequency domain the spectrum $\tilde{X}(f)$ is repeated every intervals of size $\Fs\,\si{\Hz}$ .
 By further assuming that the signal undergoes an ideal low-pass filter, no spectral leakage is presents between each repetition.
-\\So far, the sampled time domain signal, $x[n]$, is mapped to the continuous frequency domain $\tilde{X}(f)$.
+
+\mynewline
+So far, the sampled time domain signal, $x[n]$, is mapped to the continuous frequency domain $\tilde{X}(f)$.
 This particular case of the \FT/ is called \DTFTdef/ and it is denote with $\tilde{X}_{\Fs}[ k]$.
 \begin{equation}\label{eq:processing:ft2dtft}
     \begin{aligned}
@@ -356,7 +367,7 @@ This particular case of the \FT/ is called \DTFTdef/ and it is denote with $\til
 Here the continuous integral the \FT/ is approximated by Riemann sum over the discrete points $n \in \Z$:
 To be more rigorous, when computing a Riemann sum approximation, the length of the discretisation interval multiply the summation.
 In our application, this quantity always set to $\Fs$ and for readability reason such term is dropped.
-\\The quality of this approximation \wrt/ the original continuous spectrum is regulated by the choice of $\Fs$: the higher $\Fs$, the better the approximation.
+The quality of this approximation \wrt/ the original continuous spectrum is regulated by the choice of $\Fs$: the higher $\Fs$, the better the approximation.
 The upper bound to the possible value $\Fs$ is the results known as the Nyquist–Shannon's sampling theorem.
 
 \mynewline
@@ -366,15 +377,15 @@ Instead, we can keep the infinite summation by multiplying the sampled signal by
 By the \textit{convolution theorem}, the multiplication in the time domain translates in a convolution between the corresponding spectra.
 As a consequence, the spectrum of the truncated signal is distorted by the spectrum of the window function.
 In math,
-\begin{equation}\label{eq:processing:ft2dtft}
-    \tilde{X}_N(f) =
-    \sum_{n=0}^{N-1}
-    x_N[n]
-    \cste^{-\csti2\pi f \frac{n}{\Fs}}
-    \quad \leftrightarrow \quad
+\begin{equation}\label{eq:processing:dft2dtft}
     \tilde{X}_{\Fs}( f) =
     \sum_{n = -\infty}^{\infty}
     x[ n] {w}[ n]
+    \cste^{-\csti2\pi f \frac{n}{\Fs}}
+    \quad \leftrightarrow \quad
+    \tilde{X}_N(f) =
+    \sum_{n=0}^{N-1}
+    x_N[n]
     \cste^{-\csti2\pi f \frac{n}{\Fs}}
     .
 \end{equation}
@@ -417,20 +428,12 @@ In fact, sampling in one of the two domain is equivalent to a periodization in t
 Moreover, the chain of operation (sampling in time and truncation in time and sampling in frequencies) are valid in both way.
 Thus one can arbitrarily first sample and truncate frequency domain and finally sample in time.
 The only difference is in the interpretation of the windowing function, which in one case smooth the spectrum and in the other smooth the signal.
-All this relation and approximation that connects the \FT/ to the \DFT/ are well explained in explanatory material
+All this relation and approximation that connects the \FT/ to the \DFT/ are well explained in this explanatory material
 {\href{https://krasjet.com/rnd.wlk/poisson.pdf}{Poisson Summation Formula, Revisited \ExternalLink}}.
-
-\mynewline
-The natural frequency $f_k$ in $\si{\Hz}$ corresponding to the $k$-th frequency bin can be computed as
-\begin{equation}\label{eq:processing:fk}
-    f_k = \frac{k}{F}\Fs
-    .
-\end{equation}
-
 
 % Through the use of microphones and computers, our window into the continuous physical world of acoustics is narrow and discrete, both it time and in frequency.
 
-\subsection{Signal model in the discrete Fourier domain}\label{sec:processing:fouriermodel}
+\subsection{Signal models in the discrete Fourier domain}\label{sec:processing:fouriermodel}
 Conscious of the above approximations, we can now rewrite our signal model for the discrete case.
 Hereafter we will always consider finite-length sequences and the index $N$ will be dropped to lighten the notation.
 \\The \DFT/ is linear, so the discrete version of \cref{eq:processing:ft:mix} becomes
@@ -447,64 +450,71 @@ Secondly, by using na\"ively the discrete convolution theorem, one could transla
     ,
 \end{equation}
 where $\convDis$ is the finite-time linear convolution operator\sidenote{
-    The finite-time linear convolution for two vectors $\hatu\in\bbR^L$ and $\hatv\in\bbR^D$ is
-    \\$(\hatu \convDis \hatv)[n] = \sum_{l=0}^{L-1} \hatu[l] \hatv[L-1+n-j]$ for $n = 0, \cdots, D-L$
+    The finite-time linear convolution for two vectors $u\in\bbR^L$ and $v\in\bbR^D$ is
+    \\$(u \convDis v)[n] = \sum_{l=0}^{L-1} u[l] v[L-1+n-l]$ for $n = 0, \cdots, D-L$
     .
 }.
 \\The filter ${H}_{\idxMicSrc}[k]$ is the \DFT/ of the room impulse response.
-As mentioned in the~\cref{subsec:processing:ftapprox}, this just approximates the \RTF/ of~\cref{eq:processing:rtf}.
-Thus we can write,
+As mentioned in the~\cref{subsec:processing:ftapprox}, this just approximates the true \RTF/ defined in the previous chapter.
+We recall that two approximation are involved: one concern that we model only a finite number of specular reflections; one concern sampling its \FT/.
+Nevertheless, we can use the closed-form frequency-domain echo model~\cref{eq:acoustics:ims:freq} to write the \RTF/'s \DFT/ in closed-form, that is
 \begin{equation}\label{eq:processing:discreteModel:rir}
-    {H}_{\idxMicSrc}[ k] \approx \sum_{\idxEch=0}^{\numEchs}
+    {H}_{\idxMicSrc}[ k] = \sum_{\idxEch=0}^{\numEchs}
                 \frac{\absCoeff_{\idxMicSrc}^r}{4 \pi \speedOfSound \tau_{\idxMicSrc}^r}
                 \cste^{- \csti 2 \pi k \Fs \tau_{\idxMicSrc}^r / F}
     .
 \end{equation}
+Then, the natural frequency $f_k$ in $\si{\Hz}$ corresponding to the $k$-th frequency bin can be computed as
+\begin{equation}\label{eq:processing:fk}
+    f_k = \frac{k}{F}\Fs
+    .
+\end{equation}
 
-\mynewline
-Although used in practice, the model~\eqref{eq:processing:discreteModel} makes use of other approximations that are worth presenting.
+\newthought{Although used in practice}, the model~\eqref{eq:processing:discreteModel} makes use of other approximations that are worth presenting.
 In particular, the work by~\citeonly{tukuljac2018mulan} properly discuss them in the context of the echo estimation problem.
 The paper mention three approximations, which are depicted in the following diagram.
-
 \begin{figure}[!h]
     \begin{fullwidth}
     \centering
     \input{figures/processing/approx_diagram.tikz}
     \end{fullwidth}
 \end{figure}
-
 The diagram shows a chain of operators (sampling and transforms) with provable and approximated equivalences that lead to~\cref{eq:processing:discreteModel} used in practice.
 In order,
 \begin{enumerate}[label=(\roman*)]
     \item\label{it:processing:dft:approx1}
     In~\citeonly[Proposition 2]{van2001gaussian} the authors show that if the signal $\tilde{\src}(t)$ is band-limited by $\Fs$,
-    then sampling the continuous convolution is exactly equivalent to \textit{linearly convolving} the infinite discrete signal ${\src}[n]$ and the discrete and low-passed version of the filter.
-    While the source signal is band-limited by nature, $\tilde{h}(t)$ is not (in fact the \RIR/ is modeled as a summation of spikes, which has infinite spectrum).
-    Thus, the first approximation~\ref{it:processing:dft:approx1} considers ${h}[n] \approx (\lowpassfilter \convDis \tilde{h})[n]$, in words
-    we assume that the filter is band-limited by $\pm \sfrac{\Fs}{2}$.
-    \\\citeauthor{tukuljac2018mulan} made an important observation here:
-    even if infinite number of samples are available, after the measurement process, the discrete-time filter ${\rir}[n]$ consists of infinite-length decimated combinations of sinc functions.
-    \\In the context of this thesis, this observation tell us that even in ideal conditions, that is without noise, possibly knowing the transmitted signal, and processing infinitely
-    many samples, the exact estimation of the echo properties of the \RIR/ is a challenging task itself. This is a fundamental difference between \RIR/ estimation and estimating the
-    time of arrivals of the early echoes.
-    \\Note, for instance, that we wrote the echo model only in the continuous-time domain or with its closed-form form discrete frequencies.
-    The discrete-time domain was avoided on purpose since the echoes' arrival time are naturally off the sampling grid, namely they are not integer multiples of $\Fs$.
+    then sampling the continuous convolution is \textit{exactly} equivalent to \textit{linearly convolving} the infinite discrete signal ${\src}[n]$ and the discrete and low-passed version of the filter.
+    However, while the source signal is band-limited by nature, the true \RIR/ $\tilde{h}^*(t)$ is not (in fact the \RIR/ is modeled as a finite summation of spikes, which has spectrum with infinite support).
+    Thus, the first approximation~\ref{it:processing:dft:approx1} considers ${h}[n] \approx (\lowpassfilter \convDis \tilde{h}^*)[n]$, in words we assume that the filter is band-limited by $\pm \sfrac{\Fs}{2}$.
 
     \item\label{it:processing:dft:approx2}
-    The discrete-time convolution theorem applies to the \textit{circular convolution}, which can be approximated by the \textit{linear convolution}
-    that is $(h \circledast \hats)[n] \approx (h \convDis \hats)[n]$.
-    This second approximation is reasonably good when many samples are available and when one of the two signals is periodic, which
-    are typical cases for audio signals.
+    As introduced in~\cref{subsec:processing:dtft_dft}, the discrete-time convolution theorem applies to the \textit{circular convolution} involving periodic signals.
+    This can be approximated by the \textit{linear convolution}, that is $(h \circledast \hats)[n] \approx (h \convDis \hats)[n]$ under some assumption.
+    In particular such an approximation is reasonably good when many samples are available and when one of the two signals is quasi-periodic, which are typical cases for audio signals.
 
     \item\label{it:processing:dft:approx3}
-    The third approximation regards the closed-form of $\tildeH_{\idxMicSrc}(f)$ of~\cref{eq:processing:rir:ft} which
-    would require infinitely many samples and unlimited frequency support to be computed\sidenote{This formula would results from the \DTFTdef/ of $\tilde{\rir}_{\idxMicSrc}(t)$}.
+    The third approximation regards the closed-form of the \RTF/, $\tildeH^*(f)$.
+    Here we make two strong assumptions:
+    first, the \RTF/ follows the echo model discussed in~\cref{eq:acoustics:ims:freq};
+    second, we used its closed-from \DTFT/ (\cref{eq:processing:discreteModel:rir}) at some frequency $f_k$ as its \DFT/.
+    In order to be computed exactly, this would require infinitely many samples and unlimited frequency support, which are not possible in practice.
 \end{enumerate}
-Nevertheless, it is important to notice that approximations \ref{it:processing:dft:approx2} and \ref{it:processing:dft:approx3} become arbitrarily precise as the number of samples $N$ grows to infinity.
+Nevertheless, it is important to notice that approximations \ref{it:processing:dft:approx2} and \ref{it:processing:dft:approx3} become arbitrarily precise as the number of samples $N$ grows to infinity~\citeonly{tukuljac2018mulan}.
+First, the \DFT/ approaches the \DTFT/ as $N\to\infty$ due to their definition (see~\cref{subsec:processing:dtft_dft}).
+Second, while the convolution theorem is exact for the \DTFT/, for the \DFT/ it is only for  considering the circular convolution on a finite-time signal (or, equivalently, considering periodic signals).
+Therefore, it is easy to notice that that when the period becomes infinite, the circular convolution and the linear convolution become arbitrarily close.
+In the approximation \ref{it:processing:dft:approx1}, limiting the \RIR/'s spectrum with an ideal lowpass filter introduces smearing in the time-domain.
+\citeauthor{tukuljac2018mulan} made an important observation in this regard:
+even if infinite number of samples are available, after the measurement process, the discrete-time filter ${\rir}[n]$ consists of infinite-length decimated combinations of sinc functions.
+In the context of this thesis, this observation tell us that even in ideal conditions, that is without noise, possibly knowing the transmitted signal, and processing infinitely many samples, the exact estimation of the echo properties of the \RIR/ is a challenging task itself.
+This is a fundamental difference between \RIR/ estimation and estimating the time of arrivals of the early echoes.
+Note, for instance, that we wrote the echo model only in the continuous-time domain or with its closed-form form discrete frequencies.
+The discrete-time domain was avoided on purpose since the echoes' arrival time are naturally off the sampling grid, namely they are not integer multiples of $\Fs$.
+This fundamental limitation is subject of research in the field of \textit{super-resolution} and it will discussed in~\cref{ch:blaster}.
 
 \mynewline
-While the raw audio signal encodes the amplitude of a sound as a function of time,
-its spectrum represents it as a function of frequency.
+While the raw audio signal encodes the amplitude of a sound as a function of time, its spectrum represents it as a function of frequency.
 In order to jointly account for both temporal and spectral characteristic, joint time-frequency representations are used.
 
 \subsection{Time-Frequency domain representation}\label{subsec:processing:stft}
@@ -536,23 +546,25 @@ commonly used for visualization and for processing.\marginpar{
     \captionof{figure}{STFT spectrogram of an example speech signal. Higher energies are illustrated with darker colors.}
     \label{fig:processing:spectrogram}
 }%\sidenote{The phase in some application is completely ignored because of difficult interpretation or commonly considered less informative with respect to the sound magnitude}.
-The resulting two-dimensional representation is called (log) \textit{spectrogram}.
-It can be visualized by means of a two-dimensional image, whose axes represent time frames and frequency bins.
-In this image, the (log) value $\powerOf{X[k,l]}$ is represented by the intensity or color in the image at the coordinate $[k,l]$.
-Throughout this work processing will be typically conducted in the \STFT/ domain, unless specified.
-This is a common approach in the audio signal processing community, but it is not the only one:
-many algorithm are designed directly in the time domain or in alternatives \TF/ representation, \eg/, Mel-Scale, Filter-Banks.\marginpar{%
-    \vspace{-4cm}
+The resulting two-dimensional representation is called (log) \textit{spectrogram}.\marginpar{%
     \footnotesize
     For more mathematical detailed description on \DFT/ and \STFT/ can be found in \citeonly{oppenheim1987signals}.
     For a audio-processing-oriented and music-processing-oriented explanation please refer to Chapter 2 of \citeonly{vincent2018audio} (Chapter2) and Chapter 2 of \citeonly{muller2015fundamentals}, respectively.
 }%
-\\As discussed~\citeonly{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
+It can be visualized by means of a two-dimensional image, whose axes represent time frames and frequency bins.
+In this image, the (log) value $\powerOf{X[k,l]}$ is represented by the intensity or color in the image at the coordinate $[k,l]$.
+Throughout this work processing will be typically conducted in the \STFT/ domain, unless specified.
+This is a common approach in the audio signal processing community, but it is not the only one:
+many algorithm are designed directly in the time domain or in alternatives \TF/ representation, \eg/, Mel-Scale, Filter-Banks.
+
+
+\mynewline
+As discussed~\citeonly{vincent2018audio}, the \STFT/ has the following useful properties for audio processing:
 \begin{itemize}
-    \item the frequencies $f_k$ is a linear function of the frequency bin $k$;
-    \item the resulting matrix allows easy treatment of the phase $\phaseOf{X[k,l]}$, the magnitude $\magnitudeOf{X[k,l]}$ and the power $\powerOf{X[k,l]}$ separately;
+    \item the frequency $f_k$ is a linear function of the frequency bin $k$;
+    \item the resulting matrix allows the computation of the phase $\phaseOf{X[k,l]}$, the magnitude $\magnitudeOf{X[k,l]}$ and the power $\powerOf{X[k,l]}$;
     \item the \DFT/ can be efficienciently computed with the \FFT/ algorithm;
-    \item the \STFT/ can be ``easily'' inverted (using the inverse of the \DFT/, overlap-add method and conditions on the windows);
+    \item the process to invert the \STFT/ is relatively easy (using the inverse of the \DFT/, overlap-add method with proper window functions);
     \item the \STFT/ inherits the linearity and convolution property of the \DFT/ under some condition about the length of the signals.
 \end{itemize}
 
@@ -560,12 +572,13 @@ many algorithm are designed directly in the time domain or in alternatives \TF/ 
     \begin{fullwidth}
     \centering
         \input{figures/processing/diagram_stft.tikz}
+        \caption{Illustration of the \STFT/.}
     \end{fullwidth}
 \end{figure}
 
 
 \subsection{The final model}\label{subsec:processing:model:stft}
-The model \eqref{eq:processing:discreteModel} shows how in practice the RIRs are treated in the frequency-domain.
+The model \eqref{eq:processing:discreteModel} shows how in practice the \RIRs/ are treated in the frequency-domain.
 However this does not generalize straightforwardly to the time-frequency domain:
 it depends on the length of the filter \wrt/ to the length of the analysis window on of the \STFT/.
 Issues arise with ``long'' filters, which are common in highly reverberant or time-varying scenarios.
@@ -574,6 +587,7 @@ It translates the time-domain convolution into inter-frame and inter-band convol
 }~\citeonly{gilloire1992adaptive}.
 Although mathematically exact, it is computationally and memory intensive.
 
+\mynewline
 In this thesis, we will assume that the filter length is shorter than the analysis window length.
 In the literature, this is known as the \textit{narrowband approximation}, namely the time-domain filtering can be approximated by complex-valued multiplication in each time-frequency bin $[l,k]$:
 \begin{equation}\label{eq:processing:narrow}
@@ -583,6 +597,7 @@ In the literature, this is known as the \textit{narrowband approximation}, namel
 where the ${\FLTS}_j[k] = \ktranspose{\klist{{\flt}_{1j}[k], \cdots, {\flt}_{Ij}[k]}}$ is the $I \times 1$ vector of the \RTF/s for source $j$.
 It is sometimes practical to concatenate all these vectors into an $I \times J$ matrix ${\FLTSS}[k] = \klist{\FLTS_1(f),\cdots,\FLTS_J(f)}$ called \textit{mixing matrix}.
 
+\mynewline
 With the above notation and considerations, mixing process including noise terms can be written in the \STFT/ domain compactly as:
 \begin{equation}\label{eq:processing:model:stfs}
     \MICS[l,k] = \FLTSS[l,k] \SRCS[l,k] + \bsU[l,k]
@@ -604,7 +619,7 @@ Furthermore, alternative models are common in the audio processing literature.
 
 \subsection{Steering vector model}\label{subsec:processing:steering}
 In the absence of echoes and reverberation, namely assuming free-field propagation,
-the \RIRs/ simplify to \textit{steering vectors}, namely the DFT of~\cref{eq:acoustics:greenFreeTime}:
+the \RIRs/ simplify to \textit{steering vectors}, namely the \ac{DFT} of~\cref{eq:acoustics:greenFreeTime}:
 \begin{equation}\label{eq:processing:steering}
     \bsD_{j}[k] = \klist{\frac{1}{4 \pi \distMicSrc_{1j}} \cste^{-\csti 2 \pi f_k \distMicSrc_{1j} / c},
                             \cdots,
@@ -616,13 +631,15 @@ inter-microphone distance $d_{ii'}$ making the attenuation factors $\sfrac{1}{4 
 
 \subsection{Relative transfer function and interchannel models}\label{subsec:processing:rtf}
 Let us consider now only two channels and only one source signal in the model~\cref{eq:processing:model:stfs}.
-Dropping the dependency on $j$ for readability and taking the first channel as reference, the \ReTFdef/ associated to the $i$-th channel is defined as
+Dropping the dependency on $j$ for readability and taking the first channel as reference, the \ReTFdef/\sidenote{
+    In the literature of spatial filtering, the Relative Transfer Function is typically denoted as RTF, which collides with the notation proposed in the thesis.
+    We reminds here that we use the following notation: \acf{RTF} and \acf{ReTF}.
+} associated to the $i$-th channel is defined as
 the element-wise ratio of the (D)FTs of the two filters~\citeonly{gannot2001signal}
 \begin{equation}\label{eq:processing:rtf}
     {G}_i[k] = \frac{{\FLT}_i[k]}{{\FLT}_1[k]}
     .
 \end{equation}
-
 The continuous-time domain counterpart is called as \ReIRdef/ and can be interpreted as the filter ``transforming'' the $i$-th impulse response into the one of the reference channel.
 Considering the noisy observation $\tilde{x}_i$ and $\tilde{x}_1$, their signals can be re-written in term of $\tilde{g}_i$ as follows
 \begin{equation}
@@ -640,22 +657,25 @@ Considering the noisy observation $\tilde{x}_i$ and $\tilde{x}_1$, their signals
 Notice that $\tilde{\rir}_i = \tilde{\rtf}_i \convCont \tilde{\rir}_1$ corresponds to~\cref{eq:processing:rtf} in the frequency domain.
 Moreover although the real-world \RIRs/ $h_1$ and $h_i$ are causal, their \ReTF/ needs not be so.
 
+\mynewline
 The \ReTFs/ benefits of several interesting properties that will be of fundamental importance for this thesis.
 In particular:
 \begin{itemize}
-    \item the \ReTF/ associated to the reference channel ($i = 1$) is equal to $1$ for each frequency bin $k$.
-    \item The problem of estimating the \ReTF/ can be considered ``easier'' than \RIRs/ estimation.
+    \item the \ReTF/ associated to the reference channel ($i = 1$) is equal to $1$ for each frequency bin $k$;
+    \item the problem of estimating the \ReTF/ can be considered ``easier'' than \RIRs/ estimation;
     In fact, in the noiseless case, it holds that $\tilde{\mic}_i = \tilde{\rtf}_i \convCont \tilde{\mic}_1$.
-    \item The \ReTFs/ encode properties of the related impulse responses and there are many efficient methods to estimate them\sidenote{%
-        In~\cref{ch:brioche} methods for estimation the ReTF will be discussed
-    }.
-    Therefore, it may be used as a proxy for the estimations of (components of) \RIRs/.
-    \item A \RIR/ can be seen as a special case of \ReTF/ where the non-reference microphone is a virtual one whose
-    output is the original (non-spatial) source signal $\src$. In fact, if $\rir_1 = \delta$ then $\rtf_i = \rir_i$\sidenote{%
-    In practice this virtual microphone is sometimes substituted by a microphone that is very close to the source.}.
-    \item As discussed below, \ReTFs/ simplify to special steering vectors in free- and far-field conditions, which have interesting geometrical properties.
+    Since $\tilde{\mic}_i$ and $\tilde{\mic}_1$ are both available, the \ReTF/ estimation boils down to transfer function estimation with known input signal;
+    \item in the literature, many efficient and robust methods have been proposed to estimate \ReTFs/~\citeonly{gannot2001signal,doclo2002gsvd,markovich2009multichannel,koldovsky2015sparse,kodrasi2017evd,tammen2018iterative};
+    \item a \RIR/ can be seen as a special case of \ReTF/ where the non-reference microphone is a virtual one whose
+    output is the original (non-spatial) source signal $\src$. In fact, if $\rir_1 = \delta$ then $\rtf_i = \rir_i$;\sidenote{%
+    In practice this virtual microphone is sometimes substituted by a microphone that is very close to the source.}
+    \item as discussed below, \ReTFs/ simplify to special steering vectors in free- and far-field conditions, which have interesting geometrical properties;
+    \item the \ReTF/ encodes acoustics properties of the related \RIRs/ and is independent on the source signal.
+    They can be used as \textit{features} for the estimations of parameter of the acoustic propagation.
+    Examples on this are many works in the Sound Source Localization domain (\eg/, ~\citeonly{laufer2013relative,deleforge2015acoustic,DiCarlo2019mirage}.
 \end{itemize}
 
+\mynewline
 In the general case of multiple microphone arrays ($I>2$) and multiple sources, the vector of \ReTFs/
 $\boldsymbol{G}_j[k] = \ktranspose{\klist{{G}_ {1j}[k], \cdots, {G}_{Ij}[k]}}$
 for the $j$-th source is defined as
@@ -677,10 +697,10 @@ for the $j$-th source is defined as
 where $(\distMicSrc_{\idxMicSrc}-\distMicSrc_{1j}) / \speedOfSound$ is the \TDOA/ between the $i$-th and the reference microphones.
 The \TDOAs/ will be the protagonists of~\cref{chap:mirage} as they are fundamental quantities for sound source localization.
 
-\newthought{\ReTFs/ estimate}
-Since~\citeonly{gannot2001signal}, many methods have been proposed to estimated it.
-A na\:ive way to estimated the \ReTF/ is perform the ratio between the \DFT/ of microphone pairs.
-Despite its simplicity, this methods yield estimated
+% \newthought{\ReTFs/ estimate}
+% Since~\citeonly{gannot2001signal}, many methods have been proposed to estimated it.
+% A na\:ive way to estimated the \ReTF/ is perform the ratio between the \DFT/ of microphone pairs.
+% Despite its simplicity, this methods yield estimated
 
 
 \newthought{In the context of spatial auditory perception} and \CASA/, the \ReTF/ is related to the \textit{interchannel cues}\sidenote{%
@@ -692,7 +712,6 @@ In fact, the \ReTFs/ encodes the so-called \ILD/ and the \IPD/
         \ipd_{\idxMicSrc}[k] &= \phaseOf{\rtf[k]} \mathspace       & [\si{\radian}]
     \end{aligned}
 \end{equation}
-
 As shown in~\cref{fig:processing:ildipd}, the \ILD/ and the \IPD/ cluster around the direct path, associated to the direct path component.
 However early echoes and reverberation make them significantly diverge.
 
@@ -712,3 +731,7 @@ However early echoes and reverberation make them significantly diverge.
 % Assume that the source STFT coefficients sj(n, f) have a zero-mean nonstationary Gaussian distribution with variance σ2
 % sj (n, f), and they are all independent source-,
 % frame- and frequency-wise (i.e., over j, n and f)
+
+\conclusion{In this chapter}, we presented the mathematical notions, notation, and tools to model audio scene analysis problems in signal processing.
+We particularly focused on the crucial approximations and assumptions that arise from the merging physical and signal processing models.
+As we conclude the part of the thesis dedicated to background knowledge, we will now focus on estimating acoustic echoes in~\cref{pt:estimation}, and how to use them for solving audio scene analysis problems \cref{pt:application}.

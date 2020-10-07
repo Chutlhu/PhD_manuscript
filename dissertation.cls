@@ -292,6 +292,14 @@
     {\llap{\color{black!50}\scriptsize\raisebox{1pt}{$\rightleftarrows$}\quad}}%
     \textsc{#1}%
 }
+\providecommand\conclusion[1]{%
+    \nopagebreak
+    \newthoughtbreak
+    \noindent%
+    %{\llap{\color{black!50}\scriptsize\raisebox{1pt}{$\overset{\text{\footnotesize\scrD}}{\rightleftarrows}$}\quad}}%
+    {\llap{\color{myorange}\scriptsize\raisebox{1pt}{\faAsterisk}\quad}}%
+    \textsc{#1}%
+}
 \providecommand\mynewline{%
     \nopagebreak
     \newthoughtbreak

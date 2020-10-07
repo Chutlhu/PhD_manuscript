@@ -800,12 +800,12 @@ Therefore, in the time domain, the \RIR/ associated to the source at position $\
         \frac{\bar{\absCoeff}_{\idxEch}}{4 \pi \norm{\positionMicrophone - \positionSource_\idxEch}}
         \diracOf{t - \frac{\norm{\positionMicrophone - \positionSource_\idxEch}}{\speedOfSound}}
 \end{equation}
-where $\positionSource_\idxEch$ is the $\idxEch$-th image of the source and $\bar{\absCoeff}_{\idxEch}$
-is the total frequency-independent\sidenote{Which is equivalent to consider perfectly rigid and reflective walls} damping coefficient related to the $\idxEch$-th image.
+where $\positionSource_\idxEch$ is the $\idxEch$-th image of the source and $\bar{\absCoeff}_{\idxEch}$ is the total frequency-independent\sidenote{Which is equivalent to consider perfectly rigid and reflective walls} damping coefficient related to the $\idxEch$-th image.
 Such coefficient accounts for all the dissipation effects encountered in the reflection path, \eg/ absorption, air attention and scattering.
 In the original formulation of the \ISM/, $\bar{\absCoeff}_{0} = 1$ is assumed for the direct propagation;
 while for the first order images, it coincides with the frequency-independent surface absorption coefficient of the surface.
 For the subsequent orders of images, the product of all the coefficient of the surfaces encounters in the reflection path is considered.
+In this thesis, we will refer to~\cref{eq:acoustics:ims:time} as the time-domain \textit{echo model}.
 
 \mynewline
 % The time-domain solution of the wave equation exhibits the physical essence of the echoes, that is a collection of attentions and delays.
@@ -819,7 +819,8 @@ each reflection term is appropriately scaled
         ,
 \end{equation}
 where now the $\idxEch$-th damping coefficient $\absCoeff_{\idxEch}$ is frequency dependent.
-Notice that now the damping coefficients correspond to filters, requiring~\cref{eq:acoustics:ims:time} to be written as sum of convolutions.
+In this thesis, we will refer to~\cref{eq:acoustics:ims:freq} as the frequency-domain echo model.
+\\Notice that now the damping coefficients correspond to filters, requiring~\cref{eq:acoustics:ims:time} to be written as sum of convolutions.
 This have a strong implication when modeling and estimating the \RIRs/ as stream of Dirac function.
 Ideally they consists of scaled Diracs with well defined time locations.
 The probability that two or more Diracs arrive at the same time is then very small.
