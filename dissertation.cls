@@ -248,10 +248,9 @@
   \marginpar{%
     \footnotesize
     \flushright%
-    %\justifying{%
     \enquote{\textit{#1}}%
-    %}%
-    \vspace{1em}
+    \vspace{1mm}
+    \linebreak
     {\raggedleft{\hfill{}---{#2}}}% author
   }
 }
