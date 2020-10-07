@@ -1,5 +1,8 @@
 \chapter{Echo-aware Reflective Reflection}\label{ch:conclusion}
-\openepigraph{I may not have gone where I intended to go, but I think I have ended up where I needed to be.}{Douglas Adams}
+\openepigraph{Some say the end is near.\\
+Some say we'll see Armageddon soon.\\
+Certainly hope we will.\\
+I sure could use a vacation from this [...]}{Tool, \textit{AEnema}}
 
 \vspace{-2.5em}
 \newthought{In this thesis}, we studied acoustic echoes for audio scene analysis and signal processing.
@@ -17,6 +20,7 @@ developing the two direction above. The support these two claims takes the form 
 
     \item A \textsc{Knowledge-driven Method for AER} dubbed \acs{BLASTER}.
     This approach enables direct and \textit{off-grid} estimation of echoes' properties in stereophonic passive recordings.
+    In particular, ``knowledge'' we used is the echo model for the early part of the \RIRs/.
     Due to its off-grid natures, it should overcome some theoretical limitation of on-grid methods.
     Although it is currently not outperforming the state-of-the-art, this investigation is motivated by theoretical guaranies.
 
@@ -40,23 +44,23 @@ developing the two direction above. The support these two claims takes the form 
     To this end, we conducted some preliminary studies on a real-world recordings using the microphone arrays of the Honda's Haru robots.
 
     \item the following \textsc{Libraries} for echo-aware processing:
-    \begin{itemize}
-        \item \library{dEchorate}\sidenote{
+    \begin{itemize}[label={\scriptsize\faCode}]
+        \item \library{dEchorate}\marginpar{
             \href{https://github.com/Chutlhu/dEchorate}{\library{dEchorate} \ExternalLink}
         } --- code for \acs{DECHORATE}, Room Impulse Response estimation and annotation.
-        \item \library{Risotto}\sidenote{
+        \item \library{Risotto}\marginpar{
             \href{https://github.com/Chutlhu/Risotto}{\library{Risotto} \ExternalLink}
         } --- a collection of state-of-the-art methods for estimation of Relative Impulse Response.
-        \item \library{Brioche}\sidenote{
+        \item \library{Brioche}\marginpar{
             \href{https://github.com/Chutlhu/Brioche}{\library{Brioche} \ExternalLink}
         } --- a collection of state-of-the-art beamforming including, but are not limited to, echoes.
-        \item \library{Blaster}\sidenote{
+        \item \library{Blaster}\marginpar{
             \href{https://gitlab.inria.fr/panama-team/blaster}{\library{Blaster} \ExternalLink}
         } --- code for \acs{BLASTER}, its results and related state-of-the-art methods.
-        \item \library{Separake}\sidenote{
+        \item \library{Separake}\marginpar{
             \href{https://github.com/fakufaku/separake}{\library{Separake} \ExternalLink}
         } --- code for \acs{SEPARAKE} including an Python implementation of the Matlab toolbox Multichannel NMF~\citeonly{ozerov2009multichannel} for audio source separation.
-        \item \library{pyMBSSLocate}\sidenote{
+        \item \library{pyMBSSLocate}\marginpar{
             \href{https://github.com/Chutlhu/pyMBSSLocate}{\library{pyMBSSLocate} \ExternalLink}
         } --- Python implementation of the Matlab toolbox MBSSLocate~\citeonly{lebarbenchon2018evaluation} for sound source localization.
 
@@ -69,18 +73,53 @@ Taken together, these contributions make a step forward in our ability to estima
 But much remains to be done.
 
 \section{Looking Ahead}
-In this final section, we elaborate on some research possibilities that arise as natural follow-ups to the topics discussed in this thesis.
+The work presented in this dissertation took a few steps toward echo-aware audio signal processing.
+Nevertheless, there are many issue and many potential areas of improvements in the methods presented here.
+Besides, it is clear that we have only scratched the surface of many problem related to echoes processing.
+In the following points, we elaborate on some short and long term research possibilities that arise as natural follow-ups to the topics discussed thus far.
 
-\subsection{Estimating Echoes}
 
-\subsection{Using Echoes for Audio Scene Analysis}
+\newthoughtpar{Estimating acoustic echoes}
+Recently it becomes clear to use that that estimating accurately the echoes for arbitrary scenario is a very challenging task.
+Using reasonable prior information, the problem can be easily relaxed, for instance knowing the geometry of the microphone array.
+The impact of the microphone array (and antenna) geometry is well studied in signal processing communities, such as in telecommunication and array processing.
+Therefore, the knowledge of the geometry can be used to extend echo model to closed-form steering vectors which depends both of the echo timing and direction of arrival.
+This might simply greatly the parameter space where the echoes are defined.
+Examples of this approach are the works in~\citeonly{jensen2019method} for active \acf{AER} and in \citeonly{Kowalczyk2019raking} where such a steering vectors are used.
+\\Besides this, we noticed also that a key parameter for \ac{AER} is the \textit{number} of such echoes.
+By knowing how many relevant reflection are presents in a received signal may drastically change the problem, as both objective function and algorithm can be simplified.
+This \textit{echo counting} problem can be then referred to existing line of research in the sparse representation, such as ...\citeonly{needArefrenceForKspare}.
+\\Another important line of study which did not pursue here is to use consider robust acoustic features or enhance the recorded sound with respect to noise and late reverberation, instead of the raw microphone signals.
+The most promising direction in this regard is to use the recent results on relative early transfer functions estimation.
+Relative early transfer function are transfer function accounting for the early part of the \ac{RTF} and are used to speech enhancement and in particular, dereverberation.
+\\Alternatively, statistical methods based on the parametrization of the reverberation in terms of \ac{RT$_{60}$} or \acf{DRR}.
+Particularly appealing are the works of~\citeauthor{leglaive2015multichannel} and~\citeauthor{badeau2019common} which define a framework to deal with early reflection with statistical model.
+This exploratory direction is also motivated by recent results in estimating this parameters blindly for microphone recordings~\citeonly{looney2020joint,bryan2020impulse}.
+As this parameters are depends on the spatial characterization of the audio scene, using them as prior knowledge may seems natural.
+
+\noindent Learning-based approach and especially \acf{DNN} are a powerful tools.
+Unfortunately their potential was not fully exploited in this work, but many exciting directions can be perused.
+On particular interest is the recent development in physics-driven neural networks~\citeonly{nabian2020physics,rao2020physics,jin2020physics},
+where physical-based layers and regularized are used to facilitate the learning.
+
+\newthoughtpar{Using echoes for audio scene analysis}
+A natural next s
 
 
-\subsection{Crossing the directions}
-Ultimately, the two parts of this dissertation should plug together.
+\newthoughtpar{Using the \dEchorate dataset and the other libraries}
+The main idea behind this dataset is to foster research in \ac{AER} and echo-aware on real data.
+A natural step is to use this data for the applications discussed in this thesis and particularly on \ac{AER}, for which this dataset was designed.
+Moreover, new line of research with deep neural networks and optimal transport, such as style transfer and domain adaptation could be envisioned.
+For instance, by using the pairs of simulated \vs/ real \RIRs/ available in the dataset, one could develop techniques to convert one to the other.
+Ideally, this approach could be at the basis on new type of learning-based acoustic simulators.
+
+
+\newthoughtpar{Crossing the directions}
+Ultimately, the two parts, estimation and application, of this dissertation should plug together.
 So far we only showed how from audio features is possible to estimate echoes and how from echoes is possible to estimated audio scene analysis information, \eg/ source content and location.
 This problem have an innate uroboric nature: where, what, when and how are connected --- the knowledge of one helps the estimation of the others, in a vicious (or maybe virtous) circle.
 Therefore it should be possible to build iterative schemes linking echo-estimation and echo-applications.
 
 \mynewline
 Thank you very much. I would like to be a bat, but I am a dog.
+\qed
