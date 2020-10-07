@@ -1,34 +1,34 @@
 \newcommand{\synopsisChAcoustics}{
     This chapter will build a first important bridge: from acoustics to audio signal processing.
-    It first defines sound and how it propagates in the environment~\cref{ch:acoustics:sec:wave}, teasing out the fundamental concepts of this thesis: the echoes.~\cref{ch:acoustics:sec:reflection} and the \RIRdef/~\cref{ch:acoustics:sec:rir}.
-    By assuming some approximations, the \RIR/ will be described in all its parts related to methods to compute them.
+    It first defines sound and how it propagates in the environment~\cref{ch:acoustics:sec:wave}, teasing out the fundamental concepts of this thesis: echoes.~\cref{ch:acoustics:sec:reflection} and \acfp{RIR}~\cref{ch:acoustics:sec:rir}.
+    By assuming some approximations, \acp{RIR} will be described by parts in relation to to methods to compute them.
     Finally, in~\cref{ch:acoustics:sec:perception}, how the human auditory system perceives reverberation will be reported.
 }
 \newcommand{\synopsisChProcessing}{
     Let us now move from physics to digital signal processing.
-    At first in~\cref{sec:processing:model}, this chapter formalizes fundamental concepts of audio signal processing such as signal, mixtures, and noise in the time domain.
-    In~\cref{sec:processing:domains}, we will present the signal representation that we will use throughout the entire thesis: the \STFTdef/.
-    Finally, after assuming the narrowband approximation, in~\cref{sec:processing:rirmodels}, some essential models for the \RIRdef/ are described.
+    At first, in~\cref{sec:processing:model}, this chapter formalizes fundamental concepts of audio signal processing such as signals, mixtures, filters and noise in the time domain.
+    In~\cref{sec:processing:domains}, we will present a fundamental signal representation that we will use throughout the entire thesis: the \STFTdef/.
+    Finally, in~\cref{sec:processing:rirmodels}, some essential models of the \ac{RIR} are described.
 }
 \newcommand{\synopsisChEstimation}{
-    This chapter aims to provide the reader with knowledge of the state-of-the-art of \AERdef/.
-    After presenting the \AER/ problem in~\cref{sec:estimation:problem}, the chapter is divided into three main sections:
-    \cref{sec:estimation:taxonomy} defines the categories of methods according to which the literature can be clustered and analyzed in detail later in~\cref{sec:estimation:sota}.
-    Finally, in~\cref{sec:estimation:datametrics} some datasets and evaluation metrics for \AER/ are presented.
+    This chapter aims to provide the reader with knowledge in the state-of-the-art of \acf{AER}.
+    After presenting the \ac{AER} problem in~\cref{sec:estimation:problem}, the chapter is divided into three main sections:
+    \cref{sec:estimation:taxonomy} defines the categories of methods according to which the literature can be clustered and analyzed in details later in~\cref{sec:estimation:sota}.
+    Finally, in~\cref{sec:estimation:datametrics} some datasets and evaluation metrics for \ac{AER} are presented.
 }
 
 \newcommand{\synopsisChBlaster}{
-    This chapter proposes a novel approach for \textit{off-grid} \AER/ from a stereophonic recording of an unknown sound source such as speech.
+    This chapter proposes a novel approach for \textit{off-grid} \ac{AER} from a stereophonic recording of an unknown sound source such as speech.
     In order to address some limitation of existing methods, we propose a new approach, named \BLASTER/.
-    It is built on the recent framework of \CDdef/, and it does not rely on parameter tuning nor peak picking techniques by working directly in the parameter space of interest.
+    It builds on the recent framework of \acf{CD}, and it does not rely on parameter tuning nor peak picking techniques by working directly in the parameter space of interest.
     The method's accuracy and robustness are assessed on challenging simulated setups with varying noise and reverberation levels and are compared to two state-of-the-art methods.
     While comparable or slightly worse recovery rates are observed for recovering seven echoes or more, better results are obtained for fewer echoes, and the off-grid nature of the approach yields generally smaller estimation errors.
 }
 
 \newcommand{\synopsisChLantern}{
-    As opposed to the previous chapter, in the following one, we propose a data-driven approach to estimate echoes properties.
+    As opposed to the previous chapter, here, we propose a data-driven approach to estimate echoes properties.
     Instead of using models derived by physics knowledge, we deploy supervised learning techniques to learn the mapping from observation to the quantities of interest.
-    To this end, the \AER/ problem is modeled as a regression problem for which we propose different solutions based on deep learning tools.
+    To this end, the \ac{AER} problem is modeled as a regression problem for which we propose different solutions based on deep learning tools.
     First, we study the simple case of estimating the arrival times of the direct path and the first strongest reflection for passive stereophonic recordings. Later we discuss how it is possible to generalize this approach to multiple echoes.
 }
 
@@ -40,17 +40,17 @@
 
 \newcommand{\synopsisChApplication}{
     In this chapter, we will present a selection of algorithms and methodologies which we identified as potential beneficiaries of echo-aware additions.
-    At first, in section~\cref{sec:application:scenario}, we present a typical scenario for defining some cardinal problems.
-    Therefore in section~\cref{sec:application:sota}, state-of-the-art approaches to address these problems are listed and commented, highlighting the relationship with some acoustic propagation models.
+    At first, in section~\cref{sec:application:scenario}, we present a typical scenario that highlights some cardinal problems.
+    Then, in section~\cref{sec:application:sota}, state-of-the-art approaches to address these problems are listed and commented, highlighting the relationship with some acoustic propagation models.
     The content presented here serves as a basis for a deeper investigation conducted in each of the following chapters.
 }
 
 \newcommand{\synopsisChSeparake}{
     In this chapter, echoes are used for emproving performance of classical Audio Source Separation methods.
     First, we describe existing methods that either ignore the acoustic propagation or attempt to estimate it fully.
-    Instead, these works investigate whether sound separation can benefit from the knowledge of early acoustic echoes.
+    Instead, this work investigates whether sound separation can benefit from the knowledge of early acoustic echoes.
     These echoes are derived from the known locations of a few \textit{image microphones}.
-    The improvements are shown for two variants of a method based on non-negative matrix factorization: one that uses only magnitudes of the transfer functions and uses the phases.
+    The improvements are shown for two variants of a method based on non-negative matrix factorization: one that uses only magnitudes of the transfer functions and one that uses the phases as well.
     The experimental part shows that the proposed approach beats its vanilla variant by using only a few echoes and that with magnitude information only, echoes enable separation where it was previously impossible.
 }
 
@@ -69,5 +69,5 @@
     This chapter presents two echo-aware applications that can benefit from the dataset \dEchorate.
     In particular, we exemplify the utilization of these data considering two possible use-cases: echo-aware speech enhancement (\cref{sec:dechorateapp:se}) and room geometry estimation (\cref{sec:dechorateapp:rooge}).
     This investigation is conducted using state-of-the-art algorithms described and contextualized in the corresponding sections.
-    In the final section (\cref{sec:dechorateapp:conclusion}), the main results are summarized, and future perspectives will be presented.
+    In the final section (\cref{sec:dechorateapp:conclusion}), the main results are summarized, and future perspectives are presented.
 }
