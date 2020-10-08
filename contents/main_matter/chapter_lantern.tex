@@ -13,55 +13,49 @@
 \newthought{Synopsis} \synopsisChLantern
 
 \mynewline
-This chapter is structured in two sections: one devotes to present a quick overview deep learning model and how to train them, and one discusses their application to echo estimation.
-The material concerning the first section are a personal digestion of material available in standard machine learning text book, such as~\citeonly{bishop2006pattern,goodfellow2016deep},
-and audio related ones~\citeonly{vincent2018audio,muller2015fundamentals}.
-We mention the recent comprehensive work of~\citeonly{purwins2019deep} on deep learning for general audio signal processing.
-In the second section present part of the previously published work~\cite{di2019mirage} and of a technical report~\cite{di2019honda}.
+Deep learning notions are personal digestion of materials available in standard machine learning textbooks, such as~\citeonly{bishop2006pattern,goodfellow2016deep}, and the recent comprehensive work of~\citeonly{purwins2019deep} oriented to audio signal processing.
+Instead, in the remaining sections, we will present part of the previously published work~\cite{di2019mirage} and a technical report~\cite{di2019honda} and on going research.
 
-\section{Introduction}
-Recently \acfp{DNN} have capture the attention of many research field, due to recent advances that allow for faster implementation and training, and considerable performance improvement.
+\mynewline
+It is essential to say that the approaches presented here are part of a first investigation in echo-aware \ac{SSL}.
+Therefore they are profoundly interconnected with~\cref{ch:mirage}, which can be considered a following up of the earlier work~\citeonly{gaultier2017vast} authored by colleagues.
+With that being said, we will mainly focus on a simple yet common scenario where we estimate only the first and strongest echo.
+The generalization to multiple echoes will only be discussed as future work.
+
+\section{Introduction}\label{sec:lantern:intro}
+Recently \acfp{DNN} has captured the attention of many research fields due to recent advances that allow for faster implementation and training, as well as for achieving considerable performance improvement.
 Therefore, \acp{DNN}s have been widely used in many domains.
 They belong to the class of \textit{supervised} learning or \textit{data-driven} models, where the training step is performed on labeled data, namely input-output pairs.
-The inclusion of these models in audio signal processing tasks has meant a considerable improvement in the performance, in particular audio and music source separation, speech enhancement, source localization (see  the related sections in~\cref{ch:application}).
-\\Moreover, respect to traditional machine learning methods, the use of deep learning models presents other advantages.
+The inclusion of these models in audio signal processing tasks has meant a considerable improvement in the performance, mainly audio and music source separation, speech enhancement, and source localization (see related sections in~\cref{ch:application}).
+\\Moreover, with respect to traditional machine learning methods, the use of deep learning models presents other advantages.
 They are flexible and adaptable across tasks; for instance, \acf{CNN}-based models from Computer Vision can be adapted for audio source separation (\eg/,~\citeonly{xiao2016deep, sainath2017multichannel, perotin2018crnn}), and for source localization(\eg/, ~\citeonly{chakrabarty2017broadband,vesperini2018localizing,nguyen2018autonomous,salvati2018exploiting}).
-Furthermore, \acp{DNN}s reduce --- even remove --- the step of designing hand-crafted feature, by including the feature learning as part of the learning process.
+Furthermore, \acp{DNN}s reduce --- even remove --- the step of designing hand-crafted features, by including the feature learning as part of the learning process.
 \\Other
 \marginpar{
     \itshape\footnotesize
-    As part of a first investigation in this thesis work, the \acf{GLLiM} framework was considered for echo estimation.
-    In fact, this thesis initially as a natural following up of the work~\citeonly{gaultier2017vast}.
-    Then, we oriented our attention towards \ac{DNN} models which gave already satisfactory results.
-    The highly non-linear nature of the mapping between echoes' properties and acoustic features which collides with the locally-linear assumption behind \ac{GLLiM}.
-    Nevertheless, we recognize other benefits of the \ac{GLLiM} framework which cannot be found in \ac{DNN}-based approach.
-    For instance, the ability of considering input missing data or including prior statistical information in the model.
-} supervised learning methods have been proposed in the literature of audio processing, such as \ac{GMM}-based frameworks~\citeonly{laufer2013relative,deleforge2015acoustic,gaultier2017vast}.
-This frameworks allows to build power models based on probabilistic prior knowledge and are compete with \ac{DNN} models in case of small training dataset.
-However they ofter require strong assumption of the nature of the mapping between input-output pairs, such as (local-)linearity or independency between the variables.
+    At first, the \acf{GLLiM} framework was considered to address the \ac{AER} problem. Then, we oriented our attention towards \ac{DNN} models, which gave already satisfactory results.
+    It seemed that the local-linearity assumption of \ac{GLLiM} was in contrast with the highly non-linear nature of the mapping between echoes and observation.
+    Nevertheless, we recognize other benefits in using the \ac{GLLiM} framework, which cannot be found in the \ac{DNN}-based approach, such as, the ability to generalize to missing data at the input or including prior statistical knowledge in the model.
+} supervised learning methods have been proposed in audio processing literature, such as \ac{GMM}-based frameworks~\citeonly{laufer2013relative,deleforge2015acoustic,gaultier2017vast}.
+This framework allows to build power models based on probabilistic prior knowledge and are competing with \ac{DNN} models in case of a small training dataset.
+However, they ofter require a strong assumption of the nature of the mapping between input-output pairs, such as (local-)linearity or independence between the variables.
 
 \mynewline
 The use of supervised learning models (not only the \ac{DNN}), presents some disadvantages.
-One of the most relevant ones is their dependence on annotated data.
-This is important bottleneck in audio signal processing task, because collecting and annotating comprehensive real-wold acoustic data is not trivial, since it requires proper tools, expertise and time.
-In order to overcome this issue, a standard approach nowadays is to used training data generated by acoustic simulators.
-We will refer to this approach as \textit{virtually supervised learning} and it provides a great versatility, for instance:
+One of the most relevant ones is their dependence on annotated data. It results in a significant bottleneck in audio signal processing tasks because collecting and annotating comprehensive real-world acoustic data is not trivial, since it requires proper tools, expertise, and time.
+To overcome this issue, a standard approach nowadays is to used training data generated by simulators.
+We will refer to this approach as \textit{virtually supervised learning} and it provides great versatility, for instance:
 \begin{itemize}
     \item many different acoustic condition can be include in the training data,\\\eg/, different \acf{RT$_{60}$} and \acf{SNR} levels;
     \item a precise (up to computer precision) annotation of the data come directly,\\\eg/ spatial, temporal information of the audio scene events;
     \item and finally, the data can be potentially re-used for different application,\\\eg/, localization, separation, diarization, \etc/;
 \end{itemize}
-Therefore, the simulators provide a direct mapping for the parameters of interest to synthetic observations, which learning-based models aim to invert.
-Besides, the solutions obtained in a data-driven fashion suffer from bias depending on the dataset used and may not be able to generalize to real-world scenario.
+Besides, the solutions obtained in a data-driven fashion suffer from bias depending on the dataset used and may not generalize to real-world scenarios.
 Interestingly, the work in~\citeonly{nguyen2018autonomous} discusses an automatic approach for collecting, annotating data automatically as a pre-calibration step.
-However, this approach is possible only with certain technology (the authors programmed a humanoid robot equipped with a binaural hearing system that build a training set automatically).
+However, this approach is possible only with specific technologies and applications (the authors programmed a humanoid robot equipped with a binaural hearing system that automatically builds a training set).
+The following section will gives a quick overview of relevant models used in our work.
 
-\mynewline
-The following sections gives a quick overview of relevant models used in our work with the intention of motivating the use for echo estimation.
-The review includes basic theory behind neural networks and deep learning, optimization and loss functions, as well as the aspects related to training on
-acoustic simulators.
-
-\section{Deep Learning Model}
+\section{Deep Learning Model}\label{sec:lantern:R1}
 
 \subsection{Multi-layer perceptions}\label{subsec:lantern:mlp}
 \acf{MLP} are simple and basic modules of \ac{DNN} and are also known as \textit{fully-connected} or \textit{dense layers}.
@@ -79,24 +73,24 @@ where
     \item and $\bfb\in\bbR^{\Dout}$ and $\bfW\in\bbR^{\Dout \times \Din}$ are the \textit{bias vector} and the \textit{weight matrix}, respectively.
 \end{itemize}
 The function $f(\cdot)$ is a non-linear \textit{activation} function, which allows the model to learn non-linear structures.
-Models built with these layers are typically used to map input to a representation space where problems (\eg/, classification and regression) can be addressed more easily.
-The main drawback of these simple models is that are not invariant to scaled or shifted input.
-Since in audio data, gain, temporal and frequency variations are common, they not suitable.
+Models built with these layers are typically used to map the input to a representation space where problems (\eg/, classification, and regression) can be addressed more easily.
+The main drawback of these simple models is that they are not invariant to scaled or shifted input.
+Since in audio data, gain, temporal, and frequency variations are common, they not suitable.
 Nevertheless, \acp{MLP} are used in combination with other type of layers, such as \acfp{CNN}, \acfp{RNN}.
 
 \newthought{Non-linear activation functions} are one of the key feature of \acp{DNN}.
-Thanks to these, the model are able to achieve more \textit{expressive power} with respect to linear models~\citeonly{goodfellow2016deep}.
-Without these functions, it can be shown that composition of affine transformations, is equivalent to a single affine transformation.
-Therefore, the activation functions make the model capable to accounts for more complex relationships between the input and the output than an affine transformation.
-Typical examples of these function are, for instance, hyperbolic tangent, the Sigmoid function, and \acf{ReLU}.
+Thanks to these, the model can achieve more \textit{expressive power} with respect to linear models~\citeonly{goodfellow2016deep}.
+Without these functions, it can be shown that the composition of affine transformations is equivalent to a single affine transformation.
+Therefore, the activation functions make the model capable of account for more complex relationships between the input and the output than an affine transformation.
+Typical examples of these functions are, for instance, hyperbolic tangent, the Sigmoid function, and \acf{ReLU}.
 
 \subsection{Convolutional neural networks}\label{subsec:lantern:cnn}
-The \ac{CNN} consists in convolutional layers that have been introduced to overcome some limitations of the simple linear ones.
-In a nutshell, the consists of learnable kernel functions that are convolved with their input.
+The \ac{CNN} consists of convolutional layers that have been introduced to overcome some limitations of the simple linear ones.
+In a nutshell, they consist of learnable kernel functions that are convolved with their input.
 Therefore, they are characterized by
 \begin{itemize}
     \item shift-invariance property, and can be used to reduce the model complexity since the same kernel can be used at different input location;
-    \item the ability to detect local structures at different level of abstraction in the network (see~\cref{fig:lantern:features}).
+    \item the ability to detect local structures at a different level of abstraction in the network (see~\cref{fig:lantern:features}).
 \end{itemize}
 Using a Python-like notation, a 2D-dimensional convolutional layer is defined by the following equation:
 \begin{equation*}
@@ -117,26 +111,26 @@ where
 \end{itemize}
 \ac{CNN} can be designed for either 1D or 2D convolution, or combination of them.
 In general, in audio 1D convolution layer are used to process the time-domain or frequency-domain input, whereas the 2D convolutional layer are used for time-frequency representation, such as spectrograms.
-The output of a convolutional layer consist of a collection local convolution operation which are typically referred to as \textit{feature map}.
+The output of a convolutional layer consists of a collection of local convolution operations, which are typically referred to as \textit{feature map}.
 It is common to use \ac{CNN} architectures combining multiple convolutional layers with \textit{pooling layers} in between.
 Pooling layers are used to down-sample the features map.
-Beside of reducing the model complexity (\ie/, number of free-parameters), pooling layer subsequently reduce the size of the data as the model goes ``deeper''.
-In this way deeper layers can integrate larger extents of the data and extract spatial (in the sense of the input dimensions) features at higher scale.
-The typical pooling operator are the \textit{max-pooling} and \text{mean-pooling} which samples non-overlapping patches by keeping the biggest and the average value in the region, respectively.
+In addition, to reduce the model complexity (\ie/, number of free-parameters), pooling layers subsequently reduce the size of the data as the model goes ``deeper''.
+In this way, deeper layers can integrate larger extents of the data and extract spatial (in the sense of the input dimensions) features at a larger scale.
+The typical pooling operator is the \textit{max-pooling} and \text{mean-pooling}, which samples non-overlapping patches by keeping the biggest and the average value in the region, respectively.
 
 \subsection{Hybrid architectures}
-As mentioned earlier, modern \ac{DNN} architectures consist of combination of different type of layers.
-For instance, \acp{CNN} are used to overcome the lack of shift and scale invariance the \ac{MLP} suffers and allows to extract spatial features.
+As mentioned earlier, modern \ac{DNN} architectures consist of a combination of different types of layers.
+For instance, \acp{CNN} are used to overcome the lack of shift and scale invariance that the \ac{MLP} suffers of, and allows to extract spatial features.
 In contrast, \acp{MLP} offers a simple mapping from big-dimensional space to smaller ones, suitable for classification and regression problems.
-Therefore hybrid architecture are now the standard for deep learning models.
+Therefore hybrid architectures are now the standard for deep learning models.
 
 \subsection{Learning and optimization}
 \newcommand{\params}{\ensuremath{\boldsymbol{\theta}}}
-Per se, the \ac{DNN} models consists of thousands of parameters $\params$.
-In order to learn to preform a specific task, such as regression or classification, they need to be optimized.
-To optimize the parameters $\params$, a variants of gradient descent algorithm is usually implemented.
+By its own, a \ac{DNN} model consists of thousands of parameters $\params$.
+In order to learn a specific task, such as regression or classification, they need to be optimized.
+To optimize the parameters $\params$, a variant of the gradient descent algorithm is usually implemented.
 A \textit{loss function} $\calL_{\params}(\hat{\bfY},\bfY)$ measure the difference between the predicted values $\hat{\bfY}$ and the desired on $\bfY$.
-The optimization processes then iteratively update the parameters $\params$ so the loss function is minimized, that is
+The optimization processes then iteratively update the parameters $\params$, so the loss function is minimized, that is
 \begin{equation*}
     \params \gets \params - \eta \knabla_{\params} \calL_{\params}(\hat{\bfY},\bfY)
     ,
@@ -145,14 +139,26 @@ where $\eta$ is referred to as \textit{learning rate} and accounts for how much 
 Due to the compositive structure of the \ac{DNN}, the gradient $\knabla_{\params} \calL_{\params}(\hat{\bfY},\bfY)$ is compute via the chain rule, using the \textit{back propagation} algorithm.
 \\The \textit{Stochastic Gradient Descent} is a variant of the gradient descent algorithm which has become the standard for training \acp{DNN} today.
 It was introduced to solve computational and memory load issues due to large training since it approximate the gradient at each step on a mini-bach of data samples.
-\\Another common practice in the optimization of \acp{DNN} is to use \textit{early stopping} criteria.
-This allows to stop the training upon some condition on the loss function, for instance, when it is not improving after certain amount of iterations.
-Finally, the early stopping can be computed on different metric then the one used for optimizing the network's parameters.
-As the loss function requires to be differentiable, some metrics cannot be directly optimized, but their performances can be determined a posteriori on a \textit{validation set} and used to avoid overfitting.
+Finally, we would like to mention the following common techniques used to avoid overfitting and speed up the convergence.
+\begin{itemize}
+    \item \textit{early stopping} allows to stop the training upon some condition on the loss function (or other metrics), for instance, when it is not improving after certain amount of iterations;
+    \item \textit{batch normalization} consists of scaling the data by estimating its statistics during training, which usually leads to better performance and faster convergence;
+    \item \textit{dropout} is a regularization technique for reducing overfitting and consists in randomly omit neural networks units during training.
+\end{itemize}
 
-\section{Learning-based Acoustic Echo Retrieval}
+\subsection{End-to-end and Hybrid approaches}
+The general scheme of \acp{DNN}-based approaches its one of the reasons for their success.
+Therefore they have been applied to solve many problems and at a different level of complexity.
+We can then identify to main tendencies in signal processing: end-to-end and hybrids approaches. The former attempts to address signal processing problems by getting rid of signal processing entirely as opposed to the latter.
+Although end-to-end architecture performs only marginally better than hybrid or other models, it is a common belief that soon they will outperform them~\citeonly[Chapter 19]{vincent2018audio}.
+
+\mynewline
+Nevertheless, in this chapter, we will propose a framework based on a hybrid approach:
+we will use \ac{DNN} to estimate echoes' properties, and later, in~\cref{ch:mirage}, we will use such quantities to address \ac{SSL} problem.
+
+\section{Learning the first echo}\label{sec:lantern:robust}
 As a first step, we will use \ac{DNN} to estimate the timings of the first and strongest echo from stereophonic recordings, \ie/ $\numEchs=1$.
-In order to disambiguate this reflection from the other, we consider a simplified scenario: close-surface scenario, shown in~\cref{fig:lantern:scene}.
+To this end, we consider a simple yet common scenario: two microphone placed close to a surface, as illustrated in~\cref{fig:lantern:scene}.
 \marginpar{%
     \centering
     \footnotesize
@@ -162,10 +168,12 @@ In order to disambiguate this reflection from the other, we consider a simplifie
         The illustration shows direct sound path (blue lines) and resulting first-order echoes (orange lines).}
     \label{fig:lantern:scene}
 }.
-This is motivated by the application to \acf{SSL} that will be discussed in~\cref{ch:mirage}.
-The reason why we consider only microphone-pair is that this approach can be generalize later to microphone array.
-In fact, by considering all the pairs, it is possible to aggregate all their estimation in a second step using the knowledge about the array geometry.
-Such an approach can be referred to the \ac{SRP-PHAT}~\citeonly{dibiase2001robust} algorithm used is \ac{SSL}.
+Such a scenario is motivated by the echo-aware \acf{SSL} application that will be discussed in~\cref{ch:mirage}.
+The reason why we consider only single microphone pairs is that this approach can be generalized to microphone array using data-fusion-line approaches.
+In fact, by considering all the pairs, it is possible to aggregate all their estimation a second moment.\sidenote{
+    An example of this approach is the \ac{SRP-PHAT}~\citeonly{dibiase2001robust} algorithm used is \ac{SSL} which uses
+    the knowledge of the microphone array geometry to aggregate the contribution of each microphone pair.
+}
 In the remaining part of this chapter, we will discuss how to achieve robust first-echo estimation and how it could be generalized to multiple echoes.
 
 \subsection{Simple Case: $\numEchs = 1$}
@@ -198,6 +206,7 @@ Here $\kRe\set{\cdot}$ and $\kIm\set{\cdot}$ denote real and imaginary part oper
 Note that for the \ac{IPD}, the frequency $k=0$ is discarded because it is constant for every observation.
 
 \mynewline
+\newcommand{\setTDOA}{\ensuremath{\set{\mathtt{TDOA}, \mathtt{iTDOA}, {\mathtt{TDOE}_1}}}}
 Initial investigation shown that learning directly the echoes arrival time and their amplitude yield huge estimation error, probable to the complexity of the task.
 Motivated by the application in \ac{SSL} discussed in~\cref{ch:mirage}, we consider only the \acfp{TDOA} between the direct path propagation.
 \begin{align}
@@ -215,7 +224,7 @@ These three quantities are directly connected to \RIRs/, as illustrated in~\cref
     Superposition of two \acp{RIR} and visualization of time difference of arrival between direct paths (\ac{TDOA}), first echoes (\ac{iTDOA}) and direct path and first echo (\ac{TDOE}).}
 \label{fig:lantern:rirs_tdoa}
 }. Let $V = \klist{\tau_{\mathtt{TDOA}}, \tau_{\mathtt{iTDOA}}, \tau_{\mathtt{TDOE},1}}\in\mathbb{R}^3$ be the vector of the parameters of interest
-and $\calV = \set{\mathtt{TDOA}, \mathtt{iTDOA}, \mathtt{TDOE}_1}$ the set of corresponding labels.
+and $\calV = \setTDOA$ the set of corresponding labels.
 
 \mynewline
 In general, the mapping between $V$ and the proposed feature is not unique.
@@ -228,16 +237,16 @@ This model consists of a $D$-dimensional input layer, a 3-dimensional output lay
 \ac{ReLU} activation functions are used except at the output layer, and each hidden layer has a dropout probability $p_\text{do} = 0.3$ to prevent overfitting.
 \\We use the mean square error loss function for training, that is,
 \begin{equation}\label{eq:lantern:mlploss}
-    \calL_\theta(V, \hat{V)} = \frac{1}{|\calV|} \sum_{b\in\calB} \sum_{v\in\calV} \powerOf{\tau_{v, b} - \hat{\tau}_{v, b}}
+    \calL_\theta(V, \hat{V)} = \frac{1}{|\calV|} \sum_{b\in\Xi} \sum_{v\in\calV} \powerOf{\tau_{v, b} - \hat{\tau}_{v, b}}
 \end{equation}
-where $e$ indexes one of \ac{TDOA} in $\calV$, $b$ indexes of an observation in the mini-batch $\calB$, and $\theta$ are the model parameters.
+where $e$ indexes one of \ac{TDOA} in $\calV$, $b$ indexes of an observation in the mini-batch $\Xi$, and $\theta$ are the model parameters.
 
 \mynewline
-The \acf{nRMSE} is taken as validation metric\sidenote{
+The \acf{nRMSE}\sidenote{
     The ac{nRMSE} takes values between $0$ (perfect fit) and $\infty$ (bad fit).
     If it is equal to $1$, then the prediction is no better than a constant.
     It is typically chosen because it is more robust to outliers than \ac{RMSE}.
-} for assessing the quality of the estimation $\hat{V}$.
+}is taken as validation metric for assessing the quality of the estimation $\hat{V}$.
 The network is manually tuned on a validation set to find the best combination of number of hidden layers, their sizes and $p_\text{do}$.
 
 \mynewline{For training and validation} of the \ac{MLP} we generate many random, shoe-box room configurations using the software presented in \citeonly{schimmel2009fast}.
@@ -295,8 +304,8 @@ However, it was shown that as soon as the acoustic condition become challenging 
 
 \mynewline
 \ac{TDOA} estimation errors using the proposed approach and \ac{GCC-PHAT} are presented in~\cref{tab:lantern:tdoas-aoa}.
-Training a \ac{MPL} to estimate \acp{TDOA} brings similar performances as \ac{GCC-PHAT} in terms of nRMSE.
-However, the estimation of \ac{iTDOA} and \ac{TDOE} seems to be a harder task for the such a simple \ac{MPL} model.
+Training a \ac{MLP} to estimate \acp{TDOA} brings similar performances as \ac{GCC-PHAT} in terms of nRMSE.
+However, the estimation of \ac{iTDOA} and \ac{TDOE} seems to be a harder task for the such a simple \ac{MLP} model.
 When some external noise is added, performance of both methods degrades.
 This is a well-know and expected behavior for \ac{GCC-PHAT} and it suggests that noise should be considered also in the training phase. When
 Nevertheless, our results confirm the possibility of retrieving early echoes from only two-microphone recordings.
@@ -321,57 +330,96 @@ In order to perform 1D-convolution ond the right dimension, we re-arranged the i
 After each layer a dropout probability $p_\text{do} = 0.3$ is applied.
 
 \mynewline
-In the \ac{MLP} model presented above in the previous section, the output consisted only in the \acp{TDOA} $V$.
-However, to build a local angular spectrum, suitable for the \ac{SRP-PHAT}-like algorithm, both means and variances are needed.
-Rather than identify these variances with the prediction errors, we explicitly modify the \ac{CNN} model to estimated them\sidenote{
+In the \ac{MLP} model presented in the previous section, the output consisted only in the \acp{TDOA} $V$.
+As mention earlier, our final goal is to generalize to approach to microphone array using a data-fusion like approach.
+To this end, we need to provide a confidence measure on the estimate.
+In our work~\citeonly{di2019mirage}, we proposed to use predicted values and the error on the validation set as mean and variance to build a Gaussian prior.
+Instead, here, we explicitly modify the \ac{CNN} model to estimated these parameters.\marginpar{
+    \itshape\footnotesize
     This idea is similar to the one proposed by Bishop in \ac{MDN} in \citeonly{bishop1994mixture}
-    where the output of a neural network parametrizes a Gaussian mixture model.
+    where the output of a neural network parametrizes a Gaussian mixture model
 }.
-The main idea behind this design choice is that the learning model can assess its prediction quality.
-This approach can be related to existing (Bayesian) data-fusion frameworks, but this direction wav not considered in this work.
-\newcommand{\setTDOA}{\ensuremath{\set{\mathtt{TDOA}, \mathtt{iTDOA}, \mathtt{TDOE}}}}
-\\To this end, we modify the output of the network to output mean and variances, namely
-$V_{\calN} = \set{\mu_{\tau_t}, \sigma^2_{\tau_t}}$
-for $t = \setTDOA$.
-Moreover, we assume that conditional probability of observing the one of the \ac{TDOA} $\tau_t$ for $t \in \setTDOA$ given the observation $\xi$ in the batch $\Xi$, follows a Gaussian distribution, namely
+\newcommand{\sigmaTauv}{\ensuremath{\sigma^2_{\tau_v}(\xi;\theta)}}
+\newcommand{\muTauv}{\ensuremath{\mu_{\tau_v}(\xi;\theta)}}
+The rationale behind this design choice is to allows the learning model to assess the quality of its prediction.
+Therefore, we modify the output of the network to output mean and variances, namely
+$V_{\calN} = \set{\muTauv, \sigmaTauv}_v$ for $v = \setTDOA$.
+Moreover, we assume that the probability of observing each of the $\tau_v$ for $t \in \setTDOA$, given the observation $\xi$ in the mini-batch $\Xi$, follows a Gaussian distribution, \marginpar{
+    \footnotesize
+    The general form of the Gaussian probability density function is
+    \begin{equation*}
+        \calN\kparen{x; \mu, \sigma^2} = \frac{1}{\sqrt {2\pi \sigma^2}}
+                                         \cste^{-{\frac {1}{2}}\left({\frac {x-\mu }{\sigma }}\right)^{2}}
+    \end{equation*}
+}
+namely
 \begin{equation}
-    p(\tau_t \mid  \Xi ; \theta) \sim \calN\kparen{\mu_{\tau_t}(\xi_b;\theta), \sigma^2_{\tau_t}(\xi_b;\theta)}
+    p(\tau_v \mid  \xi ; \theta) \sim \calN\kparen{\tau_v; \muTauv, \sigmaTauv}
+    .
 \end{equation}
-where the variance
-and the the training loss function
- of~\cref{eq:mirage:mlploss}
+Finally, the corresponding training loss function is the negative Gaussian log-likelihood,
+that is,
 \begin{equation}\label{subsec:mirage:mlpcost}
-    \calL(V, \hat{V)} = \frac{1}{3} \sum_{b}  \powerOf{\tau_{\mathtt{TDOA}, b} - \hat{\tau}_{\mathtt{TDOA}, b}}
-                                            + \powerOf{\tau_{\mathtt{iTDOA}, b} - \hat{\tau}_{\mathtt{iTDOA}, b}}
-                                            + \powerOf{\tau_{\mathtt{TDOE}, b} - \hat{\tau}_{\mathtt{TDOE}, b}}
+    \calL_{\params}^{\calN}(V, \hat{V)} = \frac{1}{\kvbar{V}}
+                                        \sum_{\xi\in\Xi} \sum_{v\in\calV}
+                                                \log{\sigmaTauv}
+                                                + \frac{\powerOf{\tau_v - \muTauv}}{\sigmaTauv}
+    .
 \end{equation}
+This approach can be then generalized to other this of distribution.
+In this work we choose a Student-T distribution which is known to be more robust to outliers, and already begin proposed in the context of binaural \ac{SSL}, such as~\citeonly{zohny2014modelling,deleforge2016rectified}.
 
-
-\newthought{The proposed novel loss function} is the negative Student-T log-likelihood, which is implemented as follows:
-
+\newthought{The Student-T-based loss function} can be derived similarly in the Gaussian case assuming a Student-T distribution prior on the prediction.\sidenote{
+We will reminds to the~\cref{ap:studentT} for the detailed derivation.
+}
+% \marginpar{
+%     \footnotesize
+%     \begin{equation*}
+%         \frac{\Gamma(\frac{\nu+1}{2})} {\sqrt{\nu\pi}\,\Gamma(\frac{\nu}{2})} \left(1+\frac{t^2}{\nu} \right)^{\!-\frac{\nu+1}{2}}
+%         ,
+%     \end{equation*}
+%     $\Gamma$ is the Gamma function $\Gamma(n)=(n-1)!$
+% }
+% \newcommand{\nuTauv}{\ensuremath{\nu^2_{\tau_v}(\xi;\theta)}}
+% \newcommand{\lambdaTauv}{\ensuremath{\lambda^2_{\tau_v}(\xi;\theta)}}
+% \begin{equation}
+%     p(\tau_v \mid  \xi ; \theta) \sim \calT\kparen{\tau_v; \muTauv, \lambdaTauv, \nuTauv}
+%     .
+% \end{equation}
+% \begin{equation}
+With that being said, the proposed novel loss function is the negative Student-T log-likelihood, which is implemented as follows:
 \begin{equation}
-\begin{split}
-\mathcal{L}(\Theta) =& \sum_{x \in B} \sum_{t \in V}\ \dfrac{1}{2} \log (\nu_t\pi_t)
-                        + \dfrac{1}{2} \log(\lambda_t^2)
-                        - \log  \Gamma \left( \dfrac{\nu_t+1}{2} \right)\\
-                    &    + \log  \Gamma \left( \dfrac{\nu_t}{2} \right)
-                        + \dfrac{\nu_t+1}{2}
-                        \log \left( 1  + \dfrac{\norm{\mu_t, x_i)}}{\nu_t \lambda_t^2} \right)\\
-\end{split}
+    \begin{split}
+    \ \calL_{\params}^{\calT}(V, \hat{V)} =
+                         \sum_{\xi\in\Xi} \sum_{v\in \calV}
+                        &    \dfrac{1}{2} \log (\nu_v\pi_v)
+                           + \dfrac{1}{2} \log(\lambda_v^2)
+                           - \log  \Gamma \left( \dfrac{\nu_v+1}{2} \right)\\
+                        &  + \log  \Gamma \left( \dfrac{\nu_v}{2} \right)
+                           + \dfrac{\nu_v+1}{2} \log \left( 1  + \dfrac{\powerOf{\mu_v - \tau_v)}}{\nu_v \lambda_v^2} \right)\\
+    \end{split}
 \end{equation}
+where $\params$ are the \ac{CNN} parameters and $\Gamma$ is the Gamma function\sidenote{
+    For any positive integer $n$, the Gamma function writes $\Gamma(n)=(n-1)!$
+}.
+The summation over $i$ corresponds to the sum among of all the sample $x$ of the batch $B$.
+It follows that for each each input the network will return the parameters of 3 Student-T distribution ($\mu_v, \nu_v, \lambda_v$) for each variable $v = \calV$.
+Hereafter we denote with $V_{\calT}$ the set of the 9 network outputs.
 
-where $\Theta$ are the CNN parameters and $\Gamma$ is the Gamma function. The summation over $i$ corresponds to the sum among of all the sample $x$ of the batch $B$. and the summation over $t$ corresponds to the sum among the three quantities in V (TDOA, iTDOA, TDOE). It follows that for each each input the network will return the parameters of 3 Student-T distribution ($\mu_t, \nu_t, \lambda_t$) for each variable $t = { \text{TDOA}, \text{iTDOA}, \text{TDOE} }$. Hereafter we denote with $V_{\mathcal{ST}}$ the set of the 9 network outputs.
-We use the Adam optimizer ant the normalized root mean square error (nRMSE) is taken as validation metric (see Section~\ref{subsec:eval_synth_tdoa}). The network is manually tuned on a validation set to find the best combination of number of hidden layers and their sizes
-Once an estimate $\hat{V_\mathcal{ST}}$ of the parameters of the 3 distribution is returned by the CNN, they are converted to synthetic local angular spectra and passed to an SRP-PHAT method together with the relative positions of true and image microphones which are assumed known. We call this algorithm MIRAGE. The synthetic local angular spectra consist of Student-t distribution with parameters $\mu, \nu$ and $\lambda$.
-and $V \in \mathbb{R}^3$ as output parameters.
+\mynewline
+We use the Adam optimizer ant the normalized root mean square error (nRMSE) is taken as validation metric (see Section~\ref{subsec:eval_synth_tdoa}).
+The network is manually tuned on a validation set to find the best combination of number of hidden layers and their sizes.
+% Once an estimate $\hat{V_\mathcal{ST}}$ of the parameters of the 3 distribution is returned by the CNN, they are converted to synthetic local angular spectra and passed to an SRP-PHAT method together with the relative positions of true and image microphones which are assumed known.
+% We call this algorithm MIRAGE.
+% The synthetic local angular spectra consist of Student-t distribution with parameters $\mu, \nu$ and $\lambda$. and $V \in \mathbb{R}^3$ as output parameters.
 
-
+\mynewline
 We use a simple fully-connected DNN architecture consisting of a $D$-dimensional input layer,
 a $3$-dimensional output layer, and 3 fully connected hidden layers with respective input
 sizes $500$, $300$ and $50$. Rectified linear unit (ReLU)
 activation functions are used except at the output layer,
 and each hidden layer has a dropout probability $p_\text{do} = 0.3$.
-We use the mean square error loss function for training and the Adam optimizer \cite{kingma2014adam}.
+We use the mean square error loss function for training and the Adam optimizer.
 The normalized root mean square error (nRMSE) is taken as validation
 metric\footnote{The nRMSE takes values between $0$ (perfect fit) and $\infty$ (bad fit).
 If it is equal to $1$, then the prediction is no better than a constant.}.
@@ -383,15 +431,17 @@ We call this algorithm MIRAGE. The synthetic local angular spectra consist of Ga
 centered at $\hat{V}$ and with variances equal to the prediction errors made by
 the DNN on the validation set.
 
+\mynewline
 For training and validation, the RIRs are convolved with 1 sec of white-noise with additional noise with SNR in $(0,20)$ dB.
 All signals and RIRs are sampled at $16$ kHz. The STFT is performed on $1024$ point with $50\%$ overlap. Finally the features are computed as in~\eqref{eq:features} yielding a vector of size $D = 1534$ for each observation.
 While we validate the CNN on a portion of the dataset in a \textit{holdout} fashion, the test is conducted on 200 new RIRs convolved with both speech utterances.
 This set is generated similarly to the training and validation sets. Moreover the recordings are perturbed by external white noise as in the training set. The speech signals are normalized speech utterances of various lengths (from $1$ s to $6$ s), randomly selected from the TIMIT corpus.
 A re-implement version of SRP-PHAT is used to aggregate local angular spectra obtained from the DNN's output and as a baseline.
- However the original MATLAB code for SRP-PHAT can be found at \url{http://bass-db.gforge.inria.fr/bss_locate/}. A sphere sampling with $1$ degree resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ degrees is used for the DOA search.
+However the original MATLAB code for SRP-PHAT can be found at \url{http://bass-db.gforge.inria.fr/bss_locate/}. A sphere sampling with $1$ degree resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ degrees is used for the DOA search.
 
+\newthought{}
 
-\section{Conclusion and perspective}
+\section{Conclusion and perspective}\label{sec:lantern:conclusion}
 
 \newthought{Towards the case $\numEchs > 2$}
 

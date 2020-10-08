@@ -26,10 +26,10 @@
 }
 
 \newcommand{\synopsisChLantern}{
-    As opposed to the previous chapter, here, we propose a data-driven approach to estimate echoes properties.
-    Instead of using models derived by physics knowledge, we deploy supervised learning techniques to learn the mapping from observation to the quantities of interest.
-    To this end, the \ac{AER} problem is modeled as a regression problem for which we propose different solutions based on deep learning tools.
-    First, we study the simple case of estimating the arrival times of the direct path and the first strongest reflection for passive stereophonic recordings. Later we discuss how it is possible to generalize this approach to multiple echoes.
+    In this chapter, we will use virtually supervised deep learning models to learn the mapping from microphone recordings to the echoes' timings.
+    After presenting a quick overview of deep learning techniques (\ref{sec:lantern:dnn}), we will present a first simple model to estimate the echo coming from a close surface (\ref{sec:lantern:R1}).
+    This case is motivated by an application in \acf{SSL}, which will be discussed in detail in~\cref{ch:mirage}.
+    Finally, we will present a possible way to achieve a more robust estimation (\ref{ch:lantern:robust}) and discuss a possible way to scale this approach to multiple echoes (\ref{ch:lantern:conclusion}).
 }
 
 \newcommand{\synopsisChDechorate}{
