@@ -235,7 +235,7 @@ Therefore, we have:\marginpar{%
 \end{align}
 where $\mathring{\positionMicrophone}_i$ denotes the position of the image of $\positionMicrophone_i$ with respect to the reflector.
 Note that $\tau_{\mathtt{TDOE},2} = \tau_\mathtt{iTDOA} + \tau_{\mathtt{TDOE}, 1} - \tau_\mathtt{TDOA}$.
-These three quantities are directly connected to \RIRs/, as illustrated in~\cref{fig:mirage:rirs_tdoa} (Right).
+These three quantities are directly connected to \RIRs/, as illustrated in~\cref{fig:mirage:rirs_tdoa}.
 Let $V = \set{\tau_{\mathtt{TDOA}}, \tau_{\mathtt{iTDOA}}, \tau_{\mathtt{TDOE},1}}\in\mathbb{R}^3$
 
 
@@ -283,6 +283,12 @@ placed $10$ cm from each other, the absorption coefficients of the other walls a
 uniformly sampled in $(0.5, 1)$ and the one of the close-surface is in $(0, 0.5)$.
 The same realistic diffusion profile \citeonly{gaultier2017vast} is used for all surfaces.
 Around $90,000$ audio scenes are generated this way, yielding reverberation time \RT{} between $20$~ms and $250$~ms.
+
+% \mynewline
+% Once time delay estimates $\hat{V}$ are returned by the \ac{MLP}, they are converted to \textit{synthetic local angular spectra}.
+% The synthetic local angular spectra consist of Gaussian functions centered at $\hat{V}$ and with variances equal to the prediction errors made by the \ac{MLP} on the validation set.
+% Therefore, they passed to $\Psi_\text{SRP}$ (See~\cref{subsec:mirage:2D-SSL}) together with the relative positions of true and image microphones which are assumed known.
+% Notice that this is equivalent to knowing the distance between the two microphones and the table.
 
 \mynewline
 For both training and validation, the \acp{RIR} are convolved with 1~second of white-noise (wn) with no additional noise.
