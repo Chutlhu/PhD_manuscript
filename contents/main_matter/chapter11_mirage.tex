@@ -73,22 +73,22 @@ two microphones, one source, and a nearby reflective surface, as illustrated in 
         The illustration shows direct sound path (blue lines) and resulting first-order echoes (orange lines).}
     \label{fig:mirage:scene}
 }
-This may occur when the sensors are placed on a table or next to a wall. Striking examples of these scenarios are the smart table-top devices, such as Amazon Echo, Google Home, \etc/.
+This may occur when the sensors are placed on a table or next to a wall.
+Striking examples of these scenarios are the smart table-top devices, such as Amazon Echo, Google Home, \etc/.
 The reflective surface is assumed to be the most reflective and closest one to the microphones in the environment, generating the strongest and earliest echo in each microphone.
-Under this \textit{close-surface} model, we ask the following question:
-\begin{enumerate}
-    \item Can early echoes be estimated from two-microphone recordings of an unknown source?
-    \item Can early echoes be used to estimate both the azimuth and elevation angles of the source, an \textit{impossible} task in free field conditions?
-\end{enumerate}
+Under this stereophonic \textit{close-surface} model, we ask the following questions.
 
-\newthought{The First Question} was already addressed in~\Cref{ch:lantern}.
-In particular, we proposed to use a \ac{DNN} trained on a simulated close-surface dataset to estimate early echoes properties from audio features.
+\questionpar{Can early echoes be estimated from two-microphone recordings of an unknown source?}
+This question was already addressed in~\cref{pt:estimation}.
+In particular, we proposed to use the \ac{DNN} models discussed in~\cref{ch:lantern}.
+The models are trained on a simulated close-surface dataset to estimate early echoes properties from audio features.
 
-\newthought{To answer the Second Question}, we propose the \ac{MIRAGE} framework.
+\questionpar{Can early echoes be used to estimate both the azimuth and elevation angles of the source?}
+Note that this is considered as an \textit{impossible} task in free field stereophonic conditions.
+To answer the second question, we propose the \ac{MIRAGE} framework.
 It exploits echoes' time of arrival by expressing them as \acp{TDOA} in the \textit{virtual 4-microphone array} formed by the true microphone pair and its image with respect to the reflective surface.
 We show that this framework approximately estimates echo properties, perform similarly to a correlation-based method in azimuth estimation for the considered
 scenario and estimates \textit{impossible} elevation angles with good accuracy in noiseless settings using two microphones only.
-
 
 
 \section{Background in microphone array SSL}\label{sec:background}
@@ -637,6 +637,6 @@ To this end, we use the learning-based acoustic echo retrieval methods proposed 
 However, results obtained on real data reveal that the task is still very challenging for both the proposed and baseline methods.
 Considering the current knowledge, this is the first time an echo-aware method combines both knowledge-driven and data-driven for sound source localization.
 The learning approach could still be significantly improved by considering other acoustic features (such as advance \ReTF/ methods), other architectures, and other challenges.
-For instance, handling the missing frequencies of the speech while training on a broadband signal such as in~\citeonly{Gaultier2017vast},
+For instance, handling the missing frequencies of the speech while training on a broadband signal such as in~\citeonly{gaultier2017vast},
 using physical-driven regulation such as in~\citeonly{nabian2020physics} and make the learning step independent to the array geometry.
 Moreover, further investigation is needed to strengthen these results and further improve the robustness of the learned mapping, for which the \dEchorate may be used as a valuable testing dataset.

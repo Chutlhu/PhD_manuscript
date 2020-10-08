@@ -14,7 +14,7 @@ The two main lines of work can be briefly summarized as follows:
 
 \section{Looking Back}
 After reviewing some useful acoustic notions and presenting signal precessing modeling in~\cref{pt:background}, the contributions of this thesis were presented in~\cref{pt:estimation,pt:application},
-developing the two direction above. The support these two claims takes the form of the following artifacts:
+developing the two direction above. The support these two goals takes the form of the following methods and artifacts.
 
 \begin{itemize}
 
@@ -80,33 +80,51 @@ In the following points, we elaborate on some short and long term research possi
 
 
 \newthoughtpar{Estimating acoustic echoes}
-Recently it becomes clear to use that that estimating accurately the echoes for arbitrary scenario is a very challenging task.
-Using reasonable prior information, the problem can be easily relaxed, for instance knowing the geometry of the microphone array.
+Recently it becomes clear to use that that estimating the echoes accurately for arbitrary scenarios is a very challenging task.
+Using useful prior information, the problem can be easily relaxed, for instance, knowing the microphone array's geometry.
 The impact of the microphone array (and antenna) geometry is well studied in signal processing communities, such as in telecommunication and array processing.
-Therefore, the knowledge of the geometry can be used to extend echo model to closed-form steering vectors which depends both of the echo timing and direction of arrival.
-This might simply greatly the parameter space where the echoes are defined.
+Therefore, the knowledge of array geometry can extend the echo model to closed-form steering vectors, depending on both the echo timing and direction of arrival.
+This might simplify the parameter space where the echoes are defined.
 Examples of this approach are the works in~\citeonly{jensen2019method} for active \acf{AER} and in \citeonly{Kowalczyk2019raking} where such a steering vectors are used.
-\\Besides this, we noticed also that a key parameter for \ac{AER} is the \textit{number} of such echoes.
-By knowing how many relevant reflection are presents in a received signal may drastically change the problem, as both objective function and algorithm can be simplified.
-This \textit{echo counting} problem can be then referred to existing line of research in the sparse representation, such as ...\citeonly{needArefrenceForKspare}.
-\\Another important line of study which did not pursue here is to use consider robust acoustic features or enhance the recorded sound with respect to noise and late reverberation, instead of the raw microphone signals.
+\\Besides this, we also noticed that a critical parameter for \ac{AER} is the \textit{number} of such echoes.
+Therefore the \textit{echo counting} problem seem as reasonable direction to investigate.
+Estimating reflections knowing theirs number in a received signal is then a different the problem, which can be  referred to \textit{sparse coding} problems~\citeonly{tropp2010computational}.
+Unfortunately, problems in this class are not necessarily easier to solve, but it was shown they produce more accurate solutions~\citeonly{bourguignon2015exact,nadisic2020exact}.
+\\Another important line of study which we did not pursue here is to consider robust acoustic features or enhance the recorded sound with respect to noise and late reverberation, instead of the raw microphone signals.
 The most promising direction in this regard is to use the recent results on relative early transfer functions estimation.
-Relative early transfer function are transfer function accounting for the early part of the \ac{RTF} and are used to speech enhancement and in particular, dereverberation.
-\\Alternatively, statistical methods based on the parametrization of the reverberation in terms of \ac{RT$_{60}$} or \acf{DRR}.
-Particularly appealing are the works of~\citeauthor{leglaive2015multichannel} and~\citeauthor{badeau2019common} which define a framework to deal with early reflection with statistical model.
-This exploratory direction is also motivated by recent results in estimating this parameters blindly for microphone recordings~\citeonly{looney2020joint,bryan2020impulse}.
-As this parameters are depends on the spatial characterization of the audio scene, using them as prior knowledge may seems natural.
-
-\noindent Learning-based approach and especially \acf{DNN} are a powerful tools.
-Unfortunately their potential was not fully exploited in this work, but many exciting directions can be perused.
-On particular interest is the recent development in physics-driven neural networks~\citeonly{nabian2020physics,rao2020physics,jin2020physics},
+Relative early transfer functions are transfer functions accounting for the early part of the \ac{RTF} and are used for speech enhancement and dereverberation.
+\\Alternatively, statistical models for reverberation that are parametrized by \ac{RT$_{60}$} or \acf{DRR} can be used.
+Particularly appealing are the works of~\citeauthor{leglaive2015multichannel} and~\citeauthor{badeau2019common}, which define a framework to deal with early reflection with a statistical model.
+This exploratory direction is also motivated by recent results in estimating these parameters blindly for microphone recordings~\citeonly{looney2020joint,bryan2020impulse}.
+As these parameters depend on the spatial characterization of the audio scene, using them as priors may seem natural.
+Finally, statistical model has the potential to solve issues of the strong approximation used with the image source model, such as flat walls.
+\\Learning-based approach and especially \acf{DNN} are potent tools.
+Unfortunately, their potential was not fully exploited in this work, but many exciting directions can be perused.
+Of particular interest is the recent development in physics-driven neural networks~\citeonly{nabian2020physics,rao2020physics,jin2020physics},
 where physical-based layers and regularized are used to facilitate the learning.
 
-\newthoughtpar{Using echoes for audio scene analysis}
-A natural next s
 
+\newthoughtpar{Using echoes}
+In this thesis, we presented a few selected applications of acoustic echoes in audio scene analysis problems.
+This approach can be extended to other related problems such are auditory scene analysis, acoustic measurements, and source tracking.
+Auditory scene analysis puts the focus on humans and their bodies.
+Humans have two hears and complex auditory systems that provide natural filtering of the incoming sounds.
+Moreover, reflection from the \textit{pinnae}, the torso and shoulders are integrated into the processing to provide localization cues~\citeonly{rascon2017localization}.
+Therefore, one could imagine studying these reflections and setting us echo-aware processing to design better hearing aids, smart noise-canceling headphones, and auditory models.
+The latter ones are used to conduct experimental studies on sound perception~\citeonly{barumerli2018localization}, build perceptual evaluation metrics.
+\\During the data collection for $\dEchorate$, we experienced some limitations of existing tools for measuring room impulse response.
+Recent acoustic measurement tools and software started to provide insight into reflection patterns for which \AER/ method could improve accuracy.
+\\Finally, the \acs{MIRAGE} framework presented in~\cref{ch:mirage} can be extended in the long term to sound source tracking, as well as to acoustic echo cancellation or self-calibration.
+Under this light, the focus will be on smart table-top devices, whose the two most striking examples are Google Home, Amazon Echo.
+These smart speakers could benefit from echo-aware processing, not only in recording sounds but also in sound production.
+The former case was deeply discussed in these as it concern echo-aware speech enhancement techniques.
+Instead, in the latter case, echo processing could provide dynamic \textit{sweet-spots} that adapts to the user and device positions.
+The device could then produce an immersive sound field for music listening or better directivity in hand-free phone-calls.
+\\Finally, we can expand the frameworks proposed in the thesis for acoustical data to other non-acoustic scientific domains.
+For example, other research fields put relevant focus on reflections, such as,
+submarine navigation~\citeonly{kleeman2016sonar}, in seismology~\citeonly{sato2012seismic}, in ultrasound imaging~\citeonly{achim2010compressive} and in radioastronomy~\citeonly{pan2016towards}.
 
-\newthoughtpar{Using the \dEchorate dataset and the other libraries}
+\newthoughtpar{Using the \dEchorate{} dataset and the other libraries}
 The main idea behind this dataset is to foster research in \ac{AER} and echo-aware on real data.
 A natural step is to use this data for the applications discussed in this thesis and particularly on \ac{AER}, for which this dataset was designed.
 Moreover, new line of research with deep neural networks and optimal transport, such as style transfer and domain adaptation could be envisioned.
@@ -121,5 +139,5 @@ This problem have an innate uroboric nature: where, what, when and how are conne
 Therefore it should be possible to build iterative schemes linking echo-estimation and echo-applications.
 
 \mynewline
-Thank you very much. I would like to be a bat, but I am a dog.
-\qed
+So long and thanks for all the echoes.\qed
+% I would like to be a bat, named Diechos.
