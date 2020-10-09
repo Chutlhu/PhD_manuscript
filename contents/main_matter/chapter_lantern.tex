@@ -374,7 +374,7 @@ Moreover, we assume that the probability of observing each of the $\tau_v$ for e
 \end{equation}
 From now on, we omit the dependency on $(\xiTheta)$ for the sake of clarity.
 \\Finally, the corresponding training loss function is the negative Gaussian log-likelihood, that is,
-\begin{equation}\label{subsec:mirage:mlpcost}
+\begin{equation}\label{eq:lantern:gausslog}
     \calL_{\params}^{\calN}(V, \hat{V)} = \frac{1}{\kvbar{\calV}}
                                         \sum_{\xi\in\Xi} \sum_{v\in\calV}
                                                 \log{\estSigmaTau}
