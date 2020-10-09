@@ -4,27 +4,31 @@
 \newthought{Synopsis}\synopsisChEstimation
 
 \section{Problem Formulation}\label{sec:estimation:problem}
-The continuous-time multi-channel signal model for one source signal $\tildes(t)$ and $I$ channels writes, for each channel $\idxMic$,
+As discussed in~\cref{subsec:processing:mixing}, the continuous-time multi-channel signal model for one source signal $\tildes(t)$ and $I$ channels writes, for each channel $\idxMic$,
 \begin{equation}\label{eq:estimation:signalmodel}
     \begin{aligned}
-        \tildex_i(t) &= (\tildeh_i \convCont \tildes)(t) \\
+        \tildex_i(t) &= (h_i \convCont \tildes)(t) + \tilden_i(t)\\
         \tildeh_i(t) &= \echoModelTimeSimple{i} + \tilde{\varepsilon}_i(t),
     \end{aligned}
 \end{equation}
 where $\tildeh_i(t)$ is the echo model for the \RIR/ between the $i$-th channel and the source.
 The sum comprises the line-of-sight propagation (direct path) and the earliest $\numEchs$ echoes we want to account for, while the error term $\varepsilon_i(t)$ collects later echoes and the reverberation tail.
+This model can be generalized to frequency dependent attention, but it will be not addressed here.
 
 \mynewline
-\textsc{The \AERdef/ problem consists} in estimating the echoes' timings $\alltaus{i}$ and attenuations (or gains) $\allalphas{i}$ of~\cref{eq:estimation:signalmodel}.
-Depending on the field of research, the echoes' timings are also known as time delays, \TOAdef/ or locations.
-\\The term \AER/ is not an established name for such problem and, depending on the field of research and the prior knowledge available, it can be referred to with different names.
-In fact \AER/ can be seen as a generation of \textit{\TOAs/ estimation}, or an instance of \textit{acoustic channel estimation} (or \textit{shaping}), \textit{spike retrieval} and \textit{onset detection}.
+\textsc{The \AERdef/ problem consists} in estimating the echoes' timings $\alltaus{i}$ and attenuations (or gains) $\allalphas{i}$ from multichannel observations $\tilde{x}_i$ of~\cref{eq:estimation:signalmodel}.
+Depending on the field of research, the echoes' timings are also known as time delays, Time of Arrival \acs{TOA}, or locations.
+\\The term \AER/ is not an established name for this problem and, depending on the field of research and the prior knowledge available, it can be referred to with different names.
+In fact \AER/ can be seen as a generalization of \textit{\TOAs/ estimation}, or an instance of \textit{acoustic channel estimation} (or \textit{shaping}), \textit{spike retrieval} and \textit{onset detection} (see following~\cref{subsec:estimation:active_rir}).
 As opposed to \AER/, the task of \TOAs/ estimation is only focused in estimating the echoes' timings $\alltaus{i}$.
-The only knowledge of \TOAs/ is sufficient for typical application related to \SSL/~\citeonly{ribeiro2010turning} and \RooGE/~\citeonly{crocco2017uncalibrated}.
-\\Moreover knowing $\alltaus{i}$, the attenuations $\allalphas{i}$ can be estimated in closed-form as showed in~\citeonly{condat2015cadzow}.
+The only knowledge of \TOAs/ is sufficient for typical applications related to \acf{SSL}~\citeonly{ribeiro2010turning} and \RooGE/~\citeonly{crocco2017uncalibrated}.
+\\Moreover, knowing $\alltaus{i}$, the attenuations $\allalphas{i}$ can be estimated in closed-form as showed in~\citeonly{condat2015cadzow}.
 \\\TOAs/ estimation is sometimes called \textit{time delays estimation}, when the origin of time is taken \wrt/ the first \TOA/ and not to the time of emission.
-Hereafter we will make distinction between the two.
-\\The \AER/ may be confused with the \textit{acoustic echo cancellation} problem in telecommunication and telephony which refers to the problem of estimating and suppressing feedbacks due to loudspeakers being too close to microphone.
+Hereafter we will make explicit the distinction between the two.
+\\\AER/ may be confused with the \textit{acoustic echo cancellation} (AEC) problem in telecommunication and telephony which refers to the problem of estimating and suppressing feedbacks due to loudspeakers being too close to microphones.\sidenote{
+    \AEC/ is a problem of very different nature, amounting to suppress from a mixture a known signal distorted by an unknown filter.
+    This will not be further discussed in this thesis
+}
 
 \section{Taxonomy of Acoustic Echo Retrieval methods}\label{sec:estimation:taxonomy}
 
@@ -33,13 +37,13 @@ Hereafter we will make distinction between the two.
 \dichotomy{Active vs. passive approaches}.
 \textit{Active} methods assume active scenarios, namely, they use one or more loudspeakers to probe the environment and one or more microphones to record the propagated probe sound.
 Therefore, they assume that the source reference signal is known.
-They falls into the big categories of \textit{deconvolution problems} since a ``clean'' reference signal is used \textit{deconvolve} the observed one.
+They falls into the broader category of \textit{deconvolution problems} since a ``clean'' reference signal is used to \textit{deconvolve} the observed one.
 The main advantages of these approaches are twofold.
 First, provided a proper probe signal, a good estimation of the \RIR/ can be achieved.
 Second, these methods can be used on single-channel recordings.
 \\Instead, \textit{passive} approaches use sets of passive sensors to record the sound field.
 To decouple the environment from the source, they rely either on prior knowledge about the source signal or by comparing the signals received at two (or more) spatially-separated microphones.
-When no prior information is available, they can be seen related to \textit{blind problem} and are far more challenging.
+When no prior information is available, they can be seen as \textit{blind problem} and are far more challenging.
 In the literature, the term blind is used as opposed to \textit{informed}, accounting the amount of prior information available.
 With this taxonomy, the above active methods are informed by the exact knowledge of the reference signal.
 On the contrary, passive methods need to rely on other general type of information such as sparsity, nonnegativity, \etc/.
@@ -50,7 +54,7 @@ Therefore, a great deal of efforts has been devoted to these problems and resear
 
 \begin{figure}[h]
     \begin{sidecaption}[Active and passive apporaches]{%
-        Schematic of active and passive approaches.
+        Schematic view of active \vs/ passive approaches.
     }[fig:estimation:activepassive]
     \centering
     \resizebox{\linewidth}{!}{
@@ -61,13 +65,13 @@ Therefore, a great deal of efforts has been devoted to these problems and resear
 
 \dichotomy{RIR-based vs. RIR-agnostic approches}.
 \textit{RIR-based} methods estimate the echoes' properties after estimating the (full or partial) \RIR/(s).
-By modeling the early part of the \RIR/ as in~\cref{eq:estimation:signalmodel}, solving the \AER/ problem can be seen as solving two subsequent tasks: \RIR/ estimation followed by echo extraction.
-The former can be seen as an instance of \textit{channel estimation} (\aka/ \textit{system identification}) problems, while the latter as a \textit{spike retrieval}, \textit{peak picking} or \textit{onset detection} problem.
-Other methods estimate the \RIRs/ partially using assumptions derived by the application.
+By modeling the early part of the \RIR/ as in~\cref{eq:estimation:signalmodel}, solving the \AER/ problem can be seen as solving two sequential tasks: \RIR/ estimation followed by echo extraction.
+The former can be seen as an instance of \textit{channel estimation} (\aka/ \textit{system identification}) problem, while the latter as a \textit{spike retrieval}, \textit{peak picking} or \textit{onset detection} problem.
+Other methods estimate the \RIRs/ partially, using assumptions derived by the application.
 It is the case of \textit{impulse response shaping} or \textit{shortening}.
-In the context of room acoustics, the aim is to reduce the late reverberation allowing some few early reflections which are perceptually useful~\citeonly{betlehem2012efficient}.
-\\\textit{RIR-agnostic methods}, instead, try to overcome the challenging task of estimating the acoustic channel and tuning peak-picking methods.
-They attempt to estimated echo properties directly in the parameter space of echos' \TOAs/ and amplitudes.
+In the context of room acoustics, the aim is to reduce the late reverberation to enhance a few early reflections which are perceptually useful.
+\\\textit{RIR-agnostic methods}, instead, try to overcome the challenging tasks of estimating the full acoustic channels and tuning peak-picking methods.
+They attempt to estimate echo properties directly in the parameter space of echos' \TOAs/ and amplitudes.
 
 \begin{figure}[h]
     \footnotesize
