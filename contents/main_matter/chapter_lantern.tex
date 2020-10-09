@@ -189,8 +189,9 @@ The $f_k$ denotes $k$-th frequency bin and the error term $\varepsilon_i[k]$ col
 
 \mynewline
 We model the \AER/ problem as multi-target regression problem, namely the output on the model are multiple real-valued parameters.
-Following the approaches suggested in~\citeonly{deleforge2015acoustic,gaultier2017vast}, we consider the instantaneous \acf{ILD} and the \ac{IPD} (see~\cref{eq:mirage:features} as input features.
-As discussed in~\cref{subsec:processing:steering}, the \ac{ILD} and \ac{IPD} can be estimated from the \STFT/ of the microphone signals, such as,
+Following the approaches suggested in~\citeonly{deleforge2015acoustic,gaultier2017vast}, we consider the instantaneous \acf{ILD} and the \ac{IPD} as input features.
+As discussed in~\cref{subsec:processing:steering}, the \ac{ILD} and \ac{IPD} can be consider as a particular case of \acf{ReTF}.
+The \ac{ILD} and \ac{IPD} can be estimated from the \STFT/ of the microphone signals, such as,
 \begin{equation} \label{eq:mirage:features}
 \begin{cases}
     \ild[k]  =& \tfrac{1}{T} \sum_{l=1}^T \log{\abs{\frac{\MIC_2[k,l]}{\MIC_1[k,l]}}}, \\
@@ -229,13 +230,16 @@ These three quantities are directly connected to \RIRs/, as illustrated in~\cref
 and $\calV = \setTDOA$ the set of corresponding labels.
 
 \mynewline
+Since we use \ReTF/-based feature to estimate echoes, the proposed approach is dubbed as \textit{\acf{LANTERN}}.
+
+\mynewline
 In general, the mapping between $V$ and the proposed feature is not unique.
 In particular, this happen when $\tau_2^{(\idxEch)} = \tau_1^{(\idxEch)}$ for $\idxEch=\set{0,1}$.
 In order to avoid this, we preventively pruned all the entries with $| \tau_2^{(\idxEch)} - \tau_1^{(\idxEch)} | < 10^{-6}$ for $\idxEch=\set{0,1}$ from the dataset.
 
 \mynewline
 Here we use the simple \ac{MLP} architecture described in~\cref{subsec:lantern:mlp}.
-This model consists of a $D$-dimensional input layer, a 3-dimensional output layer, and 3 fully connected hidden layers with respective input sizes $500$, $300$ and $50$.
+This model consists of a $D$-dimensional input layer, a 3-dimensional output layer, and 3 fully connected hidden layers with respective input sizes $500$, $300$, and $50$.
 \ac{ReLU} activation functions are used except at the output layer, and each hidden layer has a dropout probability $p_\text{do} = 0.3$ to prevent overfitting.
 \\We use the \ac{MSE} loss function for training, that is,
 \begin{equation}\label{eq:lantern:mlploss}
@@ -258,8 +262,7 @@ Room widths are uniformly drawn at random in $[3, 9]$ m, heights in $[2, 4]$ m.
 Random source and microphones positions are used, respecting the close-surface scenario.\sidenote{
     A rejection-sampling strategies was used to approximate uniform distributions.
 }
-In particular, the microphones are at most 30~cm from the close-surface, placed 10~cm from each other,
-and the absorption coefficients of the other walls are uniformly sampled in $(0.5, 1)$ and the one of the close-surface is in $(0, 0.5)$.
+In particular, the microphones are at most 30~cm from the close-surface, placed 10~cm from each other, and the other walls' absorption coefficients are uniformly sampled in $(0.5, 1)$ and the one of the close-surface is in $(0, 0.5)$.
 The same realistic diffusion profile \citeonly{gaultier2017vast} is used for all surfaces.
 Around $90,000$ audio scenes are generated this way, yielding a \ac{RT$_{60}$} between $20$ ms and $250$ ms.
 \\The \acp{RIR} are convolved with 1 sec of white-noise (wn) with no additional noise.
@@ -268,7 +271,7 @@ The \ac{STFT} is performed on $1024$ point with $50\%$ overlap.
 Finally the features are computed as in~\eqref{eq:mirage:features} yielding a vector of size $D = 1534$ for each observation.
 \\While we validate the \ac{MLP} on a portion of the dataset in a \textit{holdout} fashion, the test is conducted on 200 new \acp{RIR} convolved with both wn and speech (sp) utterances.
 This set is generated similarly to the training and validation sets.
-Moreover the test recordings are perturbed by external white noise at 10~dB \acf{SNR} (wn+n, sp+n).
+Moreover, the test recordings are perturbed by external white noise at 10~dB \acf{SNR} (wn+n, sp+n).
 The speech signals are normalized speech utterances of various lengths (from $1$ s to $6$ s), randomly selected from the TIMIT corpus.
 % A free and open-source Matlab implementation of SRP-PHAT\footnote{\url{http://bass-db.gforge.inria.fr/bss_locate/}} is used to aggregate local angular spectra obtained from the DNN's output.
 % The same toolbox is used for the implementation of SPR-PHAT with GCC-PHAT. For the latter method only real pairs are used.
@@ -276,11 +279,11 @@ The speech signals are normalized speech utterances of various lengths (from $1$
 
 \newthoughtpar{Experimental results}\label{subsec:lantern:mlpdata}
 To check the validity of \ac{TDOA} estimation with the proposed \ac{MLP} model, we compare it to a baseline algorithm \acf{GCC-PHAT} (see~\cref{subsec:mirage:1D-SSL}).
-\ac{GCC-PHAT} is popular method for estimating \ac{TDOA} between two microphone recordings.
-It is known to achieve good performance in case of broadband source signal and some robustness to noise level.
-However, it was shown that as soon as the acoustic condition become challenging due to strong early echoes, high reverberation level and noise, the method performances decrease~\citeonly{chen2006time}.
+\ac{GCC-PHAT} is a popular method for estimating \ac{TDOA} between two microphone recordings.
+It is known to achieve good performance in the case of the broadband source signal.
+However, it was shown that as soon as the acoustic condition becomes challenging due to strong early echoes, high reverberation level, and noise, the method performances decrease~\citeonly{chen2006time}.
 
-\begin{table}[ht!]
+\begin{table}[h]
     \begin{sidecaption}[Echo estimation with MIRAGE results]{%
         Normalize root mean squared error for TDOA estimation using the \ac{MLP} architecture.
     }[tab:lantern:tdoas-aoa]
@@ -308,21 +311,21 @@ However, it was shown that as soon as the acoustic condition become challenging 
 \mynewline
 \ac{TDOA} estimation errors using the proposed approach and \ac{GCC-PHAT} are presented in~\cref{tab:lantern:tdoas-aoa}.
 Training a \ac{MLP} to estimate \acp{TDOA} brings similar performances as \ac{GCC-PHAT} in terms of nRMSE.
-However, the estimation of \ac{iTDOA} and \ac{TDOE} seems to be a harder task for the such a simple \ac{MLP} model.
-When some external noise is added, performance of both methods degrades.
-This is a well-know and expected behavior for \ac{GCC-PHAT} and it suggests that noise should be considered also in the training phase. When
-Nevertheless, our results confirm the possibility of retrieving early echoes from only two-microphone recordings.
+However, the estimation of \ac{iTDOA} and \ac{TDOE} seems to be a more challenging task for such a simple \ac{MLP} model.
+When some external noise is added, the performances of both methods degrades.
+This is a well-known and expected behavior for \ac{GCC-PHAT}, and it suggests that noise should also be considered in the training phase. When
+Nevertheless, our results confirm the possibility of retrieving the strongest echoes from only two-microphone recordings.
 
 \section{Robustly learning the first echo}\label{sec:lantern:robust}
 The above model was proposed in the our published work~\citeonly{di2019mirage}.
-To overcome to the limitations of such simple approach with introduced the following three modifications:
+To overcome the limitations of such a simple approach with introduced the following three modifications:
 \begin{itemize}
     \item use state-of-the-art deep learning architecture;
     \item include corrupting noise in the training data;
     \item and use a robust loss function which is able to return a level of confidence of the estimation.
 \end{itemize}
 Motivated by their success, we consider a \ac{CNN} architecture (see~\cref{subsec:lantern:cnn}).
-To this end we inspired from the works~\citeonly{chakrabarty2017broadband,nguyen2018autonomous} for the task of \ac{SSL}.
+To this end, we inspire by the works~\citeonly{chakrabarty2017broadband,nguyen2018autonomous} for the task of \ac{SSL}.
 \begin{figure}[h]
     \begin{sidecaption}[CNN]{
         Architecture of the proposed deep neural network. Input and output dimensions for each stage are reported. The first dimension is the batch size $B = 200$.
@@ -337,15 +340,15 @@ In order to perform 1D-convolution ond the right dimension, we re-arranged the i
 After each layer a dropout probability $p_\text{do} = 0.3$ is applied to prevent overfitting.
 
 \mynewline
-\subsection{Gaussian- and Student-T-based CNNs}
+\subsection{Gaussian- and Student's T-based CNNs}
 In the \ac{MLP} model presented in the previous section, the output consisted only in the \acp{TDOA} $V$.
 As mention earlier, our final goal is to generalize this approach to microphone array in a data-fusion-like fashion.
 To this end, we need to provide a confidence measure on the estimate.
 In our work~\citeonly{di2019mirage}, we proposed to use predicted values and the error on the validation set as mean and variance to build a Gaussian prior.
 Instead, here, we explicitly modify the \ac{CNN} model to estimated these parameters.
-This idea is similar to the approach proposed by Bishop in \ac{MDN} in \citeonly{bishop1994mixture}, where the output of a neural network parametrizes a Gaussian mixture model.
-The rationale behind this design choice is to allows the learning model to assess the quality of its prediction.
-In order tho achieve this both loss functions and network outputs need to be modified accordingly.
+This idea recalls Bishop's\ac{MDN} in \citeonly{bishop1994mixture}, where the output of a neural network parametrizes a Gaussian mixture model.
+The rationale behind this design choice is to allow the learning model to assess its prediction quality.
+In order to achieve this, both loss functions and network outputs need to be modified accordingly.
 \newcommand{\xiTheta}{{\xi;\theta}}
 \newcommand{\sigmaTauv}{\ensuremath{\sigma^2_{v}(\xiTheta)}}
 \newcommand{\muTauv}{\ensuremath{\mu_{v}(\xiTheta)}}
@@ -369,7 +372,7 @@ Moreover, we assume that the probability of observing each of the $\tau_v$ for e
     p(\tau_v \mid  \xi ; \theta) \sim \calN\kparen{\tau_v; \muTauv, \sigmaTauv}
     .
 \end{equation}
-Hereafter, we will omit the dependency on $(\xiTheta)$ for sake of clarity.
+From now on, we omit the dependency on $(\xiTheta)$ for the sake of clarity.
 \\Finally, the corresponding training loss function is the negative Gaussian log-likelihood, that is,
 \begin{equation}\label{subsec:mirage:mlpcost}
     \calL_{\params}^{\calN}(V, \hat{V)} = \frac{1}{\kvbar{\calV}}
@@ -380,21 +383,21 @@ Hereafter, we will omit the dependency on $(\xiTheta)$ for sake of clarity.
 \end{equation}
 It follows that for each each input $\xi$, the network will return the parameters of 3 Gaussian distributions, ($\estMuTau, \estSigmaTau$) for each variable $v\in\calV$.
 Moreover, it is easy to see that the estimated \acp{TDOA} values identify with the $\set{\estMuTau}_v$ for each $v\in\calV$.
-Hereafter we denote with $\hat{V}_{\calN}$ the set of the 6 network outputs.
-\\This approach can be then generalized to other this of distribution.
-For instance, we can consider a Student-T distribution, which is known to be more robust to outliers.
-Using such distribution has been already proposed in the context of binaural \ac{SSL}, such as~\citeonly{zohny2014modelling,deleforge2016rectified}.
+Hereafter we denote with $\hat{V}_{\calN}$ the set of the six network outputs.
+\\This approach can then be generalized to other this of distribution.
+For instance, we can consider a Student's \textit{t-distribution}, which is supposed to be more robust to outliers.
+Using such distribution has already been proposed in the context of binaural \ac{SSL}, such as~\citeonly{zohny2014modelling,deleforge2016rectified}.
 
-\newthought{The Student-T-based loss function}
+\newthought{The Student's \textit{t}-based loss function}
 \marginpar{
     \footnotesize
-    The general form of the Student-T probability density function is
+    The general form of the Student's \textit{t} probability density function is
     \begin{equation*}
         \calT(x; \mu, \lambda, \nu) = \frac{\Gamma(\frac{\nu+1}{2})} {\sqrt{\nu\pi}\,\Gamma(\frac{\nu}{2})} \left(1+\frac{t^2}{\nu} \right)^{\!-\frac{\nu+1}{2}}
         ,
     \end{equation*}
-    where $\Gamma$ is the Gamma function $\Gamma(n)=(n-1)!$
-} can be derived similarly in the Gaussian case assuming a Student-T distribution prior on the prediction.
+    where $\Gamma(n)=(n-1)!$ is the Gamma function, defined for positive integers.
+} can be derived similarly in the Gaussian case assuming a \textit{t}-distribution prior on the prediction.
 We will reminds to the~\cref{ap:studentT} for the detailed derivation.
 % \newcommand{\nuTauv}{\ensuremath{\nu^2_{\tau_v}(\xiTheta)}}
 % \newcommand{\lambdaTauv}{\ensuremath{\lambda^2_{\tau_v}(\xiTheta)}}
@@ -403,7 +406,7 @@ We will reminds to the~\cref{ap:studentT} for the detailed derivation.
 %     .
 % \end{equation}
 % \begin{equation}
-With that being said, the corresponding loss function is the negative Student-T log-likelihood writes
+With that being said, the corresponding loss function is the negative \textit{t}-distribution log-likelihood writes
 \begin{equation}
     \begin{split}
     \ \calL_{\params}^{\calT}(V, \hat{V)} =
@@ -415,24 +418,22 @@ With that being said, the corresponding loss function is the negative Student-T 
                            + \dfrac{\nu_v+1}{2} \log \left( 1  + \dfrac{\powerOf{\mu_v - \tau_v)}}{\nu_v \lambda_v^2} \right)\\
     \end{split}
 \end{equation}
-where $\Gamma$ is the Gamma function\sidenote{
-    For any positive integer $n$, the Gamma function writes $\Gamma(n)=(n-1)!$
-}.
-Similarly to the Gaussian case, at each each input $\xi$, the network will return the parameters of 3 Student-T distribution ($\mu_v, \nu_v, \lambda_v$) for each variable $v\in\calV$.
-The set of there 9 network output is denoted as $\hat{V}_{\calT}$.
+where $\Gamma$ is the Gamma function.
+Similarly to the Gaussian case, at each each input $\xi$, the network will return the parameters of 3 \textit{t}-distribution ($\mu_v, \nu_v, \lambda_v$) for each variable $v\in\calV$.
+The set of there nine network output is denoted as $\hat{V}_{\calT}$.
 
 \subsection{Experimental results}
-In order to validate the the proposed approach, it is compared to the vanilla \ac{MLP} model proposed above in the previous section.
+In order to validate the proposed approach, it is compared to the vanilla \ac{MLP} model proposed above in the previous section.
 Rather than training on noise-less observation, we consider microphone recordings featuring background noise.
-To this end, we perturbed the observed microphone signals with \ac{AWGN} leading to \ac{SNR} values uniformly distributed in $[0, 30]$~dB.
+To this end, we perturbed the observed microphone signals with \ac{AWGN}, leading to \ac{SNR} values uniformly distributed in $[0, 30]$~dB.
 While, the test set include observation featuring \ac{SNR} level of $[0, 10, 20]$~dB.
 The protocol to generate the observations and the feature extraction steps are the same (\cref{subsec:lantern:mlpdata}), but the investigation is restricted to broadband source signal (white noise) only.
-The network is manually tuned on a validation set to find the best combination of number of hidden layers and their sizes.
+The network is manually tuned on a validation set to find the best combination of the number of hidden layers and their sizes.
 
 \mynewline
 \cref{fig:lantern:snr10} shows the performances of the proposed models $\mathtt{CNN}_{\calV}$, $\mathtt{CNN}_{\calV_\calN}$ and $\mathtt{CNN}_{\calV_\calT}$ with respect the
 $\mathtt{MLP}_{\calV}$ and the baseline $\mathtt{GCC-PHAT}$ of the described in the section for the task of estimating \ac{TDOA}, \ac{iTDOA} and \ac{TDOE}.
-Again we report the performance in term of \ac{nRMSE} computed on the test samples.
+Again we report the performance in terms of \ac{nRMSE} computed on the test samples.
 \begin{figure}[h]
     \begin{sidecaption}[]{%
         Normalize root mean squared error (the lower, the better) for \ac{TDOA} estimation using the proposed architectures.
@@ -441,10 +442,10 @@ Again we report the performance in term of \ac{nRMSE} computed on the test sampl
     \includegraphics[width=\linewidth]{lantern/snr10.pdf}
     \end{sidecaption}
 \end{figure}
-It can be seen that the proposed modifications (\ac{CNN}, robust loss function and considering noise in the training) yield a considerable improvement in the performance, respect to the vanilla and baseline methods.
-In particular, they are more robust with respect to noise, as indicate by the error bar.
+It can be seen that the proposed modifications (\ac{CNN}, robust loss function, and considering noise in training) yield considerable improvement in the performance, with respect to the vanilla and baseline methods.
+In particular, they are more robust to noise, as indicate by the error bar.
 Nevertheless, while both $\mathtt{CNN}_{\calV_\calN}$ and $\mathtt{CNN}_{\calV_\calT}$ outperform the $\mathtt{CNN}_{\calV}$ for \ac{TDOA} and \ac{iTDOA} estimation, it seems there is are no significant differences between them.
-\\Deeper insight about this can be envisioned in~\cref{fig:lantern:snr}, where the performance are reported for different \ac{SNR} level considered at the test phase.
+\\Deeper insight about this can be envisioned in~\cref{fig:lantern:snr}, where the performances are reported for different \ac{SNR} levels considered at the test phase.
 \begin{figure}[h]
     \begin{sidecaption}[]{%
         Normalize root mean squared error (the lower, the better) for \ac{TDOA} estimation using the proposed architectures for different \ac{SNR} levels.
@@ -454,17 +455,32 @@ Nevertheless, while both $\mathtt{CNN}_{\calV_\calN}$ and $\mathtt{CNN}_{\calV_\
     \end{sidecaption}
 \end{figure}
 These results suggest that using a simple \ac{MSE}-based loss function yield to performance more sensitive to external noise.
-Besides, again it seems that considering the T-distribution do not bring significant difference over the Gaussian-case.
-Nevertheless, the choice of modeling the output of the network according to different distributions may lead to difference at the data-fusion step.
+Besides, again it seems that considering the \textit{i}-distribution do not bring significant difference over the Gaussian-case.
+Nevertheless, the choice of modeling the output of the network according to different distributions may lead to differences at the data-fusion step.
 
 \section{Conclusion}\label{sec:lantern:conclusion}
+This chapter presented an attempt to use deep learning models to learn the complex mapping from stereophonic recordings to echoes' timings.
+As part of a fist investigation, we consider a simple yet common scenario where two microphones are placed close to a surface and listen to a single source's sound.
+Moreover, the proposed approach is limited to estimating the time delays between the two microphones, the direct propagation path, and the first-strongest reflection.
+This simplification is motivated by an application to echo-aware \ac{SSL}, which will be presented in~\cref{ch:mirage}.
+\\We studied two standard \ac{DNN} architectures, which are trained in virtually supervised fashion with data generated by an acoustic simulator.
+Finally, we discuss three ways to increase such performances, \ie/, training on noisy data, using the \ac{CNN} architecture, and use robust loss functions.
+\\The investigation so far was limited to microphone pairs.
+Taking inspiration from data-fusion approaches, in chapter~\cref{ch:mirage}, we will propose to aggregate to multiple pairs' contributions together to improve the final estimation.
+To this end, we modify the output of the \ac{DNN} in order to return a confidence measure.
 
-\newthought{Towards the case $\numEchs > 2$}
-
-\newthought{Better features: \RTF/}
-
-\newthought{Better architecture: Physical-based learning and unfolding}
-
+\mynewline
+A nature follow-up of this work could consider the following directions.
+\begin{itemize}
+    \item The first direction consider the generalization to to more reflections.
+    Unfortunately this step is not trivial.
+    Current informal investigation spanned different training paradigm, such as, \textit{curriculum learning}~\citeonly{bengio2009curriculum}, \textit{teacher-student learning}~\citeonly{tu2019speech}, where the network is subsequently trained to estimate more echoes.
+    Other approaches are currently subject of investigation, such as, using a combination of \acs{DNN} pre-trained for single echo estimation.
+    \item Due to the drop of performances when using speech signals, we could consider more robust audio features (\eg/, \ReTF/ using state-of-the-art \ReTF/ estimators) or
+    \ac{DNN} architecture designed to handle missing input data.
+    \item Finally, another interesting direction comes from physics-driven neural networks~\citeonly{nabian2020physics,rao2020physics,jin2020physics},
+    where physical-based layers or physically-motivated regularizers are implemented facilities the learning.
+\end{itemize}
 
 % \begin{table}[ht!]
 %     \begin{sidecaption}[Echo estimation with MIRAGE results]{%
