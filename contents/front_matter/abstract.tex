@@ -1,41 +1,38 @@
 \chapter*{Abstract}\addcontentsline{toc}{chapter}{Abstract}
 
-{   \small
-
-    Audio scene analysis aims at retrieving useful information from microphone recordings.
-    Examples of these problems are sound source separation and sound source localization, where we are interested in estimating a person's speech content and position and position.
-    As humans, we perform these tasks without effort. However, for computers and robots, they are still open challenges.
-    One of the main limitations is that most available technologies solve audio scene analysis problems considering either sound's semantic or its spatial information.
-
-    \mynewline
-    The central theme of this theses is acoustic echoes: the sound propagation elements bridging semantic and spatial information on sound sources.
-    In particular, as repetitions of a source signal, their semantic contribution can be integrated to enhance the sound source.
-    As originated by an interaction with the environment, their path can be backtracked and used to estimate the audio scene's geometry.
-    Based on these observations, recent echo-aware audio signal processing methods have been proposed.
-    However, two main questions arise: how to estimate acoustic echoes, and how to use their knowledge?
-
-    \mynewline
-    This thesis work aims at improving the current state-of-the-art for indoor audio signal processing along these two axes.
-    It also provides new methodologies and data to process acoustic echoes and surpass current approaches' limits.
-    To this end, we present two approaches:
-    a novel approach based on the  continuous dictionary framework which does not rely on parameter tuning or peak picking techniques;
-    a deep learning model estimating the time differences of arrival of the first prominent echoes using physically-motivated regularizers.
-    Furthermore, we present a novel, fully annotated dataset specifically designed for acoustic echo retrieval and echo-aware applications, paving the way for future echo-aware research.
-
-    \mynewline
-    The second part of this thesis regards extending existing methods in audio scene analysis to their echo-aware forms.
-    The Multichannel NMF framework for audio source separation, the SRP-PHAT localization methods, and the MVDR beamformer for speech enhancement
-    are re-proposed in their echo-aware version. These applications show how a simple echo model can lead to a boost in performance.
-
-    \mynewline
-    This thesis highlights the difficulty of exploiting acoustic echoes to improve indoor audio processing.
-    As a first attempt to lay unified analytical and methodological foundations for these problems, it is hoped to serve as a starting point for exciting research in this field.
-    % Finally, we want to underline the difficulty related to the tasks of estimating and exploiting acoustic echoes to improve indoor audio processing.
-    % Therefore, this thesis consists only of a first attempting work that lays analytical foundations on how to model such problems, and it can serve as a starting point for new exciting directions.
-
-    \newthought{Keywords:}
-    Acoustic echoes, acoustic echo retrieval, room impulse response estimation;
+Audio\marginpar{
+    \footnotesize
+    \textbf{Keywords:}
+    \\Acoustic echoes, acoustic echo retrieval, room impulse response estimation;
     audio scene analysis, room acoustics;
     audio source separation, room geometry estimation, spatial filtering, sound source localization;
     deep learning, continuous dictionary.
-}
+} scene analysis aims at retrieving useful information from microphone recordings.
+Examples of these problems are sound source separation and sound source localization, where we are interested in estimating a person's speech content and position and position.
+As humans, we perform these tasks without effort. However, for computers and robots, they are still open challenges.
+One of the main limitations is that most available technologies solve audio scene analysis problems considering either sound's semantic or its spatial information.
+
+\mynewline
+The central theme of this theses is acoustic echoes: the sound propagation elements bridging semantic and spatial information on sound sources.
+In particular, as repetitions of a source signal, their semantic contribution can be integrated to enhance the sound source.
+As originated by an interaction with the environment, their path can be backtracked and used to estimate the audio scene's geometry.
+Based on these observations, recent echo-aware audio signal processing methods have been proposed.
+However, two main questions arise: how to estimate acoustic echoes, and how to use their knowledge?
+
+\mynewline
+This thesis work aims at improving the current state-of-the-art for indoor audio signal processing along these two axes.
+It also provides new methodologies and data to process acoustic echoes and surpass current approaches' limits.
+To this end, we present two approaches:
+a novel approach based on the  continuous dictionary framework which does not rely on parameter tuning or peak picking techniques;
+a deep learning model estimating the time differences of arrival of the first prominent echoes using physically-motivated regularizers.
+Furthermore, we present a novel, fully annotated dataset specifically designed for acoustic echo retrieval and echo-aware applications, paving the way for future echo-aware research.
+
+\mynewline
+The second part of this thesis regards extending existing methods in audio scene analysis to their echo-aware forms.
+The Multichannel NMF framework for audio source separation, the SRP-PHAT localization methods, and the MVDR beamformer for speech enhancement
+are re-proposed in their echo-aware version. These applications show how a simple echo model can lead to a boost in performance.
+
+\newthought{This thesis} highlights the difficulty of exploiting acoustic echoes to improve indoor audio processing.
+As a first attempt to lay unified analytical and methodological foundations for these problems, it is hoped to serve as a starting point for exciting research in this field.
+% Finally, we want to underline the difficulty related to the tasks of estimating and exploiting acoustic echoes to improve indoor audio processing.
+% Therefore, this thesis consists only of a first attempting work that lays analytical foundations on how to model such problems, and it can serve as a starting point for new exciting directions.
