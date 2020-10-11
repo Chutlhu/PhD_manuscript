@@ -128,7 +128,6 @@ as a proxy for the estimation of the \ac{AOA}, $\aoa$, since:
     \vartheta \approx \arccos \kparen{\speedOfSound \: \tdoa \: / \: \distMicMic }\quad\text{[rad]},
 \end{equation}
 where $\speedOfSound$ is the speed of sound and $\distMicMic$ is the inter-microphone distance, considered small compared to the source's distance.
-
 \begin{figure}
     \begin{sidecaption}[]{
         Illustration of the relation between \ac{DOA} and \ac{TDOA} with ones source and two microphones.
@@ -137,10 +136,7 @@ where $\speedOfSound$ is the speed of sound and $\distMicMic$ is the inter-micro
         \includegraphics[width=\linewidth]{mirage/tdoa_microphone.pdf}
     \end{sidecaption}
 \end{figure}
-
-
-\mynewline
-Then, \SSL/ reduces to estimating the \ac{TDOA}, which can be done by a \ac{CC}-based methods, \eg/, the \acf{GCC-PHAT} method\marginpar{
+\\Then, \SSL/ reduces to estimating the \ac{TDOA}, which can be done by a \ac{CC}-based methods, \eg/, the \acf{GCC-PHAT} method\marginpar{
     \footnotesize\itshape
     The ``generalized'' cross-correlation methods add weighting functions (\eg/ the \acf{PHAT}, or the smoothed coherence transform (SCOT)) to the frequency-domain \ac{CC}.
     Their purpose is to improve the estimation of the time delay depending on specific characteristics of the signal and noise.
@@ -158,9 +154,7 @@ Given the \STFT/ $\MIC_1$ and $\MIC_2$ of the two microphones signals, the \ac{C
 where $*$ denotes the complex conjugate, $[k,l]$ indexes a \ac{TF} bin of the \STFT/ and $f_k$ is the $k$-th natural frequency in the \STFT/.
 \\The weighting function $1 / \kvbar{ \MIC_1[k,l] \MIC_2^{*}[k,l]}$ is called \acf{PHAT}.
 This function was introduce to suppress the source's autocorrelation component from the angular spectrum.
-
-\mynewline
-Then, the \ac{TDOA} estimate is given by
+\\Then, the \ac{TDOA} estimate is given by
 \begin{equation*}
     \hat{\tau}_\mathtt{TDOA} = \arg \underset{\tau}{\max} \; \Psi(\tau)
     ,
@@ -224,14 +218,7 @@ In this view, the echoic signal received at a true microphone is the sum of the 
 If we consider the virtual array consisting of both true and image microphones, multiple microphone pairs are now available.
 For each of them, it is then possible to define a corresponding time difference of arrival.
 Among them, we will refer to the one defined in~\cref{sec:lantern:simple}, that is,
-Therefore, we have:\marginpar{%
-    \centering
-    \footnotesize
-    \includegraphics[trim={82mm 0 0 0},clip,width=\linewidth,height=7cm]{mirage/rirs.pdf}
-    \captionof{figure}{%
-        Superposition of two \acp{RIR} and visualization of time difference of arrival between direct paths (\ac{TDOA}), first echoes (\ac{iTDOA}) and direct path and first echo (\ac{TDOE}).}
-    \label{fig:mirage:rirs_tdoa}
-}%
+Therefore, we have:
 \begin{equation}
     \begin{aligned}
         \tau_\mathtt{TDOA}  &= \tfrac{1}{c} \norm{\positionMicrophone_2 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_2^{(0)} - \tau_1^{(0)},\\
@@ -243,7 +230,14 @@ Therefore, we have:\marginpar{%
 where $\mathring{\positionMicrophone}_i$ denotes the position of the image of $\positionMicrophone_i$ with respect to the reflector.
 It is easy to see that $\tau_{\mathtt{TDOE}_2} =  \tau_{\mathtt{TDOE}_1} + \tau_\mathtt{iTDOA} - \tau_\mathtt{TDOA}$.
 Therefore, we will consider only the set $V = \klist{\tau_{\mathtt{TDOA}}, \tau_{\mathtt{iTDOA}}, \tau_{\mathtt{TDOE}_1}}\in\mathbb{R}^3$.
-These three quantities are directly connected to \RIRs/, as illustrated in~\cref{fig:mirage:rirs_tdoa}.
+These three quantities are directly connected to \RIRs/, as illustrated in~\cref{fig:mirage:rirs_tdoa}.\marginpar{%
+\centering
+\footnotesize
+\includegraphics[trim={82mm 0 0 0},clip,width=\linewidth,height=7cm]{mirage/rirs.pdf}
+\captionof{figure}{%
+    Superposition of two \acp{RIR} and visualization of time difference of arrival between direct paths (\ac{TDOA}), first echoes (\ac{iTDOA}) and direct path and first echo (\ac{TDOE}).}
+\label{fig:mirage:rirs_tdoa}
+}%
 % Note that they are the same estimated by the \acs{LANTERN} \ac{DNN} presented in~.
 
 \mynewline
