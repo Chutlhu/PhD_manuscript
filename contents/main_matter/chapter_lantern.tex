@@ -171,38 +171,39 @@ we will use \ac{DNN} to estimate echoes' properties, and later, in~\cref{ch:mira
     \footnotesize
     \includegraphics[trim={50 70 50 150},clip,width=\linewidth]{mirage/scene.pdf}
     \captionof{figure}{%
-        Typical setup with one source source recorded by two microphones.
-        The illustration shows direct sound path (blue lines) and resulting first-order echoes (orange lines).}
+        Typical setup with one sound source recorded by two microphones.
+        The illustration shows the direct sound path (blue lines) and the resulting first-order echoes (orange lines).}
     \label{fig:lantern:scene}
 }
-As a first step, we will use \ac{DNN} to estimate the timings of the first and strongest echo from stereophonic recordings, \ie/ $\numEchs=1$.
-To this end, we consider a simple yet common scenario: two microphone placed close to a surface, as illustrated in~\cref{fig:lantern:scene}.
-Such a scenario is motivated by the echo-aware \acf{SSL} application that will be discussed in~\cref{ch:mirage}.
-The reason why we consider only single microphone pairs is that this approach can be generalized to microphone array using data-fusion-line approaches.
-In fact, by considering all the pairs, it is possible to aggregate all their estimation a second moment.\sidenote{
-    An example of this approach is the \ac{SRP-PHAT}~\citeonly{dibiase2001robust} algorithm used is \ac{SSL} which uses
+As a first step, we will use \acp{DNN} to estimate the timings of the first and strongest echo in each channel from stereophonic recordings.
+This setup is related to ``table-top'' scenarios, which are commonly encountered in typical home smart audio devices and it is motivated by the echo-aware \acf{SSL} application that will be discussed in~\cref{ch:mirage}.
+To this end, we consider the following simple setup: two microphone placed close to a surface, as illustrated in~\cref{fig:lantern:scene}.
+The reason why we consider only one microphone pair is that this approach can be generalized to microphone arrays using data-fusion-like techniques.
+In fact, by considering all the pairs, it is possible to aggregate their estimation in a second stage.\sidenote{
+    An example of such techniques is the \ac{SRP-PHAT}~\citeonly{dibiase2001robust} algorithm used for \ac{SSL}, which uses
     the knowledge of the microphone array geometry to aggregate the contribution of each microphone pair.
 }
-In the remaining part of this chapter, we will discuss how to achieve robust first-echo estimation and how it could be generalized to multiple echoes.
+In the reminder of this chapter, we will discuss how to achieve robust first-echo estimation and how it could be generalized to multiple echoes.
 
 \subsection{Proposed approach}\label{subsec:lantern:simple:mpl}
-Our approach is to train a \ac{DNN} on a dataset simulating the considered close-surface scenario.
+Our approach is to train a \acp{DNN} on a dataset simulating the considered close-surface scenario.
 Under this assumption and the \acf{STFT} signal model presented in~\cref{eq:processing:stft}, we can consider the following simplified model for the \acfp{RTF},
 \begin{equation}\label{eq:mirage:rir}
     \FLT_\idxMic[k] = \sum_{\idxEch=0}^{\numEchs=1}  \; \alpha_\idxMic^{(\idxEch)}[k] \; \cste^{- \csti 2 \pi f_k \tau_\idxMic^{(\idxEch)}} \; + \; \varepsilon_\idxMic[k],
 \end{equation}
-where $\tau_\idxMic^{(\idxEch)}$ and $\alpha_\idxMic^{(\idxEch)}[k]$ are the echoes's time of arrival and amplitude, respectively.
-The $f_k$ denotes $k$-th frequency bin and the error term $\varepsilon_i[k]$ collects later echoes, the reverberation tail, diffusion, and noise.
+where $\tau_\idxMic^{(\idxEch)}$ and $\alpha_\idxMic^{(\idxEch)}[k]$ are the echoes' times of arrival and amplitudes, respectively.
+Here, $f_k$ denotes $k$-th frequency bin and the error term $\varepsilon_i[k]$ collects later echoes, the reverberation tail, diffusion, and noise.
+\\As we consider only the first echo\sidenote{Here, the first echo is the earliest and strongest. This is ensured by the close-wall scenario)} per channel, let be $\numEchs=1$.
 
 \mynewline
-We model the \AER/ problem as multi-target regression problem, namely the output on the model are multiple real-valued parameters.
+We model the \AER/ problem a multi-target regression problem, namely, the outputs of the model are multiple real-valued parameters.
 Following the approaches suggested in~\citeonly{deleforge2015acoustic,gaultier2017vast}, we consider the instantaneous \acf{ILD} and the \ac{IPD} as input features.
-As discussed in~\cref{subsec:processing:steering}, the \ac{ILD} and \ac{IPD} can be consider as a particular case of \acf{ReTF}.
-The \ac{ILD} and \ac{IPD} can be estimated from the \STFT/ of the microphone signals, such as,
+As discussed in~\cref{subsec:processing:steering}, the \acfp{ILD} and \acfp{IPD} can be consider as a particular case of \acf{ReTF}.
+The \ac{ILD} and \ac{IPD} can be estimated from the \STFT/ of the microphone signals as follows
 \begin{equation} \label{eq:mirage:features}
 \begin{cases}
     \ild[k]  =& \tfrac{1}{T} \sum_{l=1}^T \log{\abs{\frac{\MIC_2[k,l]}{\MIC_1[k,l]}}}, \\
-    \ipd[k]  =& \tfrac{1}{T} \sum_{l=1}^T \frac{\MIC_2k,l]/ \abs{\MIC_2[k,l]}}{ \MIC_2k,l] / \abs{\MIC_1[k,l]}},\\
+    \ipd[k]  =& \tfrac{1}{T} \sum_{l=1}^T \frac{\MIC_2[k,l]/ \abs{\MIC_2[k,l]}}{ \MIC_2[k,l] / \abs{\MIC_1[k,l]}},\\
 \end{cases}
 \end{equation}
 where $\MIC_i[k,l]$ is the \ac{STFT} of the $i$-th microphone.
@@ -211,38 +212,45 @@ where $\MIC_i[k,l]$ is the \ac{STFT} of the $i$-th microphone.
     \xi = \klist{ \ild, \kRe\set{\ipd}, \kIm\set{\ipd}}
     ,
 \end{equation*}
-namely the concatenation of the above features for all the frequencies.
+namely, the concatenation of the above features in all frequencies into a single vector..
 Here $\kRe\set{\cdot}$ and $\kIm\set{\cdot}$ denote real and imaginary part operators, respectively.
-Note that for the \ac{IPD}, the frequency $k=0$ is discarded because it is constant for every observation.
+Note that for the \ac{IPD}, the frequency $k=0$ is discarded because because it always equals 1 for all the frequencies.
 
 \newcommand{\setTDOA}{\ensuremath{\set{\mathtt{TDOA}, \mathtt{iTDOA}, {\mathtt{TDOE}_1}}}}
 \mynewline
-Initial investigation shown that learning directly the echoes arrival time and their amplitude yield huge estimation error, probable to the complexity of the task.
-Motivated by the application in \ac{SSL} discussed in~\cref{ch:mirage}, we consider only the \acfp{TDOA} between the direct path propagation.
-\begin{align}
-    \tau_\mathtt{TDOA}  &= \tfrac{1}{c} \norm{\positionMicrophone_2 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_2^{(0)} - \tau_1^{(0)} \quad[\text{s}],\\
-    \tau_\mathtt{iTDOA} &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_2 - \positionSource} - \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_1 - \positionSource} = \tau_2^{(1)} - \tau_1^{(1)} \quad[\text{s}],\\
-    \tau_{\mathtt{TDOE},1}  &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_1 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_1^{(1)} - \tau_1^{(0)} \quad[\text{s}],
-\end{align}
+Initial investigations showed that learning the echoes amplitudes yielded large estimation errors, probably due to the complexity of the task.
+Thus, we considered echo timings with respect to the direct-path \ac{TOA} in a reference microphone for the following three main reasons:
+first, the origin of time cannot be known in the blind setting;
+second, motivated by an application to passive \ac{SSL} discussed in~\cref{ch:mirage}, \acfp{TDOA} can easily converted to angles.
+Then, the timings of the first echoes in the two channels can be fully parameterized by the following three quantities:
+\begin{equation}
+    \begin{cases}
+        \tau_\mathtt{TDOA}  &= \tfrac{1}{c} \norm{\positionMicrophone_2 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_2^{(0)} - \tau_1^{(0)} \quad[\text{s}],\\
+        \tau_\mathtt{iTDOA} &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_2 - \positionSource} - \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_1 - \positionSource} = \tau_2^{(1)} - \tau_1^{(1)} \quad[\text{s}],\\
+        \tau_{\mathtt{TDOE}_1}  &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_1 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_1^{(1)} - \tau_1^{(0)} \quad[\text{s}],\\
+        \tau_{\mathtt{TDOE}_2}  &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_2 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_2 - \positionSource} = \tau_2^{(1)} - \tau_2^{(0)} \quad[\text{s}],
+    \end{cases}
+\end{equation}
 where $\mathring{\positionMicrophone}_i$ denotes the position of the image of the microphone at position $\positionMicrophone_i$ with respect to the reflector.
-Note that $\tau_{\mathtt{TDOE},2} = \tau_\mathtt{iTDOA} + \tau_{\mathtt{TDOE}, 1} - \tau_\mathtt{TDOA}$.
-These three quantities are directly connected to \RIRs/, as illustrated in~\cref{fig:lantern:rirs_tdoa}\marginpar{%
+Note that, since $\tau_{\mathtt{TDOE},2} = \tau_\mathtt{iTDOA} + \tau_{\mathtt{TDOE}, 1} - \tau_\mathtt{TDOA}$, only the first three will be considered.
+These three quantities are directly connected to the early parts of the \RIRs/, as illustrated in~\cref{fig:lantern:rirs_tdoa}\marginpar{%
 \centering
 \footnotesize
 \includegraphics[trim={82mm 0 0 0},clip,width=\linewidth,height=7cm]{mirage/rirs.pdf}
 \captionof{figure}{%
     Superposition of two \acp{RIR} and visualization of time difference of arrival between direct paths (\ac{TDOA}), first echoes (\ac{iTDOA}) and direct path and first echo (\ac{TDOE}).}
 \label{fig:lantern:rirs_tdoa}
-}. Let $V = \klist{\tau_{\mathtt{TDOA}}, \tau_{\mathtt{iTDOA}}, \tau_{\mathtt{TDOE},1}}\in\mathbb{R}^3$ be the vector of the parameters of interest
-and $\calV = \setTDOA$ the set of corresponding labels.
+}. Let $V = \klist{\tau_{\mathtt{TDOA}}, \tau_{\mathtt{iTDOA}}, \tau_{\mathtt{TDOE}_1}}\in\mathbb{R}^3$ be the vector of parameters of interest.
+Since it will be useful later, let define $\calV = \setTDOA$ the set of three \textbf{indexes} denoted by \ac{TDOA}, \ac{iTDOA}, \ac{TDOE}.
 
 \mynewline
-Since we use \ReTF/-based feature to estimate echoes, the proposed approach is dubbed as \textit{\acf{LANTERN}}.
+Since we use \ReTF/-based features to estimate echoes, the proposed approach is dubbed as \textit{\acf{LANTERN}}.
 
 \mynewline
-In general, the mapping between $V$ and the proposed feature is not unique.
-In particular, this happen when $\tau_2^{(\idxEch)} = \tau_1^{(\idxEch)}$ for $\idxEch=\set{0,1}$.
-In order to avoid this, we preventively pruned all the entries with $| \tau_2^{(\idxEch)} - \tau_1^{(\idxEch)} | < 10^{-6}$ for $\idxEch=\set{0,1}$ from the dataset.
+While, given the $V$, the early part of the \ac{RTF} is fully defined, the opposite in not.
+Therefore, in general, different values of $V$ can yield the same \ac{ReTF} and hence the same \ac{ILD}/\ac{IPD} features.
+In particular, this happens when $\tau_2^{(\idxEch)} = \tau_1^{(\idxEch)}$ for $\idxEch=\set{0,1}$.
+Since this degenerate case is fundamentally unsolvable in the blind setting, we preventively pruned, all the entries with $| \tau_2^{(\idxEch)} - \tau_1^{(\idxEch)} | < 10^{-6}$ for $\idxEch=\set{0,1}$ from the dataset.
 
 \mynewline
 Here we use the simple \ac{MLP} architecture described in~\cref{subsec:lantern:mlp}.
