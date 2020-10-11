@@ -178,7 +178,7 @@ In fact, by considering all the pairs, it is possible to aggregate all their est
 }
 In the remaining part of this chapter, we will discuss how to achieve robust first-echo estimation and how it could be generalized to multiple echoes.
 
-\subsection{Proposed approach}
+\subsection{Proposed approach}\label{subsec:lantern:simple:mpl}
 Our approach is to train a \ac{DNN} on a dataset simulating the considered close-surface scenario.
 Under this assumption and the \acf{STFT} signal model presented in~\cref{eq:processing:stft}, we can consider the following simplified model for the \acfp{RTF},
 \begin{equation}\label{eq:mirage:rir}
@@ -255,7 +255,7 @@ The \acf{nRMSE}\sidenote{
 }is taken as validation metric for assessing the quality of the estimation $\hat{V}$.
 The network is manually tuned on a validation set to find the best combination of number of hidden layers, their sizes and $p_\text{do}$.
 
-\subsection{Data, implementation and experimental results}
+\subsection{Data, implementation and experimental results}\label{subsec:lantern:simple:mpl:results}
 For training and validation of the \ac{MLP} we generate many random, shoe-box room configurations using the software presented in \citeonly{schimmel2009fast}.
 This software implements both the \acf{ISM} for simulating reflections and a ray-tracing algorithm for diffusion.
 Room widths are uniformly drawn at random in $[3, 9]$ m, heights in $[2, 4]$ m.
