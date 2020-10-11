@@ -45,11 +45,11 @@
 % Text Node
 \draw (299.56,191.65) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$\mathring{\positionSource}$};
 
-\draw   (143.8, 176.37) circle [x radius= 5, y radius= 5]   ;
-\draw   (126.6, 175.02) circle [x radius= 5, y radius= 5]   ;
-\draw   (178.2, 195) circle [x radius= 5, y radius= 5]   ;
-\draw   (147.91, 212.96) circle [x radius= 5, y radius= 5]   ;
-\draw   (178.2, 195) circle [x radius= 5, y radius= 5]   ;
-\draw   (152.02, 177.87) circle [x radius= 5, y radius= 5]   ;
-\draw   (178.2, 195) circle [x radius= 5, y radius= 5]   ;
+% \draw   (143.8, 176.37) circle [x radius= 5, y radius= 5]   ;
+% \draw   (126.6, 175.02) circle [x radius= 5, y radius= 5]   ;
+% \draw   (178.2, 195) circle [x radius= 5, y radius= 5]   ;
+% \draw   (147.91, 212.96) circle [x radius= 5, y radius= 5]   ;
+% \draw   (178.2, 195) circle [x radius= 5, y radius= 5]   ;
+% \draw   (152.02, 177.87) circle [x radius= 5, y radius= 5]   ;
+% \draw   (178.2, 195) circle [x radius= 5, y radius= 5]   ;
 \end{tikzpicture}
