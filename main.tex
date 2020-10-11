@@ -119,13 +119,10 @@
 \input{contents/synopsis}
 
 \includeonly{   % Of course this list allows many more file
-%  intro,       % should also work with files in different paths
     % contents/front_matter/abstract,
     % contents/front_matter/resume,
     % contents/front_matter/resume_etendu_fr,
     % contents/front_matter/acknowledgments,
-    % contents/front_matter/glossary,
-    % contents/front_matter/notation,
     % contents/main_matter/chapter0_intro,
     % contents/main_matter/chapter1_acoustics,
     % contents/main_matter/chapter2_processing,
@@ -135,7 +132,7 @@
     % contents/main_matter/chapter_dechorate,
     % contents/main_matter/chapter9_applications,
     % contents/main_matter/chapter_separake,
-    contents/main_matter/chapter11_mirage,
+    % contents/main_matter/chapter11_mirage,
     % contents/main_matter/chapter_dechorateapp,
     % contents/main_matter/chapter20_conclusion,
     % contents/back_matter/bibliography,
@@ -180,7 +177,7 @@
 \tableofcontents*\addcontentsline{toc}{chapter}{Contents}
 \clearpage{}
 
-\include{contents/front_matter/glossary}
+\input{contents/front_matter/glossary}
 \cleardoublepage{}
 \clearpage{}
 
@@ -197,7 +194,7 @@
 % \listoftables*\addcontentsline{toc}{chapter}{List of Tables}
 % \clearpage{}
 
-\include{contents/front_matter/notation}
+\input{contents/front_matter/notation}
 
 \cleardoublepage{}
 

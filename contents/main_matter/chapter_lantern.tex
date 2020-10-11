@@ -13,53 +13,55 @@
 \newthought{Synopsis} \synopsisChLantern
 
 \mynewline
-Deep learning notions are personal digestion of materials available in standard machine learning textbooks, such as~\citeonly{bishop2006pattern,goodfellow2016deep}, and the recent comprehensive work of~\citeonly{purwins2019deep} oriented to audio signal processing.
-Instead, in the remaining sections, we will present part of the previously published work~\cite{di2019mirage} and a technical report~\cite{di2019honda} and on going research.
+Deep learning notions come from readings of materials available in standard machine learning textbooks, such as~\citeonly{bishop2006pattern,goodfellow2016deep}, and the recent comprehensive work of~\citeonly{purwins2019deep} oriented towards audio signal processing.
+In the remaining sections, we will present part of the previously published work~\cite{di2019mirage}, a technical report~\cite{di2019honda} and ongoing research.
 
 \mynewline
 It is essential to say that the approaches presented here are part of a first investigation in echo-aware \ac{SSL}.
-Therefore they are profoundly interconnected with~\cref{ch:mirage}, which can be considered a following up of the earlier work~\citeonly{gaultier2017vast} authored by colleagues.
-With that being said, we will mainly focus on a simple yet common scenario where we estimate only the first and strongest echo.
+Therefore they are profoundly interconnected with~\cref{ch:mirage}, which can be considered as a follow-up on the earlier work~\citeonly{gaultier2017vast} authored by colleagues.
+With that being said, we will mainly focus on a simple yet common scenario where we estimate only the first and strongest echo per channel.
 The generalization to multiple echoes will only be discussed as future work.
 
 \section{Introduction}\label{sec:lantern:intro}
-Recently \acfp{DNN} has captured the attention of many research fields due to recent advances that allow for faster implementation and training, as well as for achieving considerable performance improvement.
-Therefore, \acp{DNN}s have been widely used in many domains.
+Recently, \acfp{DNN} have captured the attention of many research fields due to recent advances that allow for faster implementation and training, as well as for achieving considerable performance improvement.
+Therefore, \acp{DNN} have been widely used in many domains.
 They belong to the class of \textit{supervised} learning or \textit{data-driven} models, where the training step is performed on labeled data, namely input-output pairs.
-The inclusion of these models in audio signal processing tasks has meant a considerable improvement in the performance, mainly audio and music source separation, speech enhancement, and source localization (see related sections in~\cref{ch:application}).
-\\Moreover, with respect to traditional machine learning methods, the use of deep learning models presents other advantages.
-They are flexible and adaptable across tasks; for instance, \acf{CNN}-based models from Computer Vision can be adapted for audio source separation (\eg/,~\citeonly{xiao2016deep, sainath2017multichannel, perotin2018crnn}), and for source localization(\eg/, ~\citeonly{chakrabarty2017broadband,vesperini2018localizing,nguyen2018autonomous,salvati2018exploiting}).
-Furthermore, \acp{DNN}s reduce --- even remove --- the step of designing hand-crafted features, by including the feature learning as part of the learning process.
+The inclusion of these models in audio signal processing tasks has led to a considerable improvement in performance, in particular in audio and music source separation, speech enhancement, and source localization (see related sections in~\cref{ch:application}).
+\\Moreover, with respect to traditional machine learning methods, the use of deep learning models presents several advantages.
+They are flexible and adaptable across tasks; for instance, \acf{CNN}-based models from Computer Vision can be adapted to audio source separation (\eg/,~\citeonly{xiao2016deep, sainath2017multichannel, perotin2018crnn}), and to source localization (\eg/, ~\citeonly{chakrabarty2017broadband,vesperini2018localizing,nguyen2018autonomous,salvati2018exploiting}).
+Furthermore, \acp{DNN} reduce --- even sometimes remove --- the step of designing hand-crafted features, by including feature learning as part of the learning process.
 \\Other
 \marginpar{
     \itshape\footnotesize
-    At first, the \acf{GLLiM} framework was considered to address the \ac{AER} problem. Then, we oriented our attention towards \ac{DNN} models, which gave already satisfactory results.
-    It seemed that the local-linearity assumption of \ac{GLLiM} was in contrast with the highly non-linear nature of the mapping between echoes and observation.
+    At first, the \acf{GLLiM} framework based on \ac{GMM} was considered to address the \ac{AER} problem.
+    Then, we oriented our attention towards \ac{DNN} models, which gave satisfactory results.
+    It seemed that the local-linearity assumption of \ac{GLLiM} was in contrast with the highly non-linear nature of the mapping between echoes and observations.
     Nevertheless, we recognize other benefits in using the \ac{GLLiM} framework, which cannot be found in the \ac{DNN}-based approach, such as, the ability to generalize to missing data at the input or including prior statistical knowledge in the model.
-} supervised learning methods have been proposed in audio processing literature, such as \ac{GMM}-based frameworks~\citeonly{laufer2013relative,deleforge2015acoustic,gaultier2017vast}.
-This framework allows to build power models based on probabilistic prior knowledge and are competing with \ac{DNN} models in case of a small training dataset.
-However, they ofter require a strong assumption of the nature of the mapping between input-output pairs, such as (local-)linearity or independence between the variables.
+} supervised learning methods have been proposed in the audio processing literature, such as \ac{GMM}-based frameworks~\citeonly{deleforge2015acoustic,gaultier2017vast}.
+This framework allows to build partially informed, invertible regression models based on probabilistic prior knowledge and are competing with \ac{DNN} models in case of a small training dataset.
+However, they require stronger assumptions on the nature of the mapping between input-output pairs, such as (local-)linearity or independence between variables.
 
 \mynewline
-The use of supervised learning models (not only the \ac{DNN}), presents some disadvantages.
-One of the most relevant ones is their dependence on annotated data. It results in a significant bottleneck in audio signal processing tasks because collecting and annotating comprehensive real-world acoustic data is not trivial, since it requires proper tools, expertise, and time.
-To overcome this issue, a standard approach nowadays is to used training data generated by simulators.
+The use of supervised learning models (not only the \acp{DNN}), presents some disadvantages.
+One of the most obvious ones is their dependence on annotated data. It results in a significant bottleneck in audio signal processing tasks because collecting and annotating comprehensive real-world acoustic data is not trivial, since it requires proper tools, expertise, and time.
+To overcome this issue, a standard approach nowadays is to use training data generated by simulators.
 We will refer to this approach as \textit{virtually supervised learning} and it provides great versatility, for instance:
 \begin{itemize}
-    \item many different acoustic condition can be include in the training data,\\\eg/, different \acf{RT$_{60}$} and \acf{SNR} levels;
-    \item a precise (up to computer precision) annotation of the data come directly,\\\eg/ spatial, temporal information of the audio scene events;
-    \item and finally, the data can be potentially re-used for different application,\\\eg/, localization, separation, diarization, \etc/;
+    \item many different acoustic conditions can be include in the training data,\\\eg/, different \acf{RT$_{60}$} and \acf{SNR} levels;
+    \item a precise (up to computer precision) annotation of the data is directly available,\\\eg/ spatial or temporal information on the audio scene events;
+    \item and, the data can be potentially re-used for different applications,\\\eg/, localization, separation, diarization, \etc/;
 \end{itemize}
 Besides, the solutions obtained in a data-driven fashion suffer from bias depending on the dataset used and may not generalize to real-world scenarios.
-Interestingly, the work in~\citeonly{nguyen2018autonomous} discusses an automatic approach for collecting, annotating data automatically as a pre-calibration step.
-However, this approach is possible only with specific technologies and applications (the authors programmed a humanoid robot equipped with a binaural hearing system that automatically builds a training set).
-The following section will gives a quick overview of relevant models used in our work.
+For instance, authors of~\citeonly{deleforge2015co} showed, in a \ac{SSL} context, that training or real data collected in one part of a room and testing in another part of the same room does not generalize well.
+Interestingly, the works in~\citeonly{deleforge2015acoustic,nguyen2018autonomous} propose an automatic approach for collecting and annotating data automatically as a pre-calibration step.
+However, this approach is possible only with specific technologies and equipments (in both the works, the authors programmed a humanoid robot equipped with a binaural hearing system that automatically builds a training set).
+The following section will give a quick overview of relevant models used in our work.
 
 \section{Deep Learning Model}\label{sec:lantern:dnn}
 
-\subsection{Multi-layer perceptions}\label{subsec:lantern:mlp}
-\acf{MLP} are simple and basic modules of \ac{DNN} and are also known as \textit{fully-connected} or \textit{dense layers}.
-They consist of a sequence of layer, each of which defined by an affine transformation followed by a non-linearity function:
+\subsection{Multi-layer Perceptions}\label{subsec:lantern:mlp}
+\acfp{MLP} are simple and basic modules of \acp{DNN} and are also known as \textit{fully-connected} or \textit{dense layers}.
+They consist of a sequence of layers, each of which defined by an affine vector transformation followed by a an entry-wise non-linear function:
 \begin{equation*}
     \bfy = f(\bfW \bfx + \bfb)
     ,
@@ -73,87 +75,92 @@ where
     \item and $\bfb\in\bbR^{\Dout}$ and $\bfW\in\bbR^{\Dout \times \Din}$ are the \textit{bias vector} and the \textit{weight matrix}, respectively.
 \end{itemize}
 The function $f(\cdot)$ is a non-linear \textit{activation} function, which allows the model to learn non-linear structures.
-Models built with these layers are typically used to map the input to a representation space where problems (\eg/, classification, and regression) can be addressed more easily.
-The main drawback of these simple models is that they are not invariant to scaled or shifted input.
-Since in audio data, gain, temporal, and frequency variations are common, they not suitable.
+Models built with these layers are typically used to map an input to a representation space where problems (\eg/, classification, and regression) can be addressed more easily.
+The main drawback of these simple models is that they are not invariant to scaled or shifted inputs.
+Since in audio data gain-, temporal-, and frequency-variations are common, they are often not suitable.
 Nevertheless, \acp{MLP} are used in combination with other type of layers, such as \acfp{CNN}, \acfp{RNN}.
 
-\newthought{Non-linear activation functions} are one of the key feature of \acp{DNN}.
+\newthought{Non-linear activation functions} constitute one of the key features of \acp{DNN}.
 Thanks to these, the model can achieve more \textit{expressive power} with respect to linear models~\citeonly{goodfellow2016deep}.
 Without these functions, it can be shown that the composition of affine transformations is equivalent to a single affine transformation.
-Therefore, the activation functions make the model capable of account for more complex relationships between the input and the output than an affine transformation.
-Typical examples of these functions are, for instance, hyperbolic tangent, the Sigmoid function, and \acf{ReLU}.
+This means that, the activation functions make the model capable of accounting for more complex relationships between the input and the output than an affine transformation.
+Typical examples of these functions are the hyperbolic tangent, the Sigmoid function, and the \acf{ReLU}.
 
 \subsection{Convolutional neural networks}\label{subsec:lantern:cnn}
-The \ac{CNN} consists of convolutional layers that have been introduced to overcome some limitations of the simple linear ones.
+The \acp{CNN} consist of convolutional layers that have been introduced to overcome some limitations of the simple linear ones.
 In a nutshell, they consist of learnable kernel functions that are convolved with their input.
 Therefore, they are characterized by
 \begin{itemize}
-    \item shift-invariance property, and can be used to reduce the model complexity since the same kernel can be used at different input location;
-    \item the ability to detect local structures at a different level of abstraction in the network (see~\cref{fig:lantern:features}).
+    \item shift-invariance properties, thanks to the convolution operation;
+    \item reduced model complexity, since the same kernel can be used at different input location;
+    \item the ability to detect local structures at a different levels of abstraction in the network (see~\cref{fig:lantern:features}).
 \end{itemize}
-Using a Python-like notation, a 2D-dimensional convolutional layer is defined by the following equation:
+Using a Python-like notation, a 2D-convolutional layer is defined by the following equation:
 \begin{equation*}
     \bfY[:,:,k] = f( \sum_{i=0}^{I-1} \bfW[:,:,i,k] \convDis \bfX[:,:,i] + \bfb[:,:,k])
     ,
 \end{equation*}
 where
 \begin{itemize}
-    \item $\bfX_k\in\bbR^{F \times T \times I}$ and $\bfY_c\in\bbR^{A \times B \times K}$ are input and output tensors of dimension, respectively.
+    \item $\bfX[:,:,i]\in\bbR^{F \times T \times I}$ and $\bfY[:,:,k]\in\bbR^{A \times B \times K}$ are input and output tensors, respectively.
     \item $i\in\klist{0,I}$ denotes the channel dimensions;\sidenote{
-        In \ac{DNN} community is common refer the input dimensions as channels.
-        Based on the application, such channel \textit{do not necessarily} corresponds to the channel of microphone recordings.
+        In the deep learning community, input dimensions are often referred to as channels
+        Based on the application, such channels \textit{do not necessarily} correspond to the channels of microphone recordings.
     }
-    \item $k\in\klist{0,K}$ denotes output;
+    \item $k\in\klist{0,K}$ denotes the channel dimension in the output;
     \item the tensors $\bfW$ and $\bfb$ denotes the weight and bias tensors, respectively;
     \item $f$ is an activation function;
-    \item and, $\convDis$ denotes discrete convolution;
+    \item $\convDis$ denotes discrete convolution;
 \end{itemize}
-\ac{CNN} can be designed for either 1D or 2D convolution, or combination of them.
-In general, in audio 1D convolution layer are used to process the time-domain or frequency-domain input, whereas the 2D convolutional layer are used for time-frequency representation, such as spectrograms.
-The output of a convolutional layer consists of a collection of local convolution operations, which are typically referred to as \textit{feature map}.
+A \ac{CNN} can be designed with either 1D or 2D convolutions, or a combination of them.
+In general, in audio, 1D convolution layers are used to process the time-domain or frequency-domain input, whereas 2D convolutional layers are used for time-frequency representations, such as spectrograms.
+The output of a convolutional layer consists of a collection of convolved versions of the input signal, which are typically referred to as \textit{feature maps}.
 It is common to use \ac{CNN} architectures combining multiple convolutional layers with \textit{pooling layers} in between.
-Pooling layers are used to down-sample the features map.
+Pooling layers are used to down-sample the features maps.
 In addition, to reduce the model complexity (\ie/, number of free-parameters), pooling layers subsequently reduce the size of the data as the model goes ``deeper''.
 In this way, deeper layers can integrate larger extents of the data and extract spatial (in the sense of the input dimensions) features at a larger scale.
-The typical pooling operator is the \textit{max-pooling} and \text{mean-pooling}, which samples non-overlapping patches by keeping the biggest and the average value in the region, respectively.
+Typical pooling operators are \textit{max-pooling} and \textit{mean-pooling}, which samples non-overlapping patches by keeping the largest and the average value in the region, respectively.
 
 \subsection{Hybrid architectures}
 As mentioned earlier, modern \ac{DNN} architectures consist of a combination of different types of layers.
-For instance, \acp{CNN} are used to overcome the lack of shift and scale invariance that the \ac{MLP} suffers of, and allows to extract spatial features.
-In contrast, \acp{MLP} offers a simple mapping from big-dimensional space to smaller ones, suitable for classification and regression problems.
-Therefore hybrid architectures are now the standard for deep learning models.
+For instance, \acp{CNN} are used to overcome the lack of shift and scale invariance that \acp{MLP} suffer from, and allow to the extract of spatial features.
+In contrast, \acp{MLP} offer a simple and generic mappings from high-dimensional spaces to lower ones, suitable for classification and regression problems.
+Therefore, hybrid architectures are now the standard for deep learning models.
 
 \subsection{Learning and optimization}
 \newcommand{\params}{\ensuremath{\boldsymbol{\theta}}}
-By its own, a \ac{DNN} model consists of thousands of parameters $\params$.
+A \ac{DNN} model consists of thousands of parameters $\params$.
 In order to learn a specific task, such as regression or classification, they need to be optimized.
 To optimize the parameters $\params$, a variant of the gradient descent algorithm is usually implemented.
-A \textit{loss function} $\calL_{\params}(\hat{\bfY},\bfY)$ measure the difference between the predicted values $\hat{\bfY}$ and the desired on $\bfY$.
-The optimization processes then iteratively update the parameters $\params$, so the loss function is minimized, that is
+A \textit{loss function} $\calL_{\params}(\hat{\bfY},\bfY)$ measure the difference between the predicted values $\hat{\bfY}$ and the desired ones $\bfY$.
+The optimization process then iteratively updates the parameters $\params$ so the loss function is minimized.
+In the case of vanilla gradient descent this writes:
 \begin{equation*}
     \params \gets \params - \eta \knabla_{\params} \calL_{\params}(\hat{\bfY},\bfY)
     ,
 \end{equation*}
-where $\eta$ is referred to as \textit{learning rate} and accounts for how much to update the $\params$ at each iteration.
-Due to the compositive structure of the \ac{DNN}, the gradient $\knabla_{\params} \calL_{\params}(\hat{\bfY},\bfY)$ is compute via the chain rule, using the \textit{back propagation} algorithm.
+where $\eta$ is referred to as the \textit{learning rate} and controls the length of the \textit{gradient step} at each iteration.
+Due to the composite structure of the \acp{DNN}, the gradient $\knabla_{\params} \calL_{\params}(\hat{\bfY},\bfY)$ is computed via the chain rule, using the \textit{back propagation} algorithm.
+Most gradient descent variants used today adapt the learning rate along iterations, such as the popular \textit{Adam optimizer}~\citeonly{kingma2014adam}.
 \\The \textit{Stochastic Gradient Descent} is a variant of the gradient descent algorithm which has become the standard for training \acp{DNN} today.
-It was introduced to solve computational and memory load issues due to large training since it approximate the gradient at each step on a mini-bach of data samples.
+It was introduced to improve convergence and to solve computational and memory load issues occurring when using training sets.
+It approximates the gradient at each step on a mini-bach of data samples.
 Finally, we would like to mention the following common techniques used to avoid overfitting and speed up the convergence.
 \begin{itemize}
-    \item \textit{early stopping} allows to stop the training upon some condition on the loss function (or other metrics), for instance, when it is not improving after certain amount of iterations;
-    \item \textit{batch normalization} consists of scaling the data by estimating its statistics during training, which usually leads to better performance and faster convergence;
-    \item \textit{dropout} is a regularization technique for reducing overfitting and consists in randomly omit neural networks units during training.
+    \item \textit{early stopping} allows to stop the training upon some conditions on the loss function (or other metrics), for instance, when it is not improving after certain amount of iterations.
+    This criteria is typically computed on a dedicated data set known as \textit{validation} set to avoid overfitting;
+    \item \textit{batch normalization} consists of scaling the data by estimating their statistics during training, which usually leads to better performance and faster convergence;
+    \item \textit{dropout} is a regularization technique that reduces overfitting by randomly omitting some network units during training.
 \end{itemize}
 
-\subsection{End-to-end and Hybrid approaches}
-The general scheme of \acp{DNN}-based approaches its one of the reasons for their success.
-Therefore they have been applied to solve many problems and at a different level of complexity.
-We can then identify to main tendencies in signal processing: end-to-end and hybrids approaches. The former attempts to address signal processing problems by getting rid of signal processing entirely as opposed to the latter.
-Although end-to-end architecture performs only marginally better than hybrid or other models, it is a common belief that soon they will outperform them~\citeonly[Chapter 19]{vincent2018audio}.
+% \subsection{End-to-end and Hybrid approaches}
+% The general scheme of \ac{DNN}-based approaches its one of the reasons for their success.
+% Therefore they have been applied to solve many problems and at a different level of complexity.
+% We can then identify to main tendencies in signal processing: end-to-end and hybrids approaches. The former attempts to address signal processing problems by getting rid of signal processing entirely as opposed to the latter.
+% Although end-to-end architecture performs only marginally better than hybrid or other models, it is a common belief that soon they will outperform them~\citeonly[Chapter 19]{vincent2018audio}.
 
 \mynewline
-Nevertheless, in this chapter, we will propose a framework based on a hybrid approach:
+In this chapter, we will propose a framework based on the following hybrid approach:
 we will use \ac{DNN} to estimate echoes' properties, and later, in~\cref{ch:mirage}, we will use such quantities to address \ac{SSL} problem.
 
 \section{Learning the first echo}\label{sec:lantern:simple}
