@@ -193,7 +193,8 @@ Under this assumption and the \acf{STFT} signal model presented in~\cref{eq:proc
 \end{equation}
 where $\tau_\idxMic^{(\idxEch)}$ and $\alpha_\idxMic^{(\idxEch)}[k]$ are the echoes' times of arrival and amplitudes, respectively.
 Here, $f_k$ denotes $k$-th frequency bin and the error term $\varepsilon_i[k]$ collects later echoes, the reverberation tail, diffusion, and noise.
-\\As we consider only the first echo\sidenote{Here, the first echo is the earliest and strongest. This is ensured by the close-wall scenario)} per channel, let be $\numEchs=1$.
+\\As we consider only the first echo per channel, let be $\numEchs=1$.
+Given the close-surface scenario, the first echo is the earliest and strongest.
 
 \mynewline
 We model the \AER/ problem a multi-target regression problem, namely, the outputs of the model are multiple real-valued parameters.
@@ -238,19 +239,23 @@ These three quantities are directly connected to the early parts of the \RIRs/, 
 \footnotesize
 \includegraphics[trim={82mm 0 0 0},clip,width=\linewidth,height=7cm]{mirage/rirs.pdf}
 \captionof{figure}{%
-    Superposition of two \acp{RIR} and visualization of time difference of arrival between direct paths (\ac{TDOA}), first echoes (\ac{iTDOA}) and direct path and first echo (\ac{TDOE}).}
+    Superposition of two synthetic \acp{RIR} and visualization of time differences of arrival between direct paths (\acs{TDOA}), first echoes (\acs{iTDOA}) and direct path and first echo (\acs{TDOE}).}
 \label{fig:lantern:rirs_tdoa}
 }. Let $V = \klist{\tau_{\mathtt{TDOA}}, \tau_{\mathtt{iTDOA}}, \tau_{\mathtt{TDOE}_1}}\in\mathbb{R}^3$ be the vector of parameters of interest.
 Since it will be useful later, let define $\calV = \setTDOA$ the set of three \textbf{indexes} denoted by \ac{TDOA}, \ac{iTDOA}, \ac{TDOE}.
 
 \mynewline
-Since we use \ReTF/-based features to estimate echoes, the proposed approach is dubbed as \textit{\acf{LANTERN}}.
+Since we use \ReTF/-based features to estimate echoes, the proposed approach is dubbed \textit{\acf{LANTERN}}.
 
 \mynewline
 While, given the $V$, the early part of the \ac{RTF} is fully defined, the opposite in not.
 Therefore, in general, different values of $V$ can yield the same \ac{ReTF} and hence the same \ac{ILD}/\ac{IPD} features.
-In particular, this happens when $\tau_2^{(\idxEch)} = \tau_1^{(\idxEch)}$ for $\idxEch=\set{0,1}$.
-Since this degenerate case is fundamentally unsolvable in the blind setting, we preventively pruned, all the entries with $| \tau_2^{(\idxEch)} - \tau_1^{(\idxEch)} | < 10^{-6}$ for $\idxEch=\set{0,1}$ from the dataset.
+In particular, this happens when $\tau^{(1)}_1 - \tau^{(0)}_1 = \tau^{(1)}_2 - \tau^{(0)}_2$ for $\idxEch=\set{0,1}$.
+That is, \ac{TDOE}s are equal, or equivalently, the \ac{TDOA} is equal to the \ac{iTDOA}.
+Geometrically, this correspond to the case where real and image source have the same angle of arrival, which occur in very specific source / array / reflector configurations.
+Since this degenerate case is fundamentally unsolvable in the blind setting, we preventively pruned, all the entries with $| \tau_\mathtt{TDOA} - \tau_\mathtt{iTDOA} | < 10^{-6}$ from all the dataset.
+In particular, they are removed from the training set so that the training is not affected by these degenerate cases.
+Moreover, these are degenerate situations are known to be non-solvable and are not included in the evaluation to not bias the metrics.
 
 \mynewline
 Here we use the simple \ac{MLP} architecture described in~\cref{subsec:lantern:mlp}.
@@ -260,47 +265,52 @@ This model consists of a $D$-dimensional input layer, a 3-dimensional output lay
 \begin{equation}\label{eq:lantern:mlploss}
     \calL_\theta(V, \hat{V)} = \frac{1}{|\calV|} \sum_{\xi\in\Xi} \sum_{v\in\calV} \powerOf{\tau_{v, \xi} - \hat{\tau}_{v, \xi}}
 \end{equation}
-where $v$ indexes one of \ac{TDOA} in $\calV$, $\xi$ denotes a sample in the mini-batch $\Xi$, and $\theta$ are the model parameters.
+where $v$ indexes one of the \acp{TDOA} in $\calV$, $\xi$ denotes a sample index in the mini-batch $\Xi$, and $\theta$ contains the model parameters.
 
 \mynewline
 The \acf{nRMSE}\sidenote{
-    The ac{nRMSE} takes values between $0$ (perfect fit) and $\infty$ (bad fit).
+    The \ac{nRMSE} takes values between $0$ (perfect fit) and $\infty$ (bad fit).
     If it is equal to $1$, then the prediction is no better than a constant.
-    It is typically chosen because it is more robust to outliers than \ac{RMSE}.
-}is taken as validation metric for assessing the quality of the estimation $\hat{V}$.
-The network is manually tuned on a validation set to find the best combination of number of hidden layers, their sizes and $p_\text{do}$.
+}is taken as validation metric to assess the quality of the estimation $\hat{V}$.
+For the vectors $T$ and $\hat{T}$ containing the reference and estimated value for all the sample $\xi$. the \ac{nRMSE} is define as
+\begin{equation*}
+    \mathtt{nRMSE}(\hat{T}, T) = \frac{\norm{\hat{T} - T}_2}{\norm{T - \mathtt{avg}(T)}_2}
+    ,
+\end{equation*}
+where $\norm{\cdot}_2$ denotes the $\ell_2$ norm and $\mathtt{avg}{\cdot}$ is the average operation over the sample $\xi$.
+The network is manually tuned on a validation set to find the best combination of number of hidden layers, layer sizes and $p_\text{do}$.
 
 \subsection{Data, implementation and experimental results}\label{subsec:lantern:simple:mpl:results}
 For training and validation of the \ac{MLP} we generate many random, shoe-box room configurations using the software presented in \citeonly{schimmel2009fast}.
-This software implements both the \acf{ISM} for simulating reflections and a ray-tracing algorithm for diffusion.
-Room widths are uniformly drawn at random in $[3, 9]$ m, heights in $[2, 4]$ m.
-Random source and microphones positions are used, respecting the close-surface scenario.\sidenote{
-    A rejection-sampling strategies was used to approximate uniform distributions.
+This software implements both the \acf{ISM} for simulating reflections and a ray-tracing algorithm for diffusion~\cref{sec:acoustics:simulators}.
+Room widths are uniformly drawn at random in $[3, 9]$ m, and heights in in $[2, 4]$ m.
+Random source and microphone positions are used, respecting the close-surface scenario.\sidenote{
+    A rejection-sampling strategy was used to approximate uniform distributions.
 }
-In particular, the microphones are at most 30~cm from the close-surface, placed 10~cm from each other, and the other walls' absorption coefficients are uniformly sampled in $(0.5, 1)$ and the one of the close-surface is in $(0, 0.5)$.
+In particular, the microphones are at most 30~cm from the close-surface, placed 10~cm from each other, the other walls' (frequency-independent) absorption coefficients are uniformly sampled in $\kintervoo{0.5}{1}$ and the one of the close-surface is sampled in $\kintervoo{0}{0.5}$.
 The same realistic diffusion profile \citeonly{gaultier2017vast} is used for all surfaces.
-Around $90,000$ audio scenes are generated this way, yielding a \ac{RT$_{60}$} between $20$ ms and $250$ ms.
+Around $90,000$ \acp{RIR} are generated this way, with a \ac{RT$_{60}$} between $20$~ms and $250$~ms.
 \\The \acp{RIR} are convolved with 1 sec of white-noise (wn) with no additional noise.
-All signals and \acp{RIR} are sampled at $16$ kHz.
-The \ac{STFT} is performed on $1024$ point with $50\%$ overlap.
+All signals and \acp{RIR} are sampled at 16~kHz.
+The \ac{STFT} is performed on 1024~points with 50\% overlap.
 Finally the features are computed as in~\eqref{eq:mirage:features} yielding a vector of size $D = 1534$ for each observation.
 \\While we validate the \ac{MLP} on a portion of the dataset in a \textit{holdout} fashion, the test is conducted on 200 new \acp{RIR} convolved with both wn and speech (sp) utterances.
 This set is generated similarly to the training and validation sets.
 Moreover, the test recordings are perturbed by external white noise at 10~dB \acf{SNR} (wn+n, sp+n).
-The speech signals are normalized speech utterances of various lengths (from $1$ s to $6$ s), randomly selected from the TIMIT corpus.
+The speech signals are normalized speech utterances of various lengths (from 1~s to 6~s), randomly selected from the TIMIT corpus.
 % A free and open-source Matlab implementation of SRP-PHAT\footnote{\url{http://bass-db.gforge.inria.fr/bss_locate/}} is used to aggregate local angular spectra obtained from the DNN's output.
 % The same toolbox is used for the implementation of SPR-PHAT with GCC-PHAT. For the latter method only real pairs are used.
 % A sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ is used for the DOA search.
 
 \newthoughtpar{Experimental results}\label{subsec:lantern:mlpdata}
 To check the validity of \ac{TDOA} estimation with the proposed \ac{MLP} model, we compare it to a baseline algorithm \acf{GCC-PHAT} (see~\cref{subsec:mirage:1D-SSL}).
-\ac{GCC-PHAT} is a popular method for estimating \ac{TDOA} between two microphone recordings.
-It is known to achieve good performance in the case of the broadband source signal.
-However, it was shown that as soon as the acoustic condition becomes challenging due to strong early echoes, high reverberation level, and noise, the method performances decrease~\citeonly{chen2006time}.
+\ac{GCC-PHAT} is a popular method for estimating the \ac{TDOA} between two microphone recordings.
+It is known to achieve good performance in the case of broadband source signals.
+However, it was shown that as soon as the acoustic conditions become challenging due to strong early echoes, high reverberation level, and noise, the method performances decrease~\citeonly{chen2006time}.
 
 \begin{table}[h]
     \begin{sidecaption}[Echo estimation with MIRAGE results]{%
-        Normalize root mean squared error for TDOA estimation using the \ac{MLP} architecture.
+        \acfp{nRMSE} for TDOA estimation using the \ac{MLP} architecture.
     }[tab:lantern:tdoas-aoa]
     \centering
     \footnotesize
@@ -310,10 +320,10 @@ However, it was shown that as soon as the acoustic condition becomes challenging
     &            &         &          & nRMSE           &\\
     &            & Input   &    \ac{TDOA}  	&   \ac{iTDOA} 		 &     \ac{TDOE}   	&\\
     \midrule
-    & MIRAGE      &   wn    & 0.18    & 0.28  & 0.25 	& \\
-    & MIRAGE      &   wn+n  & 0.68    & 0.69  & 0.89 	& \\
-    & MIRAGE      &   sp    & 0.31    & 0.34  & 0.56    & \\
-    & MIRAGE      &   sp+n  & 0.99    & 0.98  & 1.48 	& \\
+    & MIRAGE-MPL      &   wn    & 0.18    & 0.28  & 0.25 	& \\
+    & MIRAGE-MPL      &   wn+n  & 0.68    & 0.69  & 0.89 	& \\
+    & MIRAGE-MPL      &   sp    & 0.31    & 0.34  & 0.56    & \\
+    & MIRAGE-MPL      &   sp+n  & 0.99    & 0.98  & 1.48 	& \\
     & GCC-PHAT    &   wn    & 0.21    & -     & -		& \\
     & GCC-PHAT    &   wn+n  & 0.68    & -     & -		& \\
     & GCC-PHAT    &   sp 	& 0.32    & -     & -		& \\
