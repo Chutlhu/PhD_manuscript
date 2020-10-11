@@ -16,54 +16,52 @@
         $\bbN$    & set of natural numbers \\
         $\bbR$    & set of real numbers \\
         $\bbR_{+}$  & set of real positive numbers \\
-        $\bbC$      & set of complex number \\
+        $\bbC$      & set of complex numbers \\
     \end{tabular}
 \end{table}
 
 \section*{Common indexing}
 \begin{table}[H]
     \begin{tabular}{ll}
-        $i$     & microphone or channel index in $\{0, \dots, I-1\}$      \\
-        $j$     & source index in $\{0, \dots, J-1\}$      \\
-        $r$     & reflection (echo) in $\{0, \dots, R-1\}$      \\
+        $i$     & microphone or channel index in $\{0, \ldots, I-1\}$      \\
+        $j$     & source index in $\{0, \ldots, J-1\}$      \\
+        $r$     & reflection (echo) in $\{0, \ldots, R-1\}$      \\
         $t$     & continuous sample index\\
-        $n$     & discrete sample index in $0, \dots, N-1\}$ \\
-        $f$     & continuous frequency index \\
-        $k$     & discrete frequency index in $\{0, \dots, K-1\}$ \\
-        $l$     & discrete time-frame index $\{0, \dots, L-1\}$\\
-        $\tau$  & tap index in $\{0, \dots, T-1\}$\\
+        $n$     & discrete sample index in $\{0, \ldots, N-1\}$ \\
+        $f$     & continuous frequency index in $\set{0, \ldots, T-1}$\\
+        $k$     & discrete frequency index in $\{0, \ldots, F-1\}$ \\
+        $l$     & discrete time-frame index $\{0, \ldots, L-1\}$\\
+        $\tau$  & continuous tap index
     \end{tabular}
 \end{table}
-
-% \section*{Statistics}
-% \begin{table}[]
-%     \begin{tabular}{ll}
-%         $x$     & scalar      \\
-%     \end{tabular}
-% \end{table}
 
 \section*{Geometry}
 \begin{table}[H]
     \begin{tabular}{ll}
-        $\underline{\bfx}_i$     & 3D location of microphone $i$ recording $x_i(t)$\\
         $\positionMicrophone_i$ & 3D position of the microphone $i$ recording $x_i(t)$\\
         $\positionSource_j$ & 3D position of the source $j$ emitting $s_j(t)$\\
         $\distMicMic_{ii'}$           & distance between microphone $i$ and $i'$ \\
         $\distMicSrc_{ij}$     & distance between microphone $i$ and source $j$ \\
-        $\underline{\bfs}_j$     & 3D location of (target) point source $j$ emitting $s_j(t)$\\
-        $\underline{\bfq}_j$     & 3D location of (interfering) point source $j$ emitting $q_j(t)$\\
-        $r_{j}$    & distance of source $j$ wrt to the array origin \\
-        $\theta_{j}$    & azimuth of source $j$ wrt to the array origin\\
-        $\varphi_{j}$    & elevation of source $j$ wrt to the array origin \\
+        $r_{j}$    & distance of source $j$ \wrt/ to a reference frame \\
+        $\theta_{j}$    & azimuth of source $j$ \wrt/ to a reference frame\\
+        $\varphi_{j}$    & elevation of source $j$ \wrt/ to a reference frame \\
+        $\vartheta_{j}$    & angle of arrival of source $j$ \wrt/ to a reference frame \\
     \end{tabular}
 \end{table}
 
 \section*{Signals}
 \begin{table}[H]
     \begin{tabular}{ll}
+        $\tildex(t)$    & continuous time domain signal\\
+        $x[n]$          & discrete time domain signal\\
+        $x_N[n]$          & discrete and finite time domain signal\\
+        $\tildeX(f)$    & continuous frequency domain\\
+        $X[k]$          & discrete frequency domain\\
+        $X[k,l]$        & discrete time domain\\
+                        &                     \\
         $x_i$     & input signal recorded at microphone $i$\\
-        $\bfx$    & $I \times 1$ multichannel input signal, i.e. $\bfx = [x_0, \dots, x_{I-1}]$ \\
-        $\bfX$    & matrix of multichannel input signals\\
+        $\bsx$    & $I \times 1$ multichannel input signal, i.e. $\bfx = [x_0, \ldots, x_{I-1}]$ \\
+        $\bsH$    & matrix of multichannel signal or filters, typically the mixing matrix ($I \times J$)\\
         $s_j$     & (target) point source signal $j$ \\
         $q_j$     & (interfering) point source signal $j$ \\
         $c_{ij}$  & spatial image source $j$ as recorded at microphone $i$\\
@@ -92,25 +90,15 @@
 \section*{Mathematical Operation}
 \begin{table}[H]
     \begin{tabular}{ll}
-        $\star$         & cross-correlation\\
-        $\circledast$   & generalized cross-correlation\\
-        $\conv$          & convolution\\
+        $\convCont$          & continuous time convolution\\
+        $\convDis$       & discrete linear convolution\\
+        $\convCir$       & discrete circular convolution\\
     \end{tabular}
 \end{table}
 
-\section*{Examples}
+% \section*{Examples}
 
-Acoustic Impulse Response for single source scenario:
-\begin{equation}
-    a_i(t) = \sum_{r=0}^{R_i} \frac{\alpha_{ir}}{4 \pi c_{\text{air}}\tau_{ir}} \delta(t - \tau_{ir})
-\end{equation}
-
-Acoustic Transfer Function for single source scenario:
-\begin{equation}
-    a_i(f) = \sum_{r=0}^{R_i} \frac{\alpha_{ir}}{4 \pi c_{\text{air}}\tau_{ir}} e^{-\jmath 2 \pi f \tau_{ir}}
-\end{equation}
-
-Time of Arrival between source and microphone
-\begin{equation}
-    \tau_{ij} = \frac{\kvvbar{\underline{\mathbf{x}}_i - \underline{\mathbf{s}}_j}}{c_\text{air}}
-\end{equation}
+% Simple time domain echo model:
+% \begin{equation*}
+%     a_i(t) = \echoModelTimeSimple{}
+% \end{equation*}
