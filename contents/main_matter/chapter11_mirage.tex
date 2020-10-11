@@ -1,4 +1,7 @@
 \chapter{\library{Mirage}: Echo-aware Sound Source Localization}\label{ch:mirage}
+\openepigraph{Scanning all around [...]\\
+Ancient blocks of sound\\
+Mirage}{Meat Puppets, \textit{Mirage}}
 
 \marginpar{%
     \footnotesize
@@ -12,77 +15,77 @@
     \end{itemize}
 }
 
+\vspace{-2.5em}
 \newthought{Synopsis} \synopsisChMirage
 
 \mynewline
 Together with~\cref{ch:lantern}, this chapter describes methods and results published in~\cite{di2019mirage}, which considers only stereophonic recordings.
 In this sense, this chapter provides an application for \acs{LANTERN}, the learning-based echo estimation method presented in the above mentioned chapter.
-\\Later, the proposed approach was  extended to multi-microphone recordings in a collaboration with Randy Gomez from the Honda Research Institute.
-In particular, the method was tested considering the microphone array of the autonomous robot platform called \textit{HARU}\citeonly{ackerman2018haru, gomez2018haru}, \marginpar{
-    \includegraphics[width=\linewidth]{mirage/haru.jpeg}
-    \captionof{figure}{The HARU Robot.}
-    \label{fig:mirage:haru}
-} (See~\cref{fig:mirage:haru})
-The robot is fitted with cameras and a microphone array for visual and audio sensing.
-The array is circular with 6.5~cm radius, featuring 7 sensors.
-The partner agreed on using its technology to see the impact of echo-aware sound source localization.
-Unfortunately, we found some issues in annotating and using the recorded data.
-Therefore our investigation here is limited to synthetic data.
+
+% \\Later, the proposed approach was  extended to multi-microphone recordings in a collaboration with Randy Gomez from the Honda Research Institute.
+% In particular, the method was tested considering the microphone array of the autonomous robot platform called \textit{HARU}\citeonly{ackerman2018haru, gomez2018haru}, \marginpar{
+%     \includegraphics[width=\linewidth]{mirage/haru.jpeg}
+%     \captionof{figure}{The HARU Robot.}
+%     \label{fig:mirage:haru}
+% } (See~\cref{fig:mirage:haru})
+% The robot is fitted with cameras and a microphone array for visual and audio sensing.
+% The array is circular with 6.5~cm radius, featuring 7 sensors.
+% The partner agreed on using its technology to see the impact of echo-aware sound source localization.
+% Unfortunately, we found some issues in annotating and using the recorded data.
+% Therefore our investigation here is limited to synthetic data.
+
 % The results of this study were described in an internal technical report~\citeonly{di2019honda}.
 
 
 \section{Literature review in Echo-aware Sound Source Localization}
 Common to most sound source localization approaches reviewed in ~\cref{subsec:application:localization} is the challenge posed by reverberation.
-It is typical to observe that \ac{DOAs} estimation degrades with increasing acoustic reflection~\citeonly{chen2006time}.
-For these reasons, most sound source localization methods regard reverberation and, in particular, acoustic echoes as a nuisance.
+It is typical to observe that \acf{DOA} estimation degrades with increasing acoustic reflections~\citeonly{chen2006time}.
+For these reasons, most sound source localization methods regard reverberation, and in particular acoustic echoes, as a nuisance.
 Some prior works, \eg/, \citeonly{rui2004time, chen2006time, zhang2007maximum}, modeled the reverberation as a noise term.
-However, the generic model for reverberation does not reduce strong early echoes.
-Alternatively, approaches in~\citeonly{weinstein1994iterative, taghizadeh2015spatial, salvati2016sound} attempt to solve \SSL/ by estimating the full \RIRs/, which is known to be very a difficult task.
+However, the commonly used dereverberation methods do not reduce strong early echoes.
+Alternatively, approaches in~\citeonly{weinstein1994iterative, taghizadeh2015spatial, salvati2016sound} attempt to solve \SSL/ by estimating the full \RIRs/, which is known to be a very difficult task.
 
 \mynewline
 Instead, echo-aware sound source localization methods take another direction:
-they exploit the closed-form relation between echoes timings and audio scene geometry expressed by the \acf{ISM}.
-Early works such as~\citeonly{korhonen2008acoustic, ribeiro2010turning, ribeiro2010using, svaizer2011use} uses knowledge form the room geometry to estimated the position of the sound source with respect to the arrays.
+they exploit the closed-form relation between echo timings and the audio scene geometry as expressed in the \acf{ISM}.
+Early works such as~\citeonly{korhonen2008acoustic, ribeiro2010turning, ribeiro2010using, svaizer2011use} use knowledge form the room geometry to estimate the position of the sound source with respect to the array.
 This idea was subsequently extended in later works, reducing the amount of prior knowledge required or addressing different applications.
 The authors of \citeonly{nakashima2010localization} study the \SSL/ problem in binaural recordings.
 To improve localization, they propose to used ad-hoc reflectors as artificial \textit{pinnae} and a simple reflection model.
-In the work~\citeonly{krekovic2016echoslam}, the author addresses the problem \ac{SLAM}\sidenote{
-    \ac{SLAM} enables the estimation of a moving robot’s position in relation to a number of external acoustic sources.
+In the work~\citeonly{krekovic2016echoslam}, the authors address the problem of Acoustic \ac{SLAM}\sidenote{
+    Acoustic \ac{SLAM} enables the estimation of a moving robot’s position in relation to a number of external acoustic sources~\citeonly{evers2018acoustic}.
 } using echoes.
-The authors of~\citeonly{an2018reflection} leverage on cameras, depth sensors, and laser sensors to identify reflectors and build a corresponding acoustic model that is used later for localizing the sources.
-Finally, in a very recent work, the well-known \ac{MUSIC} framework is modified for accounting an echo model in the spherical harmonic representation~\citeonly{birnie2020reflection}
+The authors of~\citeonly{an2018reflection} leverage on cameras, depth sensors, and laser sensors to identify reflectors and build a corresponding acoustic model that is used later for localizing sources.
+Finally, in a very recent work, the well-known \ac{MUSIC} framework is modified to account for an echo model in the spherical harmonic representation~\citeonly{birnie2020reflection}
 
 \mynewline
 All the above mentioned echo-aware methods are explicitly knowledge-driven, namely, they use closed-form solutions based on physics, acoustics, and signal processing models.
-The huge benefit of manipulating ``simple'' models is paid by strong assumption, simplification and hand-crafted feature.
-In order to overcome these limitations, data-driven methods have been proposed to address \SSL/ (see~\cref{subsec:application:localization})
-This approaches leverage  training datasets to implicitly learn the mapping from audio features to the source position.
+The benefit of manipulating ``simple'' models is however paid by strong assumptions, simplifications and a need for hand-crafted features.
+In order to overcome these limitations, data-driven methods have been proposed to address \SSL/ (see~\cref{subsec:application:localization}).
+This approach leverages  training datasets to implicitly learn the mapping from audio features to the source position.
 Such data can be obtained from real recordings or using physics-based simulators.
-These method were showed to overcome some limitations of physics-based model, especially when some assumptions are violated.
-However, they are typically trained for specific applications and use-cases (\eg/, arrays geometry, acoustic conditions, \etc/) and fail whenever test conditions strongly mismatch training conditions.
+These methods were showed to overcome some limitations of physics-based model, especially when some assumptions are violated.
+However, they are typically trained for specific applications and use-cases (\eg/, specific array geometries, acoustic conditions, \etc/) and fail whenever test conditions strongly mismatch training conditions.
 
 \section{Proposed Approach}
 In this work, we propose to combine the best of the two worlds:
 \begin{itemize}
     \item to use a data-driven model to estimate sound propagation parameters;
-    \item use knowledge-driven model to map such parameters to source's \DOAs/.
+    \item to use a knowledge-driven model to map such parameters to the source's \ac{DOA}.
 \end{itemize}
-% To this end, we introduce the framework of \MIRAGEdef/ for \SSL/,
-
-\mynewline
 Let us first introduced a simple yet common scenario:
-two microphones, one source, and a nearby reflective surface, as illustrated in Fig. \cref{fig:mirage:scene}.
 \marginpar{%
     \centering
     \footnotesize
     \includegraphics[trim={50 70 50 150},clip,width=\linewidth]{mirage/scene.pdf}
     \captionof{figure}{%
-        Typical setup with one source source recorded by two microphones.
-        The illustration shows direct sound path (blue lines) and resulting first-order echoes (orange lines).}
+        Typical setup with one sound source recorded by two microphones.
+        The illustration shows the direct sound path (blue lines) and the resulting first-order echoes (orange lines).}
     \label{fig:mirage:scene}
 }
+two microphones, one source, and a nearby reflective surface, as illustrated in~\cref{fig:mirage:scene}.
 This may occur when the sensors are placed on a table or next to a wall.
-Striking examples of these scenarios are the smart table-top devices, such as Amazon Echo, Google Home, \etc/.
+Striking examples of this scenario are smart table-top devices, such as Amazon Echo, Google Home, \etc/.
 The reflective surface is assumed to be the most reflective and closest one to the microphones in the environment, generating the strongest and earliest echo in each microphone.
 Under this stereophonic \textit{close-surface} model, we ask the following questions.
 
@@ -92,9 +95,9 @@ These models are trained on a close-surface dataset to estimate the first early 
 
 \questionpar{Can early echoes be used to estimate both the azimuth and elevation angles of the source?}
 To answer the second question, we propose the \acf{MIRAGE} framework.
-It exploits echoes' time of arrival by expressing them as \acp{TDOA} in a \textit{virtual 4-microphone array} formed by the true microphone pair and its image with respect to the reflective surface.
-This model is based on the based on the \textit{image microphones} model (See~\cref{sec:separake:sota}).
-Note that answering this question is considered as an \textit{impossible} task in free field stereophonic conditions.
+It exploits echo times of arrival by expressing them as \acp{TDOA} in a \textit{virtual 4-microphone array} formed by the true microphone pair and its image with respect to the reflective surface.
+This model is based on the \textit{image microphones} model (See~\cref{sec:separake:sota}).
+Note that answering this question is can \textit{impossible} task in free- and far-field stereophonic conditions , due to the well known spatial ambiguity of a single \ac{TDOA}, referred to as the \textit{cone of confusion}~\citeonly{Bregman:1994tz}
 
 \section{Background in microphone array SSL}\label{sec:background}
 In this section, we briefly review some necessary background in microphone array \ac{SSL}.
@@ -102,34 +105,33 @@ Let us assume a microphone array of $\numMics$ sensors is placed inside a room a
 Recalling the signal model presented in~\cref{eq:estimation:signalmodel}, the relationship between the signal $\mic_\idxMic$ recorded by the $\idxMic$-th sensor placed at fixed position $\positionMicrophone_\idxMic$ and the signal $\src$ emitted by the source at fixed position $\positionSource$ writes
 \begin{equation}\label{eq:mirage:signalmodel}
     \begin{aligned}
-        \tildex_i(t) &= (h_i \convCont \tildes)(t) + \tilden_i(t)\\
+        \tildex_i(t) &= (\tildeh_i \convCont \tildes)(t) + \tilden_i(t)\\
         \tildeh_i(t) &= \echoModelTimeSimple{i} + \tilde{\varepsilon}_i(t),
     \end{aligned}
 \end{equation}
 where $\nse_\idxMic$ denotes possible measurement noise and $\varepsilon_i[k]$ collects later echoes, the reverberation tail, diffusion, and undermodeling noise.
 In this work, we will consider only the first strongest echo, therefore $R = 1$.
-Note that for $r=0$ denotes the ideal propagation path,
-being $\tau^{(0)}_\idxMic$ the ideal propagation path from the source to the $\idxMic$-th microphone, and $\alpha^{(0)}_{\idxMic}$ the air attenuation.
-In the remainder of this work, we make the approximation of $\alpha_i^{(\idxEch)}$ being frequency-independent.
+Note that for $r=0$ denotes the direct propagation path, where $\tau_i^(0)$ is the direct path's time of arrival from the source to the $\idxMic$-th microphone, and $\alpha^{(0)}_{\idxMic}$ captures both the sound wave attenuation and air absorption effects.
+In the remainder of this chapter, we make the approximation of $\alpha_i^{(\idxEch)}$ being frequency-independent.
 
 \subsection{2-channel 1D-SSL}\label{subsec:mirage:1D-SSL}
 \newcommand{\tdoa}{\ensuremath{\tau_\mathtt{TDOA}}}
 \newcommand{\aoa}{\ensuremath{\vartheta}}
 Let us first consider the case of stereophonic recordings ($\numMics=2$).
-Under the far- and free-field assumption, traditional \SSL/ methods use the \acf{TDOA},
+Under far-field assumption, traditional \SSL/ methods use the \acf{TDOA},
 \begin{equation*}
     \tdoa \eqdef \tau^{(0)}_2 - \tau^{(0)}_1\quad\text{[second]}
     ,
 \end{equation*}
 as a proxy for the estimation of the \ac{AOA}, $\aoa$, since:
 \begin{equation}\label{eq:mirage:aoa}
-    \vartheta = \arccos \kparen{\speedOfSound \: \tdoa \: / \: \distMicMic }\quad\text{[rad]},
+    \vartheta \approx \arccos \kparen{\speedOfSound \: \tdoa \: / \: \distMicMic }\quad\text{[rad]},
 \end{equation}
-where $\speedOfSound$ is the speed of sound and $\distMicMic$ the inter-microphone distance.
+where $\speedOfSound$ is the speed of sound and $\distMicMic$ is the inter-microphone distance, considered small compared to the source's distance.
 
 \begin{figure}
     \begin{sidecaption}[]{
-        Illustration of the relation between \ac{DOA} and \ac{TDOA} with ones source and two microphone.
+        Illustration of the relation between \ac{DOA} and \ac{TDOA} with ones source and two microphones.
         Knowing the distance $\distMicMic$ between the two microphones, simple trigonometry yields the \ac{AOA} $\vartheta$ according to~\cref{eq:mirage:aoa}.
     }[fig:mirage:gcc]
         \includegraphics[width=\linewidth]{mirage/tdoa_microphone.pdf}
@@ -138,13 +140,13 @@ where $\speedOfSound$ is the speed of sound and $\distMicMic$ the inter-micropho
 
 
 \mynewline
-Then, \SSL/ reduces to estimating the \ac{TDOA}, which can be done by \ac{CC}-based methods, the \ac{GCC-PHAT} method \citeonly{knapp1976generalized, blandin2012multi}.
-Given \STFT/ $\MIC_1$ and $\MIC_2$ of the two microphones signals, the \ac{CC} and \ac{GCC-PHAT} \textit{angular spectra} are defined as:\marginpar{
+Then, \SSL/ reduces to estimating the \ac{TDOA}, which can be done by a \ac{CC}-based methods, \eg/, the \acf{GCC-PHAT} method\marginpar{
     \footnotesize\itshape
-    The ``generalized'' cross-correlation methods adds weighting functions (\eg/ the phase transfor (PHAT),  or the smoothed coherence transform (SCOT))
-    to the \ac{CC}. Their purpose is to improve the estimation of the time delay on specific characteristic of the signal and noise.
+    The ``generalized'' cross-correlation methods add weighting functions (\eg/ the \acf{PHAT}, or the smoothed coherence transform (SCOT)) to the frequency-domain \ac{CC}.
+    Their purpose is to improve the estimation of the time delay depending on specific characteristics of the signal and noise.
     See~\citeonly{chen2006time} for an overview.
-}
+} \citeonly{knapp1976generalized, blandin2012multi}.
+Given the \STFT/ $\MIC_1$ and $\MIC_2$ of the two microphones signals, the \ac{CC} and \ac{GCC-PHAT} \textit{angular spectra} are defined as:
 \begin{equation}\label{eq:mirage:cc}
     \Psi_\mathtt{CC}(\tau) = \sum_{k,l} \MIC_1[k,l] \MIC_2^{*}[k,l] \cste^{-\csti 2  \pi f_k \tau}
     ,
@@ -153,9 +155,9 @@ Given \STFT/ $\MIC_1$ and $\MIC_2$ of the two microphones signals, the \ac{CC} a
     \Psi_\mathtt{PHAT}(\tau) = \sum_{k,l}\frac{\MIC_1[k,l] \MIC_2^{*}[k,l]}{\kvbar{ \MIC_1[k,l] \MIC_2^{*}[k,l] }} \cste^{-\csti 2  \pi f_k \tau}
     ,
 \end{equation}
-where $*$ denotes the complex conjugate, $[k,l]$ indexes a \ac{TF} bin of the \STFT/ and $f_k$ in the $k$-th natural frequency in the \STFT/.
+where $*$ denotes the complex conjugate, $[k,l]$ indexes a \ac{TF} bin of the \STFT/ and $f_k$ is the $k$-th natural frequency in the \STFT/.
 \\The weighting function $1 / \kvbar{ \MIC_1[k,l] \MIC_2^{*}[k,l]}$ is called \acf{PHAT}.
-Such function was introduce to suppress the source's autocorrelation component from the angular spectrum.
+This function was introduce to suppress the source's autocorrelation component from the angular spectrum.
 
 \mynewline
 Then, the \ac{TDOA} estimate is given by
@@ -163,41 +165,41 @@ Then, the \ac{TDOA} estimate is given by
     \hat{\tau}_\mathtt{TDOA} = \arg \underset{\tau}{\max} \; \Psi(\tau)
     ,
 \end{equation*}
-with $\Psi$ begin either $\Psi_\mathtt{CC}(\tau)$ or $\Psi_\mathtt{PHAT}(\tau)$.
+with $\Psi$ being either $\Psi_\mathtt{CC}(\tau)$ or $\Psi_\mathtt{PHAT}(\tau)$.
 Note that these functions can also be expressed directly as a function of the \ac{AOA} using \eqref{eq:mirage:aoa}, hence the term \textit{angular spectrum}.
-Despite the theoretical limitation of \ac{CC}-based methods presented in~\citeonly{chen2006time}, they are known to work well practical typical scenarios.
+Despite the theoretical limitation of \ac{CC}-based methods presented in~\citeonly{chen2006time}, they are known to work well in practice.
 Moreover, it was showed to be state-of-the-art for \ac{SSL} in a large benchmark study~\citeonly{blandin2012multi}.
 
 \subsection{Multichannel 2D-SSL}\label{subsec:mirage:2D-SSL}
-When more microphones are available and the microphones array is compact and not linear\sidenote{
-    In case of all the microphones are complanar, the angle can be estimated up to ``up-down'' umbigity.
+When more microphones are available and the microphone array is compact and not linear\sidenote{
+    In the case where the microphones are complanar, the angle can be estimated up to an ``up-down'' ambigity.
 }, 2D-\ac{SSL} can be envisioned.
 A possible approach is to use 1D-\ac{SSL} on all pairs and combine their results, a principle which was successfully applied in the \acf{SRP-PHAT} method \citeonly{dibiase2001robust}.
 
-
-\mynewline
 \begin{figure}
     \begin{sidecaption}[t]{
-        Illustration of the different \acp{DOA} at each microphone pairs listening one sound source.
-        Knowing the position of the microphone, the angle with respect to a reference point can be deduced in closed-form.
+        Illustration of the different \acp{DOA} at each microphone pairs attending one sound source.
+        Knowing the position of the microphones, the angle with respect to a reference frame can be deduced in closed-form.
     }[fig:mirage:gcc]
-        \includegraphics[width=\linewidth]{mirage/srp-phat_aggregation.pdf}
-    \end{sidecaption}
+    \includegraphics[width=\linewidth]{mirage/srp-phat_aggregation.pdf}
+\end{sidecaption}
 \end{figure}
-The \ac{SRP-PHAT} methods returns the source's \ac{DOA}, namely the pair azimuth and elevation $(\theta, \phi)$, by estimating \acp{TDOA} from each microphone pairs.
+
+\mynewline
+The \ac{SRP-PHAT} method returns the source's \ac{DOA}, namely azimuth-elevation pair $(\theta, \phi)$, by estimating \acp{TDOA} in all microphone pairs.
 In order to achieve this, it requires the geometry of the microphone array to be known.
-In a nutshell, this algorithm aims to estimate a \textit{global angular spectrum} $\Psi_{\mathtt{SRP}}(\theta,\phi)$ in the polar coordinates system with respect to reference point in the array, typically its barycenter.
+In a nutshell, this algorithm aims to estimate a \textit{global angular spectrum} $\Psi_{\mathtt{SRP}}(\theta,\phi)$ in the polar coordinates system with respect to a reference frame in the array, typically centered at its barycenter.
 This function will exhibit a local maximum in the direction of the active source.
-\\The algorithmic can be exemplified in the following steps:\marginpar{
+\\The algorithm can be decomposed into in the following steps:\marginpar{
     \footnotesize\itshape
     See \href{http://bass-db.gforge.inria.fr/bss_locate/}{\library{MBSSLocate}\ExternalLink} for a free MATLAB implementation and comprehensive documentation of this algorithm.
 }
 \begin{enumerate}
     \item a global grid of \acp{DOA} candidates is defined according to a desired resolution and computational load;
-    \item for each pair of microphones, a local set of \ac{AOA} (hence, \acp{TDOA}) is defined based on the above chosen \acp{DOA} and the input geometry;
+    \item for each pair of microphones, a local set of \acp{AOA} (hence, \acp{TDOA}) is defined based on the above chosen \acp{DOA} and the input geometry;
     \item a TDOA-based algorithm (\eg/ \ac{GCC-PHAT}) is used to compute the associated local angular spectrum;
     \item all the local contributions (a collection of local $\Psi_\mathtt{GCC}(\tau)$) are geometrical aggregated and interpolated back to the global \ac{DOA} grid to form $\Psi_{\mathtt{SRP}}(\theta,\phi)$;
-    \item the \acs{DOA}(s) maximizing $\Psi_\mathtt{SRP}$ is (are) used as estimate (in case of multiple sources).
+    \item the \acs{DOA}(s) maximizing $\Psi_\mathtt{SRP}$ is (are) used as estimate(s).
 \end{enumerate}
 % This algorithm can be seen under the \textit{divide-and-conquer paradigm}:
 % ``at the leaves'', the \ac{GCC-PHAT} method provides \ac{TDOA} for each microphone pair;
@@ -206,7 +208,7 @@ This function will exhibit a local maximum in the direction of the active source
 
 \section{Microphone Array Augmentation with Echoes}\label{sec:mirage:mirage}
 We now introduce the proposed concept of \MIRAGEdef/.
-The \RIRs/ in~\cref{eq:mirage:signalmodel} follows to the well known \acf{ISM}, where all the reflections are treated as mirror images of the true source with respect to reflective surfaces, emitting the same signal.
+In the well-known \acf{ISM} all the reflections are treated as mirror images of the true source with respect to reflective surfaces, emitting the same signal.
 \marginpar{%
 \centering
 \footnotesize
@@ -216,12 +218,12 @@ The \RIRs/ in~\cref{eq:mirage:signalmodel} follows to the well known \acf{ISM}, 
         Blue lines correspond to direct paths, orange lines correspond to echo paths.}
     \label{fig:mirage:mirage}
 }
-We will employ here a less common but equivalent interpretation of \ISM/, namely, the image-microphone model (see~\cref{sec:separake:sota})
-As illustrated in Fig.~\cref{fig:mirage:mirage}, image microphones are mirror images of the true microphones with respect to reflective surfaces.
+We will employ here a less common but equivalent interpretation to \ISM/, namely, the image-microphone model (see~\cref{sec:separake:sota})
+As illustrated in~\cref{fig:mirage:mirage}, image microphones are mirror images of the true microphones with respect to reflective surfaces.
 In this view, the echoic signal received at a true microphone is the sum of the anechoic signals received at this microphone and its images.
 If we consider the virtual array consisting of both true and image microphones, multiple microphone pairs are now available.
 For each of them, it is then possible to define a corresponding time difference of arrival.
-Among them, we will refer to the one between the two real microphones as \acs{TDOA}, the one between the two image microphones as \ac{iTDOA} and the one between the first microphone and its image as \ac{TDOE}.
+Among them, we will refer to the one defined in~\cref{sec:lantern:simple}, that is,
 Therefore, we have:\marginpar{%
     \centering
     \footnotesize
@@ -250,10 +252,10 @@ It consists in a class of \ac{DNN} architectures trained to perform multi-target
 In fact, those models were proposed exactly to address the task of estimating the first and strongest echo per channel in a close-surface scenario.
 
 \mynewline
-Following the 2D-\SSL/ scheme described in \cref{subsec:mirage:2D-SSL} and given the virtual microphone-array geometry (which depends on the relative position of microphones to the surface), $V$ could in principle be used to estimate the 2D directional of arrival of the source.
-To this end, the 3 real-value estimates in $V$ are converted into \textit{synthetic} local angular spectra (see~\cref{subsec:mirage:2D-SSL}).
+Following the 2D-\SSL/ scheme described in \cref{subsec:mirage:2D-SSL} and given the virtual microphone-array geometry (which depends on the relative position of microphones to the surface), $V$ can in principle be used to estimate the 2D direction of arrival of the source.
+To this end, the 3 real-valued estimates in $V$ are converted into \textit{virtual} local angular spectra (see~\cref{subsec:mirage:2D-SSL}).
 In the first investigation of~\citeonly{di2019mirage}, we proposed to use Gaussians functions centred at the estimates $\hat{V}$ with variances equal to the prediction errors made by the \ac{DNN} on the validation set.
-Later, we modified the networks in order to estimated both these means and the variances, as explained in~\cref{sec:lantern:robust},.
+Later, we modified the networks in order to estimated both these means and the variances, as explained in~\cref{sec:lantern:robust}.
 
 % In the~\cref{ch:lantern}, we introduced a learning-based method to estimate $V$ using audio features obtained from only two microphones.
 % Given a microphone pair, the local maximum of angular spectrum $\Psi_\text{PHAT}$ corresponds to the \ac{TDOA}.
@@ -278,28 +280,27 @@ Later, we modified the networks in order to estimated both these means and the v
 % \end{figure}
 
 
-\section{Experimental Results}\label{sec:mirage:exp}
+\subsection{Experimental Results}\label{sec:mirage:exp}
 In this section we will report the experimental results for the proposed approach.
-At first, we will consider the continuation of the investigation started in~\cref{sec:lantern:simple}, namely, the analysis is limited to the stereophonic recording in a single-source close-surface scenario.
+At first, we will consider the continuation of the investigation started in~\cref{sec:lantern:simple}, namely, the analysis is limited to stereophonic recordings in a single-source close-surface scenario.
 Later, the approach is extended to synthetic single-source multichannel recordings assuming the HARU's array geometry.
 
-\subsection{2-channel scenario}
 Here we compare the \ac{MIRAGE} approach using the \acs{LANTERN} \ac{MLP} (MIRAGE-MLP) learning model.
 A free and open-source Matlab implementation of \ac{SRP-PHAT}\sidenote{\label{note:mbss}\href{http://bass-db.gforge.inria.fr/bss_locate/}{\library{MBSSLocate}\ExternalLink}} is used to aggregate local angular spectra obtained from the model output.\sidenote{
-    For SRP-PHAT we used a sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ is used for the \c{DOA} search.
+    For SRP-PHAT we used a sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ are used for the \ac{DOA} search.
     \label{note:mbss:para}
 }
 External noises in the recordings are simulated by perturbing the observation with \ac{AWGN} noise at 10~dB \ac{SNR} (wn+n, sp+n, respectively).
 In this stereophonic experiment, the baseline method \ac{GCC-PHAT} is not considered: it can access only the true microphone signals, thus, it is unable to perform 2D-SSL.
 
 \mynewline
-The dataset, the implementation, and training procedure are the same as in~\cref{subsec:lantern:simple:mpl:results}.
+The dataset, the implementation, and the training procedure are the same as in~\cref{subsec:lantern:simple:mpl:results}.
 In particular, the test set features both white noise (wn), and speech (sp) signals convolved with \acp{RIR} generated by the acoustic simulator~\citeonly{schimmel2009fast}.
 Moreover, some observations feature background {AWGN} at 10~dB \ac{SNR} level (wn+n, sp+,n respectively).
 
 \begin{table}[t]
     \begin{sidecaption}[DoA estimation]{%
-        Mean angular error in degree (with accuracies ($\%$)) for 2D SSL (azimuth and elevation)
+        Mean angular errors in degree (with accuracies ($\%$)) for 2D SSL (azimuth and elevation)
         with $\ang{10}$ and $\ang{20}$ tolerance.}[tab:mirage:doa]
         \small
         \centering
@@ -319,122 +320,139 @@ Moreover, some observations feature background {AWGN} at 10~dB \ac{SNR} level (w
 \end{table}
 
 \newthoughtpar{Numerical Results}
-Table~\cref{tab:mirage:doa} report the performance of the full MIRAGE-MLP 2D-SSL pipeline.
-Within a tolerance of $\ang{20}$, the MIRAGE-MLP model allows estimation of both azimuth and elevation of the target source.
-However, since the two microphones were free to move in our dataset, the inclinations of the true and image pairs are rarely flat.
-While this helps elevation estimation, it reduces the accuracy of predicting the right azimuth.
-Unfortunately external noise is decrease the accuracy dramatically and suggest that we should consider corrupting noise in the training as well as more complex \ac{DNN} architecture.
-Nevertheless, it is interesting to notice that our model trained and validated with white noise sources somewhat generalizes to speech sources.
+\cref{tab:mirage:doa} reports the performance of the full MIRAGE-MLP 2D-SSL pipeline.
+Within a tolerance of $\ang{20}$, the MIRAGE-MLP model allows estimation of 2D-\ac{DOA} with an accuracy of 79\% for azimuth and 88\% for elevation for source emitting white noise in noiseless settings.
+It is interesting to notice that our model trained and validated with white noise sources somewhat generalizes to speech sources.
+In fact, in case of noiseless speech signals, the performances are just slightly lower than the corresponding broadband case.
+As already observed in~\cref{sec:lantern:simple}, external noise severely degrades performances.
 
 \mynewline
 With this work, we demonstrated how a simple echo model could allow 2D SSL with only two microphones, using simulated data.
-In the following section, we will evaluate the \ac{MIRAGE} framework on multichannel simulated data inspired a real world application.
+Motivated by these results, we put lot of effort in collecting real-world data in order to test the whole \ac{MIRAGE} pipeline, including \ac{LANTERN}.
+One direction was offered by a collaboration with recordings with Randy Gomez from the Honda Research Institute.
+The idea was to test the proposed method on the microphone array of the autonomous robot platform called \textit{HARU}\citeonly{ackerman2018haru, gomez2018haru}.
+We collected real-world data, unfortunately, sue to several problems identified in the resulting dataset, theses recordings were discarded and the $\dEchorate$ dataset was priviledged (\cref{ch:dechorate}).
 
-\newcommand{\MIRAGECNN}{\ensuremath{\mathtt{MIRAGE-CNN}_{\calV_\calN}}}
-\subsection{Multi-channel synthetic-data scenario}
-In this section, we compare the baseline \ac{SRP-PHAT} algorithm with the proposed approach, \ac{MIRAGE}, on multichannel synthetic data generated with the Python library \library{pyroomacoustics}\sidenote{\href{https://github.com/LCAV/pyroomacoustics}{\library{pyroomacoustics\ExternalLink}}}.
-In the \ac{SRP-PHAT} algorithm, we uses GCC-PHAT for TDOA estimation and its implementation is provided of the same toolbox we used for aggregating the local angular spectra (see Sidenotes~\ref{note:mbss} and ~\ref{note:mbss:para}).
-This time we use the more robust \ac{DNN} model based on \ac{CNN} trained with the Gaussian-based log-likelihood of~\cref{eq:lantern:gausslog}, dubbed here as $\MIRAGECNN$.
-We recall that the model is specifically trained and validated on white noise sources.
-\\The data are generated to match the design of the HARU's microphone array placed on top of a table:
-the 7 microphones are at most 15~cm from the close-surface, placed 13~cm from each other, with a little horizontal tilt ($\pm\ang{15}$);
-the other walls' absorption coefficients are uniformly sampled in $\kintervoo{0.5}{1}$ and the one of the close-surface is in $\kintervoo{0}{0.5}$.
-200 different audio scenes have been generated including both white noise (wn) and speech source (sp) signals.
-Moreover, \ac{AWGN} noise was added to reach 10~dB \ac{SNR} level.
-The whole dataset design is similar to the one presented in~\cref{subsec:lantern:mlp}.
+% The partner agreed on using its technology to see the impact of echo-aware sound source localization.
 
-\newthoughtpar{2D-SSL estimation on synthetic data}
-The performances are considered in terms of mean angular errors $\pm$ standard deviation in degree for both azimuth and elevation.
-2D-\ac{DOA} estimation errors using the proposed approach and \ac{SRP-PHAT} are presented in~\cref{tab:mirage:ssl_syth}.
-For white noise source signals, \ac{SRP-PHAT} has better performances for both elevation and azimuth, but the proposed approach outperforms the baseline when the emitted signal is speech.
-It is interesting to notice that our DNN model trained and validated with white noise sources somewhat generalizes to speech sources.
+% \\Later, the proposed approach was  extended to multi-microphone
+%     \includegraphics[width=\linewidth]{mirage/haru.jpeg}
+%     \captionof{figure}{The HARU Robot.}
+%     \label{fig:mirage:haru}
+% } (See~\cref{fig:mirage:haru})
+% The robot is fitted with cameras and a microphone array for visual and audio sensing.
+% The array is circular with 6.5~cm radius, featuring 7 sensors.
 
-\begin{table}[t]
-    \begin{sidecaption}[]{
-        Mean squared errors and standard deviation in degrees for azimuth ($\theta$) and elevation ($\phi$). In bold the best records.
-    }[tab:mirage:ssl_syth]
-    \centering
-    \small
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllllll@{}}
-        \toprule
-        & &  signal &  Error $\theta$  &  Error $\phi$ \\
-        \midrule
-        & \MIRAGECNN &   wn+n &  1.29 $\pm$   1.17 &   2.30 $\pm$   3.35 \\
-        & SRP-PHAT &   wn+n &  \textbf{0.49 $\pm$   0.6}1 &   \textbf{1.70 $\pm$   1.42} \\
-        \midrule
-        & \MIRAGECNN &  sp+n & \textbf{ 9.51 $\pm$ 15.84} &  \textbf{12.26  $\pm$  12.20} \\
-        & SRP-PHAT &  sp+n & 35.27 $\pm$  54.57 &  15.10 $\pm$  16.67 \\
-        \bottomrule
-    \end{tabular*}
-    \end{sidecaption}
-\end{table}
+% In ongoing work we are evaluating the \ac{MIRAGE} framework on real-world multichannel
+% Not only that but you also use the better performing CNN_VN architecture from chapter 6. You need to mention this here.
 
-\mynewline
-In~\cref{fig:mirage:synth_ssl_noise,fig:mirage:synth_ssl_speech}, the \ac{DOA} estimation results are reported as scatter-plots in a prediction-vs-ground-truth plane.
-When the test data consider broadband white noise souses, no difference is noticed in the performance between the two methods.
-However, when speech data are considered, \MIRAGECNN{} clearly outperforms the baseline in term of azimuth estimation.
-However, when looking at the elevation estimation, the performances of both of the method drop drastically .
-Unfortunately, this seems to contradict the good performances recorded for \ac{TDOE} estimation in~\cref{subsec:lantern:simple:cnn:results}, and further investigation is needed to explain this observation.
+% \newcommand{\MIRAGECNN}{\ensuremath{\mathtt{MIRAGE-CNN}_{\calV_\calN}}}
+% \subsection{Multi-channel synthetic-data scenario}
+% In this section, we compare the baseline \ac{SRP-PHAT} algorithm with the proposed approach, \ac{MIRAGE}, on multichannel synthetic data generated with the Python library \library{pyroomacoustics}\sidenote{\href{https://github.com/LCAV/pyroomacoustics}{\library{pyroomacoustics\ExternalLink}}}.
+% In the \ac{SRP-PHAT} algorithm, we uses GCC-PHAT for TDOA estimation and its implementation is provided of the same toolbox we used for aggregating the local angular spectra (see Sidenotes~\ref{note:mbss} and ~\ref{note:mbss:para}).
+% This time we use the more robust \ac{DNN} model based on \ac{CNN} trained with the Gaussian-based log-likelihood of~\cref{eq:lantern:gausslog}, dubbed here as $\MIRAGECNN$.
+% We recall that the model is specifically trained and validated on white noise sources.
+% \\The data are generated to match the design of the HARU's microphone array placed on top of a table:
+% the 7 microphones are at most 15~cm from the close-surface, placed 13~cm from each other, with a little horizontal tilt ($\pm\ang{15}$);
+% the other walls' absorption coefficients are uniformly sampled in $\kintervoo{0.5}{1}$ and the one of the close-surface is in $\kintervoo{0}{0.5}$.
+% 200 different audio scenes have been generated including both white noise (wn) and speech source (sp) signals.
+% Moreover, \ac{AWGN} noise was added to reach 10~dB \ac{SNR} level.
+% The whole dataset design is similar to the one presented in~\cref{subsec:lantern:mlp}.
 
-\begin{figure}[t]
-    \begin{sidecaption}[]{
-        Scatter-plots (predictions-vs-ground-truth) for DOA estimation (azimuth and elevation) on synthetic data when the the source signal is \textbf{noise}.
-        The color map corresponds to different SNR level [dB] in the data.
-    }[fig:mirage:synth_ssl_noise]
-    \centering
-    \subfloat[azel_srp][2D-SSL with SRP-PHAT on noise data]{
-        \centering
-        \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_SRP_noise.pdf}
-        \label{fig:mirage:synth_ssl_noise_srp}
-    }
-    \hfill
-    \subfloat[azel_mirage][2D-SSL with  MIRAGE on noise data]{
-        \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_MIRAGE_noise.pdf}
-        \label{fig:mirage:synth_ssl_noise_mirage}
-    }
-    \end{sidecaption}
-\end{figure}
+% \newthoughtpar{2D-SSL estimation on synthetic data}
+% The performances are considered in terms of mean angular errors $\pm$ standard deviation in degree for both azimuth and elevation.
+% 2D-\ac{DOA} estimation errors using the proposed approach and \ac{SRP-PHAT} are presented in~\cref{tab:mirage:ssl_syth}.
+% For white noise source signals, \ac{SRP-PHAT} has better performances for both elevation and azimuth, but the proposed approach outperforms the baseline when the emitted signal is speech.
+% It is interesting to notice that our DNN model trained and validated with white noise sources somewhat generalizes to speech sources.
 
-\begin{figure}[t]
-    \begin{sidecaption}[]{
-        Scatterplots (predictions-vs-ground-truth) for DoA estimation (azimuth and elevation) on synthetic data when the the source signal is \textbf{speech}.
-        The color map corresponds to different SNR level [dB] in the data.
-    }[fig:mirage:synth_ssl_speech]
-    \centering
-    \subfloat[azel_srp][2D-SSL with SRP-PHAT on speech data]{
-        \centering
-        \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_SRP_speech.pdf}
-        \label{fig:mirage:synth_ssl_speech_srp}
-    }
-    \hfill
-    \subfloat[azel_mirage][2D-SSL with  MIRAGE on speech data]{
-        \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_MIRAGE_speech.pdf}
-        \label{fig:mirage:synth_ssl_speech}
-    }
-    \end{sidecaption}
-\end{figure}
+% \begin{table}[t]
+%     \begin{sidecaption}[]{
+%         Mean squared errors and standard deviation in degrees for azimuth ($\theta$) and elevation ($\phi$). In bold the best records.
+%     }[tab:mirage:ssl_syth]
+%     \centering
+%     \small
+%     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllllll@{}}
+%         \toprule
+%         & &  signal &  Error $\theta$  &  Error $\phi$ \\
+%         \midrule
+%         & \MIRAGECNN &   wn+n &  1.29 $\pm$   1.17 &   2.30 $\pm$   3.35 \\
+%         & SRP-PHAT &   wn+n &  \textbf{0.49 $\pm$   0.6}1 &   \textbf{1.70 $\pm$   1.42} \\
+%         \midrule
+%         & \MIRAGECNN &  sp+n & \textbf{ 9.51 $\pm$ 15.84} &  \textbf{12.26  $\pm$  12.20} \\
+%         & SRP-PHAT &  sp+n & 35.27 $\pm$  54.57 &  15.10 $\pm$  16.67 \\
+%         \bottomrule
+%     \end{tabular*}
+%     \end{sidecaption}
+% \end{table}
 
-\mynewline
-\newthought{Multi-channel real scenario} data were recorded with Haru's microphone array, as natural follow up of the work.
-The consider room setup is shown in~\cref{fig:mirage:room_exp}.
-However, due to lack of expertise and limitation in the measurement tools, these recording were discarded.
-Later, new data with the Haru robot were recorded, but the processing of their data is still work in progress.
+% \mynewline
+% In~\cref{fig:mirage:synth_ssl_noise,fig:mirage:synth_ssl_speech}, the \ac{DOA} estimation results are reported as scatter-plots in a prediction-vs-ground-truth plane.
+% When the test data consider broadband white noise souses, no difference is noticed in the performance between the two methods.
+% However, when speech data are considered, \MIRAGECNN{} clearly outperforms the baseline in term of azimuth estimation.
+% However, when looking at the elevation estimation, the performances of both of the method drop drastically .
+% Unfortunately, this seems to contradict the good performances recorded for \ac{TDOE} estimation in~\cref{subsec:lantern:simple:cnn:results}, and further investigation is needed to explain this observation.
 
-\begin{figure}[t]
-    \begin{fullwidth}
-    \centering
-    \subfloat[mu_spkr][HARU Array]{
-        \includegraphics[width=0.32\textwidth]{figures/mirage/1_room_exp}}
-    \hfill
-    \subfloat[mu_spkr][Reflective table]{
-        \includegraphics[width=0.32\textwidth]{figures/mirage/2_room_exp}}
-    \hfill
-    \subfloat[mu_univ][Detail]{
-            \includegraphics[width=0.32\textwidth]{figures/mirage/3_room_exp}}
-    \label{fig:mirage:room_exp}
-    \caption{Picture of the room and setup for recording real multichannel data with the HARU circular microphone array.}
-    \end{fullwidth}
-\end{figure}
+% \begin{figure}[t]
+%     \begin{sidecaption}[]{
+%         Scatter-plots (predictions-vs-ground-truth) for DOA estimation (azimuth and elevation) on synthetic data when the the source signal is \textbf{noise}.
+%         The color map corresponds to different SNR level [dB] in the data.
+%     }[fig:mirage:synth_ssl_noise]
+%     \centering
+%     \subfloat[azel_srp][2D-SSL with SRP-PHAT on noise data]{
+%         \centering
+%         \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_SRP_noise.pdf}
+%         \label{fig:mirage:synth_ssl_noise_srp}
+%     }
+%     \hfill
+%     \subfloat[azel_mirage][2D-SSL with  MIRAGE on noise data]{
+%         \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_MIRAGE_noise.pdf}
+%         \label{fig:mirage:synth_ssl_noise_mirage}
+%     }
+%     \end{sidecaption}
+% \end{figure}
+
+% \begin{figure}[t]
+%     \begin{sidecaption}[]{
+%         Scatterplots (predictions-vs-ground-truth) for DoA estimation (azimuth and elevation) on synthetic data when the the source signal is \textbf{speech}.
+%         The color map corresponds to different SNR level [dB] in the data.
+%     }[fig:mirage:synth_ssl_speech]
+%     \centering
+%     \subfloat[azel_srp][2D-SSL with SRP-PHAT on speech data]{
+%         \centering
+%         \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_SRP_speech.pdf}
+%         \label{fig:mirage:synth_ssl_speech_srp}
+%     }
+%     \hfill
+%     \subfloat[azel_mirage][2D-SSL with  MIRAGE on speech data]{
+%         \includegraphics[width=\linewidth]{mirage/scatter_azel_estim_MIRAGE_speech.pdf}
+%         \label{fig:mirage:synth_ssl_speech}
+%     }
+%     \end{sidecaption}
+% \end{figure}
+
+% \mynewline
+% \newthought{Multi-channel real scenario} data were recorded with Haru's microphone array, as natural follow up of the work.
+% The consider room setup is shown in~\cref{fig:mirage:room_exp}.
+% However, due to lack of expertise and limitation in the measurement tools, these recording were discarded.
+% Later, new data with the Haru robot were recorded, but the processing of their data is still work in progress.
+
+% \begin{figure}[t]
+%     \begin{fullwidth}
+%     \centering
+%     \subfloat[mu_spkr][HARU Array]{
+%         \includegraphics[width=0.32\textwidth]{figures/mirage/1_room_exp}}
+%     \hfill
+%     \subfloat[mu_spkr][Reflective table]{
+%         \includegraphics[width=0.32\textwidth]{figures/mirage/2_room_exp}}
+%     \hfill
+%     \subfloat[mu_univ][Detail]{
+%             \includegraphics[width=0.32\textwidth]{figures/mirage/3_room_exp}}
+%     \label{fig:mirage:room_exp}
+%     \caption{Picture of the room and setup for recording real multichannel data with the HARU circular microphone array.}
+%     \end{fullwidth}
+% \end{figure}
+
+
 % In this section, we compare the \ac{SRP-PHAT} algorithm (using GCC-PHAT for TDOA estimation) with the proposed approach, \MIRAGE/, on real multichannel recordings.
 % This time we use the more robust \ac{DNN} model based on \ac{CNN} trained with the Gaussian-based log-likelihood of~\cref{eq:lantern:gausslog}, dubbed here as $\MIRAGECNN$.
 % The real multichannel data were recorded with the HARU microphone circular array ($\numMics=7)$.
@@ -563,14 +581,14 @@ Later, new data with the Haru robot were recorded, but the processing of their d
 
 
 \section{Conclusion}
-This chapter demonstrated how a simple echo model could boost an SSL algorithm in strongly echoic scenarios when microphones are placed close to a reflector.
-Instead of integrating the physical equation into their algorithm, we proposed to use a successful algorithm for multichannel SSL on the virtual array created accounting for image microphone.
-In order to create such an array, the echoes' parameters need to be estimated.
-To this end, we use the learning-based acoustic echo retrieval methods proposed in~\cref{ch:lantern}.
+This chapter demonstrated how a simple echo model could boost an \ac{SSL} algorithm in strongly echoic conditions when microphones are placed close to a reflector.
+We proposed to use a successful algorithm for multichannel \ac{SSL} on the virtual array created by image microphones.
+In order to leverage such an array, the echoes' parameters need to be estimated.
+To this end, we used the learning-based acoustic echo retrieval methods proposed in~\cref{ch:lantern}.
 \\Preliminary results on synthetic data for stereophonic recordings prove the effectiveness of the proposed approach.
-However, results obtained on real data reveal that the task is still very challenging for both the proposed and baseline methods.
-Considering the current knowledge, this is the first time an echo-aware method combines both knowledge-driven and data-driven for sound source localization.
+However, the task is still very challenging for both the proposed and baseline methods.
+Considering the current knowledge, this is the first time an echo-aware method combines both knowledge-driven and data-driven approaches to \ac{SSL}.
 The learning approach could still be significantly improved by considering other acoustic features (such as advance \ReTF/ methods), other architectures, and other challenges.
 For instance, handling the missing frequencies of the speech while training on a broadband signal such as in~\citeonly{gaultier2017vast},
-using physical-driven regulation such as in~\citeonly{nabian2020physics} and make the learning step independent to the array geometry.
-Moreover, further investigation is needed to strengthen these results and further improve the robustness of the learned mapping, for which the \dEchorate may be used as a valuable testing dataset.
+using physics-driven regularizers such as in~\citeonly{nabian2020physics} and make the learning phase independent of the array geometry.
+Secondly, the approach need to be tested on real-world data, for which the $\dEchorate$ may be used as a valuable testing dataset.
