@@ -517,7 +517,7 @@ Now, some parallelism can be envisioned:
 
 \subsection{The resulting algorithm}
 The algorithm used to solve~\cref{eq:blaster:TV-BLASSO} is an instance the sliding Frank-Wolfe algorithm proposed in~\citeonly{denoyelle2019sliding} to solve~\cref{eq:blaster:TV-BLASSO}.
-Detailed descriptions of the steps of the algorithm are given in~\cref{ap:blaster}.
+Detailed descriptions of the steps of the algorithm are given in~\citeonly[Supplementary Material]{di2020blaster}.
 In a nutshell, the algorithm iterative over the following steps until a condition on the cost function is met.
 \begin{enumerate}
     \item \textit{Anchor constrain}.
@@ -572,7 +572,7 @@ However, this becomes an hyperparameter that needs to be carefully tuned accordi
 Instead, we propose to compute a \textit{path of solutions} to automatically estimate it in~\cref{eq:blaster:TV-BLASSO}.
 In the context of sparse optimization this technique is also referred to as \textit{homotopic path}.
 More precisely, let $\lambda_{\max}$ be the smallest value of $\lambda$ such that the null measure is the solution to~\cref{eq:blaster:TV-BLASSO}.
-It can be shown that $\lambda_{\max}$ is upper bounded by $\max_{\theta\in\Theta} \kvbar{y^\intercal\opObs\delta_\theta}$ (See~\cref{ap:blaster}).
+It can be shown that $\lambda_{\max}$ is upper bounded by $\max_{\theta\in\Theta} \kvbar{y^\intercal\opObs\delta_\theta}$.
 Starting from $z=1$ and the empty filter, we consider a sequential implementation where the solution of~\cref{eq:blaster:TV-BLASSO} is computed for $\lambda^{(z)}= 10^{-0.05z}\lambda_{\max}$ until the desired number of spikes is found in each channel when incrementing $z$.
 For each $\lambda^(z)$, we search for a solution of~\cref{eq:blaster:TV-BLASSO} with the solution obtained for $\lambda^{(z-1)}$ as a warm start.
 
