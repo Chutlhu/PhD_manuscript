@@ -422,7 +422,7 @@ where $\Gamma$ is the Gamma function.
 Similarly to the Gaussian case, at each each input $\xi$, the network will return the parameters of 3 \textit{t}-distribution ($\mu_v, \nu_v, \lambda_v$) for each variable $v\in\calV$.
 The set of there nine network output is denoted as $\hat{V}_{\calT}$.
 
-\subsection{Experimental results}
+\subsection{Experimental results}\label{subsec:lantern:simple:cnn:results}
 In order to validate the proposed approach, it is compared to the vanilla \ac{MLP} model proposed above in the previous section.
 Rather than training on noise-less observation, we consider microphone recordings featuring background noise.
 To this end, we perturbed the observed microphone signals with \ac{AWGN}, leading to \ac{SNR} values uniformly distributed in $[0, 30]$~dB.

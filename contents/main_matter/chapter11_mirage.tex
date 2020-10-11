@@ -18,14 +18,16 @@
 Together with~\cref{ch:lantern}, this chapter describes methods and results published in~\cite{di2019mirage}, which considers only stereophonic recordings.
 In this sense, this chapter provides an application for \acs{LANTERN}, the learning-based echo estimation method presented in the above mentioned chapter.
 \\Later, the proposed approach was  extended to multi-microphone recordings in a collaboration with Randy Gomez from the Honda Research Institute.
-In particular, the method was tested on an autonomous robot platform called \textit{HARU}\citeonly{ackerman2018haru, gomez2018haru}, \marginpar{
+In particular, the method was tested considering the microphone array of the autonomous robot platform called \textit{HARU}\citeonly{ackerman2018haru, gomez2018haru}, \marginpar{
     \includegraphics[width=\linewidth]{mirage/haru.jpeg}
     \captionof{figure}{The HARU Robot.}
     \label{fig:mirage:haru}
-} consisting of a base and two screens mimicking a face with two eyes (See~\cref{fig:mirage:haru})
+} (See~\cref{fig:mirage:haru})
 The robot is fitted with cameras and a microphone array for visual and audio sensing.
 The array is circular with 6.5~cm radius, featuring 7 sensors.
 The partner agreed on using its technology to see the impact of echo-aware sound source localization.
+Unfortunately, we found some issues in annotating and using the recorded data.
+Therefore our investigation here is limited to synthetic data.
 % The results of this study were described in an internal technical report~\citeonly{di2019honda}.
 
 
@@ -204,7 +206,7 @@ This function will exhibit a local maximum in the direction of the active source
 
 \section{Microphone Array Augmentation with Echoes}\label{sec:mirage:mirage}
 We now introduce the proposed concept of \MIRAGEdef/.
-The \RIRs/ in~\cref{eq:mirage:signalmodel} follows to the well known \acf{ISM}, where reflections are treated as mirror images of the true source with respect to reflective surfaces, emitting the same signal.
+The \RIRs/ in~\cref{eq:mirage:signalmodel} follows to the well known \acf{ISM}, where all the reflections are treated as mirror images of the true source with respect to reflective surfaces, emitting the same signal.
 \marginpar{%
 \centering
 \footnotesize
@@ -214,7 +216,7 @@ The \RIRs/ in~\cref{eq:mirage:signalmodel} follows to the well known \acf{ISM}, 
         Blue lines correspond to direct paths, orange lines correspond to echo paths.}
     \label{fig:mirage:mirage}
 }
-We will employ here a less common but equivalent interpretation of \ISM/, namely, the image-microphone (IM) model.
+We will employ here a less common but equivalent interpretation of \ISM/, namely, the image-microphone model (see~\cref{sec:separake:sota})
 As illustrated in Fig.~\cref{fig:mirage:mirage}, image microphones are mirror images of the true microphones with respect to reflective surfaces.
 In this view, the echoic signal received at a true microphone is the sum of the anechoic signals received at this microphone and its images.
 If we consider the virtual array consisting of both true and image microphones, multiple microphone pairs are now available.
@@ -228,15 +230,18 @@ Therefore, we have:\marginpar{%
         Superposition of two \acp{RIR} and visualization of time difference of arrival between direct paths (\ac{TDOA}), first echoes (\ac{iTDOA}) and direct path and first echo (\ac{TDOE}).}
     \label{fig:mirage:rirs_tdoa}
 }%
-\begin{align}
-\tau_\mathtt{TDOA}  &= \tfrac{1}{c} \norm{\positionMicrophone_2 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_2^{(0)} - \tau_1^{(0)},\\
-\tau_\mathtt{iTDOA} &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_2 - \positionSource} - \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_1 - \positionSource} = \tau_2^{(1)} - \tau_1^{(1)},\\
-\tau_{\mathtt{TDOE}_1}  &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_1 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_1^{(1)} - \tau_1^{(0)}
-\end{align}
+\begin{equation}
+    \begin{aligned}
+        \tau_\mathtt{TDOA}  &= \tfrac{1}{c} \norm{\positionMicrophone_2 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_2^{(0)} - \tau_1^{(0)},\\
+        \tau_\mathtt{iTDOA} &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_2 - \positionSource} - \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_1 - \positionSource} = \tau_2^{(1)} - \tau_1^{(1)},\\
+        \tau_{\mathtt{TDOE}_1}  &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_1 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_1 - \positionSource} = \tau_1^{(1)} - \tau_1^{(0)}\\
+        \tau_{\mathtt{TDOE}_2}  &= \tfrac{1}{c} \norm{\mathring{\positionMicrophone}_2 - \positionSource} - \tfrac{1}{c} \norm{\positionMicrophone_2 - \positionSource} = \tau_2^{(1)} - \tau_2^{(0)}
+    \end{aligned}
+\end{equation}
 where $\mathring{\positionMicrophone}_i$ denotes the position of the image of $\positionMicrophone_i$ with respect to the reflector.
-Note that $\tau_{\mathtt{TDOE}_2} = \tau_\mathtt{iTDOA} + \tau_{\mathtt{TDOE}_1} - \tau_\mathtt{TDOA}$.
+It is easy to see that $\tau_{\mathtt{TDOE}_2} =  \tau_{\mathtt{TDOE}_1} + \tau_\mathtt{iTDOA} - \tau_\mathtt{TDOA}$.
+Therefore, we will consider only the set $V = \klist{\tau_{\mathtt{TDOA}}, \tau_{\mathtt{iTDOA}}, \tau_{\mathtt{TDOE}_1}}\in\mathbb{R}^3$.
 These three quantities are directly connected to \RIRs/, as illustrated in~\cref{fig:mirage:rirs_tdoa}.
-Let us define $V = \klist{\tau_{\mathtt{TDOA}}, \tau_{\mathtt{iTDOA}}, \tau_{\mathtt{TDOE}_1}}\in\mathbb{R}^3$.
 % Note that they are the same estimated by the \acs{LANTERN} \ac{DNN} presented in~.
 
 \mynewline
@@ -246,9 +251,9 @@ In fact, those models were proposed exactly to address the task of estimating th
 
 \mynewline
 Following the 2D-\SSL/ scheme described in \cref{subsec:mirage:2D-SSL} and given the virtual microphone-array geometry (which depends on the relative position of microphones to the surface), $V$ could in principle be used to estimate the 2D directional of arrival of the source.
-To this end, the 3 real-value estimates in $V$ need to be converted into local angular spectra (see~\cref{subsec:mirage:2D-SSL}).
+To this end, the 3 real-value estimates in $V$ are converted into \textit{synthetic} local angular spectra (see~\cref{subsec:mirage:2D-SSL}).
 In the first investigation of~\citeonly{di2019mirage}, we proposed to use Gaussians functions centred at the estimates $\hat{V}$ with variances equal to the prediction errors made by the \ac{DNN} on the validation set.
-Later, as explained in~\cref{sec:lantern:robust}, we modified the networks in order to estimated both these means and the variances.
+Later, we modified the networks in order to estimated both these means and the variances, as explained in~\cref{sec:lantern:robust},.
 
 % In the~\cref{ch:lantern}, we introduced a learning-based method to estimate $V$ using audio features obtained from only two microphones.
 % Given a microphone pair, the local maximum of angular spectrum $\Psi_\text{PHAT}$ corresponds to the \ac{TDOA}.
@@ -275,20 +280,22 @@ Later, as explained in~\cref{sec:lantern:robust}, we modified the networks in or
 
 \section{Experimental Results}\label{sec:mirage:exp}
 In this section we will report the experimental results for the proposed approach.
-At first we will consider the continuation of the investigation started in~\cref{sec:lantern:simple}.
-Later, the approach is extended to real-multichannel recordings using the HARU robot.
+At first, we will consider the continuation of the investigation started in~\cref{sec:lantern:simple}, namely, the analysis is limited to the stereophonic recording in a single-source close-surface scenario.
+Later, the approach is extended to synthetic single-source multichannel recordings assuming the HARU's array geometry.
 
 \subsection{2-channel scenario}
 Here we compare the \ac{MIRAGE} approach using the \acs{LANTERN} \ac{MLP} (MIRAGE-MLP) learning model.
-A free and open-source Matlab implementation of \ac{SRP-PHAT}\sidenote{\label{note:mbss}\href{http://bass-db.gforge.inria.fr/bss_locate/}{MBSSLocate\ExternalLink}} is used to aggregate local angular spectra obtained from the \ac{DNN}'s output.
-In this stereophonic scenario, the baseline method \ac{GCC-PHAT} was not considered since it can access only the true microphone signals.
-Therefore, it is unable to perform 2D-SSL.
+A free and open-source Matlab implementation of \ac{SRP-PHAT}\sidenote{\label{note:mbss}\href{http://bass-db.gforge.inria.fr/bss_locate/}{\library{MBSSLocate}\ExternalLink}} is used to aggregate local angular spectra obtained from the model output.\sidenote{
+    For SRP-PHAT we used a sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ is used for the \c{DOA} search.
+    \label{note:mbss:para}
+}
+External noises in the recordings are simulated by perturbing the observation with \ac{AWGN} noise at 10~dB \ac{SNR} (wn+n, sp+n, respectively).
+In this stereophonic experiment, the baseline method \ac{GCC-PHAT} is not considered: it can access only the true microphone signals, thus, it is unable to perform 2D-SSL.
 
 \mynewline
 The dataset, the implementation, and training procedure are the same as in~\cref{subsec:lantern:simple:mpl:results}.
-The methods are both tested on the same synthetic test data featuring white noise (wn), and speech (sp) signals convolved with \acp{RIR} generated by the acoustic simulator~\citeonly{schimmel2009fast}.
-Moreover, some recordings are perturbed by external white noise at 10~dB \ac{SNR} (wn+n, sp+n, respectively).
-A sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ is used for the \c{DOA} search.
+In particular, the test set features both white noise (wn), and speech (sp) signals convolved with \acp{RIR} generated by the acoustic simulator~\citeonly{schimmel2009fast}.
+Moreover, some observations feature background {AWGN} at 10~dB \ac{SNR} level (wn+n, sp+,n respectively).
 
 \begin{table}[t]
     \begin{sidecaption}[DoA estimation]{%
@@ -311,29 +318,30 @@ A sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179,
     \end{sidecaption}
 \end{table}
 
-\mynewline
+\newthoughtpar{Numerical Results}
 Table~\cref{tab:mirage:doa} report the performance of the full MIRAGE-MLP 2D-SSL pipeline.
 Within a tolerance of $\ang{20}$, the MIRAGE-MLP model allows estimation of both azimuth and elevation of the target source.
 However, since the two microphones were free to move in our dataset, the inclinations of the true and image pairs are rarely flat.
 While this helps elevation estimation, it reduces the accuracy of predicting the right azimuth.
-While external noise is again decreasing the accuracy dramatically, it is interesting to notice that our \ac{DNN} model trained and validated with white noise sources somewhat generalizes to speech sources.
+Unfortunately external noise is decrease the accuracy dramatically and suggest that we should consider corrupting noise in the training as well as more complex \ac{DNN} architecture.
+Nevertheless, it is interesting to notice that our model trained and validated with white noise sources somewhat generalizes to speech sources.
 
 \mynewline
 With this work, we demonstrated how a simple echo model could allow 2D SSL with only two microphones, using simulated data.
-In the following section, we will discuss a real-world application of the \ac{MIRAGE} framework to larger microphone arrays.
+In the following section, we will evaluate the \ac{MIRAGE} framework on multichannel simulated data inspired a real world application.
 
 \newcommand{\MIRAGECNN}{\ensuremath{\mathtt{MIRAGE-CNN}_{\calV_\calN}}}
 \subsection{Multi-channel synthetic-data scenario}
-In this section, we compare the \ac{SRP-PHAT} algorithm (using GCC-PHAT for TDOA estimation, using the baseline implementation of Sidenote~\ref{note:mbss}) with the proposed approach, \MIRAGE/, on multichannel synthetic data generated with the Python library \library{pyroomacoustics}\sidenote{\href{https://github.com/LCAV/pyroomacoustics}{\library{pyroomacoustics\ExternalLink}}}.
+In this section, we compare the baseline \ac{SRP-PHAT} algorithm with the proposed approach, \ac{MIRAGE}, on multichannel synthetic data generated with the Python library \library{pyroomacoustics}\sidenote{\href{https://github.com/LCAV/pyroomacoustics}{\library{pyroomacoustics\ExternalLink}}}.
+In the \ac{SRP-PHAT} algorithm, we uses GCC-PHAT for TDOA estimation and its implementation is provided of the same toolbox we used for aggregating the local angular spectra (see Sidenotes~\ref{note:mbss} and ~\ref{note:mbss:para}).
 This time we use the more robust \ac{DNN} model based on \ac{CNN} trained with the Gaussian-based log-likelihood of~\cref{eq:lantern:gausslog}, dubbed here as $\MIRAGECNN$.
 We recall that the model is specifically trained and validated on white noise sources.
 \\The data are generated to match the design of the HARU's microphone array placed on top of a table:
-the 7 microphones are at most 30~cm from the close-surface, placed $13$ cm from each other; the other walls' absorption coefficients are uniformly sampled in $(0.5, 1)$, and the one of the close-surface is in $(0, 0.5)$.
+the 7 microphones are at most 15~cm from the close-surface, placed 13~cm from each other, with a little horizontal tilt ($\pm\ang{15}$);
+the other walls' absorption coefficients are uniformly sampled in $\kintervoo{0.5}{1}$ and the one of the close-surface is in $\kintervoo{0}{0.5}$.
 200 different audio scenes have been generated including both white noise (wn) and speech source (sp) signals.
-Moreover, \ac{AWGN} noise was added to reach 10~dB \ac{SNR}.
+Moreover, \ac{AWGN} noise was added to reach 10~dB \ac{SNR} level.
 The whole dataset design is similar to the one presented in~\cref{subsec:lantern:mlp}.
-For \ac{SRP-PHAT}, default parameters where used: a sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ for the \c{DOA} search.
-
 
 \newthoughtpar{2D-SSL estimation on synthetic data}
 The performances are considered in terms of mean angular errors $\pm$ standard deviation in degree for both azimuth and elevation.
@@ -363,9 +371,10 @@ It is interesting to notice that our DNN model trained and validated with white 
 
 \mynewline
 In~\cref{fig:mirage:synth_ssl_noise,fig:mirage:synth_ssl_speech}, the \ac{DOA} estimation results are reported as scatter-plots in a prediction-vs-ground-truth plane.
-When the test data contains noise, both the methods perform the same.
-However, when speech data are considered, \MIRAGECNN{} outperforms the baseline.
-Unfortunately, the performance of both of the method drops for elevation estimation.
+When the test data consider broadband white noise souses, no difference is noticed in the performance between the two methods.
+However, when speech data are considered, \MIRAGECNN{} clearly outperforms the baseline in term of azimuth estimation.
+However, when looking at the elevation estimation, the performances of both of the method drop drastically .
+Unfortunately, this seems to contradict the good performances recorded for \ac{TDOE} estimation in~\cref{subsec:lantern:simple:cnn:results}, and further investigation is needed to explain this observation.
 
 \begin{figure}[t]
     \begin{sidecaption}[]{
@@ -405,28 +414,32 @@ Unfortunately, the performance of both of the method drops for elevation estimat
     \end{sidecaption}
 \end{figure}
 
-% \subsection{Multi-channel real scenario}
-% \begin{figure}[t]
-%     \begin{fullwidth}
-%     \centering
-%     \subfloat[mu_spkr][HARU Array]{
-%         \includegraphics[width=0.32\textwidth]{figures/mirage/1_room_exp}}
-%     \hfill
-%     \subfloat[mu_spkr][Reflective table]{
-%         \includegraphics[width=0.32\textwidth]{figures/mirage/2_room_exp}}
-%     \hfill
-%     \subfloat[mu_univ][Detail]{
-%             \includegraphics[width=0.32\textwidth]{figures/mirage/3_room_exp}}
-%     \label{fig:mirage:room_exp}
-%     \caption{Picture of the room and setup for recording real multichannel data with the HARU circular microphone array.}
-%     \end{fullwidth}
-% \end{figure}
+\mynewline
+\newthought{Multi-channel real scenario} data were recorded with Haru's microphone array, as natural follow up of the work.
+The consider room setup is shown in~\cref{fig:mirage:room_exp}.
+However, due to lack of expertise and limitation in the measurement tools, these recording were discarded.
+Later, new data with the Haru robot were recorded, but the processing of their data is still work in progress.
+
+\begin{figure}[t]
+    \begin{fullwidth}
+    \centering
+    \subfloat[mu_spkr][HARU Array]{
+        \includegraphics[width=0.32\textwidth]{figures/mirage/1_room_exp}}
+    \hfill
+    \subfloat[mu_spkr][Reflective table]{
+        \includegraphics[width=0.32\textwidth]{figures/mirage/2_room_exp}}
+    \hfill
+    \subfloat[mu_univ][Detail]{
+            \includegraphics[width=0.32\textwidth]{figures/mirage/3_room_exp}}
+    \label{fig:mirage:room_exp}
+    \caption{Picture of the room and setup for recording real multichannel data with the HARU circular microphone array.}
+    \end{fullwidth}
+\end{figure}
 % In this section, we compare the \ac{SRP-PHAT} algorithm (using GCC-PHAT for TDOA estimation) with the proposed approach, \MIRAGE/, on real multichannel recordings.
 % This time we use the more robust \ac{DNN} model based on \ac{CNN} trained with the Gaussian-based log-likelihood of~\cref{eq:lantern:gausslog}, dubbed here as $\MIRAGECNN$.
 % The real multichannel data were recorded with the HARU microphone circular array ($\numMics=7)$.
 % The experiments were performed in a big office room 10~m $\times$ 15~m $\times$ 3~m with a reverberation time around 0.2 seconds.
 % The HARU was placed on top of a table with a height of 0.10 m to simulate the close-reflector scenario, used to train the \ac{DNN} model.
-% The room setup is shown in~\cref{fig:mirage:room_exp}.
 % Two loudspeakers were used the emit one anechoic and normalized utterance from the TIMIT dataset and 10 seconds of white noise.
 % The dataset consists of 5 different azimuthal positions and for each of them 2 different elevations yielding 10 different locations in space.
 % The geometry of the setup was annotated using metric tape measures.
