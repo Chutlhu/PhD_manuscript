@@ -1,39 +1,31 @@
 \chapter*{Résumé en français}\addcontentsline{toc}{chapter}{Résumé en français}
 
-\small
 
     L'analyse
     \marginpar{
         \footnotesize
         \textbf{Mots-cl\'{e}s:}
-        \\Echos acoustiques, récupération des échos acoustiques, estimation de la réponse impulsionnelle de la pièce;
-        analyse de la scène sonore, acoustique de la pièce;
-        séparation des sources audio, estimation de la géométrie de la pièce, filtrage spatial, localisation de la source sonore;
-        apprentissage approfondi, dictionnaire des continuos.
+        \\Echos acoustiques, récupération des échos acoustiques, estimation de la réponse impulsionnelle d'une pièce;
+        analyse de scène sonore, acoustique des salles;
+        séparation de sources audio, estimation de la géométrie d'une pièce, filtrage spatial, localisation de sources sonores;
+        apprentissage profond, dictionnaires continus.
     } de scène audio vise à récupérer des informations utiles à partir d'enregistrements microphoniques.
-    La séparation et localisation de la sources sonores sont des exemples de ces problèmes, dans lesquels on s'intéresse à l'estimation du contenu et de la position d'un locuteur.
+    La séparation et localisation de sources sonores sont des exemples de ces problèmes, dans lesquels on s'intéresse à l'estimation du contenu et de la position d'un locuteur.
     En tant qu'humains, nous effectuons ces tâches sans effort.
     Cependant, pour les ordinateurs et les robots, ces tâches restent des défis à relever.
     L'une des principales limites est que la plupart des technologies disponibles résolvent les problèmes d'analyse de scènes sonores en tenant compte soit de la sémantique du son, soit des informations spatiales.
-
-    \mynewline
-    Le thème central de ces thèses est celui des échos acoustiques: les éléments de propagation du son faisant le pont entre les informations sémantiques et spatiales des sources sonores.
+    \\Le thème central de cette thèse est celui des échos acoustiques: les éléments de la propagation du son faisant le pont entre les informations sémantiques et spatiales des sources sonores.
     En particulier, en tant que répétitions d'un signal source, leur contribution sémantique peut être intégrée pour améliorer la source sonore.
     Comme ils sont issus d'une interaction avec l'environnement, leur cheminement peut être retracé et utilisé pour estimer la géométrie de la scène sonore.
     Sur la base de ces observations, des méthodes récentes en traitement du signal audio tenant compte des échos ont été proposées.
     Cependant, deux questions principales se posent : comment estimer les échos acoustiques et comment exploiter leur connaissance?
-
-    \mynewline
-    Ce travail de thèse vise à améliorer l'état de l'art actuel en traitement du signal audio d'intérieur selon ces deux axes.
+    \\Ce travail de thèse vise à améliorer l'état de l'art actuel en traitement du signal audio d'intérieur selon ces deux axes.
     Il fournit également de nouvelles méthodologies et données pour traiter les échos acoustiques et dépasser les limites des approches actuelles.
     À cette fin, nous présentons deux approches :
-    Une nouvelle méthode basée sur le cadre du des dictionnaires continus qui ne nécessite pas de réglages de paramètres ni d'extraction de pics, et un modèle.
-    Un modèle d'apprentissage profond estimant le décalage temporel de l'arrivée des premiers échos à l'aide de régularisateurs physiquement motivés.
-    En outre, nous présentons un nouvel ensemble de données entièrement annotées, spécialement conçu pour l'estimation d'échos acoustiques, et les applications prenant en compte les échos ouvrant la voie à de futures recherches sur les échos.
-
-    \mynewline
-    La deuxième partie de cette thèse concerne l'extension des méthodes existantes d'analyse de scènes audio dans leur forme adaptée aux échos.
-    Le cadre NMF multicanal pour la séparation de sources audio, les méthodes de localisation SRP-PHAT et la technique de formation de voies (beamforming) MVDR pour l'amélioration de la parole
+    Une nouvelle méthode basée sur le cadre du des dictionnaires continus qui ne nécessite pas de réglages de paramètres ni d'extraction de pics, et un modèle
+    d'apprentissage profond estimant le décalage temporel de l'arrivée des premiers échos à l'aide de régularisateurs physiquement motivés.
+    En outre, nous présentons un nouvel ensemble de données entièrement annotées, spécialement conçu pour l'estimation d'échos acoustiques, et les applications prenant en compte les échos ouvrant la voie à de futures recherches sur les échos.    La deuxième partie de cette thèse concerne l'extension des méthodes existantes d'analyse de scènes audio dans leur forme adaptée aux échos.
+    \\Le cadre NMF multicanal pour la séparation de sources audio, les méthodes de localisation SRP-PHAT et la technique de formation de voies (beamforming) MVDR pour l'amélioration de la parole
     sont proposés dans leur version "echo-aware". Ces applications montrent comment un simple modèle d'écho peut conduire à une augmentation des performances.
 
     \newthought{Cette thèse} souligne la difficulté d'exploiter les échos acoustiques pour améliorer le traitement audio à l'intérieur.
