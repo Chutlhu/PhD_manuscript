@@ -159,7 +159,7 @@ which are the collections of convolution between the \RIRs/ and source signal:
         }
         \captionof{figure}{Graphical representation of the mixing model~\ref{eq:processing:mixing:mix} for 2 sources and 2 microphones.
         The text is overlapping on purpose.
-        }\label{fig:processing:mixing}
+        }\label{fig:processing:mixingmodel}
 }%
 Considering the time domain description of the \RIR/ derived (and approximated) in the previous chapter,
 the time-domain \emph{mixing filters} $\tilde{h}_{\idxMicSrc}( t)$ will be modeled as follows:
@@ -194,7 +194,7 @@ Therefore, we will define and use the following type of noises:
         $\boldsymbol{n}( t)$ contributes to the \textit{diffuse noise field}, and
         $\boldsymbol{\varepsilon }( t)$ model acquisition and modeling errors.
         \textit{With proper prior knowledge, it can be understood}.
-        }\label{fig:processing:mixing}
+        }\label{fig:processing:noise_mixing}
 }
 \newthought{Interfers} identifies undesired sources with properties similar to the target source.
 For instance, a concurrent speech source for speech application or concurrent music instrument in case of music.
@@ -229,7 +229,7 @@ The frequency, or spectral, representation is probably the most famous signal re
 Speech and music signals naturally exhibit pseudo-periodic behaviors (on well chosen time scale).
 In this domain, they are described as combination of sinusoids as function of their frequencies.
 % https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati
-\\This operation is achieved by the operator \FTdef/, $\fourierTrans{}$, which projects a continuous-time-domain square-integrable signal $\tilde{x}$ onto a space spanned by continuous-frequency complex exponentials:
+\\This operation is achieved by the operator \FTdef/, $\fourierTrans{}$, which projects a continuous-time-domain square-integrable signal $\tilde{x}$ onto a space spanned by continuous-frequency complex exponentials (see~\cref{fig:processing:fourier}):
 \begin{equation}\label{eq:processing:ft}
     \tilde{X}(f) = (\fourierTrans{\tilde{x}})(f) =
         \int_{-\infty}^{+\infty}
@@ -240,17 +240,15 @@ In this domain, they are described as combination of sinusoids as function of th
 \end{equation}
 where $f \in \bbR$ are the \textit{natural frequency} in $\si{\Hz}$ and $\csti$ is the imaginary unit.
 \marginpar{
-
     \centering
     \resizebox{\linewidth}{!}{
         \input{figures/processing/time2freq.tikz}
     }
-
     \captionof{figure}{
         A signals resolved into its Fourier series:
         a linear combination of sines and cosines
         represented as peaks in the frequency domain.
-    }\label{fig:processing:mixing}
+    }\label{fig:processing:fourier}
 }
 \\A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms benefits of two fundamental properties:
 it is linear and it converts time-convolution into element-wise products.
@@ -269,7 +267,7 @@ Secondly, by the \textit{convolution theorem}, the source spatial images in~\cre
 \end{equation}
 
 \mynewline
-As discussed in~\cref{chap:acoustics}, assuming a pure echo model, the \FT/ of \RIR/, \aka/ the \RTFdef/, can be computed exactly in closed-form as
+As discussed in~\cref{ch:acoustics}, assuming a pure echo model, the \FT/ of \RIR/, \aka/ the \RTFdef/, can be computed exactly in closed-form as
 \begin{equation}\label{eq:processing:rir:ft}
     \tilde{H}_{\idxMicSrc}( f) = \sum_{\idxEch=0}^{\numEchs} \absCoeff_{\idxMicSrc}^{(r)} \cste^{- \csti 2 \pi f \tau_{\idxMicSrc}^{(r)}}
     .
@@ -327,7 +325,7 @@ However, it comes with following important modification.
 Let be two finite- and discrete-time domain \textit{periodic} signals $\dddot{\src}_N$ and $\dddot{\rir}_N$ of period $N$.
 Here $\dddot{\cdot}$ is used to denote periodicity.
 Let be $\SRC_F$ and $\FLT_F$ their \ac{DFT}, respectively, then the convolution theorem for the \ac{DFT} writes
-\begin{equation}\label{eq:processing:conv_dtft}
+\begin{equation}\label{eq:processing:conv_dft}
     \dddot{\img}_N[n] = \kparen{\dddot{\rir}_N \circledast \dddot{\src}_N} [ n]
     \mathspace\overset{\discreteFT}{\kto}\mathspace
     \IMG_{F}[k] =  \FLT_{F}[k] \SRC_{F}[k]
@@ -548,7 +546,7 @@ commonly used for visualization and for processing.\marginpar{
     \label{fig:processing:spectrogram}
 }%\sidenote{The phase in some application is completely ignored because of difficult interpretation or commonly considered less informative with respect to the sound magnitude}.
 The resulting two-dimensional representation is called (log) \textit{spectrogram}.\marginpar{%
-    \footnotesize
+    \footnotesize\itshape
     For more mathematical detailed description on \DFT/ and \STFT/ can be found in \citeonly{oppenheim1987signals}.
     For a audio-processing-oriented and music-processing-oriented explanation please refer to Chapter 2 of \citeonly{vincent2018audio} (Chapter2) and Chapter 2 of \citeonly{muller2015fundamentals}, respectively.
 }%
@@ -696,7 +694,7 @@ for the $j$-th source is defined as
                     }
 \end{equation}
 where $(\distMicSrc_{\idxMicSrc}-\distMicSrc_{1j}) / \speedOfSound$ is the \TDOA/ between the $i$-th and the reference microphones.
-The \TDOAs/ will be the protagonists of~\cref{chap:mirage} as they are fundamental quantities for sound source localization.
+The \TDOAs/ will be the protagonists of~\cref{ch:mirage} as they are fundamental quantities for sound source localization.
 
 % \newthought{\ReTFs/ estimate}
 % Since~\citeonly{gannot2001signal}, many methods have been proposed to estimated it.
@@ -709,14 +707,14 @@ sometimes refers to as \textit{interaural cues} when a stress is put on the fact
 In fact, the \ReTFs/ encodes the so-called \ILD/ and the \IPD/
 \begin{equation}
     \begin{aligned}
-        \ild_{\idxMicSrc}[k] &= 20 \log_{10} \magnitudeOf{\rtf[k]} & [\si{\dB}]\\
-        \ipd_{\idxMicSrc}[k] &= \phaseOf{\rtf[k]} \mathspace       & [\si{\radian}]
+        \ild_{\idxMicSrc}[k] &= 20 \log_{10} \magnitudeOf{G[k]} & [\si{\dB}]\\
+        \ipd_{\idxMicSrc}[k] &= \phaseOf{G[k]} \mathspace       & [\si{\radian}]
     \end{aligned}
 \end{equation}
 As shown in~\cref{fig:processing:ildipd}, the \ILD/ and the \IPD/ cluster around the direct path, associated to the direct path component.
 However early echoes and reverberation make them significantly diverge.
 
-\begin{figure}[b]
+\begin{figure}[]
     \begin{fullwidth}
         \includegraphics[width=\linewidth+\marginparsep]{processing/py-rtf.pdf}
         \caption{
@@ -733,6 +731,7 @@ However early echoes and reverberation make them significantly diverge.
 % sj (n, f), and they are all independent source-,
 % frame- and frequency-wise (i.e., over j, n and f)
 
-\conclusion{In this chapter}, we presented the mathematical notions, notation, and tools to model audio scene analysis problems in signal processing.
+\section{Conclusion}
+In this chapter, we presented the mathematical notions, notation, and tools to model audio scene analysis problems in signal processing.
 We particularly focused on the crucial approximations and assumptions that arise from the merging physical and signal processing models.
-As we conclude the part of the thesis dedicated to background knowledge, we will now focus on estimating acoustic echoes in~\cref{pt:estimation}, and how to use them for solving audio scene analysis problems \cref{pt:application}.
+As we conclude the part of the thesis dedicated to background knowledge, we will now focus on estimating acoustic echoes in~\cref{pt:estimation}, and how to use them for solving audio scene analysis problems \cref{pt:application}.\qed

@@ -1,14 +1,11 @@
 \chapter{Elements of Room Acoustics}\label{ch:acoustics}
-% \marginpar{%
-%     \centering
-%     \footnotesize
-%     \includegraphics[width=\linewidth]{acoustics/sound_propagation.jpg}
-%     \label{fig:acoustics:sound}
-% }
-\vspace{-2.5em}
+
 \openepigraph{Sound, a certain movement of air.}{Aristotele, De Anima II.8 420b12}
+\vspace{-2.5em}
 \newthought{Synopsis}\synopsisChAcoustics
-\\The material on waves and acoustic reflection is digested from classic texts on room acoustics~\citeonly{kuttruff2016room,pierce2019acoustics} and on partial differential equations~\citeonly{duffy2015green}.
+
+\mynewline
+The material on waves and acoustic reflection is digested from classic texts on room acoustics~\citeonly{kuttruff2016room,pierce2019acoustics} and on partial differential equations~\citeonly{duffy2015green}.
 
 
 \section{Sound wave propagation}\label{ch:acoustics:sec:wave}%\marginpar{\footnotesize Namely, there is no sound in outer space.}
@@ -18,6 +15,7 @@
     \includegraphics[width=\linewidth]{acoustics/lake.png}
     \captionsetup{labelformat=empty}
     \captionof{figure}{%
+    \itshape
     Imagine a calm pond. The surface is flat and smooth. Drop a rock into it. \textit{Kerploop!} The surface is now disturbed.
     The disturbances spread propagate, as waves. The medium here is the water surface.
     }
@@ -147,7 +145,7 @@ associated to ~\cref{eq:acoustics:helmholtz}, for which it is also a solution.
 
 \subsection{... and its Green solution}
 \marginpar{%
-    \footnotesize
+    \footnotesize\itshape
     By 1950 Green’s functions for Helmholtz’s equation were used to find the
     wave motions due to flow over a mountain  and in acoustics.
     Green’s functions for the wave equation lies with Gustav Robert Kirchhoff (1824–1887),
@@ -314,12 +312,13 @@ This simplified description undergoes with the name of \GAdef/~\citeonly{savioja
     \includegraphics[trim={0 205 0 0},clip,width=\linewidth]{acoustics/sound_pulse1926.png}
     \captionsetup{labelformat=empty}
     \captionof{figure}{%
+        \itshape
         Schlieren photographs showing successive stages in the progress of a sound pulse in a section of a Debating Chamber.
         \imgsrc{\citeonly{davis1926sound}.
         \textit{Sabine used Schlieren photography to investigate sound propagation paths in the early 1900s.
         Their impressive visualizations show wavefronts that are augmented with rays that are perpendicular to the wavefronts}}
     }
-    \label{fig:acoustics:reflection}
+    \label{fig:acoustics:Schlieren}
 }
 This model will be convenient to describe and visualize the reflection behavior hereafter.
 
@@ -502,10 +501,12 @@ The space is divided into a regular grid, where the changes of a quantity (air p
     \centering
     \footnotesize
     \includegraphics[width=\linewidth]{acoustics/mass_spring_model.png}
+    \captionsetup{labelformat=empty}
     \captionof{figure}{%
+        \itshape
         Example of a mass-spring linear mesh used to simulate a 1D transversal wave.
     }
-    \label{fig:acoustics:dwm}
+    \label{fig:acoustics:massspring}
 }
 
 \begin{figure}[t]
@@ -746,7 +747,6 @@ Reflections are usually sorted for increasing \TOA/, $\tau_r = \norm{\positionMi
 or decreasing amplitudes, $\bar{\absCoeff}_{\idxEch}/(4 \pi \norm{\positionMicrophone - \positionSource_\idxEch})$.
 Alternatively, one can sort them according to their ``image'' generation, \eg/ direct path, first-, second-order images \etc/.
 This would require an arbitrary order within the same generation, based typically on arbitrary wall sequence.
-Notice that the resulting sorted sequences can differ substantially as show in~\cref{fig:acoustics:rir:ref_label}.
 This translates into non trivial definition of evaluation metrics for the task of estimating echoes.
 
 \mynewline
@@ -791,7 +791,7 @@ This will be important in order to define evaluation scenarios later in this the
 It is commonly accepted that the \RIR/ components defined in~\cref{ch:acoustics:subsec:rir} play rather separate roles in the perception of sound propagation.
 
 \newthought{The direct path} is the delayed and attenuated version of source signal itself.
-It coincides with the free-field sound propagation and, as we will see in~\cref{chap:mirage}, it reveals the direction of the source.
+It coincides with the free-field sound propagation and, as we will see in~\cref{ch:mirage}, it reveals the direction of the source.
 
 \newthought{The early reflections and echoes} are reflections which are by nature highly correlated with the direct sound.
 They convey a sense of geometry which modifies the general perception of the sound:
@@ -884,6 +884,7 @@ These two quantities represent an important parameter to assert the robustness o
 %  It is low when the microphone and/or the source is close to an obstacle such as a table or a window, and higher otherwise.
 %  The DRR and the direct-to-early ratio are not systematically reported when describing experiments in the literature,
 %   yet they are as important as the RT60 to characterize multichannel mixtures
-
-\conclusion{This chapter} presented fundamental notions of room acoustics, and it defined echoes and \RIRs/, which are the main protagonist of this thesis.
+\section{Conclusion}
+This chapter presented fundamental notions of room acoustics, and it defined echoes and \RIRs/, which are the main protagonist of this thesis.
 In the following chapter, we will study these quantities under the light of audio signal processing and, in particular, how we can process continuos-time acoustic quantities with computers.
+\qed

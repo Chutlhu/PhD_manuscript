@@ -69,9 +69,8 @@
 \draw [shift={(220,430)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (0,3.35) -- (0,-3.35)   ;
 %Straight Lines [id:da6393966024560223]
 \draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (270,350) -- (427,350) ;
-\draw [shift={(430,350)}, rotate = 180] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-\draw [shift={(270,350)}, rotate = 180] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (0,3.35) -- (0,-3.35)   ;
-
+\draw [shift={(430,350)}, rotate = 180] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
+\draw [shift={(270,350)}, rotate = 0] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
 % Text Node
 \draw (162.5,75.5) node  [font=\Large]  {$\tilde{c}( t) =\left(\tilde{h}^{*} \star \tilde{s}\right)( t)$};
 % Text Node
@@ -107,7 +106,7 @@
 
 \end{minipage}};
 % Text Node
-\draw (335,58.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\fourierTrans{}$};
+\draw (326,58.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\fourierTrans{}$};
 % Text Node
 \draw (173.6,482.35) node  [font=\scriptsize] [align=left] {operator};
 % Text Node
@@ -117,9 +116,9 @@
 % Text Node
 \draw (164.5,122.5) node [anchor=west] [inner sep=0.75pt]  [font=\scriptsize] [align=left] {sampling};
 % Text Node
-\draw (544.5,120) node [anchor=west] [inner sep=0.75pt]  [font=\scriptsize] [align=left] {periodization \\and bandlimiting};
+\draw (544.5,120) node [anchor=west] [inner sep=0.75pt]  [font=\scriptsize] [align=left] {periodization \\and band-limiting};
 % Text Node
-\draw (318,129.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\dtft$};
+\draw (326,129.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\dtft$};
 % Text Node
 \draw (544,192.5) node [anchor=west] [inner sep=0.75pt]  [font=\scriptsize] [align=left] {sampling};
 % Text Node
@@ -139,7 +138,7 @@
 % Text Node
 \draw (234,392) node  [font=\scriptsize] [align=left] {\textcolor[rgb]{0,0,0}{ }\textcolor[rgb]{0,0,0}{$\displaystyle h_{N} \ \ast s_{N} \approx h_{N} \circledast s_{N}$}\textcolor[rgb]{0,0,0}{ }\textcolor[rgb]{0.96,0.65,0.14}{\ref{it:processing:dft:approx2}}};
 % Text Node
-\draw (325.5,403.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\discreteFT{}$};
+\draw (326,403.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\discreteFT{}$};
 % Text Node
 \draw (544.5,295) node [anchor=west] [inner sep=0.75pt]  [font=\scriptsize] [align=left] {closed-form \\echo model \textcolor[rgb]{0.96,0.65,0.14}{\ref{it:processing:dft:approx3}}};
 % Text Node

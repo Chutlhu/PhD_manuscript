@@ -1,22 +1,16 @@
 \chapter{Echo-aware Applications of \dEchorate{}}\label{ch:dechorateapp}
 
-% \openepigraph{Signal, a function that conveys information about a phenomenon.
-% $[\dots]$ Consider an acoustic wave, which can convey acoustic or music information.}{R. Priemer, \textit{Introductory Signal Processing}}
-
 \vspace{-2.5em}
-\marginpar{%
-    \footnotesize
-    \textbf{Keywords:} Early reflection, Speech Enhancement, Beamforming, Room Geometry Estimation, Reflector Localization.
-    \\\textbf{Resources:}
-    \begin{itemize}
-        \item \href{www.github.com/Chutlhu/dEchorate}{\library{dEchorate} \ExternalLink}
-        \item \href{www.github.com/Chutlhu/Risotto}{\library{Risotto} \ExternalLink}
-        \item \href{www.github.com/Chutlhu/Brioche}{\library{Brioche} \ExternalLink}
-    \end{itemize}
-}
-\newthought{Synopsis} \synopsisChDecharateApp
-
-
+\newthought{Synopsis} \marginpar{%
+\footnotesize
+\textbf{Keywords:} Early reflection, Speech Enhancement, Beamforming, Room Geometry Estimation, Reflector Localization.
+\\\textbf{Resources:}
+\begin{itemize}
+    \item \href{www.github.com/Chutlhu/dEchorate}{\library{dEchorate}\ExternalLink}
+    \item \href{www.github.com/Chutlhu/Risotto}{\library{Risotto}\ExternalLink}
+    \item \href{www.github.com/Chutlhu/Brioche}{\library{Brioche}\ExternalLink}
+\end{itemize}
+} \synopsisChDecharateApp
 
 \mynewline
 This chapter is the continuation of the work presented in~\cref{ch:dechorate}.
@@ -26,7 +20,7 @@ Nevertheless, they are presented according to the thesis notation.
 In addition, they are  gathered and implemented in the following Python library available online:
 \library{dEchorate} related to the \ac{DECHORATE} dataset, \library{Risotto} for \acs{RIR} estimation and \library{Brioche} for echo-aware beamforming.
 
-\section{Echo-aware Spatial Filtering}\label{sec:dechorateapp:se}
+\section{Echo-aware Spatial filtering}\label{sec:dechorateapp:se}
 In the previous chapters, we showed how to integrate echoes for sound source separation (\cref{ch:separake}) and sound source localization (\cref{ch:mirage}).
 In this section, we investigate this in the context of spatial filtering.
 To this end, we compare two types of spatial filters: echo-agnostic and echo-aware beamformers.
@@ -47,12 +41,12 @@ Then, in order to cope with distortions due to reverberation, external noise or 
 \\The \ReIRs/ (and their frequency counterparts, \ReTFs/) have been introduced with the explicit purpose of avoiding the computation of the acoustic channel related to each microphone~\citeonly{gannot2001signal}.
 \ReIRs/-based beamformers instead of returning the dry source signal, return the reverberant source spatial image as it is recorded at a reference microphone.
 Compared to the difficult task of estimating the acoustic channels and of relying on bad channel estimates, this is typically sufficient for achieving good enhancement performances in many practical scenarios.\sidenote{
-    Note that, as opposed to channel estimation, estimating the \ReTF/ is a non-blind problem (See~\cref{sec:processing:rtf}}
-Since then, \ReIRs/ have been incorporated in powerful beamforming algorithms, used for both dereverberation and noise reduction (\eg/ \citeonly{Schwartz2014multi, kodrasi2017evd}).
+    Note that, as opposed to channel estimation, estimating the \ReTF/ is a non-blind problem (See~\cref{sec:processing:rirmodels})}
+Since then, \ReIRs/ have been incorporated in powerful beamforming algorithms, used for both dereverberation and noise reduction (\eg/ \citeonly{schwartz2014multi, kodrasi2017evd}).
 
 \newthought{Echo-aware beamformers} explicitly model multipath sound propagation instead.
 They can be seen as \textit{rake receivers}, borrowing the idea from telecommunication where an antenna \textit{rakes} (\textit{i.e.} combines) coherent signals arriving from different propagation paths.
-In particular, they consider ``extended'' steering vectors, whose formulation uses known echo delays and attenuations~\citeonly{flanagan1993spatially, Jan1995matched}.
+In particular, they consider ``extended'' steering vectors, whose formulation uses known echo delays and attenuations~\citeonly{flanagan1993spatially,jan1995matched}.
 The underlying motivation is two-fold:
 on the one hand, they better describe the acoustic propagation of the source signal; on the other hand, the early echoes' energy is included in the estimated signal and not considered noise to be removed.
 Later, this approach has been extended to enhance desired signals in the context of the \textit{cocktail party problem} in~\citeonly{Dockmanic2015raking} and for noise and reverberation reduction~\citeonly{peled2013linearly, Javed2016spherical, Kowalczyk2019raking}.
@@ -204,7 +198,7 @@ the $\FLTS$ simply identifies with the corresponding relative steering vector $\
 In distant-talking scenarios, relative time delays, or \TDOAs/, with respect to a reference microphone, are used.
 Moreover, knowing the microphone array geometry, the \TDOAs/ may be derived from the source's \DOA/\sidenote{
     The mapping between \TDOAs/ and \DOAs/ is not always unique. It depends on the microphone array geometry, such as its compactness, its shape, and the number of sensors.
-}, thus, the steering vectors can be easily computed. However, \DOAs/ need to be estimate aside, using \acf{SSL} methods (See~\cref{subsec:application:localization}).
+}, thus, the steering vectors can be easily computed. However, \DOAs/ need to be estimate aside, using \acf{SSL} methods (See~\cref{sec:application:localization}).
 
 \newthought{The rake filters} are beamformers that explicitly deal with the multipath propagation model in~\cref{eq:dechorateapp:echomodel}.
 To this end, the \ac{MVDR} design is modified by integrating the spatial information of $\numEchs$ reflections into the distortionless constraint.
@@ -319,7 +313,7 @@ It is computed as follows:
     \item the \ac{SRMR} is obtained as the ratio of the average modulation energy content available in the first four modulation bands,
     to the average modulation energy content available in the higher frequency modulation bands.
 \end{itemize}
-An implementation of these metrics is available at the \href{https://github.com/aliutkus/speechmetrics/}{\library{speechmetrics}} Python library.
+An implementation of these metrics is available at the \href{https://github.com/aliutkus/speechmetrics/}{\library{speechmetrics}\ExternalLink} Python library.
 
 \newthought{The \ac{PESQ}} is a relative adimensional metrics presented in~\citeonly{rix2001perceptual} and outputs a score ranging from 1 (bad) to 5 (excellent).
 This measure, assumed to cover several speech degradation and distortion, was promoted as a standard in the ITU-T recommendation P.862.
@@ -328,7 +322,7 @@ Practically, after applying an auditory model to the reference and distorted (\i
 From the loudness spectra differences, a Mean Opinion Score (MOS)\sidenote{
     The MOS is a measure used in the domain of Quality of Experience and telecommunications engineering, representing overall quality of a stimulus or system.
 } is inferred using a linear regression model.
-\\An implementation of this metrics is available at the \href{https://github.com/aliutkus/speechmetrics/}{\library{speechmetrics}} Python library.
+\\An implementation of this metrics is available at the \href{https://github.com/aliutkus/speechmetrics/}{\library{speechmetrics}\ExternalLink} Python library.
 
 \begin{figure}[t]
     \begin{fullwidth}
@@ -431,7 +425,7 @@ As a consequence, some spikes were probably miss-classified.
 This can be noticed for the southern-wall were again a second-order image was taken instead.
 Nevertheless, this second type of error can be manually corrected, and the annotations updated.
 
-\section{Conclusions and Perspectives}\label{sec:dechorateapp:conclusion}
+\section{Conclusions}\label{sec:dechorateapp:conclusion}
 In this chapter, we presented two applications of the \dEchorate{} dataset described in~\cref{ch:dechorate}: echo-aware spatial filtering and room geometry estimation.
 \\The first one deals with the possibility of using early echoes to enhance a target speech signal corrupted by diffuse noise and a high level of reverberation.
 To this end, two types of state-of-the-art spatial filtering criteria are considered: echo-agnostic and echo-aware beamformers.
@@ -460,3 +454,4 @@ Finally, we would like to mention that the best of our knowledge, this is the ve
 \end{itemize}
 In a more long-term perspective, the data analysis conducted in this chapter brings the attention to exploring the impact of mismatch between simulated and real \RIR/ on audio signal processing methods.
 Moreover, by using the pairs of simulated \vs/ real \RIRs/ available in the dataset, develop techniques to convert one to the other, using style transfer and domain adaptation techniques.
+\qed

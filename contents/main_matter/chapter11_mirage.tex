@@ -1,9 +1,11 @@
 \chapter{\library{Mirage}: Echo-aware Sound Source Localization}\label{ch:mirage}
+
 \openepigraph{Scanning all around [...]\\
 Ancient blocks of sound\\
 Mirage}{Meat Puppets, \textit{Mirage}}
 
-\marginpar{%
+\vspace{-2.5em}
+\newthought{Synopsis} \marginpar{%
     \footnotesize
     \textbf{Keywords:} Sound Source Localization, Image Microphones, Acoustic Echoes, TDOA Estimation.
     \\\textbf{Resources:}
@@ -13,10 +15,7 @@ Mirage}{Meat Puppets, \textit{Mirage}}
         \item \href{https://sigport.org/documents/mirage-2d-sound-source-localization-using-microphone-pair-augmentation-echoes}{Poster}
         \item \href{https://www.youtube.com/watch?v=SfEmwqxxpYg}{HARU Robot presentation}
     \end{itemize}
-}
-
-\vspace{-2.5em}
-\newthought{Synopsis} \synopsisChMirage
+} \synopsisChMirage
 
 \mynewline
 Together with~\cref{ch:lantern}, this chapter describes methods and results published in~\cite{di2019mirage}, which considers only stereophonic recordings.
@@ -37,8 +36,8 @@ In this sense, this chapter provides an application for \acs{LANTERN}, the learn
 % The results of this study were described in an internal technical report~\citeonly{di2019honda}.
 
 
-\section{Literature review in Echo-aware Sound Source Localization}
-Common to most sound source localization approaches reviewed in ~\cref{subsec:application:localization} is the challenge posed by reverberation.
+\section{Literature review in echo-aware Sound Source Localization}
+Common to most sound source localization approaches reviewed in ~\cref{sec:application:localization} is the challenge posed by reverberation.
 It is typical to observe that \acf{DOA} estimation degrades with increasing acoustic reflections~\citeonly{chen2006time}.
 For these reasons, most sound source localization methods regard reverberation, and in particular acoustic echoes, as a nuisance.
 Some prior works, \eg/, \citeonly{rui2004time, chen2006time, zhang2007maximum}, modeled the reverberation as a noise term.
@@ -61,13 +60,13 @@ Finally, in a very recent work, the well-known \ac{MUSIC} framework is modified 
 \mynewline
 All the above mentioned echo-aware methods are explicitly knowledge-driven, namely, they use closed-form solutions based on physics, acoustics, and signal processing models.
 The benefit of manipulating ``simple'' models is however paid by strong assumptions, simplifications and a need for hand-crafted features.
-In order to overcome these limitations, data-driven methods have been proposed to address \SSL/ (see~\cref{subsec:application:localization}).
+In order to overcome these limitations, data-driven methods have been proposed to address \SSL/ (see~\cref{sec:application:localization}).
 This approach leverages  training datasets to implicitly learn the mapping from audio features to the source position.
 Such data can be obtained from real recordings or using physics-based simulators.
 These methods were showed to overcome some limitations of physics-based model, especially when some assumptions are violated.
 However, they are typically trained for specific applications and use-cases (\eg/, specific array geometries, acoustic conditions, \etc/) and fail whenever test conditions strongly mismatch training conditions.
 
-\section{Proposed Approach}
+\section{Proposed approach}
 In this work, we propose to combine the best of the two worlds:
 \begin{itemize}
     \item to use a data-driven model to estimate sound propagation parameters;
@@ -174,7 +173,7 @@ A possible approach is to use 1D-\ac{SSL} on all pairs and combine their results
     \begin{sidecaption}[t]{
         Illustration of the different \acp{DOA} at each microphone pairs attending one sound source.
         Knowing the position of the microphones, the angle with respect to a reference frame can be deduced in closed-form.
-    }[fig:mirage:gcc]
+    }[fig:mirage:srp]
     \includegraphics[width=\linewidth]{mirage/srp-phat_aggregation.pdf}
 \end{sidecaption}
 \end{figure}

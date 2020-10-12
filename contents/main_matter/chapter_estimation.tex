@@ -3,7 +3,7 @@
 \vspace{-2.5em}
 \newthought{Synopsis}\synopsisChEstimation
 
-\section{Problem Formulation}\label{sec:estimation:problem}
+\section{Problem formulation}\label{sec:estimation:problem}
 As discussed in~\cref{subsec:processing:mixing}, the continuous-time multi-channel signal model for one source signal $\tildes(t)$ and $I$ channels writes, for each channel $\idxMic$,
 \begin{equation}\label{eq:estimation:signalmodel}
     \begin{aligned}
@@ -92,7 +92,7 @@ They attempt to estimate echo properties directly in the parameter space of echo
 \mynewline
 Given the above categories, we can now review the \AER/ methods presented in the literature.
 
-\section{Literature Review}\label{sec:estimation:sota}
+\section{Literature review}\label{sec:estimation:sota}
 
 \subsection{Active and RIR-based method}\label{subsec:estimation:active_rir}
 % In this categories fall all the methods that first attempt for a ``good'' estimation of \RIRs/ for which the reference signal is known.
@@ -396,7 +396,7 @@ This method is shown to outperform conventional approaches by several orders of 
 However its effectiveness was not tested on challenging real scenarios featuring external noise and partial knowledge on the number of echoes.
 \\In this direction, we contributed with two works: a knowledge-driven approach~\citeonly{di2020blaster}, presented in~\cref{ch:blaster}, and a learning-based approach~\citeonly{di2019mirage}, discussed in~\cref{ch:lantern}.
 
-\section{Data and Evaluation}\label{sec:estimation:datametrics}
+\section{Data and evaluation}\label{sec:estimation:datametrics}
 \AER/ is a relatively recent problem which is typically addressed in the context of much broader applications, \eg/ \SE/, \RooGE/, \SSL/.
 Therefore the literature lacks standard datasets for it as well as standard evaluation frameworks.
 
@@ -531,7 +531,7 @@ As discussed at the end of~\cref{subsec:acoustics:ism}, echoes can be sorted dif
 \AER/ tends to return echo parameters sorted by the echoes' amplitudes which can be distorted by the measurement process and modelling errors.
 This matching and labeling process introduces strong biases in the evaluation process which is currently unsolved without a proper echo labeling step.
 
-\section{Proposed Approaches}
+\section{Proposed approaches}
 So far, we presented a view of current methods for solving the \AER/ problem.
 In the following two chapters, we will explore two novel approaches which follow two paradigms have taken hold in the recent years of signal processing:
 \textit{knowledge-driven} and \textit{data-driven} methods.
@@ -556,9 +556,7 @@ Finally, machine learning models learn black-box functions.
 Although they can reach incredible performance, it is difficult to predict their behavior when facing new type of data.
 Despite these issues, data-driven methods have shown to achieve impressive performance.
 Therefore they are intensively studied and interlaced with knowledge-driven approaches.
-In this direction, we propose our contribution in~\cref{ch:lantern}, as a new data-driven method for solving \AER/ based on virtually supervised learning.
-
-
+In this direction, we propose our contribution in~\cref{ch:lantern}, as a new data-driven method for solving \AER/ based on virtually supervised learning.\qed
 
 
 % \newthought{Channel Equalization or Inverse Filtering}, is a particular case of channel estimation.

@@ -4,21 +4,19 @@
     With an impulsive world//
     A twisted scientist!}{Venetian Snares, \textit{1000 Years}}
 
-
-\marginpar{%
-    \footnotesize
-    \textbf{Keywords:} Blind Channel Identification, Super Resolution, Sparsity, Acoustic Impulse Response.
-    \\\textbf{Resources:}
-    \begin{itemize}
-        \item \href{https://doi.org/10.1109/ICASSP40776.2020.9054647}{Paper}
-        \item \href{https://gitlab.inria.fr/panama-team/blaster}{Code}
-        \item \href{https://hal.archives-ouvertes.fr/hal-02469901}{Open-access paper with supplementary material}
-        \item \href{https://sigport.org/documents/blaster-grid-method-blind-and-regularized-acoustic-echoes-retrieval}{Slides}
-        \item \href{https://youtu.be/rPaqZJIfpKo}{Presentation}
-    \end{itemize}
-}
 \vspace{-2.5em}
-\newthought{Synopsis} \synopsisChBlaster
+\newthought{Synopsis} \marginpar{%
+\footnotesize
+\textbf{Keywords:} Blind Channel Identification, Super Resolution, Sparsity, Acoustic Impulse Response.
+\\\textbf{Resources:}
+\begin{itemize}
+    \item \href{https://doi.org/10.1109/ICASSP40776.2020.9054647}{Paper}
+    \item \href{https://gitlab.inria.fr/panama-team/blaster}{Code}
+    \item \href{https://hal.archives-ouvertes.fr/hal-02469901}{Open-access paper with supplementary material}
+    \item \href{https://sigport.org/documents/blaster-grid-method-blind-and-regularized-acoustic-echoes-retrieval}{Slides}
+    \item \href{https://youtu.be/rPaqZJIfpKo}{Presentation}
+\end{itemize}
+} \synopsisChBlaster
 
 \mynewline
 The material presented in this chapter was previously published in~\cite{di2020blaster} and results from a collaboration with the colleague Clement Elvira whose domain of expertise is in the \CDdef/ framework.
@@ -100,7 +98,7 @@ We denote $\disRecordedSignal_1,\disRecordedSignal_2\in\bbR^{2N}$ the two vector
     .
 \end{equation}
 
-\section{Background on On-grid Blind Channel Estimation}\label{sec:blaster:background}
+\section{Background on on-grid Blind Channel Estimation}\label{sec:blaster:background}
 We now select select and elaborate more on same of the methods mentioned in~\cref{subsec:estimation:bce} concerning optimization approaches for \FIR/-\SIMO/-\BCE/.
 Therefore, the following methods operates on discrete-time signal, which are denoted without the tilde according to the notation presented in~\cref{ch:processing}.
 Starting from the identity \cref{eq:blaster:cross-relation}, the common \SIMO/-\BCE/ cross-relation framework aims to compute $\contFilter_1, \contFilter_2$ solving the following problem in the discrete-time domain~\citeonly{lin2007blind}:
@@ -278,7 +276,7 @@ Here we used the light, yet common, Python notation for indexing the matrices an
 The matrix $A$ is typically called \textit{dictionary}.
 
 
-\section{Proposed Approach}
+\section{Proposed approach}
 
 The cross-relation identity~\cref{eq:blaster:cross-relation} ensures that the relation
 \begin{equation}
@@ -297,7 +295,7 @@ holds even during the introduced measurement process, hence
     =
     \fourierTrans(\idealLowPassFilter\ast\contRecordedSignal_2) \cdot \fourierTrans \contFilter_1^\star
 \end{equation}
-where $\fourierTrans$ denotes the \FTdef/ described in~\cref{sec:processing:ft}
+where $\fourierTrans$ denotes the \FTdef/ described in~\cref{sec:processing:domains}
 \\In contrast with \SIMO/-\BCE/ methods that operates in the time domain, here we propose to use~\cref{eq:blaster:cross-relation-identity-fourier} in a penalized least-square problem.
 Such a formulation in the Fourier domain may even be considered as more convenient since the convolution operator is no longer involved.
 While the \FT/ of $\contFilter_i^\star$ can be expressed in closed-form (see~\cref{eq:blaster:closed-form-TF-dirac-N} below), the \FT/ of $\idealLowPassFilter\ast\contRecordedSignal_i$ is not available due to the measurement process.
@@ -317,7 +315,7 @@ for all integers  $k \in \{0, \ldots, N\}$, where
     \disRecordedSignal_i[n]
     \cste^{-\csti2\pi \tfrac{kn}{2N}}
 \end{equation}
-is the \DFT/ of the real vector $\contRecordedSignal_i$ as defined in~\cref{ch:processing:dft} for positive frequencies only.
+is the \DFT/ of the real vector $\contRecordedSignal_i$ as defined in~\cref{eq:processing:dft} for positive frequencies only.
 
 \mynewline
 Let us define $\paramVec{\tau}$ the following parametric vector of complex exponential
@@ -672,6 +670,5 @@ Future works will include many exciting directions, such as:
     \item compare this approach with other off-grid \AER/ methods  ~\citeonly[Chapter 6]{peic2020sparse};
     \item adapt this approach for dealing with \ReTF/ which allow for source-independent acoustic features (See~\cref{ch:dechorateapp});
     \item use deep learning approaches to estimate the level of sparsity (\aka/ number of the most relevant echoes) in the \RIRs/;
-    \item and, validate the approach on real-world recordings, such as the one provided by the \ac{DECHORATE} dataset (See~\cref{ch:dechorate}).
+    \item and, validate the approach on real-world recordings, such as the one provided by the \ac{DECHORATE} dataset (See~\cref{ch:dechorate}).\qed
 \end{itemize}
-\qed

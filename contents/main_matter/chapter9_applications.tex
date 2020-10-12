@@ -18,7 +18,7 @@ Despite their diversity, most of these problems can be defined with a common mod
 
 \subsection{Common scenario and model}
 Let there be a meeting room with well-defined geometry.
-In it, $\numSrcs$ sound sources are located at determined positions, such as some speakers chatting while standing in the room.
+In it, $\numSrcs$ sound sources are located at determined positions, such as some speakers chatting while standing in the room, as in~\cref{fig:estimation:audioscene}.
 As an indoor scenario, all the elements of reverberation (in particular echoes) are present.
 Diffuse background noise is present as well, for instance, due to the air conditioner or car traffic outside.
 This whole audio scene is recorded by a device featuring a microphone array of $\numMics$ sensors.
@@ -27,10 +27,9 @@ This is a reasonable assumption in the context of table-top devices, such as sma
 \begin{figure}[]
     \begin{sidecaption}[Audio Scene]{%
         Illustration of an indoor audio scene recorded by two microphones.
-    }[fig:estimation:activepassive]
+    }[fig:estimation:audioscene]
     \centering
     \resizebox{\linewidth}{!}{\input{figures/application/audio_scene.tikz}}
-    % \includegraphics[width=\linewidth]{application/audio_scene.jpg}
     \end{sidecaption}
 \end{figure}
 Recalling the (discrete) time-domain signal model already discussed in~\cref{subsec:processing:mixing}, the signal recorded at the $\idxMic$-th microphones reads
@@ -73,7 +72,7 @@ Furthermore, we will consider here the only ones directly addressed in this thes
 
     \input{tables/application/tab_inverseproblem.tex}
     \caption{List of audio scene analysis problems considered in this thesis accompanied by their mathematical description.}
-    \label{tab:processing:problems}
+    \label{tab:application:problems}
 
     \end{fullwidth}
 
@@ -107,7 +106,7 @@ Later in the thesis, dedicated sections on echo-aware method to address these pr
 Since room geometry estimation is mainly based on echo estimation and labeling discussed in~\cref{subsec:estimation:active_rir}, its description is postponed to~\cref{sec:dechorateapp:rooge}.
 
 
-\section{Overview on Multichannel Sound Source Separation}\label{subsec:application:separation}
+\section{Overview on multichannel Sound Source Separation}\label{sec:application:separation}
 Multichannel audio source separation refers to the process of extracting acoustic signals from multichannel mixtures featuring targets, interfering, and noisy sounds.
 In psychoacoustics, this problem is known as \textit{the cocktail party problem}~\citeonly{cherry1953cocktail}, referring to the human ability to focus on a particular stimulus in a audio scene.
 This problem has interested mainly in two research fields in the audio signal processing community: speech and music processing.
@@ -178,9 +177,9 @@ When computing the \TF/ masking operation, these bins may introduce strong artif
 In the second case, the algorithm need to estimated more parameters with consequences in complexity and estimation accuracy.
 
 \newthought{Echo-aware source separation methods} have been introduced as a possible solution to overcome some of these limitations,.
-More details will be given in~\cref{ch:sepakare}, where a new method for speech source separation based on the Multichannel \NMF/ framework and echoes is described.
+More details will be given in~\cref{ch:separake}, where a new method for speech source separation based on the Multichannel \NMF/ framework and echoes is described.
 
-\section{Overview on Spatial filtering}\label{subsec:application:filtering}\marginpar{
+\section{Overview on Spatial filtering}\label{sec:application:filtering}\marginpar{
     \footnotesize\itshape
     For a comprehensive review on Spatial filtering methods, the reader can refer to the book~\citeonly{VanTrees2004Optimum}.
 }
@@ -236,7 +235,7 @@ In the former case fall all the methods that model the acoustic propagation of s
 Therefore, similarly to the methods for separation, we can group existing methods in the following groups:
 \begin{itemize}
     \item (\textit{free and far field propagation}) methods based on relative steering vectors build on \DOA/ \citeonly{takao1976adaptive,applebaum1976adaptive,cox1987robust,van1988beamforming};
-    \item (\textit{multipath propagation}) methods based on rake rake receiver\citeonly{flanagan1993spatially, Jan1995matched, Dockmanic2015raking, peled2013linearly, scheibler2015raking, Kowalczyk2019raking};
+    \item (\textit{multipath propagation}) methods based on rake rake receiver\citeonly{flanagan1993spatially,jan1995matched, Dockmanic2015raking, peled2013linearly, scheibler2015raking, Kowalczyk2019raking};
     \item (\textit{reverberant propagation}) methods based on full acoustic channel estimation (see \cref{ch:estimation});
     \item (\textit{reverberant propagation}) methods based on \DOAs/ and the statistical modeling of the diffuse sound field, \citeonly{thiergart2013informed, schwartz2014multi};
     \item (\textit{reverberant propagation}) methods based \ReTF/~\citeonly{gannot2001signal, doclo2002gsvd, cohen2004relative, markovich2009multichannel};
@@ -251,7 +250,7 @@ Alternatively, one can estimate the full acoustic channels, which is a cumbersom
 They automatically encode the \RIRs/, the geometrical information, and are ``easier'' to estimate than the \RIRs/.
 The main limitation of these methods is that they return \textit{spatial source image} at the reference microphone, rather than the ``dry'' source signal.
 Therefore, when reverberation is detrimentally affecting the speech signal's intelligibility, post-processing is necessary~\citeonly{schwartz2016joint}.
-\\Recently, \ac{DNN} have been proposed for solving this task, either to estimate the beamformer filter~\citeonly{li2016neural directly, xiao2016deep, sainath2017multichannel} or in an end-to-end task~\citeonly{ernst2018speech}
+\\Recently, \ac{DNN} have been proposed for solving this task, either to estimate the beamformer filter~\citeonly{li2016neural, xiao2016deep, sainath2017multichannel} or in an end-to-end task~\citeonly{ernst2018speech}
 Moreover, \ac{DNN} has been used to estimate some of parameters, such as the \DOAs/~\citeonly{salvati2018exploiting, chazan2019multi}, \ReTF/ estimation~\citeonly{chazan2018dnn}.
 
 
@@ -259,7 +258,7 @@ Moreover, \ac{DNN} has been used to estimate some of parameters, such as the \DO
 This direction is taken by the echo-aware methods accounting specifically for the multipath propagation.
 We will discuss these methods in more detail in chapter~\cref{ch:dechorateapp} together with their implementation.
 
-\section{Overview on Sound Source Localization}\label{subsec:application:localization}
+\section{Overview on Sound Source Localization}\label{sec:application:localization}
 \marginpar{
     \footnotesize\itshape
     The reader can find more details is \SSL/ in the recent review articles
@@ -315,7 +314,7 @@ Furthermore, what differentiates the approaches in this categories lies in their
 We can identify the following approaches based on:
 \begin{itemize}
     \item subspace methods, such as \MUSIC/~\citeonly{dmochowski2007broadband};
-    \item \TDOA/-based techniques, which uses \ac{GCC} functions~\citeonly{knapp1976generalized, Blandin2012, lebarbenchon2018evaluation} to estimate \TDOA/ and then compute the most reliable \DOA/ from them;
+    \item \TDOA/-based techniques, which uses \ac{GCC} functions~\citeonly{knapp1976generalized,blandin2012multi,lebarbenchon2018evaluation} to estimate \TDOA/ and then compute the most reliable \DOA/ from them;
     These methods are related to beamforming-based techniques, such as SRP-PHAT\ac{dibiase2001robust}, which search the direction that maximizes the power of the output of a beamformer.
     \item methods based of \RIRs/ estimation and blind system identification ~\citeonly{chen2006time},
     \item methods based on probabilistic framework solved with Maximum Likelihood optimization~\citeonly{stoica1990maximum, li2016estimation}.
@@ -358,8 +357,9 @@ These problems will be considered in their echo-aware settings in the following 
     \item and in~\cref{ch:dechorateapp}, we will discuss some applications of the \library{dEchorate} dataset (\cref{ch:dechorate}) for some beamformers-based Spatial filtering methods (\cref{sec:dechorateapp:se})
             and room geometry estimation (~\cref{sec:dechorateapp:rooge}).
 \end{itemize}
+\qed
 
-% Based on this idea, so-called \textit{echo-aware} methods have been introduced few decades ago, where matched filters (or rake receivers) are used to constructively sum the sound reflections \citeonly{Jan1995matched, Affes1997signal} and build beamformers achieving much better sound qualities \citeonly{gannot2001signal}.
+% Based on this idea, so-called \textit{echo-aware} methods have been introduced few decades ago, where matched filters (or rake receivers) are used to constructively sum the sound reflections \citeonly{}, Affes1997signal} and build beamformers achieving much better sound qualities \citeonly{gannot2001signal}.
 % This methods have recently regained interested as manifested by the European project SCENIC~\citeonly{Annibale2011scenic} and the UK research \href{http://www.s3a-spatialaudio.org/}{S$^3$A project}.
 % They show that knowing the properties of a few early echoes can boosts performances of typical indoor audio inverse problems such as speech enhancement (SE) \citeonly{Dockmanic2015raking, Kowalczyk2019raking}, sound source localization \citeonly{ribeiro2010turning, DiCarlo2019mirage}, and separation \citeonly{scheibler2017separake, leglaive2016multichannel}.
 % Another fervent area of research spanning transversely the audio and acoustic signal processing fields is estimating the room geometry blindly from acoustic signals.

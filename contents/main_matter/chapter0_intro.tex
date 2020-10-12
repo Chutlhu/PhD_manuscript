@@ -1,6 +1,6 @@
 \chapter{Prologue}\label{chap:intro}
-% \openepigraph{``Echoes'' shows the direction that we’re moving in. }{David Gilmour,\\ about the making of ``The Dark Side Of The Moon''}
-\openepigraph{One does not simply [...]}{Boromir}
+\openepigraph{\emph{Echoes} shows the direction that we’re moving in.}{David Gilmour,\\ making of ``The Dark Side Of The Moon''}
+% \openepigraph{One does not simply [...]}{Boromir}
 
 \vspace{-2.5em}
 % \marginpar{%
@@ -114,7 +114,7 @@ In order, we will first elaborate the last two as they contextualize this thesis
 % Therefore, in the context of computer science, it is natural to ask ourself how we can build machine that can listen as we do?
 % How is it implemented? it will be outlined in the next section.
 
-\section{Audio Signal Processing}\label{sec:intro:processing}
+\section{Audio signal processing}\label{sec:intro:processing}
 % In order to process sounds, machines and computer use algorithmic tools which fall in the research field of \textit{audio signal processing}.
 \textit{Signal processing} is the process of analyzing and modifying a \textit{signals}, which are mathematical representations of quantities carrying information about a phenomenon.
 In \textit{audio signal processing}, this phenomenon is sound.
@@ -232,12 +232,111 @@ Furthermore, in some cases, echoes are considered a source of noise and interfer
 Instead, some researchers proposed to explicitly include acoustic echoes in leading to what we will refer to as \textit{echo-aware methods}.
 Some of the earliest examples in this direction are the works of Flanagan et al\citeonly{flanagan1993spatially, jan1995matched, jan1996sound} for in source enhancement.
 However, only recently, these methods have regained interest for audio processing as manifested by the European project SCENIC~\citeonly{Annibale2011scenic} and the UK research \href{http://www.s3a-spatialaudio.org/}{S$^3$A project}.
-In some recent studies, echoes are used to boost performances of typical audio scene analysis problems, \eg/, speech enhancement \citeonly{Dockmanic2015raking, Kowalczyk2019raking}, sound source localization \citeonly{ribeiro2010turning}, and source separation \citeonly{scheibler2017separake, leglaive2016multichannel, Remaggi2019modeling}, and room geometry estimation from sound \citeonly{remaggi2016acoustic, dokmanic2013acoustic, crocco2017uncalibrated}.
+In some recent studies, echoes are used to boost performances of typical audio scene analysis problems, \eg/, speech enhancement \citeonly{Dockmanic2015raking, Kowalczyk2019raking}, sound source localization \citeonly{ribeiro2010turning}, and source separation \citeonly{scheibler2017separake, leglaive2016multichannel, remaggi2019modeling}, and room geometry estimation from sound \citeonly{remaggi2016acoustic, dokmanic2013acoustic, crocco2017uncalibrated}.
 
 \mynewline
 All these methods show the importance and the benefits of modeling acoustic reflection.
 However, prior to all them is the \AERdef/ problem.
 This step, which is most often given for granted in the above applications, is extremely challenging, as shown throughout this entire thesis work.
+
+\section{Thesis outline and main contributions}
+The\openepigraph{Sometimes a scream is better than a thesis.}{Ralph Waldo Emerson} goal of this thesis is to improve the current state-of-the-art for indoor audio signal processing along two axes:
+\begin{enumerate}
+    \item Provide new methodologies and data to process and estimate acoustic echoes and surpass the limits of current approaches.
+    \item Extend previous classical methods for audio scene analysis by incorporating the knowledge of of echo properties in sound propagation models.
+\end{enumerate}
+These two goals are elaborated in the two main parts of the thesis, which follow after an introductory one, as summarized below.
+However the parts are largely interconnected, as shown in~\cref{fig:intro:thesis_mindmap}.
+
+\begin{figure}[t]
+    \begin{sidecaption}[Thesis Organization]{%
+        Schematic organization of the thesis, dependencies between chapters linked to author contributions.
+    }[fig:intro:thesis_mindmap]
+    \centering
+    \resizebox{\linewidth}{!}{
+        \input{figures/intro/mindmap.tikz}
+    }
+    % \includegraphics[width=\linewidth]{intro/thesis_mindmap.pdf}
+    \end{sidecaption}
+\end{figure}
+
+
+\newthoughtpar{\cref{pt:background}\hspace{.3em}Room Acoustic meets Signal Processing}
+\begin{description}
+    \item[\cref{ch:acoustics}]\synopsisChAcoustics
+    \item[\cref{ch:processing}]\synopsisChProcessing
+\end{description}
+
+\newthoughtpar{\cref{pt:estimation}\hspace{.3em}Acoustic Echoes Estimation}
+This part focuses on how to estimate echoes from the only observation of microphone recordings.
+\begin{description}
+    \item[\cref{ch:estimation}]\synopsisChEstimation
+    \item[\cref{ch:lantern}]\synopsisChLantern
+    \item[\cref{ch:blaster}]\synopsisChBlaster
+    \item[\cref{ch:dechorate}]\synopsisChDechorate
+\end{description}
+
+
+\newthoughtpar{\cref{pt:application}\hspace{.3em}Echo-aware Audio Scene Analysis}
+In this part, we present some audio scene analysis problems that will be later discussed in their echo-aware extension.
+
+\begin{description}
+\item[\cref{ch:application}]\synopsisChApplication
+\item[\cref{ch:separake}]\synopsisChSeparake
+\item[\cref{ch:mirage}]\synopsisChMirage
+\item[\cref{ch:dechorateapp}]\synopsisChDecharateApp
+\end{description}
+
+\newthought{Finally,} the dissertation concludes with~\cref{ch:conclusion}, which summarizes the contributions and raises several additional research questions.
+
+\newpage
+\section{List of contributions}
+This dissertation draws heavily on the work and writing of the following papers, written jointly with several collaborators:
+
+\begin{itemize}
+    \item \fullcite{di2021dechorateB}
+    \item \fullcite{di2020blasterB}
+    \item \fullcite{di2019mirageB}
+    \item \fullcite{deleforge2019audioB}
+    \item \fullcite{lebarbenchon2018evaluationB}
+    \item \fullcite{scheibler2018separakeB}
+\end{itemize}
+
+\newpage
+\section{Don't panic!}
+The reader will have already noticed that a large margin is left free on each manuscript page.
+We will use it to insert personal comments, historical notes, additional insights, and figures and tables to complete each subject.
+This graphic template is inspired by the work of \citeauthor{tufte1983visual}~\citeonly{tufte1983visual}\sidenote{
+    The colophon of the thesis reports more information on the template.}
+.
+We emphasize the presence of clickable links by the \ExternalLink logo.
+Code libraries are written in typewriter font, \eg/ \library{dEchorate}.
+
+\subsection{Quick vademecum}
+For the readers:
+\begin{itemize}
+    \item \textcolor{myorange}{orange} is used for clickable internal reference, such as for sections ~\cref{sec:intro:processing} and acronyms \acs{FFT};
+    \item \textcolor{mygray}{grey} and \ExternalLink is used for clickable external link, such as \href{www.diegodicarlo.com}{my website\ExternalLink};
+    \item reference sidenotes on the margin are used as footnotes, providing additional insights;
+    \item italic sidenotes and figures without proper reference numbers on the margin are meant to provide optional information and can be read in a second moment;
+    \item \textcolor{black!30}{\scriptsize\raisebox{1pt}{$\blacktriangleright$}}\hspace{0.2em}should capture the reader attention towards the important points;
+    \item \textcolor{black!30}{\scriptsize\raisebox{1pt}{$\boldsymbol{?}$}}\hspace{0.2em}indicates a question-and-answer paragraph;
+    \item \textcolor{black!30}{\scriptsize\raisebox{1pt}{$\rightleftarrows$}}\hspace{0.2em}indicates the presence of definitions by dichotomy;
+    \item the following icon denotes the end of the chapter. \qed
+\end{itemize}
+
+\subsection{The golden ratio of the thesis}
+This thesis has been written the following personal stylistic rules:
+\begin{itemize}
+    \item after the the colon punctuation mark, ``:'', small caps. In case of list, items are delimited by semicolon punctuation mark ``;'';
+    \item sidenotes number referring to a word superscripts the word itself, sidenotes referring to a whole sentence superscripts the corresponding full stop;
+    \item N'ilazo color palette: black, grey and orange;
+    \item at most three levels of sub-headings: section, subsection, and Tufte's \textit{new-thought}~\citeonly{tufte1983visual} to capture attention;
+    \item the usage of dichotomies is privileged when presenting concepts and definitions, thus they are emphasized;
+    \item each section should be introduced briefly at the end of the previous one to promote reading flow;
+    \item no indentation, but well-separated text blocks;
+\end{itemize}
+
 
 
 % \newthought{Audio Signal Processing}
@@ -380,103 +479,3 @@ This step, which is most often given for granted in the above applications, is e
 % interconnect and hierarchical approaches may be built\sidenote{Machine Learing allows now for end2end approaches}:
 % for instance, many spatial filtering techniques used for \SE/ rely on \SSL/ blocks;
 % and in order to achieves \RooGE/, \AER/ must be done.
-
-
-
-\section{Thesis Outline and Main Contributions}
-The\openepigraph{Sometimes a scream is better than a thesis.}{Ralph Waldo Emerson} goal of this thesis is to improve the current state-of-the-art for indoor audio signal processing along two axes:
-\begin{enumerate}
-    \item Provide new methodologies and data to process and estimate acoustic echoes and surpass the limits of current approaches.
-    \item Extend previous classical methods for audio scene analysis by incorporating the knowledge of of echo properties in sound propagation models.
-\end{enumerate}
-These two goals are elaborated in the two main parts of the thesis, which follow after an introductory one, as summarized below.
-However the parts are largely interconnected, as shown in~\cref{fig:intro:thesis_mindmap}.
-
-\begin{figure}[t]
-    \begin{sidecaption}[Thesis Organization]{%
-        Schematic organization of the thesis, dependencies between chapters linked to author contributions.
-    }[fig:intro:thesis_mindmap]
-    \centering
-    \resizebox{\linewidth}{!}{
-        \input{figures/intro/mindmap.tikz}
-    }
-    % \includegraphics[width=\linewidth]{intro/thesis_mindmap.pdf}
-    \end{sidecaption}
-\end{figure}
-
-
-\newthoughtpar{\cref{pt:background}\hspace{.3em}Room Acoustic meets Signal Processing}
-\begin{description}
-    \item[\cref{ch:acoustics}]\synopsisChAcoustics
-    \item[\cref{ch:processing}]\synopsisChProcessing
-\end{description}
-
-\newthoughtpar{\cref{pt:estimation}\hspace{.3em}Acoustic Echoes Estimation}
-This part focuses on how to estimate echoes from the only observation of microphone recordings.
-\begin{description}
-    \item[\cref{ch:estimation}]\synopsisChEstimation
-    \item[\cref{ch:lantern}]\synopsisChLantern
-    \item[\cref{ch:blaster}]\synopsisChBlaster
-    \item[\cref{ch:dechorate}]\synopsisChDechorate
-\end{description}
-
-
-\newthoughtpar{\cref{pt:application}\hspace{.3em}Echo-aware Audio Scene Analysis}
-In this part, we present some audio scene analysis problems that will be later discussed in their echo-aware extension.
-
-\begin{description}
-\item[\cref{ch:application}]\synopsisChApplication
-\item[\cref{ch:separake}]\synopsisChSeparake
-\item[\cref{ch:mirage}]\synopsisChMirage
-\item[\cref{ch:dechorateapp}]\synopsisChDecharateApp
-\end{description}
-
-\newthought{Finally,} the dissertation concludes with~\cref{ch:conclusion}, which summarizes the contributions and raises several additional research questions.
-
-\newpage
-\section{List of Contribution}
-This dissertation draws heavily on the work and writing of the following papers, written jointly with several collaborators:
-
-\begin{itemize}
-    \item \fullcite{di2021dechorateB}
-    \item \fullcite{di2020blasterB}
-    \item \fullcite{di2019mirageB}
-    \item \fullcite{deleforge2019audioB}
-    \item \fullcite{lebarbenchon2018evaluationB}
-    \item \fullcite{scheibler2018separakeB}
-\end{itemize}
-
-\newpage
-\section{Don't Panic!}
-The reader will have already noticed that a large margin is left free on each manuscript page.
-We will use it to insert personal comments, historical notes, additional insights, and figures and tables to complete each subject.
-This graphic template is inspired by the work of \citeauthor{tufte1983visual}~\citeonly{tufte1983visual}\sidenote{
-    The colophon of the thesis reports more information on the template.}
-.
-We emphasize the presence of clickable links by the \ExternalLink logo.
-Code libraries are written in typewriter font, \eg/ \library{dEchorate}.
-
-\subsection{Quick vademecum}
-For the readers:
-\begin{itemize}
-    \item \textcolor{myorange}{orange} is used for clickable internal reference, such as for sections ~\cref{sec:intro:processing} and acronyms \acs{FFT};
-    \item \textcolor{mygray}{grey} and \ExternalLink is used for clickable external link, such as \href{www.diegodicarlo.com}{my website\ExternalLink};
-    \item reference sidenotes on the margin are used as footnotes, providing additional insights;
-    \item italic sidenotes and figures without proper reference numbers on the margin are meant to provide optional information and can be read in a second moment;
-    \item \textcolor{black!30}{\scriptsize\raisebox{1pt}{$\blacktriangleright$}}\hspace{0.2em}should capture the reader attention towards the important points;
-    \item \textcolor{black!30}{\scriptsize\raisebox{1pt}{$\boldsymbol{?}$}}\hspace{0.2em}indicates a question-and-answer paragraph;
-    \item \textcolor{black!30}{\scriptsize\raisebox{1pt}{$\rightleftarrows$}}\hspace{0.2em}indicates the presence of definitions by dichotomy;
-    \item \textcolor{myorange}{\scriptsize\raisebox{1pt}{\faAsterisk}}\hspace{0.2em}denoted the conclusive paragraph of a chapter;
-\end{itemize}
-
-\subsection{The golden ratio of the thesis}
-This thesis has been written the following personal stylistic rules:
-\begin{itemize}
-    \item after the the colon punctuation mark, ``:'', small caps. In case of list, items are delimited by semicolon punctuation mark ``;'';
-    \item sidenotes number referring to a word superscripts the word itself, sidenotes referring to a whole sentence superscripts the corresponding full stop;
-    \item N'ilazo color palette: black, grey and orange;
-    \item at most three levels of sub-headings: section, subsection, and Tufte's \textit{new-thought}~\citeonly{tufte1983visual} to capture attention;
-    \item the usage of dichotomies is privileged when presenting concepts and definitions, thus they are emphasized;
-    \item each section should be introduced briefly at the end of the previous one to promote reading flow;
-    \item no indentation, but well-separated text blocks;
-\end{itemize}

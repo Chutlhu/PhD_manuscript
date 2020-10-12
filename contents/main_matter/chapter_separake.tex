@@ -3,9 +3,8 @@
     I'm trying to get some rest\\
 From all the unborn chicken voices in my head.}{Radiohead, \textit{Paranoid Android}}
 
-
-
-\marginpar{%
+\vspace{-2.5em}
+\newthought{Synopsis} \marginpar{%
     \footnotesize
     \textbf{Keywords:} Blind Channel Identification, Super Resolution, Sparsity, Acoustic Impulse Response.
     \\\textbf{Resources:}
@@ -13,16 +12,15 @@ From all the unborn chicken voices in my head.}{Radiohead, \textit{Paranoid Andr
         \item \href{https://doi.org/10.1109/ICASSP.2018.8461345}{Paper}
         \item \href{https://github.com/fakufaku/separake}{Code}
         \item \href{https://sigport.org/documents/separake-source-separation-little-help-echoes}{Slides}
-    \end{itemize}
-}
-\newthought{Synopsis} \synopsisChSeparake
+\end{itemize}
+} \synopsisChSeparake
 
 \mynewline
 The material presented in this chapter results from a collaboration with Robin Scheibler and Ivan Dokmani\'{c} and was published in~\cite{scheibler2018separake}.
 This chapter recalls the main findings of the paper and brings additional insights on the literature and on the proposed model, which has been re-written using this thesis' notations.
 The personal contribution to this collaboration, done in the early months of the \PhD/, was adapting and implementing in Python of the proposed \EMdef/-\NMF/ method accounting for echoes and using a pre-trained dictionary.
 
-\section{Literature review in Echo-aware Audio Source Separation}\label{sec:separake:sota}
+\section{Literature review in echo-aware Audio Source Separation}\label{sec:separake:sota}
 
 The scientific literature on audio source separation is vast, still active, and spans decades.
 The problem covers a huge number of scenarios and use-cases, such as, number of microphones (single- \vs/ multi-channel recordings), the number of sources with respect to the number of channels (under- \vs/ over- \vs/ determined), the type of observed signals (speech \vs/ music), type of recordings (artificial \vs/ microphone recordings) \etc/, and, of course, combination of them.
@@ -155,7 +153,7 @@ while the latent variables $\mZ_\idxSrc$, called \textit{activations}, indicatin
 This normally involves learning the channels, namely the frequency-domain mixing matrices $\FLTSS$.
 Instead of learning them, we build the channels based on the prior knowledge of the earliest few echoes.
 
-\section{Source Separation by NMF}
+\section{Audio Source Separation by NMF}
 In this work we consider two classical, well-understood multi-channel source separation algorithms which, by default, estimate the channels together with sources' dictionaries and activations.
 The first algorithm is \NMFdef/ via \MUdef/ and consider only the magnitudes of the transfer functions.
 The second one is the multichannel \NMF/ via \EMdef/, which instead explicitly models the phases of the mixing filters.
@@ -267,7 +265,7 @@ For audio source separation, this idea has been studied extensively since promis
 As discussed later in~\cref{subsec:separake:dictionary}, in this work we will use two different dictionaries: one \textit{universal}, and the other \textit{speaker-specific}.
 
 
-\section{Echo-aware Source Separation}
+\section{Echo-aware Audio Source Separation}
 To evaluate the usefulness of echoes in source separation, we modified the the multi-channel \NMF/ framework of \citeauthor{ozerov2010multichannel}~\citeonly{ozerov2010multichannel}.
 The knowledge of the echoes is embedded in the model by approximating the entries of mixing matrices with~\eqref{eq:separake:approx_tf}, that is,
 \begin{equation}
@@ -293,7 +291,7 @@ This intuitive reasoning is corroborated by numerical experiments in Section \re
 The problem is overcome by the \EM/-\NMF/ algorithm which keeps the channel phase and is thus able to exploit the phase diversity across the array.
 Of course, as showed in this work, it is also overcome by using echoes.
 
-\section{Numerical Experiments}
+\section{Numerical experiments}
 
 We test our hypotheses through computer simulations.
 In the following, we describe the simulation setup, dictionary learning protocols, and we discuss the results.
@@ -355,6 +353,7 @@ We explore both speaker-specific and universal dictionaries \citeonly{Sun:2013co
 Speaker-specific dictionaries can be beneficial when speakers are known in advance.
 Universal dictionary is more versatile but gives a weaker regularization prior.
 All dictionaries were trained on samples from the TIMIT corpus \citeonly{garofolo1993timit} using the \NMF/ solver in \library{scikit-learn} Python package~\citeonly{pedregosa2011scikit}.
+\cref{fig:separake:dictionaries} illustrates the two different dictionaries used in this work.
 
 \begin{figure}[h]
     \begin{fullwidth}
@@ -368,7 +367,7 @@ All dictionaries were trained on samples from the TIMIT corpus \citeonly{garofol
         \label{fig:separake:dict_spk}}
         \caption{Schematic representation of the dictionary protocol used in this work.
         Image taken from the slides accompanying the paper of this work~\citeonly{scheibler2018separake}.}
-    \label{fig:separake:results}
+    \label{fig:separake:dictionaries}
     \end{fullwidth}
 \end{figure}
 
@@ -443,7 +442,6 @@ Interestingly, with more than one echo, non-negativity and echo priors are alrea
 \begin{figure}[b]
     \begin{sidecaption}[]{
             Summary of the median \ac{SDR} and \ac{SIR} for the different algorithms evaluated.
-            \label{fig:separake:median}
         }[fig:separake:median]
         \centering
         \small
@@ -505,3 +503,4 @@ This improvement is measured by the standard metrics even when compared to appro
     \item experiment with more microphones, more room configurations, more sources on real data, \eg/, using the ones offered by the \dEchorate{} dataset, described in~\cref{ch:dechorate};
     In fact, such dataset was designed and recorded also for echo-aware application. In this sense, the method discussed in this chapter can be perfectly tested on such kind of dataset.
 \end{itemize}
+\qed

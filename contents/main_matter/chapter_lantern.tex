@@ -1,6 +1,6 @@
 \chapter{\library{Lantern}: Data-driven Acoustic Echo Retrieval}\label{ch:lantern}
 
-\marginpar{%
+\newthought{Synopsis} \marginpar{%
     \footnotesize
     \textbf{Keywords:} Acoustic Echo Retrieval, TDOA Estimation, Supervised Learning, Deep Learning, Robust Regression.
     \\\textbf{Resources:}
@@ -9,8 +9,7 @@
         \item \href{https://github.com/Chutlhu/MIRAGE}{Code}
         \item \href{https://sigport.org/documents/mirage-2d-sound-source-localization-using-microphone-pair-augmentation-echoes}{ICASSP2018 Poster}
     \end{itemize}
-}
-\newthought{Synopsis} \synopsisChLantern
+} \synopsisChLantern
 
 \mynewline
 Deep learning notions come from readings of materials available in standard machine learning textbooks, such as~\citeonly{bishop2006pattern,goodfellow2016deep}, and the recent comprehensive work of~\citeonly{purwins2019deep} oriented towards audio signal processing.
@@ -57,7 +56,7 @@ Interestingly, the works in~\citeonly{deleforge2015acoustic,nguyen2018autonomous
 However, this approach is possible only with specific technologies and equipments (in both the works, the authors programmed a humanoid robot equipped with a binaural hearing system that automatically builds a training set).
 The following section will give a quick overview of relevant models used in our work.
 
-\section{Deep Learning Model}\label{sec:lantern:dnn}
+\section{Deep learning model}\label{sec:lantern:dnn}
 
 \subsection{Multi-layer Perceptions}\label{subsec:lantern:mlp}
 \acfp{MLP} are simple and basic modules of \acp{DNN} and are also known as \textit{fully-connected} or \textit{dense layers}.
@@ -93,7 +92,7 @@ Therefore, they are characterized by
 \begin{itemize}
     \item shift-invariance properties, thanks to the convolution operation;
     \item reduced model complexity, since the same kernel can be used at different input location;
-    \item the ability to detect local structures at a different levels of abstraction in the network (see~\cref{fig:lantern:features}).
+    \item the ability to detect local structures at a different levels of abstraction in the network.
 \end{itemize}
 Using a Python-like notation, a 2D-convolutional layer is defined by the following equation:
 \begin{equation*}
@@ -513,6 +512,7 @@ A natural follow-up of this work could consider the following directions.
     \item Finally, another interesting direction would be to use physics-driven neural networks as explored in~\citeonly{nabian2020physics,rao2020physics,jin2020physics},
     where physics-based layers or physically-motivated regularizers are implemented to facilitate the learning.
 \end{itemize}
+\qed
 
 % \begin{table}[ht!]
 %     \begin{sidecaption}[Echo estimation with MIRAGE results]{%

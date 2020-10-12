@@ -1,27 +1,25 @@
 \chapter{\library{dEchorate}: Datasets for Acoustic Echo Estimation}\label{ch:dechorate}
 
-\openepigraph{
-    I'm here 'cause I [messed up]\\
-    Somebody jump in my computer server\\
-And take the information out\\
-Gentleman, gentleman}{Venetian Snares, \textit{Gentleman}}
-\vspace{-2.5em}
+\openepigraph{Once you've been alone\\
+And everybody knows\\
+Work begins alone}{Strapping Young Lad, \textit{Monument}}
 
-\marginpar{%
-    \footnotesize
-    \textbf{Keywords:} Room impulse response, Early reflection, Acoustic echoes, Audio database, Microphone arrays.
-    \\\textbf{Resources:}
-    \begin{itemize}
-        \item \href{www.github.com/Chutlhu/dEchorate}{Code repository}
-        \item \href{www.github.com/Chutlhu/dEchorate}{Dataset}
-    \end{itemize}
-}
-\newthought{Synopsis} \synopsisChDechorate
+
+\vspace{-2.5em}
+\newthought{Synopsis} \marginpar{%
+\footnotesize
+\textbf{Keywords:} Room impulse response, Early reflection, Acoustic echoes, Audio database, Microphone arrays.
+\\\textbf{Resources:}
+\begin{itemize}
+    \item \href{www.github.com/Chutlhu/dEchorate}{Code repository}
+    \item \href{www.github.com/Chutlhu/dEchorate}{Dataset}
+\end{itemize}
+} \synopsisChDechorate
 
 
 \mynewline
 The material presented in the chapter is the result of a work done while visiting prof. Sharon Gannot and ing. Pinchas Tandeitnik at the Bar'Ilan University, Israel.
-The work described here, together with its continuation described in~\cref{ch:dechorate2} will be submitted as a journal article to the EURASIP special edition \textit{Data-driven Audio Signal Processing: Methods and Apps}.
+The work described here, together with its continuation described in~\cref{ch:dechorateapp} will be submitted as a journal article to the EURASIP special edition \textit{Data-driven Audio Signal Processing: Methods and Apps}.
 
 
 \section{Introduction}\label{sec:dechorate:intro}
@@ -171,7 +169,7 @@ This results is achieved as follows:
     The prior information about the arrays' structures reduced the number of variables of the problem, leaving the 3D positions of the sources and of the arrays' barycenters in addition to the the arrays' tilt on the azimuthal plane.
 
     \item \label{it:decharate:lat} By employing a multilateration algorithm \citeonly{Beck2008ExactProblems}, where the positions of one microphone per array serve as anchors and the \TOAs/ are converted into distances, it was possible to localize image sources along side with the real sources.
-    This step will be further discussed in~\cref{ch:dechorate2}.
+    This step will be further discussed in~\cref{ch:dechorateapp}.
 \end{enumerate}
 Knowing the geometry of the recording room, we were able to manually label the echoes by iterating through steps \ref{it:decharate:not}, \ref{it:decharate:mds} and \ref{it:decharate:lat}.
 
@@ -269,3 +267,4 @@ In particular, all the scripts used for estimating the \acp{RIR} and annotating 
 \conclusion{This work} introduced a new database of \RIRdef/ featuring accurate annotation of early echoes and microphone positions.
 These data can be used to test methods in the room geometry estimation pipeline and in echo-aware audio signal processing.
 We will show some application in \SE/ and \RooGE/ in~\cref{ch:dechorateapp}
+\qed

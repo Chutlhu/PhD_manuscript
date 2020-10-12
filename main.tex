@@ -119,6 +119,7 @@
 \input{contents/synopsis}
 
 \includeonly{   % Of course this list allows many more file
+    contents/front_matter/colophon_dedication,
     contents/front_matter/abstract,
     contents/front_matter/resume,
     contents/front_matter/resume_etendu_fr,
@@ -154,36 +155,28 @@
 
 % \input{contents/front_matter/title_page}
 \includepdf[pages=-]{assets/first.pdf}
-\cleardoublepage
+\include{contents/front_matter/colophon_dedication}
 
-\begin{dedication}
-    A nonna Leti,\\
-    ``Lavati le man e va a lavorare!'';
-    \vfill
-    A nonna Carla,\\
-    ``Mammmmma miaaa che beo ció!'';
-    \vfill
-    A Giorgia,\\
-    ``Non perdere tempo con ste cose!''
-\end{dedication}
 
 \include{contents/front_matter/abstract}
-\cleardoublepage
+\blankpage{}
+\clearpage
 
 \begin{otherlanguage}{french}
 \include{contents/front_matter/resume}
 \end{otherlanguage}
-\cleardoublepage
+\blankpage{}
+\clearpage
 
 \begin{otherlanguage}{french}
 \include{contents/front_matter/resume_etendu_fr}
 \end{otherlanguage}
-\cleardoublepage
+\clearpage
+\blankpage{}
 
 
 % \include{contents/front_matter/acknowledgments}
-\blankpage{}
-\cleardoublepage{}
+% \blankpage{}
 
 %*******************************************************
 % Table of Contents
@@ -210,7 +203,6 @@
 % \clearpage{}
 
 \input{contents/front_matter/notation}
-\blankpage{}
 \cleardoublepage{}
 
 
@@ -226,7 +218,10 @@
     \part{Room Acoustic meets Signal Processing}\label{pt:background}
 \end{fullwidth}
 \parttoc[n]
+
+\cleardoublepage
 \include{contents/main_matter/chapter1_acoustics}
+\cleardoublepage
 \include{contents/main_matter/chapter2_processing}
 \cleardoublepage
 
@@ -235,9 +230,14 @@
 \part{Acoustic Echo Retrieval}\label{pt:estimation}
 \end{fullwidth}
 \parttoc[n]
+\cleardoublepage
+
 \include{contents/main_matter/chapter_estimation}
+\cleardoublepage
 \include{contents/main_matter/chapter_blaster}
+\cleardoublepage
 \include{contents/main_matter/chapter_lantern}
+\cleardoublepage
 \include{contents/main_matter/chapter_dechorate}
 \cleardoublepage
 
@@ -246,9 +246,14 @@
     \part{Echo-aware Application}\label{pt:application}
 \end{fullwidth}
 \parttoc[n]
+\cleardoublepage
+
 \include{contents/main_matter/chapter9_applications}
+\cleardoublepage
 \include{contents/main_matter/chapter_separake}
+\cleardoublepage
 \include{contents/main_matter/chapter11_mirage}
+\cleardoublepage
 \include{contents/main_matter/chapter_dechorateapp}
 
 \cleardoublepage
@@ -256,9 +261,10 @@
 \begin{fullwidth}
     \part{Epilogue}\label{pt:epilogue}
 \end{fullwidth}
+\cleardoublepage
 % \parttoc[n]
 \include{contents/main_matter/chapter20_conclusion}
-
+\cleardoublepage
 
 % === BACK MATTER ===
 \backmatter{}
