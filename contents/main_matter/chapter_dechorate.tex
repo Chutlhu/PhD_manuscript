@@ -164,7 +164,7 @@ This results is achieved as follows:
     \item \label{it:decharate:not} The estimated \acp{RIR} are superimposed on synthetic \acp{RIR} computed with the \acf{ISM} from the geometry obtained in the previous step.
     A Python GUI\sidenote{This GUI is available in the dataset package.} (showed in~\cref{fig:dechorate:labelling_tools}), was used to manually tune a peak finder and label the echoes corresponding to found peaks, that is, annotate their positions and their corresponding image source position and wall label..
 
-    \item \label{it:decharate:mds} By solving a simple \acf{MDS} problem \citeonly{dokmanic2015relax, Crocco2016, Plinge2016acoustic}, refined microphone and source positions were computed.
+    \item \label{it:decharate:mds} By solving a simple \acf{MDS} problem \citeonly{dokmanic2015relax,crocco2016estimation, Plinge2016acoustic}, refined microphone and source positions were computed.
     The non-convexity of the problem was alleviated by using a good initialization (obtained at the previous step), by the high SNR of the measurements and, later, by including the additional image sources in the formulation.
     The prior information about the arrays' structures reduced the number of variables of the problem, leaving the 3D positions of the sources and of the arrays' barycenters in addition to the the arrays' tilt on the azimuthal plane.
 

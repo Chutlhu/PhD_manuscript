@@ -1,4 +1,7 @@
 \chapter{\library{Lantern}: Data-driven Acoustic Echo Retrieval}\label{ch:lantern}
+\openepigraph{I'm here 'cause I am stuck\\
+Somebody jump in my computer server\\
+And take the information out}{Venetian Snares, \textit{Gentleman}}
 
 \newthought{Synopsis} \marginpar{%
     \footnotesize
@@ -13,7 +16,7 @@
 
 \mynewline
 Deep learning notions come from readings of materials available in standard machine learning textbooks, such as~\citeonly{bishop2006pattern,goodfellow2016deep}, and the recent comprehensive work of~\citeonly{purwins2019deep} oriented towards audio signal processing.
-In the remaining sections, we will present part of the previously published work~\cite{di2019mirage}, a technical report~\cite{di2019honda} and ongoing research.
+In the remaining sections, we will present part of the previously published work~\cite{di2019mirage} and ongoing research.
 
 \mynewline
 It is essential to say that the approaches presented here are part of a first investigation in echo-aware \ac{SSL}.
@@ -58,7 +61,7 @@ The following section will give a quick overview of relevant models used in our 
 
 \section{Deep learning model}\label{sec:lantern:dnn}
 
-\subsection{Multi-layer Perceptions}\label{subsec:lantern:mlp}
+\subsection{Multi-layer perceptrons}\label{subsec:lantern:mlp}
 \acfp{MLP} are simple and basic modules of \acp{DNN} and are also known as \textit{fully-connected} or \textit{dense layers}.
 They consist of a sequence of layers, each of which defined by an affine vector transformation followed by a an entry-wise non-linear function:
 \begin{equation*}
@@ -175,14 +178,14 @@ we will use \ac{DNN} to estimate echoes' properties, and later, in~\cref{ch:mira
     \label{fig:lantern:scene}
 }
 As a first step, we will use \acp{DNN} to estimate the timings of the first and strongest echo in each channel from stereophonic recordings.
-This setup is related to ``table-top'' scenarios, which are commonly encountered in typical home smart audio devices and it is motivated by the echo-aware \acf{SSL} application that will be discussed in~\cref{ch:mirage}.
+This setup is related to ``table-top'' scenarios, which are commonly encountered in typical home smart audio devices and it is motivated by an echo-aware \acf{SSL} application that will be discussed in~\cref{ch:mirage}.
 To this end, we consider the following simple setup: two microphone placed close to a surface, as illustrated in~\cref{fig:lantern:scene}.
 The reason why we consider only one microphone pair is that this approach can be generalized to microphone arrays using data-fusion-like techniques.
 In fact, by considering all the pairs, it is possible to aggregate their estimation in a second stage.\sidenote{
     An example of such techniques is the \ac{SRP-PHAT}~\citeonly{dibiase2001robust} algorithm used for \ac{SSL}, which uses
     the knowledge of the microphone array geometry to aggregate the contribution of each microphone pair.
 }
-In the reminder of this chapter, we will discuss how to achieve robust first-echo estimation and how it could be generalized to multiple echoes.
+In the reminder of this chapter, we will discuss how to achieve robust first-echo estimation.
 
 \subsection{Proposed approach}\label{subsec:lantern:simple:mpl}
 Our approach is to train a \acp{DNN} on a dataset simulating the considered close-surface scenario.
@@ -353,12 +356,16 @@ To overcome the limitations of of our simple \ac{MLP}-based method, we introduce
 Motivated by their success, we consider a \ac{CNN} architecture (see~\cref{subsec:lantern:cnn}).
 To this end, we inspire from the work of~\citeonly{chakrabarty2017broadband,nguyen2018autonomous} in \ac{SSL}.
 \begin{figure}[h]
-    \begin{sidecaption}[CNN]{
-        Architecture of the proposed deep neural network. Input and output dimensions for each stage are reported. The first dimension is the batch size $B = 200$.
-        }[fig:lantern:cnn]
+    \begin{fullwidth}
         \centering
-        \includegraphics[width=\linewidth]{mirage/cnn.pdf}
-    \end{sidecaption}
+        \resizebox{\linewidth}{!}{
+            \input{figures/lantern/dnn.tikz}
+        }
+        \caption{Architecture of the proposed deep neural network.
+        Input dimensions for each stage are reported.
+        The first dimension is the batch size $\kvbar{\Xi} = 200$}
+        \label{fig:lantern:cnn}
+    \end{fullwidth}
 \end{figure}
 As shown in~\cref{fig:lantern:cnn}, the architecture consists of two convolutional modules made of a one-dimensional convolutional layer (Conv1D) followed by max-pooling along frequencies, followed by \ac{ReLU} activation function and batch-normalization.
 The second part consists of a cascade of fully connected feed-forward (FF) layers (basically the \ac{MLP} model discussed above).
@@ -495,11 +502,11 @@ Nevertheless, the choice of modeling the output of the network according to diff
 This chapter presented an attempt at using deep learning models to learn the complex mapping from stereophonic recordings to echoes' timings.
 As part of a first investigation, we considered a simple, yet common scenario where two microphones are placed close to a reflective surface and attend a to a single sound source.
 The problem is then restricted to estimating the the relative delays between the direct path and the first echo timings within the two channels.
-This simplification is motivated by an application to echo-aware \ac{SSL}, which will be presented in~\cref{ch:mirage}.
+Moreover, this simplification is motivated by further application to echo-aware \ac{SSL}, which will be presented in~\cref{ch:mirage}.
 \\We studied two standard \ac{DNN} architectures, which are trained in \textit{virtually supervised} fashion on data generated by an acoustic simulator.
 Finally, we discuss three ways to improving such performances, \ie/, training on noisy data, using a \ac{CNN}-based architecture, and using robust loss functions.
 \\The investigation so far was limited to microphone pairs.
-Taking inspiration from data-fusion approaches, in chapter~\cref{ch:mirage}, we will propose to aggregate the contributions of multiple pairs to improve the final estimation.
+Taking inspiration from data-fusion approaches, in chapter~\cref{ch:mirage}, we will propose to aggregate the contributions real and image microphone pair to preform 2D \ac{SSL} with only two microphones.
 
 \mynewline
 A natural follow-up of this work could consider the following directions.

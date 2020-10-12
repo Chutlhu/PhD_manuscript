@@ -245,9 +245,10 @@ where $f \in \bbR$ are the \textit{natural frequency} in $\si{\Hz}$ and $\csti$ 
         \input{figures/processing/time2freq.tikz}
     }
     \captionof{figure}{
-        A signals resolved into its Fourier series:
+        A signal resolved into its Fourier series:
         a linear combination of sines and cosines
         represented as peaks in the frequency domain.
+        Adapted from the \href{https://tex.stackexchange.com/questions/127375/replicate-the-fourier-transform-time-frequency-domains-correspondence-illustrati}{online tikz example}.
     }\label{fig:processing:fourier}
 }
 \\A part from providing a space where audio signal reveals their harmonic structures, the Fourier transforms benefits of two fundamental properties:
@@ -675,6 +676,22 @@ In particular:
 \end{itemize}
 
 \mynewline
+Under the narrowband approximation, the \ac{ReTF} can be approximated by the ratio of the \acp{DFT} of the channel signal $X_1[k]$ and $X_i$.
+\begin{equation}\label{eq:processing:inst_retf}
+    G_i[k] \approx \frac{X_i[k]}{X_1[k]} \approx \frac{H_i[k]S[k]}{H_1[k]S[k]} = \frac{H_i[k]}{H_1[k]}
+    .
+\end{equation}
+It can be noticed that ideally, the \ac{ReTF} removes the dependency from the source signal.
+However, this is true only in theory.
+In practice, the presence of external noise and the spectral sparsity of particular source signals (\eg/, speech, and music) make the ratio diverging from the real \ac{ReTF}.
+We will refer to the \acp{ReTF} computed with this vanilla approach as \textit{instantaneous} \ReTF/.
+A way to improve the estimation of the \ac{ReTF} is to perform the above operation in the \STFT/ and then consider the average over multiple time frames.
+In this way, the non-stationarity and the spectral sparsity of the speech signals are alleviated.
+This approach is typically performed for computing the acoustic features known as \textit{interchannel cues}, described below.
+More advanced estimators for the \ac{ReTF} have been proposed in the literature and will be discussed in~\cref{subsec:estimation:bce}.
+
+
+\mynewline
 In the general case of multiple microphone arrays ($I>2$) and multiple sources, the vector of \ReTFs/
 $\boldsymbol{G}_j[k] = \ktranspose{\klist{{G}_ {1j}[k], \cdots, {G}_{Ij}[k]}}$
 for the $j$-th source is defined as
@@ -682,7 +699,6 @@ for the $j$-th source is defined as
     {\bsG}_j[k] = \frac{1}{{G}_{1j}[k]} {\bsG}_j[k]
     .
 \end{equation}
-
 
 \newthought{The relative steering vectors} are obtained by combining~\cref{eq:processing:steering,eq:processing:rtf} as
 \begin{equation}\label{eq:processing:relativesteering}
@@ -733,5 +749,5 @@ However early echoes and reverberation make them significantly diverge.
 
 \section{Conclusion}
 In this chapter, we presented the mathematical notions, notation, and tools to model audio scene analysis problems in signal processing.
-We particularly focused on the crucial approximations and assumptions that arise from the merging physical and signal processing models.
-As we conclude the part of the thesis dedicated to background knowledge, we will now focus on estimating acoustic echoes in~\cref{pt:estimation}, and how to use them for solving audio scene analysis problems \cref{pt:application}.\qed
+We particularly focused on the crucial approximations and assumptions that arise from the merging of physical and signal processing models.
+As we conclude the part of the thesis dedicated to background knowledge, we will now focus on estimating acoustic echoes in~\cref{pt:estimation}, and how to use them for solving audio scene analysis problems in~\cref{pt:application}.\qed

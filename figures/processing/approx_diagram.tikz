@@ -72,9 +72,9 @@
 \draw [shift={(430,350)}, rotate = 180] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
 \draw [shift={(270,350)}, rotate = 0] [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][line width=0.75]    (6.56,-1.97) .. controls (4.17,-0.84) and (1.99,-0.18) .. (0,0) .. controls (1.99,0.18) and (4.17,0.84) .. (6.56,1.97)   ;
 % Text Node
-\draw (162.5,75.5) node  [font=\Large]  {$\tilde{c}( t) =\left(\tilde{h}^{*} \star \tilde{s}\right)( t)$};
+\draw (162.5,75.5) node  [font=\Large]  {$\tilde{c}( t) =\left(\tilde{h} \star \tilde{s}\right)( t)$};
 % Text Node
-\draw (542.5,75.5) node  [font=\Large]  {$\tilde{C}( f) =\tilde{H}^{*}( f)\tilde{S}( f)$};
+\draw (542.5,75.5) node  [font=\Large]  {$\tilde{C}( f) =\tilde{H}( f)\tilde{S}( f)$};
 % Text Node
 \draw (164.5,195) node [anchor=west] [inner sep=0.75pt]  [font=\scriptsize] [align=left] {\textcolor[rgb]{0,0,0}{Prop. in }\textcolor[rgb]{0.96,0.65,0.14}{\ref{it:processing:dft:approx1}}};
 % Text Node

@@ -26,10 +26,10 @@
 }}}.
 \\We live immersed in a complex acoustical world, where every concrete thing can sound, resound, and echo.
 For humans, it is difficult to internalize what is sound, its constituents, and its generation.
-It is processed by our auditory systems and brain so efficiently that our attention is detached from the physical laws governing it.
+It is processed by our auditory system and brain so efficiently that our attention is detached from the physical laws governing it.
 Therefore, when listening to something, we typically focus directly on its \textit{semantic content}.
 Evolution lead us to conduct this process without any efforts, despite the presence of a high level of background noise, for instance during a concert.
-This outstanding capability is not limited to humans and is common to many the creatures we are sharing the physical world with.
+This outstanding capability is not limited to humans and is common to many of the creatures we are sharing the physical world with.
 
 % When we listen to music, we focus on the melody in the music; when listen to speech, we focus on the words;
 % \\However not only \textit{semantic information} about the source is carried by the sound.
@@ -50,7 +50,7 @@ For instance, the ticking of a metronome\sidenote{
 However, this information is determined by how sound \textit{propagates} in space and not by the source itself.
 
 \mynewline
-Before reaching the ears, sound propagates in all directions and a portion of its energy arrives at us directly, others indirectly after being reflected around.
+Before reaching the ears, sound propagates in all directions and a portion of its energy arrives at us directly, and another indirectly, after being reflected around.
 This process leads to the creation of \textit{echoes} and \textit{reverberation}.
 Typical examples are the echoes produced by large rocky mountains or walls in monumental buildings, such as the Panthéon in Rome or the Pont de Neuilly in Paris.
 \sidenote{
@@ -98,7 +98,7 @@ In this case, instead of emitting sounds, evolution taught them to use complex s
 Echoes do not only serve for computing distances or localizing preys.
 For instance, they make speech more intelligible, improve our sense of orientation and balancing\citeonly[Chapter 5.4]{huggett1953human}, and provide music with ``dimensionality''\citeonly{sacks2014musicofilia}.
 This phenomenon is a branch of study in \textit{room acoustics}, \textit{pyschoacoustics} and \textit{sound design}.
-In particular, the former study acoustic echoes for designing theatres, auditoriums and meeting rooms, , with the aim of a good listening quality.
+In particular, the former study acoustic echoes for designing theatres, auditoriums and meeting rooms, with the aim of a good listening quality.
 
 \mynewline
 % To conclude with, this thesis focuses on how to estimate passively acoustic echoes and how to used them to achieve better audio analysis.
@@ -141,19 +141,19 @@ Many related problems can be then decomposed into blocks which are include one o
     Practical examples of enhancement are removing background noise from a mobile phone recording, isolating instrument tracks from in a song, \etc/.
 
 \newthought{Estimation}.
-    Often we wish to estimate some key properties of the target signal, which may be used as inputs to a different algorithm.
+    Often, we wish to estimate some key properties of the target signal, which may be used as inputs to a different algorithm.
     For instance, we may be interested in estimating a speaker's position in a recording, the time of arrival of an echo, or the pitch of a sound.
 
 \newthought{Adaptive processing}.
     It deals with algorithms that are able to adapt themselves to the data.
-    Typically process the data on the fly and are controlled by variable parameters resulting from previous estimation blocks.
-    They usually rely optimization of an objective function designed to meet specific requirements.
+    They typically process the data on the fly and are controlled by variable parameters resulting from previous estimation blocks.
+    They usually rely on the optimization of an objective function designed to meet specific requirements.
     Examples of these algorithms are present in noise-canceling headphones or echo cancellation modules implemented in video conference call systems.
 
 
 
 \section{Audio scene analysis}\label{sec:intro:scene}
-Pay attention to what are you listening now:
+Pay attention to what you are hearing right now:
 there might be music, someone talking to you, footsteps echoing in the other room, background noise due to cars, a heating system, maybe rain or wind, the sound of your movements, and many others.
 Everything you hear now as well as its location in space is what is called the \textit{audio scene}\sidenote{
     The correct terminology for it is \textit{auditory scene}, which relates to human perception.
@@ -211,7 +211,7 @@ For instance, knowing when someone is speaking and its location in the room, sou
 This should not be surprising since it bears a strong parallelism with our everyday experience.
 
 \mynewline
-Similarly, echoes may help audio signal processing
+Similarly, echoes may help audio signal processing.
 
 \section{The echo-aware approach}
 As proven by natural behaviors, acoustic echoes are important for humans and animals to analyze the audio scene:
@@ -230,20 +230,20 @@ Furthermore, in some cases, echoes are considered a source of noise and interfer
 
 \mynewline
 Instead, some researchers proposed to explicitly include acoustic echoes in leading to what we will refer to as \textit{echo-aware methods}.
-Some of the earliest examples in this direction are the works of Flanagan et al\citeonly{flanagan1993spatially, jan1995matched, jan1996sound} for in source enhancement.
-However, only recently, these methods have regained interest for audio processing as manifested by the European project SCENIC~\citeonly{Annibale2011scenic} and the UK research \href{http://www.s3a-spatialaudio.org/}{S$^3$A project}.
+Some of the earliest examples in this direction are the works of Flanagan et al\citeonly{flanagan1993spatially, jan1995matched, jan1996sound} in source enhancement.
+However, only recently, these methods have regained interest in audio processing as manifested by the European project SCENIC~\citeonly{Annibale2011scenic} and the UK research \href{http://www.s3a-spatialaudio.org/}{S$^3$A project}.
 In some recent studies, echoes are used to boost performances of typical audio scene analysis problems, \eg/, speech enhancement \citeonly{Dockmanic2015raking, Kowalczyk2019raking}, sound source localization \citeonly{ribeiro2010turning}, and source separation \citeonly{scheibler2017separake, leglaive2016multichannel, remaggi2019modeling}, and room geometry estimation from sound \citeonly{remaggi2016acoustic, dokmanic2013acoustic, crocco2017uncalibrated}.
 
 \mynewline
-All these methods show the importance and the benefits of modeling acoustic reflection.
-However, prior to all them is the \AERdef/ problem.
+All these methods show the importance and the benefits of modeling acoustic reflections.
+However, prior to all of them is the \AERdef/ problem.
 This step, which is most often given for granted in the above applications, is extremely challenging, as shown throughout this entire thesis work.
 
 \section{Thesis outline and main contributions}
 The\openepigraph{Sometimes a scream is better than a thesis.}{Ralph Waldo Emerson} goal of this thesis is to improve the current state-of-the-art for indoor audio signal processing along two axes:
 \begin{enumerate}
     \item Provide new methodologies and data to process and estimate acoustic echoes and surpass the limits of current approaches.
-    \item Extend previous classical methods for audio scene analysis by incorporating the knowledge of of echo properties in sound propagation models.
+    \item Extend previous classical methods for audio scene analysis by incorporating the knowledge of echo properties in sound propagation models.
 \end{enumerate}
 These two goals are elaborated in the two main parts of the thesis, which follow after an introductory one, as summarized below.
 However the parts are largely interconnected, as shown in~\cref{fig:intro:thesis_mindmap}.
@@ -326,7 +326,7 @@ For the readers:
 \end{itemize}
 
 \subsection{The golden ratio of the thesis}
-This thesis has been written the following personal stylistic rules:
+This thesis has been written following personal stylistic rules:
 \begin{itemize}
     \item after the the colon punctuation mark, ``:'', small caps. In case of list, items are delimited by semicolon punctuation mark ``;'';
     \item sidenotes number referring to a word superscripts the word itself, sidenotes referring to a whole sentence superscripts the corresponding full stop;

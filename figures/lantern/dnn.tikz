@@ -1,0 +1,227 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Rounded Rect [id:dp1861707421160088]
+\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ] (473,180) .. controls (473,168.95) and (481.95,160) .. (493,160) -- (620,160) .. controls (631.05,160) and (640,168.95) .. (640,180) -- (640,240) .. controls (640,251.05) and (631.05,260) .. (620,260) -- (493,260) .. controls (481.95,260) and (473,251.05) .. (473,240) -- cycle ;
+%Straight Lines [id:da08282030002150731]
+\draw    (60,140) -- (87,140) ;
+\draw [shift={(90,140)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Shape: Rectangle [id:dp7381400321356565]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.5 ] (30,67) -- (50,67) -- (50,180) -- (30,180) -- cycle ;
+%Shape: Rectangle [id:dp4116149999895077]
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.8 ] (20,77) -- (40,77) -- (40,190) -- (20,190) -- cycle ;
+%Shape: Rectangle [id:dp102579079249144]
+\draw  [draw opacity=0][fill={rgb, 255:red, 128; green, 128; blue, 128 }  ,fill opacity=1 ] (10,90) -- (30,90) -- (30,203) -- (10,203) -- cycle ;
+%Straight Lines [id:da25826677297218714]
+\draw    (190,140) -- (217,140) ;
+\draw [shift={(220,140)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da24254994620948755]
+\draw    (320,140) -- (347,140) ;
+\draw [shift={(350,140)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da7629583490346178]
+\draw    (450,140) -- (460,140) -- (460,50) -- (497,50) ;
+\draw [shift={(500,50)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da9895892640240146]
+\draw    (580,50) -- (607,50) ;
+\draw [shift={(610,50)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da3497003774058297]
+\draw    (464,140) -- (474,140) -- (474,100) -- (497,100) ;
+\draw [shift={(500,100)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da4240312515411633]
+\draw    (580,210) -- (607,210) ;
+\draw [shift={(610,210)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da0738404165669232]
+\draw    (580,240) -- (607,240) ;
+\draw [shift={(610,240)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da1701130849431487]
+\draw    (580,180) -- (607,180) ;
+\draw [shift={(610,180)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da4501797032143967]
+\draw    (580,130) -- (607,130) ;
+\draw [shift={(610,130)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da8032849046997564]
+\draw    (580,100) -- (607,100) ;
+\draw [shift={(610,100)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da679562492883237]
+\draw    (474,130) -- (497,130) ;
+\draw [shift={(500,130)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da7965356758573472]
+\draw    (480,140) -- (490,140) -- (490,180) -- (497,180) ;
+\draw [shift={(500,180)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da08411278805309708]
+\draw    (490,180) -- (490,210) -- (497,210) ;
+\draw [shift={(500,210)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da6581327533356126]
+\draw    (490,210) -- (490,240) -- (497,240) ;
+\draw [shift={(500,240)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Rounded Rect [id:dp27888426362272867]
+\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ] (470,99) .. controls (470,92.37) and (475.37,87) .. (482,87) -- (628,87) .. controls (634.63,87) and (640,92.37) .. (640,99) -- (640,135) .. controls (640,141.63) and (634.63,147) .. (628,147) -- (482,147) .. controls (475.37,147) and (470,141.63) .. (470,135) -- cycle ;
+%Rounded Rect [id:dp525767853880333]
+\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ] (470,38) .. controls (470,33.58) and (473.58,30) .. (478,30) -- (632,30) .. controls (636.42,30) and (640,33.58) .. (640,38) -- (640,62) .. controls (640,66.42) and (636.42,70) .. (632,70) -- (478,70) .. controls (473.58,70) and (470,66.42) .. (470,62) -- cycle ;
+%Rounded Rect [id:dp37071225579262246]
+\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ] (349,90.8) .. controls (349,79.31) and (358.31,70) .. (369.8,70) -- (432.2,70) .. controls (443.69,70) and (453,79.31) .. (453,90.8) -- (453,179.2) .. controls (453,190.69) and (443.69,200) .. (432.2,200) -- (369.8,200) .. controls (358.31,200) and (349,190.69) .. (349,179.2) -- cycle ;
+%Shape: Rectangle [id:dp3561196299476318]
+\draw   (360,80) -- (440,80) -- (440,190) -- (360,190) -- cycle ;
+%Straight Lines [id:da8584394372869015]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (120,280) -- (177,280) ;
+\draw [shift={(180,280)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da11855752683570009]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (270,280) -- (317,280) ;
+\draw [shift={(320,280)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da31534710342001326]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (390,280) -- (417,280) ;
+\draw [shift={(420,280)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da6537424344978463]
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (490,280) -- (607,280) ;
+\draw [shift={(610,280)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+
+% Text Node
+\draw    (96,112) -- (182,112) -- (182,162) -- (96,162) -- cycle  ;
+\draw (99,116) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{55.71464400000001pt}\setlength\topsep{0pt}
+\begin{center}
+Conv1D $\displaystyle ( 3\times 1)$\\ReLU\\MaxPool $\displaystyle ( 3\times 1)$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw    (226,112) -- (312,112) -- (312,162) -- (226,162) -- cycle  ;
+\draw (229,116) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{55.71464400000001pt}\setlength\topsep{0pt}
+\begin{center}
+Conv1D $\displaystyle ( 3\times 1)$\\ReLU\\MaxPool $\displaystyle ( 3\times 1)$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (188,126) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {dropout};
+% Text Node
+\draw (17,149) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,rotate=-270] [align=left] {ILD};
+% Text Node
+\draw (30,139) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,rotate=-270] [align=left] {ReIPD};
+% Text Node
+\draw (41,129) node [anchor=north west][inner sep=0.75pt]  [font=\tiny,rotate=-270] [align=left] {ImIPD};
+% Text Node
+\draw (361,91) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{58.28735600000001pt}\setlength\topsep{0pt}
+\begin{center}
+FF $\displaystyle ( 6048\times 1024)$\\ReLU\\FF $\displaystyle ( 1024\times 512)$\\ReLU\\FF $\displaystyle ( 512\times 256)$\\ReLU\\FF $\displaystyle ( 256\times 128)$\\ReLU
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (318,126) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {dropout};
+% Text Node
+\draw (318,149) node [anchor=north west][inner sep=0.75pt]  [font=\tiny] [align=left] {Reshape};
+% Text Node
+\draw    (508,230.5) -- (574,230.5) -- (574,249.5) -- (508,249.5) -- cycle  ;
+\draw (511,234.5) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{42.148644000000004pt}\setlength\topsep{0pt}
+\begin{center}
+FF $\displaystyle ( 128\times 3)$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (615.5,42) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{10.472000000000001pt}\setlength\topsep{0pt}
+\begin{center}
+$\displaystyle \tau _{v}$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw    (508,43) -- (574,43) -- (574,62) -- (508,62) -- cycle  ;
+\draw (511,47) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{42.148644000000004pt}\setlength\topsep{0pt}
+\begin{center}
+FF $\displaystyle ( 128\times 3)$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (614.5,233.5) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{11.491999999999999pt}\setlength\topsep{0pt}
+\begin{center}
+$\displaystyle \lambda ^{2}_{v}$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw    (508,203) -- (574,203) -- (574,222) -- (508,222) -- cycle  ;
+\draw (511,207) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{42.148644000000004pt}\setlength\topsep{0pt}
+\begin{center}
+FF $\displaystyle ( 128\times 3)$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (615.5,202) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{10.290644pt}\setlength\topsep{0pt}
+\begin{center}
+$\displaystyle \nu _{v}$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw    (508,173) -- (574,173) -- (574,192) -- (508,192) -- cycle  ;
+\draw (511,177) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{42.148644000000004pt}\setlength\topsep{0pt}
+\begin{center}
+FF $\displaystyle ( 128\times 3)$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (615,172) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{11.208644000000001pt}\setlength\topsep{0pt}
+\begin{center}
+$\displaystyle \mu _{v}$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw    (508,123) -- (574,123) -- (574,142) -- (508,142) -- cycle  ;
+\draw (511,127) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{42.148644000000004pt}\setlength\topsep{0pt}
+\begin{center}
+FF $\displaystyle ( 128\times 3)$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (615.5,122) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{10.290644pt}\setlength\topsep{0pt}
+\begin{center}
+$\displaystyle \nu _{v}$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw    (508,93) -- (574,93) -- (574,112) -- (508,112) -- cycle  ;
+\draw (511,97) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{42.148644000000004pt}\setlength\topsep{0pt}
+\begin{center}
+FF $\displaystyle ( 128\times 3)$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (615,92) node [anchor=north west][inner sep=0.75pt]  [font=\scriptsize] [align=left] {\begin{minipage}[lt]{11.208644000000001pt}\setlength\topsep{0pt}
+\begin{center}
+$\displaystyle \mu _{v}$
+\end{center}
+
+\end{minipage}};
+% Text Node
+\draw (641,190.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {${CNN_{\calV}}_{\calT}$};
+% Text Node
+\draw (641,102.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {${CNN_{\calV}}_{\calN}$};
+% Text Node
+\draw (641,44.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$CNN_{\calV}$};
+% Text Node
+\draw (388,206.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$MLP$};
+% Text Node
+\draw (41,272.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$( 200) \times 513\times 3$};
+% Text Node
+\draw (191,272.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$( 200) \times 24\times 255$};
+% Text Node
+\draw (331,272.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$( 200) \times 6048$};
+% Text Node
+\draw (433,272.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$( 200) \times 128$};
+% Text Node
+\draw (621,272.4) node [anchor=north west][inner sep=0.75pt]  [font=\tiny]  {$( 200) \times 3$};
+
+
+\end{tikzpicture}

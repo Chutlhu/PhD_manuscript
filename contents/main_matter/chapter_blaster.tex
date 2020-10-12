@@ -19,10 +19,10 @@
 } \synopsisChBlaster
 
 \mynewline
-The material presented in this chapter was previously published in~\cite{di2020blaster} and results from a collaboration with the colleague Clement Elvira whose domain of expertise is in the \CDdef/ framework.
-The section dedicated on the presentation of the \CD/ framework applied for \AER/ is extracted from the related publication and it is written with the help of my colleague.
-Here we briefly commented and expanded it and some attention is paid in grasping the motivation behind it.
-Finally, this chapter recall the main findings of the paper bringing additional insight in the existing models for \AER/.
+The material presented in this chapter was previously published in~\cite{di2020blaster} and results from a collaboration with the colleague Clement Elvira whose domain of expertise is in the \CDdef/ framework, while my expertise lies in the audio and acoustic signal processing and modeling aspects.
+The section dedicated on the presentation of the \CD/ framework applied to \AER/ is extracted from the related publication and it is written with the help of my colleague.
+Here we briefly commented and expanded it and some attention is paid in highlighting the motivation behind it.
+Finally, this chapter recalls the main findings of the paper, while bringing additional insights in the existing models for \AER/.
 
 \section{Introduction}
 \label{sec:blaster:intro}
@@ -47,17 +47,17 @@ Finally, this chapter recall the main findings of the paper bringing additional 
 
 % \AERdef/ consists in estimating the properties of the early (strong) acoustic reflections only in multi-path environments, and sometimes referred to as time delay estimation~\citeonly{chen2006time}.
 Let us recall from~\cref{ch:estimation} some knowledge-based methods addressing \AER/.
-Some existing approaches methods rely on a known source signal~\citeonly{park2017compressive,jensen2019method}.
-In contrast, when multiple receivers attend an unknown single source, \AER/ can be seen as an instance of \SIMOdef/ \BCEdef/ problem, \ie/ estimating the filters entailing an unknown input observed output of a system.
+Some existing methods rely on a known source signal~\citeonly{park2017compressive,jensen2019method}.
+In contrast, when multiple receivers attend an unknown single source, \AER/ can be seen as an instance of \SIMOdef/ \BCEdef/ problem, \ie/ estimating the filters entailing an unknown input and an observed output of a system.
 A common approach for solving \AER/ in the context of \SIMO/-\BCE/ is to first blindly estimate a discrete version of the acoustic channels using the so-called cross-relation identity~\citeonly{xu1995least, crocco2016estimation}.
 The location of the echoes are then chosen among the strongest peaks with ad-hoc peak-picking techniques.
-Such methods are generally \emph{on-grid} in the sense that the estimation relies on a fixed grid of points and \textit{a priori} chosen filter lengths.
+Such methods are generally \emph{on-grid} in the sense that the estimation relies on a fixed grid of time samples and \textit{a priori} chosen filter lengths.
 However, in practice, the true timings of echoes rarely match the sampling grid, thus leading to pathological issues called basis-mismatch in the field of compressed sensing.
 To circumvent this issue, the authors of~\citeonly{tukuljac2018mulan} proposed to leverage the framework of finite-rate-of-innovation sampling to make one step towards off-grid approaches.
 Despite promising results in the absence of noise and with synthetic data, the quality of the estimation highly relies on the choice of a good initialization point.
 
 \mynewline
-Of particular interest the proposed approach is the recently proposed framework of \CDdef/~\citeonly{candes2014towards}.
+Of particular interest in the proposed approach is the recently proposed framework of \CDdef/~\citeonly{candes2014towards}.
 By formulating an inverse problem as the recovery of a discrete measure over some parameter space, \CD/ has allowed to overcome imaging device limitations in many applications such as super-resolution~\citeonly{candes2014towards} or PALM/STORM imaging~\citeonly{denoyelle2019sliding}.
 In this work, we formulate the problem of \AER/ for stereophonic mixtures, \ie/ using only one microphone pair, within the framework of continuous dictionaries.
 The resulting optimization problem is convex and thus not prone to spurious minimizers.
@@ -67,7 +67,7 @@ The method is compared to state-of-the art on-grid approaches under various nois
 
 \section{Signal model}
 We consider here the common setup of stereophonic mixtures, that is 2-channel microphone recordings.
-Using the notation presented~\cref{ch:processing}, recorded signal at microphone $\idxMic\in\{1,2\}$ reads
+Using the notation presented~\cref{ch:processing}, the recorded signal at microphone $\idxMic\in\{1,2\}$ reads
 \begin{equation}
     \label{eq:blaster:recordedSignal}
     \tilde{\mic}_i = \tilde{\src} \convCont \tilde{\flt}_i^\star + \tilde{u}_i
@@ -98,9 +98,9 @@ We denote $\disRecordedSignal_1,\disRecordedSignal_2\in\bbR^{2N}$ the two vector
     .
 \end{equation}
 
-\section{Background on on-grid Blind Channel Estimation}\label{sec:blaster:background}
-We now select select and elaborate more on same of the methods mentioned in~\cref{subsec:estimation:bce} concerning optimization approaches for \FIR/-\SIMO/-\BCE/.
-Therefore, the following methods operates on discrete-time signal, which are denoted without the tilde according to the notation presented in~\cref{ch:processing}.
+\section{Background on on-grid blind channel estimation}\label{sec:blaster:background}
+We now select and elaborate more on some of the methods mentioned in~\cref{subsec:estimation:bce} concerning optimization approaches for \FIR/-\SIMO/-\BCE/.
+Therefore, the following methods operate on discrete-time signal, which are denoted without the tilde according to the notation presented in~\cref{ch:processing}.
 Starting from the identity \cref{eq:blaster:cross-relation}, the common \SIMO/-\BCE/ cross-relation framework aims to compute $\contFilter_1, \contFilter_2$ solving the following problem in the discrete-time domain~\citeonly{lin2007blind}:
 \begin{equation}
     \label{eq:blaster:xrel_toepl}
@@ -123,15 +123,15 @@ Starting from the identity \cref{eq:blaster:cross-relation}, the common \SIMO/-\
 where
 \begin{itemize}
     \item  $\disRecordedSignal_i$ and $\disFilter_i$ are the discrete, sampled version of $\contRecordedSignal_i, \contFilter_i$ respectively,
-    \item $\scrT(\disRecordedSignal_i)$ is the $(2N+L-1) \times L$ Toeplitz matrix (build as shown is~\cref{fig:blaster:toeplitz})\marginpar{
+    \item $\scrT(\disRecordedSignal_i)$ is the $(2N+L-1) \times L$ Toeplitz matrix (built as shown in~\cref{fig:blaster:toeplitz})\marginpar{
         \centering
         \resizebox{\linewidth}{!}{
             \input{figures/blaster/toeplitz.tikz}
             }
-            \captionof{figure}{Graphical representation of the construction of $\scrT(x_i)$ form $x_i$}
+            \captionof{figure}{Graphical representation of the construction of $\scrT(x_i)$ from $x_i$}
             \label{fig:blaster:toeplitz}
             }
-    associated to convolution where $2N$ and $L$ respectively denote  microphone and filter signal length,
+    associated to a convolution where $2N$ and $L$ respectively denote the microphone and filter signal lengths,
     \item and the $ell_1$ regularization term is used to enforce sparsity in the estimation, which is consistent with the ``train of impulses'' model for the early part of \RIRs/ (but not for the tail).
 \end{itemize}
 This type of problem can be seen as an instance of \LASSO/ problem~\citeonly{tibshirani1996regression}, written in the form:
@@ -145,7 +145,7 @@ Later, in this section, we show how to express~\cref{eq:blaster:xrel_toepl} as a
 \mynewline
 The accuracy of estimated \RIRs/ has been subsequently improved using a priori knowledge on the filters.
 In particular, the authors of~\citeonly{lin2007blind} have proposed to use non-negativity constraints to increase robustness to noise and avoid trivial solution.
-Therefore, let us define a more general formulation for~\cref{eq:blaster:xrel_toepl}, such that
+Therefore, let us define a more general formulation for~\cref{eq:blaster:xrel_toepl}, as follows
 \begin{equation}\label{eq:blaster:sota}
     \disFilterHat_1, \disFilterHat_2
     =
@@ -156,9 +156,9 @@ Therefore, let us define a more general formulation for~\cref{eq:blaster:xrel_to
     \scrC(\disFilter_1, \disFilter_2)
 \end{equation}
 where $\scrJ = \tfrac{1}{2} \kvvbar{\scrT(\disRecordedSignal_1) \disFilter_2 - \scrT(\disRecordedSignal_2) \disFilter_1}_2^2$ is the cost function to optimize.
-$\scrP(\disFilter_1, \disFilter_2)$ and $\scrC(\disFilter_1, \disFilter_2)$ are respectively a regularization term used to promote sparse solution and a constrained set.
-Let us define $\bfh = \klist{h_1^\intercal, h_2^\intercal}$ as the concatenation of the two vectorized discrete filter.
-Thank to this formulation, current state of the art approaches can be summarized as in the Table~\cref{tab:blaster:sota}.
+$\scrP(\disFilter_1, \disFilter_2)$ and $\scrC(\disFilter_1, \disFilter_2)$ are respectively a regularization term used to promote sparse solutions and a constrained set.
+Let us define $\bfh = \klist{h_1^\intercal, h_2^\intercal}$ as the concatenation of the two vectorized discrete filters.
+Thanks to this formulation, current state-of-the-art approaches can be summarized as in the~\cref{tab:blaster:sota}.
 
 \begin{table}[!h]
 
@@ -167,7 +167,7 @@ Thank to this formulation, current state of the art approaches can be summarized
         \small
         \input{tables/blaster/sota.tex}
 
-        \caption{Some state of the art penalties and constraint used in model~\cref{eq:blaster:sota}.}
+        \caption{Some state-of-the-art penalties and constraints used in model~\cref{eq:blaster:sota}.}
         \label{tab:blaster:sota}
     \end{fullwidth}
 \end{table}
@@ -184,9 +184,9 @@ Likewise works in speech enhancement have proven to work under such assumption, 
 On a similar scheme, in~\citeonly{kowalczyk2013blind},~\cref{eq:blaster:xrel_toepl} is solved using an adaptive time-frequency-domain approach while~\citeonly{aissa2008blind} proposes to use the $\ell_p$-norm instead of the $\ell_1$-norm.
 Choosing $p < 1$, sparsity is enforced, however the problem become non-convex and ad-hoc optimization technique was proposed.
 A successful approach has been presented recently by the authors of~\citeonly{crocco2016estimation}, where the anchor constraint is replaced by an \textit{iterative weighted} $\ell_1$ equality constraint, \ie/, such that at each iteration $z$, $\ktranspose{\bfp^{(z)}}\bfh^{(z)} = 1$.\sidenote{
-    Note that when $\bfp^{(z)} = 1$, the constraint returns to the $\ell_1$ penalty.}
+    Note that when $\bfp^{(z)} = \onesVect$, the constraint returns to the $\ell_1$ penalty.}
 In particular, the method is initialized using the solution of \citeonly{lin2007blind} and iterated enforcing sparsity using the solution of the previous problem, that is $\bfp^{(z)} = \hat{\bfh}^{(z-1)}$.
-The reader can can found a comprehensive review of these methods in~\citeonly{crocco2015room,crocco2016estimation}.
+The reader can find a comprehensive review of these methods in~\citeonly{crocco2015room,crocco2016estimation}.
 
 \newthought{The limitation of the discrete-time methods} described above are the followings:
 \marginpar{
@@ -195,6 +195,7 @@ The reader can can found a comprehensive review of these methods in~\citeonly{cr
     \includegraphics[trim={0 0 0 0},clip,width=\linewidth]{blaster/bodyguard.png}
     \captionof{figure}{%
         Schematics of the \textit{bodyguard effect} affecting on-grid approaches.
+        This is only true if $\flt$ is non-negative.
     }
     \label{fig:blaster:bodyguard}
 }
@@ -205,20 +206,20 @@ The reader can can found a comprehensive review of these methods in~\citeonly{cr
     As these methods operates fundamentally \textit{on-grid}, they return echoes' timings which are integer multiples of the $\Fs$.
     \item \textit{Bodyguard effect}.
     In addition to affecting the \AER/ performance, on-grid methods may converge slowly to suboptimal solutions.
-    In fact, as show in~\cref{fig:blaster:bodyguard}, instead of estimating the peak at its true location, two smaller ``bodyguard'' peaks are estimated around it instead.
+    In fact, as shown in~\cref{fig:blaster:bodyguard}, instead of estimating the positive peaks at its true location, two smaller ``bodyguard'' peaks are estimated around it instead.
     The estimation procedure may stop at this point returning two wrong peaks.
-    Having smaller coefficients, this peaks may not be selected by the subsequent peak picking technique.
+    Having smaller coefficients, these peaks may not be selected by the subsequent peak picking technique.
     Alternatively, the optimization procedure may continue, alternating tuning the weights of the two ``bodyguards'', without converging to a solution.
     \item \textit{Computational bottleneck}.
     A way to cope with the above limitations is to increase the $\Fs$.
-    However this results into a memory and computational bottleneck as several huge (Toeplitz) matrices needs to be built, one for each pair of microphones.
-    In addition, this leads the risk that the optimization problem becomes ill-conditioned.
+    However this results into a memory and computational bottleneck as several huge (Toeplitz) matrices need to be built, one for each pair of microphones.
+    In addition, this leads to the risk that the optimization problem becomes ill-conditioned.
 \end{itemize}
 
 \mynewline
-In the following section we will present a novel approach with aims at addressing the above limitation.
-It is based on a framework proposed for solving \ac{LASSO} problems for continuos variables, hence the name \ac{CD}.
-Before, let us show how to express to express the on-grid \BCE/ problem proposed by~\citeonly{lin2008blind} (See \cref{tab:blaster:sota}) as a standard \LASSO/ problem.
+In the following section we will present a novel approach that aims at addressing the above limitations.
+It is based on a framework proposed for solving \ac{LASSO} problems for continuous variables, hence the name \ac{CD}.
+Before, let us show how to express the on-grid \BCE/ problem proposed by~\citeonly{lin2008blind} (See \cref{tab:blaster:sota}) as a standard \LASSO/ problem.
 
 \subsection{From cross-relation to LASSO}
 Integrating the sparse penalty and the constraints proposed in \cref{eq:blaster:sota},
@@ -242,7 +243,7 @@ the \BSNdef/ problem proposed reads
     \end{cases}
     .
 \end{equation}
-This cross-relation based optimization problem can rewritten in the \LASSO/ formulation of~\cref{eq:blaster:lasso} as
+This cross-relation based optimization problem can be rewritten in the \LASSO/ formulation of~\cref{eq:blaster:lasso} as
 \begin{equation*}
     u
     =
@@ -268,7 +269,7 @@ where
     A =
     \begin{pmatrix}
         -T_2[:, 1:] & T_1
-    \end{pmatrix},
+    \end{pmatrix}
     ,
 \end{equation*}
 where $T_i = \scrT(x_i)$.
@@ -295,11 +296,11 @@ holds even during the introduced measurement process, hence
     =
     \fourierTrans(\idealLowPassFilter\ast\contRecordedSignal_2) \cdot \fourierTrans \contFilter_1^\star
 \end{equation}
-where $\fourierTrans$ denotes the \FTdef/ described in~\cref{sec:processing:domains}
+where $\fourierTrans$ denotes the \FTdef/ described in~\cref{sec:processing:domains}.
 \\In contrast with \SIMO/-\BCE/ methods that operates in the time domain, here we propose to use~\cref{eq:blaster:cross-relation-identity-fourier} in a penalized least-square problem.
 Such a formulation in the Fourier domain may even be considered as more convenient since the convolution operator is no longer involved.
 While the \FT/ of $\contFilter_i^\star$ can be expressed in closed-form (see~\cref{eq:blaster:closed-form-TF-dirac-N} below), the \FT/ of $\idealLowPassFilter\ast\contRecordedSignal_i$ is not available due to the measurement process.
-To circumvent this issue, following approximation detailed in~\cref{subsec:processing:ftapprox}, we consider the \DFTdef/ of the $\contRecordedSignal_i$:
+To circumvent this issue, coming from approximations detailed in~\cref{subsec:processing:ftapprox}, we consider the \DFTdef/ of $\contRecordedSignal_i$:
 \begin{equation}
     \label{eq:blaster:approx-TF}
     \fourierTrans(\idealLowPassFilter\ast\contRecordedSignal_i)
@@ -326,8 +327,8 @@ Let us define $\paramVec{\tau}$ the following parametric vector of complex expon
     \in\bbC^{N+1}
     ,
 \end{equation}
-where we consider only the $N$ positive frequency due to the Hermitian symmetry of the signal spectra in this application.
-Therefore, the Fourier-domain cross-relation of~\cref{eq:blaster:cross-relation-identity-fourier} evaluated at $f = \frac{k}{2N}F_s$ where $k \in \{0,\ldots, N\}$
+where we consider only the $N$ positive frequencies due to the Hermitian symmetry of the signal spectra in this application.
+Then, the Fourier-domain cross-relation of~\cref{eq:blaster:cross-relation-identity-fourier} evaluated at $f = \frac{k}{2N}F_s$ where $k \in \{0,\ldots, N\}$
 reads
 
 \begin{equation}
@@ -358,7 +359,7 @@ Then, the two desired filters  $\contFilter_1^\star$, $\contFilter_2^\star$ give
 \end{equation}
 where $\delta_{(\tau^{(r)}, i)}$ denotes the Dirac measure which is different from the Dirac function used when modeling the \RIRs/.
 The need of defining a measure over the parameter set $\Theta$ makes easier the parametrization of the problem in the context of \CD/.
-For instance, it is possible to better define operations which are used in the algorithms and in the literature to solve the such type problems.
+For instance, it is possible to better define operations which are used in the algorithms and in the literature to solve this type of problems.
 \\Moreover, the rationale behind~\cref{eq:blaster:parameter-set} and~\cref{eq:blaster:representation_filter_measure} is as follows.
 A couple of filters is now represented by a single stream of Diracs, where we have considered an augmented variable $i$ indicating to which filter the spike belongs.
 For instance, a Dirac measure at $(\tau, 1)$ indicates that the filter 1 contains a Dirac at $\tau$.
@@ -451,9 +452,10 @@ In that case, the first equality constraint in~\eqref{eq:blaster:TV-BP} is relax
 \end{equation}
 We emphasize that although continuous Radon measures may potentially be admissible, the minimizers of~\cref{eq:blaster:TV-BLASSO} are \emph{guaranteed} to be streams of Dirac\textit{s}~\citeonly[Theorem~4.2]{bredies2020sparsity}.
 In addition, although problem~\cref{eq:blaster:TV-BLASSO} seems to depend on some regularization parameter $\lambda$, we describe in~\cref{sec:blaster:lambda} a procedure to automatically tune it to recover a desired number of spikes.
-Finally, note that problem~\cref{eq:blaster:TV-BLASSO} is convex with linear constraints over the parameter set $\Theta$.
+Finally, note that the problem in~\cref{eq:blaster:TV-BLASSO} is convex with linear constraints over the parameter set $\Theta$.
 Therefore, theoretically, the problem can be solved exactly.
-However, in practice, optimization over space of measures, still complicated because many steps can only be done up to a prescribed precision.
+However, optimizing over the infinite-dimensional space of measures is not possible, and hence non-convex optimization with respect to the measures \textit{parameters} is performed instead.
+% However, in practice, optimization over space of measures, still complicated because many steps can only be done up to a prescribed precision.
 % 1) you define atome function (14) without the dirac measure
 % ex: a: tau -> a(tau)
 % 2) you define the desired filter as \sum_{c_{i, r}} a(\tau_{i, r})
@@ -514,15 +516,15 @@ Now, some parallelism can be envisioned:
 }
 
 \subsection{The resulting algorithm}
-The algorithm used to solve~\cref{eq:blaster:TV-BLASSO} is an instance the sliding Frank-Wolfe algorithm proposed in~\citeonly{denoyelle2019sliding} to solve~\cref{eq:blaster:TV-BLASSO}.
+The algorithm used to solve~\cref{eq:blaster:TV-BLASSO} is an of instance the sliding Frank-Wolfe algorithm proposed in~\citeonly{denoyelle2019sliding} to solve~\cref{eq:blaster:TV-BLASSO}.
 Detailed descriptions of the steps of the algorithm are given in~\citeonly[Supplementary Material]{di2020blaster}.
-In a nutshell, the algorithm iterative over the following steps until a condition on the cost function is met.
+In a nutshell, the algorithm iterates over the following steps until a condition on the cost function is met.
 \begin{enumerate}
-    \item \textit{Anchor constrain}.
+    \item \textit{Anchor constraint}.
     At first the anchor constraint in added arbitrarily on one of the two filters. This is used to initialize the two filters.
     \item \textit{\textit{Local} cost based on Cross-relation}.
     For both the filters, a local cost-function derived from the cross-relation for both the filters is computed.
-    At this step either the initialization or previously found solution are used.
+    At this step either the initialization or a previously found solution is used.
     \item \textit{Find the maximizer}.
     A new candidate echo's location is found as maximizer among the two local cost functions of the previous step.
     \item \textit{Update the amplitudes}.
@@ -531,7 +533,7 @@ In a nutshell, the algorithm iterative over the following steps until a conditio
     The position and the coefficient of the current solution are jointly refined to ease numeric resolution using the original cost function.
     \item \textit{Current solution and repeat}.
     The algorithm stops as soon as an iterate satisfies the first order optimality condition associated to the convex problem.
-    if not, the algorithm iterates from step 2. using the current solution as input.
+    Otherwise, the algorithm iterates from step 2. using the current solution as input.
 \end{enumerate}
 These steps are illustrated in~\cref{fig:blaster:sfw}.
 % \begin{figure}[h]
@@ -565,7 +567,7 @@ These steps are illustrated in~\cref{fig:blaster:sfw}.
 % \end{figure}
 
 \subsection{Homotopic path for $\lambda$ estimation}\label{sec:blaster:lambda}
-Existing works, as well as the proposed one, relies of the regularization $\lambda$ parameter to weight the sparsity penalty.
+Existing works, as well as the proposed one, rely on of the regularization parameter $\lambda$ to weight the sparsity penalty.
 However, this becomes an hyperparameter that needs to be carefully tuned according to the input data.
 Instead, we propose to compute a \textit{path of solutions} to automatically estimate it in~\cref{eq:blaster:TV-BLASSO}.
 In the context of sparse optimization this technique is also referred to as \textit{homotopic path}.
@@ -576,13 +578,13 @@ For each $\lambda^(z)$, we search for a solution of~\cref{eq:blaster:TV-BLASSO} 
 
 \section{Experiments}\label{sec:blaster:exp}
 The proposed method (\BLASTER/) is compared against the non-negative $\ell_1$-norm method (\algoBsn) of~\citeonly{lin2007blind} and the iterative $\ell_1$-norm approach (\algoCrocco) described in~\citeonly{crocco2016estimation}.\sidenote{
-    A reference implementation for \algoCrocco{} and \algoBsn{} were provided by the authors of~\citeonly{crocco2016estimation}.
+    Reference implementations for \algoCrocco{} and \algoBsn{} were kindly provided by the authors of~\citeonly{crocco2016estimation}.
 }
 The problem is formulated as estimating the time locations of the first $\numEchs=7$ strongest components of the RIRs for 2 microphones listening to a single sound source in a shoebox room. It corresponds to the challenging task of estimating first-order early reflections.
-The robustness of the methods is tested against different level of noise (SNR) and reverberation time (\RT{}).
+The robustness of the methods is tested against different levels of noise (SNR) and reverberation time (\RT{}).
 
 \mynewline
-The quality of the AER estimation is assessed in terms of precision\sidenote{
+The quality of AER estimation is assessed in terms of precision\sidenote{
     Since only $K$ time locations are considered in both the ground truth and the estimation, precision and recall are equal.}
 in percentage as in the literature of onset detection~\citeonly{bock2012evaluating} and the \RMSEtxt/ in samples.
 Both metrics evaluate only the \textit{matched} peaks, where a \textit{match} is defined as being within a small window $\thr$ of a reference delay.
@@ -592,7 +594,7 @@ These two metrics are similar to the ones used in~\citeonly{crocco2015room}.
 For this purpose we created three synthetic datasets of $1000$ observations each, which are summarized in~\cref{tab:blaster:datasets}.
 \begin{table}[ht]
     \begin{sidecaption}[]{
-        Summary of the dataset used for evaluation. \epsdice[black]{3} and \epsdice{5} stands for randomly sampled from a continuous and discrete set of values respectively with uniform low.
+        Summary of the dataset used for evaluation. \epsdice[black]{3} and \epsdice{5} stands for randomly sampled from a continuous and discrete set of values, respectively, with uniform law.
     }[tab:blaster:datasets]
     \centering
     \small
@@ -604,7 +606,7 @@ Moreover, while for \dsetValid{} broadband signals (white noise) are used as the
 The signal duration is kept fixed to 1 s with sampling frequency $\Fs = 16$ kHz.
 For a given \RT{} value and room with random dimensions, a unique absorption coefficient is assigned to all surfaces based on the Sabine's formula (\cref{eq:processing:sabine}).
 Then, the two microphones and the source are randomly positioned inside the room.
-The parameters of such audio scene are then passed as input to the \pyroomacoustics{} simulator~\citeonly{scheibler2018pyroomacoustics}, which returns the corresponding \RIRs/ as well as the \textit{off-grid} echo delays and attenuation coefficients computed with the \ISMdef/~\citeonly{allen1979image}.
+The parameters of the audio scene are then passed as input to the \pyroomacoustics{} simulator~\citeonly{scheibler2018pyroomacoustics}, which returns the corresponding \RIRs/ as well as the \textit{off-grid} echo delays and attenuation coefficients computed with the \ISMdef/~\citeonly{allen1979image}.
 Note that when generating the data, no samples have been pruned to match any minimal separation condition.
 To generate the microphone signals, an over-sampled version of the source signal is convolved with ideal \RIRs/ at high frequency ($\Fs=1024$ kHz) made up of on-grid Dirac\textit{s}.
 The results are later resampled to meet the original $\Fs$ and Gaussian white noise is added to meet the given SNR value.
@@ -622,7 +624,7 @@ Using speech rather than broadband signals also yields worse results for all met
 However, the echo timing RMSE is significantly smaller using \algoBraire{} due to its off-grid advantage.
 We also note that \algoBraire{} significantly outperforms \algoCrocco{} on the task of recovering $\numEchs=2$ echoes.
 As showed in Tab.~\ref{tab:error_precision_thr}, in mild conditions ($\RT = 200$~ms, $\mathtt{SNR} = 20$~dB), up to 68\% of echoes can be retrieved by \algoBraire{} with errors lower than half a sample in that case.
-This is promising since the practical advantage of knowing the timing of two echoes per channel has been demonstrated in~\citeonly{di2019mirage} (See~\cref{ch:mirage}), and in~\citeonly{scheibler2018separake} (See~\cref{ch:separake}).
+This is promising since the practical advantage of knowing the timings of two echoes per channel has been demonstrated in~\citeonly{di2019mirage} (See~\cref{ch:mirage}), and in~\citeonly{scheibler2018separake} (See~\cref{ch:separake}).
 
 \begin{figure}[ht]
     \centering
@@ -660,15 +662,15 @@ This is promising since the practical advantage of knowing the timing of two ech
 
 \section{Conclusion}
 In this chapter we presented a novel knowledge-driven blind, off-grid echo retrieval method, based on the framework of continuous dictionaries.
-In particular ``knowledge'' we used is the echo model for the early part of the \RIRs/.
-The main motivation behind this approach is to overcome the pathological limitation of classic methods for \ac{BCE}, discussed in the previous chapter.
-Despite an heavy mathematical formulation, it can be as the continuos extension of an \LASSO/ problem used for addressing \ac{BCE}.
+The particular ``knowledge'' we used is the echo model for the early part of the \RIRs/.
+The main motivation behind this approach is to overcome the pathological limitation of classical methods for \ac{BCE}, discussed in the previous chapter.
+Despite an heavy mathematical formulation, it can seen as as the continuous extension of a \LASSO/ problem used for addressing \ac{BCE}.
 Comparisons with state-of-the-art approaches on various noise and reverberation conditions show that this method performs best when the number of echoes to retrieve is small.
 Future works will include many exciting directions, such as:
 \begin{itemize}
     \item extending the framework to multichannel recordings using the Multichannel cross-relation, as already envisioned by the related works~\citeonly{crocco2015room,lin2008blind};
     \item compare this approach with other off-grid \AER/ methods  ~\citeonly[Chapter 6]{peic2020sparse};
-    \item adapt this approach for dealing with \ReTF/ which allow for source-independent acoustic features (See~\cref{ch:dechorateapp});
+    \item adapt this approach to deal with \ReTF/ which allow for source-independent acoustic features (See~\cref{ch:dechorateapp});
     \item use deep learning approaches to estimate the level of sparsity (\aka/ number of the most relevant echoes) in the \RIRs/;
-    \item and, validate the approach on real-world recordings, such as the one provided by the \ac{DECHORATE} dataset (See~\cref{ch:dechorate}).\qed
+    \item validate the approach on real-world recordings, such as the one provided by the \ac{DECHORATE} dataset (See~\cref{ch:dechorate}).\qed
 \end{itemize}

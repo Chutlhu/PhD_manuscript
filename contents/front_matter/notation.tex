@@ -8,7 +8,7 @@
         $x_i$   & $i$-th entry of $\bfx$ \\
         $\zeroVect_I$ & $I\times1$ vector of zeros\\
         $\ktranspose{\bfx}$   & transpose of the vector $\bfx$ \\
-        $\khermitian{\bfx}$   & conjugate-transpose (hermitian) of the vector $\bfx$ \\
+        $\khermitian{\bfx}$   & conjugate-transpose (Hermitian) of the vector $\bfx$ \\
         $\kRe[x]$ & real part scalar (vector) $x$ ($\bfx$) \\
         $\kIm[x]$ & imaginary part scalar (vector) $x$ ($\bfx$) \\
         $\csti$  & imaginary unit \\
@@ -24,12 +24,12 @@
     \begin{tabular}{ll}
         $i$     & microphone or channel index in $\{0, \ldots, I-1\}$      \\
         $j$     & source index in $\{0, \ldots, J-1\}$      \\
-        $r$     & reflection (echo) in $\{0, \ldots, R-1\}$      \\
-        $t$     & continuous sample index\\
+        $r$     & reflection (echo) index in $\{0, \ldots, R-1\}$      \\
+        $t$     & continuous time index\\
         $n$     & discrete sample index in $\{0, \ldots, N-1\}$ \\
         $f$     & continuous frequency index in $\set{0, \ldots, T-1}$\\
         $k$     & discrete frequency index in $\{0, \ldots, F-1\}$ \\
-        $l$     & discrete time-frame index $\{0, \ldots, L-1\}$\\
+        $l$     & discrete time-frame index in $\{0, \ldots, L-1\}$\\
         $\tau$  & continuous tap index
     \end{tabular}
 \end{table}
@@ -66,8 +66,8 @@
         $c_{ij}$  & spatial image source $j$ as recorded at microphone $i$\\
         $a_{ij}$  & acoustic impule response from source $j$ to microphone $i$ \\
         $h_{ij}$  & generic filter from source $j$ to microphone $i$ \\
-        $n_{i}$   & (white \textbf{or} distortion) noise signal at microphones $i$\\
-        $u_{i}$   & generic interfering \textbf{and} distrortion noise signal at microphone $i$ \\
+        $n_{i}$   & (white \textbf{or} distortion) noise signal at microphone $i$\\
+        $u_{i}$   & generic interfering \textbf{and} distortion noise signal at microphone $i$ \\
         $\varepsilon_{i}$   & generic noise signal due to mis- or under-modeling $i$ \\
     \end{tabular}
 \end{table}
@@ -75,18 +75,18 @@
 \section*{Acoustic}
 \begin{table}[H]
     \begin{tabular}{ll}
-        $\alpha_{r}$   & attenuation coefficient at reflection $r$\\
-        $\beta_{r}$    & reflection coefficient at reflection $r$\\
-        $\tau_{r}$     & time location of the reflection $r$\\
+        $\alpha_{r}$    & attenuation coefficient at reflection $r$\\
+        $\beta_{r}$     & reflection coefficient at reflection $r$\\
+        $\tau_{r}$      & time instant of the reflection $r$\\
         $\cair$         & speed of sound in air\\
         $\temperature$  & temperature\\
         $\rhumidity$    & relative humidity\\
         $\pressure$     & sound pressure\\
-        $\rir_{ij}$     & Room Impulse Response between source $j$ to microphone $i$ \\
+        $\rir_{ij}$     & Room Impulse Response from source $j$ to microphone $i$ \\
     \end{tabular}
 \end{table}
 
-\section*{Mathematical Operation}
+\section*{Mathematical Operations}
 \begin{table}[H]
     \begin{tabular}{ll}
         $\convCont$          & continuous time convolution\\

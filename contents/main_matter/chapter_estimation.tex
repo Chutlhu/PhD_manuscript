@@ -30,7 +30,7 @@ Hereafter we will make explicit the distinction between the two.
     This will not be further discussed in this thesis
 }
 
-\section{Taxonomy of Acoustic Echo Retrieval methods}\label{sec:estimation:taxonomy}
+\section{Taxonomy of acoustic echo retrieval methods}\label{sec:estimation:taxonomy}
 
 % In general, we can identify four main categories which differ on whether the source signal is known and on whether the estimation of the \RIR/ is performed.
 
@@ -495,14 +495,6 @@ The following metrics are used:
     This metric describes the mean error between estimated and referenceecho \TOAs/.
     Unfortunately, the \RMSEtxt/ is proportional to the size of the squared error, thus is sensitive to outliers.
     In the context of \AER/, the \RMSEtxt/ is computed only on the matched \TOAs/.
-
-    % \item[the \TOAs/ \NRMSEtxt/] is defined as
-    % \begin{equation}
-    %     \RMSE(\hat{\boldsymbol{\tau}}, \boldsymbol{\tau}) \eqdef \frac{\RMSE(\hat{\boldsymbol{\tau}}, \boldsymbol{\tau})}{\norm{\boldsymbol{\tau}}- \boldsymbol{\tau}_\text{min}}
-    %   'NRMSE': FIT(i) = 1 - (norm(XREF(:,i)-X(:,i)))/(norm(XREF(:,i)-mean(XREF(:,i))))
-    % \end{equation}
-    % This metrics was proposed for comparing multi-class regression models with different scales.
-    % The nRMSE takes values between 0 (perfect fit) and ∞ (bad fit). If it is equal to 1, then the prediction is no better than a constant.
     \item the \textit{Precision, Recall, and F-measure} are standard metrics used in information retrieval for evaluating classification problems, \eg/ in onset detection~\citeonly{bock2012evaluating}.
     Here the real valued estimates and groundtruth need to be converted into binary values indicating a \textit{match}.\marginpar{
         \footnotesize
