@@ -1,6 +1,12 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{dissertation}[2018/01/01 v0.1 Dissertation Class]
 
+\newcommand{\myTitle}{Echo-aware signal processing for audio scene analysis}
+\newcommand{\myName}{Diego DI CARLO}
+\newcommand{\myUni}{Universit\'{e} de Rennes 1}
+\newcommand{\myFaculty}{Signal, Image and Vision}
+\newcommand{\myKeywords}{Audio Signal Processing, Acoustic Echoes, Blind Channel Estimation, Sound Source Separation, Sound Source Localization, Room Geometry Estimation}
+
 \DeclareOption{draft}{\PassOptionsToClass{\CurrentOption}{memoir}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{memoir}}
 \ProcessOptions\relax
@@ -552,12 +558,12 @@
   urlcolor = urlcolor,
   citecolor = citecolor,
   pdfpagelayout=TwoPageLeft,
-  % pdftitle={\myTitle},%
-  % pdfauthor={\textcopyright\ \myName, \myUni, \myFaculty},%
+  pdftitle={\myTitle},%
+  pdfauthor={\myName, \myUni, \myFaculty},%
   % pdfsubject={},%
-  % pdfkeywords={},%
-  % pdfcreator={pdfLaTeX},%
-  % pdfproducer={LaTeX with hyperref and classicthesis}%
+  pdfkeywords={\myKeywords},%
+  pdfcreator={pdfLaTeX},%
+  pdfproducer={LaTeX with hyperref and classicthesis}%
 }
 
 \RequirePackage[capitalise,nameinlink]{cleveref}

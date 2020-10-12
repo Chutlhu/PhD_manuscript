@@ -26,7 +26,8 @@ Furthermore we assume a static far field scenario and we model each $\idxSrc$ so
 This is a reasonable assumption in the context of table-top devices, such as smart home devices.
 \begin{figure}[]
     \begin{sidecaption}[Audio Scene]{%
-        Illustration of an indoor audio scene recorded by two microphones.
+        Illustration of an indoor audio scene recorded by three microphones.
+        The microphone signals capture the reverberant mixture of several sound sources such as speech, music (guitar) and background diffuse noise (an air conditioner).
     }[fig:estimation:audioscene]
     \centering
     \resizebox{\linewidth}{!}{\input{figures/application/audio_scene.tikz}}
@@ -43,8 +44,8 @@ or alternatively, using the source spatial image signals,
 \begin{equation}
     \label{eq:application:mix_img}
     \begin{aligned}
-        \mic_\idxMic[n]     &= \sum_{\idxSrc = 1}^{\numSrcs} \img_{\idxMicSrc}[n] + \nse_\idxMic[n],\\
         \img_{\idxMicSrc}[n]  &= \kparen{\flt_{\idxMicSrc}( \positionMicrophone_{\idxMic}  | \positionSource_{\idxSrc}) \convDis \src_{\idxSrc}}[n]
+        \mic_\idxMic[n]     &= \sum_{\idxSrc = 1}^{\numSrcs} \img_{\idxMicSrc}[n] + \nse_\idxMic[n],\\
         .
     \end{aligned}
 \end{equation}
@@ -353,7 +354,7 @@ This chapter presented some fundamental audio signal processing problems and an 
 These problems will be considered in their echo-aware settings in the following chapters, in particular:
 \begin{itemize}
     \item Multichannel NMF-based Audio Source Separation in~\cref{ch:separake},
-    \item SRP-PHAT-based Sound Source Localization in~\cref{ch:mirage},
+    \item SRP-PHAT-based Sound Source Localization in~\cref{ch:mirage} using only two microphones,
     \item and in~\cref{ch:dechorateapp}, we will discuss some applications of the \library{dEchorate} dataset (\cref{ch:dechorate}) for some beamformers-based Spatial filtering methods (\cref{sec:dechorateapp:se})
             and room geometry estimation (~\cref{sec:dechorateapp:rooge}).
 \end{itemize}
