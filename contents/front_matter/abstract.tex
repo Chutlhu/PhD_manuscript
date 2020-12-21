@@ -10,7 +10,7 @@ Audio\marginpar{
 } scene analysis aims at retrieving useful information from microphone recordings.
 Examples of these problems are sound source separation and sound source localization, where we are interested in estimating the content and location of multiple sources of sound in an environnement.
 As humans, we perform these tasks without effort. However, for computers and robots, they are still open challenges.
-One of the main limitations is that most available technologies solve audio scene analysis problems considering either the sound's semantic or its spatial information.
+One of the main limitations is that most available technologies solve audio scene analysis problems either ignoring how sound propagates in the environment or estimating it fully.
 
 \mynewline
 The central theme of this theses is acoustic echoes: the sound propagation elements bridging semantic and spatial information on sound sources.
@@ -22,7 +22,7 @@ However, two main questions arise: how to estimate acoustic echoes, and how to u
 \mynewline
 This thesis work aims at improving the current state-of-the-art for indoor audio signal processing along these two axes.
 It also provides new methodologies and data to process acoustic echoes and surpass current approaches' limits.
-To this end, we present two approaches:
+To this end, in the first part, we present two approaches:
 a novel approach based on the  continuous dictionary framework which does not rely on parameter tuning or peak picking techniques;
 a deep learning model estimating the time differences of arrival of the first prominent echoes using physically-motivated regularizers.
 Furthermore, we present a novel, fully annotated dataset specifically designed for acoustic echo retrieval and echo-aware applications, paving the way for future echo-aware research.

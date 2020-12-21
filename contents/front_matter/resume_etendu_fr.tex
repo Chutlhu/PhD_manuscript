@@ -28,7 +28,7 @@ De plus, il prolonge les méthodes classiques d'analyse de scènes audio des for
 Ces deux contributions sont développées dans les deux parties principales de la thèse, qui viennent après une introduction, comme résumé ci-dessous.
 
 % \newthoughtpar{Parte I, L'acoustique des salles rencontre le traitement numérique des signaux}
-\newthoughtpar{Partie~\ref{pt:background}, L'acoustique des salles le rencontre traitement du signal}
+\newthoughtpar{Partie~\ref{pt:background}, L'acoustique des salles rencontre traitement du signal}
 Tout d'abord, nous donnons quelques définitions préliminaires en traitement du signal audio et énumérons quelques problèmes fondamentaux qui seront abordés tout au long de la thèse, à savoir l'estimation d'échos acoustiques, la séparation de sources audio, la localisation de sources sonores et l'estimation de la géométrie d'une pièce.
 \begin{itemize}
     \item
@@ -42,7 +42,7 @@ Tout d'abord, nous donnons quelques définitions préliminaires en traitement du
 Ce chapitre clôt la première partie introductive.
 
 
-\newthoughtpar{Partie~\ref{pt:estimation} - Estimation d'Echos Acoustiques}
+\newthoughtpar{Partie~\ref{pt:estimation} - Estimation d'echos acoustiques}
 Dans cette deuxième partie de la thèse, nous nous intéressons à l'estimation des premiers échos acoustiques à partir d'enregistrements microphoniques.
 Basée sur les modèles et définitions décrits dans la première partie, cette partie comprend d'abord un aperçu général des méthodes d'estimation d'échos, suivi de la présentation de deux travaux publiés lors de conférences internationales et d'un ensemble de données sur le point d'être publié.
 \begin{itemize}
@@ -57,7 +57,7 @@ Basée sur les modèles et définitions décrits dans la première partie, cette
     La précision et la robustesse de la méthode sont évaluées sur des configurations simulées difficiles, avec des niveaux de bruit, et de réverbération variables et sont comparées à deux méthodes de l'état de l'art.
     L'évaluation expérimentale sur des données synthétiques montre que des taux de récupération comparables ou légèrement inférieurs sont observés pour la récupération de sept échos ou plus.
     En revanche, de meilleurs résultats sont obtenus pour un nombre d'échos inférieurs, et la nature "off-grid" de l'approche donne généralement des erreurs d'estimation plus faibles.
-    C'est prometteur, puisque l'avantage pratique de connaître lles temps d'arrivée de quelques échos par canal sera démontré dans la dernière partie de la thèse.
+    C'est prometteur, puisque l'avantage pratique de connaître les temps d'arrivée de quelques échos par canal sera démontré dans la dernière partie de la thèse.
     \item
     Dans le chapitre~\ref{ch:lantern}, nous proposons des techniques d'apprentissage profond pour estimer les propriétés des échos acoustiques.
     À notre connaissance, il s'agit des premières méthodes de ce type pour ce problème, même si elles présentent des points communs avec des techniques d'apprentissage profond pour la localisation de sources sonores.
@@ -92,7 +92,7 @@ La structure de cette partie suit le format de la précédente.
     Le chapitre~\ref{ch:mirage} aborde le problème de la localisation de sources audio dans le contexte de forts échos acoustiques.
     En utilisant le modèle de microphones-images présenté dans le chapitre précédent, nous montrons que ces contributions parasites peuvent être utilisées pour modifier la manière classique dont la localisation de sources est effectuée.
     En particulier, nous montrons que dans un scénario simple impliquant deux microphones proches d'une surface réfléchissante et d'une source, l'approche proposée est capable d'estimer à la fois les angles d'azimut et d'élévation, tâche impossible en supposant une propagation idéale, comme le font les approches classiques.
-    Ces résultats ont fait l'objet d' une publication pour une conférence internationale.
+    Ces résultats ont fait l'objet d'une publication pour une conférence internationale.
     \item
     Le chapitre~\ref{ch:dechorateapp} présente deux applications sensibles aux échos pouvant être utilisées sur l'ensemble de données \dEchorate, présenté dans le chapitre~\ref{ch:dechorate}.
     Nous illustrons l'utilisation de ces données en considérant deux problèmes possibles d'analyse de scènes audio:
@@ -103,10 +103,10 @@ La structure de cette partie suit le format de la précédente.
     L'ensemble des données et ces méthodes seront rendus publics pour que des contributeurs externes puissent les afin de pour développer des méthodes de traitement audio plus robustes.
 \end{itemize}
 
-\newthought{La dernière partie}\ref{pt:epilogue} comprend le dernier chapitre (Chapitre~\ref{ch:conclusion}), qui récapitule les principaux résultats présentés dans ce manuscrit et les perspectives liées à ce travail.
+\newthought{La dernière partie}~\ref{pt:epilogue} comprend le dernier chapitre (Chapitre~\ref{ch:conclusion}), qui récapitule les principaux résultats présentés dans ce manuscrit et les perspectives liées à ce travail.
 Parmi ceux-ci, nous montrons comment peu d'échos acoustiques peuvent être estimés à partir de la seule observation d'enregistrements microphoniques comportant de la parole réverbérante en utilisant un modèle dérivé de la physique de la propagation du son ou des modèles d'apprentissage profond sur simulateur acoustique.
 De plus, nous démontrons les avantages d'inclure la connaissance des échos acoustiques dans les méthodes de traitement du son.
-Pour ce qui est de l'évaluation sur donénes réelles,, nous observons que des ensembles de données de référence disponibles librement manquent actuellement dans la littérature.
+Pour ce qui est de l'évaluation sur données réelles, nous observons que des ensembles de données de référence disponibles librement manquent actuellement dans la littérature.
 Par conséquent, dans l'esprit de la recherche ouverte, nous construisons un nouvel ensemble de données qui sera bientôt publié.
 Ces données sont accompagnées d'annotations précises et d'outils algorithmiques pour la recherche "echo-aware", couvrant une grande partie des applications en analyse de scènes audio.
 
