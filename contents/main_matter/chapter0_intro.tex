@@ -2,22 +2,22 @@
 \openepigraph{\emph{Echoes} shows the direction that we’re moving in.}{David Gilmour,\\ making of ``The Dark Side Of The Moon''}
 % \openepigraph{One does not simply [...]}{Boromir}
 
-\vspace{-2.5em}
 % \marginpar{%
 %     \footnotesize
 %     \textbf{Resources:}
 %     \begin{itemize}
-%         \item[\faYoutube] \href{https://www.youtube.com/watch?v=lLUcOFwZvyY&t=22s}{Testing The World's Longest Echo}
-%         \item[\faYoutube] \href{https://www.youtube.com/watch?v=px3oVGXr4mo}{SKUNK BEAR : What Does Sound Look Like?}
-%         \item[\faYoutube] \href{https://www.youtube.com/watch?v=ZwgovJSQ5UM}{ARTE : La Magie Du Son}
-%         \item[\faYoutube] \href{https://www.youtube.com/watch?v=uH0aihGWB8U&t=631s}{Daniel Kish: How I use sonar to navigate the world}
-%     \end{itemize}
-% }
+    %         \item[\faYoutube] \href{https://www.youtube.com/watch?v=px3oVGXr4mo}{What Does Sound Look Like?}
+    %         \item[\faYoutube] \href{https://www.youtube.com/watch?v=uH0aihGWB8U&t=631s}{Daniel Kish: How I use sonar to navigate the world}
+    %         \item[\faYoutube] \href{https://www.youtube.com/watch?v=ZwgovJSQ5UM}{ARTE : La Magie Du Son}
+    %         \item[\faYoutube] \href{https://www.youtube.com/watch?v=lLUcOFwZvyY&t=22s}{Testing The World's Longest Echo}
+    %     \end{itemize}
+    % }
 
 
-\def\MyText{\textsc{Echoooes}}
-\newcommand\mytext[2][black]{\scalebox{#2}{\textcolor{#1}{\MyText}}}
+    \def\MyText{\textsc{Echoooes}}
+    \newcommand\mytext[2][black]{\scalebox{#2}{\textcolor{#1}{\MyText}}}
 
+\vspace{-2.5em}
 \newthought{In a nutshell,} this \PhD/ thesis is about acoustic
 \stackinset{c}{4ex}{c}{ 1.4ex}{\mytext[black!70]{.8}}{%
 \stackinset{c}{2ex}{c}{ 3.2ex}{\mytext[black!25]{.7}}{%
@@ -46,8 +46,7 @@ In addition to the semantic content, a sound also conveys \textit{temporal} and 
 For instance, the ticking of a metronome\sidenote{
     For his experiments, Galileo Galilei was measuring time using the sound of a metronome.
 } or clock provides units of time and when hearing someone shouting, we unconsciously know where to turn our attention.
-% Therefore, as for the content, this information is still carried by the sound.
-However, this information is determined by how sound \textit{propagates} in space and not by the source itself.
+However, this latter information is determined by how sound \textit{propagates} in space and not by the source itself.
 
 \mynewline
 Before reaching the ears, sound propagates in all directions and a portion of its energy arrives at us directly, and another indirectly, after being reflected around.
@@ -74,11 +73,12 @@ In contrast, in \textit{passive} echo-location, external, unknown sound sources 
     By tapping their canes or clicking their tongues, they are able for instance to avoid obstacles when walking.
     In the 18th century, French philosopher Denis Diderot recorded the this incredible ability, which was labeled as ``echo-location'' only 300 years later by Donald Griffin.
     ~\citeonly{kolarik2014summary}.
+    \\\href{https://www.youtube.com/watch?v=uH0aihGWB8U&t=631s}{How I use sonar to navigate the world~\ExternalLink}
 }
 ``Locating it'' means estimating its delay with respect to the direct sound.
 These delays are then processed as distances in the brain, in the same way our grandparents taught us to localize a storm by counting the time between a lightning and its thunder.
 That is how bats and whales find preys, see obstacles, and orientate themselves in dark caves or deep seas.
-However, the term ``echo-location'' here could be misleading as it may solely refer to the to the only problem of locating objects.
+However, the term ``echo-location'' here could be misleading as it may solely refer to the only problem of locating objects.
 As we will discuss later, the application of echoes goes beyond simple localization.
 Therefore, in this thesis, we will prefer the terminology of \textit{echo estimation}.
 
@@ -126,8 +126,8 @@ Typical signals are speech or music, and various mathematical and algorithmic te
 }
 There are multiple reasons to do this, such as producing new signals with higher quality or and retrieving high-level information that the signal carry.
 To this end, complex systems are built which can be represented as a collection of simpler subsystems, with well-defined tasks, interacting with each other.
-In (audio) signal processing, these subsystems roughly fall into four categories: \textit{representation}, \textit{enhancement}, \textit{estimation}, and \textit{adaptive processing}.
-Many related problems can be then decomposed into blocks which are include one or more of the following steps.
+In (audio) signal processing, these subsystems into categories, for instance, \textit{representation}, \textit{enhancement}, \textit{estimation}, \etc/.
+Many related problems can be then decomposed into blocks, which may include one or more of the following steps.
 
 \newthought{Representation}.
     The signals can be represented in many different ways, so that the \textit{information} they contain becomes more easily accessible for specific tasks.
@@ -144,13 +144,11 @@ Many related problems can be then decomposed into blocks which are include one o
     Often, we wish to estimate some key properties of the target signal, which may be used as inputs to a different algorithm.
     For instance, we may be interested in estimating a speaker's position in a recording, the time of arrival of an echo, or the pitch of a sound.
 
-\newthought{Adaptive processing}.
-    It deals with algorithms that are able to adapt themselves to the data.
-    They typically process the data on the fly and are controlled by variable parameters resulting from previous estimation blocks.
-    They usually rely on the optimization of an objective function designed to meet specific requirements.
-    Examples of these algorithms are present in noise-canceling headphones or echo cancellation modules implemented in video conference call systems.
-
-
+\mynewline
+Enhancement and estimation can be conducted in \textit{adaptive} fashion, namely with algorithms that are able to adapt themselves to the data.
+They typically process the data on the fly and are controlled by variable parameters resulting from previous estimation blocks.
+They usually rely on the optimization of an objective function designed to meet specific requirements.
+Examples of these algorithms are present in noise-canceling headphones or echo cancellation modules implemented in video conference call systems.
 
 \section{Audio scene analysis}\label{sec:intro:scene}
 Pay attention to what you are hearing right now:
@@ -223,14 +221,14 @@ As modified by the frequency description of the object that generates them, they
     In telecommunication and networking, for instance, where these phenomena are referred to as \textit{multipath propagation}.
 }.
 However, it was not always the case.
-Many audio scene analysis methods make limiting assumptions on of the sound propagation to derive efficient algorithms.
+Many audio scene analysis methods make limiting assumptions on the sound propagation to derive efficient algorithms.
 One of the most common ones is the so-called \textit{anechoic} or \textit{free-field} scenario, assuming neither echoes nor reverberation is present in the audio scene.
 Even if this assumption can be seen as reasonable in some scenarios, it is easy to understand its underlying limitations when applied to real-world recordings.
 Furthermore, in some cases, echoes are considered a source of noise and interference and then modeled as something to cancel out.
 
 \mynewline
 Instead, some researchers proposed to explicitly include acoustic echoes in leading to what we will refer to as \textit{echo-aware methods}.
-Some of the earliest examples in this direction are the works of Flanagan et al\citeonly{flanagan1993spatially, jan1995matched, jan1996sound} in source enhancement.
+Some of the earliest examples in this direction are the works of~\citeonly{flanagan1993spatially, jan1995matched, jan1996sound} in source enhancement.
 However, only recently, these methods have regained interest in audio processing as manifested by the European project SCENIC~\citeonly{Annibale2011scenic} and the UK research \href{http://www.s3a-spatialaudio.org/}{S$^3$A project}.
 In some recent studies, echoes are used to boost performances of typical audio scene analysis problems, \eg/, speech enhancement \citeonly{Dockmanic2015raking, Kowalczyk2019raking}, sound source localization \citeonly{ribeiro2010turning}, and source separation \citeonly{scheibler2017separake, leglaive2016multichannel, remaggi2019modeling}, and room geometry estimation from sound \citeonly{remaggi2016acoustic, dokmanic2013acoustic, crocco2017uncalibrated}.
 
@@ -328,7 +326,7 @@ For the readers:
 \subsection{The golden ratio of the thesis}
 This thesis has been written following personal stylistic rules:
 \begin{itemize}
-    \item after the the colon punctuation mark, ``:'', small caps. In case of list, items are delimited by semicolon punctuation mark ``;'';
+    \item after the colon punctuation mark, ``:'', small caps. In case of list, items are delimited by semicolon punctuation mark ``;'';
     \item sidenotes number referring to a word superscripts the word itself, sidenotes referring to a whole sentence superscripts the corresponding full stop;
     \item N'ilazo color palette: black, grey and orange;
     \item at most three levels of sub-headings: section, subsection, and Tufte's \textit{new-thought}~\citeonly{tufte1983visual} to capture attention;

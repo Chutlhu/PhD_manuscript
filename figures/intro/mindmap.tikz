@@ -103,7 +103,7 @@
 % Text Node
 \draw (352,133) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt1 Ch3}}\\{\footnotesize Audio Signal Processing}};
 % Text Node
-\draw (392,523) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt2 Ch10}}\\{\footnotesize Speech Enhancement}\\{\footnotesize Room Geomtry Estimation}};
+\draw (392,523) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Pt2 Ch10}}\\{\footnotesize Speech Enhancement}\\{\footnotesize Room Geometry Estimation}};
 
 
 \end{tikzpicture}
