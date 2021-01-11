@@ -10,30 +10,20 @@ Thus I would be happy about any feedback on how to improve this template, and I 
 
 # Current TODOs
 
-## pres
-
-- [x] 3 separate branch: bison, lorem and thesis
-- [x] import notation from report
-- [ ] import papers
-  - [x] Mirage
-  - [x] Blaster
-  - [ ] dEchorate
-- [ ] import projects
-  - [x] Lantern
-  - [ ] Brioche
-
-
-## current
-
-### Chapter 2
-
-- [ ] implement Antoine correction
-  - [x] 2.1, 2.2
-  - [ ] 2.3 --->
-- [ ] figures
-
-### Chapter 3
-
-- [ ] notation DFT and notation continuous
-- [ ] STFT
-
+- [ ] on Laurent Correction
+  - [ ] ch2: qualcosa ancora sulla ReTF
+  - [ ] ch2: imgs
+  - [ ] ch3-ch2: mettere figura 4.7 in 3.2.3
+  - [ ]
+- [ ] Appendix ReTF methods
+- [ ] Appendix BLasso
+- [ ] Appendix Music
+- [ ] Appendix Code
+- [ ] Rigraziamenti
+- [ ] Immagine ch processing
+  - [ ] STFT
+  - [ ] RIR from dEchorate
+  - [ ] ILD / IPD
+- [ ]  Scrivere nel colophon
+  - [ ]  immagini da dEchorate
+  - [ ]  icone
