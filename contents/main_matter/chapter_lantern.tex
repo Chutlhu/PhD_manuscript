@@ -27,7 +27,7 @@ The generalization to multiple echoes will only be discussed as future work.
 \section{Introduction}\label{sec:lantern:intro}
 Recently, \acfp{DNN} have captured the attention of many research fields due to recent advances that allow for faster implementation and training, as well as for achieving considerable performance improvement.
 Therefore, \acp{DNN} have been widely used in many domains.
-They belong to the class of \textit{supervised} learning or \textit{data-driven} models, where the training step is performed on labeled data, namely input-output pairs.
+They belong to the class of \textit{supervised} and \textit{data-driven} models, where the training step is performed on labeled data, namely input-output pairs.
 The inclusion of these models in audio signal processing tasks has led to a considerable improvement in performance, in particular in audio and music source separation, speech enhancement, and source localization (see related sections in~\cref{ch:application}).
 \\Moreover, with respect to traditional machine learning methods, the use of deep learning models presents several advantages.
 They are flexible and adaptable across tasks; for instance, \acf{CNN}-based models from Computer Vision can be adapted to audio source separation (\eg/,~\citeonly{xiao2016deep, sainath2017multichannel, perotin2018crnn}), and to source localization (\eg/, ~\citeonly{chakrabarty2017broadband,vesperini2018localizing,nguyen2018autonomous,salvati2018exploiting}).
@@ -56,10 +56,10 @@ We will refer to this approach as \textit{virtually supervised learning} and it 
 Besides, the solutions obtained in a data-driven fashion suffer from bias depending on the dataset used and may not generalize to real-world scenarios.
 For instance, authors of~\citeonly{deleforge2015co} showed, in a \ac{SSL} context, that training on real data collected in one part of a room and testing in another part of the same room does not generalize well.
 Interestingly, the works in~\citeonly{deleforge2015acoustic,nguyen2018autonomous} propose an automatic approach for collecting and annotating real data automatically as a pre-calibration step.
-However, this approach is possible only with specific technologies and equipments (in both the works, the authors programmed a humanoid robot equipped with a binaural hearing system that automatically builds a training set).
+However, this approach is possible only with specific technologies and equipments (in both works, the authors programmed a humanoid robot equipped with a binaural hearing system that automatically builds a training set).
 The following section will give a quick overview of relevant models used in our work.
 
-\section{Deep learning model}\label{sec:lantern:dnn}
+\section{Deep learning models}\label{sec:lantern:dnn}
 
 \subsection{Multi-layer perceptrons}\label{subsec:lantern:mlp}
 \acfp{MLP} are simple and basic modules of \acp{DNN} and are also known as \textit{fully-connected} or \textit{dense layers}.
@@ -77,9 +77,9 @@ where
     \item and $\bfb\in\bbR^{\Dout}$ and $\bfW\in\bbR^{\Dout \times \Din}$ are the \textit{bias vector} and the \textit{weight matrix}, respectively.
 \end{itemize}
 The function $f(\cdot)$ is a non-linear \textit{activation} function, which allows the model to learn non-linear structures.
-Models built with these layers are typically used to map an input to a representation space where problems (\eg/, classification, and regression) can be addressed more easily.
+Models built with these layers are typically used to map an input to a representation space where problems (classification and regression) can be addressed more easily.
 The main drawback of these simple models is that they are not invariant to scaled or shifted inputs.
-Since in audio data gain-, temporal-, and frequency-variations are common, they are often not suitable.
+Although scaling can be compensated by data normalization, they are often not suitable to capture temporal- and frequency-variations of audio signals.
 Nevertheless, \acp{MLP} are used in combination with other type of layers, such as \acfp{CNN}, \acfp{RNN}.
 
 \newthought{Non-linear activation functions} constitute one of the key features of \acp{DNN}.
@@ -114,7 +114,7 @@ where
     \item $f$ is an activation function;
     \item $\convDis$ denotes discrete convolution;
 \end{itemize}
-A \ac{CNN} can be designed with either 1D or 2D convolutions, or a combination of them.
+A \ac{CNN} can be designed with either 1D, 2D or 3D convolutions (\eg/, along time, frequency and channel dimension), or a combination of them.
 In general, in audio, 1D convolution layers are used to process the time-domain or frequency-domain input, whereas 2D convolutional layers are used for time-frequency representations, such as spectrograms.
 The output of a convolutional layer consists of a collection of convolved versions of the input signal, which are typically referred to as \textit{feature maps}.
 It is common to use \ac{CNN} architectures combining multiple convolutional layers with \textit{pooling layers} in between.
@@ -179,7 +179,7 @@ we will use \ac{DNN} to estimate echoes' properties, and later, in~\cref{ch:mira
 }
 As a first step, we will use \acp{DNN} to estimate the timings of the first and strongest echo in each channel from stereophonic recordings.
 This setup is related to ``table-top'' scenarios, which are commonly encountered in typical home smart audio devices and it is motivated by an echo-aware \acf{SSL} application that will be discussed in~\cref{ch:mirage}.
-To this end, we consider the following simple setup: two microphone placed close to a surface, as illustrated in~\cref{fig:lantern:scene}.
+To this end, we consider the following simple setup: two microphones placed close to a surface, as illustrated in~\cref{fig:lantern:scene}.
 The reason why we consider only one microphone pair is that this approach can be generalized to microphone arrays using data-fusion-like techniques.
 In fact, by considering all the pairs, it is possible to aggregate their estimation in a second stage.\sidenote{
     An example of such techniques is the \ac{SRP-PHAT}~\citeonly{dibiase2001robust} algorithm used for \ac{SSL}, which uses
@@ -188,36 +188,37 @@ In fact, by considering all the pairs, it is possible to aggregate their estimat
 In the reminder of this chapter, we will discuss how to achieve robust first-echo estimation.
 
 \subsection{Proposed approach}\label{subsec:lantern:simple:mpl}
-Our approach is to train a \acp{DNN} on a dataset simulating the considered close-surface scenario.
+Our approach is to train a \ac{DNN} on a dataset simulating the considered close-surface scenario.
 Under this assumption and the \acf{STFT} signal model presented in~\cref{eq:processing:stft}, we can consider the following simplified model for the \acfp{RTF},
 \begin{equation}\label{eq:mirage:rir}
-    \FLT_\idxMic[k] = \sum_{\idxEch=0}^{\numEchs=1}  \; \alpha_\idxMic^{(\idxEch)}[k] \; \cste^{- \csti 2 \pi f_k \tau_\idxMic^{(\idxEch)}} \; + \; \varepsilon_\idxMic[k],
+    \FLT_\idxMic[k] = \sum_{\idxEch=0}^{\numEchs=1}  \; \alpha_\idxMic^{(\idxEch)} \; \cste^{- \csti 2 \pi f_k \tau_\idxMic^{(\idxEch)}} \; + \; \varepsilon_\idxMic[k],
 \end{equation}
-where $\tau_\idxMic^{(\idxEch)}$ and $\alpha_\idxMic^{(\idxEch)}[k]$ are the echoes' times of arrival and amplitudes, respectively.
-Here, $f_k$ denotes $k$-th frequency bin and the error term $\varepsilon_i[k]$ collects later echoes, the reverberation tail, diffusion, and noise.
+where $\tau_\idxMic^{(\idxEch)}$ and $\alpha_\idxMic^{(\idxEch)}$ are the echoes' times of arrival and amplitudes, respectively.
+Here, $f_k = k \Fs / F$ denotes $k$-th of $F$ frequency bins and the error term $\varepsilon_i[k]$ collects later echoes, the reverberation tail, diffusion, and noise.
 \\As we consider only the first echo per channel, we have $\numEchs=1$.
 Given the close-surface scenario, the first echo is the earliest and strongest.
 
 \mynewline
 We model the \AER/ problem as a multi-target regression problem, namely, the outputs of the model are multiple real-valued parameters.
-Following the approaches suggested in~\citeonly{deleforge2015acoustic,gaultier2017vast}, we consider the instantaneous \acf{ILD} and the \ac{IPD} as input features.
-As discussed in~\cref{subsec:processing:steering}, the \acfp{ILD} and \acfp{IPD} can be consider as a particular case of \acf{ReTF}.
-The \ac{ILD} and \ac{IPD} can be estimated from the \STFT/ of the microphone signals as follows
+Following the approaches suggested in~\citeonly{deleforge2015acoustic,gaultier2017vast}, we consider the instantaneous \acf{ILD} and the \acf{IPD} as input features.
+As discussed in~\cref{subsec:processing:steering}, \ac{ILD} and \ac{IPD} can be consider as a particular case of \acf{ReTF} in a single source scenario.
+They can be estimated from the \STFT/ of the microphone signals as follows
 \begin{equation} \label{eq:mirage:features}
 \begin{cases}
-    \ild[k]  =& \tfrac{1}{T} \sum_{l=1}^T \log{\abs{\frac{\MIC_2[k,l]}{\MIC_1[k,l]}}}, \\
-    \ipd[k]  =& \tfrac{1}{T} \sum_{l=1}^T \frac{\MIC_2[k,l]/ \abs{\MIC_2[k,l]}}{ \MIC_2[k,l] / \abs{\MIC_1[k,l]}},\\
+    \ild[k]  =& 20 \log_{10} \abs{\tfrac{1}{T} \sum_{l=1}^T \frac{\MIC_2[k,l]}{\MIC_1[k,l]}}, \\
+    \overline{\ipd}[k]  =& \tfrac{1}{T} \sum_{l=1}^T \frac{\MIC_2[k,l]/ \abs{\MIC_2[k,l]}}{ \MIC_1[k,l] / \abs{\MIC_1[k,l]}},\\
 \end{cases}
 \end{equation}
 where $\MIC_i[k,l]$ is the \ac{STFT} of the $i$-th microphone.
+In practice we do not consider the \ac{IPD} in radiants, but rather its complex exponential, denoted as $\overline{\ipd}$.
 \\More precisely, the input of the network is
 \begin{equation*}
-    \xi = \klist{ \ild, \kRe\set{\ipd}, \kIm\set{\ipd}}
+    \xi = \klist{ \ild, \kRe\set{\overline{\ipd}}, \kIm\set{\overline{\ipd}}}
     ,
 \end{equation*}
 namely, the concatenation of the above features in all frequencies into a single vector..
 Here $\kRe\set{\cdot}$ and $\kIm\set{\cdot}$ denote real and imaginary part operators, respectively.
-Note that for the \ac{IPD}, the frequency $k=0$ is discarded because because it always equals 1 for all the frequencies.
+Finally, the entries of $\xi$ corresponding to $\overline{\ipd}[0]$ are discarded because always equal 1.
 
 \newcommand{\setTDOA}{\ensuremath{\set{\mathtt{TDOA}, \mathtt{iTDOA}, {\mathtt{TDOE}_1}}}}
 \mynewline
@@ -250,7 +251,7 @@ Since it will be useful later, let define $\calV = \setTDOA$ the set of three \t
 Since we use \ReTF/-based features to estimate echoes, the proposed approach is dubbed \textit{\acf{LANTERN}}.
 
 \mynewline
-While, given the $V$, the early part of the \ac{RTF} is fully defined, the opposite in not.
+While, given the early part of the \ac{RTF}, the $V$ is uniquely defined, the opposite is not.
 Therefore, in general, different values of $V$ can yield the same \ac{ReTF} and hence the same \ac{ILD}/\ac{IPD} features.
 In particular, this happens when $\tau^{(1)}_1 - \tau^{(0)}_1 = \tau^{(1)}_2 - \tau^{(0)}_2$ for $\idxEch=\set{0,1}$.
 That is, \ac{TDOE}s are equal, or equivalently, the \ac{TDOA} is equal to the \ac{iTDOA}.
@@ -274,9 +275,9 @@ The \acf{nRMSE}\sidenote{
     The \ac{nRMSE} takes values between $0$ (perfect fit) and $\infty$ (bad fit).
     If it is equal to $1$, then the prediction is no better than a constant.
 }is taken as validation metric to assess the quality of the estimation $\hat{V}$.
-For the vectors $T$ and $\hat{T}$ containing the reference and estimated value for all the sample $\xi$. the \ac{nRMSE} is define as
+For the vectors $V$ and $\hat{V}$ containing the reference and estimated value for all the sample $\xi$. the \ac{nRMSE} is define as
 \begin{equation*}
-    \mathtt{nRMSE}(\hat{T}, T) = \frac{\norm{\hat{T} - T}_2}{\norm{T - \mathtt{avg}(T)}_2}
+    \mathtt{nRMSE}(\hat{V}, V) = \frac{\norm{\hat{V} - V}_2}{\norm{V - \mathtt{avg}(V)}_2}
     ,
 \end{equation*}
 where $\norm{\cdot}_2$ denotes the $\ell_2$ norm and $\mathtt{avg}{\cdot}$ is the average operation over the sample $\xi$.
@@ -285,21 +286,22 @@ The network is manually tuned on a validation set to find the best combination o
 \subsection{Data, implementation and experimental results}\label{subsec:lantern:simple:mpl:results}
 For training and validation of the \ac{MLP} we generate many random, shoe-box room configurations using the software presented in \citeonly{schimmel2009fast}.
 This software implements both the \acf{ISM} for simulating reflections and a ray-tracing algorithm for diffusion~\cref{sec:acoustics:simulators}.
-Room widths are uniformly drawn at random in $[3, 9]$ m, and heights in in $[2, 4]$ m.
+Room lengths and widths are uniformly drawn at random in $[3, 9]$ m, and heights in $[2, 4]$ m.
 Random source and microphone positions are used, respecting the close-surface scenario.\sidenote{
     A rejection-sampling strategy was used to approximate uniform distributions.
 }
-In particular, the microphones are at most 30~cm from the close-surface, placed 10~cm from each other, the other walls' (frequency-independent) absorption coefficients are uniformly sampled in $\kintervoo{0.5}{1}$ and the one of the close-surface is sampled in $\kintervoo{0}{0.5}$.
+In particular, the microphones are at most 30~cm from the close-surface, placed 10~cm from each other.
+The (frequency-independent) absorption coefficients of the close-surface is sampled uniformly in $\kintervoo{0}{0.5}$, while the ones of the other walls' are sampled in $\kintervoo{0.5}{1}$.
 The same realistic diffusion profile \citeonly{gaultier2017vast} is used for all surfaces.
 Around $90,000$ \acp{RIR} are generated this way, with a \ac{RT$_{60}$} between $20$~ms and $250$~ms.
 \\The \acp{RIR} are convolved with 1 sec of white-noise (wn) with no additional noise.
 All signals and \acp{RIR} are sampled at 16~kHz.
 The \ac{STFT} is performed on 1024~points with 50\% overlap.
-Finally the features are computed as in~\eqref{eq:mirage:features} yielding a vector of size $D = 1534$ for each observation.
+Finally the features are computed as in~\eqref{eq:mirage:features}, that is taking the average over the entire duration of the sequence and yielding a vector of size $D = 1534$ for each observation.
 \\While we validate the \ac{MLP} on a portion of the dataset in a \textit{holdout} fashion, the test is conducted on 200 new \acp{RIR} convolved with both wn and speech (sp) utterances.
 This set is generated similarly to the training and validation sets.
 Moreover, the test recordings are perturbed by external white noise at 10~dB \acf{SNR} (wn+n, sp+n).
-The speech signals are normalized speech utterances of various lengths (from 1~s to 6~s), randomly selected from the TIMIT corpus.
+The speech signals are speech utterances of various lengths (from 1~s to 6~s), randomly selected from the TIMIT corpus, normalized with respected to their energy.
 % A free and open-source Matlab implementation of SRP-PHAT\footnote{\url{http://bass-db.gforge.inria.fr/bss_locate/}} is used to aggregate local angular spectra obtained from the DNN's output.
 % The same toolbox is used for the implementation of SPR-PHAT with GCC-PHAT. For the latter method only real pairs are used.
 % A sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ is used for the DOA search.
@@ -337,12 +339,12 @@ However, it was shown that as soon as the acoustic conditions become challenging
 
 \mynewline
 \ac{TDOA} estimation errors using the proposed approach and \ac{GCC-PHAT} are presented in~\cref{tab:lantern:tdoas-aoa}.
-From these results, one can see that training a \ac{MLP} to estimate \acp{TDOA} brings similar performances as \ac{GCC-PHAT} in terms of nRMSE for clean white noise and speech signals.
+From these results, one can see that training a \ac{MLP} to estimate \acp{TDOA} brings similar performances as \ac{GCC-PHAT} in terms of \ac{nRMSE} for clean white noise and speech signals.
 However, the estimation of \ac{iTDOA} and \ac{TDOE} seems to be a more challenging task for such a simple \ac{MLP} model.
-For both the methods, the performance are generally worse on speech signals than on white noise signals, which is due to the spectral sparsity of speech signals.
+For both methods, the performance are generally worse on speech signals than on white noise signals, which is due to the spectral sparsity of speech signals.
 However, in the noiseless scenario, it is interesting to see that even a simple architecture trained on \ac{ReTF}-based features and broadband data is somewhat able to generalize to speech.
 Unfortunately, when some external noise is added, the performances of the methods degrade in all the cases.
-This is a well-known and expected behavior for \ac{GCC-PHAT}, and for the \ac{MLP} it suggests that noise should also be considered in the training phase.
+This is a well-known and expected behavior for \ac{GCC-PHAT}, and for the \ac{MLP} it suggests that noise should also be considered in the training phase, as already investigated for instance in~\citeonly{deleforge2015acoustic,chakrabarty2017broadband}.
 Nevertheless, our results confirm the possibility of retrieving the strongest echoes from only two-microphone recordings, in the absence of noise.
 
 \section{Robustly learning the first echo}\label{sec:lantern:robust}
@@ -369,7 +371,7 @@ To this end, we inspire from the work of~\citeonly{chakrabarty2017broadband,nguy
 \end{figure}
 As shown in~\cref{fig:lantern:cnn}, the architecture consists of two convolutional modules made of a one-dimensional convolutional layer (Conv1D) followed by max-pooling along frequencies, followed by \ac{ReLU} activation function and batch-normalization.
 The second part consists of a cascade of fully connected feed-forward (FF) layers (basically the \ac{MLP} model discussed above).
-In order to perform 1D-convolution in the correct (temporal) dimension, we re-arranged the input so that the each of the features $\set{ \ild, \kRe\set{\ipd}, \kIm\set{\ipd}}$ is considered as a channel for the Conv1D.
+In order to perform 1D-convolution in the correct dimension, we re-arranged the input so that the each of the features $\set{ \ild, \kRe\set{\ipd}, \kIm\set{\ipd}}$ is considered as a channel for the Conv1D.
 After each layer, a dropout probability $p_\text{do} = 0.3$ is applied to prevent overfitting.
 
 \mynewline
@@ -377,7 +379,7 @@ After each layer, a dropout probability $p_\text{do} = 0.3$ is applied to preven
 In the \ac{MLP} model presented in the previous section, the output consisted only in the \acp{TDOA} $V$.
 As mentioned earlier, our final goal is to generalize this approach to microphone arrays in a data-fusion-like fashion.
 To this end, we need to provide a confidence measure on the estimate.
-In our work~\citeonly{di2019mirage}, we proposed to use predicted values and the errors on the validation set as means and variances to build a Gaussian priors ((see~\cref{ch:mirage} for details on this)).
+In our work~\citeonly{di2019mirage}, we proposed to use predicted values and the errors on the validation set as means and variances to build a Gaussian priors (see~\cref{ch:mirage} for details on this).
 Instead, here, we explicitly modify the \ac{CNN} model to estimated these parameters.
 This idea recalls the \acp{MDN} as presented in in \citeonly{bishop1994mixture}, where the output of a neural network parametrizes a Gaussian mixture model.
 The rationale behind this design choice is to allow the learning model to assess its prediction quality.
