@@ -275,12 +275,13 @@ The \acf{nRMSE}\sidenote{
     The \ac{nRMSE} takes values between $0$ (perfect fit) and $\infty$ (bad fit).
     If it is equal to $1$, then the prediction is no better than a constant.
 }is taken as validation metric to assess the quality of the estimation $\hat{V}$.
-For the vectors $V$ and $\hat{V}$ containing the reference and estimated value for all the sample $\xi$. the \ac{nRMSE} is define as
-\begin{equation*}
-    \mathtt{nRMSE}(\hat{V}, V) = \frac{\norm{\hat{V} - V}_2}{\norm{V - \mathtt{avg}(V)}_2}
+Here we consider the vectors $\boldsymbol{\tau}_{v},  \hat{\boldsymbol{\tau}}_{v} \in \bbR^{N}$ containing the reference and estimated value for all the $N$ samples in the set.
+The \ac{nRMSE} is define as
+\begin{equation}\label{eq:lantern:nrmse}
+    \mathtt{nRMSE}(\hat{\boldsymbol{\tau}}_v, \boldsymbol{\tau}_v) = \frac{\norm{\hat{\boldsymbol{\tau}}_v - \boldsymbol{\tau}_v}_2}{\norm{\boldsymbol{\tau}_v - \mathtt{avg}_\xi(\boldsymbol{\tau}_v)}_2}
     ,
-\end{equation*}
-where $\norm{\cdot}_2$ denotes the $\ell_2$ norm and $\mathtt{avg}{\cdot}$ is the average operation over the sample $\xi$.
+\end{equation}
+where $\norm{\cdot}_2$ denotes the $\ell_2$ norm and $\mathtt{avg}_{\xi}(\cdot)$ is the average operation over the sample $\xi$ in the set.
 The network is manually tuned on a validation set to find the best combination of number of hidden layers, layer sizes and $p_\text{do}$.
 
 \subsection{Data, implementation and experimental results}\label{subsec:lantern:simple:mpl:results}
@@ -382,6 +383,7 @@ To this end, we need to provide a confidence measure on the estimate.
 In our work~\citeonly{di2019mirage}, we proposed to use predicted values and the errors on the validation set as means and variances to build a Gaussian priors (see~\cref{ch:mirage} for details on this).
 Instead, here, we explicitly modify the \ac{CNN} model to estimated these parameters.
 This idea recalls the \acp{MDN} as presented in in \citeonly{bishop1994mixture}, where the output of a neural network parametrizes a Gaussian mixture model.
+It is also the foundation of Deep Generative Networks (or generative \acp{DNN}) for which the two most striking examples are Variational Auto-Encoders (VAEs)~\citeonly{kingma2014stochastic,rezende2014stochastic}, Generative Adversarial Networks (GANs)~\citeonly{goodfellow2014generative}.
 The rationale behind this design choice is to allow the learning model to assess its prediction quality.
 In order to achieve this, both the loss functions and the network outputs need to be modified accordingly.
 \newcommand{\xiTheta}{{\xi;\params}}
@@ -433,7 +435,8 @@ Using this distribution has already been proposed in the context of binaural \ac
     \footnotesize
     The general form of the Student's \textit{t} probability density function is
     \begin{equation*}
-        \calT(x; \mu, \lambda, \nu) = \frac{\Gamma(\frac{\nu+1}{2})} {\sqrt{\nu\pi}\,\Gamma(\frac{\nu}{2})} \left(1+\frac{x^2}{\nu} \right)^{\!-\frac{\nu+1}{2}}
+        \calT(x; \mu, \lambda, \nu) = \frac{\Gamma(\frac{\nu+1}{2})}{\Gamma(\frac{\nu}{2})\sqrt{\pi\nu\lambda^2}}
+                                      \left(1+\frac{(x - \mu)^2}{\nu\lambda^2} \right)^{\!-\frac{\nu+1}{2}}
         ,
     \end{equation*}
     where $\Gamma(n)=(n-1)!$ is the Gamma function, defined for positive integers.
@@ -469,7 +472,7 @@ Meanwhile, the test set includes observations featuring \ac{SNR} levels of 0, 10
 The protocol to generate the observations and the feature extraction step are the same (\cref{subsec:lantern:simple:mpl:results}), but the investigation is restricted to broadband source signals (white noise) only.
 Informal test on speech data yielded to 3.3 times larger errors respect to noise signals and close to random.
 One of the main reason is due to the missing frequencies in speech spectrum.
-Such spectral holes lead to zeros and poles in the computation of the audio features \ac{ILD} and \ac{IPD} (see~\cref{subsec:processing:rtf}).
+Such spectral holes lead values close to zero at both the numerator and denominator of the observation used to calculate \ac{ILD} and \ac{IPD} (see~\cref{subsec:processing:rtf}).
 Alternative technique are currently investigates to overcome this limitation, \eg/, robust \ac{ReTF} estimator or \ac{DNN} handling missing data.
 Finally, the network is manually tuned on a validation set in order to find the best combination of number of hidden layers and their sizes, which led to the model in~\cref{fig:lantern:cnn}.
 \begin{figure}[h]
@@ -492,22 +495,26 @@ Finally, the network is manually tuned on a validation set in order to find the 
 \noindent \cref{fig:lantern:snr10} shows the performances of the proposed models $\mathtt{CNN}_{\calV}$, $\mathtt{CNN}_{\calV_\calN}$ and $\mathtt{CNN}_{\calV_\calT}$
 with respect to $\mathtt{MLP}_{\calV}$ and the baseline $\mathtt{GCC-PHAT}$ for the task of estimating \ac{TDOA}, \ac{iTDOA} and \ac{TDOE}.
 Again we report the performances in terms of the \ac{nRMSE} computed on test samples.
-It can be seen that the proposed modifications (\ac{CNN} architecture, robust loss function, and considering noise in training) yield considerable improvement in performances, compared to the vanilla and baseline methods.
+It can be seen that the proposed modifications (\ac{CNN} architecture, robust loss function, and considering noise in training) yield considerable improvement in performances, compared to the vanilla and baseline methods
+To give a sense to the values, a \ac{TDOA}'s \ac{nRMSE} lower than 0.2 corresponds to an angular \ac{RMSE} lower that 4 degree (more details in~\cref{ch:mirage}), resulting in a excellent estimation.
 In particular, the new methods are more robust to noise, as indicated by error bars.
 While both $\mathtt{CNN}_{\calV_\calN}$ and $\mathtt{CNN}_{\calV_\calT}$ outperform the $\mathtt{CNN}_{\calV}$ for \ac{TDOA} and \ac{iTDOA} estimation, there is no significant\sidenote{Significance assessed with a t-test for $p<0.05$.} difference between the three of them for \ac{TDOE} estimation.
 \\Deeper insights about this can be gathered from~\cref{fig:lantern:snr}, where performances are reported for the different \ac{SNR} levels considered in the test.
 These results suggest that using a simple \ac{MSE}-based loss function leads to errors more sensitive to external noise.
-In general, there does not seem to be a significant difference between using a Gaussian distribution or a Student's \textit{t}-distribution at the network's output in our experiments.
+Moreover, they shows that \ac{TDOE} estimation is a more difficult task than \ac{TDOA} estimation, yielding bigger estimation errors as well as a smaller difference between the three methods.
+The former task is probably made more challenging.
+In fact, the ranges that the \acp{TDOE} span are much larger values which highly depends not only on the source and microphone relative position, but also on the surface position and orientation.
+\\In general, there does not seem to be a significant difference between using a Gaussian distribution or a Student's \textit{t}-distribution at the network's output in our experiments.
 Nevertheless, the choice of modeling the output of the network according to different distributions may lead to differences at the data-fusion step.
 
 \section{Conclusion}\label{sec:lantern:conclusion}
 This chapter presented an attempt at using deep learning models to learn the complex mapping from stereophonic recordings to echoes' timings.
 As part of a first investigation, we considered a simple, yet common scenario where two microphones are placed close to a reflective surface and attend a to a single sound source.
 The problem is then restricted to estimating the the relative delays between the direct path and the first echo timings within the two channels.
-Moreover, this simplification is motivated by further application to echo-aware \ac{SSL}, which will be presented in~\cref{ch:mirage}.
+Moreover, this simplification is motivated by further application to echo-aware \ac{SSL}, which will be proposed and tested in~\cref{ch:mirage}.
 \\We studied two standard \ac{DNN} architectures, which are trained in a \textit{virtually supervised} fashion on data generated by an acoustic simulator.
 Finally, we discuss three ways to improving such performances, \ie/, training on noisy data, using a \ac{CNN}-based architecture, and using robust loss functions.
-\\The investigation so far was limited to microphone pairs.
+\\The investigation so far was limited to a microphone pair.
 Taking inspiration from data-fusion approaches, in~\cref{ch:mirage}, we will propose to aggregate the contributions of real and image microphone pairs to preform 2D \ac{SSL} with only two microphones.
 
 \mynewline
@@ -517,9 +524,13 @@ A natural follow-up of this work could consider the following directions.
     Informal investigations spanned different training paradigms, such as, \textit{curriculum learning}~\citeonly{bengio2009curriculum}, \textit{teacher-student learning}~\citeonly{tu2019speech}, where the network is iterative trained to estimate more and more echoes.
     Another idea would be to use a collection of \acp{DNN}, each pre-trained for single echo estimation.
     \item Due to severe drops in performance observed using speech signals, we could consider more robust audio features (\eg/, \ReTF/ using state-of-the-art \ReTF/ estimators) or
-    \ac{DNN} architectures designed to handle missing input data.
-    \item Finally, another interesting direction would be to use physics-driven neural networks as explored in~\citeonly{nabian2020physics,rao2020physics,jin2020physics},
-    where physics-based layers or physically-motivated regularizers are implemented to facilitate the learning.
+    \ac{DNN} architectures designed to handle missing entries in the input feature.
+    This latter direction was investigated in~\citeonly{deleforge2015acoustic} to make a \ac{GMM}-based model able to generalize to speech data.
+    However the best author knowledge, it is still an open problem which could be connected to the so-called (audio) ``inpainting'' inverse problem~\citeonly{bilen2015joint}.
+    \item Finally, another interesting direction would be to use physics-driven neural networks as explored in~\citeonly{karpatne2017physics,nabian2020physics,rao2020physics,jin2020physics},
+    In these work physically-motivated regularizers or entire loss-functions obeying physical laws are used to ensure the correctness of the solution or restrict the search space.
+    It can be done by adding simple formulas, such as the temperature-density relation for fluids as in~\citeonly{karpatne2017physics}, or entire PDEs as in the other cited works.
+
 \end{itemize}
 \qed
 
