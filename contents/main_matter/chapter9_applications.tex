@@ -22,7 +22,7 @@ In it, $\numSrcs$ sound sources are located at determined positions, such as som
 As an indoor scenario, all the elements of reverberation (in particular echoes) are present.
 Diffuse background noise is present as well, for instance, due to the air conditioner or car traffic outside.
 This whole audio scene is recorded by a device featuring a microphone array of $\numMics$ sensors.
-Furthermore we assume a static far field scenario and we model each $\idxSrc$ sources and $\idxMic$ microphone as well-defined points with coordinate $\positionSource$ and $\positionMicrophone$, respectively.
+Furthermore we assume a static far field scenario and we model each source and microphone as well-defined points with coordinate $\positionSource$ and $\positionMicrophone$, respectively.
 This is a reasonable assumption in the context of table-top devices, such as smart home devices.
 \begin{figure}[]
     \begin{sidecaption}[Audio Scene]{%
@@ -62,7 +62,7 @@ the \RIRs/ (thus the mixing matrix) accounting for only the sound propagation, a
 
 \subsection{Problem formulation}
 The Audio Scene Analysis Problems presented already in the introductory chapter (See~\cref{sec:intro:scene}) can now be extended and rewritten in terms of the above notation.
-Furthermore, we will consider here the only ones directly addressed in this thesis: room impulse response estimation, audio source separation, Spatial filtering, sound source localization, and room geometry estimation.
+Furthermore, we will consider here the only ones directly addressed in this thesis: room impulse response estimation, audio source separation, spatial filtering, sound source localization, and room geometry estimation.
 
 \begin{table}[!h]
 
@@ -101,7 +101,7 @@ In general and unless specified, this is the only knowledge we will assume to ha
 Based on this, we will now review some classical works for solving the above problems.
 
 
-\newthought{In the following sections} we will present the general overview of the literature related to the problems considered in this thesis: multichannel audio source separation, Spatial filtering, and sound source localization.
+\newthought{In the following sections} we will present the general overview of the literature related to the problems considered in this thesis: multichannel audio source separation, spatial filtering, and sound source localization.
 We will limit the discussion to the most relevant techniques adopted nowadays with respect to the acoustic propagation modeling.
 Later in the thesis, dedicated sections on echo-aware method to address these problems will be provided in each related chapter.
 Since room geometry estimation is mainly based on echo estimation and labeling discussed in~\cref{subsec:estimation:active_rir}, its description is postponed to~\cref{sec:dechorateapp:rooge}.
@@ -118,8 +118,8 @@ Both share many methods, which are accordingly modified, taking into account sce
     The reader can refer to \citeonly{vincent2018audio, makino2018audio}
 }
 In the context of the multichannel speech recordings, some of the most successful and popular methods used nowadays
-include Spatial filtering, \TF/ masking, and end-to-end regression.
-In this thesis, we deliberately distinguish between the Spatial filtering, which will be discussed in the following subsection, and \TF/ masking.
+include spatial filtering, \TF/ masking, and end-to-end regression.
+In this thesis, we deliberately distinguish between the spatial filtering, which will be discussed in the following subsection, and \TF/ masking.
 \\\TF/ masking relies on \TF/ diversity of the sources and processes each mixture channel separately.
 In a nutshell, it involves computing the \acp{STFT} of the mixture channels, multiplying them by masks containing gains between 0 and 1.
 One of the most popular masking rules is adaptive Wiener filtering.
@@ -132,12 +132,12 @@ For each time-frequency bin, the \acp{STFT} of the estimated source spatial imag
 where $\MIC_\idxMic$ is the \STFT/ of the microphone channel. Here the \TF/ bin is omitted for clarity.
 \\In order to be computed, the Wiener filter requires estimating all the source spatial images, or equivalently, the mixing filters and the source signals.
 Therefore, this approach has been generalized in several ways to account for both these unknowns.
-In these thesis we stress the difference between source separation and Spatial filtering.
+In these thesis we stress the difference between source separation and spatial filtering.
 In the former, all the source signals and mixing filters are indispensable to weigh each of the \TF/ bins of the microphone channel's \STFT/.
 As opposed to, in the latter problem, the ``masks'', that is the spatial filters, are estimate only based the mixing filters and noise statistics.
 In multichannel recordings, a clear overlap exist between the two problems, and some techniques can be used reciprocally.
 Furthermore the related research trends are now converging under the same umbrella of the so-called \textit{speech enhancement}.
-The work~\citeonly{gannot2017consolidated} provide an unified framework merging source separation and Spatial filtering.
+The work~\citeonly{gannot2017consolidated} provide an unified framework merging source separation and spatial filtering.
 Nevertheless, we will treat them as separated problems.
 
 \mynewline
@@ -180,9 +180,9 @@ In the second case, the algorithm need to estimated more parameters with consequ
 \newthought{Echo-aware source separation methods} have been introduced as a possible solution to overcome some of these limitations,.
 More details will be given in~\cref{ch:separake}, where a new method for speech source separation based on the Multichannel \NMF/ framework and echoes is described.
 
-\section{Overview on Spatial filtering}\label{sec:application:filtering}\marginpar{
+\section{Overview on spatial filtering}\label{sec:application:filtering}\marginpar{
     \footnotesize\itshape
-    For a comprehensive review on Spatial filtering methods, the reader can refer to the book~\citeonly{VanTrees2004Optimum}.
+    For a comprehensive review on spatial filtering methods, the reader can refer to the book~\citeonly{VanTrees2004Optimum}.
 }
 Spatial filtering aim at the enhancement of a desired signal while suppressing the background noise and/or interfering signals.
 It is a large and active research field that has interested the signal processing and telecommunication communities since several decades.
@@ -193,7 +193,7 @@ In audio, this topic was been extensively review in the context of speech enhanc
 }
 
 \mynewline
-In Spatial filtering, the \RIRs/ (and related models, \eg/, \RTFs/, steering vectors or \ReTFs/) play a central role.
+In spatial filtering, the \RIRs/ (and related models, \eg/, \RTFs/, steering vectors or \ReTFs/) play a central role.
 Intuitively, giving the mixing model in~\cref{eq:application:mix}, the enhancement of a target source can be achieved by merely denoising the recordings and filtering by the inverting \RIRs/.
 However, this is not always possible as the inversion of the \RIRs/ is not a straightforward operation.
 The work in~\citeonly{neely1979invertibility} discuss explicitly the issues of inverting \RIRs/.
@@ -203,7 +203,7 @@ Later, several techniques were investigated, which are sometimes referred to as 
 
 
 \subsection{Beamforming}
-Beamforming is one of the most famous techniques used in Spatial filtering.
+Beamforming is one of the most famous techniques used in spatial filtering.
 One of the most famous beamformer is the \ac{DS}.
 The intuitive idea behind it is to sum the microphone channels constructively by compensating the time delays between the sound source and the spatially separated microphones.
 Thus, the target source signal is enhanced, while noise, interferences, and reverberation being suppressed.
@@ -355,7 +355,7 @@ These problems will be considered in their echo-aware settings in the following 
 \begin{itemize}
     \item Multichannel NMF-based Audio Source Separation in~\cref{ch:separake},
     \item SRP-PHAT-based Sound Source Localization in~\cref{ch:mirage} using only two microphones,
-    \item and in~\cref{ch:dechorateapp}, we will discuss some applications of the \library{dEchorate} dataset (\cref{ch:dechorate}) for some beamformers-based Spatial filtering methods (\cref{sec:dechorateapp:se})
+    \item and in~\cref{ch:dechorateapp}, we will discuss some applications of the \library{dEchorate} dataset (\cref{ch:dechorate}) for some beamformers-based spatial filtering methods (\cref{sec:dechorateapp:se})
             and room geometry estimation (~\cref{sec:dechorateapp:rooge}).
 \end{itemize}
 \qed
