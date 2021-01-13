@@ -8,11 +8,11 @@ Work begins alone}{Strapping Young Lad, \textit{Monument}}
 \vspace{-2.5em}
 \newthought{Synopsis} \marginpar{%
 \footnotesize
-\textbf{Keywords:} Room impulse response, Early reflection, Acoustic echoes, Audio database, Microphone arrays.
+\textbf{Keywords:} Room impulse response, early reflection, acoustic echoes, audio database, microphone arrays.
 \\\textbf{Resources:}
 \begin{itemize}
-    \item \href{www.github.com/Chutlhu/dEchorate}{Code repository}
-    \item \href{www.github.com/Chutlhu/dEchorate}{Dataset}
+    \item \href{https://github.com/Chutlhu/DechorateDB}{Code repository}
+    \item \href{https://github.com/Chutlhu/DechorateDB}{Dataset data}
 \end{itemize}
 } \synopsisChDechorate
 
@@ -27,7 +27,7 @@ As discussed~\cref{sec:estimation:datasets}, many \acp{RIR} datasets are availab
 However, most of them are specifically designed for applications either to \acf{SE} or to \acf{RooGE}.
 The main common drawback of these datasets in that they can not be easily used for other tasks than the one which they were designed for.
 In particular, \SE/-oriented datasets lack of a proper annotation of echoes in the \acp{RIR} or the absolute position of objects inside the room.
-Alternatively, the datasets for \RooGE/ typically focus on scenarios which are not suitable for \SE/ application.
+Conversely, datasets for \RooGE/ typically features design choices which are not suitable for many \SE/ application, involving the positioning of microphone(s) and source(s).
 \dEchorate{} was designed to fill this gap: a fully calibrated multichannel \ac{RIR} database with accurate annotation of the geometry and echoes in different configurations of a cuboid rooms with varying wall acoustic profiles.
 The database currently features 1800 annotated \acp{RIR} obtained from 6 arrays of 5 microphones each, 6 sound sources in 10 different acoustic conditions.
 All the measurements were realized in the acoustic lab at Bar-Ilan university following a consolidated protocol previously established for the realization of two other multichannel \acp{RIR} databases:
@@ -42,7 +42,7 @@ The database is accompanied with a Python toolbox that can be used to process an
     \begin{fullwidth}
         \centering
         \includegraphics[trim={0 0 0 10em},clip,width=\linewidth]{dechorate/fornitures.jpg}
-        \caption{Broad-view picture of acoustic lab at Bar-Ilan university.}
+        \caption{Broad-view picture of the acoustic lab at Bar-Ilan university.}
         \label{fig:dechorate:room}
     \end{fullwidth}
 \end{figure}
@@ -116,7 +116,7 @@ Theses recordings will be used in future works for asserting the robustness of e
 
 \begin{table}[h]
     \begin{sidecaption}[]{
-        Surface coding in the dataset: each binary digit indicates if the surface is absrobent ($\mathtt{0}$, \xmark ) or reflective ($\mathtt{1}$, \cmark).
+        Surface coding in the dataset: each binary digit indicates if the surface is absorbent ($\mathtt{0}$, \xmark ) or reflective ($\mathtt{1}$, \cmark).
         }[tab:dechorate:wallcoding]
         \centering
         \small
@@ -142,15 +142,15 @@ The latter was simulated by transmitting different chunks of the same single-cha
 All the microphone signals were synchronously acquired and digitally converted to 48 kHz with 32 bits/sample using the equipment listed in Table~\ref{tab:dechorate:room_equipment}. The polarity of each microphone was registered by clapping a book in the middle of the room.
 
 \section{Dataset annotation}\label{sec:annotation}
-\acp{RIR} are estimated with the ESS technique \citeonly{farina2007advancements}:
+\acp{RIR} are estimated with the ESS technique \citeonly{farina2007advancements} at 48 kHz:
 the signal of a microphone recording an \ESS/ source is deconvolved by division in the frequency domain.
 Notice that the \ac{FT} of the \ESS/ signal is available in closed form and we used its \ac{DFT} approximation.
 
 \subsection{RIRs annotation}
-The objective of this database is to feature annotations in the ``geometrical space'', namely microphone, wall and source positions, \textit{fully consistent} with annotations in the ``signal space'', namely the echo timings within the \acp{RIR}.
+The objective of this database is to feature off-grid annotations in the ``geometrical space'', namely microphone, wall and source positions, \textit{fully consistent} with annotations in the ``signal space'', namely the echo timings within the \acp{RIR}.
 This results is achieved as follows:
 \begin{enumerate}[label=(\roman*)]
-    \item \label{it:decharate:ips} First, a the ground truth positions of array and source centres are acquired via a Beacon indoor positioning system ($\bIPS$).
+    \item \label{it:decharate:ips} First, the ground-truth position of array and source centres are acquired via a Beacon indoor positioning system ($\bIPS$).
     This system consists in 4 stationary bases positioned at the corners of the ceiling and a movable probe used for measurements which can be located within errors of $\pm2$~cm.
     The elements of this system are shown in~\cref{fig:dechorate:bips}.
     \marginpar{
@@ -179,7 +179,7 @@ In particular, geometrical ambiguities such as global rotation, translation and 
 Instead of manually correcting this error, we modified the original problem from using only the direct path distances ($\dMDS$) to considering the  image sources' \TOA/ of the ceiling as well in the cost function ($\dcMDS$).
 Table~\ref{tab:dechorate:res_mds} shows numerically the \textit{mismatch} (in cm) between the geometric space (defined by the $\bIPS$ measurements) and the signal space (the one defined by the echo timings, converted in cm).
 To better quantify it, we introduce here a \textit{goodness of match} (GoM) metric: it measures the fraction of (first-order) echo timings annotated in the \acp{RIR} matching the annotation produced by the geometry within a threshold.
-Including the ceiling information, $\dcMDS$ produces a geometrical configuration which has a small mismatch (0.41~cm in average) in both the signal \textit{and} geometric spaces with $98.1\%$ of matching first order echoes within within a 1~ms threshold.
+Including the ceiling information, $\dcMDS$ produces a geometrical configuration which has a small mismatch (0.41~cm in average) in both the signal \textit{and} geometric spaces with $98.1\%$ of matching first order echoes within a 1~ms threshold.
 Nevertheless, it is interesting to see that the $\bIPS$ measurements produce a good but less precise annotation.
 
 \begin{table}[]
@@ -233,14 +233,17 @@ Thanks to the usage of linear arrays, this visualization allowed us to identify 
     \end{sidecaption}
 \end{figure}
 
-\newthought{Direct path deconvolution} was used to compensate the frequency response of the source loudspeaker and microphone \citeonly{antonacci2012inference, Eaton2016estimation}. In particular, the direct path of the RIR was manually isolated and used as an equalization filter to enhance early reflections from their superimposition and from background noise before proceed with peak picking. Each RIR was equalized with its relative direct path. As depicted in Figure~\ref{fig:dechorate:labelling_tools}, in some situation this process was necessary for correctly identifying the underlying \TOAs/' peaks.
+\newthought{Direct path deconvolution/equalization} was used to compensate the frequency response of the source loudspeaker and microphone \citeonly{antonacci2012inference, Eaton2016estimation}.
+In particular, the direct path of the RIR was manually isolated and used as an equalization filter to enhance early reflections from their superimposition and from background noise before proceed with peak picking.
+Each \ac{RIR} was equalized with its relative direct path.
+As depicted in Figure~\ref{fig:dechorate:labelling_tools}, in some situation this process was necessary for correctly identifying the underlying \TOAs/' peaks.
 
 \newthought{Different wall configurations} for the same geometry influenced the peaks' predominance in the \ac{RIR}, hence facilitating its echo annotation.
 An example of \acp{RIR} corresponding to 2 different surface configurations is shown in~\cref{fig:dechorate:labelling_tools}: the reader can notice how the peak predominance changes for the different configurations.
 
 \newthought{An interpolation-based peak finder}\sidenote{
-    In this work, peaks are found using the Python \href{https://bitbucket.org/lucashnegri/peakutils/}{\library{peakutils} library.}
-} was used the equalized echograms $\bar{\eta}_{n}(l)$ to provide an initial guess on the peak positions, which was manually correct afterwards.
+    In this work, peaks are found using the Python \href{https://bitbucket.org/lucashnegri/peakutils/}{\library{peakutils}\ExternalLink} library.
+} was used on equalized echograms $\bar{\eta}_{n}(l)$ to provide an initial guess on the peak positions.
 
 \subsection{Limitations of current annotation}
 As stated in \citeonly{defrance2008finding}, we want to emphasize that annotating the correct \TOAs/ of echoes and even the direct path in ``clean'' real \acp{RIR} is far from straightforward.
@@ -252,7 +255,8 @@ This database can be used as a first basis to develop better \AER/ methods which
 \section{The \library{dEchorate} package}
 The dataset comes with both data and code to parse and process it.
 The data are presented in 2 modalities: the \texttt{raw} data, that is, the collection of recorded wave files, are organized in folders and can be retrieved by querying a simple database table; the \texttt{processed} data, which comprise the estimated \acp{RIR} and the geometrical and signal annotations, are organized in tensors directly importable in Matlab or Python (\textit{e.g.} all the \acp{RIR} are stored in a tensor of dimension $L \times I \times J \times D$, respectively corresponding to the RIR length in samples, the number of microphones, of sources and of room configurations).
-\\Together with the data a Python package is available on the same website. This includes wrappers, GUI, examples as well as the code to reproduce this paper.
+\\Together with the data a Python package is available on the same website.
+This includes wrappers, GUI, examples as well as the code to reproduce this study.
 In particular, all the scripts used for estimating the \acp{RIR} and annotating them are available and can be used to further improve and enrich the annotation or as baselines for future works.
 
 \begin{figure}
@@ -266,5 +270,5 @@ In particular, all the scripts used for estimating the \acp{RIR} and annotating 
 
 \conclusion{This work} introduced a new database of \RIRdef/ featuring accurate annotation of early echoes and microphone positions.
 These data can be used to test methods in the room geometry estimation pipeline and in echo-aware audio signal processing.
-We will show some application in \SE/ and \RooGE/ in~\cref{ch:dechorateapp}
+We will show some application in \SE/ and \RooGE/ in~\cref{ch:dechorateapp}.
 \qed

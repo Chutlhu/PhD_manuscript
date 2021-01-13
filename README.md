@@ -21,8 +21,8 @@ Thus I would be happy about any feedback on how to improve this template, and I 
 - [ ] Appendix Code
 - [ ] Rigraziamenti
 - [ ] Immagine ch processing
-  - [ ] STFT
-  - [ ] RIR from dEchorate
+  - [ ] STFT pipeline
+  - [ ] RIR from dEchorate in everywhere
   - [ ] ILD / IPD
 - [ ]  Scrivere nel colophon
   - [ ]  immagini da dEchorate
