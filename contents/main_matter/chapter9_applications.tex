@@ -4,10 +4,10 @@
 
 \mynewline
 Here, we present some audio scene analysis problems that will be later discussed in their echo-aware extension.
-Following the last part's structure, this introductory chapter gathers the common knowledge shared across the following ones.
-Here we make a strong transition: we assume the echo properties are known a priori, so that the our focus is on the benefit of their knowledge.
+Following the last part's structure, this introduction gathers the common knowledge shared across the following chapters.
+Here we make a strong transition: we assume the echo properties are known a priori, so that our focus is only on the benefit of their knowledge.
 The literature for each of them is reviewed, but since it is vast and spans diverse scientific research decades, we do not aim to cover it entirely.
-Moreover, since the following chapters are dedicated to each of these problems under the echo-aware perspective, this specific literature is not considered here.
+Moreover, since the following chapters are dedicated to these problems under the echo-aware perspective, this specific literature is not considered here.
 \\The material presented here results from the personal synthesis of concepts and references available in the literature.
 Furthermore, some definitions are digested from classical textbooks already used for this thesis, such as~\citeonly{vincent2018audio}.
 
@@ -49,10 +49,11 @@ or alternatively, using the source spatial image signals,
         .
     \end{aligned}
 \end{equation}
-Note that the filter $\flt_{\idxMicSrc}(\positionMicrophone_{\idxMic} | \positionSource_{\idxSrc})$ denotes the \RIR/ where we intentionally highlight the dependencies on geometry,
+Note that the filter $\flt_{\idxMicSrc}(\positionMicrophone_{\idxMic} | \positionSource_{\idxSrc})$ denotes the \ac{RIR} where we intentionally highlight the dependencies on geometry,
 namely, accounting for the whole sound propagation for the source position $\positionSource_{\idxSrc}$ to the microphone position $\positionMicrophone_{\idxMic}$.
-In fact, as discussed throughout~\cref{pt:background}, we can decouple the information of indoor microphone natural recordings into two orthogonal contributions:
-the \RIRs/ (thus the mixing matrix) accounting for only the sound propagation, and the source signals describes only the semantic content.
+In fact, as discussed throughout~\cref{pt:background}, we can decouple the information of indoor microphone natural recordings into two complementary sub-problems:
+the estimation of the \acp{RIR} (thus the mixing matrix) that account for only the sound propagation, and of the source signals accounting only the semantic content.
+The former problem can be seen as an instance a more general the \acf{BCE} problem where the (acoustic) channel is the \ac{RIR} (see the review in~\cref{ch:estimation}).
 
 \newcommand{\setMicSignals}{\ensuremath{\set{\mic_{\idxMic}}_\idxMic}}
 \newcommand{\setSrcSignals}{\ensuremath{\set{\src_{\idxSrc}}_\idxSrc}}
@@ -83,7 +84,7 @@ Furthermore, we will consider here the only ones directly addressed in this thes
 As introduced in~\cref{sec:estimation:problem}, these problems can be said either \textit{informed} or \textit{blind} and the related scenario \textit{active} or \textit{passive}.
 These two dichotomies emphasize the amount of prior knowledge available for solving them.
 As opposed to the active scenario, where the source signal is known, transmitted, and available, the passive one considers only the microphone measurements.
-For instance, when addressing the active echo estimation problem or \RIR/ measurement, the exact time of emission of the source signal is known, as well as the source signal itself.
+For instance, when addressing the active echo estimation problem or \ac{RIR} measurement, the exact time of emission of the source signal is known, as well as the source signal itself.
 \\The second dichotomy refers to the possibility of exploiting prior knowledge to solve the problem more easily.
 This information may derive from annotations and meta-data.
 In the community of audio source separation, the following definitions were proposed in~\citeonly{vincent2014blind}:
@@ -107,8 +108,8 @@ Later in the thesis, dedicated sections on echo-aware method to address these pr
 Since room geometry estimation is mainly based on echo estimation and labeling discussed in~\cref{subsec:estimation:active_rir}, its description is postponed to~\cref{sec:dechorateapp:rooge}.
 
 
-\section{Overview on multichannel Sound Source Separation}\label{sec:application:separation}
-Multichannel audio source separation refers to the process of extracting acoustic signals from multichannel mixtures featuring targets, interfering, and noisy sounds.
+\section{Overview on Multichannel Audio Source Separation}\label{sec:application:separation}
+\acf{MASS} refers to the process of extracting acoustic signals from multichannel mixtures featuring targets, interfering, and noisy sounds.
 In psychoacoustics, this problem is known as \textit{the cocktail party problem}~\citeonly{cherry1953cocktail}, referring to the human ability to focus on a particular stimulus in a audio scene.
 This problem has interested mainly in two research fields in the audio signal processing community: speech and music processing.
 Both share many methods, which are accordingly modified, taking into account scenarios and applications.
@@ -117,64 +118,73 @@ Both share many methods, which are accordingly modified, taking into account sce
     Many other methods have been proposed in the literature.
     The reader can refer to \citeonly{vincent2018audio, makino2018audio}
 }
-In the context of the multichannel speech recordings, some of the most successful and popular methods used nowadays
-include spatial filtering, \TF/ masking, and end-to-end regression.
-In this thesis, we deliberately distinguish between the spatial filtering, which will be discussed in the following subsection, and \TF/ masking.
-\\\TF/ masking relies on \TF/ diversity of the sources and processes each mixture channel separately.
+In the context of multichannel speech recordings, some of the most successful and popular methods used nowadays
+include:
+\begin{itemize}
+    \item spatial filtering, which uses spatial information only;
+    \item \ac{TF} masking, which uses spectral information only;
+    \item \ac{MWF} which combines the above two;
+    \item and end-to-end regression which use powerful end-to-end (\ie/, from waveforms to waveform) learning models (\eg/, \ac{DNN}).
+\end{itemize}
+In this thesis, we deliberately distinguish between spatial filtering, which will be discussed in the following subsection, and \ac{TF} masking.
+\\\ac{TF} masking relies on \ac{TF} diversity of the sources and processes each mixture channel separately.
 In a nutshell, it involves computing the \acp{STFT} of the mixture channels, multiplying them by masks containing gains between 0 and 1.
-One of the most popular masking rules is adaptive Wiener filtering.
+One of the most popular masking rules is Wiener filtering.
 For each time-frequency bin, the \acp{STFT} of the estimated source spatial images $\IMG_{\idxMicSrc}$ of the $\idxSrc$-th source at the $\idxMic$ microphone, writes
 \begin{equation}
         \hat{\IMG}_{\idxMicSrc} = \underbrace{\frac{\powerOf{\IMG_{\idxMicSrc}}}
                                         {\sum_{\idxSrc=0}^\numSrcs \powerOf{\IMG_{\idxMicSrc}}}}
                                         _{\text{Wiener filter}} \; \MIC_\idxMic
 \end{equation}
-where $\MIC_\idxMic$ is the \STFT/ of the microphone channel. Here the \TF/ bin is omitted for clarity.
-\\In order to be computed, the Wiener filter requires estimating all the source spatial images, or equivalently, the mixing filters and the source signals.
-Therefore, this approach has been generalized in several ways to account for both these unknowns.
+where $\MIC_\idxMic$ is the \STFT/ of the microphone channel.
+Here the dependency on the \ac{TF} bin is omitted for clarity.
+\\In order to be computed, the Wiener filter requires estimating source spatial images statistics, in particular an estimate of the power in each \ac{TF} bin (and discarding the phase).
 In these thesis we stress the difference between source separation and spatial filtering.
-In the former, all the source signals and mixing filters are indispensable to weigh each of the \TF/ bins of the microphone channel's \STFT/.
-As opposed to, in the latter problem, the ``masks'', that is the spatial filters, are estimate only based the mixing filters and noise statistics.
-In multichannel recordings, a clear overlap exist between the two problems, and some techniques can be used reciprocally.
+In the former, source signals and mixing filters statistics are needed to weigh each of the \ac{TF} bins of the microphone channel's \STFT/.
+As opposed to, in the latter problem, the ``mask'' of one of the sources, that is the spatial filters, are estimate only based the mixing filters and noise statistics.
+\\In multichannel recordings, a clear overlap exist between the two problems, and some techniques can be used reciprocally, \eg/ in the case of \ac{MWF}~\citeonly{ozerov2010multichannel}.
 Furthermore the related research trends are now converging under the same umbrella of the so-called \textit{speech enhancement}.
-The work~\citeonly{gannot2017consolidated} provide an unified framework merging source separation and spatial filtering.
+The work~\citeonly{gannot2017consolidated} provide an unified framework merging source separation and spatial filtering model.
 Nevertheless, we will treat them as separated problems.
 
 \mynewline
-Moreover, the benefit of the \TF/ masking approach is that the masks can be estimated in various ways.
-For instance, clustering and classification techniques~\citeonly{rickard2007duet} can be used to assign each \TF/-bin to each of the sources.
+Moreover, the benefit of the \ac{TF} masking approach is that the masks can be estimated in various ways.
+For instance, clustering and classification techniques~\citeonly{rickard2007duet} can be used to assign each \ac{TF}-bin to each of the sources.
 Recently learning-based methods have been used in this sense on the same task~\citeonly{hershey2016deep,wang2018multi}.
-Alternatively, deep learning techniques can used to directly estimated the sources' \TF/, as done in one of the reference implementation~\citeonly{stoter2019open}.
+Alternatively, deep learning techniques can used to directly estimated the sources' \ac{TF}, as done in one of the reference implementation~\citeonly{stoter2019open}.
 The work of \citeonly{nugraha2016multichannel}, instead, uses a deep learning model build by unfolding the the popular Multichannel \ac{NMF} source separation framework of~\citeonly{ozerov2010multichannel, sawada2013multichannel}.
 
 \mynewline
-The Gaussian-based Multichannel \ac{NMF}~\citeonly{ozerov2010multichannel} is one of the most successful framework for source separation using \TF/ masks.
-It combines the \ac{NMF} and narrowband spatial model (discussed in ~\cref{subsec:processing:model:stft}) and deploys optimization-based framework for estimating both the mixing matrix and the sources.
+The Multichannel \ac{NMF}~\citeonly{ozerov2010multichannel} is one of the most successful framework for source separation using \ac{MWF}, that is, combining spatial filtering and \ac{TF} masking.
+It uses the \ac{NMF} model for modeling the source \ac{PSD} within a convolutive mixing model (\ie/, spatial model, as discussed in ~\cref{subsec:processing:model:stft}).
+It then deploys optimization-based framework for estimating both the mixing matrix and an estimate of the source \ac{PSD} based on \ac{NMF}.
+Once these \ac{PSD} and filter parameters are estimated, separation can be achieved with \ac{MWF}.
 One of the main advantage of this approach is that it allows to easily incorporated prior knowledge on the problem.
-Thanks to the narrowband approximation (\cref{eq:processing:narrow}), spatial and semantic content are orthogonal and can be treated disjointedly.
-This opens to many possibilities, such as, using pre-trained dictionaries to model source content~\citeonly{schmidt2006single, smaragdis2009sparse}, or using proper model for the mixing filters, such as \RIRs/, steering vectors, \ReTFs/, \etc/.
+Thanks to the narrowband approximation (\cref{eq:processing:narrow}), estimation of spatial and semantic content are two complementary sub-problems that can be solved independently.
+This opens to many possibilities, such as, using pre-trained dictionaries to model source content~\citeonly{schmidt2006single, smaragdis2009sparse}, or using proper model for the mixing filters, such as \acp{RIR}, steering vectors, \acp{ReTF}, \etc/.
 
 \mynewline
-However, it has been shown that even with oracle \TF/~\citeonly{luo2019conv}, the estimation is still affected by artifacts.
-This limitation affects all the approaches operating in the \TF/ domain.
+However, the work in~\citeonly{luo2019conv} showed that even with oracle \ac{TF} masks, the estimation is still affected by artifacts.
+This limitation affects all the approaches operating in the \ac{TF} domain.
 To overcome this, end-to-deep deep learning models~\citeonly{luo2019conv, tzinis2020sudo} were developed and now hold the record in source separation.
 These models work directly in the time domain: both input and output are time-domain waveforms.
 This approach has prove to reach good separation quality, especially in terms of perceived sounds at the listener.
 Nevertheless, all deep learning methods rely on trained black-box models for which is hard to inject prior knowledge.
 Instead, Multichannel NMF-based frameworks accounts for this freedom.
 
-\subsection{Multichannel NMF source separation}
-Multichannel NMF source separation methods can be grouped according to how they model sound propagation of the mixing process:
+\subsection{``Classic'' Multichannel Audio Source Separation}
+``Classic'' (pre-deep learning) \ac{MASS} span almost 25 years (1990-2015).
+ can be broadly grouped according to how they model sound propagation of the mixing process:
 \begin{itemize}
     \item those that simply ignore it \citeonly{le2015deep};
     \item (\textit{free field propagation}) those that assume a single anechoic path \citeonly{rickard2007duet, nesta2012convolutive} ;
-    \item (\textit{reverberant propagation}) those that model the \RTFs/ entirely \citeonly{ozerov2010multichannel, duong2010under, li2019expectation};
+    \item (\textit{reverberant propagation}) those that model the \acp{RTF} entirely \citeonly{ozerov2010multichannel, duong2010under, li2019expectation};
     \item (\textit{reverberant propagation}) and those that attempt to separately estimate the contribution of the early echoes and the contribution of the late tail \citeonly{leglaive2015multichannel}.
 \end{itemize}
 Therefore, these existing approaches either ignore sound propagation or aim at estimating it fully, which affect the quality of the separation.
 In the first case, strong echoes and reverberant constitute a low bound in the separation capability.
-In fact, these elements of the sound propagation blur and spread the energy of the source source over multiple \TF/ bins, for which the assignation is harder.
-When computing the \TF/ masking operation, these bins may introduce strong artifacts.
+In fact, these elements of the sound propagation blur and spread the energy of the source source over multiple \ac{TF} bins, for which the assignation is harder.
+When computing the \ac{TF} masking operation, these bins may introduce strong artifacts.
 In the second case, the algorithm need to estimated more parameters with consequences in complexity and estimation accuracy.
 
 \newthought{Echo-aware source separation methods} have been introduced as a possible solution to overcome some of these limitations,.
@@ -186,29 +196,29 @@ More details will be given in~\cref{ch:separake}, where a new method for speech 
 }
 Spatial filtering aim at the enhancement of a desired signal while suppressing the background noise and/or interfering signals.
 It is a large and active research field that has interested the signal processing and telecommunication communities since several decades.
-It has produced an vast literature including several reference books dedicated to the topic.
-For more details in this direction, the reader can refers to, e.g., the book~\citeonly{VanTrees2004Optimum}.
-In audio, this topic was been extensively review in the context of speech enhancement in a recent publication~\citeonly{gannot2017consolidated}\sidenote{
+It has produced a vast literature including several reference books dedicated to the topic.
+For more details in this direction, the reader can refer to, e.g., the book~\citeonly{VanTrees2004Optimum}.
+In audio, this topic has been extensively reviewed in the context of speech enhancement in a recent publication~\citeonly{gannot2017consolidated}\sidenote{
     The content of this work has been extended in the book~\citeonly{vincent2018audio}.
-}
+}.
 
 \mynewline
-In spatial filtering, the \RIRs/ (and related models, \eg/, \RTFs/, steering vectors or \ReTFs/) play a central role.
-Intuitively, giving the mixing model in~\cref{eq:application:mix}, the enhancement of a target source can be achieved by merely denoising the recordings and filtering by the inverting \RIRs/.
-However, this is not always possible as the inversion of the \RIRs/ is not a straightforward operation.
-The work in~\citeonly{neely1979invertibility} discuss explicitly the issues of inverting \RIRs/.
+In spatial filtering, the \acp{RIR} (and related models, \eg/, \acp{RTF}, steering vectors or \acp{ReTF}) play a central role.
+Intuitively, giving the mixing model in~\cref{eq:application:mix}, the enhancement of a target source can be achieved by merely denoising the recordings and filtering by the inverting \acp{RIR}.
+However, this is not always possible as the inversion of the \acp{RIR} is not a straightforward operation.
+The work in~\citeonly{neely1979invertibility} discuss explicitly the issues of inverting \acp{RIR}.
 Later, several techniques were investigated, which are sometimes referred to as Room Response \textit{Equalization}~\citeonly{cecchi2018room}.
 % First, there is a fundamental trade-off between denoising and filtering capabilities, which are related to the number of degree of freedom imposed by the number of microphones available~\citeonly{VanTrees2004Optimum}
 % They can be exhausted by imposing unit- and null-gain directions constraints
 
 
 \subsection{Beamforming}
-Beamforming is one of the most famous techniques used in spatial filtering.
-One of the most famous beamformer is the \ac{DS}.
+Beamforming is one of the most famous techniques used in spatial filtering, and the two term are almost equivalent.
+One of the most famous beamformer is the \ac{DS} beamformer.
 The intuitive idea behind it is to sum the microphone channels constructively by compensating the time delays between the sound source and the spatially separated microphones.
 Thus, the target source signal is enhanced, while noise, interferences, and reverberation being suppressed.
 \cref{fig:application:ds} illustrate this ideas.
-Later, this idea has been extended to Frequency and Time-Frequency processing with direct modeling of the noise sources.
+Later, this idea has been extended to Frequency and \ac{TF} processing with direct modeling of the noise sources.
 More formally, beamformers design mathematical \textit{optimization criterion}, namely objective function, defining the desired shape of the estimated signal and return a filter to be applied to the microphone recordings.
 For instance, one may want to keep a unit gain towards the desired sound source's direction while minimizing the sounds from all the other directions.
 The literature on beamformers spans in two directions: different optimization criteria and how to estimate the parameters required by their computation.
@@ -231,29 +241,28 @@ These criteria are designed to satisfy different constraints and model prior kno
 The reader can also refer to the above-suggested book for more details.
 
 \newthought{Parameter estimation} is a crucial step for beamformers.
-We can identify two main categories of parameters: the one related to the \RIRs/ and the one related to the source and noise statistics.
+We can identify two main categories of parameters: the one related to the \acp{RIR} and the one related to the source and noise statistics.
 In the former case fall all the methods that model the acoustic propagation of sound.
 Therefore, similarly to the methods for separation, we can group existing methods in the following groups:
 \begin{itemize}
-    \item (\textit{free and far field propagation}) methods based on relative steering vectors build on \DOA/ \citeonly{takao1976adaptive,applebaum1976adaptive,cox1987robust,van1988beamforming};
-    \item (\textit{multipath propagation}) methods based on rake rake receiver\citeonly{flanagan1993spatially,jan1995matched, Dockmanic2015raking, peled2013linearly, scheibler2015raking, Kowalczyk2019raking};
-    \item (\textit{reverberant propagation}) methods based on full acoustic channel estimation (see \cref{ch:estimation});
-    \item (\textit{reverberant propagation}) methods based on \DOAs/ and the statistical modeling of the diffuse sound field, \citeonly{thiergart2013informed, schwartz2014multi};
-    \item (\textit{reverberant propagation}) methods based \ReTF/~\citeonly{gannot2001signal, doclo2002gsvd, cohen2004relative, markovich2009multichannel};
+    \item (\textit{free and far field propagation}) methods based on relative steering vectors build on \ac{DOA} \citeonly{takao1976adaptive,applebaum1976adaptive,cox1987robust,van1988beamforming};
+    \item (\textit{multipath propagation}) methods based on \textit{rake receiver}~\citeonly{flanagan1993spatially,jan1995matched, Dockmanic2015raking, peled2013linearly, scheibler2015raking, Kowalczyk2019raking};
+    \item (\textit{reverberant propagation}) methods based on \ac{BCE} considering the \ac{RIR} as the acoustic channel (see \cref{ch:estimation});
+    \item (\textit{reverberant propagation}) methods based on \acp{DOA} and the statistical modeling of the diffuse sound field~\citeonly{thiergart2013informed, schwartz2014multi};
+    \item (\textit{reverberant propagation}) methods based on \ac{ReTF}~\citeonly{gannot2001signal, doclo2002gsvd, cohen2004relative, markovich2009multichannel};
     \item (\textit{reverberant propagation}) methods based on (deep) learning~\citeonly{li2016neural, xiao2016deep, sainath2017multichannel, ernst2018speech};
 \end{itemize}
 %kodrasi2017evd, markovich2018performance, schwartz2016joint}.
-The \acp{DOA}-based methods exploit the closed-form mapping between \DOAs/ and the steering vectors in far-field scenarios.
-Thus, good performances are possible only upon a reliable estimation of the \DOAs/ (see next section), a challenging problem in noisy and reverberant environments.
+The \acp{DOA}-based methods exploit the closed-form mapping between \acp{DOA} and the steering vectors in far-field scenarios.
+Thus, good performances are possible only upon a reliable estimation of the \acp{DOA} (see next section), a challenging problem in noisy and reverberant environments.
 The steering vectors' computation depends on the array geometry, which is unknown in some practical cases.
 Alternatively, one can estimate the full acoustic channels, which is a cumbersome task by itself.
-\\The \ReTF/-based approaches have been introduced to overcome these two limitations.
-They automatically encode the \RIRs/, the geometrical information, and are ``easier'' to estimate than the \RIRs/.
+\\The \ac{ReTF}-based approaches have been introduced to overcome these two limitations.
+They automatically encode the \acp{RIR}, the geometrical information, and are ``easier'' to estimate than the \acp{RIR}.
 The main limitation of these methods is that they return \textit{spatial source image} at the reference microphone, rather than the ``dry'' source signal.
 Therefore, when reverberation is detrimentally affecting the speech signal's intelligibility, post-processing is necessary~\citeonly{schwartz2016joint}.
-\\Recently, \ac{DNN} have been proposed for solving this task, either to estimate the beamformer filter~\citeonly{li2016neural, xiao2016deep, sainath2017multichannel} or in an end-to-end task~\citeonly{ernst2018speech}
-Moreover, \ac{DNN} has been used to estimate some of parameters, such as the \DOAs/~\citeonly{salvati2018exploiting, chazan2019multi}, \ReTF/ estimation~\citeonly{chazan2018dnn}.
-
+\\Recently, \acp{DNN} have been proposed for solving this task, either to estimate the beamformer filter~\citeonly{li2016neural, xiao2016deep, sainath2017multichannel} or in an end-to-end task~\citeonly{ernst2018speech}.
+Moreover, \acp{DNN} have been used to estimate some of the parameters, such as the \acp{DOA}~\citeonly{salvati2018exploiting, chazan2019multi} or speech activity detection for \ac{ReTF} estimation~\citeonly{chazan2018dnn}.
 
 \newthought{Early echoes} are neither considered nor modeled as noise terms in the literature discussed thus far.
 This direction is taken by the echo-aware methods accounting specifically for the multipath propagation.
@@ -262,16 +271,16 @@ We will discuss these methods in more detail in chapter~\cref{ch:dechorateapp} t
 \section{Overview on Sound Source Localization}\label{sec:application:localization}
 \marginpar{
     \footnotesize\itshape
-    The reader can find more details is \SSL/ in the recent review articles
+    The reader can find more details is \ac{SSL} in the recent review articles
     \citeonly{rascon2017localization,argentieri2015survey}
     as well as in~\citeonly[Chapter 4]{vincent2018audio}.
 }
-\SSLdef/ consists in determining the distant and direction (or position) of sound sources from microphone (array) in the 3D space, typically in a passive scenario.
-As discussed above, the information on the sources' and microphones' position in the room is encoded in the \RIRs/.
-Therefore, assuming the uniqueness of the mapping between locations to a \RIR/, it is theoretically possible to retrieve the absolute position of microphones and sources, as show in~\citeonly{ribeiro2010turning, crocco2016estimation}.
+Most of \acf{SSL} methods consist in determining the distance and direction of sound sources from microphone (array) in the 3D space, typically in a passive scenario.
+As discussed above, the information on the sources' and microphones' position in the room is encoded in the \acp{RIR}.
+Therefore, assuming the uniqueness of the mapping between locations to a \ac{RIR}, it is theoretically possible to retrieve the absolute position of microphones and sources, as show in~\citeonly{ribeiro2010turning, crocco2016estimation}.
 However,  this is yet a very challenging task, which typically involves the solution of several sub-problems.
-Therefore, it is more common to relax the \SSL/ problem as follows.
-First, rather than operating in the  3D cartesian coordinate system, most of the existing methods aim at estimating 2D-\DOAdef/, namely the angles for on the unit sphere with the center in a reference point.
+Therefore, it is more common to relax the \ac{SSL} problem as follows.
+First, rather than operating in the  3D cartesian coordinate system, most of the existing methods aim at estimating 2D-\acf{DOA}, namely the angles for on the unit sphere with the center in a reference point.
 This reference point is usually the barycenter of the microphone array.
 These angles are called \textit{azimuth} and \textit{elevation} as shown is~\cref{fig:application:ssl}.
 When only a single microphone pair is considered, the problem is simplified to 1D-\ac{SSL}, estimation the 1D-\ac{DOA}, named \textit{angle of arrival}, with respect the microphone axis.
@@ -288,11 +297,11 @@ When only a single microphone pair is considered, the problem is simplified to 1
 Second, they assume far-field scenarios.
 The main reasons for adopting such simplifications are the followings:
 \begin{itemize}
-    \item estimating the distance is known to be a much more challenging task than estimating the \DOAs/~\citeonly{vesa2009binaural};
+    \item estimating the distance is known to be a much more challenging task than estimating the \acp{DOA}~\citeonly{vesa2009binaural};
     \item the far-field scenario is a reasonable assumption when using a compact array recording distant sounds.
     \item the problem can be independent to room geometry, whose estimation is an ambitious task;
 \end{itemize}
-Finally, in far-field settings, sometimes \DOAs/ are sufficient to achieve reasonable speech enhancement performance as demonstrated by the literature in spatial filtering.
+Finally, in far-field settings, sometimes \acp{DOA} are sufficient to achieve reasonable speech enhancement performance as demonstrated by the literature in spatial filtering.
 
 \mynewline
 Despite
@@ -301,7 +310,7 @@ Despite
     As an example, consider the \ac{TDOA}-based \ac{SSL} methods:
     the feature extraction step consist into extract time delays from audio recordings,
     then these quantities are mapped to direction of arrivals, thanks to the acoustic propagation model and the array geometry.
-} these approximations, the \SSL/ problem still challenges today's computational methods.
+} these approximations, the \ac{SSL} problem still challenges today's computational methods.
 Popular approaches consists in two main components: \textit{feature extraction} and \textit{mapping}.
 First, the audio data are represented as features, as independent as possible from the source's content while preserving spatial information.
 Second, the features are mapped to the source position.
@@ -309,20 +318,22 @@ Two lines of research have been investigated to obtain such mappings: knowledge-
 
 \subsection{Knowledge-based approaches}
 Knowledge-based approaches rely on a physical model for sound propagation. %\citeonly{knapp1976generalized,stoica1990maximum,dibiase2001robust, dmochowski2007broadband, lebarbenchon2018evaluation}
-These models rely on closed-form mapping from the sound's direct path \acl{TDOAs} at the microphone pair and the source's azimuth angle in this pair.
-If multiple microphone pairs are available and form a non-linear array, their TDOAs can be aggregated to obtain 2D-\ac{DOA}s \citeonly{dibiase2001robust}.
+These models rely on closed-form mapping from the sound's direct path \acfp{TDOA} at the microphone pair and the source's azimuth angle in this pair.
+If multiple microphone pairs are available and form a non-linear array, their \acp{TDOA} can be aggregated to obtain 2D-\ac{DOA}s \citeonly{dibiase2001robust}.
 Furthermore, what differentiates the approaches in this categories lies in their ability to localize either single sources or multiple ones, their robustness to noise and reverberation, and the particular methods they used.
 We can identify the following approaches based on:
 \begin{itemize}
-    \item subspace methods, such as \MUSIC/~\citeonly{dmochowski2007broadband};
-    \item \TDOA/-based techniques, which uses \ac{GCC} functions~\citeonly{knapp1976generalized,blandin2012multi,lebarbenchon2018evaluation} to estimate \TDOA/ and then compute the most reliable \DOA/ from them;
-    These methods are related to beamforming-based techniques, such as SRP-PHAT\ac{dibiase2001robust}, which search the direction that maximizes the power of the output of a beamformer.
-    \item methods based of \RIRs/ estimation and blind system identification ~\citeonly{chen2006time},
+    \item subspace methods, such as \ac{MUSIC}~\citeonly{dmochowski2007broadband};
+    \item \ac{TDOA}-based techniques, which uses \ac{GCC} functions~\citeonly{knapp1976generalized,blandin2012multi,lebarbenchon2018evaluation} to estimate \ac{TDOA} and then compute the most reliable \ac{DOA} from them;
+    These methods are related to beamforming-based techniques, such as \ac{SRP-PHAT}~\citeonly{dibiase2001robust}, which search the direction that maximizes the power of the output of a beamformer.
+    \item methods based of \acp{RIR} estimation and blind system identification~\citeonly{chen2006time},
     \item methods based on probabilistic framework solved with Maximum Likelihood optimization~\citeonly{stoica1990maximum, li2016estimation}.
 \end{itemize}
 The main limitations of these approaches arise from the approximation considered in the models.
 In particular, common to all of them is the assumption that sound propagation being typically free-field.
 Thus, they intensely suffer in environments it is violated, \eg/, in the presence of strong acoustic echoes and reverberation as discussed in~\citeonly{chen2006time}.
+Lot of recent work has been dedicated to make \ac{SSL} methods more robust to noise and reverberation even in challenging scenario of multiple moving speakers, such as~\citeonly{li2019online,kitic2018tramp,}.
+The interested reader is invited to see the results of the recent LOCATA challenge~\cref{evers2020locata}.
 
 \subsection{Data-driven approaches}
 Data-driven approaches have been proposed to overcome the challenging task of modeling sound propagation.
@@ -331,31 +342,31 @@ Such data can be obtained from annotated real recordings \citeonly{deleforge2015
 \\In comparison to knowledge-driven methods, these methods have the advantage that they can be adapted to different acoustic conditions by including challenging scenarios in the training dataset.
 Therefore, these methods were showed to overcome some limitations of the free-field model.
 Under this perspective, in the data-driven literature two main trends can envisioned: end-to-end learning models and two-step models.
-In the former case, all the \SSL/ pipeline is encapsulated into a single robust learning framework, taking as input the microphone recordings and returning the source(s) \DOAs/.
+In the former case, all the \ac{SSL} pipeline is encapsulated into a single robust learning framework, taking as input the microphone recordings and returning the source(s) \acp{DOA}.
 Examples of these approaches are the works in~\citeonly{chakrabarty2017broadband,perotin2018crnn,adavanne2018direction}, where the task is performed with \acp{DNN} models.
 In the latter, learning models are used as a substitute for either feature extraction or the mapping.
-For instance, in~\citeonly{laufer2013relative, deleforge2015acoustic, gaultier2017vast, nguyen2018autonomous}, \acp{GMM}-based models ware used to learning the mapping from features derived from the \ReTF/ of pair of microphones.
-In~\citeonly{vesperini2018localizing}, the author proposes to use \ac{NN} models to estimate source location using features computed through \ac{GCC-PHAT}.
-\openepigraph{If you dont pay attention, your learing methods risk to ``learn a model from model''}{Zybnek Koldowsky}
-\\Despite the considerable benefit of data-driven approaches in learning complex functions, their main limitation lies in the training data.
+For instance, in~\citeonly{laufer2013relative, deleforge2015acoustic, gaultier2017vast}, \acp{GMM}-based models were used to learn the mapping from features derived from the \ac{ReTF} of pair of microphones.
+The work in~\citeonly{nguyen2018autonomous} compare \ac{GMM}- and \ac{DNN}-based approach for \ac{SSL} for the interesting case of a robot gathering training examples.
+In~\citeonly{vesperini2018localizing}, the author proposes to use \ac{DNN} models to estimate source location using features computed through \ac{GCC-PHAT}.
+\\Despite the considerable \openepigraph{If you dont pay attention, your learing methods risk to \emph{learn a model from model}}{Zybnek Koldowsky} benefit of data-driven approaches in learning complex functions, their main limitation lies in the training data.
 First, these data are typically tuned for specific microphone arrays and fail whenever test conditions strongly mismatch training conditions.
 Moreover, due to the cumbersome task of collecting annotated datasets that cover as many possible scenarios as possible, synthetic data generated by simulators are used.
-However, these data may be too artificial or simplified, with the consequence that the models may not be able to generalize to real-world conditions.
+However, these data may be too artificial or simplistic, with the consequence that the models may not be able to generalize to real-world conditions.
 
 
-\newthought{reverberation and, in particular, acoustic echoes} are typically treated as nuances in methods developed for \SSL/ and \DOAs/ estimation.
+\newthought{reverberation and, in particular, acoustic echoes} are typically treated as nuisance in methods developed for \ac{SSL} and \acp{DOA} estimation.
 Moreover, while knowledge-based approaches operate under strong assumptions which are typically violated in multipath scenario,
 for data-driven methods it is not trivial to inject prior information about sound propagation.
 Based on these limitations, our contribution propose to combines the best of the two worlds to effectively exploits the echo knowledge:
-More specifically, to deploy a \ac{DNN} to estimate few echoes~\cref{ch:lantern} and use well-understood knowledge-based method to map them to source \DOAs/~\cref{ch:mirage}.
+More specifically, to deploy a \ac{DNN} to estimate few echoes~\cref{ch:lantern} and use well-understood knowledge-based method to map them to source \acp{DOA}~\cref{ch:mirage}.
 
-\section{Conclusion}\label{sec:application:conclusion}
-This chapter presented some fundamental audio signal processing problems and an overview of related approaches to address them.
+\conclusion{Conclusion}
+\\This chapter presented some fundamental audio signal processing problems and an overview of related approaches to address them.
 These problems will be considered in their echo-aware settings in the following chapters, in particular:
 \begin{itemize}
     \item Multichannel NMF-based Audio Source Separation in~\cref{ch:separake},
     \item SRP-PHAT-based Sound Source Localization in~\cref{ch:mirage} using only two microphones,
-    \item and in~\cref{ch:dechorateapp}, we will discuss some applications of the \library{dEchorate} dataset (\cref{ch:dechorate}) for some beamformers-based spatial filtering methods (\cref{sec:dechorateapp:se})
+    \item and in~\cref{ch:dechorateapp}, we will discuss some applications of the \library{dEchorate} dataset (\cref{ch:dechorate}) for some spatial filtering methods (\cref{sec:dechorateapp:se})
             and room geometry estimation (~\cref{sec:dechorateapp:rooge}).
 \end{itemize}
 \qed
