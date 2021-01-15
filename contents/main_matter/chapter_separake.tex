@@ -18,36 +18,33 @@ From all the unborn chicken voices in my head.}{Radiohead, \textit{Paranoid Andr
 \mynewline
 The material presented in this chapter results from a collaboration with Robin Scheibler and Ivan Dokmani\'{c} and was published in~\cite{scheibler2018separake}.
 This chapter recalls the main findings of the paper and brings additional insights on the literature and on the proposed model, which has been re-written using this thesis' notations.
-The personal contribution to this collaboration, done in the early months of the \PhD/, was adapting and implementing in Python of the proposed \EMdef/-\NMF/ method accounting for echoes and using a pre-trained dictionary.
+The personal contribution to this collaboration, done in the early months of the \PhD/, was adapting and implementing in Python of the proposed \NMF/ method accounting for echoes and using pre-trained dictionaries.
 
-\section{Literature review in echo-aware Audio Source Separation}\label{sec:separake:sota}
-
-The scientific literature on audio source separation is vast, still active, and spans decades.
-The problem covers a huge number of scenarios and use-cases, such as, number of microphones (single- \vs/ multi-channel recordings), the number of sources with respect to the number of channels (under- \vs/ over- \vs/ determined), the type of observed signals (speech \vs/ music), type of recordings (artificial \vs/ microphone recordings) \etc/, and, of course, combination of them.
+\section{Literature review in echo-aware Multichannel Audio Source Separation}\label{sec:separake:sota}
+The scientific literature on \ac{MASS} is vast, still active, and spans decades.
+For a brief introduction, the reader can refer to~\cref{sec:application:separation} and to recent books~\citeonly{vincent2018audio,makino2018audio}.
 In this chapter we will consider only the case of multichannel convolutive recordings featuring reverberant speech data in overdetermined settings.
-Even selecting this narrow case, the literature remain vast and we will not review it in the context of this thesis.\sidenote{
-    The interested reader can refers to~\citeonly{vincent2018audio,makino2018audio}.
-}
+Even selecting this narrow case, the literature remain vast and we will not review it in the context of this thesis.
 
 \mynewline
-Here, we will focus on multichannel source separation based on \acf{NMF}.
-\ac{NMF} refers to a set of technique to model spectra of complex sounds by a sum of basic components.
-Modeling sound structure is beneficial for source separation, since it make separation possible in many challenging scenario.
-Moreover, this approach allows to easily incorporate side information on both the sources and the acoustic propagation as will be shown later in the chapter.
+Here, we will focus on \acf{NMF}-based \ac{MASS}, which allows to easily incorporate side information on both the sources and the acoustic propagation.
+This is a key feature, as opposed to the end-to-end \acf{DNN}-model.
+These latter models are very popular nowadays and are able to reach impressive performances in the general case.
+However, when it comes include side information or adapt to specific tasks, it is far from trivial.
 
 \mynewline
-Currently, in the literature, only few works can be found that incorporate the knowledge of echoes into sound source separation.
-In the work \citeonly{huang2005blind}, the authors proposes a decomposition of the source separation problem into different steps.
-First they estimate the \RIRs/ by extending the \SIMO/-\BCE/ framework form \MIMO/ systems.
-Here the \RIRs/ are modeled as \FIR/ filters following the multipath echo model.
-Secondly, the estimated filters are used to build the demixing matrix, and then to separate the sources with an inverse-filtering approach.
-However, this method exhibits an high computational cost, which was addressed later in~\citeonly{rotili2010joint}.
-Nevertheless these approaches were shown to lack robustness in low SNR conditions.
-\\Alternatively, the work in~\citeonly{asaei2014structured} proposes geometry-based approach embedded in a sparse optimization framework.
+To the best author knowledge, in the literature only few works can be found that incorporate the knowledge of echoes into sound source separation.
+% In the work \citeonly{huang2005blind}, the authors proposes a decomposition of the source separation problem into different steps.
+% First they estimate the \acp{RIR} by extending the \SIMO/-\BCE/ framework form \MIMO/ systems.
+% Here the \acp{RIR} are modeled as \FIR/ filters following the multipath echo model.
+% Secondly, the estimated filters are used to build the demixing matrix, and then to separate the sources with an inverse-filtering approach.
+% However, this method exhibits an high computational cost, which was addressed later in~\citeonly{rotili2010joint}.
+% Nevertheless these approaches were shown to lack robustness in low SNR conditions.
+The work in~\citeonly{asaei2014structured} proposes geometry-based approach embedded in a sparse optimization framework.
 First, by localizing the image sources and estimating the room geometry, the echoes' timings are estimated.
 Then, after computing the echoes' coefficients in a convex optimization framework, the individual speech signals are separated with either inverse-filtering or sparse recovery.
-The performance of this approach relies on the \RIR/ and geometry estimation steps, which are very sensitive to the challenging acoustic condition, \eg/ low SNR or high \RT.
-\\Instead, the work in \citeonly{leglaive2015multichannel} proposes to tackle the convolutive model by imposing a probabilistic prior on the early part of the \RIRs/, namely, modeled as an autoregressive process in the frequency domain.
+The performance of this approach relies on the \ac{RIR} and geometry estimation steps, which are very sensitive to the challenging acoustic condition, \eg/ low SNR or high \RT.
+\\Instead, the work in \citeonly{leglaive2015multichannel} proposes to tackle the convolutive model by imposing a probabilistic prior on the early part of the \acp{RIR}, namely, modeled as an autoregressive process in the frequency domain.
 Later, the same authors extended this work in~\citeonly{leglaive2016multichannel} accounting for both early and late part of the mixing filters.
 
 
@@ -63,7 +60,7 @@ Later, the same authors extended this work in~\citeonly{leglaive2016multichannel
 \end{figure}
 
 \newthought{The proposed approach} is yet different from those presented above.
-First, rather than fitting the echo model as in~\citeonly{leglaive2015multichannel,leglaive2016multichannel}, or estimating the mixing filters as in~\citeonly{huang2005blind,asaei2014structured},
+First, rather than fitting the echo model as in~\citeonly{leglaive2015multichannel,leglaive2016multichannel}, or estimating the mixing filters as in~\citeonly{asaei2014structured},
 we aim to show that separation in the presence of known echoes is better than separation without echoes.
 Second, we conduct this investigation in the context of source separation with non-negative source models with a deterministic model for the mixing filters.
 Third, we propose to solve the problem from the point of view of \textit{image microphones}, already used in~\citeonly{bergamo2004collaborative,korhonen2008acoustic}.
@@ -89,28 +86,30 @@ Real and virtual microphones form dipoles with diverse frequency-dependent direc
 By integrating more and more virtual microphones, the directivity patterns change and higher spatial selectivity can be achieved~\citeonly{dokmanic2015raking}.
 This effect is shown in~\cref{fig:separake:directivity}.
 Therefore, the goal of this work is to design audio source separation algorithms which benefit from this known spatial diversity.
+Note that the signal virtual microphones are not accessible directly, as the observations will remain the mixture of convolutive sound at the real microphones.
+However, such formulation rather offer a useful interpretation and a way to model incoming reverberant signals.
 
-\begin{figure}[b]
+\begin{figure}
     \begin{fullwidth}
     \centering
     \resizebox{\linewidth}{!}{
         \input{figures/separake/dipole_tripoles.tikz}
     }
-    \caption{The frequency-dependent directivity pattern for an virtual array built with a real and one (left) and two (right) image microphones.
-    Image taken from }
+    \caption{The frequency-dependent directivity pattern for a virtual array built with a real and one (left) and two (right) image microphones.
+    Image taken from the \href{https://sigport.org/documents/separake-source-separation-little-help-echoes}{presentation} of the paper~\citeonly{scheibler2018separake}.}
     \label{fig:separake:directivity}
     \end{fullwidth}
 \end{figure}
 
 \section{Modeling}
-Recalling the echo model for the \RIRs/, and assuming $\numEchs$ echoes per source are known, the approximate \RTFdef/ from source $\idxSrc$ to microphone $\idxMic$ writes
+Recalling the echo model for the \acp{RIR}, and assuming $\numEchs$ echoes per source are known, the approximate \RTFdef/ from source $\idxSrc$ to microphone $\idxMic$ writes
 \begin{equation}
     \label{eq:separake:approx_tf}
     \tilde{H}_{\idxMicSrc}(f) = \sum_{\idxEch=0}^{\numEchs} \alpha_{\idxMicSrc}^{(\idxEch)} \cste^{-\csti 2 \pi f \tau_{\idxMicSrc}^{(\idxEch)}}.
 \end{equation}
 Absolute \acsp{TOA} relate to the source's distance which is not assumed to be known here.
-Instead, we will assume that only the \TDOAs/ are known, by arbitrarily fixing the delay of the direct path to zero.
-This is equivalent to assume a far field scenario, thanks to which we can relate the \TDOAs/ to the \DOAsdef/ of the source signal with respect to the center of the virtual array.
+Instead, we will assume that only the \acp{TDOA} are known, by arbitrarily fixing the delay of the direct path at the reference microphone to zero.
+This is equivalent to assume a far field scenario, thanks to which we can relate the \acp{TDOA} to the \acfp{DOA} of the source signal with respect to the center of the virtual array.
 In addition, we assume all walls to be spectrally flat in the frequency range of interest and that $\alpha_{\idxMicSrc}^{(\idxEch)}$ are known up to a scaling (i.e. $\alpha_{\idxMicSrc}^{(0)} = 1$).
 In this work the echoes properties are assumed to be known.
 

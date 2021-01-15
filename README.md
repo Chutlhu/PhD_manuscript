@@ -16,7 +16,8 @@ Thus I would be happy about any feedback on how to improve this template, and I 
   - [ ] ch3-ch2: mettere figura 4.7 in 3.2.3
   - [ ] ch2,3,8: overall noise n or u? check notation
   - [ ] ch8: figure 8.1
-  - [ ] ch8: section 8.2.1 on MASS
+  - [ ] ch8: section 8.2.1 on MASS / explain better
+  - [ ] ch8: section 8.2.1 on MASS / explain better NMF so that not in separake
     - Audio Source Separation into the Wild
   - [ ]
 - [ ] Appendix ReTF methods

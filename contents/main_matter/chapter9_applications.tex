@@ -112,6 +112,11 @@ Since room geometry estimation is mainly based on echo estimation and labeling d
 \acf{MASS} refers to the process of extracting acoustic signals from multichannel mixtures featuring targets, interfering, and noisy sounds.
 In psychoacoustics, this problem is known as \textit{the cocktail party problem}~\citeonly{cherry1953cocktail}, referring to the human ability to focus on a particular stimulus in a audio scene.
 This problem has interested mainly in two research fields in the audio signal processing community: speech and music processing.
+\textit{
+    \textbf{TO BE CHANGED HERE}
+    The scientific literature on audio source separation is vast, still active, and spans decades.
+    The problem covers a huge number of scenarios and use-cases, such as, number of microphones (single- \vs/ multi-channel recordings), the number of sources with respect to the number of channels (under- \vs/ over- \vs/ determined), the type of observed signals (speech \vs/ music), type of recordings (artificial \vs/ microphone recordings) \etc/, and, of course, combination of them.
+}
 Both share many methods, which are accordingly modified, taking into account scenarios and applications.
 \marginpar{
     \footnotesize\itshape
@@ -162,6 +167,12 @@ Once these \ac{PSD} and filter parameters are estimated, separation can be achie
 One of the main advantage of this approach is that it allows to easily incorporated prior knowledge on the problem.
 Thanks to the narrowband approximation (\cref{eq:processing:narrow}), estimation of spatial and semantic content are two complementary sub-problems that can be solved independently.
 This opens to many possibilities, such as, using pre-trained dictionaries to model source content~\citeonly{schmidt2006single, smaragdis2009sparse}, or using proper model for the mixing filters, such as \acp{RIR}, steering vectors, \acp{ReTF}, \etc/.
+
+\mynewline
+Here, we will focus on multichannel source separation based on \acf{NMF}.
+\ac{NMF} refers to a set of technique to model spectra of complex sounds by a sum of basic components.
+Modeling sound structure is beneficial for source separation, since it make separation possible in many challenging scenario.
+Moreover, this approach allows to easily incorporate side information on both the sources and the acoustic propagation as will be shown later in the chapter.
 
 \mynewline
 However, the work in~\citeonly{luo2019conv} showed that even with oracle \ac{TF} masks, the estimation is still affected by artifacts.
