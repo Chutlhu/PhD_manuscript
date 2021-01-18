@@ -18,7 +18,7 @@ From all the unborn chicken voices in my head.}{Radiohead, \textit{Paranoid Andr
 \mynewline
 The material presented in this chapter results from a collaboration with Robin Scheibler and Ivan Dokmani\'{c} and was published in~\cite{scheibler2018separake}.
 This chapter recalls the main findings of the paper and brings additional insights on the literature and on the proposed model, which has been re-written using this thesis' notations.
-The personal contribution to this collaboration, done in the early months of the \PhD/, was adapting and implementing in Python of the proposed \NMF/ method accounting for echoes and using pre-trained dictionaries.
+The personal contribution to this collaboration, done in the early months of the \PhD/, was adapting and implementing in Python of the proposed \ac{NMF} method accounting for echoes and using pre-trained dictionaries.
 
 \section{Literature review in echo-aware Multichannel Audio Source Separation}\label{sec:separake:sota}
 The scientific literature on \ac{MASS} is vast, still active, and spans decades.
@@ -65,13 +65,13 @@ we aim to show that separation in the presence of known echoes is better than se
 Second, we conduct this investigation in the context of source separation with non-negative source models with a deterministic model for the mixing filters.
 Third, we propose to solve the problem from the point of view of \textit{image microphones}, already used in~\citeonly{bergamo2004collaborative,korhonen2008acoustic}.
 The image microphone model is equivalent to the \ISMdef/~\citeonly{allen1979image}, where virtual receivers are placed outside of the room (See~\cref{fig:separake:setup}).
-Even if the \ISM/ is more common and implemented in practice in acoustic simulators, the two models are strictly equivalent.
+Even if the \ac{ISM} is more common and implemented in practice in acoustic simulators, the two models are strictly equivalent.
 % Therefore, this is a reasonable model for early echoes when strongly reflective, non-diffuses surfaces are present near the sources and microphones, which commonly happens in a living room or conference room.
 % However, it incurs a significant mismatch with respect to the complete reverberation (See~\cref{ch:acoustics}).
 This approach is based on the acoustic \textit{rake receivers}\sidenote{
     Rake receivers are a particular type of beamformers accounting for the effect of multipath propagation (see~\cref{sec:dechorateapp:se})
 } previously proposed in~\citeonly{Dokmanic:2015dr} and is thus dubbed \library{Separake}.
-
+This model allows for a simple and intuitive way to structure the mixing matrix so that less parameters need to be estimated.
 
 \mynewline
 The considered setup is illustrated in~\cref{fig:separake:setup}.
@@ -108,10 +108,9 @@ Recalling the echo model for the \acp{RIR}, and assuming $\numEchs$ echoes per s
     \tilde{H}_{\idxMicSrc}(f) = \sum_{\idxEch=0}^{\numEchs} \alpha_{\idxMicSrc}^{(\idxEch)} \cste^{-\csti 2 \pi f \tau_{\idxMicSrc}^{(\idxEch)}}.
 \end{equation}
 Absolute \acsp{TOA} relate to the source's distance which is not assumed to be known here.
-Instead, we will assume that only the \acp{TDOA} are known, by arbitrarily fixing the delay of the direct path at the reference microphone to zero.
-This is equivalent to assume a far field scenario, thanks to which we can relate the \acp{TDOA} to the \acfp{DOA} of the source signal with respect to the center of the virtual array.
+Instead, we will assume that only the \acp{TDOA} are known, by arbitrarily fixing the delay of the direct path of a reference microphone to zero.
 In addition, we assume all walls to be spectrally flat in the frequency range of interest and that $\alpha_{\idxMicSrc}^{(\idxEch)}$ are known up to a scaling (i.e. $\alpha_{\idxMicSrc}^{(0)} = 1$).
-In this work the echoes properties are assumed to be known.
+In this work all these echoes properties are assumed to be known.
 
 \mynewline
 Assuming the narrowband approximation, the mixing process can be modeled as in \cref{subsec:processing:model:stft}.
@@ -148,20 +147,24 @@ As depicted in~\cref{fig:separake:nmf_source}, the spectrogram can be modeled as
 where $\mD_\idxSrc$ is the non-negative \textit{dictionary} whose columns are called \textit{atoms} and can be interpreted as interpreted as spectral templates of the source,
 while the latent variables $\mZ_\idxSrc$, called \textit{activations}, indicating when and how this templates are activated.
 
-\newthought{NMF-based Audio Source Separation} can then be cast as an inference problem in which we minimize the error between the observed $\MICS$ over all possible non-negative factorizations \eqref{eq:separake:nmf}.
+
+\section{Multichannel Audio Source Separation by NMF}
+\ac{NMF}-based \acf{MASS} can then be cast as an inference problem in which we minimize the error between the observed $\MICS$ over all possible non-negative factorizations \eqref{eq:separake:nmf}.
 This normally involves learning the channels, namely the frequency-domain mixing matrices $\FLTSS$.
 Instead of learning them, we build the channels based on the prior knowledge of the earliest few echoes.
+As introduced in~\cref{sec:application:separation}, the \ac{NMF}-based \ac{MASS} consists in two steps:
+the estimation of source's \acf{PSD} via \ac{NMF} and filters and the actual separation via Wiener Filter.
 
-\section{Audio Source Separation by NMF}
-In this work we consider two classical, well-understood multi-channel source separation algorithms which, by default, estimate the channels together with sources' dictionaries and activations.
+\mynewline
+Here we consider two classical, well-understood multi-channel source separation algorithms which, by default, estimate the channels together with sources' dictionaries and activations.
 The first algorithm is \NMFdef/ via \MUdef/ and consider only the magnitudes of the transfer functions.
-The second one is the multichannel \NMF/ via \EMdef/, which instead explicitly models the phases of the mixing filters.
+The second one is the multichannel \ac{NMF} via \EMdef/, which instead explicitly models the phases of the mixing filters.
 In this work, we considered only the (over)determined case ($\numSrcs \leq \numMics$).
 In the following we briefly describe the idea behind the two algorithms.
-We reminds to the work of~\citeonly{ozerov2010multichannel} for further details.
+The reader is invite to refer to the work of~\citeonly{ozerov2010multichannel} for further details.
 
 \subsection{NMF using Multiplicative Updates (MU-NMF)}\label{sec:separake:mu}
-\MU/ for \NMF/ involves the observed magnitude spectrograms only and the updates rules guarantee non-negativity as long as the initialization is non-negative.
+\ac{MU} for \ac{NMF} involves the observed magnitude spectrograms only and the updates rules guarantee non-negativity as long as the initialization is non-negative.
 This model has been originally proposed by in \citeonly{Lee:2001ti}, however we will consider its formulation as it appear in~\citeonly{ozerov2010multichannel}.
 The observed multi-channel squared magnitude spectra are denoted $\mV_\idxMic = \klist{\powerOf{\MIC_\idxMic[k,l]}}_{kl}$ and their non-negative factorizations
 \begin{equation}
@@ -172,7 +175,7 @@ The observed multi-channel squared magnitude spectra are denoted $\mV_\idxMic = 
     \centering
     \includegraphics[width=\linewidth]{separake/mu_nmf_signal_model.pdf}
     \captionof{figure}{
-        Schematics of the signal model used for \MU/-\NMF/.
+        Schematics of the signal model used for \ac{MU}-\ac{NMF}.
         Image taken from the slides accompanying the paper of this work~\citeonly{scheibler2018separake}.
     }\label{fig:separake:nmf_mu}
 }
@@ -197,7 +200,7 @@ We add an $\ell_1$-penalty term to promote sparsity in the activations due to th
                              {\kbracket{\knabla_\theta \scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}})}_{+}}
 \end{equation*}
 where $\scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}}) = {\kbracket{\knabla_\theta \scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}})}_{+}} - {\kbracket{\knabla_\theta \scrC_{\mathtt{MU}}(\Theta_{\mathtt{MU}})}_{-}}$ and the summands are both nonnegative.
-Following the \MU/ rule derivations as in \citeauthor{ozerov2010multichannel}, we obtain:
+Following the \ac{MU} rule derivations as in \citeauthor{ozerov2010multichannel}, we obtain:
 \begin{align}
     \vQ_{\idxMicSrc} &\gets\vQ_{\idxMicSrc} \odot \frac{\kbracket{\wh{\mV}_\idxSrc^{-2} \odot \mV_\idxSrc \odot \kparen{\mZ_\idxSrc \mD_\idxSrc}}\onesVect_{1\times T}}{
                                             \kbracket{\wh{\mV}_\idxSrc^{-1} \odot \kparen{\mZ_\idxSrc \mD_\idxSrc}}\onesVect_{1\times T}}\\
@@ -206,16 +209,18 @@ Following the \MU/ rule derivations as in \citeauthor{ozerov2010multichannel}, w
     \mD_\idxSrc &\gets \mD_\idxSrc \odot \frac{\sum_\idxMic \ktranspose{ \diag(\vQ_{\idxMicSrc})} \kparen{\mV_\idxSrc \odot \wh{\mV}_\idxSrc^{-2}}\ktranspose{\mZ_\idxSrc}}{
                                             \sum_\idxMic \ktranspose{ \diag(\vQ_{\idxMicSrc})} \wh{\mV}_\idxSrc^{-1} \ktranspose{\mZ_\idxSrc}},
 \end{align}
-where multiplication $\odot$, power, and division are element-wise and $\onesVect_{1\times T}$ is a $N$-vector of ones,.
+where multiplication $\odot$, power, and division are element-wise and $\onesVect_{1\times T}$ is a vector of $T$ ones.
 
 \subsection{NMF using Expectation Maximization (EM-NMF)}\label{sec:separake:em}
-Unlike the \MU/ algorithm that independently maximizes the log-likelihood of spectral magnitudes, the \EM/-\NMF/ maximizes the joint log-likelihood over all complex-valued channels~\citeonly{ozerov2010multichannel}.
+Unlike the \ac{MU} algorithm that independently maximizes the log-likelihood of mixture spectral magnitudes over individual channels, the \ac{EM}-\ac{NMF} maximizes the joint log-likelihood over all complex-valued channels~\citeonly{ozerov2010multichannel}.
 Hence, the model takes explicitly into account observed phases.
 In this approach, each source $\idxSrc$ is modeled as a complex Gaussian in the form of
 \begin{equation}
     \SRC_\idxSrc[k,l] \sim \mathcal{N}_c \kparen{0, (\mD_\idxSrc\mZ_\idxSrc)_{kl}},
 \end{equation}
 and the magnitude spectrum $\mP_\idxSrc$ of \eqref{eq:separake:nmf} can be understood as the variance of source $\idxSrc$.
+This underlying statistical model for the source signal can be used (with little changes) in the \ac{MU}-\ac{NMF} approach.
+However, the \ac{MU}-based approach can be applied deterministically, without any statistical assumption on the latent variables.
 \\Under this model, and assuming uncorrelated noise, the microphone signals also follow a complex Gaussian distribution with covariance matrix
 \begin{equation}
     \mSigma_{\MICS}[k,l] = \FLTSS[k] \mSigma_{\SRCS} [k,l] \khermitian{\FLTSS}[k] + \mSigma_{\NSES}[k,l]
@@ -234,8 +239,8 @@ where the $\Theta_{\mathtt{EM}} = \set{\FLTSS, \set{\mD_\idxSrc, \mZ_\idxSrc}_\i
 In a nutshell, one iteration of the E-step consists in computing the \textit{conditional expectation} of the the ``complete'' log likelihood\sidenote{
     The complete data log-likelihood includes both observed variables $\MICS$ and latent variables $\SRCS$} with respect to the current parameter estimates,
 and the M-step re-estimates the parameters by maximizing the conditional expectation of the complete log-likelihood.
-This quantity can be efficiently minimized using the \EM/ algorithm proposed in~\citeonly{ozerov2010multichannel}.
-Since adding sparsity priors is not straightforward in the \EM/ framework, it was not included in the proposed method.
+This quantity can be efficiently minimized using the \ac{EM} algorithm proposed in~\citeonly{ozerov2010multichannel}.
+Since adding sparsity priors is not straightforward in the \ac{EM} framework, it was not included in the proposed method.
 % \begin{description}
 %     \item[E-step:] Conditional expectation \wrt/ the current parameters
 %     \begin{align}
@@ -255,17 +260,17 @@ Since adding sparsity priors is not straightforward in the \EM/ framework, it wa
 % \end{equation}
 
 \subsection{Supervised NMF with pre-trained Dictionaries}
-Pre-trained \textit{dictionaries} are a typical way to informing the \NMF/ algorithm, which is sometimes referred to as \textit{supervised \NMF/}.
-The idea to run NMF on training sets containing examples from desired sound classes and collect the atoms of the estimated non-negative matrices\citeonly{schmidt2006single}.
+Pre-trained \textit{dictionaries} are a typical way to informing the \ac{NMF} algorithm, which is sometimes referred to as \textit{supervised \ac{NMF}}.
+The idea is to run \ac{NMF} on training sets containing examples from desired sound classes and collect the atoms of the estimated non-negative matrices~\citeonly{schmidt2006single}.
 At test phase, these atoms are used as basis vectors for the dictionary matrix (\ie/, $\mD$) and can be used as a good initialization point or kept fixed in the algorithm\sidenote{
-In the context of \NMF/-based music transcription applied to piano music, the dictionary can be a collection of spectral templates, each of which is associated to a piano note~\citeonly{muller2015fundamentals}}.
+In the context of \ac{NMF}-based music transcription applied to piano music, the dictionary can be a collection of spectral templates, each of which is associated to a piano note~\citeonly{muller2015fundamentals}}.
 This can be seen as an instance of the problem of \textit{dictionary learning} which also exists in many other research fields.
 For audio source separation, this idea has been studied extensively since promising results were obtained, even in single channel scenarios ~\citeonly{smaragdis2009sparse}.
 As discussed later in~\cref{subsec:separake:dictionary}, in this work we will use two different dictionaries: one \textit{universal}, and the other \textit{speaker-specific}.
 
 
 \section{Echo-aware Audio Source Separation}
-To evaluate the usefulness of echoes in source separation, we modified the the multi-channel \NMF/ framework of \citeauthor{ozerov2010multichannel}~\citeonly{ozerov2010multichannel}.
+To evaluate the usefulness of echoes in source separation, we modified the the multi-channel \ac{NMF} framework of \citeauthor{ozerov2010multichannel}~\citeonly{ozerov2010multichannel}.
 The knowledge of the echoes is embedded in the model by approximating the entries of mixing matrices with~\eqref{eq:separake:approx_tf}, that is,
 \begin{equation}
     \begin{aligned}
@@ -277,17 +282,17 @@ where $f_k = k\Fs/F$ are the discretized frequencies in Hz corresponding to the 
 \\Futhermore, the early-echo channel model is kept fixed throughout the iterations.
 Moreover, instead of updating both sources' dictionaries and activations, we adapted pre-trained dictionaries to better guide the source separation.
 
-
-\newthought{Neglecting the reverberation} (or working in the anechoic regime) leads to a constant $\vQ_{\idxMicSrc}$ for all $\idxSrc$ and $\idxMic$.
-A consequence is that the \MU/-\NMF/ framework breaks down with a unique, universal dictionary, namely, $\mD = \mD_j\;\forall j$.
-Indeed, \eqref{eq:mu_nmf} becomes the same for all $\idxMic$,
+\mynewline
+Neglecting the reverberation (or working in the far-field anechoic regime) leads to a constant and equal $\vQ_{\idxMicSrc}$ for all $\idxSrc$ and $\idxMic$.
+A consequence is that, if we also assume a unique, universal dictionary, namely, $\mD = \mD_j\;\forall j$, then \ac{MU}-\ac{NMF} framework can be simplified.
+\\Indeed, \eqref{eq:mu_nmf} becomes the same for all $\idxMic$,
 \begin{equation*}
     \wh{\mV}_\idxMic = \sum_{\idxSrc} \mD \mZ_\idxSrc = \mD \sum_\idxSrc \mZ_\idxSrc,
 \end{equation*}
 so even with the correct atoms identified, we can assign them to any source without changing the value of the cost function.
 Therefore, anechoic multi-channel separation with a universal dictionary cannot work well.
 This intuitive reasoning is corroborated by numerical experiments in Section \ref{sec:results}.
-The problem is overcome by the \EM/-\NMF/ algorithm which keeps the channel phase and is thus able to exploit the phase diversity across the array.
+The problem is overcome by the \ac{EM}-\ac{NMF} algorithm which keeps the channel phase and is thus able to exploit the phase diversity across the array.
 Of course, as showed in this work, it is also overcome by using echoes.
 
 \section{Numerical experiments}
@@ -324,12 +329,12 @@ The global delay is discarded, and only the relative amplitudes between echoes a
 
 \mynewline
 With this setup, we perform three different experiments.
-In the first one, we evaluate \MU/-\NMF/ with a universal dictionary.
-In the other two, we evaluate the performance of \MU/-\NMF/ and \EM/-\NMF/ with speaker-specific dictionaries.
+In the first one, we evaluate \ac{MU}-\ac{NMF} with a universal dictionary.
+In the other two, we evaluate the performance of \ac{MU}-\ac{NMF} and \ac{EM}-\ac{NMF} with speaker-specific dictionaries.
 We vary $\numEchs$ from 1 to 6 and use the following three baseline scenarios:
 \begin{enumerate}
-\item \textit{anechoic}: Anechoic conditions, no model mismatch.
-\item \textit{learn}: The \RTFs/ are learned from the data along the activations as originally proposed~\citeonly{ozerov2010multichannel} and the full reverberation is present in the observed data.
+\item \textit{anechoic}: anechoic conditions, thus, without echoes in the mixture.
+\item \textit{learn}: the \RTFs/ are learned from the data together with the activations as originally proposed~\citeonly{ozerov2010multichannel} and the full reverberation is present in the observed data.
 \item \textit{no echoes}: Reverberation is present but ignored (i.e. $\numEchs=0$).
 \end{enumerate}
 With the universal dictionary, the large number of latent variables warrants the introduction of sparsity-inducing regularization.
@@ -351,7 +356,7 @@ First, we introduce a dictionary learned from available training data.
 We explore both speaker-specific and universal dictionaries \citeonly{Sun:2013co}.
 Speaker-specific dictionaries can be beneficial when speakers are known in advance.
 Universal dictionary is more versatile but gives a weaker regularization prior.
-All dictionaries were trained on samples from the TIMIT corpus \citeonly{garofolo1993timit} using the \NMF/ solver in \library{scikit-learn} Python package~\citeonly{pedregosa2011scikit}.
+All dictionaries were trained on samples from the TIMIT corpus \citeonly{garofolo1993timit} using the \ac{NMF} solver in \library{scikit-learn} Python package~\citeonly{pedregosa2011scikit}.
 \cref{fig:separake:dictionaries} illustrates the two different dictionaries used in this work.
 
 \begin{figure}[h]
@@ -387,20 +392,21 @@ The number of latent variables per speaker was set to $20$.
 \subsection{Implementation:}
 Authors of \citeonly{ozerov2010multichannel} provide a Matlab implementation\sidenote{
     \href{http://www.irisa.fr/metiss/ozerov/Software/multi_nmf_toolbox.zip}{Multichannel nonnegative matrix factorization toolbox (in Matlab)}
-} of \MU/-\NMF/ and \EM/-\NMF/ methods for stereo separation.
+} of \ac{MU}-\ac{NMF} and \ac{EM}-\ac{NMF} methods for stereo separation.
 We ported their code to Python and extended it to arbitrary number of input channels.
 However this software features some ad-hoc decisions which do not fit our scenario.
 Thus, we provide a Python adaptation with the following modifications:
 \begin{itemize}
     \item first the original code was restricted to the 2-channel case, i.e.  $\numMics = 2$,
     thus, in order to embrace the specificities of our scenario and for the sake of generalization, we extend it to the multi-channel case, that is $\forall \numMics \geq 1$;
-    \item the \MU/-\NMF/ was modified to handle sparsity constraint as described in \ref{sec:separake:mu};
-    \item since the \EM/ method degenerates when zero-valued entries are present in the dictionary matrix, $\mD$, all these entries are initially set to a small constant value of $10^{-6}$;
-    \item the code was further modified to deal with fixed dictionary and channel models matrices, which are normalized in order to avoid indeterminacy issues \citeonly{ozerov2010multichannel}.
+    \item the \ac{MU}-\ac{NMF} was modified to handle sparsity constraint as described in \ref{sec:separake:mu};
+    \item since the \ac{EM} method degenerates when zero-valued entries are present in the dictionary matrix, $\mD$, all these entries are initially set to a small constant value of $10^{-6}$;
+    \item separation is achieved via \ac{MWF} as described in~\citeonly{ozerov2010multichannel}.
+    \item the code was further modified to deal with fixed dictionary and channel model matrices, which are normalized in order to avoid indeterminacy issues \citeonly{ozerov2010multichannel}.
 \end{itemize}
 Finally, no ``\textit{simulated annealing}'' strategy~\citeonly[Section III.A.6]{ozerov2010multichannel} was used in the final experiments.
 In fact in some preliminary and informal investigations we noticed that this yielded better results than using annealing.
-In the experiments, the number of iterations for \MU/-\NMF/ (\resp/ \EM/-\NMF/) was set to 200 (\resp/ 300).
+In the experiments, the number of iterations for \ac{MU}-\ac{NMF} (\resp/ \ac{EM}-\ac{NMF}) was set to 200 (\resp/ 300).
 
 \subsection{Results}
 \label{sec:results}
@@ -409,7 +415,7 @@ We evaluate performance in terms of \ac{SDR} and \ac{SIR} as defined in \citeonl
 We compute these metrics using the \library{mir\_eval} toolbox~\citeonly{raffel2014mir_eval}.
 
 \mynewline
-The distributions of \ac{SDR} and \ac{SIR} for separation using \MU/-\NMF/ and a universal dictionary are shown in \cref{fig:separake:mu_univ}, with a summary in \cref{fig:separake:median}.
+The distributions of \ac{SDR} and \ac{SIR} for separation using \ac{MU}-\ac{NMF} and a universal dictionary are shown in \cref{fig:separake:mu_univ}, with a summary in \cref{fig:separake:median}.
 We use the median performance to compare the results from different algorithms.
 First, we confirm that separation fails for flat \RTFs/ (\textit{anechoic} and $\numEchs=0$) with \ac{SIR} at around 0~dB.
 Learning the \RTFs/ performs somewhat better in terms of \ac{SIR} than in terms of \ac{SDR}, though both are low.
@@ -451,13 +457,13 @@ Interestingly, with more than one echo, non-negativity and echo priors are alrea
 
 \mynewline
 Separation with speaker-dependent dictionaries is less challenging since we have a stronger prior.
-Accordingly, as shown in ~\cref{fig:separake:mu_spkr,fig:separake:median}, \MU/-\NMF/ now achieves a certain degree of separation even without the channel information.
+Accordingly, as shown in ~\cref{fig:separake:mu_spkr,fig:separake:median}, \ac{MU}-\ac{NMF} now achieves a certain degree of separation even without the channel information.
 The gains from using echoes are smaller, though one echo is still sufficient to match the median performance of learned \RTFs/.
 Using an echo, however, results in a smaller variance, while adding more echoes further improves \ac{SDR} (\ac{SIR}) by up to +2~dB (+3~dB).
 
 \mynewline
-In the same scenario, \EM/-\NMF/ (\cref{fig:separake:em_spkr}) has near-perfect performance on anechoic signals which is expected as the problem is overdetermined.
-For \MU/, a single echo suffices to reach the performance of learned \RTFs/ and further improve it.
+In the same scenario, \ac{EM}-\ac{NMF} (\cref{fig:separake:em_spkr}) has near-perfect performance on anechoic signals which is expected as the problem is overdetermined.
+For \ac{MU}, a single echo suffices to reach the performance of learned \RTFs/ and further improve it.
 Moreover, echoes significantly improve separation quality as illustrated by up to 3~dB improvement over \textit{learn}.
 It is interesting to note that in all experiments the first three echoes nearly saturate the metrics.
 This is good news since higher order echoes are hard to estimate.
@@ -484,12 +490,12 @@ This is good news since higher order echoes are hard to estimate.
 \section{Conclusion}
 In this work, we investigated the potential benefit of early echo knowledge for the problem of sound source separation.
 Unlike earlier work, instead of fitting an echo model or trying to estimate blindly the acoustic channels,
-we investigate the potential of including the properties of known echoes in well established \NMF/-based source separation algorithms.
-In particular, we modified the \MU/ approach (which considers only spectral magnitudes) and the \EM/ (which accounts for complex spectra) by integrating a simple echo model.
-Despite its simplicity, such echo model lends itself to a interesting interpretation by revising the \ISM/ model:
-to each echo corresponds an image microphone (instead of image source as in \ISM/).
+we investigate the potential of including the properties of known echoes in well established \ac{NMF}-based source separation algorithms.
+In particular, we modified the \ac{MU} approach (which considers only spectral magnitudes) and the \ac{EM} (which accounts for complex spectra) by integrating a simple echo model.
+Despite its simplicity, such echo model lends itself to a interesting interpretation by revising the \ac{ISM} model:
+to each echo corresponds an image microphone (instead of image source as in \ac{ISM}).
 It follows that real and image microphones can be considered as microphones arrays with specific directivity pattern.
-\\Numerical results shows that echoes seem to play an essential role in magnitude-only algorithms, like the \MU/-\NMF/.
+\\Numerical results shows that echoes seem to play an essential role in magnitude-only algorithms, like the \ac{MU}-\ac{NMF}.
 In general, they show that using knowledge of a few echoes significantly improve results with respect to an anechoic model.
 This improvement is measured by the standard metrics even when compared to approaches that learn the transfer functions.
 \\Finally, this work confirms the potential of including echoes in sound source separation framework.
