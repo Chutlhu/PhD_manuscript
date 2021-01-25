@@ -254,9 +254,9 @@ In fact, those models were proposed exactly to address the task of estimating th
 Note that here the network provides directly a (unique) set of \ac{TDOA} estimates, not ``continuous'' \ac{CC} values.
 
 \mynewline
-Following the 2D-\ac{SSL} scheme described in \cref{subsec:mirage:2D-SSL} and given the virtual microphone-array geometry (which depends on the relative position of microphones to the surface), $V$ can in principle be used to estimate the 2D direction of arrival of the source.
-To this end, the 3 real-valued estimates in $V$ are converted into \textit{virtual} local angular spectra (see~\cref{subsec:mirage:2D-SSL}).
-In the first investigation of~\citeonly{di2019mirage}, we proposed to use Gaussians functions centered at the estimates $\hat{V}$ with variances equal to the prediction errors made by the \ac{DNN} on the validation set.
+Following the \ac{SRP-PHAT}-like 2D-\ac{SSL} scheme described in \cref{subsec:mirage:2D-SSL} and given the virtual microphone-array geometry (which depends on the relative position of microphones to the surface), the \ac{TDOA} estimates in $V$ can in principle be used to estimate the 2D direction of arrival of the source if provide as continues \ac{CC} values.
+To this end, the 3 real-valued estimates in $V$ are interpolated to create \textit{virtual} local angular spectra (see~\cref{subsec:mirage:2D-SSL}).
+In the first investigation of~\citeonly{di2019mirage}, we proposed to use Gaussians functions centered at those estimates with variances equal to the prediction errors made by the \ac{DNN} on the validation set.
 Later, we modified the networks in order to estimated both these means and the variances, as explained in~\cref{sec:lantern:robust}.
 
 % In the~\cref{ch:lantern}, we introduced a learning-based method to estimate $V$ using audio features obtained from only two microphones.
@@ -286,8 +286,13 @@ Later, we modified the networks in order to estimated both these means and the v
 In this section we will report the experimental results for the proposed approach.
 At first, we will consider the continuation of the investigation started in~\cref{sec:lantern:simple}, namely, the analysis is limited to stereophonic recordings in a single-source close-surface scenario.
 
+\mynewline
 Here we compare the \ac{MIRAGE} approach using the \acs{LANTERN} \ac{MLP} (MIRAGE-MLP) learning model.
-A free and open-source Matlab implementation of \ac{SRP-PHAT}\sidenote{\label{note:mbss}\href{http://bass-db.gforge.inria.fr/bss_locate/}{\library{MBSSLocate}\ExternalLink}} is used to aggregate local angular spectra obtained from the model output.\sidenote{
+Note that in~\cref{sec:lantern:robust} we demonstrated that \ac{MLP} is outperformed by more recent \ac{DNN} architecture.
+However, here we are reporting the results obtained in the work~\citeonly{di2019mirage}, antecedent to the experimental results reported in~\cref{sec:lantern:robust}.
+A free and open-source Matlab implementation of \ac{SRP-PHAT}\sidenote{
+    \label{note:mbss}\href{http://bass-db.gforge.inria.fr/bss_locate/}{\library{MBSSLocate}~\ExternalLink}
+} is used to aggregate local angular spectra obtained from the model output.\sidenote{
     For SRP-PHAT we used a sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ are used for the \ac{DOA} search.
     \label{note:mbss:para}
 }
@@ -332,7 +337,7 @@ With this work, we demonstrated how a simple echo model could allow 2D SSL with 
 Motivated by these results, we put lot of effort in collecting real-world data in order to test the whole \ac{MIRAGE} pipeline, including \ac{LANTERN}.
 One direction was offered by a collaboration with Randy Gomez from the Honda Research Institute.
 The idea was to test the proposed method on the microphone array of the autonomous robot platform called \textit{HARU}\citeonly{ackerman2018haru, gomez2018haru}.
-We collected real-world data, but unfortunately due to several problems identified in the resulting dataset, theses recordings were discarded.
+We collected real-world data, but unfortunately due to several problems identified in the resulting dataset, these recordings were discarded.
 
 % The partner agreed on using its technology to see the impact of echo-aware sound source localization.
 
