@@ -42,14 +42,14 @@ It is typical to observe that \acf{DOA} estimation degrades with increasing acou
 For these reasons, most sound source localization methods regard reverberation, and in particular acoustic echoes, as a nuisance.
 Some prior works, \eg/, \citeonly{rui2004time, chen2006time, zhang2007maximum}, modeled the reverberation as a noise term.
 However, the commonly used dereverberation methods do not reduce strong early echoes.
-Alternatively, approaches in~\citeonly{weinstein1994iterative, taghizadeh2015spatial, salvati2016sound} attempt to solve \SSL/ by estimating the full \RIRs/, which is known to be a very difficult task.
+Alternatively, approaches in~\citeonly{weinstein1994iterative, taghizadeh2015spatial, salvati2016sound} attempt to solve \ac{SSL} by estimating the full \acp{RIR} (or \acp{ReTF}~\citeonly{li2016estimation}), which is known to be a very difficult task.
 
 \mynewline
 Instead, echo-aware sound source localization methods take another direction:
 they exploit the closed-form relation between echo timings and the audio scene geometry as expressed in the \acf{ISM}.
 Early works such as~\citeonly{korhonen2008acoustic, ribeiro2010turning, ribeiro2010using, svaizer2011use} use knowledge form the room geometry to estimate the position of the sound source with respect to the array.
 This idea was subsequently extended in later works, reducing the amount of prior knowledge required or addressing different applications.
-The authors of \citeonly{nakashima2010localization} study the \SSL/ problem in binaural recordings.
+The authors of \citeonly{nakashima2010localization} study the \ac{SSL} problem in binaural recordings.
 To improve localization, they propose to used ad-hoc reflectors as artificial \textit{pinnae} and a simple reflection model.
 In the work~\citeonly{krekovic2016echoslam}, the authors address the problem of Acoustic \ac{SLAM}\sidenote{
     Acoustic \ac{SLAM} enables the estimation of a moving robot’s position in relation to a number of external acoustic sources~\citeonly{evers2018acoustic}.
@@ -60,7 +60,7 @@ Finally, in a very recent work, the well-known \ac{MUSIC} framework is modified 
 \mynewline
 All the above mentioned echo-aware methods are explicitly knowledge-driven, namely, they use closed-form solutions based on physics, acoustics, and signal processing models.
 The benefit of manipulating ``simple'' models is however paid by strong assumptions, simplifications and a need for hand-crafted features.
-In order to overcome these limitations, data-driven methods have been proposed to address \SSL/ (see~\cref{sec:application:localization}).
+In order to overcome these limitations, data-driven methods have been proposed to address \ac{SSL} (see~\cref{sec:application:localization}).
 This approach leverages  training datasets to implicitly learn the mapping from audio features to the source position.
 Such data can be obtained from real recordings or using physics-based simulators.
 These methods were showed to overcome some limitations of physics-based model, especially when some assumptions are violated.
@@ -96,7 +96,15 @@ These models are trained on a close-surface dataset to estimate the first early 
 To answer the second question, we propose the \acf{MIRAGE} framework.
 It exploits echo times of arrival by expressing them as \acp{TDOA} in a \textit{virtual 4-microphone array} formed by the true microphone pair and its image with respect to the reflective surface.
 This model is based on the \textit{image microphones} model (See~\cref{sec:separake:sota}).
-Note that answering this question is an \textit{impossible} task in free- and far-field stereophonic conditions , due to the well known spatial ambiguity of a single \ac{TDOA}, referred to as the \textit{cone of confusion}~\citeonly{Bregman:1994tz}
+Note that answering this question is an \textit{impossible} task in free- and far-field stereophonic conditions, due to the well known spatial ambiguity of a single \ac{TDOA}, referred to as the \textit{cone of confusion}~\citeonly{Bregman:1994tz}.\marginpar{%
+\centering
+\footnotesize
+\includegraphics[width=\linewidth]{mirage/cone.png}
+\captionof{figure}{%
+    Illustration of the cone of confusion.}
+\label{fig:mirage:cone}
+}, that is a cone-shaped region where a source provide the same \TDOA/ and (see~\cref{fig:mirage:cone}).
+For instance, this makes it impossible for humans and device with only 2 microphone to determine the elevation and the front-back position of a sound source using binaural cues alone.
 
 \section{Background in microphone array SSL}\label{sec:background}
 In this section, we briefly review some necessary background in microphone array \ac{SSL}.
@@ -108,16 +116,16 @@ Recalling the signal model presented in~\cref{eq:estimation:signalmodel}, the re
         \tildeh_i(t) &= \echoModelTimeSimple{i} + \tilde{\varepsilon}_i(t),
     \end{aligned}
 \end{equation}
-where $\nse_\idxMic$ denotes possible measurement noise and $\varepsilon_i[k]$ collects later echoes, the reverberation tail, diffusion, and undermodeling noise.
+where $\tilde{\nse}_\idxMic$ denotes possible measurement noise and $\tilde{\varepsilon}_i$ collects later echoes, the reverberation tail, diffusion, and undermodeling noise.
 In this work, we will consider only the first strongest echo, therefore $R = 1$.
-Note that for $r=0$ denotes the direct propagation path, where $\tau_i^(0)$ is the direct path's time of arrival from the source to the $\idxMic$-th microphone, and $\alpha^{(0)}_{\idxMic}$ captures both the sound wave attenuation and air absorption effects.
+Note that for $r=0$ denotes the direct propagation path, where $\tau_i^{(0)}$ is the direct path's time of arrival from the source to the $\idxMic$-th microphone, and $\alpha^{(0)}_{\idxMic}$ captures both the sound wave attenuation and air absorption effects.
 In the remainder of this chapter, we make the approximation of $\alpha_i^{(\idxEch)}$ being frequency-independent.
 
 \subsection{2-channel 1D-SSL}\label{subsec:mirage:1D-SSL}
 \newcommand{\tdoa}{\ensuremath{\tau_\mathtt{TDOA}}}
 \newcommand{\aoa}{\ensuremath{\vartheta}}
 Let us first consider the case of stereophonic recordings ($\numMics=2$).
-Under far-field assumption, traditional \SSL/ methods use the \acf{TDOA},
+Under far-field assumption, traditional \ac{SSL} methods use the \acf{TDOA},
 \begin{equation*}
     \tdoa \eqdef \tau^{(0)}_2 - \tau^{(0)}_1\quad\text{[second]}
     ,
@@ -127,6 +135,7 @@ as a proxy for the estimation of the \ac{AOA}, $\aoa$, since:
     \vartheta \approx \arccos \kparen{\speedOfSound \: \tdoa \: / \: \distMicMic }\quad\text{[rad]},
 \end{equation}
 where $\speedOfSound$ is the speed of sound and $\distMicMic$ is the inter-microphone distance, considered small compared to the source's distance.
+This relation is illustrated in~\cref{fig:mirage:gcc}.
 \begin{figure}
     \begin{sidecaption}[]{
         Illustration of the relation between \ac{DOA} and \ac{TDOA} with ones source and two microphones.
@@ -135,7 +144,7 @@ where $\speedOfSound$ is the speed of sound and $\distMicMic$ is the inter-micro
         \includegraphics[width=\linewidth]{mirage/tdoa_microphone.pdf}
     \end{sidecaption}
 \end{figure}
-\\Then, \SSL/ reduces to estimating the \ac{TDOA}, which can be done by a \ac{CC}-based methods, \eg/, the \acf{GCC-PHAT} method\marginpar{
+\\Then, \ac{SSL} reduces to estimating the \ac{TDOA}, which can be done by a \ac{CC}-based methods, \eg/, the \acf{GCC-PHAT} method\marginpar{
     \footnotesize\itshape
     The ``generalized'' cross-correlation methods add weighting functions (\eg/ the \acf{PHAT}, or the smoothed coherence transform (SCOT)) to the frequency-domain \ac{CC}.
     Their purpose is to improve the estimation of the time delay depending on specific characteristics of the signal and noise.
@@ -152,7 +161,7 @@ Given the \STFT/ $\MIC_1$ and $\MIC_2$ of the two microphones signals, the \ac{C
 \end{equation}
 where $*$ denotes the complex conjugate, $[k,l]$ indexes a \ac{TF} bin of the \STFT/ and $f_k$ is the $k$-th natural frequency in the \STFT/.
 \\The weighting function $1 / \kvbar{ \MIC_1[k,l] \MIC_2^{*}[k,l]}$ is called \acf{PHAT}.
-This function was introduce to suppress the source's autocorrelation component from the angular spectrum.
+This function was introduced to suppress the source's autocorrelation component from the angular spectrum.
 \\Then, the \ac{TDOA} estimate is given by
 \begin{equation*}
     \hat{\tau}_\mathtt{TDOA} = \arg \underset{\tau}{\max} \; \Psi(\tau)
@@ -160,7 +169,7 @@ This function was introduce to suppress the source's autocorrelation component f
 \end{equation*}
 with $\Psi$ being either $\Psi_\mathtt{CC}(\tau)$ or $\Psi_\mathtt{PHAT}(\tau)$.
 Note that these functions can also be expressed directly as a function of the \ac{AOA} using \eqref{eq:mirage:aoa}, hence the term \textit{angular spectrum}.
-Despite the theoretical limitation of \ac{CC}-based methods presented in~\citeonly{chen2006time}, they are known to work well in practice.
+Despite the theoretical limitation of \ac{CC}-based methods presented in~\citeonly{chen2006time}, they are known to work well in practice under moderate reverberation and noise.
 Moreover, it was showed to be state-of-the-art for \ac{SSL} in a large benchmark study~\citeonly{blandin2012multi}.
 
 \subsection{Multichannel 2D-SSL}\label{subsec:mirage:2D-SSL}
@@ -211,7 +220,7 @@ In the well-known \acf{ISM} all the reflections are treated as mirror images of 
         Blue lines correspond to direct paths, orange lines correspond to echo paths.}
     \label{fig:mirage:mirage}
 }
-We will employ here a less common but equivalent interpretation to \ISM/, namely, the image-microphone model (see~\cref{sec:separake:sota})
+We will employ here a less common but equivalent interpretation to \ISM/, namely, the image-microphone model (see~\cref{sec:separake:sota}).
 As illustrated in~\cref{fig:mirage:mirage}, image microphones are mirror images of the true microphones with respect to reflective surfaces.
 In this view, the echoic signal received at a true microphone is the sum of the anechoic signals received at this microphone and its images.
 If we consider the virtual array consisting of both true and image microphones, multiple microphone pairs are now available.
@@ -240,11 +249,12 @@ These three quantities are directly connected to \RIRs/, as illustrated in~\cref
 
 \mynewline
 To learn the parameters $V$, we consider the \acs{LANTERN} data-driven approaches presented in~\cref{ch:lantern}.
-It consists in a class of \ac{DNN} architectures trained to perform multi-target regression from the input audio features \acf{ILD} and \acf{IPD} to to the parameters $V\in\bbR^3$.
+It consists in a class of \ac{DNN} architectures trained to perform multi-target regression from the input audio features \acf{ILD} and \acf{IPD} to the parameters $V\in\bbR^3$.
 In fact, those models were proposed exactly to address the task of estimating the first and strongest echo per channel in a close-surface scenario.
+Note that here the network provides directly a (unique) set of \ac{TDOA} estimates, not ``continuous'' \ac{CC} values.
 
 \mynewline
-Following the 2D-\SSL/ scheme described in \cref{subsec:mirage:2D-SSL} and given the virtual microphone-array geometry (which depends on the relative position of microphones to the surface), $V$ can in principle be used to estimate the 2D direction of arrival of the source.
+Following the 2D-\ac{SSL} scheme described in \cref{subsec:mirage:2D-SSL} and given the virtual microphone-array geometry (which depends on the relative position of microphones to the surface), $V$ can in principle be used to estimate the 2D direction of arrival of the source.
 To this end, the 3 real-valued estimates in $V$ are converted into \textit{virtual} local angular spectra (see~\cref{subsec:mirage:2D-SSL}).
 In the first investigation of~\citeonly{di2019mirage}, we proposed to use Gaussians functions centered at the estimates $\hat{V}$ with variances equal to the prediction errors made by the \ac{DNN} on the validation set.
 Later, we modified the networks in order to estimated both these means and the variances, as explained in~\cref{sec:lantern:robust}.
