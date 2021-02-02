@@ -2,7 +2,7 @@
 \openepigraph{Echoes of the same old psalm\\
 Sing with me\\
 In unity\\
-Join in with me\\}{Leprous, \textit{Mirage}}
+Join in with me}{Leprous, \textit{Mirage}}
 
 \vspace{-2.5em}
 \newthought{Synopsis} \marginpar{%
@@ -19,7 +19,7 @@ Join in with me\\}{Leprous, \textit{Mirage}}
 \mynewline
 This chapter is the continuation of the work presented in~\cref{ch:dechorate}.
 Therefore, it is the results of the collaboration with prof. Sharon Gannot and ing. Pinchas Tandeitnik at the Bar'Ilan University, Israel.
-The algorithms presented here are straightforward extensions of the one available in the literature.
+The algorithms presented here are straightforward extension of the ones available in the literature.
 Nevertheless, they are presented according to the thesis notation.
 In addition, they are  gathered and implemented in the following Python library available online:
 \library{dEchorate} related to the \ac{DECHORATE} dataset, \library{Risotto} for \acs{RIR} estimation and \library{Brioche} for echo-aware beamforming.
@@ -42,19 +42,19 @@ they either ignore their contributions, such as the direct-path beamformers~\cit
 In their vanilla form, neither approaches compute the full acoustic channels explicitly.
 In case of direct-path \DStxtdef/ beamformers, only the \DOA/ of the target source is used to build the so called (relative) steering vector.
 Then, in order to cope with distortions due to reverberation, external noise or interfering speakers, the statistical description of such forms of noise can be included in extended beamformer design, such as the \MVDRtxt/ beamformer~\citeonly{VanTrees2004Optimum}.
-\\The \ReIRs/ (and their frequency counterparts, \ReTFs/) have been introduced with the explicit purpose of avoiding the computation of the acoustic channel related to each microphone~\citeonly{gannot2001signal}.
-\ReIRs/-based beamformers instead of returning the dry source signal, return the reverberant source spatial image as it is recorded at a reference microphone.
+\\The \acp{ReIR} (and their frequency counterparts, \acp{ReTF}) have been introduced with the explicit purpose of avoiding the computation of the acoustic channel related to each microphone~\citeonly{gannot2001signal}.
+\acp{ReIR}-based beamformers instead of returning the dry source signal, return the reverberant source spatial image as it is recorded at a reference microphone.
 Compared to the difficult task of estimating the acoustic channels and of relying on bad channel estimates, this is typically sufficient for achieving good enhancement performances in many practical scenarios.\sidenote{
-    Note that, as opposed to channel estimation, estimating the \ReTF/ is a non-blind problem (See~\cref{sec:processing:rirmodels})}
-Since then, \ReIRs/ have been incorporated in powerful beamforming algorithms, used for both dereverberation and noise reduction (\eg/ \citeonly{schwartz2014multi, kodrasi2017evd}).
+    Note that, as opposed to channel estimation, estimating the \acp{ReTF} is a non-blind problem (See~\cref{sec:processing:rirmodels})}
+Since then, \acp{ReIR} have been incorporated in powerful beamforming algorithms, used for both dereverberation and noise reduction (\eg/ \citeonly{schwartz2014multi, kodrasi2017evd}).
 
 \newthought{Echo-aware beamformers} explicitly model multipath sound propagation instead.
 They can be seen as \textit{rake receivers}, borrowing the idea from telecommunication where an antenna \textit{rakes} (\textit{i.e.} combines) coherent signals arriving from different propagation paths.
 In particular, they consider ``extended'' steering vectors, whose formulation uses known echo delays and attenuations~\citeonly{flanagan1993spatially,jan1995matched}.
 The underlying motivation is two-fold:
-on the one hand, they better describe the acoustic propagation of the source signal; on the other hand, the early echoes' energy is included in the estimated signal and not considered noise to be removed.
+on the one hand, they better describe the acoustic propagation of the source signal; on the other hand, the early echoes' energy is included in the estimated signal and not considered as noise to be removed.
 Later, this approach has been extended to enhance desired signals in the context of the \textit{cocktail party problem} in~\citeonly{Dockmanic2015raking} and for noise and reverberation reduction~\citeonly{peled2013linearly, Javed2016spherical, Kowalczyk2019raking}.
-In particular, the work~\citeonly{peled2013linearly} estimates early echoes in the spherical harmonic domain and uses their \DOAs/ to build \ReIR/.
+In particular, the work~\citeonly{peled2013linearly} estimates early echoes in the spherical harmonic domain and uses their \acp{DOA} to build \ac{ReIR}.
 However, this approach is not generalizable to all microphone array configurations as it requires the deployment of (3D) spherical arrays.
 Alternatively, the authors of~\citeonly{dokmanic2015raking} (with its extension to the time-domain~\citeonly{scheibler2015raking}) propose to modify the original formulation of the \DStxt/ and \MVDRtxt/ beamformer designs to include the knowledge of the echoes as image sources.
 While that study covers the case of interferer and noise reduction, the late reverberation reduction is not considered, which was instead addressed by the work in~\citeonly{Kowalczyk2019raking}.
@@ -69,42 +69,43 @@ Given the narrowband \STFT/ signal model presented is~\cref{subsec:processing:mo
     \MICS[k,l] = \FLTS[k] \SRC[k, l]+ \NSES[k,l]
     ,
 \end{equation}
-where $\MICS[k,l], \FLTS[k,l], \NSES[k,n] \in \bbC^{\numMics}$ and $\SRC[k,l] \in \bbC$.
+where $\MICS[k,l], \FLTS[k], \NSES[k,n] \in \bbC^{\numMics}$ and $\SRC[k,l] \in \bbC$.
 Note that since only one sound source is considered ($\numSrcs=1$), for a given \TF/ bin, the mixing matrix reduces to the vector $\FLTS[k]$ and the source contribution reduces to the complex scalar $\SRC[k,l]$.
 Hereafter, we omit the dependency on the discrete time-frequency bin $[k,l]$ for the sake of clarity.
 
 \mynewline
 The filter vectors can be decomposed in order to highlight the sound propagation components, that is,
 \begin{equation}
-    \FLTS = \kbracket{\FLT^{\mathtt{dp}}_{\idxMic}+ \FLT^{\mathtt{ee}}_{\idxMic} + \FLT^{\mathtt{lr}}_{\idxMic} }_\idxMic
+    \FLTS = \kbracket{\FLT^{\mathtt{dp}}_{\idxMic} + \FLT^{\mathtt{ee}}_{\idxMic} + \FLT^{\mathtt{lr}}_{\idxMic} }_\idxMic
 \end{equation}
 where the summands correspond to the direct-path ($\mathtt{dp}$), early echoes ($\mathtt{ee}$) and late reverberation ($\mathtt{lr}$), respectively.
-We can now model the early part of the \RIR/ associated to the $i$-th channel according the echo model, that is,
+It is sometimes common to consider the entire \textit{early contributions}, $\FLTS^{\mathtt{ec}}$ comprising both direct and echo paths.
+We can now model the such part of the \RIR/ associated to the $i$-th channel according the echo model, that is,
 \begin{equation}\label{eq:dechorateapp:echomodel}
-    \FLT^{\mathtt{dp}}_{\idxMic}+ \FLT^{\mathtt{ee}}_{\idxMic} = \sum_{\idxEch=0}^{\numEchs} \alpha_{\idxMic}^{(r)} \cste^{-\csti 2 \pi f_k \tau_i^{(r)}}
+    \FLT^{\mathtt{ec}}_{\idxMic} = \FLT^{\mathtt{dp}}_{\idxMic}+ \FLT^{\mathtt{ee}}_{\idxMic} = \sum_{\idxEch=0}^{\numEchs} \alpha_{\idxMic}^{(r)} \cste^{-\csti 2 \pi f_k \tau_i^{(r)}}
     ,
 \end{equation}
-where the $\idxEch=0$ is the index of the direct propagation.
+where $\idxEch=0$ is the index of the direct propagation.
 Given such a decomposition of the \RIRs/, the vector $\MICS$ can be expressed accordingly as:
 \begin{equation}\label{eq:dechorateapp:mics}
-    \MICS = \MICS^{\mathtt{dp}} + \MICS^{\mathtt{ee}} + \MICS^{\mathtt{lr}} + \NSES.
+    \MICS = \MICS^{\mathtt{ec}} + \MICS^{\mathtt{lr}} + \NSES.
 \end{equation}
 
 \mynewline
 In the context of echo-aware spatial filtering, the source signal of interest includes both the direct path and the $\numEchs$ early reflections, as done in~\citeonly{dokmanic2015raking,Kowalczyk2019raking}.
 This assumption is motivated by psychoacoustics studies as discussed in~\cref{ch:acoustics:sec:perception}:
-the first early echoes are shown to contribute to increasing speech intelligibility, as they are fully integrated into the direct sound, increasing its perceived intensity.
+the first early echoes are shown to contribute to increasing speech intelligibility, as they are fully integrated into the direct sound, increasing its perceived intensity~\citeonly{bradley2003importance}.
 Based on this, we define as the signal of interest the following
 \begin{equation}\label{eq:dechorateapp:target}
-    \MICS_s = \MICS^{\mathtt{dp}} + \MICS^{\mathtt{ee}} = \kbracket{\FLT^{\mathtt{dp}}_{\idxMic}+ \FLT^{\mathtt{ee}}_{\idxMic}}_\idxMic \SRC.
+    \MICS^{\mathtt{ec}} = \MICS^{\mathtt{dp}} + \MICS^{\mathtt{ee}} = \FLTS^{\mathtt{ec}} \SRC.
 \end{equation}
 
 \mynewline
 The noise and the late reverberation are typically described as random processes for which priors are typically available.
 Therefore, it is common to express the microphone signal model of~\cref{eq:dechorateapp:mics} from a statistical point of view.
-Under the assumption of source and noise signals being statistically independent, we can define the covariance matrix of the microphone signals, $\xpsd_{\mic} = \bbE\kbrace{\mic \khermitian{\mic}} \in \bbC^{\numMics \times \numMics}$, as
+Under the assumption of source and noise signals being statistically independent, we can define the covariance matrix of the microphone signals, $\xpsd_{\mic} = \bbE\kbrace{\MICS \khermitian{\MICS}} \in \bbC^{\numMics \times \numMics}$, as
 \begin{equation}
-    \xpsd_{\mic} = \FLTS \xpsd_{\src} \khermitian{\FLTS} + \xpsd^{\mathtt{lr}}_{\src} + \xpsd_{\nse}
+    \xpsd_{\mic} = \FLTS^{\mathrm{ec}} \xpsd_{\src} \khermitian{\FLTS^{\mathrm{ec}}} + \xpsd^{\mathtt{lr}}_{\src} + \xpsd_{\nse}
     ,
 \end{equation}
 where $\bbE[\cdot]$ denotes the expectation operator.
@@ -201,8 +202,8 @@ the $\FLTS$ simply identifies with the corresponding relative steering vector $\
 \end{equation}
 In distant-talking scenarios, relative time delays, or \TDOAs/, with respect to a reference microphone, are used.
 Moreover, knowing the microphone array geometry, the \TDOAs/ may be derived from the source's \DOA/\sidenote{
-    The mapping between \TDOAs/ and \DOAs/ is not always unique. It depends on the microphone array geometry, such as its compactness, its shape, and the number of sensors.
-}, thus, the steering vectors can be easily computed. However, \DOAs/ need to be estimate aside, using \acf{SSL} methods (See~\cref{sec:application:localization}).
+    The mapping between \TDOAs/ and \acp{DOA} is not always unique. It depends on the microphone array geometry, such as its compactness, its shape, and the number of sensors.
+}, thus, the steering vectors can be easily computed. However, \acp{DOA} need to be estimate aside, using \acf{SSL} methods (See~\cref{sec:application:localization}).
 
 \newthought{The rake filters} are beamformers that explicitly deal with the multipath propagation model in~\cref{eq:dechorateapp:echomodel}.
 To this end, the \ac{MVDR} design is modified by integrating the spatial information of $\numEchs$ reflections into the distortionless constraint.
@@ -214,7 +215,7 @@ This turns out to be equivalent to extending the definition of (relative) steeri
 As before, both the echoes' delays and amplitudes are considered relatively to the reference microphone.
 
 \newthought{The \ReTFdef/} was originally proposed in the work of~\citeonly{gannot2001signal} to overcome the limitation of accessing the full \RTF/ for each channel.
-Given the \RTF/ of the $\idxMic$-th channel $\bfh_\idxMic$, its \ReTF/ with respect to the first channel is given by
+Given the \RTF/ of the $\idxMic$-th channel $\bfh_\idxMic$, its \acp{ReTF} with respect to the first channel is given by
 \begin{equation}
     \FLTS_{\mathtt{ReTF}}[k] = \frac{\FLTS[k]}{H_1[k]}
 \end{equation}
@@ -270,7 +271,7 @@ In this work we evaluate the performance of echo-agnostic and echo-aware beamfor
 In this work, the elements used to build the beamformers are estimated as follows:
 \begin{itemize}
     \item the noise covariance matrix, $\xpsd_{u} $, is estimated from 0.5~second excerpt of diffuse noise only audio segments (this is equivalent to having access to an ideal voice activity detector);
-    \item the \ReTF/, $\FLTS_{\mathtt{ReTF}}$, is estimated from the observed signal using the \acf{GEVD} method described in~\citeonly{doclo2003robust};
+    \item the \acp{ReTF}, $\FLTS_{\mathtt{ReTF}}$, is estimated from the observed signal using the \acf{GEVD} method described in~\citeonly{doclo2003robust};
     \item $\FLTS_{\mathtt{DP}}$, $\FLTS_{\mathtt{RAKE}}$ are computed using known relative delays and amplitudes available in the \DECHORATE/ dataset;
     \item the late reverberation power, $\sigma_{\mathtt{lr}}^2$, is estimated in closed-form knowing the filters $\FLTS$ and the noise \PSD/, as suggested in~\citeonly{schwartz2016joint}.
     Recently, in \citeonly{tammen2018iterative} it was proposed an iterative Least-Square approach to estimate the late \PSD/ together with the \acfp{ReETF}.
@@ -340,11 +341,11 @@ From the loudness spectra differences, a Mean Opinion Score (MOS)\sidenote{
 
 \newthought{Numerical results} are reported in Figure~\ref{fig:dechorateapp:se:results}.
 When using synthetic data, the known echo timings perfectly match the components in the simulated \RIRs/, and, likewise, the echo model matches the \RIRs/' early part.
-Here, one can see that more information is used, the better performances are. \ReTF/- and Rake- beamformers outperform the simple designs based on the direct path, and including the late reverberation statistics considerably boosts performance in all cases.
-Interestingly, \ReTF/ have a slight edge over Rake-versions in terms of mean \ac{SNRR}.
-This can be explained by the fact that \ac{GEVD} methods tend to robustly consider the stronger and more stable components of the \ReTFs/, which in reverberant and noisy static scenarios may identify with the earlier portion of the \RIRs/.
-Moreover, since it is not constrained by a fix echo model, the \ReTFs/ can capture more information which, in turn, yields to sightly better enhancement.
-Nevertheless, the \ac{PESQ} metrics suggest that for this ideal scenario  both echo-aware (Rake) and echo-agnostic (\ReTF/) design are comparable.
+Here, one can see that more information is used, the better performances are. \acp{ReTF}- and Rake- beamformers outperform the simple designs based on the direct path, and including the late reverberation statistics considerably boosts performance in all cases.
+Interestingly, \acp{ReTF} have a slight edge over Rake-versions in terms of mean \ac{SNRR}.
+This can be explained by the fact that \ac{GEVD} methods tend to robustly consider the stronger and more stable components of the \acp{ReTF}, which in reverberant and noisy static scenarios may identify with the earlier portion of the \RIRs/.
+Moreover, since it is not constrained by a fix echo model, the \acp{ReTF} can capture more information which, in turn, yields to sightly better enhancement.
+Nevertheless, the \ac{PESQ} metrics suggest that for this ideal scenario  both echo-aware (Rake) and echo-agnostic (\acp{ReTF}) design are comparable.
 \\When it comes to measured \RIRs/, the trends are different.
 Here, the errors in echo estimation, due to calibration mismatch and the richness of the acoustic propagation, lead to a drop in the performances for echo-aware methods, both in terms of means and variances.
 This is even clearer when considering the $\dPESQ$ metric, as it also accounts for artifacts.
@@ -436,10 +437,10 @@ To this end, two types of state-of-the-art spatial filtering criteria are consid
 Experimental results on real and synthetic data, both available in the proposed dataset, led to the following findings.
 The synthetic data were computed using \ISM/-based simulation; thus, the early parts of \RIRs/ match the early echo model.
 Therefore, replacing the acoustic vectors with few know echoes gives significant enhancement performance gains compared with baseline methods, which consider only the direct ideal propagation.
-In this scenario, both echo-aware and state-of-the-art \ReTF/-based echo-agnostic perform similarly, suggesting the effectiveness of echo-aware approaches.
+In this scenario, both echo-aware and state-of-the-art \acp{ReTF}-based echo-agnostic perform similarly, suggesting the effectiveness of echo-aware approaches.
 However, when using the corresponding real data available in the dataset, performances drop in terms of perceptual quality as predicted by the \acs{PESQ} score.
 This may be due to the small mismatches between real and annotated echoes and the richness of the acoustic field, which impact the echo-aware methods.
-The best-performing method is the echo-agnostic one based on \ReTF/, which does not suffer from any echo mismatch and can include other information about the acoustic propagation.
+The best-performing method is the echo-agnostic one based on \acp{ReTF}, which does not suffer from any echo mismatch and can include other information about the acoustic propagation.
 \\The relatively lower performance of rake-based filters on real scenarios than simulated ones emphasizes the importance of having precise enough \AER/ algorithms and encourages further studies on these echo-aware methods.
 Moreover, the knowledge of the very same echoes is limited to spatial filtering and can be used to retrieve the entire room geometry, as demonstrated in the second section of this chapter.
 \\By using standard approaches based on geometrical reasoning and robust multilateration algorithms, it is possible to revert the \ISM/ and map echoes' \TOAs/ to source and image-source position.
