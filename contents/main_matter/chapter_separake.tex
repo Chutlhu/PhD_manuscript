@@ -70,7 +70,7 @@ Even if the \ac{ISM} is more common and implemented in practice in acoustic simu
 % However, it incurs a significant mismatch with respect to the complete reverberation (See~\cref{ch:acoustics}).
 This approach is based on the acoustic \textit{rake receivers}\sidenote{
     Rake receivers are a particular type of beamformers accounting for the effect of multipath propagation (see~\cref{sec:dechorateapp:se})
-} previously proposed in~\citeonly{Dokmanic:2015dr} and is thus dubbed \library{Separake}.
+} previously proposed in~\citeonly{dokmanic2015raking} and is thus dubbed \library{Separake}.
 This model allows for a simple and intuitive way to structure the mixing matrix so that less parameters need to be estimated.
 
 \mynewline
@@ -192,7 +192,7 @@ In case of \textit{Itakura-Saito} divergence~\citeonly{fevotte2009nonnegative}, 
     + \gamma \sum_\idxSrc \kvvbar{\mZ_\idxSrc}_1,
 \end{equation}
 where $\calD_{\mathtt{IS}}( v | \hat{v} ) = \frac{v}{\hat{v}} - \log \frac{v}{\hat{v}} - 1$ and $\Theta_{\mathtt{MU}} = \{\vQ_{\idxMicSrc}, \set{\mD_\idxSrc, \mZ_\idxSrc}_\idxSrc\}_{\idxMicSrc}$ is the set of parameters.
-We add an $\ell_1$-penalty term to promote sparsity in the activations due to the potentially large size of the dictionary~\citeonly{Sun:2013co}.
+We add an $\ell_1$-penalty term to promote sparsity in the activations due to the potentially large size of the dictionary~\citeonly{sun2013universal}.
 
 \newthought{The MU rule} for each scalar parameter of interest $\theta$ is obtained by multiplying its value at previous iteration by the ratio of the negative and positive parts of the derivative of the criterion \wrt/ this parameter, namely,
 \begin{equation*}
@@ -353,10 +353,10 @@ The value of the regularization parameter $\gamma$ was chosen by a grid search o
 
 \subsection{Dictionary Training, Test Set}\label{subsec:separake:dictionary}
 First, we introduce a dictionary learned from available training data.
-We explore both speaker-specific and universal dictionaries \citeonly{Sun:2013co}.
+We explore both speaker-specific and universal dictionaries \citeonly{sun2013universal}.
 Speaker-specific dictionaries can be beneficial when speakers are known in advance.
 Universal dictionary is more versatile but gives a weaker regularization prior.
-All dictionaries were trained on samples from the TIMIT corpus \citeonly{garofolo1993timit} using the \ac{NMF} solver in \library{scikit-learn} Python package~\citeonly{pedregosa2011scikit}.
+All dictionaries were trained on samples from the TIMIT corpus~\citeonly{garofolo1993timit} using the \ac{NMF} solver in \library{scikit-learn} Python package~\citeonly{pedregosa2011scikit}.
 \cref{fig:separake:dictionaries} illustrates the two different dictionaries used in this work.
 
 \begin{figure}[h]
@@ -376,7 +376,7 @@ All dictionaries were trained on samples from the TIMIT corpus \citeonly{garofol
 \end{figure}
 
 
-\newthought{Universal Dictionary:} Following the methodology of \citeonly{Sun:2013co} we select 25 male and 25 female speakers
+\newthought{Universal Dictionary:} Following the methodology of \citeonly{sun2013universal} we select 25 male and 25 female speakers
 and use all available training sentences to form the universal dictionary
 $
     \mD = [\mD_1^\mathtt{M}\cdots \mD_{25}^\mathtt{M}\,\mD_{1}^\mathtt{F}\cdots\mD_{25}^\mathtt{F}].

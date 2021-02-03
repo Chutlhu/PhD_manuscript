@@ -302,7 +302,7 @@ Finally the features are computed as in~\eqref{eq:mirage:features}, that is taki
 \\While we validate the \ac{MLP} on a portion of the dataset in a \textit{holdout} fashion, the test is conducted on 200 new \acp{RIR} convolved with both wn and speech (sp) utterances.
 This set is generated similarly to the training and validation sets.
 Moreover, the test recordings are perturbed by external white noise at 10~dB \acf{SNR} (wn+n, sp+n).
-The speech signals are speech utterances of various lengths (from 1~s to 6~s), randomly selected from the TIMIT corpus, normalized with respected to their energy.
+The speech signals are speech utterances of various lengths (from 1~s to 6~s), randomly selected from the TIMIT corpus~\citeonly{garofolo1993timit}, normalized with respected to their energy.
 % A free and open-source Matlab implementation of SRP-PHAT\footnote{\url{http://bass-db.gforge.inria.fr/bss_locate/}} is used to aggregate local angular spectra obtained from the DNN's output.
 % The same toolbox is used for the implementation of SPR-PHAT with GCC-PHAT. For the latter method only real pairs are used.
 % A sphere sampling with $\ang{0.5}$ resolution and coordinates $\theta \in [-179, 180]$ and $\phi \in [0, 90]$ is used for the DOA search.

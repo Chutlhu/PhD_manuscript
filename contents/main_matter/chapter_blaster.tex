@@ -41,7 +41,7 @@ Finally, this chapter recalls the main findings of the paper, while bringing add
 % from dereverberation~\citeonly{Wu2006,Lin2008} to sound localization~\citeonly{ribeiro2010,DiCarlo2019} and separation~\citeonly{Dokmanic2015a, Scheibler2017}.
 % Moreover, it allows joint estimation of the receivers' positions~\citeonly{Salvati2016}, the reflective surfaces~\citeonly{Antonacci2012} and consequently the geometry of the room~\citeonly{Dokmanic2013, crocco2017uncalibrated}.
 % % or acoustic impedance of surfaces~\citeonly{Antonello2014, Bertin2016}.
-% % beamforming \citeonly{Dockmanic2015},
+% % beamforming \citeonly{dokmanic2015raking},
 % % such as for speech enhancement \citeonly{Wu2006}, source localization \citeonly{ribeiro2010}, source separation \citeonly{Scheibler2017} and dereverberation \citeonly{Lin2009}
 % % which are common pre-processing steps for many applications \citeonly{Gannot2017}
 
@@ -600,7 +600,7 @@ For this purpose we created three synthetic datasets of $1000$ observations each
     \end{sidecaption}
 \end{table}
 \\\dsetValid{} is used for tuning the hyperparameter $\lambda$ and the peak-picking parameters for \algoCrocco{} and \algoBsn{} using \RT{} and SNR randomly drawn from $\mathcal{U}[0, 1]$ (sec) and $\mathcal{U}[0, 20]$ (dB) respectively; \dsetSNR{} features SNR value uniformly sampled in $[0, 6, 14, 20, \infty]$ while the \RT{} is kept fixed to $400$ ms; akin the \dsetRT{} is built sampling \RT{} value uniformly in $[200, 400, 600, 800, 1000]$ ms keeping SNR to 20 dB.
-Moreover, while for \dsetValid{} broadband signals (white noise) are used as the source, for \dsetSNR{} and \dsetRT{} speech utterances from the TIMIT dataset are also included.
+Moreover, while for \dsetValid{} broadband signals (white noise) are used as the source, for \dsetSNR{} and \dsetRT{} speech utterances from the TIMIT dataset~\citeonly{garofolo1993timit} are also included.
 The signal duration is kept fixed to 1 s with sampling frequency $\Fs = 16$ kHz.
 For a given \RT{} value and room with random dimensions, a unique absorption coefficient is assigned to all surfaces based on Sabine's formula (\cref{eq:processing:sabine}).
 Then, the two microphones and the source are randomly positioned inside the room.

@@ -53,7 +53,7 @@ They can be seen as \textit{rake receivers}, borrowing the idea from telecommuni
 In particular, they consider ``extended'' steering vectors, whose formulation uses known echo delays and attenuations~\citeonly{flanagan1993spatially,jan1995matched}.
 The underlying motivation is two-fold:
 on the one hand, they better describe the acoustic propagation of the source signal; on the other hand, the early echoes' energy is included in the estimated signal and not considered as noise to be removed.
-Later, this approach has been extended to enhance desired signals in the context of the \textit{cocktail party problem} in~\citeonly{Dockmanic2015raking} and for noise and reverberation reduction~\citeonly{peled2013linearly, Javed2016spherical, Kowalczyk2019raking}.
+Later, this approach has been extended to enhance desired signals in the context of the \textit{cocktail party problem} in~\citeonly{dokmanic2015raking} and for noise and reverberation reduction~\citeonly{peled2013linearly, Javed2016spherical, Kowalczyk2019raking}.
 In particular, the work~\citeonly{peled2013linearly} estimates early echoes in the spherical harmonic domain and uses their \acp{DOA} to build \ac{ReIR}.
 However, this approach is not generalizable to all microphone array configurations as it requires the deployment of (3D) spherical arrays.
 Alternatively, the authors of~\citeonly{dokmanic2015raking} (with its extension to the time-domain~\citeonly{scheibler2015raking}) propose to modify the original formulation of the \DStxt/ and \MVDRtxt/ beamformer designs to include the knowledge of the echoes as image sources.
@@ -112,14 +112,14 @@ where $\bbE[\cdot]$ denotes the expectation operator.
 Here $\xpsd^{\mathtt{lr}}_{\mic}$ and $\xpsd_{\nse}$ denote the \PSD/ matrices of the late reverberation and noise, respectively.
 We will describe each term in turn.
 
-\newthought{The source} covariance matrix $\xpsd_\src$ is assumed here to be diagonal, since we assume that all the spatial information is expressed by the filters $\FLTSS$ and the source signals are independent to each other, that is,
+\newthought{The source} covariance matrix $\xpsd_\src$ is assumed here to be diagonal, since we assume that all the spatial information is expressed by the filters $\FLTSS^{\mathtt{ec}}$ and the source signals are independent to each other, that is,
 \begin{equation}
     \xpsd_\src = \sigma_\src^2 \bfI
     ,
 \end{equation}
 where $\bfI$ is the identity matrix of dimension $\numMics \times \numMics$ and $\sigma_\src^2 = \bbE\kbrace{\powerOf{\src}}$.
 
-\newthought{The late reverberation} covariance matrix can be estimated using the time-invariant spatial coherent matrix model proposed in~\citeonly{kuster2012objective}, based a diffuse sound field model~\citeonly{kuttruff2009room}.
+\newthought{The late reverberation} covariance matrix can be estimated using the time-invariant spatial coherent matrix model proposed in~\citeonly{kuster2012objective}, based a diffuse sound field model~\citeonly{kuttruff2016room}.
 \begin{equation}\label{eq:dechorateapp:gamma}
     \xpsd^{\mathtt{lr}}_{\mic} = \sigma_\mathtt{lr}^2\mathbf{\Gamma}
     ,
@@ -128,17 +128,17 @@ where $\sigma_\mathtt{lr}^2$ denotes the power of the late reverberation and $\m
     \footnotesize
     Given the distance $\distMicMic_{ii'}$ between to microphone $i$ and $i'$, the interchannel coherence function in the continuous-frequency domain writes
     \begin{equation*}
-        \tilde{\gamma}_{ii'}(f) = \frac{\sin(2 \pi \distMicMic_{ii'} / \speedOfSound)}
-                                        {2 \pi \distMicMic_{ii'} / \speedOfSound}.
+        \tilde{\gamma}_{ii'}[k] = \frac{\sin(2 \pi f_k \distMicMic_{ii'} / \speedOfSound)}
+                                        {2 \pi f_k \distMicMic_{ii'} / \speedOfSound}.
     \end{equation*}
-    Then, the matrix $\mathbf{\Gamma}$ is built by computing the $\tilde{\gamma}$ for all the pairs of channel on a discrete set of frequencies.
+    Then, the matrix $\mathbf{\Gamma} = \kbracket{\tilde{\gamma}_{_{ii'}}}$ is built for all the pairs of channel on a discrete set of frequencies.
 }
 This approach has been found successful in many dereverberation application~\citeonly{naylor2010dereverberation, cauchi2014joint, tammen2018iterative}.
 
-\newthought{The additive noise} is assumed to be stationary over the recording.
-Therefore its covariance matrix can be easily estimated from the observation using non-speech segments.
+\newthought{The additive noise} term $\NSES$ is assumed to be stationary over the recording.
+Therefore its covariance matrix can be estimated from the observation using non-speech segments.
 In a blind setting, this would require the usage of a voice activity detector.
-Alternatively, the noise component can be modeled as a stationary random process whose spatial covariance matrix can be estimated with advanced techniques.
+Alternatively, the noise component can be modeled as a stationary random process whose spatial covariance matrix can be estimated with advanced techniques exploiting speech non-stationarity~\citeonly{gannot2001signal}.
 
 \subsection{Elements of Beamforming}\label{subsec:dechorateapp:beamformers}
 In the \STFT/ domain, a beamformer forms a linear combination of the microphone channels to yield the desired output $Y \in \bbC$:
@@ -154,7 +154,7 @@ Assuming the far field scenario and $i=0$ to be the reference microphone, this i
 \begin{equation}
     \bsD' = \klist{
                 1,
-                \cste^{-\csti 2 \pi f_k \tau_{\idxMic+1}^{(0)} / \speedOfSound},
+                \cste^{-\csti 2 \pi f_k \tau_{\idxMic}^{(0)} / \speedOfSound},
                 \ldots,
                 \cste^{-\csti 2 \pi f_k \tau_{\numMics}^{(0)} / \speedOfSound}
         }
@@ -168,25 +168,25 @@ where $\kvvbar{\cdot}$ denotes the Euclidean norm.
 
 \newthought{The \MVDRtxt/} beamformer optimizes the following criterion\sidenote{
     The \ac{MVDR} design is equivalent to the Minimum Power Distortionless Response (MPDR) beamformer which minimize the following
-    \begin{equation*}
-        \bsW_{\mathtt{MPDR}} = \kargmin_{\bsW} \kbrace{ \khermitian{\bsW} \xpsd_x \bsW\;\text{s.t.}\;\khermitian{\bsW} \FLTS = 1}.
+    \begin{equation*}\scriptsize
+        \bsW_{\mathtt{MPDR}} = \kargmin_{\bsW} \khermitian{\bsW} \xpsd_x \bsW \;\text{s.t.}\;\khermitian{\bsW} \FLTS = 1.
     \end{equation*}
     However, it exhibit higher sensitivity to misalignment errors than the MVDR beamformer~\citeonly[Section V.A]{gannot2017consolidated}.
 }
 \begin{equation}
-    \bsW_{\MVDR} = \kargmin_{\bsW} \kbrace{ \khermitian{\bsW} \xpsd_u \bsW\;\text{s.t.}\;\khermitian{\bsW} \FLTS = 1}
+    \bsW_{\MVDR} = \kargmin_{\bsW} \khermitian{\bsW} \xpsd_n \bsW \;\text{s.t.}\;\khermitian{\bsW} \FLTS = 1
     .
 \end{equation}
 It aims at minimizing the total output energy (\ie/, minimum variance) while simultaneously keeping the unit gain of the array on the desired signal fixed (\ie/ distortionless response).
-Therefore, the reduction of the output energy suppresses any external noise modeled by $\xpsd_{\bfu}$.
+Therefore, the reduction of the output energy suppresses any external noise modeled by $\xpsd_{n}$.
 \\The Least-Square minimization through the Lagrangian multiplier method yields the following closed-form optimal solutions
 \begin{equation}\label{eq:dechorateapp:mvdr}
-    \bsW_{\MVDR} = \frac{\kinv{\xpsd}_{u} \FLTS}
-                                {\khermitian{\FLTS} \kinv{\xpsd}_{u} \FLTS}
+    \bsW_{\MVDR} = \frac{\kinv{\xpsd}_{n} \FLTS}
+                                {\khermitian{\FLTS} \kinv{\xpsd}_{n} \FLTS}
     .
 \end{equation}
 Note that these techniques do not require any reference signal, only the knowledge of the source's filter $\FLTS$  and an estimate of the observed signal's covariance matrix.
-This criterion design can be easily extended to work with any type of noise and acoustic transfer functions modeled by $\xpsd_{\bfu}$ and $\FLTS$, respectively.
+This criterion design can be easily extended to work with any type of noise and acoustic transfer functions modeled by $\xpsd_{n}$ and $\FLTS$, respectively.
 
 \subsection{Noise, steering vectors, rake filters, and relative transfer functions}
 
@@ -194,7 +194,7 @@ The vectors $\FLTS$ between the source and the $\numMics$ microphones account fo
 To overcome the complexity of estimating them, three main directions have been pursued: steering vectors, rake receivers and relative transfer functions.
 
 \newthought{Steering vectors} are the \RTFs/ of the ideal propagation path component, namely, the two are equivalent in anechoic scenarios.
-They can be easily built on the knowledge of the \TOAs/ of the source signal and their integration in the \ac{MVDR} criterion is straightforward:
+They can be built on the knowledge of the \TOAs/ of the source signal and their integration in the \ac{MVDR} criterion is straightforward:
 the $\FLTS$ simply identifies with the corresponding relative steering vector $\bsD$, that is,
 \begin{equation}
     \FLTS_{\mathtt{DP}}[k] = \bsD[k] = \kbracket{ \cste^{-\csti 2 \pi f_k \tau_i^{(r)}} }_i
@@ -215,23 +215,23 @@ This turns out to be equivalent to extending the definition of (relative) steeri
 As before, both the echoes' delays and amplitudes are considered relatively to the reference microphone.
 
 \newthought{The \ReTFdef/} was originally proposed in the work of~\citeonly{gannot2001signal} to overcome the limitation of accessing the full \RTF/ for each channel.
-Given the \RTF/ of the $\idxMic$-th channel $\bfh_\idxMic$, its \acp{ReTF} with respect to the first channel is given by
+Given the \RTF/ of the $\idxMic$-th channel $\FLT_\idxMic$, its \acp{ReTF} with respect to the first channel is given by
 \begin{equation}
     \FLTS_{\mathtt{ReTF}}[k] = \frac{\FLTS[k]}{H_1[k]}
 \end{equation}
 In a reverberant environment, it contains both direct-path information and information representing early and late reverberations.
 More details are given in~\cref{subsec:processing:rtf}.
 
-\newthought{The noise contribution} is taken into account through the covariance matrix $\xpsd_u$.
+\newthought{The noise contribution} is taken into account through the covariance matrix $\xpsd_n$.
 This term could potentially include every source of ``noise'', such as interfering sources, measurement noise as well as diffuse background noise.
-As long as the power spectral density of the modelled noise source is available, its suppression can be achieved by including it in $\xpsd_u$ and using it in~\cref{eq:dechorateapp:mvdr}. \sidenote{
+As long as the power spectral density of the modelled noise source is available, its suppression can be achieved by including it in $\xpsd_n$ and using it in~\cref{eq:dechorateapp:mvdr}.\sidenote{
     This type of criterion design is more properly known as \MaxSINRtxt/ or \MaxSNRtxt/ beamformers.
     In general, they aim at optimizing directly the \SNRtxt/ or the \SINRtxt/ metrics.
     Nevertheless, it can be shown that the any \MaxSINRtxt/ (or \MaxSNRtxt/) can be identified with an \MVDRtxt/ if the distortionless contraint is satisfied~\citeonly{gannot2017consolidated}.
 }
 For instance,
 \begin{equation}
-    \xpsd_u = \xpsd_{\src_q} + \xpsd_{\nse}
+    \xpsd_n = \xpsd_{\src_q} + \xpsd_{\nse}
     ,
 \end{equation}
 where the summands are the covariance matrix of an interfering source $q$ and of the an independent background noise $\nse$.
@@ -239,7 +239,7 @@ where the summands are the covariance matrix of an interfering source $q$ and of
     Speaker diarization is the problem of partitioning an audio signal into segments according to the source identities.
     In other words, it addresses the problem of ``who is speaking when''.
 } tools.
-If these excerpts are long enough, the whole covariance matrix $\xpsd_u$, including both noise and interferer, is well approximated by its sampled version whose calculation is straightforward.
+If these excerpts are long enough, the whole covariance matrix $\xpsd_n$, including both noise and interferer, is well approximated by its sampled version whose calculation is straightforward.
 Alternatively, other designs can be used, for instance, in the \LCMVtxt/ beamformer, interference reduction is achieved using steering vectors for all interfering sources of the interfering source instead of their \PSD/ matrices.
 
 \newthought{The Late Reverberation} contribution $\xpsd_{\src}^{\mathtt{lr}}$ is not directly available in isolated audio segments as it is ``glued'' to the target signal.
@@ -275,31 +275,35 @@ In this work, the elements used to build the beamformers are estimated as follow
     \item $\FLTS_{\mathtt{DP}}$, $\FLTS_{\mathtt{RAKE}}$ are computed using known relative delays and amplitudes available in the \DECHORATE/ dataset;
     \item the late reverberation power, $\sigma_{\mathtt{lr}}^2$, is estimated in closed-form knowing the filters $\FLTS$ and the noise \PSD/, as suggested in~\citeonly{schwartz2016joint}.
     Recently, in \citeonly{tammen2018iterative} it was proposed an iterative Least-Square approach to estimate the late \PSD/ together with the \acfp{ReETF}.
-    This work is based on~\citeonly{kodrasi2017evd}, where the effectiveness of such approach was shown..
+    This work is based on~\citeonly{kodrasi2017evd}, where the effectiveness of such approach was shown.
 \end{itemize}
 
 \subsection{Experimental evaluation}
 The performances of the different designs are compared on the task of enhancing a target speech signal in a 5-channel mixture using a linear array from the \dEchorate{} dataset.
 In particular, they are tested in scenarios featuring high reverberation and diffuse babble noise, appropriately scaled to given pre-defined signal-to-noise ratio ($\SNR \in \kbrace{0, 10, 20}$).
 Using the \dEchorate{} data, we considered the room configuration $\mathtt{011111}$ ($\RT \approx 600 $ ms) and all the possible combinations of target/array's positions.
-Both real and matching synthetic \RIRs/ are used, which are then convolved with anechoic utterances from the \WSJ/ corpus and corrupted by recorded diffuse noise.
+Both real and corresponding synthetic \RIRs/ are used, which are then convolved with anechoic utterances from the \WSJ/ corpus and corrupted by recorded diffuse noise.
+The correspondence between real and synthetic \RIRs/ is a property of the \dEchorate{} dataset and is described in~\cref{ch:dechorate}.
 The synthetic \RIRs/ are computed with the \href{https://github.com/LCAV/pyroomacoustics}{\library{pyroomacoustics}} Python library, based purely on the \ISMdef/.
 
 \mynewline
-The evaluation is conducted similarly to the one in~\citeonly{Kowalczyk2019raking}.
+The evaluation is conducted similarly to the one in~\citeonly{dokmanic2015raking,kodrasi2017evd,Kowalczyk2019raking}.
 Here we consider the first microphone as the reference one and the clean target signal as the clean signal convolved with the early part of the \RIR/ (up to the $R$-th echo),
-namely, $\MICS_s$ in~\cref{eq:dechorateapp:target}.
+namely, $\MICS^{\mathtt{ec}}$ in~\cref{eq:dechorateapp:target}.
+On one hand, this choice numerically penalizes both direct-path-based and \ReTF/-based beamformers which aim at extract the direct-path signal only and the reverberant signal at the reference microphone, respectively.
+On the other hand, considering only the direct path or the full reverberant signal would be equally unfair for the other beamformers.
+Moreover, choosing the early contribution as target signal is perceptually motivated by the fact that early reflection contributes to speech intelligibility~\citeonly{bradley2003importance}.
 For evaluating the performances, we consider the following metrics:
 
 \newthought{The Signal-to-Noise-plus-Reverberation Improvement} (\DSNRR) in [dB] is the difference between the input $\mathtt{SNRR}_\mathtt{i}$ at the reference microphone and the $\mathtt{SNRR}_\mathtt{o}$ at the filter output.
-Denoting with $\MIC_1$ the signal at the reference microphone and $\MIC_{s,1}$ the target speech at the same microphone (See~\cref{eq:dechorateapp:target}), these quantities are defined as follows:
+Denoting with $\MIC_1$ the signal at the reference microphone and $\MIC^{\mathtt{ec}}_{1}$ the target speech at the same microphone (See~\cref{eq:dechorateapp:target}), these quantities are defined as follows:
 \newcommand{\hbsW}{\khermitian{\bsW}}
     \begin{equation}
         \begin{aligned}
-            \mathtt{SNRR}_\mathtt{i} &= 10 \log_{10} \kparen{\frac{\sigma^2_{\MIC_{s, 1}}}
-                                                            {\sigma^2_{\MIC_{1}} -  \sigma^2_{\MIC_{s, 1}}}} \quad\text{[dB]}\\
-            \mathtt{SNRR}_\mathtt{o} &= 10 \log_{10} \kparen{\frac{\sigma^2_{\hbsW \MICS_{s}}}
-                                                            {\sigma^2_{\hbsW \MICS -  \sigma^2_{\hbsW \MICS_{s}}}}} \quad\text{[dB]}\\
+            \mathtt{SNRR}_\mathtt{i} &= 10 \log_{10} \kparen{\frac{\sigma^2_{\MIC^{\mathtt{ec}}_{ 1}}}
+                                                            {\sigma^2_{\MIC_{1}} -  \sigma^2_{\MIC^{\mathtt{ec}}_{ 1}}}} \quad\text{[dB]}\\
+            \mathtt{SNRR}_\mathtt{o} &= 10 \log_{10} \kparen{\frac{\sigma^2_{\hbsW \MICS^{\mathtt{ec}}}}
+                                                            {\sigma^2_{\hbsW \MICS} -  \sigma^2_{\hbsW \MICS^{\mathtt{ec}}}}} \quad\text{[dB]}\\
             \DSNRR &= \mathtt{SNRR}_\mathtt{o} - \mathtt{SNRR}_\mathtt{i} \quad\text{[dB]}
         \end{aligned}
     \end{equation}
@@ -326,13 +330,14 @@ It was originally used for telecommunication and telephony and it is now conside
 Practically, after applying an auditory model to the reference and distorted (\ie/, the estimated) signals (based on a Bark frequency scale) the loudness spectra are estimated.
 From the loudness spectra differences, a Mean Opinion Score (MOS)\sidenote{
     The MOS is a measure used in the domain of Quality of Experience and telecommunications engineering, representing overall quality of a stimulus or system.
+    MOS were originally obtained from perceptual tests involving human subjects.
 } is inferred using a linear regression model.
 \\An implementation of this metrics is available at the \href{https://github.com/aliutkus/speechmetrics/}{\library{speechmetrics}\ExternalLink} Python library.
 
 \begin{figure}[t]
     \begin{fullwidth}
         \centering
-        \includegraphics[trim={0 10 10 0},clip,width=\linewidth]{figures/dechorateapp/kowalkzy_results_boxplot.pdf}
+        \includegraphics[trim={0 10 10 0},clip,width=\linewidth]{figures/dechorateapp/kowalkzy_results_boxplot1.pdf}
         \caption{
         Comparison of echo-aware beamforming for the room configuration $\mathtt{011111}$ ($\RT \approx 600 $ ms) on measured and synthetic data  for all combinations of source-array positions in the \dEchorate{} dataset.}
         \label{fig:dechorateapp:se:results}
@@ -362,7 +367,7 @@ They were briefly discussed in the context of echo labeling in~\cref{subsec:esti
 In general, these methods can be decomposed into three successive steps:
 \begin{enumerate}
     \item echo labeling, in order to associate the echoes to image sources using one of the methods mentioned in~\cref{subsec:estimation:active_rir};
-    \item estimation of the image source position either through  multilateration\citeonly{dokmanic2013acoustic, dokmanic2015relax}, \MLdef/\citeonly{tervo2011localization} or convex optimization~\citeonly{crocco2012closed};
+    \item estimation of the image source position either through  \textit{multilateration}~\citeonly{dokmanic2013acoustic, dokmanic2015relax} (see below), \MLdef/~\citeonly{tervo2011localization} or convex optimization~\citeonly{crocco2012closed};
     \item and finally, the \textit{image-source-reversion}, in order to localize the reflector, based on the geometrical assumption of the \ISMdef/.
 \end{enumerate}
 More advance techniques have been proposed in the literature of reflector localization for different setups and scenarios.
@@ -421,7 +426,7 @@ For instance, for source $\#4$, all 6 surfaces were localized within less than $
 Small errors are due to concurrency of multiple factors, such as tiny offsets in the annotation and the ideal shoebox approximation\sidenote{
     In the real recording room, some gaps were present between revolving panels in the walls}.
 It is also possible that for some source-receiver pairs, the far-field assumption is not verified, causing the inaccuracy of \textit{reverting} the \ISM/.
-Finally, the 2 outliers for the source \#3 are due to a wrong annotation caused by the source directivity and misclassification.
+Finally, the 2 outliers for source \#3 are due to a wrong annotation caused by the source directivity and misclassification.
 In particular, when a wall is ``behind'' the source, the energy of the related reflection is very small and might not appear in the \RIRs/.
 This happened for the eastern wall, and a second-order image was taken instead.
 Secondly, the contribution of multiple reflections arriving at the same time can be merged into signal spikes in estimated \RIRs/.
@@ -449,14 +454,9 @@ Although the results highlight that some echo \TOAs/ have not been correctly cla
 Finally, we would like to mention that the best of our knowledge, this is the very first dataset of this kind, that is, featuring real data with full echo/image-source annotations.
 
 \mynewline
-\\Future works will explore several directions.
-\begin{itemize}
-    \item By making this dataset freely available to the audio signal processing community, we hope to foster research in AER and echo-aware to improve the performance of existing methods on real data.
-    \item The dataset could be updated by including more robust annotations derived from more advanced algorithms for calibration and \AER/.
-    \item regarding the applications, the echo-aware methods presented above could be validated over more challenging scenarios than the one presented.
-    Such scenarios, \eg/ the presence of interfering sound sources and challenging levels of \SNR{} and \RT{}, are already included in the dataset, but not used in the evaluation above.
-    \item By the amount of the data collected, they can be used to train learning-based signal processing methods or for data augmentation.
-\end{itemize}
-In a more long-term perspective, the data analysis conducted in this chapter brings the attention to exploring the impact of mismatch between simulated and real \RIR/ on audio signal processing methods.
-Moreover, by using the pairs of simulated \vs/ real \RIRs/ available in the dataset, develop techniques to convert one to the other, using style transfer and domain adaptation techniques.
+Future works will explore several directions. Regarding the applications, the echo-aware methods presented above could be validated over more challenging scenarios than the one presented.
+Such scenarios, \eg/ the presence of interfering sound sources and challenging levels of \SNR{} and \RT{}, are already included in the dataset, but not used in the evaluation above.
+By the amount of the data collected, they can be used to train learning-based signal processing methods or for data augmentation.
+\\In a more long-term perspective, the data analysis conducted in this chapter brings the attention to exploring the impact of mismatch between simulated and real \RIR/ on audio signal processing methods.
+Moreover, by using the pairs of simulated \vs/ real \RIRs/ available in the dataset, it could be possible to develop techniques to convert one to the other, using style transfer and domain adaptation techniques.
 \qed

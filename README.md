@@ -21,6 +21,7 @@ Thus I would be happy about any feedback on how to improve this template, and I 
   - [ ] ch8: section 8.2.1 on MASS / explain better NMF so that not in separake
     - Audio Source Separation into the Wild
   - [ ] ch10: fig 10.4 (circle instead of tilde)
+  - [ ] ch11: overlap on noise and late reverberation (11.1.4)
 - [ ] Appendix ReTF methods
 - [ ] Appendix BLasso
 - [ ] Appendix Music
