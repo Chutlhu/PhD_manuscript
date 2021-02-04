@@ -8,29 +8,29 @@ I'm not experienced in writing LaTeX class files, so there is definitely space f
 Thus I would be happy about any feedback on how to improve this template, and I hope someone will find this useful/interesting.
 
 
-# Current TODOs
+## Current TODOs
 
 - [ ] on Laurent Correction
   - [ ] ch2: qualcosa ancora sulla ReTF
-  - [ ] ch2: imgs
-  - [ ] ch3-ch2: mettere figura 4.7 in 3.2.3
-  - [ ] ch2,3,8: overall noise n or u? check notation
-  - [ ] ch7: table 7.1 Avantone Pro Active Mixcube
-  - [ ] ch8: figure 8.1
-  - [ ] ch8: section 8.2.1 on MASS / explain better
-  - [ ] ch8: section 8.2.1 on MASS / explain better NMF so that not in separake
-    - Audio Source Separation into the Wild
-  - [ ] ch10: fig 10.4 (circle instead of tilde)
-  - [ ] ch11: overlap on noise and late reverberation (11.1.4)
 - [ ] Appendix ReTF methods
-- [ ] Appendix BLasso
 - [ ] Appendix Music
-- [ ] Appendix Code
 - [ ] Rigraziamenti
-- [ ] Immagine ch processing
-  - [ ] STFT pipeline
-  - [ ] RIR from dEchorate in everywhere
-  - [ ] ILD / IPD
-- [ ]  Scrivere nel colophon
-  - [ ]  immagini da dEchorate
-  - [ ]  icone
+- [ ] Dedica a Giorgia
+
+## DONE
+- [x] ch3-ch2: mettere figura 4.7 in 3.2.3
+- [x] ch2: imgs
+- [x] ch2,3,8: overall noise n or u? check notation
+- [x] ch7: table 7.1 Avantone Pro Active Mixcube
+- [x] ch8: figure 8.1
+- [x] Appendix BLasso
+- [x] Immagine ch processing
+  - [x] RIR from dEchorate in everywhere
+  - [x] ILD / IPD
+  - Audio Source Separation into the Wild
+- [x] ch8: section 8.2.1 on MASS
+  - explain better NMF so that not in separake
+- [x] ch11: overlap on noise and late reverberation (11.1.4)
+- [x] ch10: fig 10.4 (circle instead of tilde)
+- [x] ch8: section 8.2.1 on MASS / explain better
+- [x]  Scrivere nel colophon

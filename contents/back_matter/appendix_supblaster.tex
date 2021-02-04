@@ -1,9 +1,21 @@
-\chapter{Sliding Frank-Wolfe algorithm \& Non-negative Blasso}\label{ap:blaster}
+\chapter{Sliding Frank-Wolfe algorithm \& Non-negative BLASSO}\label{ap:blaster}
 
-%In this section, we discuss the resolution of~\eqref{eq:blaster:TV-BLASSO}.
+\vspace{-2.5em}
+\newthought{Synopsis} \marginpar{%
+\footnotesize
+\textbf{Resources:}
+\begin{itemize}
+    \item \href{https://gitlab.inria.fr/panama-team/blaster}{Code}
+    \item \href{https://hal.archives-ouvertes.fr/hal-02469901}{Open-access paper with supplementary material}
+\end{itemize}
+} This appendix briefly describes the Sliding Franck-Wolfe Algorithm used to solve the Non-negative \ac{BLASSO} presented is~\cref{ch:blaster}.
+The material reported here are extracted from the supplementary material accompanying the work in~\citeonly{di2020blaster}.
+The main author of this work is Clement Elvira, to whom I extend my greatest thanks, and I will report it for sake of completeness.
+
+\mynewline
 Among all the methods that address the resolution of~\eqref{eq:blaster:TV-BLASSO}, a significant number of them are based on variations of the well-known Frank-Wolfe iterative algorithm, see, \textit{e.g.},~\citeonly{bredies2020sparsity,denoyelle2019sliding}.
 In this paper, we particularize the \emph{sliding Frank-Wolfe} (SFW) algorithm proposed in~\citeonly{denoyelle2019sliding}.
-\\Starting from an initial guess (\textit{e.g.}, the null measure), SFW repeats the four following steps until convergence:
+\\Starting from an initial guess (\eg/, the null measure), SFW repeats the four following steps until convergence:
 \begin{enumerate}
 	\item add a parameter (position of echo) to the support of the solution,
 	%
@@ -26,7 +38,7 @@ More particularly, denoting $\mu^{(t)}$ the estimated filters at iteration $t$, 
 	.
 \end{equation}
 
-
+\mynewline
 The complete SFW method for echo estimation is described by Algorithm~\ref{algo:FW}.
 We now provide additional details about the implementation of each step.
 

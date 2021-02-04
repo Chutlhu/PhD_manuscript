@@ -512,6 +512,21 @@ First, the \DFT/ approaches the \DTFT/ as $N\to\infty$ due to their definition (
 Second, while the convolution theorem is exact for the \DTFT/, for the \DFT/ it is only for  considering the circular convolution on a finite-time signal (or, equivalently, considering periodic signals).
 Therefore, it is easy to notice that that when the period becomes infinite, the circular convolution and the linear convolution become arbitrarily close.
 In the approximation \ref{it:processing:dft:approx1}, limiting the \ac{RIR}'s spectrum with an ideal lowpass filter introduces smearing in the time-domain.
+In particular, the true peaks in the \ac{RIR} do not necessarily correspond to the true echoes as shown in~\cref{fig:processing:mismatch}.
+\begin{figure}[h]
+    \begin{fullwidth}
+        \centering
+        \includegraphics[width=\linewidth]{estimation/basismismatch.png}
+        \caption{%
+        (a) Continuos-time stream of Diracs $\tilde{h}(t)$,
+        (b) sinc kernel $\lowpassfilter(t)$,
+        (c) smoothed stream of Diracs,
+        (d) original stream of Dirac $\tilde{h}(t)$ (red) and its sampled (\ie/, smoothed and discrete) version (blue).
+        Image courtesy of~\citeonly{tukuljac2018mulan}
+        }
+        \label{fig:processing:mismatch}
+    \end{fullwidth}
+\end{figure}
 \citeauthor{tukuljac2018mulan} made an important observation in this regard:
 even if infinite number of samples are available, after the measurement process, the discrete-time filter ${\rir}[n]$ consists of infinite-length decimated combinations of sinc functions.
 In the context of this thesis, this observation tell us that even in ideal conditions, that is without noise, possibly knowing the transmitted signal, and processing infinitely many samples, the exact estimation of the echo properties of the \ac{RIR} is a challenging task itself.

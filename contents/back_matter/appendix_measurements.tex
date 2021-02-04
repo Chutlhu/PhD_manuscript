@@ -1,4 +1,130 @@
 \chapter{RIR and RT60 measurements}\label{ap:rir}
-\section{RIR estimation}
 
-\section{RT60 estimation}\label{ap:rir:sec:rt60}
+\newthought{Synopsis} \marginpar{%
+\footnotesize
+\textbf{Resources:}
+\begin{itemize}
+    \item \href{https://github.com/Chutlhu/Risotto}{\library{Risotto} \ExternalLink}
+    \item \href{https://github.com/maj4e/pyrirtool}{\library{pyrirtool} \ExternalLink}
+    \item \href{https://dsp.stackexchange.com/questions/17121/calculation-of-reverberation-time-rt60-from-the-impulse-response}{StackExchange/DSP discussion}
+\end{itemize}
+} This appendix briefly the procedures used for measuring \acp{RIR} and $\mathtt{RT}_{60}$ in the work described in~\cref{ch:dechorate}.
+
+\section{Measuring RIR}\label{sec:rir:rir}
+
+There are several ways to measure room impulse responses. Some interesting and recent references are:
+\begin{itemize}
+    \item Farina: author of a paper and a AES tutorial on Measuring with Exponential Sine Chirps~\citeonly{farina2007advancements}.
+    \item Igor Szoke: author of the paper \textit{Building and Evaluation of a Real Room Impulse Response Dataset}
+    from Czech Republic.
+    It explain different pro and cons of different RIR estimation method as well as a protocol for acquiring data.
+    \item Kurtruff: well-known author of the book \textit{Room Acoustics}. It explain the method with the Maximum Length Sequence (MLS).
+\end{itemize}
+
+Some implementation code for it that I found:
+
+\begin{itemize}
+    \item Sharon's Lab MATLAB utilities
+
+\end{itemize}
+
+There are 3 problems, which maybe be related:
+
+\begin{enumerate}
+    \item \textit{what is the best probe signal to be generated, hence, emitted?}
+    \item \textit{what is the best method to perform deconvolution?}
+    \item \textit{how to eventually post-process the estimation?}
+    \\Here people use the following:
+    band-pass filtering (Blackman window between $80-8000$ Hz) and then
+    average (and which kind of average) between multiple repetition.
+    Or compute the estimation for the entire signal consisting on
+    multiple chirps.
+\end{enumerate}
+
+
+\section{RT60 estimation}\label{sec:rir:rt60}
+
+\newthought{Empirical, or the Sabine's way} just use Sabine's (or Eyring's) equation
+
+\newthought{From the measurement} and from RIR
+
+
+Framework:
+\begin{enumerate}
+    \item \textit{obtain the Impulse Response} which can be done in various ways:
+    \begin{itemize}
+        \item \textbf{Popping a balloon} basically recording
+        any impulsive-like signal with broad frequency content
+        and omnidirectional characteristic.
+        This is the simplest method of obtaining impulse response.
+        \item \textbf{Sweep Sine} measurement with a usage of either linear
+        or exponential sweep. It allows you to extract many different
+        parameters of your system at the same time.
+        \item MLS (Maximum Length Sequence) measurement
+        with this kind of noise and using Hadamard transform
+        to obtain the impulse response.
+        Some comparison with sweep sine technique can be found
+        \href{https://ev.fe.uni-lj.si/3-2011/Policardi.pdf}{here}.
+    \end{itemize}
+
+    \item \textit{filter impulse response in an appropriate frequency band}.
+    This is due to fact that reverberation time is a function of position
+    in the room and frequency. Obviously, we assume that sound field is
+    diffused and at each position in a room decay rate is the same.
+    Thus we must still consider dependency on the frequency band.
+    For most of the time, Butterworth 3rd order filter is enough
+    (although for frequencies below 125 Hz you might experience some problems
+    with characteristic not meeting specifications).
+
+    \item \textit{Smooth it}
+    \begin{enumerate}
+        \item \textit{Make the response as smooth as possible before conversion
+        to the logarithmic scale}.
+        For that purpose, \textit{Hilbert Transform} is a widely used tool.
+        \sidenote{For Python/Matlab: \texttt{abs(hilbert(h))}.}.
+
+        \item \textit{Then it must be smoothed further}. It is optional and one might consider it unnecessary.
+        It is based on Moving Average filter of appropriate length $M$ \sidenote{For sampling frequency of $48$ kHz I've used $M=5001$.}.
+
+        \item \textit{The curve $A(t)$ can be further smoothed} for calculations by using the
+        \textit{Schroeder Integration method} of your envelope, also known as Inversed Time integration.
+        This method gives you maximally flat decay curve and is very easy to implement.
+        \sidenote{\texttt{L(td:-1:1)=(cumsum(hA(td:-1:1))/sum(hA(1:td)));}
+        \\Mind that limit of integration (td) is equal to $\inf$.It is true when we do not have any environmental noise.
+        Otherwise, you will see that decaying sound 'dives into noise level.
+        I think that easiest to implement is the one proposed by Lundeby et al.}
+
+    \end{enumerate}
+
+    \item \textit{Compute the Energy Curve} (not a Power) $A(t)$ which is simply the smoothed Hilbert envelope in logarithmic scale
+    \begin{equation}
+        E(t) = 20 \log_{10}{\frac{A(t)}{\max{A(t)}}}
+    \end{equation}
+
+    \item \textit{Compute the $RT_{60}$}. It must be done by performing linear interpolation (read linear regression)
+    of of the decay curve (read Schroeder curve) $E(t)$ with linear function: $L=At + B$ on the correct range.
+    Then compute the $RT_{60}$ as follows:
+    \begin{equation}
+        RT60 = \frac{-60}{A}
+    \end{equation}
+\end{enumerate}
+
+\newthought{Finally, the Limitation of this Method} follows. It is not possible to have always $60$ dB of
+dynamic range. It results that this value must be extrapolated from the followings:
+\begin{itemize}
+    \item $EDT$ (Early Decaying Time): upper limit is $0$ dB and lower is $-10$dB.
+    This parameter correlates well with perceived reverberation time.
+    \item $T_{10}$:  upper limit must start at $-5$ dB to remove any
+    fluctuations and then lower limit is taken to be $-15$dB,
+    but it always must be at least $10$dB above the noise floor.
+    So in fact you need at least $25$ dB of dynamic range to be able to calculate $T_{10}$
+    \item $T_{20}$: upper limit at $-5$dB, lower at $-25$dB.
+    Minimum dynamic range needed is $35$dB.
+    \item $T_{30}$: upper limit of $-5$dB, lower at $-35$dB, with minimum $45$dB of dynamic range.
+\end{itemize}
+
+For $T_{60}$, $75$ dB of dynamic range is required, which in practice is happening very rarely.
+\textbf{For very smooth decay these values should be equal}.
+\sidenote{Some more detailed analysis of effects can be found in
+\href{https://pure.tue.nl/ws/files/3477262/352481346918469.pdf}{Measuring Room Impulse Responses: Impact of the Decay Range on Derived Room Acoustic Parameters}}.
+If you will not perform Schroeder integration, then most probably they will diverge a lot.

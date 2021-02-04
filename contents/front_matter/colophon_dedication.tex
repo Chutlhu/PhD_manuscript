@@ -1,6 +1,9 @@
 % verso: colophon / impressum
 \thispagestyle{empty}
-\hphantom{.}
+\vphantom{.}
+\vfill
+\vfill
+\vfill
 \vfill
 
 \section*{Imprint}
@@ -12,16 +15,18 @@ All rights reserved. Compiled at home, printed in France.\\
 \section*{Colophon}
 
 This thesis was typeset using \LaTeX{} and the \texttt{memoir} documentclass.
-It is based on Aaron Turon's thesis \emph{Understanding and expressing scalable concurrency}\footnote{\url{https://people.mpi-sws.org/~turon/turon-thesis.pdf}}, itself a mixture of \texttt{classicthesis}\footnote{\url{https://bitbucket.org/amiede/classicthesis/}} by Andr\'e Miede and \texttt{tufte-latex}\footnote{\url{https://github.com/Tufte-LaTeX/tufte-latex}},
+It is based on Aaron Turon's thesis \emph{Understanding and expressing scalable concurrency}\footnote{\url{https://people.mpi-sws.org/~turon/turon-thesis.pdf}}
+(as re-implemented by Friedrich Wiemer\footnote{\url{https://github.com/pfasante/phd_thesis}}),
+itself a mixture of \texttt{classicthesis}\footnote{\url{https://bitbucket.org/amiede/classicthesis/}} by Andr\'e Miede and \texttt{tufte-latex}\footnote{\url{https://github.com/Tufte-LaTeX/tufte-latex}},
  based on Edward Tufte's \emph{Beautiful Evidence}.\\[0.5\baselineskip]
 %
+Graphics and plots are made with PGF/Ti\emph{k}Z, Matplotlib, Mathcha and Excalidraw.
+Icons are downloaded from the \url{www.flaticon.com/}\\[0.5\baselineskip]
 The bibliography was processed by Biblatex.
-Graphics and plots are made with PGF/Ti\emph{k}Z, Matplotlib, Mathcha and Excalidraw.\\[0.5\baselineskip]
 %
 The body text is set to 10/14pt (long primer) on a 26pc measure.
 The margin text is set to 8/9pt (brevier) on a 12pc measure.
 \library{Linux Libertine} acts as both the text and display typeface.
-Monospaced text uses Jim Lyles's \texttt{Bitstream Vera Mono} (\enquote{Bera Mono}).
 
 % recto: dedication or epigraph
 \thispagestyle{empty}
@@ -32,20 +37,25 @@ Monospaced text uses Jim Lyles's \texttt{Bitstream Vera Mono} (\enquote{Bera Mon
     \textit{``Lavati le man e va a lavorare!''};
     \vfill
     a nonna Carla,\\
-    \textit{``Mammmmma miaaa, che bravo ció!''};
-    \vfill
-    a Giorgia,\\
-    \textit{``Scrivi e non perdere tempo con 'ste cose!''}.
+    \textit{``Uuuuuurrrrrcaaaaaaa, che brao ció!''};
 \end{dedication}
-\clearpage
-% {%
-% \flushright{}
-% \emph{OAndinasdisaodsnd{sdassaodisn
-% dsnaodsudaosnud ssn[dsnsi+oir]\\
-% Aaaaaaaaaaaaahhhh}.}\\
-% \hfill--- Diego \textsc{Di Carlo}
-% }
-% \vfill
-% \vfill
 
-% verso: blank
+\cleardoublepage
+\thispagestyle{empty}
+\vphantom{.}
+\vfill
+{%
+\flushright{}
+
+\def\MyText{\textsc{Echoooes}}
+\newcommand\mytext[2][black]{\scalebox{#2}{\textcolor{#1}{\MyText}}}
+
+\stackinset{c}{4ex}{c}{ 1.4ex}{\mytext[black!70]{.8}}{%
+\stackinset{c}{2ex}{c}{ 3.2ex}{\mytext[black!25]{.7}}{%
+\stackinset{c}{3ex}{c}{-1.3ex}{\mytext[black!35]{.9}}{%
+\mytext{1}%
+}}}.
+\\\hfill--- per Giorgia \textsc{Cantisani}
+}
+\vfill
+\vfill

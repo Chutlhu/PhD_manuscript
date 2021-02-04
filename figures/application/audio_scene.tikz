@@ -3,151 +3,308 @@
 \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
 
 \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+%uncomment if require: \path (0,207); %set diagram left start at 0, and has height of 207
 
-%Shape: Circle [id:dp37372160479593475]
-\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.76 ][line width=4.5]  (160,196) .. controls (160,184.95) and (168.95,176) .. (180,176) .. controls (191.05,176) and (200,184.95) .. (200,196) .. controls (200,207.05) and (191.05,216) .. (180,216) .. controls (168.95,216) and (160,207.05) .. (160,196) -- cycle ;
-%Shape: Circle [id:dp6742469135937114]
-\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.76 ][line width=4.5]  (150,196) .. controls (150,179.43) and (163.43,166) .. (180,166) .. controls (196.57,166) and (210,179.43) .. (210,196) .. controls (210,212.57) and (196.57,226) .. (180,226) .. controls (163.43,226) and (150,212.57) .. (150,196) -- cycle ;
-%Shape: Circle [id:dp6304501410818584]
-\draw   (160,196) .. controls (160,184.95) and (168.95,176) .. (180,176) .. controls (191.05,176) and (200,184.95) .. (200,196) .. controls (200,207.05) and (191.05,216) .. (180,216) .. controls (168.95,216) and (160,207.05) .. (160,196) -- cycle ;
-%Shape: Circle [id:dp6073489332662667]
-\draw   (150,196) .. controls (150,179.43) and (163.43,166) .. (180,166) .. controls (196.57,166) and (210,179.43) .. (210,196) .. controls (210,212.57) and (196.57,226) .. (180,226) .. controls (163.43,226) and (150,212.57) .. (150,196) -- cycle ;
-%Shape: Rectangle [id:dp5920548385374533]
-\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (130,230) -- (210,230) -- (210,250) -- (130,250) -- cycle ;
-%Image [id:dp7339517530204356]
-\draw (480,120) node  {\includegraphics[width=10pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
-%Image [id:dp7608229391866312]
-\draw (480,80) node  {\includegraphics[width=10pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
-%Image [id:dp9664249278995992]
-\draw (480,160) node  {\includegraphics[width=10pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
-%Straight Lines [id:da6875965508418059]
-\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (180,120) -- (467.03,80.41) ;
-\draw [shift={(470,80)}, rotate = 532.15] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da21480429926103284]
-\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (180,120) -- (467,120) ;
-\draw [shift={(470,120)}, rotate = 180] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da6245847985271135]
-\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (180,120) -- (467.03,159.59) ;
-\draw [shift={(470,160)}, rotate = 187.85] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da7309183869115244]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (310,50) -- (467.05,79.45) ;
-\draw [shift={(470,80)}, rotate = 190.62] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Shape: Rectangle [id:dp15733721403583467]
-\draw   (100,50) -- (560,50) -- (560,230) -- (100,230) -- cycle ;
-%Straight Lines [id:da2249329781545223]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (212.39,171.35) .. controls (213.1,169.1) and (214.58,168.33) .. (216.83,169.04) .. controls (219.08,169.75) and (220.55,168.98) .. (221.26,166.73) .. controls (221.97,164.48) and (223.44,163.71) .. (225.69,164.42) .. controls (227.94,165.13) and (229.42,164.36) .. (230.13,162.11) .. controls (230.84,159.86) and (232.31,159.09) .. (234.56,159.8) .. controls (236.81,160.5) and (238.28,159.73) .. (238.99,157.48) .. controls (239.7,155.23) and (241.18,154.46) .. (243.43,155.17) .. controls (245.68,155.88) and (247.15,155.11) .. (247.86,152.86) -- (249.44,152.04) -- (256.53,148.34) ;
-\draw [shift={(259.19,146.95)}, rotate = 512.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da46872311549917245]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (218.39,184.95) .. controls (219.88,183.12) and (221.54,182.95) .. (223.37,184.44) .. controls (225.2,185.93) and (226.86,185.75) .. (228.34,183.92) .. controls (229.82,182.09) and (231.48,181.91) .. (233.31,183.4) .. controls (235.14,184.89) and (236.8,184.71) .. (238.29,182.88) .. controls (239.78,181.05) and (241.43,180.88) .. (243.26,182.37) .. controls (245.09,183.86) and (246.75,183.68) .. (248.23,181.85) .. controls (249.72,180.02) and (251.38,179.84) .. (253.21,181.33) -- (257.45,180.89) -- (265.41,180.06) ;
-\draw [shift={(268.39,179.75)}, rotate = 534.06] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da41740100207513164]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (213.99,175.35) .. controls (214.96,173.2) and (216.52,172.61) .. (218.67,173.57) .. controls (220.82,174.54) and (222.38,173.94) .. (223.34,171.79) .. controls (224.3,169.64) and (225.86,169.04) .. (228.01,170.01) .. controls (230.16,170.98) and (231.72,170.38) .. (232.68,168.23) .. controls (233.65,166.08) and (235.21,165.48) .. (237.36,166.45) .. controls (239.51,167.42) and (241.07,166.82) .. (242.03,164.67) .. controls (242.99,162.52) and (244.55,161.92) .. (246.7,162.89) .. controls (248.85,163.86) and (250.41,163.26) .. (251.37,161.11) -- (254.11,160.07) -- (261.59,157.22) ;
-\draw [shift={(264.39,156.15)}, rotate = 519.15] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da11925314169744539]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (215.99,180.15) .. controls (217.24,178.16) and (218.87,177.78) .. (220.87,179.03) .. controls (222.87,180.28) and (224.49,179.91) .. (225.74,177.91) .. controls (226.99,175.91) and (228.61,175.54) .. (230.61,176.79) .. controls (232.61,178.04) and (234.23,177.67) .. (235.48,175.67) .. controls (236.73,173.67) and (238.36,173.3) .. (240.36,174.55) .. controls (242.36,175.8) and (243.98,175.42) .. (245.23,173.42) .. controls (246.48,171.42) and (248.1,171.05) .. (250.1,172.3) .. controls (252.1,173.55) and (253.72,173.18) .. (254.97,171.18) -- (255.67,171.02) -- (263.47,169.23) ;
-\draw [shift={(266.39,168.55)}, rotate = 527.04] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da12240342341771249]
-\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 0.75pt off 0.75pt}]  (510,150) .. controls (509.26,152.24) and (507.77,152.99) .. (505.53,152.24) .. controls (503.3,151.49) and (501.81,152.24) .. (501.06,154.47) -- (499.84,155.08) -- (492.68,158.66) ;
-\draw [shift={(490,160)}, rotate = 333.43] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da5418102098206483]
-\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 0.75pt off 0.75pt}]  (510,110) .. controls (509.26,112.24) and (507.77,112.99) .. (505.53,112.24) .. controls (503.3,111.49) and (501.81,112.24) .. (501.06,114.47) -- (499.84,115.08) -- (492.68,118.66) ;
-\draw [shift={(490,120)}, rotate = 333.43] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da2263274179236877]
-\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 0.75pt off 0.75pt}]  (510,60) .. controls (509.26,62.24) and (507.77,62.99) .. (505.53,62.24) .. controls (503.3,61.49) and (501.81,62.24) .. (501.06,64.47) -- (499.84,65.08) -- (492.68,68.66) ;
-\draw [shift={(490,70)}, rotate = 333.43] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da6407483239165986]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (350,230) -- (468.13,82.34) ;
-\draw [shift={(470,80)}, rotate = 488.66] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da5328192505993826]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (330,50) -- (467.32,118.66) ;
-\draw [shift={(470,120)}, rotate = 206.57] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da8377831024194228]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (370,230) -- (468.34,82.5) ;
-\draw [shift={(470,80)}, rotate = 483.69] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da38697516677735044]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (400,230) -- (467.88,162.12) ;
-\draw [shift={(470,160)}, rotate = 495] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Image [id:dp4512377721787463]
-\draw (200,80) node  {\includegraphics[width=30pt]{figures/speech.pdf}};
-%Image [id:dp11655856762581418]
-\draw (160,120) node  {\includegraphics[width=45pt]{figures/guitar.pdf}};
-%Straight Lines [id:da6506133051173556]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (218.06,191.95) .. controls (219.65,190.21) and (221.31,190.13) .. (223.05,191.72) .. controls (224.8,193.31) and (226.46,193.23) .. (228.05,191.48) .. controls (229.64,189.74) and (231.3,189.66) .. (233.04,191.25) .. controls (234.78,192.84) and (236.45,192.76) .. (238.04,191.02) .. controls (239.62,189.27) and (241.28,189.19) .. (243.03,190.78) .. controls (244.77,192.37) and (246.44,192.29) .. (248.03,190.55) .. controls (249.61,188.8) and (251.27,188.72) .. (253.02,190.31) -- (257.45,190.1) -- (265.44,189.73) ;
-\draw [shift={(268.43,189.59)}, rotate = 537.31] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da9912250072749541]
-\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (290,230) -- (467.7,81.92) ;
-\draw [shift={(470,80)}, rotate = 500.19] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da842755271595558]
-\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (310,230) -- (467.53,121.7) ;
-\draw [shift={(470,120)}, rotate = 505.49] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da565897385867932]
-\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (340,230) -- (467.36,161.42) ;
-\draw [shift={(470,160)}, rotate = 511.7] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da016277657003535784]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (215.77,214.66) .. controls (218.07,214.14) and (219.48,215.03) .. (219.99,217.33) .. controls (220.51,219.63) and (221.92,220.52) .. (224.22,220.01) .. controls (226.52,219.49) and (227.93,220.38) .. (228.44,222.68) .. controls (228.95,224.98) and (230.36,225.87) .. (232.66,225.35) .. controls (234.96,224.84) and (236.37,225.73) .. (236.89,228.03) -- (240,230) -- (240,230) .. controls (240.17,227.65) and (241.44,226.56) .. (243.79,226.74) .. controls (246.14,226.92) and (247.41,225.83) .. (247.58,223.48) .. controls (247.76,221.13) and (249.03,220.04) .. (251.38,220.22) .. controls (253.73,220.4) and (255,219.31) .. (255.17,216.96) .. controls (255.34,214.61) and (256.61,213.52) .. (258.96,213.7) -- (260.76,212.16) -- (266.82,206.94) ;
-\draw [shift={(269.1,204.99)}, rotate = 499.32] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da9867855512078149]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (218.1,207.99) .. controls (220.42,207.56) and (221.79,208.51) .. (222.22,210.83) .. controls (222.64,213.15) and (224.01,214.1) .. (226.33,213.67) .. controls (228.65,213.24) and (230.02,214.19) .. (230.45,216.51) .. controls (230.87,218.83) and (232.24,219.78) .. (234.56,219.35) .. controls (236.88,218.92) and (238.25,219.87) .. (238.68,222.19) .. controls (239.1,224.51) and (240.47,225.46) .. (242.79,225.03) .. controls (245.11,224.6) and (246.48,225.55) .. (246.91,227.87) -- (250,230) -- (250,230) .. controls (250.29,227.66) and (251.6,226.63) .. (253.94,226.92) .. controls (256.28,227.21) and (257.59,226.18) .. (257.88,223.84) .. controls (258.17,221.5) and (259.48,220.48) .. (261.82,220.77) .. controls (264.16,221.06) and (265.47,220.03) .. (265.76,217.69) -- (266.1,217.43) -- (272.4,212.5) ;
-\draw [shift={(274.77,210.66)}, rotate = 502.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da5055644084768178]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (210,220.33) .. controls (212.23,219.59) and (213.72,220.34) .. (214.47,222.57) .. controls (215.21,224.81) and (216.7,225.56) .. (218.94,224.81) .. controls (221.17,224.06) and (222.67,224.81) .. (223.42,227.04) .. controls (224.16,229.28) and (225.65,230.03) .. (227.89,229.28) -- (230,230.33) -- (230,230.33) .. controls (230.17,227.98) and (231.44,226.9) .. (233.79,227.07) .. controls (236.14,227.25) and (237.41,226.16) .. (237.58,223.81) .. controls (237.75,221.46) and (239.02,220.37) .. (241.37,220.55) .. controls (243.72,220.73) and (244.99,219.64) .. (245.16,217.29) .. controls (245.33,214.94) and (246.6,213.85) .. (248.95,214.03) .. controls (251.3,214.21) and (252.57,213.12) .. (252.74,210.77) -- (255.76,208.16) -- (261.83,202.95) ;
-\draw [shift={(264.1,200.99)}, rotate = 499.29] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da5832987622194876]
-\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (350,50) -- (467.79,157.97) ;
-\draw [shift={(470,160)}, rotate = 222.51] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da5008400993643431]
-\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (350,50) -- (467.79,157.97) ;
-\draw [shift={(470,160)}, rotate = 222.51] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da2480092091139493]
-\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (370,50) -- (467.54,118.28) ;
-\draw [shift={(470,120)}, rotate = 214.99] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da98913951227942]
-\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (400,50) -- (467.24,78.82) ;
-\draw [shift={(470,80)}, rotate = 203.2] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da7940761686938484]
-\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (220,80) -- (467,80) ;
-\draw [shift={(470,80)}, rotate = 180] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da03582329188397548]
-\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (220,80) -- (467.04,119.53) ;
-\draw [shift={(470,120)}, rotate = 189.09] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Straight Lines [id:da5309831276841109]
-\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (220,80) -- (467.14,159.09) ;
-\draw [shift={(470,160)}, rotate = 197.74] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
-%Image [id:dp7579313396430111]
-\draw (180,196) node  {\includegraphics[width=18.75pt]{figures/ac.pdf}};
-%Straight Lines [id:da14142044437195245]
-\draw    (480,90) -- (577,90) ;
-\draw [shift={(580,90)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (7.14,-3.43) -- (0,0) -- (7.14,3.43) -- (4.74,0) -- cycle    ;
-%Straight Lines [id:da0847611097781068]
-\draw    (480,130) -- (577,130) ;
-\draw [shift={(580,130)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (7.14,-3.43) -- (0,0) -- (7.14,3.43) -- (4.74,0) -- cycle    ;
-%Straight Lines [id:da009579756930902739]
-\draw    (480,170) -- (577,170) ;
-\draw [shift={(580,170)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (7.14,-3.43) -- (0,0) -- (7.14,3.43) -- (4.74,0) -- cycle    ;
+%Shape: Circle [id:dp32927964742218163]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.76 ][line width=4.5]  (70,156) .. controls (70,144.95) and (78.95,136) .. (90,136) .. controls (101.05,136) and (110,144.95) .. (110,156) .. controls (110,167.05) and (101.05,176) .. (90,176) .. controls (78.95,176) and (70,167.05) .. (70,156) -- cycle ;
+%Shape: Circle [id:dp17260906399556886]
+\draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.76 ][line width=4.5]  (60,156) .. controls (60,139.43) and (73.43,126) .. (90,126) .. controls (106.57,126) and (120,139.43) .. (120,156) .. controls (120,172.57) and (106.57,186) .. (90,186) .. controls (73.43,186) and (60,172.57) .. (60,156) -- cycle ;
+%Shape: Circle [id:dp7190303373595671]
+\draw   (70,156) .. controls (70,144.95) and (78.95,136) .. (90,136) .. controls (101.05,136) and (110,144.95) .. (110,156) .. controls (110,167.05) and (101.05,176) .. (90,176) .. controls (78.95,176) and (70,167.05) .. (70,156) -- cycle ;
+%Shape: Circle [id:dp2814138902853698]
+\draw   (60,156) .. controls (60,139.43) and (73.43,126) .. (90,126) .. controls (106.57,126) and (120,139.43) .. (120,156) .. controls (120,172.57) and (106.57,186) .. (90,186) .. controls (73.43,186) and (60,172.57) .. (60,156) -- cycle ;
+%Image [id:dp17816944280448732]
+\draw (390,80) node  {\includegraphics[width=12pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Image [id:dp45273895260336117]
+\draw (390,40) node  {\includegraphics[width=12pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Image [id:dp6381520661174187]
+\draw (390,120) node  {\includegraphics[width=12pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+%Straight Lines [id:da6586000376203214]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (90,80) -- (377.03,40.41) ;
+\draw [shift={(380,40)}, rotate = 532.15] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da4994148254723665]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (90,80) -- (377,80) ;
+\draw [shift={(380,80)}, rotate = 180] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da2976784068531415]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (90,80) -- (377.03,119.59) ;
+\draw [shift={(380,120)}, rotate = 187.85] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da9925419444813964]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (130,40) -- (220,10) -- (377.53,118.3) ;
+\draw [shift={(380,120)}, rotate = 214.51] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Shape: Rectangle [id:dp22250620130605991]
+\draw   (10,10) -- (450,10) -- (450,190) -- (10,190) -- cycle ;
+%Straight Lines [id:da39912489459152145]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (122.39,131.35) .. controls (123.1,129.1) and (124.58,128.33) .. (126.83,129.04) .. controls (129.08,129.75) and (130.55,128.98) .. (131.26,126.73) .. controls (131.97,124.48) and (133.44,123.71) .. (135.69,124.42) .. controls (137.94,125.13) and (139.42,124.36) .. (140.13,122.11) .. controls (140.84,119.86) and (142.31,119.09) .. (144.56,119.8) .. controls (146.81,120.5) and (148.28,119.73) .. (148.99,117.48) .. controls (149.7,115.23) and (151.18,114.46) .. (153.43,115.17) .. controls (155.68,115.88) and (157.15,115.11) .. (157.86,112.86) -- (159.44,112.04) -- (166.53,108.34) ;
+\draw [shift={(169.19,106.95)}, rotate = 512.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da9972092832725715]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (128.39,144.95) .. controls (129.88,143.12) and (131.54,142.95) .. (133.37,144.44) .. controls (135.2,145.93) and (136.86,145.75) .. (138.34,143.92) .. controls (139.82,142.09) and (141.48,141.91) .. (143.31,143.4) .. controls (145.14,144.89) and (146.8,144.71) .. (148.29,142.88) .. controls (149.78,141.05) and (151.43,140.88) .. (153.26,142.37) .. controls (155.09,143.86) and (156.75,143.68) .. (158.23,141.85) .. controls (159.72,140.02) and (161.38,139.84) .. (163.21,141.33) -- (167.45,140.89) -- (175.41,140.06) ;
+\draw [shift={(178.39,139.75)}, rotate = 534.06] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da3045417428645658]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (123.99,135.35) .. controls (124.96,133.2) and (126.52,132.61) .. (128.67,133.57) .. controls (130.82,134.54) and (132.38,133.94) .. (133.34,131.79) .. controls (134.3,129.64) and (135.86,129.04) .. (138.01,130.01) .. controls (140.16,130.98) and (141.72,130.38) .. (142.68,128.23) .. controls (143.65,126.08) and (145.21,125.48) .. (147.36,126.45) .. controls (149.51,127.42) and (151.07,126.82) .. (152.03,124.67) .. controls (152.99,122.52) and (154.55,121.92) .. (156.7,122.89) .. controls (158.85,123.86) and (160.41,123.26) .. (161.37,121.11) -- (164.11,120.07) -- (171.59,117.22) ;
+\draw [shift={(174.39,116.15)}, rotate = 519.15] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da03287480519096775]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (125.99,140.15) .. controls (127.24,138.16) and (128.87,137.78) .. (130.87,139.03) .. controls (132.87,140.28) and (134.49,139.91) .. (135.74,137.91) .. controls (136.99,135.91) and (138.61,135.54) .. (140.61,136.79) .. controls (142.61,138.04) and (144.23,137.67) .. (145.48,135.67) .. controls (146.73,133.67) and (148.36,133.3) .. (150.36,134.55) .. controls (152.36,135.8) and (153.98,135.42) .. (155.23,133.42) .. controls (156.48,131.42) and (158.1,131.05) .. (160.1,132.3) .. controls (162.1,133.55) and (163.72,133.18) .. (164.97,131.18) -- (165.67,131.02) -- (173.47,129.23) ;
+\draw [shift={(176.39,128.55)}, rotate = 527.04] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da5865377239903317]
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 0.75pt off 0.75pt}]  (420,110) .. controls (419.26,112.24) and (417.77,112.99) .. (415.53,112.24) .. controls (413.3,111.49) and (411.81,112.24) .. (411.06,114.47) -- (409.84,115.08) -- (402.68,118.66) ;
+\draw [shift={(400,120)}, rotate = 333.43] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da8967646104757638]
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 0.75pt off 0.75pt}]  (420,70) .. controls (419.26,72.24) and (417.77,72.99) .. (415.53,72.24) .. controls (413.3,71.49) and (411.81,72.24) .. (411.06,74.47) -- (409.84,75.08) -- (402.68,78.66) ;
+\draw [shift={(400,80)}, rotate = 333.43] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da27102983354417864]
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 0.75pt off 0.75pt}]  (420,20) .. controls (419.26,22.24) and (417.77,22.99) .. (415.53,22.24) .. controls (413.3,21.49) and (411.81,22.24) .. (411.06,24.47) -- (409.84,25.08) -- (402.68,28.66) ;
+\draw [shift={(400,30)}, rotate = 333.43] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da09566210588232127]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (130,40) -- (260,190) -- (378.13,42.34) ;
+\draw [shift={(380,40)}, rotate = 488.66] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da8673150320316897]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (130,40) -- (240,10) -- (377.32,78.66) ;
+\draw [shift={(380,80)}, rotate = 206.57] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da6215050039682742]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (130,40) -- (280,190) -- (377.98,82.22) ;
+\draw [shift={(380,80)}, rotate = 492.27] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da4427150443422293]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (130,40) -- (310,190) -- (377.88,122.12) ;
+\draw [shift={(380,120)}, rotate = 495] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Image [id:dp1101681054830439]
+\draw (110,40) node  {\includegraphics[width=30pt,height=30pt]{figures/speech.pdf}};
+%Image [id:dp5101468396263449]
+\draw (70,80) node  {\includegraphics[width=45pt,height=45pt]{figures/guitar.pdf}};
+%Straight Lines [id:da33351235221860165]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (128.06,151.95) .. controls (129.65,150.21) and (131.31,150.13) .. (133.05,151.72) .. controls (134.8,153.31) and (136.46,153.23) .. (138.05,151.48) .. controls (139.64,149.74) and (141.3,149.66) .. (143.04,151.25) .. controls (144.78,152.84) and (146.45,152.76) .. (148.04,151.02) .. controls (149.62,149.27) and (151.28,149.19) .. (153.03,150.78) .. controls (154.77,152.37) and (156.44,152.29) .. (158.03,150.55) .. controls (159.61,148.8) and (161.27,148.72) .. (163.02,150.31) -- (167.45,150.1) -- (175.44,149.73) ;
+\draw [shift={(178.43,149.59)}, rotate = 537.31] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da2227654565337165]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (90,80) -- (200,190) -- (377.7,41.92) ;
+\draw [shift={(380,40)}, rotate = 500.19] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da9998496354445788]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (90,80) -- (220,190) -- (377.53,81.7) ;
+\draw [shift={(380,80)}, rotate = 505.49] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da6964350404855305]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (90,80) -- (250,190) -- (377.36,121.42) ;
+\draw [shift={(380,120)}, rotate = 511.7] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da5957186569601435]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (125.77,174.66) .. controls (128.07,174.14) and (129.48,175.03) .. (129.99,177.33) .. controls (130.51,179.63) and (131.92,180.52) .. (134.22,180.01) .. controls (136.52,179.49) and (137.93,180.38) .. (138.44,182.68) .. controls (138.95,184.98) and (140.36,185.87) .. (142.66,185.35) .. controls (144.96,184.84) and (146.37,185.73) .. (146.89,188.03) -- (150,190) -- (150,190) .. controls (150.17,187.65) and (151.44,186.56) .. (153.79,186.74) .. controls (156.14,186.92) and (157.41,185.83) .. (157.58,183.48) .. controls (157.76,181.13) and (159.03,180.04) .. (161.38,180.22) .. controls (163.73,180.4) and (165,179.31) .. (165.17,176.96) .. controls (165.34,174.61) and (166.61,173.52) .. (168.96,173.7) -- (170.76,172.16) -- (176.82,166.94) ;
+\draw [shift={(179.1,164.99)}, rotate = 499.32] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da030630078368355185]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (128.1,167.99) .. controls (130.42,167.56) and (131.79,168.51) .. (132.22,170.83) .. controls (132.64,173.15) and (134.01,174.1) .. (136.33,173.67) .. controls (138.65,173.24) and (140.02,174.19) .. (140.45,176.51) .. controls (140.87,178.83) and (142.24,179.78) .. (144.56,179.35) .. controls (146.88,178.92) and (148.25,179.87) .. (148.68,182.19) .. controls (149.1,184.51) and (150.47,185.46) .. (152.79,185.03) .. controls (155.11,184.6) and (156.48,185.55) .. (156.91,187.87) -- (160,190) -- (160,190) .. controls (160.29,187.66) and (161.6,186.63) .. (163.94,186.92) .. controls (166.28,187.21) and (167.59,186.18) .. (167.88,183.84) .. controls (168.17,181.5) and (169.48,180.48) .. (171.82,180.77) .. controls (174.16,181.06) and (175.47,180.03) .. (175.76,177.69) -- (176.1,177.43) -- (182.4,172.5) ;
+\draw [shift={(184.77,170.66)}, rotate = 502.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da9444061877889958]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (120,180.33) .. controls (122.23,179.59) and (123.72,180.34) .. (124.47,182.57) .. controls (125.21,184.81) and (126.7,185.56) .. (128.94,184.81) .. controls (131.17,184.06) and (132.67,184.81) .. (133.42,187.04) .. controls (134.16,189.28) and (135.65,190.03) .. (137.89,189.28) -- (140,190.33) -- (140,190.33) .. controls (140.17,187.98) and (141.44,186.9) .. (143.79,187.07) .. controls (146.14,187.25) and (147.41,186.16) .. (147.58,183.81) .. controls (147.75,181.46) and (149.02,180.37) .. (151.37,180.55) .. controls (153.72,180.73) and (154.99,179.64) .. (155.16,177.29) .. controls (155.33,174.94) and (156.6,173.85) .. (158.95,174.03) .. controls (161.3,174.21) and (162.57,173.12) .. (162.74,170.77) -- (165.76,168.16) -- (171.83,162.95) ;
+\draw [shift={(174.1,160.99)}, rotate = 499.29] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da15583371924521439]
+\draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (130,40) -- (260,10) -- (377.09,39.27) ;
+\draw [shift={(380,40)}, rotate = 194.04] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da5256068727735418]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (90,80) -- (260,10) -- (377.09,39.27) ;
+\draw [shift={(380,40)}, rotate = 194.04] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da3449058939542855]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (90,80) -- (280,10) -- (377.54,78.28) ;
+\draw [shift={(380,80)}, rotate = 214.99] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da6272428743813647]
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (90,80) -- (310,10) -- (377.24,38.82) ;
+\draw [shift={(380,40)}, rotate = 203.2] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da6935884259235418]
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (130,40) -- (377,40) ;
+\draw [shift={(380,40)}, rotate = 180] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da4717268887438033]
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (130,40) -- (377.04,79.53) ;
+\draw [shift={(380,80)}, rotate = 189.09] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Straight Lines [id:da24399787171828335]
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (130,40) -- (377.14,119.09) ;
+\draw [shift={(380,120)}, rotate = 197.74] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+%Image [id:dp7286057694820495]
+\draw (90,156) node  {\includegraphics[width=18.75pt,height=18.75pt]{figures/ac.pdf}};
+%Straight Lines [id:da9933422482624256]
+\draw    (390,50) -- (487,50) ;
+\draw [shift={(490,50)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (7.14,-3.43) -- (0,0) -- (7.14,3.43) -- (4.74,0) -- cycle    ;
+%Straight Lines [id:da08251952024260212]
+\draw    (390,90) -- (487,90) ;
+\draw [shift={(490,90)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (7.14,-3.43) -- (0,0) -- (7.14,3.43) -- (4.74,0) -- cycle    ;
+%Straight Lines [id:da17767755254383422]
+\draw    (390,130) -- (487,130) ;
+\draw [shift={(490,130)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (7.14,-3.43) -- (0,0) -- (7.14,3.43) -- (4.74,0) -- cycle    ;
 
 % Text Node
-\draw (467,95.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\positionMicrophone_{1}$};
+\draw (377,54.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\mathbf{\underline{x}}_{1}$};
 % Text Node
-\draw (467,135.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\positionMicrophone_{2}$};
+\draw (377,94.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\underline{\mathbf{x}}_{2}$};
 % Text Node
-\draw (467,175.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\positionMicrophone_{3}$};
+\draw (377,134.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\underline{\mathbf{x}}\mathbf{_{3}}$};
 % Text Node
-\draw (577,76.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\mic_{1}$};
+\draw (487,36.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$x_{1}$};
 % Text Node
-\draw (577,116.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\mic_{2}$};
+\draw (487,76.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$x_{2}$};
 % Text Node
-\draw (577,156.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\mic_{3}$};
+\draw (487,116.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$x_{3}$};
 % Text Node
-\draw (221,65.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\src_{1}$};
+\draw (131,29.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$s_{1}$};
 % Text Node
-\draw (204,101.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\positionSource_{1}$};
+\draw (81,81.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$s_{2}$};
 % Text Node
-\draw (171,117.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\src_{2}$};
+\draw (111,115.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 128; green, 128; blue, 128 }  ,opacity=1 ]  {$u$};
 % Text Node
-\draw (151,149.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\positionSource_{2}$};
+\draw (114,60.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\underline{\mathbf{s}}_{1}$};
 % Text Node
-\draw (201,160.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 128; green, 128; blue, 128 }  ,opacity=1 ]  {$\nse$};
+\draw (61,107.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\underline{\mathbf{s}}_{2}$};
+% Text Node
+\draw (422,14.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ]  {$n_{1}$};
+% Text Node
+\draw (422,64.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ]  {$n_{2}$};
+% Text Node
+\draw (421,102.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 208; green, 2; blue, 27 }  ,opacity=1 ]  {$n_{3}$};
 
 
 \end{tikzpicture}
+
+
+% \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+% \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+% %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+% %Shape: Circle [id:dp37372160479593475]
+% \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.76 ][line width=4.5]  (160,196) .. controls (160,184.95) and (168.95,176) .. (180,176) .. controls (191.05,176) and (200,184.95) .. (200,196) .. controls (200,207.05) and (191.05,216) .. (180,216) .. controls (168.95,216) and (160,207.05) .. (160,196) -- cycle ;
+% %Shape: Circle [id:dp6742469135937114]
+% \draw  [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.76 ][line width=4.5]  (150,196) .. controls (150,179.43) and (163.43,166) .. (180,166) .. controls (196.57,166) and (210,179.43) .. (210,196) .. controls (210,212.57) and (196.57,226) .. (180,226) .. controls (163.43,226) and (150,212.57) .. (150,196) -- cycle ;
+% %Shape: Circle [id:dp6304501410818584]
+% \draw   (160,196) .. controls (160,184.95) and (168.95,176) .. (180,176) .. controls (191.05,176) and (200,184.95) .. (200,196) .. controls (200,207.05) and (191.05,216) .. (180,216) .. controls (168.95,216) and (160,207.05) .. (160,196) -- cycle ;
+% %Shape: Circle [id:dp6073489332662667]
+% \draw   (150,196) .. controls (150,179.43) and (163.43,166) .. (180,166) .. controls (196.57,166) and (210,179.43) .. (210,196) .. controls (210,212.57) and (196.57,226) .. (180,226) .. controls (163.43,226) and (150,212.57) .. (150,196) -- cycle ;
+% %Shape: Rectangle [id:dp5920548385374533]
+% \draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (130,230) -- (210,230) -- (210,250) -- (130,250) -- cycle ;
+% %Image [id:dp7339517530204356]
+% \draw (480,120) node  {\includegraphics[width=10pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+% %Image [id:dp7608229391866312]
+% \draw (480,80) node  {\includegraphics[width=10pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+% %Image [id:dp9664249278995992]
+% \draw (480,160) node  {\includegraphics[width=10pt]{figures/acoustics/iconfinder_microphone_1608550.pdf}};
+% %Straight Lines [id:da6875965508418059]
+% \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (180,120) -- (467.03,80.41) ;
+% \draw [shift={(470,80)}, rotate = 532.15] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da21480429926103284]
+% \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (180,120) -- (467,120) ;
+% \draw [shift={(470,120)}, rotate = 180] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da6245847985271135]
+% \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (180,120) -- (467.03,159.59) ;
+% \draw [shift={(470,160)}, rotate = 187.85] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da7309183869115244]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (310,50) -- (467.05,79.45) ;
+% \draw [shift={(470,80)}, rotate = 190.62] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Shape: Rectangle [id:dp15733721403583467]
+% \draw   (100,50) -- (560,50) -- (560,230) -- (100,230) -- cycle ;
+% %Straight Lines [id:da2249329781545223]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (212.39,171.35) .. controls (213.1,169.1) and (214.58,168.33) .. (216.83,169.04) .. controls (219.08,169.75) and (220.55,168.98) .. (221.26,166.73) .. controls (221.97,164.48) and (223.44,163.71) .. (225.69,164.42) .. controls (227.94,165.13) and (229.42,164.36) .. (230.13,162.11) .. controls (230.84,159.86) and (232.31,159.09) .. (234.56,159.8) .. controls (236.81,160.5) and (238.28,159.73) .. (238.99,157.48) .. controls (239.7,155.23) and (241.18,154.46) .. (243.43,155.17) .. controls (245.68,155.88) and (247.15,155.11) .. (247.86,152.86) -- (249.44,152.04) -- (256.53,148.34) ;
+% \draw [shift={(259.19,146.95)}, rotate = 512.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da46872311549917245]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (218.39,184.95) .. controls (219.88,183.12) and (221.54,182.95) .. (223.37,184.44) .. controls (225.2,185.93) and (226.86,185.75) .. (228.34,183.92) .. controls (229.82,182.09) and (231.48,181.91) .. (233.31,183.4) .. controls (235.14,184.89) and (236.8,184.71) .. (238.29,182.88) .. controls (239.78,181.05) and (241.43,180.88) .. (243.26,182.37) .. controls (245.09,183.86) and (246.75,183.68) .. (248.23,181.85) .. controls (249.72,180.02) and (251.38,179.84) .. (253.21,181.33) -- (257.45,180.89) -- (265.41,180.06) ;
+% \draw [shift={(268.39,179.75)}, rotate = 534.06] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da41740100207513164]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (213.99,175.35) .. controls (214.96,173.2) and (216.52,172.61) .. (218.67,173.57) .. controls (220.82,174.54) and (222.38,173.94) .. (223.34,171.79) .. controls (224.3,169.64) and (225.86,169.04) .. (228.01,170.01) .. controls (230.16,170.98) and (231.72,170.38) .. (232.68,168.23) .. controls (233.65,166.08) and (235.21,165.48) .. (237.36,166.45) .. controls (239.51,167.42) and (241.07,166.82) .. (242.03,164.67) .. controls (242.99,162.52) and (244.55,161.92) .. (246.7,162.89) .. controls (248.85,163.86) and (250.41,163.26) .. (251.37,161.11) -- (254.11,160.07) -- (261.59,157.22) ;
+% \draw [shift={(264.39,156.15)}, rotate = 519.15] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da11925314169744539]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (215.99,180.15) .. controls (217.24,178.16) and (218.87,177.78) .. (220.87,179.03) .. controls (222.87,180.28) and (224.49,179.91) .. (225.74,177.91) .. controls (226.99,175.91) and (228.61,175.54) .. (230.61,176.79) .. controls (232.61,178.04) and (234.23,177.67) .. (235.48,175.67) .. controls (236.73,173.67) and (238.36,173.3) .. (240.36,174.55) .. controls (242.36,175.8) and (243.98,175.42) .. (245.23,173.42) .. controls (246.48,171.42) and (248.1,171.05) .. (250.1,172.3) .. controls (252.1,173.55) and (253.72,173.18) .. (254.97,171.18) -- (255.67,171.02) -- (263.47,169.23) ;
+% \draw [shift={(266.39,168.55)}, rotate = 527.04] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da12240342341771249]
+% \draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 0.75pt off 0.75pt}]  (510,150) .. controls (509.26,152.24) and (507.77,152.99) .. (505.53,152.24) .. controls (503.3,151.49) and (501.81,152.24) .. (501.06,154.47) -- (499.84,155.08) -- (492.68,158.66) ;
+% \draw [shift={(490,160)}, rotate = 333.43] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da5418102098206483]
+% \draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 0.75pt off 0.75pt}]  (510,110) .. controls (509.26,112.24) and (507.77,112.99) .. (505.53,112.24) .. controls (503.3,111.49) and (501.81,112.24) .. (501.06,114.47) -- (499.84,115.08) -- (492.68,118.66) ;
+% \draw [shift={(490,120)}, rotate = 333.43] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da2263274179236877]
+% \draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] [dash pattern={on 0.75pt off 0.75pt}]  (510,60) .. controls (509.26,62.24) and (507.77,62.99) .. (505.53,62.24) .. controls (503.3,61.49) and (501.81,62.24) .. (501.06,64.47) -- (499.84,65.08) -- (492.68,68.66) ;
+% \draw [shift={(490,70)}, rotate = 333.43] [fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da6407483239165986]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (350,230) -- (468.13,82.34) ;
+% \draw [shift={(470,80)}, rotate = 488.66] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da5328192505993826]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (330,50) -- (467.32,118.66) ;
+% \draw [shift={(470,120)}, rotate = 206.57] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da8377831024194228]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (370,230) -- (468.34,82.5) ;
+% \draw [shift={(470,80)}, rotate = 483.69] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da38697516677735044]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (400,230) -- (467.88,162.12) ;
+% \draw [shift={(470,160)}, rotate = 495] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Image [id:dp4512377721787463]
+% \draw (200,80) node  {\includegraphics[width=30pt]{figures/speech.pdf}};
+% %Image [id:dp11655856762581418]
+% \draw (160,120) node  {\includegraphics[width=45pt]{figures/guitar.pdf}};
+% %Straight Lines [id:da6506133051173556]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (218.06,191.95) .. controls (219.65,190.21) and (221.31,190.13) .. (223.05,191.72) .. controls (224.8,193.31) and (226.46,193.23) .. (228.05,191.48) .. controls (229.64,189.74) and (231.3,189.66) .. (233.04,191.25) .. controls (234.78,192.84) and (236.45,192.76) .. (238.04,191.02) .. controls (239.62,189.27) and (241.28,189.19) .. (243.03,190.78) .. controls (244.77,192.37) and (246.44,192.29) .. (248.03,190.55) .. controls (249.61,188.8) and (251.27,188.72) .. (253.02,190.31) -- (257.45,190.1) -- (265.44,189.73) ;
+% \draw [shift={(268.43,189.59)}, rotate = 537.31] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da9912250072749541]
+% \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (290,230) -- (467.7,81.92) ;
+% \draw [shift={(470,80)}, rotate = 500.19] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da842755271595558]
+% \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (310,230) -- (467.53,121.7) ;
+% \draw [shift={(470,120)}, rotate = 505.49] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da565897385867932]
+% \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (340,230) -- (467.36,161.42) ;
+% \draw [shift={(470,160)}, rotate = 511.7] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da016277657003535784]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (215.77,214.66) .. controls (218.07,214.14) and (219.48,215.03) .. (219.99,217.33) .. controls (220.51,219.63) and (221.92,220.52) .. (224.22,220.01) .. controls (226.52,219.49) and (227.93,220.38) .. (228.44,222.68) .. controls (228.95,224.98) and (230.36,225.87) .. (232.66,225.35) .. controls (234.96,224.84) and (236.37,225.73) .. (236.89,228.03) -- (240,230) -- (240,230) .. controls (240.17,227.65) and (241.44,226.56) .. (243.79,226.74) .. controls (246.14,226.92) and (247.41,225.83) .. (247.58,223.48) .. controls (247.76,221.13) and (249.03,220.04) .. (251.38,220.22) .. controls (253.73,220.4) and (255,219.31) .. (255.17,216.96) .. controls (255.34,214.61) and (256.61,213.52) .. (258.96,213.7) -- (260.76,212.16) -- (266.82,206.94) ;
+% \draw [shift={(269.1,204.99)}, rotate = 499.32] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da9867855512078149]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (218.1,207.99) .. controls (220.42,207.56) and (221.79,208.51) .. (222.22,210.83) .. controls (222.64,213.15) and (224.01,214.1) .. (226.33,213.67) .. controls (228.65,213.24) and (230.02,214.19) .. (230.45,216.51) .. controls (230.87,218.83) and (232.24,219.78) .. (234.56,219.35) .. controls (236.88,218.92) and (238.25,219.87) .. (238.68,222.19) .. controls (239.1,224.51) and (240.47,225.46) .. (242.79,225.03) .. controls (245.11,224.6) and (246.48,225.55) .. (246.91,227.87) -- (250,230) -- (250,230) .. controls (250.29,227.66) and (251.6,226.63) .. (253.94,226.92) .. controls (256.28,227.21) and (257.59,226.18) .. (257.88,223.84) .. controls (258.17,221.5) and (259.48,220.48) .. (261.82,220.77) .. controls (264.16,221.06) and (265.47,220.03) .. (265.76,217.69) -- (266.1,217.43) -- (272.4,212.5) ;
+% \draw [shift={(274.77,210.66)}, rotate = 502.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da5055644084768178]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.6 ] [dash pattern={on 0.75pt off 0.75pt}]  (210,220.33) .. controls (212.23,219.59) and (213.72,220.34) .. (214.47,222.57) .. controls (215.21,224.81) and (216.7,225.56) .. (218.94,224.81) .. controls (221.17,224.06) and (222.67,224.81) .. (223.42,227.04) .. controls (224.16,229.28) and (225.65,230.03) .. (227.89,229.28) -- (230,230.33) -- (230,230.33) .. controls (230.17,227.98) and (231.44,226.9) .. (233.79,227.07) .. controls (236.14,227.25) and (237.41,226.16) .. (237.58,223.81) .. controls (237.75,221.46) and (239.02,220.37) .. (241.37,220.55) .. controls (243.72,220.73) and (244.99,219.64) .. (245.16,217.29) .. controls (245.33,214.94) and (246.6,213.85) .. (248.95,214.03) .. controls (251.3,214.21) and (252.57,213.12) .. (252.74,210.77) -- (255.76,208.16) -- (261.83,202.95) ;
+% \draw [shift={(264.1,200.99)}, rotate = 499.29] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.6 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da5832987622194876]
+% \draw [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.2 ] [dash pattern={on 4.5pt off 4.5pt}]  (220,80) -- (350,50) -- (467.79,157.97) ;
+% \draw [shift={(470,160)}, rotate = 222.51] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=0.2 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da5008400993643431]
+% \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (350,50) -- (467.79,157.97) ;
+% \draw [shift={(470,160)}, rotate = 222.51] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da2480092091139493]
+% \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (370,50) -- (467.54,118.28) ;
+% \draw [shift={(470,120)}, rotate = 214.99] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da98913951227942]
+% \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=0.3 ] [dash pattern={on 4.5pt off 4.5pt}]  (180,120) -- (400,50) -- (467.24,78.82) ;
+% \draw [shift={(470,80)}, rotate = 203.2] [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da7940761686938484]
+% \draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (220,80) -- (467,80) ;
+% \draw [shift={(470,80)}, rotate = 180] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da03582329188397548]
+% \draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (220,80) -- (467.04,119.53) ;
+% \draw [shift={(470,120)}, rotate = 189.09] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Straight Lines [id:da5309831276841109]
+% \draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (220,80) -- (467.14,159.09) ;
+% \draw [shift={(470,160)}, rotate = 197.74] [fill={rgb, 255:red, 74; green, 74; blue, 74 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (5.36,-2.57) -- (0,0) -- (5.36,2.57) -- cycle    ;
+% %Image [id:dp7579313396430111]
+% \draw (180,196) node  {\includegraphics[width=18.75pt]{figures/ac.pdf}};
+% %Straight Lines [id:da14142044437195245]
+% \draw    (480,90) -- (577,90) ;
+% \draw [shift={(580,90)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (7.14,-3.43) -- (0,0) -- (7.14,3.43) -- (4.74,0) -- cycle    ;
+% %Straight Lines [id:da0847611097781068]
+% \draw    (480,130) -- (577,130) ;
+% \draw [shift={(580,130)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (7.14,-3.43) -- (0,0) -- (7.14,3.43) -- (4.74,0) -- cycle    ;
+% %Straight Lines [id:da009579756930902739]
+% \draw    (480,170) -- (577,170) ;
+% \draw [shift={(580,170)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (7.14,-3.43) -- (0,0) -- (7.14,3.43) -- (4.74,0) -- cycle    ;
+
+% % Text Node
+% \draw (467,95.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\positionMicrophone_{1}$};
+% % Text Node
+% \draw (467,135.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\positionMicrophone_{2}$};
+% % Text Node
+% \draw (467,175.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\positionMicrophone_{3}$};
+% % Text Node
+% \draw (577,76.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\mic_{1}$};
+% % Text Node
+% \draw (577,116.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\mic_{2}$};
+% % Text Node
+% \draw (577,156.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\mic_{3}$};
+% % Text Node
+% \draw (221,65.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\src_{1}$};
+% % Text Node
+% \draw (204,101.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$\positionSource_{1}$};
+% % Text Node
+% \draw (171,117.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\src_{2}$};
+% % Text Node
+% \draw (151,149.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$\positionSource_{2}$};
+% % Text Node
+% \draw (201,160.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize,color={rgb, 255:red, 128; green, 128; blue, 128 }  ,opacity=1 ]  {$\nse$};
+
+
+% \end{tikzpicture}
