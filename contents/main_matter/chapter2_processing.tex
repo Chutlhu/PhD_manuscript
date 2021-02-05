@@ -605,8 +605,9 @@ To circumvent this issue, the \textit{convolutional STFT}\sidenote{%
 It translates the time-domain convolution into inter-frame and inter-band convolutions, rather than pointwise multiplication of Fourier transforms.
 } for arbitrary window functions have been proposed~\citeonly{gilloire1992adaptive}.
 Although it leads to better approximation than the one of product, it is computationally and memory intensive.
-The exact effect of the time-domain convolution in the \ac{STFT} would be modeled by cross-band filters performing a double convolution along time and frequency axes.
-However, these models are not investigated.
+The exact effect of the time-domain convolution in the \ac{STFT} would be modeled by cross-band filters~\citeonly{avargel2007system} performing a double convolution along time and frequency axes.\sidenote{%
+    The interested reader can refer to~\citeonly{girin2019audio} for a review on the topic applied to audio source separation
+} However, these models are not investigated in this thesis work.
 
 \mynewline
 In this thesis, we will consider moderated reverberant scenario.

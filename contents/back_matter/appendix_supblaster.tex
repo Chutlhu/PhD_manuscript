@@ -23,7 +23,7 @@ In this paper, we particularize the \emph{sliding Frank-Wolfe} (SFW) algorithm p
 	%
 	\item update jointly the position of the echoes  and the coefficients,
 	%
-	\item eventually remove parameters (echoes) associated to coefficients equal to zero.
+	\item eventually remove echoes associated to coefficients equal to zero.
 \end{enumerate}
 Finally, SFW stops as soon as an iterate satisfies the first order optimality condition associated to the convex problem~\eqref{eq:blaster:TV-BLASSO}.
 More particularly, denoting $\mu^{(t)}$ the estimated filters at iteration $t$, SFW stops as soon as $\mu^{(t)}$ satisfies~\citeonly[Proposition 3.6]{bredies2020sparsity}
@@ -166,7 +166,7 @@ The new parameter is found by solving
 	.
 \end{equation}
 To solve this optimization problem, we first find a maximizer on a thin grid made of $20000$ points.
-We then proceed to a local refinement using the \library{scipy} optimization library\sidenote{ \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html}. \label{note1}}.
+We then proceed to a local refinement using the \library{scipy} optimization library\sidenote{\url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html}. \label{note1}}.
 
 \newthoughtpar{Nonnegative Lasso (Line~\ref{line:alg:FW:lassoUpdate}).}
 The nonnegative Lasso is solved using a custom implementation of a proximal gradient algorithm.

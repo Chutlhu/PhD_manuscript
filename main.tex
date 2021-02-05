@@ -18,6 +18,9 @@
 % --- Font stuff --------------------------------------------------------------
 \usepackage{stackengine} % for overlapping text
 
+% --- Page formatting ---------------------------------------------------------
+\usepackage{multicol}
+
 % --- Appendices --------------------------------------------------------------
 
 % --- Blind text --------------------------------------------------------------
@@ -120,29 +123,31 @@
 
 \includeonly{   % Of course this list allows many more file
     contents/front_matter/colophon_dedication,
-    % contents/front_matter/abstract,
-    % contents/front_matter/resume,
-    % contents/front_matter/resume_etendu_fr,
-    % contents/front_matter/acknowledgments,
-    % contents/front_matter/glossary,
-    % contents/front_matter/notation,
-    % contents/main_matter/chapter0_intro,
-    % contents/main_matter/chapter1_acoustics,
-    % contents/main_matter/chapter2_processing,
-    % contents/main_matter/chapter_estimation,
-    % contents/main_matter/chapter_blaster,
-    % contents/main_matter/chapter_lantern,
-    % contents/main_matter/chapter_dechorate,
-    % contents/main_matter/chapter9_applications,
-    % contents/main_matter/chapter_separake,
-    % contents/main_matter/chapter11_mirage,
-    % contents/main_matter/chapter_dechorateapp,
-    % contents/main_matter/chapter20_conclusion,
-    % contents/back_matter/appendix_supblaster,
-    % contents/back_matter/bibliography,
+    contents/front_matter/abstract,
+    contents/front_matter/resume,
+    contents/front_matter/resume_etendu_fr,
+    contents/front_matter/acknowledgments,
+    contents/front_matter/glossary,
+    contents/front_matter/notation,
+    contents/main_matter/chapter0_intro,
+    contents/main_matter/chapter1_acoustics,
+    contents/main_matter/chapter2_processing,
+    contents/main_matter/chapter_estimation,
+    contents/main_matter/chapter_blaster,
+    contents/main_matter/chapter_lantern,
+    contents/main_matter/chapter_dechorate,
+    contents/main_matter/chapter9_applications,
+    contents/main_matter/chapter_separake,
+    contents/main_matter/chapter11_mirage,
+    contents/main_matter/chapter_dechorateapp,
+    contents/main_matter/chapter20_conclusion,
+    contents/back_matter/appendix_supblaster,
+    contents/back_matter/appendix_music,
+    contents/back_matter/bibliography,
     }
-    % contents/back_matter/appendix_measurements,
-    % contents/back_matter/appendix_retf,
+
+% contents/back_matter/appendix_measurements,
+% contents/back_matter/appendix_retf,
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%DOCUMENT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,54 +158,42 @@
 \date{\today}
 
 \begin{document}
+
+% === FRONT MATTER
 \frontmatter{}
 
-% \input{contents/front_matter/title_page}
 \includepdf[pages=-]{assets/first.pdf}
 \include{contents/front_matter/colophon_dedication}
-\blankpage{}
 
 \include{contents/front_matter/abstract}
-\blankpage{}
-\clearpage
+\blankpage
 
 \begin{otherlanguage}{french}
 \include{contents/front_matter/resume}
 \end{otherlanguage}
-\blankpage{}
-\clearpage
+\blankpage
 
 \begin{otherlanguage}{french}
 \include{contents/front_matter/resume_etendu_fr}
 \end{otherlanguage}
-\clearpage
-\blankpage{}
+\blankpage
 
+\include{contents/front_matter/acknowledgments}
 
-% \include{contents/front_matter/acknowledgments}
-% \blankpage{}
-
-%*******************************************************
-% Table of Contents
-%*******************************************************
 \doparttoc[n]
 \tableofcontents*\addcontentsline{toc}{chapter}{Contents}
-\clearpage
+\blankpage
 
 \include{contents/front_matter/glossary}
-\clearpage
 \blankpage
 
 \include{contents/front_matter/notation}
-\cleardoublepage{}
-
 
 % === MAIN BODY ===
 \setcounter{mtc}{9}
 \mainmatter{}
 
 \include{contents/main_matter/chapter0_intro}
-\cleardoublepage
 
 % I. Room Acoustic
 \begin{fullwidth}
@@ -208,66 +201,58 @@
 \end{fullwidth}
 \parttoc[n]
 
-\cleardoublepage
 \include{contents/main_matter/chapter1_acoustics}
-\cleardoublepage
 \include{contents/main_matter/chapter2_processing}
-\cleardoublepage
+\blankpage
 
 % II. Estimation
 \begin{fullwidth}
 \part{Acoustic Echo Retrieval}\label{pt:estimation}
 \end{fullwidth}
 \parttoc[n]
-\cleardoublepage
+\blankpage
 
 \include{contents/main_matter/chapter_estimation}
-\cleardoublepage
+\blankpage
+
 \include{contents/main_matter/chapter_blaster}
-\cleardoublepage
 \include{contents/main_matter/chapter_lantern}
-\cleardoublepage
+\blankpage
+
 \include{contents/main_matter/chapter_dechorate}
-\cleardoublepage
 
 %% III. Application
 \begin{fullwidth}
     \part{Echo-aware Application}\label{pt:application}
 \end{fullwidth}
 \parttoc[n]
-\cleardoublepage
+\blankpage
 
 \include{contents/main_matter/chapter9_applications}
-\cleardoublepage
+\blankpage
 \include{contents/main_matter/chapter_separake}
-\cleardoublepage
+\blankpage
 \include{contents/main_matter/chapter11_mirage}
-\cleardoublepage
 \include{contents/main_matter/chapter_dechorateapp}
 
-\cleardoublepage
 % %% IV. Conclusion
+\blankpage
 \begin{fullwidth}
     \part{Epilogue}\label{pt:epilogue}
 \end{fullwidth}
-\cleardoublepage
+\blankpage
 % \parttoc[n]
 \include{contents/main_matter/chapter20_conclusion}
-\cleardoublepage
-
+\blankpage
 % === BACK MATTER ===
 \backmatter{}
 
-\clearpage
-\addappheadtotoc
-% \include{contents/back_matter/appendix_ims}
-% \include{contents/back_matter/appendix_retf}
-% \include{contents/back_matter/appendix_measurements}
 \include{contents/back_matter/appendix_supblaster}
+\blankpage
 \include{contents/back_matter/appendix_music}
-
+\blankpage
 \include{contents/back_matter/bibliography}
-% \input{back_matter/index}
-\includepdf[pages=-]{assets/last.pdf}
+
+\includepdf{assets/last.pdf}
 
 \end{document}

@@ -202,12 +202,7 @@ and \ac{RooGE}~\citeonly{antonacci2010geometric, filos2011robust, venkateswaran2
 A brief review of these methods is provided in~\citeonly{crocco2017uncalibrated}.
 \\In the context of \ac{SSL}, the disambiguation is typically performed in the \TDOA/ space~\citeonly{scheuing2006disambiguation, zannini2010improved}.
 Moreover these works focus on actively localizing (the direction of arrival of) multiple sources while discarding reflections, rather than localizing the actual image sources.
-\\Other disambiguation schemes are typically used for \ac{RooGE}.
-In \citeonly{venkateswaran2012localizing} the pruning of the combinatorial candidate-image-source search is done through Bayesian inference.
-A similar approach can be found in~\citeonly{dokmanic2013acoustic, parhizkar2014single} where the validity check is based on a particular structured matrix called \textit{Euclidean Distance Matrix} and further improved using compatibility graphs in~\citeonly{jager2016room}.
-These methods rely on a combinatorial search with a potentially high number of candidates, which leads to intractable computational complexity when multiple reflections are considered.
-Moreover these methods require that all the distances between microphones are known with precision, which may not be true in practice.
-\\In the works of~\citeonly{antonacci2010geometric, filos2011robust, antonacci2012inference}, the reflectors are modelled as planes tangent to ellipsoids with foci given by each pair of microphone/source, as shown in~\cref{fig:estimation:ellips}.\marginpar{
+\\Other disambiguation schemes are typically used for \ac{RooGE}.\marginpar{
     \footnotesize
     \centering
     \resizebox{\linewidth}{!}{
@@ -216,7 +211,11 @@ Moreover these methods require that all the distances between microphones are kn
     \captionof{figure}{Illustration of the ellipsoid method: the length of the reflected path from the image source $\mathring{\positionSource}$ to the microphone at $\positionMicrophone$ constrain the reflector line to
     be tangent to an ellipse.}
     \label{fig:estimation:ellips}
-} By solving a non-convex optimization problem based on geometrical reasoning and the Hough transform\sidenote{%
+} In \citeonly{venkateswaran2012localizing} the pruning of the combinatorial candidate-image-source search is done through Bayesian inference.
+A similar approach can be found in~\citeonly{dokmanic2013acoustic, parhizkar2014single} where the validity check is based on a particular structured matrix called \textit{Euclidean Distance Matrix} and further improved using compatibility graphs in~\citeonly{jager2016room}.
+These methods rely on a combinatorial search with a potentially high number of candidates, which leads to intractable computational complexity when multiple reflections are considered.
+Moreover these methods require that all the distances between microphones are known with precision, which may not be true in practice.
+\\In the works of~\citeonly{antonacci2010geometric, filos2011robust, antonacci2012inference}, the reflectors are modelled as planes tangent to ellipsoids with foci given by each pair of microphone/source, as shown in~\cref{fig:estimation:ellips}.By solving a non-convex optimization problem based on geometrical reasoning and the Hough transform\sidenote{%
     A mathematical operator that maps points into curves in a 2-D space.
     If a set of points belongs to the same line, the corresponding curves will intersect in a single point.
     In computer vision, this tranform is typically used as feature extractor to detect lines and edges in pictures.

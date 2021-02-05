@@ -14,7 +14,7 @@
 \LoadClass[%
     a4paper,
     10pt,
-    oneside, %twoside
+    oneside,
 ]{memoir}
 \renewcommand{\footnotesize}{\fontsize{8pt}{9pt}\selectfont}
 \renewcommand{\normalsize}{\fontsize{10pt}{14pt}\selectfont}

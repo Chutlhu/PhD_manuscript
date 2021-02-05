@@ -111,19 +111,14 @@ Since room geometry estimation is mainly based on echo estimation and labeling d
 \acf{MASS} refers to the process of extracting acoustic signals from multichannel mixtures featuring targets, interfering, and noisy sounds.
 In psychoacoustics, this problem is known as \textit{the cocktail party problem}~\citeonly{cherry1953cocktail}, referring to the human ability to focus on a particular stimulus in a audio scene.
 This problem has interested mainly in two research fields in the audio signal processing community: speech and music processing.
-\textit{
-    \textbf{TO BE CHANGED HERE}
-    The scientific literature on audio source separation is vast, still active, and spans decades.
-    The problem covers a huge number of scenarios and use-cases, such as, number of microphones (single- \vs/ multi-channel recordings), the number of sources with respect to the number of channels (under- \vs/ over- \vs/ determined), the type of observed signals (speech \vs/ music), type of recordings (artificial \vs/ microphone recordings) \etc/, and, of course, combination of them.
-}
+The scientific literature on audio source separation is vast, still active, and spans decades.
+The problem covers a huge number of scenarios and use-cases, such as, number of microphones (single- \vs/ multi-channel recordings), the number of sources with respect to the number of channels (under- \vs/ over- \vs/ determined), the type of observed signals (speech \vs/ music), type of recordings (artificial \vs/ microphone recordings) \etc/, and, of course, combination of them.
 Both share many methods, which are accordingly modified, taking into account scenarios and applications.
 \marginpar{
     \footnotesize\itshape
-    Many other methods have been proposed in the literature.
-    The reader can refer to \citeonly{vincent2018audio, makino2018audio}
+    Many publications have addressed this issue, including books \citeonly{vincent2018audio, makino2018audio}, and overview papers~\citeonly{cardoso1998blind,ogrady2005survey,gannot2017consolidated,girin2019audio}.
 }
-In the context of multichannel speech recordings, some of the most successful and popular methods used nowadays
-include:
+In the context of multichannel speech recordings, some of the most successful and popular methods used nowadays include~\citeonly{vincent2011probabilistic}:
 \begin{itemize}
     \item spatial filtering, which uses spatial information only;
     \item \ac{TF} masking, which uses spectral information only;
@@ -182,14 +177,16 @@ This approach has prove to reach good separation quality, especially in terms of
 Nevertheless, all deep learning methods rely on trained black-box models for which is hard to inject prior knowledge.
 Instead, Multichannel NMF-based frameworks accounts for this freedom.
 
-\subsection{``Classic'' Multichannel Audio Source Separation}
-``Classic'' (pre-deep learning) \ac{MASS} span almost 25 years (1990-2015).
- can be broadly grouped according to how they model sound propagation of the mixing process:
+\mynewline
+``Classic'' (pre-deep learning) \ac{MASS} spans almost 25 years (1990-2015) and hundreds of \ac{MASS} techniques have been proposed.\sidenote{
+    The reader can refer to the review papers~\citeonly{gannot2017consolidated,girin2019audio} for more details.)
+}
+With extreme simplification, one can be broadly grouped such techniques according to how they model sound propagation of the mixing process:
 \begin{itemize}
-    \item those that simply ignore it \citeonly{le2015deep};
-    \item (\textit{free field propagation}) those that assume a single anechoic path \citeonly{rickard2007duet, nesta2012convolutive} ;
-    \item (\textit{reverberant propagation}) those that model the \acp{RTF} entirely \citeonly{ozerov2010multichannel, duong2010under, li2019expectation};
-    \item (\textit{reverberant propagation}) and those that attempt to separately estimate the contribution of the early echoes and the contribution of the late tail \citeonly{leglaive2015multichannel}.
+    \item (\textit{no propagation}) those that simply ignore it, \eg/ \citeonly{kokkinis2011wiener,le2015deep, di2017gaussian};
+    \item (\textit{free field propagation}) those that assume a single anechoic path, \eg/ \citeonly{rickard2007duet, nesta2012convolutive,higuchi2014underdetermined} ;
+    \item (\textit{reverberant propagation}) those that model the sound propagation path entirely, \eg/ \citeonly{ozerov2010multichannel, duong2010under, li2019expectation};
+    \item (\textit{reverberant propagation}) and those that attempt to separately estimate the contribution of the early echoes and the contribution of the late tail, \eg/ \citeonly{leglaive2015multichannel}.
 \end{itemize}
 Therefore, these existing approaches either ignore sound propagation or aim at estimating it fully, which affect the quality of the separation.
 In the first case, strong echoes and reverberant constitute a low bound in the separation capability.
